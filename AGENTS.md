@@ -46,6 +46,8 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
 - Đặt tên: file/hàm/biến `snake_case`, `class_name` `PascalCase`, hằng `UPPER_SNAKE`.
 - Test mới viết bằng **GdUnit4** trong `tests/unit/<khu vực>/test_*.gd`.
 - Ngẫu nhiên đi qua nguồn có seed để test tái lập được.
+- Lớp va chạm 2D: dùng hằng số trong `scripts/combat/physics_layers.gd` (`PhysicsLayers`), không gõ số lớp tay.
+- Đòn đánh: `Hitbox` (bật theo track AnimationPlayer dựng bằng `HitboxTrack` từ frame + fps) → `Hurtbox` (mỗi `hit_id` trúng một lần). Không tự viết kiểm tra va chạm riêng.
 
 ## 4. Asset và giấy phép
 

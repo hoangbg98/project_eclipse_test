@@ -396,3 +396,27 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - `slow.default_magnitude = 0.30` (mức phổ biến nhất; kỹ năng ghi X% riêng).
   - `sand_blind.counts_as_elemental = true` (mục 8.3 liệt kê "..." nên chưa chắc; xác nhận khi làm LinkTracker M4-3).
 - **Hạn chế đã biết:** mới là dữ liệu tĩnh; áp/làm mới/hết hạn/tick do `StatusController` (chưa làm); `LinkRules` (mục 8.2, 8.3) làm ở M4-3.
+
+## 2026-11-12 — M3-2 Hitbox / Hurtbox theo track AnimationPlayer
+
+- **Milestone / task:** 3 / M3-2
+- **Trạng thái:** TESTED (headless; chưa có đòn đánh nào trong game để xem bằng mắt — M3-5)
+- **File tạo/sửa:**
+  - `scripts/combat/physics_layers.gd` (`PhysicsLayers`): lớp 1 thế giới, 2 thân người chơi, 3 thân quái, 4/5 hitbox người chơi/quái, 6/7 hurtbox người chơi/quái; hàm bit/mask theo phe. Không sửa `project.godot` (editor đang mở có thể ghi đè).
+  - `scripts/combat/hit_info.gd` (`HitInfo`): hit_id, phe, người đánh, skill_id, % ATK, sức choáng, vị trí, hướng/độ đẩy.
+  - `scripts/combat/hitbox.gd` (`Hitbox`): tắt mặc định; `activate(keep_hit_id)` cấp hit_id mới (bộ đếm toàn cục) hoặc giữ id cũ cho đòn nhiều nhịp chỉ trúng một lần; quét vùng chồng mỗi tick vật lý; signal `hit_landed`.
+  - `scripts/combat/hurtbox.gd` (`Hurtbox`): nhận mỗi hit_id một lần, bỏ qua cùng phe và chính chủ; đang bất tử → `hit_evaded` và vẫn ghi nhớ id (hết bất tử giữa chừng không bị chính lần chém đó trúng); quên id sau 3 s; đồng hồ thay được để test.
+  - `scripts/combat/hitbox_track.gd` (`HitboxTrack`): frame + fps → cửa sổ giây; dựng track method gọi activate/deactivate; cửa sổ chồng/rỗng/vượt độ dài bị bỏ và báo lỗi.
+  - `scenes/player/player_character.tscn`: thêm `Hurtbox` (phe người chơi, cùng capsule thân).
+  - `AGENTS.md`: thêm quy ước lớp va chạm và Hitbox/Hurtbox.
+  - `tests/unit/combat/test_hitbox_hurtbox.gd` (15 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 82/82 đạt (15 mới), 4 test khói đạt, mã thoát 0. Kiểm: ghép phe đúng lớp; mỗi lần bật trúng 1 lần dù gọi nhiều lần; giữ id không trúng lại, bật mới thì trúng; id không trùng giữa hitbox; cùng phe/chính chủ bị bỏ; bất tử né cả lần chém; quên id sau 3 s; HitInfo đúng (sức choáng 0.7 × 1.5, hướng đẩy theo hướng mặt); AnimationPlayer bật đúng frame 3–4, tắt ở khởi động và hồi phục; 3 cửa sổ → 3 hit_id → 3 lần trúng; **vật lý thật**: chồng nhau 6 frame chỉ trúng 1 lần, bật lại trúng lần 2, ngoài tầm không trúng.
+- **Lỗi tìm thấy và sửa:**
+  - Lớp con tên `Window` trùng lớp có sẵn của Godot → đổi thành `HitWindow`.
+  - Test đặt Hitbox và Hurtbox cùng một node cha → kiểm tra "không tự đánh mình" chặn đúng; sửa test cho mỗi Hurtbox một chủ riêng.
+  - Đợi thời gian thật trong GdUnit không ổn định (`create_timer(..., ignore_time_scale)` trả về ngay) → Hurtbox dùng đồng hồ thay được, test dùng đồng hồ giả.
+- **Hạn chế đã biết:**
+  - Bộ nhớ hit_id tính theo thời gian thật; khi có hit-stop/tạm dừng (M3-7) cần xem lại.
+  - Hai Hitbox của cùng một đòn (hai vùng chạm) chưa dùng chung hit_id; làm khi kỹ năng cần.
+  - Chưa tính sát thương (M3-3) và chưa có máu (M3-4).
