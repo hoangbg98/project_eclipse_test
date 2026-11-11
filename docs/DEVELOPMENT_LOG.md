@@ -294,3 +294,21 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Hiệu ứng pixelfx là pixel art độ phân giải thấp; nhân vật cao ~256 px trên canvas 384. Cần phóng to (nearest) và owner xem phong cách có hợp nét vẽ nhân vật không (OD-2).
   - Chưa kiểm tra Codex có nhận skill trong `.agents/skills/` hay không (owner mở dự án trong Codex để xem).
   - Chưa có importer Godot cho JSON của pixelfx; làm khi cần VFX (M3-7).
+
+## 2026-11-11 — M2-1 AnimationSetBuilder
+
+- **Milestone / task:** 2 / M2-1
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `scripts/characters/animation_set_builder.gd` (`class_name AnimationSetBuilder`): đọc `frames_manifest.json` → `SpriteFrames` (fps, loop, số frame từ manifest); `frames: 0` hoặc thiếu file → placeholder và ghi lỗi, không crash; `validate_frame_counts()` so số PNG với `frames` và phát hiện đánh số hở; `sprite_offset()` đặt chân (192, 336) đúng gốc node → `(0, -144)`.
+  - `assets/placeholders/placeholder_character_384.png` + `tools/gen_placeholders.gd` (script sinh ảnh, chạy tay).
+  - `tests/unit/characters/test_animation_set_builder.gd` (13 test).
+  - `export_presets.cfg`: cả 3 preset loại thêm `tools/*` (thư mục này giờ có `.gd`).
+  - `docs/ASSET_LICENSES.md`: ghi placeholder.
+- **Đã chạy:** `tools/gen_placeholders.gd` (đã xem ảnh: thân đứng đúng vạch chân, mũi hướng phải); `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 26/26 đạt (13 mới), 3 test khói đạt, mã thoát 0. Test kiểm tra: 6 manifest thật có đủ animation theo README 17.4 (số đòn thường/trên không từng nhân vật), số PNG khớp `frames` (hiện tất cả 0), fps/loop đúng manifest, animation chưa giao dùng placeholder; với dữ liệu giả trong `user://`: frame nạp đúng thứ tự, thiếu frame → placeholder + lỗi, đánh số hở bị bắt, thiếu thư mục/manifest/JSON hỏng/giá trị âm đều báo lỗi.
+- **Hạn chế đã biết:**
+  - Chưa có scene nào dùng builder; nhân vật lên màn ở M2-2/M2-3.
+  - Bản **Windows Release** loại `placeholder_*`, nên nếu còn animation `frames: 0` thì animation đó rỗng (không hiện gì). Chỉ build Release khi đã đủ hình.
+  - Chưa gom frame thành atlas, chưa chọn chế độ lọc/nén cho ảnh nhân vật; quyết khi có frame thật và đo bộ nhớ (M2-4).
+  - `validate_frame_counts()` chỉ chạy được khi phát triển (bản export không còn PNG gốc).
