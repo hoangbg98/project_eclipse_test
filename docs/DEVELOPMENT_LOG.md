@@ -223,3 +223,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Xuất thành công, mã thoát 0: `ProjectEclipse.exe` (~96 MB, PCK nhúng) và `ProjectEclipse.console.exe`. Cảnh báo duy nhất: "Unable to open Android 'build-tools' directory" (do chưa có SDK, không ảnh hưởng Windows).
   - Chạy bản build: nạp `vi.po`, `en.po`, 4 autoload, Boot rồi Title; không có dòng lỗi/cảnh báo; mã thoát 0.
 - **Chưa kiểm chứng:** chạy có cửa sổ và thao tác bằng chuột/bàn phím trên bản `.exe` (owner mở `build/windows/ProjectEclipse.exe`).
+
+## 2026-11-11 — Quyết định: hoãn Android, tập trung Windows
+
+- **Owner quyết định:** build APK debug và thử trên điện thoại để sau; ưu tiên bản Windows.
+- **Ảnh hưởng:**
+  - M1 coi là xong khi bản Windows build và chạy được (đã đạt, xem M1-8 phần 2). Phần Android của M1-8 chuyển sang **PENDING (hoãn)**.
+  - Vẫn giữ: preset Android Debug, nén ETC2/ASTC, khung điều khiển cảm ứng, xử lý phím Back, để không phải làm lại.
+  - Phải làm lại phần Android trước M2-4 (đo bộ nhớ texture) và chậm nhất trước M7. Các kiểm tra chỉ làm được trên máy thật dồn về lúc đó.
+  - Còn mở của M1: M1-6 (GdUnit4, chờ owner duyệt plugin).

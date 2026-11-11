@@ -27,7 +27,13 @@
 | M1-7 | Bộ lọc export, preset Windows + Android debug | M1-1 |
 | M1-8 | Hướng dẫn owner cài JDK/SDK/export templates; build APK debug; owner chạy trên máy thật | M1-7 |
 
-**Điều kiện xong:** project mở không lỗi, luồng scene và input chạy; APK debug cài được.
+**Điều kiện xong:** project mở không lỗi, luồng scene và input chạy; bản Windows build và chạy được.
+
+> **Hoãn (owner quyết định 2026-11-11):** build APK debug và thử trên điện thoại
+> (phần Android của M1-8) để sau, **tập trung bản Windows trước**. Hướng dẫn đã sẵn
+> trong `docs/ANDROID_SETUP.md`. Làm lại trước M2-4 (đo bộ nhớ texture Android) và
+> chậm nhất trước M7 (điều khiển cảm ứng hoàn chỉnh). Mọi kiểm tra chỉ-máy-thật
+> (cảm ứng, phím Back, dấu tiếng Việt trên Android) dồn về lúc đó.
 
 ## Milestone 2 — Người chơi và animation
 
