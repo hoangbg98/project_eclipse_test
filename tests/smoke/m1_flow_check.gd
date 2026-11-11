@@ -49,13 +49,30 @@ func _run() -> void:
 	_check(await _wait_for_scene(gc.SCENE_HUB, 3.0), "Game mới -> Hub")
 	_check(router.can_go_back(), "có lịch sử để Back")
 
-	# Mô phỏng phím Esc qua action ui_back.
-	var esc := InputEventAction.new()
-	esc.action = "ui_back"
-	esc.pressed = true
-	Input.parse_input_event(esc)
+	# Hub: nút Màn thử nghiệm chỉ hiện ở tab Battle (M2-3), bấm vào được màn.
+	var stage_btn: Button = current_scene.get_node("%TestStageButton")
+	_check(not stage_btn.visible, "tab Home: nút Màn thử nghiệm ẩn")
+	(current_scene.get_node("TopBar/TabBar/BattleTab") as Button).pressed.emit()
+	_check(stage_btn.visible, "tab Battle: nút Màn thử nghiệm hiện")
+	(current_scene.get_node("TopBar/TabBar/HomeTab") as Button).pressed.emit()
+	_check(not stage_btn.visible, "về tab Home: nút ẩn lại")
+	(current_scene.get_node("TopBar/TabBar/BattleTab") as Button).pressed.emit()
+	stage_btn.pressed.emit()
+	_check(await _wait_for_scene(gc.SCENE_TEST_STAGE, 3.0), "Battle -> Màn thử nghiệm")
+	_send_back()
+	_check(await _wait_for_scene(gc.SCENE_HUB, 3.0), "Esc ở màn thử nghiệm -> Hub")
+
+	_send_back()
 	_check(await _wait_for_scene(gc.SCENE_TITLE, 3.0), "Esc ở Hub -> Title")
 	_check(not router.can_go_back(), "ở Title không còn lịch sử")
 
 	print("KẾT QUẢ: %d lỗi" % _failures)
 	quit(1 if _failures > 0 else 0)
+
+
+## Mô phỏng phím Esc qua action ui_back.
+func _send_back() -> void:
+	var esc := InputEventAction.new()
+	esc.action = "ui_back"
+	esc.pressed = true
+	Input.parse_input_event(esc)

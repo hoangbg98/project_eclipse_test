@@ -354,3 +354,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Camera: vùng chết dọc 180 px < độ cao nhảy 320 px → camera nhấp nhô mỗi cú nhảy; đổi sang vùng chết lệch lên 360 / xuống 64.
 - **Phát hiện cần lưu ý:** cửa sổ **hẹp hơn 16:9** (4:3, hoặc kéo cửa sổ Windows cao) với stretch `expand` làm khung nhìn cao hơn 1080; bản đồ cao 1088 px sẽ lộ khoảng trống trên/dưới. Cần quyết ở M6/M7: bản đồ cao hơn, hoặc khóa tỉ lệ tối thiểu 16:9 (viền cho màn hẹp).
 - **Hạn chế đã biết:** chưa có parallax, platform di chuyển, dốc, rơi xuyên platform (chưa có action "xuống"); nền một màu.
+
+## 2026-11-11 — Sửa lỗi: nút Màn thử nghiệm không hiện ở tab Battle
+
+- **Trạng thái:** TESTED
+- **Owner báo:** chơi thử trong Godot, tab Chiến đấu chỉ hiện "Battle (work in progress)", không có nút vào màn thử nghiệm.
+- **Nguyên nhân:** khi làm M2-3, dòng `_test_stage.visible = tab_name == "BattleTab"` trong `scripts/ui/hub.gd` không được ghi: script Python tôi dùng để sửa file thay chuỗi không khớp và **không báo lỗi**. Test không bắt được vì chỉ mở thẳng màn thử nghiệm, không đi qua Hub.
+- **Sửa:** thêm lại dòng đó. `tests/smoke/m1_flow_check.gd` thêm 6 bước: nút ẩn ở Home, hiện ở Battle, ẩn lại khi về Home, bấm vào màn thử nghiệm, Esc về Hub, Esc về Title.
+- **Đã chạy:** test khói luồng **trước** khi sửa → báo FAIL đúng chỗ; **sau** khi sửa → 15/15 đạt; `tools/run_tests.ps1` → tất cả đạt.
+- **Bài học:** sửa file bằng thay chuỗi phải kiểm tra lại kết quả (grep dòng mới) hoặc dùng công cụ Edit báo lỗi khi không khớp; mỗi đường vào màn chơi cần test đi qua đúng nút bấm.

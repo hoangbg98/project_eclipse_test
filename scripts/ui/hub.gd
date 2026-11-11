@@ -29,3 +29,4 @@ func _ready() -> void:
 
 func _show_tab(tab_name: String) -> void:
 	_content.text = "%s\n%s" % [tr(TABS[tab_name]), tr("HUB_WIP")]
+	_test_stage.visible = tab_name == "BattleTab"
