@@ -85,3 +85,22 @@ thanh; điều khiển cảm ứng hoàn chỉnh; safe area; credits/giấy phé
 
 Chạy toàn bộ ACCEPTANCE_TESTS trên Windows và Android, checklist tự chơi
 (README 16), ghi lỗi tồn đọng. Đổi tên Aether/Noctis trước khi công khai.
+
+## Mốc owner nên mở Godot để thử
+
+> Quy ước làm việc: **trước khi bắt đầu task nằm ở một mốc dưới đây, Claude nhắc
+> owner** là task đó có thể xem/chơi thử trong Godot (F5), kèm cách thử và kết quả
+> mong đợi. Test tự động không thay được việc xem bằng mắt và cảm giác điều khiển.
+
+| Sau task | Thử gì trong Godot | Kết quả mong đợi |
+|---|---|---|
+| M1-3 (đã có) | F5: Boot → Title → Hub, Back/Esc | Luồng chạy, nút Tiếp tục bị xám |
+| M1-5 (đã có) | F5 kèm `--language en` | Chữ chuyển tiếng Anh |
+| M2-3 | Stage thử nghiệm: chạy, nhảy, platform, camera; bật `force_visible` để thấy điều khiển cảm ứng | Cảm giác di chuyển, vùng chạm không chồng nhau |
+| M3-5, M3-7 | Đánh quái bằng bộ kỹ năng Aether; hit-stop, rung camera, số sát thương | Cảm giác đòn đánh, kỹ năng khớp CHARACTER_SKILLS |
+| M4-4, M4-7 | Đổi 3 nhân vật, switch-in Liên kết, HUD icon dự bị | Vòng SI-CD, vòng sáng Liên kết hiển thị đúng |
+| M6 | Chơi hết màn đầu và boss 2 phase | Màn 3–5 phút, telegraph boss rõ |
+| M7 | Duyệt toàn bộ UI, đổi ngôn ngữ trong Cài đặt | Hub, chọn màn/đội, trang bị, chiêu mộ |
+
+Máy thật (không thay bằng Godot trên PC): M1-8 (APK, cảm ứng, phím Back, dấu tiếng
+Việt), M2-4 (bộ nhớ texture Android), M8 (QA đầy đủ).
