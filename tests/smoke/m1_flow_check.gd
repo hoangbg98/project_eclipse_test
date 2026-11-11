@@ -49,9 +49,9 @@ func _run() -> void:
 	_check(await _wait_for_scene(gc.SCENE_HUB, 3.0), "Game mới -> Hub")
 	_check(router.can_go_back(), "có lịch sử để Back")
 
-	# Mô phỏng phím Esc qua action ui_cancel.
+	# Mô phỏng phím Esc qua action ui_back.
 	var esc := InputEventAction.new()
-	esc.action = "ui_cancel"
+	esc.action = "ui_back"
 	esc.pressed = true
 	Input.parse_input_event(esc)
 	_check(await _wait_for_scene(gc.SCENE_TITLE, 3.0), "Esc ở Hub -> Title")

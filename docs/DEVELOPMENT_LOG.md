@@ -115,3 +115,36 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 1. Owner mở project bằng Godot 4.6.3 để xem Boot/Title/Hub bằng mắt.
 2. M1-4: `InputRouter` và InputMap (bàn phím, tay cầm), khung điều khiển cảm ứng.
 3. M1-5: chuyển chữ sang `tr()` và file dịch nguồn.
+
+## 2026-11-11 — M1-4 InputRouter, InputMap, khung điều khiển cảm ứng
+
+- **Milestone / task:** 1 / M1-4
+- **Trạng thái:** TESTED (headless; chưa thử bằng phím/tay cầm/cảm ứng thật)
+- **File tạo/sửa:**
+  - `scripts/input/input_router.gd` (autoload `InputRouter`, đặt trước `SceneRouter`): đăng ký action bằng code, `get_move_x()`, bộ đệm input 120 ms (`consume_buffered`, `clear_buffer`).
+  - `scripts/input/touch_button.gd`, `virtual_joystick.gd`, `touch_controls.gd`: joystick ảo trái, 6 nút phải, 2 nút đổi nhân vật; mỗi ngón theo dõi riêng (multitouch); chỉ hiện khi có màn hình cảm ứng hoặc `force_visible`.
+  - `project.godot`: thêm autoload `InputRouter`. `SceneRouter` nay nghe action `ui_back` (trước là `ui_cancel`).
+  - `tests/smoke/m1_input_check.gd` (mới); `m1_flow_check.gd` đổi sang `ui_back`.
+- **Đã chạy:** `m1_flow_check.gd` và `m1_input_check.gd` bằng `Godot_v4.6.3 --headless --path . --script ...`
+- **Kết quả thật:** cả hai mã thoát 0, 0 lỗi (flow 10 điều kiện; input 32 điều kiện: 12 action có phím, bộ đệm nhấn sớm/một lần/hết hạn, 2 ngón độc lập, joystick -1..1 có vùng chết, nút ≥ 128 px, các vùng chạm không chồng nhau, ẩn lớp thì nhả nút).
+- **Bản đồ phím tạm (đổi được):**
+
+| Action | Bàn phím | Tay cầm |
+|---|---|---|
+| move_left / right | A, D, ←, → | cần trái, D-pad trái/phải |
+| jump | Space, K | A |
+| attack | J | X |
+| dodge | L, Shift | B |
+| skill | U | Y |
+| weapon | I | LB |
+| ultimate | O | RB |
+| switch_1 / 2 | Q, 1 / E, 2 | D-pad lên / xuống |
+| pause | P | Start |
+| ui_back | Esc | Back/Select |
+
+- **Hạn chế đã biết:**
+  - Action đăng ký bằng code nên chưa thấy/sửa được trong tab Input Map của editor.
+  - Chưa quan sát bằng mắt hình dạng/vị trí điều khiển cảm ứng; chưa tính safe area/tai thỏ (M7).
+  - Nhấn "pause" bằng Esc chưa nối vào gameplay (chưa có scene trận); hiện Esc = `ui_back`.
+  - Cảm ứng thật, tay cầm thật, phím Back Android chưa thử trên thiết bị (M1-8).
+  - Bố cục nút phải là sắp xếp tạm, owner chỉnh sau khi thử máy thật.
