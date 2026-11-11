@@ -232,3 +232,46 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Vẫn giữ: preset Android Debug, nén ETC2/ASTC, khung điều khiển cảm ứng, xử lý phím Back, để không phải làm lại.
   - Phải làm lại phần Android trước M2-4 (đo bộ nhớ texture) và chậm nhất trước M7. Các kiểm tra chỉ làm được trên máy thật dồn về lúc đó.
   - Còn mở của M1: M1-6 (GdUnit4, chờ owner duyệt plugin).
+
+## 2026-11-11 — M1-6 GdUnit4 + test headless
+
+- **Milestone / task:** 1 / M1-6
+- **Trạng thái:** TESTED
+- **Owner duyệt:** cài GdUnit4 ("Làm M1-6").
+- **Plugin:** GdUnit4 **6.2.3**, MIT, từ kho chính thức `godot-gdunit-labs/gdUnit4` (zip mã nguồn của tag `v6.2.3`, 475 KB, SHA-256 ghi trong ASSET_LICENSES). README của bản này ghi tương thích Godot 4.6.3. Chỉ chép `addons/gdUnit4/` (272 file, 1,8 MB: GDScript, scene, ảnh, mẫu báo cáo HTML; không có file thực thi). Đã đọc `runtest.cmd` và `bin/GdUnitCmdTool.gd` trước khi dùng.
+- **File tạo/sửa:**
+  - `addons/gdUnit4/` (plugin); `project.godot` thêm `[editor_plugins]` bật plugin.
+  - `tests/unit/core/test_game_config.gd` (6 test), `tests/unit/input/test_input_router.gd` (7 test).
+  - `tools/run_tests.ps1`: chạy GdUnit4 + mọi test khói, in bảng ĐẠT/LỖI, mã thoát 0 nếu tất cả đạt (UTF-8 có BOM).
+  - `.gitignore` thêm `/reports/` (báo cáo HTML/XML của GdUnit4).
+  - `docs/ASSET_LICENSES.md`: cập nhật dòng GdUnit4.
+- **Đã chạy:**
+  - `Godot --headless --path . -s -d --remote-debug tcp://127.0.0.1:0 res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests/unit --ignoreHeadlessMode -rd reports`
+  - Một test cố tình sai (`1 + 1 == 3`) trong thư mục tạm, rồi xóa.
+  - `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+  - `--export-pack` cho cả 3 preset, nạp vào project trống và đếm file.
+- **Kết quả thật:**
+  - GdUnit4: 13/13 đạt, 0 lỗi, 0 orphan, mã thoát 0.
+  - Test cố tình sai: báo FAILED, mã thoát 100 (runner bắt được lỗi thật).
+  - `run_tests.ps1`: GdUnit4 + 3 test khói đều ĐẠT, mã thoát 0.
+  - Cả 3 gói export: 0 file trong `addons/`, `tests/`, `docs/`; 20 file trong `scripts/`.
+- **Hạn chế đã biết:**
+  - GdUnit4 cảnh báo: chạy headless thì InputEvent không truyền qua engine, nên test tương tác UI bằng sự kiện phải chạy có cửa sổ. Test khói hiện dùng `push_input`/`action_press` nên vẫn chạy được headless.
+  - Test khói (`tests/smoke/`) chưa chuyển sang GdUnit4; giữ nguyên vì đang chạy tốt. Test mới từ M2 viết bằng GdUnit4.
+  - Plugin bật trong editor: lần mở editor tới sẽ có tab GdUnit; chưa kiểm tra bằng mắt.
+
+### Milestone 1: tổng kết
+
+| Task | Trạng thái |
+|---|---|
+| M1-0 Chuyển thư mục | VERIFIED |
+| M1-1 project.godot | TESTED |
+| M1-2 Autoload | TESTED |
+| M1-3 Boot → Title → Hub | TESTED (owner đã mở editor) |
+| M1-4 InputRouter + cảm ứng | TESTED (headless) |
+| M1-5 Localization | TESTED |
+| M1-6 GdUnit4 | TESTED |
+| M1-7 Export presets | TESTED (PCK) |
+| M1-8 Windows build | TESTED; **Android hoãn** theo quyết định owner |
+
+Điều kiện xong M1 (bản đã sửa): project mở không lỗi, luồng scene và input chạy, bản Windows build và chạy được — **đạt**, chờ owner xác nhận bằng mắt.

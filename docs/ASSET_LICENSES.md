@@ -9,7 +9,7 @@
 | Thành phần | Phiên bản | Giấy phép | Nguồn | Lý do dùng | Cần hiện trong game | Trạng thái |
 |---|---|---|---|---|---|---|
 | Godot Engine | 4.6.3-stable (`7d41c59c4`) | MIT | https://godotengine.org/license | Engine của dự án | Có (thông báo MIT của Godot + bên thứ ba đi kèm engine) | Đã cài trên máy owner |
-| GdUnit4 | — (chọn bản khớp 4.6.3 ở M1) | MIT (kiểm tra lại khi tải) | https://github.com/MikeSchulze/gdUnit4 | Framework test do README chọn | Không ship (chỉ dùng khi phát triển), vẫn ghi nhận | **Chờ owner duyệt** |
+| GdUnit4 | 6.2.3 (tag `v6.2.3`, 2026-11-01; README ghi tương thích Godot 4.6.3) | MIT (file `addons/gdUnit4/LICENSE`, © Mike Schulze) | https://github.com/godot-gdunit-labs/gdUnit4 (trước là `MikeSchulze/gdUnit4`); zip mã nguồn của tag, SHA-256 `8fb1a298af110be6d73067af66132bf036049deb6d5929d4a16756e18d2228bb` | Framework test do README chọn | Không ship (`addons/gdUnit4/*` bị loại khỏi mọi preset export, đã kiểm tra), vẫn ghi nhận | Owner duyệt 2026-11-11 (M1-6); đã cài vào `addons/gdUnit4/` |
 
 ## 2. Asset của owner (art, UI, VFX, nhạc, SFX, font)
 
