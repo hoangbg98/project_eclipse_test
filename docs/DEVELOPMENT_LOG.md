@@ -76,5 +76,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 451 mục ở cả hai nơi; `diff -r` chỉ báo khác `.git/index`
   (Git làm mới thông tin thời gian của file, bình thường); cây làm việc sạch;
   commit `84c6335` còn nguyên; `git fsck` không báo lỗi.
-- **Còn lại:** thư mục cũ vẫn còn, giữ làm bản dự phòng cho tới khi owner mở
-  phiên làm việc mới ở `C:\Dev\PROJECT_ECLIPSE\` và đồng ý xóa.
+- **Còn lại:** không còn. Owner đã đồng ý xóa thư mục cũ (xem bên dưới).
+
+### 2026-11-11 — M1-0 Xóa thư mục cũ
+
+- **Trạng thái:** VERIFIED
+- **Thay đổi:** owner xóa
+  `C:\Users\default.LAPTOP-6QHN1193\Desktop\New folder (3)\PROJECT_ECLIPSE_kickoff\`.
+  Nội dung bị xóa trước; thư mục rỗng ban đầu bị tiến trình khác giữ nên owner xóa nốt thủ công.
+- **Kết quả thật:** đã kiểm tra, thư mục không còn trong `New folder (3)`. Bản duy nhất
+  của dự án là `C:\Dev\PROJECT_ECLIPSE\`.
