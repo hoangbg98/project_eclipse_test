@@ -23,6 +23,32 @@ var target: PlayerController
 
 var _look := 0.0
 var _ground_y := 0.0
+var _shake_px := 0.0
+var _shake_left := 0.0
+var _shake_total := 0.0
+var _shake_rng := RandomNumberGenerator.new()
+
+
+## Rung camera (README 15.7). Lấy mức mạnh hơn nếu đang rung.
+func add_shake(px: float, seconds: float) -> void:
+	if px >= _shake_px * (_shake_left / maxf(_shake_total, 0.0001)):
+		_shake_px = px
+		_shake_left = seconds
+		_shake_total = seconds
+
+
+## Cập nhật rung theo THỜI GIAN THẬT (vẫn rung khi hit-stop dừng thời gian game).
+func update_shake(real_delta: float) -> void:
+	if _shake_left <= 0.0:
+		offset = Vector2.ZERO
+		return
+	_shake_left = maxf(_shake_left - real_delta, 0.0)
+	var k := _shake_left / maxf(_shake_total, 0.0001)
+	offset = Vector2(_shake_rng.randf_range(-1, 1), _shake_rng.randf_range(-1, 1)) * _shake_px * k
+
+
+func is_shaking() -> bool:
+	return _shake_left > 0.0
 
 
 func _ready() -> void:

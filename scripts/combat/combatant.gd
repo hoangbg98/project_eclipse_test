@@ -128,6 +128,9 @@ func receive_hit(hit: HitInfo) -> DamageCalculator.Result:
 	damaged.emit(result, hit)
 	if src:
 		src._on_hit_dealt(self, result, hit)
+	var bus := _bus()
+	if bus:
+		bus.hit_landed.emit(src, self, result, hit)
 	return result
 
 
@@ -153,11 +156,20 @@ func _on_status_tick(status_id: String, atk_ratio: float, source: Object) -> voi
 	var result := DamageCalculator.compute(rules, a, target_snapshot(), atk_ratio, 1, rng)
 	resources.take_damage(result.amount)
 	dot_damaged.emit(result.amount, status_id)
+	var bus := _bus()
+	if bus:
+		bus.dot_landed.emit(self, result.amount, status_id)
 
 
 func _game_config() -> Node:
 	if is_inside_tree():
 		return get_tree().root.get_node_or_null("GameConfig")
+	return null
+
+
+func _bus() -> Node:
+	if is_inside_tree():
+		return get_tree().root.get_node_or_null("EventBus")
 	return null
 
 

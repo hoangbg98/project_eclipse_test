@@ -51,6 +51,8 @@ var kit: Node
 var _perfect_dodge_icd := 0.0
 var _knock_v := 0.0
 var _knock_t := 0.0
+var _hurt_flash := 0.0
+var _base_modulate := Color.WHITE
 
 var _coyote_left := 0.0
 var _jumped_this_tick := false
@@ -143,6 +145,9 @@ func step(delta: float) -> void:
 
 	intent.tick(delta)
 	_update_facing()
+	_hurt_flash = maxf(_hurt_flash - delta, 0.0)
+	if sprite:
+		sprite.modulate = Color(2.2, 2.2, 2.2) if _hurt_flash > 0.0 else _base_modulate
 
 
 func start_jump() -> void:
@@ -315,10 +320,12 @@ func _setup_sprite() -> void:
 	var element := str(result.manifest.get("element", ""))
 	var all_placeholder := result.placeholder_animations.size() == result.sprite_frames.get_animation_names().size()
 	sprite.modulate = PLACEHOLDER_TINT.get(element, Color.WHITE) if all_placeholder else Color.WHITE
+	_base_modulate = sprite.modulate
 
 
 ## Trúng đòn: khựng + đẩy lùi, trừ khi kỹ năng đang chạy có kháng khựng hoặc đang lao xuống (miễn đẩy lùi).
 func _on_damaged(_result: DamageCalculator.Result, hit: HitInfo) -> void:
+	_hurt_flash = 0.1
 	if combatant.resources.is_dead():
 		return
 	if plunging or runner.has_super_armor() or combatant.statuses.stagger_immune():
@@ -370,6 +377,10 @@ func _on_skill_started(_key: String, s: SkillDef) -> void:
 	_play(StringName(s.animation))
 	if s.key == "air":
 		air_attacks_used += 1
+	if s.key == "ultimate":
+		var bus := get_tree().root.get_node_or_null("EventBus")
+		if bus:
+			bus.ultimate_started.emit(self, s)
 
 
 func _on_state_changed(from: StringName, to: StringName) -> void:

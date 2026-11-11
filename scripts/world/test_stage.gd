@@ -21,6 +21,7 @@ var tiles: TileMapLayer
 var player: PlayerController
 var dummies: Array[TrainingDummy] = []
 var enemies: Array[EnemyController] = []
+var feedback: HitFeedback
 
 var _revive_timer := -1.0
 var _respawns: Array = []  # [giây còn lại, ô]
@@ -55,6 +56,11 @@ func _ready() -> void:
 
 	camera.set_bounds(map.bounds_px())
 	camera.follow(player)
+	feedback = HitFeedback.new()
+	feedback.name = "HitFeedback"
+	feedback.camera = camera
+	feedback.player = player
+	add_child(feedback)
 	var overlay := get_node_or_null("DebugOverlay")
 	if overlay:
 		overlay.player = player

@@ -103,3 +103,9 @@ msgstr "Hot Breath"
 
 msgid "ENEMY_SLIME_01"
 msgstr "Slime"
+
+msgid "SKILL_FIRE_01_ULTIMATE"
+msgstr "Phoenix Sovereign Slash"
+
+msgid "HUD_COMBO"
+msgstr "%d COMBO"

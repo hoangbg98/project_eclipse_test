@@ -32,6 +32,7 @@ var _knock_t := 0.0
 var _fade := 0.0
 var _flash := 0.0
 var _last_attacker: Object
+var _frozen := 0.0
 
 @onready var combatant: Combatant = $Combatant
 @onready var runner: SkillRunner = $Skills
@@ -41,6 +42,7 @@ var _last_attacker: Object
 
 func _ready() -> void:
 	add_to_group(GROUP)
+	add_to_group(HitFeedback.TIME_STOP_GROUP)
 	def = load(ENEMY_DATA % enemy_id)
 	combatant.stats = def.stats
 	combatant.setup()
@@ -55,8 +57,21 @@ func _physics_process(delta: float) -> void:
 	step(delta)
 
 
+## Dừng thời gian (cut-in tuyệt kỹ): đứng yên hoàn toàn, trạng thái và hồi chiêu cũng không chạy.
+func freeze(seconds: float) -> void:
+	_frozen = maxf(_frozen, seconds)
+
+
+func is_frozen() -> bool:
+	return _frozen > 0.0
+
+
 ## Một tick; tách riêng để test bước với delta cố định.
 func step(delta: float) -> void:
+	if _frozen > 0.0:
+		_frozen -= delta
+		velocity = Vector2.ZERO
+		return
 	combatant.tick(delta)
 	_flash = maxf(_flash - delta, 0.0)
 	if state == State.DEAD:

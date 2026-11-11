@@ -18,9 +18,18 @@ var _flash := 0.0
 var total_damage := 0
 
 
+var _frozen := 0.0
+
+
 func _ready() -> void:
+	add_to_group(HitFeedback.TIME_STOP_GROUP)
 	combatant.damaged.connect(_on_damaged)
 	combatant.dot_damaged.connect(_on_dot)
+
+
+## Dừng thời gian (cut-in tuyệt kỹ): trạng thái (Cháy...) cũng dừng.
+func freeze(seconds: float) -> void:
+	_frozen = maxf(_frozen, seconds)
 
 
 func _physics_process(delta: float) -> void:
@@ -28,6 +37,9 @@ func _physics_process(delta: float) -> void:
 
 
 func step(delta: float) -> void:
+	if _frozen > 0.0:
+		_frozen -= delta
+		return
 	_time += delta
 	combatant.tick(delta)
 	_idle += delta
@@ -50,15 +62,14 @@ func dps() -> float:
 	return s / dps_window_sec
 
 
+## Số sát thương do HitFeedback hiện (chung mọi mục tiêu).
 func _on_damaged(result: DamageCalculator.Result, _hit: HitInfo) -> void:
 	_record(result.amount)
 	_flash = 0.08
-	FloatingNumber.spawn(get_parent(), global_position + Vector2(0, -260), result.amount, result.is_crit)
 
 
 func _on_dot(amount: int, _status_id: String) -> void:
 	_record(amount)
-	FloatingNumber.spawn(get_parent(), global_position + Vector2(40, -200), amount, false, true)
 
 
 func _record(amount: int) -> void:

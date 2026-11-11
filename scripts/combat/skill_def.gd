@@ -26,6 +26,10 @@ extends Resource
 @export var ug_cost := 0.0
 ## Tìm kẻ địch gần nhất trong bán kính này khi bắt đầu (px); 0 = không nhắm.
 @export var target_range_px := 0.0
+## Khóa dịch tên chiêu (cut-in tuyệt kỹ, HUD).
+@export var name_key := ""
+## Dừng thời gian kẻ địch khi bắt đầu (ms) — cut-in tuyệt kỹ.
+@export var time_stop_ms := 0.0
 
 @export_group("Pha (ms)")
 @export var startup_ms := 100.0

@@ -83,6 +83,8 @@ Sau mỗi task, thêm mục vào cuối `docs/DEVELOPMENT_LOG.md`:
 
 ## 6. Quyết định đang có hiệu lực
 
+- **Tự chủ chi tiết nhỏ** (owner, 2026-11-12): agent tự quyết chi tiết kỹ thuật; **không hỏi** owner về màu sắc, tên biến, cấu trúc folder, kích thước nút, số frame animation, thông số cân bằng nhỏ. Chọn phương án hợp lý, ghi vào nhật ký mục "Quyết định Claude/Codex chọn", rồi làm tiếp. Chỉ hỏi khi là quyết định lớn hoặc cần dữ liệu chỉ owner có.
+
 - **Android hoãn** (owner, 2026-11-11): build/thử trên Windows. Vẫn giữ code đa nền tảng (cảm ứng, phím Back, ETC2/ASTC). Nhắc owner làm lại Android trước M2-4, chậm nhất trước M7.
 - **Nhắc owner thử trong Godot** trước các task ở bảng "Mốc owner nên mở Godot để thử" cuối `docs/IMPLEMENTATION_ROADMAP.md` (M2-3, M3-5/M3-7, M4-4/M4-7, M6, M7).
 - Tỉ lệ gacha chưa có: M5-4 **BLOCKED**, không tự đặt số.

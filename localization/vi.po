@@ -103,3 +103,9 @@ msgstr "Hơi Nóng"
 
 msgid "ENEMY_SLIME_01"
 msgstr "Slime"
+
+msgid "SKILL_FIRE_01_ULTIMATE"
+msgstr "Viêm Hoàng Tuyệt Trảm"
+
+msgid "HUD_COMBO"
+msgstr "%d COMBO"

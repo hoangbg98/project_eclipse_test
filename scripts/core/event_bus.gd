@@ -11,3 +11,11 @@ signal back_requested
 signal enemy_stunned(enemy: Node, by: Object)
 ## Kẻ địch bị hạ.
 signal enemy_defeated(enemy: Node, by: Object)
+
+## Phản hồi đòn (HitFeedback M3-7 nghe; logic combat không phụ thuộc vào ai nghe).
+## Một đòn trực tiếp trúng: attacker/target là Combatant; result là DamageCalculator.Result.
+signal hit_landed(attacker: Object, target: Object, result: Object, hit: Object)
+## Sát thương theo nhịp (Cháy...).
+signal dot_landed(target: Object, amount: int, status_id: String)
+## Bắt đầu tuyệt kỹ (dừng thời gian + cut-in).
+signal ultimate_started(actor: Node, skill: Resource)

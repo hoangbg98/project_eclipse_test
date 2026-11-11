@@ -550,3 +550,31 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Quái không chặn đường người chơi (đi xuyên nhau); chỉ va chạm với địa hình.
   - SC không tích khi đang Choáng và trong 8 s kháng.
 - **Hạn chế đã biết:** quái chưa nhảy/đi vòng qua bậc (đứng dưới chân cột); chưa có thưởng khi hạ (M5/M6); hướng đẩy xuống 30° của đòn trên không 2 chưa làm (đẩy ngang); hiệu ứng hình tạm (đa giác màu).
+
+## 2026-11-12 — Quy tắc làm việc: tự chủ chi tiết nhỏ
+
+- **Owner quyết định:** từ M3-7, agent tự quyết chi tiết kỹ thuật; không hỏi về màu sắc, tên biến, cấu trúc folder, kích thước nút, số frame animation, thông số cân bằng nhỏ. Ghi vào `AGENTS.md` mục 6 và bộ nhớ của Claude. Từ đây các lựa chọn như vậy ghi trong mục **"Quyết định Claude chọn"** của từng task, không còn mục "owner xác nhận" cho chi tiết nhỏ.
+
+## 2026-11-12 — M3-7 Phản hồi đòn (hit feedback)
+
+- **Milestone / task:** 3 / M3-7
+- **Trạng thái:** TESTED (headless). **Mốc owner chơi thử trong Godot** (cảm giác đòn).
+- **File tạo/sửa:**
+  - `scripts/combat/hit_feedback.gd` (`HitFeedback`) + `hit_feedback_config.gd` + `data/config/hit_feedback.tres`: nghe `EventBus`; hit-stop bằng `Engine.time_scale = 0` khôi phục theo **thời gian thật**; rung camera; số sát thương; đếm combo (HUD góc phải); dừng thời gian kẻ địch + cut-in khi tuyệt kỹ.
+  - `EventBus`: `hit_landed`, `dot_landed`, `ultimate_started`. `Combatant` phát `hit_landed`/`dot_landed`; PlayerController phát `ultimate_started`.
+  - `FollowCamera.add_shake/update_shake` (rung theo thời gian thật, dùng `offset` nên không ảnh hưởng vị trí bám).
+  - `FloatingNumber`: 4 kiểu (thường trắng, chí mạng vàng to, Cháy cam nhỏ, người chơi mất máu đỏ), nảy rồi mờ; không dùng ngẫu nhiên. Hình nộm không tự hiện số nữa (gom về HitFeedback).
+  - Kẻ địch, hình nộm: nhóm `time_stoppable`, hàm `freeze(giây)`.
+  - Aether chớp trắng 0.1 s khi bị đánh.
+  - `SkillDef.name_key`, `time_stop_ms`; tuyệt kỹ Aether: 600 ms, tên "Viêm Hoàng Tuyệt Trảm".
+  - Màn thử nghiệm tạo HitFeedback.
+  - `tests/unit/combat/test_hit_feedback.gd` (10 test).
+- **Đã chạy:** `tools/run_tests.ps1`; export Windows + chạy bản build.
+- **Kết quả thật:** GdUnit4 193/193 đạt (10 mới), 4 test khói đạt, mã thoát 0; bản build chạy không lỗi. Kiểm: thời lượng hit-stop nhẹ 45 / nặng 70 / chí mạng +10 / trần 80 ms; hit-stop dừng và tự khôi phục theo thời gian thật (đo 60–200 ms cho 70 ms); nhiều hit-stop chồng lấy mức dài nhất (~70 ms, không phải 160); tắt được; đánh trúng thật → hit-stop + rung + số + combo 1; combo ngắt sau 2 s; người chơi bị đánh → combo về 0, số đỏ; Cháy hiện số cam; tuyệt kỹ → slime đứng im ~600 ms và cut-in hiện rồi tắt. 183 test cũ vẫn đạt khi bật hit-stop (khung vật lý dừng theo nên test đếm khung vẫn đúng thời gian game).
+- **Quyết định Claude chọn:**
+  - Hit-stop nhẹ 45 ms, nặng 70 ms (đòn ≥ 120% ATK hoặc SC ×1.5), chí mạng +10, trần 80; người chơi bị đánh 60 ms.
+  - Hit-stop dừng toàn bộ thời gian game (đơn giản, đúng tinh thần "dừng mọi thứ"); nhiều đòn cùng lúc lấy mức dài nhất.
+  - Rung: nhẹ 4 px 0.08 s, nặng 10 px 0.15 s, bị đánh 9 px 0.14 s.
+  - Combo đếm **mỗi lần trúng một mục tiêu**; ngắt sau 2 s hoặc khi bị đánh; hiện từ 2 đòn.
+  - Cut-in tạm: nền tối + dải màu lửa + tên chiêu trượt vào từ phải; dừng thời gian áp cho kẻ địch và hình nộm (Aether vẫn chạy pha khởi động, đang bất tử).
+- **Hạn chế đã biết:** chưa có âm thanh trúng đòn (M7, chờ SFX); VFX vẫn là đa giác; phản ứng nguyên tố (hit-stop 60 ms, tên phản ứng 0.8 s) làm ở M4-5.
