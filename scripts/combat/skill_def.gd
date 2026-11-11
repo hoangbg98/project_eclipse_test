@@ -16,6 +16,10 @@ extends Resource
 @export var en_cost := 0.0
 @export var cooldown_sec := 0.0
 @export var cooldown_uses_cdr := true
+## Khóa hồi chiêu dùng chung (vd hold_1 và hold_2 cùng "hold"); rỗng = theo khóa kỹ năng.
+@export var cooldown_group := ""
+## EN cộng thêm khi trúng, ngoài mức theo loại đòn (Aether giữ TC: +6 = 3 + 3).
+@export var extra_en_on_hit := 0.0
 
 @export_group("Pha (ms)")
 @export var startup_ms := 100.0
@@ -32,6 +36,27 @@ extends Resource
 @export var move_to_ms := 0.0
 ## Không chịu trọng lực suốt kỹ năng (lướt, treo trên không).
 @export var suspend_gravity := false
+## Hoặc chỉ trong cửa sổ [gravity_off_from_ms, gravity_off_to_ms) (vd treo 150 ms sau đòn trên không 2).
+@export var gravity_off_from_ms := -1.0
+@export var gravity_off_to_ms := -1.0
+## Giữ vận tốc ngang đang có (đòn trên không) thay vì đứng lại.
+@export var keep_momentum := false
+
+@export_group("Nạp (đòn giữ)")
+## Giữ nút bao lâu thì bắt đầu nạp (ms); nhả sớm hơn là đòn thường.
+@export var charge_start_ms := 0.0
+## Giữ tới mức này thì nhả ra kỹ năng này (Cấp 1: 700, Cấp 2: 1500).
+@export var charge_level_ms := 0.0
+## Giảm tốc độ di chuyển khi đang nạp (0.4 = chậm 40%).
+@export var charge_move_slow := 0.0
+
+@export_group("Lao xuống (đáp đất)")
+## Tốc độ lao xuống (px/s); > 0 = kỹ năng đáp đất.
+@export var dive_speed_px := 0.0
+## Phải cao hơn mặt đất ít nhất bấy nhiêu mới dùng được (px).
+@export var min_height_px := 0.0
+## Treo trên không bấy nhiêu ms trước khi lao.
+@export var pre_dive_ms := 0.0
 
 @export_group("Phòng thủ")
 ## Bất tử trong [invuln_from_ms, invuln_to_ms); âm = không.
@@ -67,6 +92,16 @@ func dodge_cancel_from_ms() -> float:
 
 func chain_from_ms() -> float:
 	return total_ms() - chain_window_ms
+
+
+func cooldown_key() -> String:
+	return cooldown_group if cooldown_group != "" else id.get_slice(".", 1)
+
+
+func gravity_off_at(ms: float) -> bool:
+	if suspend_gravity:
+		return true
+	return gravity_off_from_ms >= 0.0 and ms >= gravity_off_from_ms and ms < gravity_off_to_ms
 
 
 func is_invulnerable_at(ms: float) -> bool:

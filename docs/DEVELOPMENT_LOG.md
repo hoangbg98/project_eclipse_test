@@ -482,3 +482,23 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Sóng lửa đòn 4 bay 220 px trong 300 ms; cả kiếm và sóng đều áp Cháy 3 s, SC ×1.5.
   - Vệt lửa khi né không nạp EN/UG (`HitKind.NONE`).
 - **Chưa làm (phần 2–3):** giữ nút, trên không, đáp đất; kỹ năng, kỹ năng vũ khí, tuyệt kỹ, nội tại Nhiệt, né hoàn hảo — Hơi Nóng.
+
+## 2026-11-12 — M3-5 phần 2: đòn giữ, trên không, đáp đất (Aether)
+
+- **Milestone / task:** 3 / M3-5 (phần 2/3)
+- **Trạng thái:** TESTED (headless). Owner chơi thử được: giữ J để nạp, J khi nhảy, J khi đang rơi cao để lao xuống.
+- **File tạo/sửa:**
+  - `data/skills/char_fire_01/hold_1.tres`, `hold_2.tres`, `air_1.tres`, `air_2.tres`, `landing.tres` (thêm vào `tools/gen_aether_data.py`).
+  - `SkillDef`: `cooldown_group` (hold_1/hold_2 chung khóa "hold"), `extra_en_on_hit`, cửa sổ tắt trọng lực, `keep_momentum`, thông số nạp (`charge_start_ms`, `charge_level_ms`, `charge_move_slow`), lao xuống (`dive_speed_px`, `min_height_px`, `pre_dive_ms`).
+  - State `charge` (nạp, đi chậm 40%) và `plunge` (treo 60 ms, lao 1400 px/s, chạm đất chạy kỹ năng `landing`).
+  - Controller: chọn đòn trên không/đáp đất, đếm đòn trên không mỗi lần nhảy, đo độ cao bằng tia xuống đất, cấp nạp theo thời gian giữ.
+  - SkillRunner: nối đòn cho mọi kỹ năng có `next_skill` (air_1 → air_2); EN cộng thêm truyền qua Hitbox/HitInfo tới Combatant (cả vùng tách).
+  - Gợi ý phím cập nhật.
+  - `tests/unit/combat/test_aether_air_hold.gd` (12 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 154/154 đạt (12 mới), 4 test khói đạt, mã thoát 0. Kiểm: giữ < 400 ms → đòn thường; giữ 750 ms → Cấp 1 = 800 sát thương, +6 EN; giữ 550 ms → đòn thường; giữ 1550 ms → Cấp 2 = 1400, kháng khựng, Cháy; đang nạp chạy 270 px/s (chậm 40%); hồi 1 s dùng chung cho hai cấp; 2 đòn trên không mỗi lần nhảy, chạm đất đếm lại; đòn trên không 2 treo (vy = 0); lao từ cao 500 px chạm đất đúng y = 896, nổ 700, Cháy; thấp < 200 px hoặc chưa có đòn trên không thì không lao.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - Nhả trong 400–700 ms (đã nạp nhưng chưa tới Cấp 1) → **đòn thường**.
+  - Đang giữ nút mà đòn giữ còn hồi chiêu → không nạp; nhả ra không có đòn (chưa xử lý thành đòn thường).
+  - Đáp đất: bấm đánh **khi đang rơi**, đã có ≥ 1 đòn trên không, cao ≥ 200 px. Đang bay lên → đòn trên không thứ 2.
+  - Cấp 1 "khựng", đòn trên không 2 "đẩy xuống 30°", đáp đất "miễn đẩy lùi": cần phản ứng của quái → làm ở M3-6 (đã có cờ `plunging`, `super_armor`).

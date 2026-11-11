@@ -128,6 +128,8 @@ func _on_hit_dealt(target: Combatant, result: DamageCalculator.Result, hit: HitI
 			_registered_hits.clear()
 			_registered_hits[hit.hit_id] = true
 		resources.register_hit(hit.hit_kind)
+		if hit.extra_en > 0.0:
+			resources.add_en(hit.extra_en)
 	hit_dealt.emit(target, result, hit)
 
 

@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "burn"
+duration = 4.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 160.0
+duration_ms = 400.0
+atk_ratio = 2.8
+sc_multiplier = 2.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(320.0, 140.0)
+offset = Vector2(160.0, -70.0)
+knockback_px = 0.0
+detached = true
+travel_px = 320.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_fire_01.hold_2"
+key = "hold"
+animation = "hold_release"
+hit_kind = 1
+startup_ms = 160.0
+active_ms = 140.0
+recovery_ms = 420.0
+charge_level_ms = 1500.0
+super_armor = true
+cooldown_sec = 1.0
+cooldown_uses_cdr = false
+cooldown_group = "hold"
+extra_en_on_hit = 3.0
+charge_start_ms = 400.0
+charge_move_slow = 0.4
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 1 Liệt Hỏa Tích Lực Cấp 2: sóng chém 320x140 bay 320 px, 280%, kháng khựng khi nhả, Cháy 4s, SC x2, 160/140/420"

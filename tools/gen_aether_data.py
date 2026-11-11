@@ -94,6 +94,37 @@ write_skill("dodge", base("dodge", "dodge", "dodge", NONE, 40, 180, 120,
             [hit(40, 800, 0.25, shape=RECT, rect=(280, 60), offset=(140, -30), detached=True, tick=400)],
             "Mục 1 Lướt Lửa: lướt 280 px, bất tử 40-220 ms, vệt lửa 0.8 s x 25% mỗi 0.4 s, 40/180/120")
 
+# --- Nhấn giữ TC — Liệt Hỏa Tích Lực: giữ >= 400 ms nạp (chậm 40%); Cấp 1 tại 700 ms, Cấp 2 tại 1500 ms;
+#     CD 1.0 s sau khi nhả; +6 EN nếu trúng (3 theo loại + 3) ---
+HOLD_COMMON = dict(cooldown_sec=1.0, cooldown_uses_cdr=False, cooldown_group="hold", extra_en_on_hit=3.0,
+                   charge_start_ms=400.0, charge_move_slow=0.4)
+write_skill("hold_1", base("hold_1", "hold", "hold_release", HOLD, 120, 100, 340, charge_level_ms=700.0,
+            **HOLD_COMMON),
+            [hit(120, 100, 1.60, radius=180, sc=1.5)],
+            "Mục 1 Liệt Hỏa Tích Lực Cấp 1: hất chém 180 px cung 120°, 160%, khựng, SC x1.5, 120/100/340")
+write_skill("hold_2", base("hold_2", "hold", "hold_release", HOLD, 160, 140, 420, charge_level_ms=1500.0,
+            super_armor=True, **HOLD_COMMON),
+            [hit(160, 400, 2.80, shape=RECT, rect=(320, 140), offset=(160, -70), sc=2.0,
+                 statuses=[("burn", 4.0, -1.0)], detached=True, travel=320)],
+            "Mục 1 Liệt Hỏa Tích Lực Cấp 2: sóng chém 320x140 bay 320 px, 280%, kháng khựng khi nhả, Cháy 4s, SC x2, 160/140/420")
+
+# --- TC trên không — Phi Trảm (2 đòn): 150 px, cung 140° hơi chếch xuống; tối đa 2 đòn/lần nhảy;
+#     treo 150 ms sau đòn 2 ---
+write_skill("air_1", base("air_1", "air", "air_1", AIR, 80, 60, 140, keep_momentum=True,
+            chain_window_ms=200.0, next_skill="air_2"),
+            [hit(80, 60, 0.65, radius=150, arc=140, tilt=20)],
+            "Mục 1 Phi Trảm Đ1: 65%, 80/60/140")
+write_skill("air_2", base("air_2", "air", "air_2", AIR, 100, 80, 200, keep_momentum=True,
+            gravity_off_from_ms=180.0, gravity_off_to_ms=330.0),
+            [hit(100, 80, 0.90, radius=150, arc=140, tilt=30, knock=60)],
+            "Mục 1 Phi Trảm Đ2: 90%, đẩy xuống 30° (hướng đẩy làm ở M3-6), treo 150 ms sau đòn, 100/80/200")
+
+# --- TC đáp đất — Hỏa Trụy: cần >= 1 đòn trên không và cao >= 200 px; lao 1400 px/s; nổ bán kính 180 ---
+write_skill("landing", base("landing", "landing", "landing_attack", LANDING, 0, 120, 280,
+            super_armor=True, dive_speed_px=1400.0, min_height_px=200.0, pre_dive_ms=60.0),
+            [hit(0, 120, 1.40, shape=CIRCLE, radius=180, offset=(0, -40), sc=1.5, statuses=[("burn", 2.0, -1.0)])],
+            "Mục 1 Hỏa Trụy: 140%, nổ bán kính 180, Cháy 2s, SC x1.5; 60 ms treo trước khi lao, rồi 120/280 khi chạm đất")
+
 # --- CharacterDef (chỉ số tạm do Claude đặt; owner chỉnh) ---
 char = """[gd_resource type="Resource" script_class="CharacterDef" load_steps=4 format=3]
 

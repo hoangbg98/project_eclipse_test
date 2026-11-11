@@ -70,8 +70,14 @@ func attack_down() -> void:
 	attack_hold_time = 0.0
 
 
+## Thời gian đã giữ ở lần nhả gần nhất (s) — state nạp đọc để chọn cấp.
+var released_hold_time := 0.0
+
+
 ## Nhả nút đánh; nếu giữ chưa tới ngưỡng thì ghi một lần "đánh" vào bộ đệm.
 func attack_up(buffer_time: float) -> void:
+	if attack_held:
+		released_hold_time = attack_hold_time
 	if attack_held and attack_hold_time < hold_threshold:
 		press(ATTACK, buffer_time)
 	attack_held = false

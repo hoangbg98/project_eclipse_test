@@ -25,3 +25,5 @@ var skill_level := 1
 var statuses: Array[StatusApplication] = []
 ## % tăng sát thương riêng của lần đánh này (vd 5 tầng Nhiệt +25%), khóa theo nguồn.
 var damage_bonus: Dictionary = {}
+## EN cộng thêm cho người đánh (một lần mỗi hit_id).
+var extra_en := 0.0

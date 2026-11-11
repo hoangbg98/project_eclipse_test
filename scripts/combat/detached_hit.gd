@@ -15,7 +15,7 @@ var _next_tick := 0.0
 
 ## Tạo từ HitDef. `facing` 1/-1; `pos` là chân người đánh lúc tạo.
 static func spawn(parent: Node, def: HitDef, attacker: Node, team: PhysicsLayers.Team, facing: int,
-		pos: Vector2, damage_bonus: Dictionary, hit_kind: int, skill_id: String) -> DetachedHit:
+		pos: Vector2, damage_bonus: Dictionary, hit_kind: int, skill_id: String, extra_en := 0.0) -> DetachedHit:
 	var d := DetachedHit.new()
 	d.name = "DetachedHit"
 	d.lifetime = def.duration_ms / 1000.0
@@ -28,6 +28,7 @@ static func spawn(parent: Node, def: HitDef, attacker: Node, team: PhysicsLayers
 	d.hitbox.position = Vector2.ZERO
 	d.hitbox.attacker = attacker
 	d.hitbox.damage_bonus = damage_bonus
+	d.hitbox.extra_en = extra_en
 	d.add_child(d.hitbox)
 	parent.add_child(d)
 	d.global_position = pos + Vector2(def.offset.x * facing, def.offset.y)

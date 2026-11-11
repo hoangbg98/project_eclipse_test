@@ -59,8 +59,9 @@ func _build() -> void:
 		var s: SkillDef = skills[key]
 		for e in s.validate():
 			push_warning("SkillRunner: %s" % e)
-		if combatant and s.cooldown_sec > 0.0 and not combatant.cooldowns.has(StringName(key)):
-			combatant.cooldowns.register(StringName(key), s.cooldown_sec, s.cooldown_uses_cdr)
+		var cd := StringName(s.cooldown_key())
+		if combatant and s.cooldown_sec > 0.0 and not combatant.cooldowns.has(cd):
+			combatant.cooldowns.register(cd, s.cooldown_sec, s.cooldown_uses_cdr)
 		lib.add_animation(StringName(key), _build_animation(key, s))
 	_player.add_animation_library(&"", lib)
 
@@ -81,6 +82,7 @@ func _build_animation(key: String, s: SkillDef) -> Animation:
 		var hb := make_hitbox(h, combatant.team if combatant else PhysicsLayers.Team.PLAYER, s.id, s.hit_kind)
 		hb.name = "%s_%d" % [key, i]
 		hb.attacker = actor
+		hb.extra_en = s.extra_en_on_hit
 		_attached.add_child(hb)
 		list.append(hb)
 		HitboxTrack.add(anim, NodePath("Attached/%s" % hb.name),
@@ -127,7 +129,7 @@ func check(key: String) -> String:
 			return "dead"
 		if combatant.statuses.blocks_actions():
 			return "control"
-		if s.cooldown_sec > 0.0 and not combatant.cooldowns.is_ready(StringName(key)):
+		if s.cooldown_sec > 0.0 and not combatant.cooldowns.is_ready(StringName(s.cooldown_key())):
 			return "cooldown"
 		if s.en_cost > 0.0 and not combatant.resources.can_spend_en(s.en_cost):
 			return "energy"
@@ -145,7 +147,7 @@ func run(key: String, p_facing: int = 0) -> bool:
 		if s.en_cost > 0.0:
 			combatant.resources.spend_en(s.en_cost)
 		if s.cooldown_sec > 0.0:
-			combatant.cooldowns.trigger(StringName(key))
+			combatant.cooldowns.trigger(StringName(s.cooldown_key()))
 	_stop_current()
 	current = s
 	current_key = key
@@ -233,7 +235,7 @@ func next_normal_key() -> String:
 
 ## Đang trong cửa sổ nhận nút nối đòn của đòn thường hiện tại.
 func can_queue_chain() -> bool:
-	return current != null and current.key == "normal" and current.next_skill != "" \
+	return current != null and current.next_skill != "" and skills.has(current.next_skill) \
 			and elapsed_ms >= current.chain_from_ms()
 
 
@@ -266,7 +268,11 @@ func velocity_x() -> float:
 
 
 func suspends_gravity() -> bool:
-	return current != null and current.suspend_gravity
+	return current != null and current.gravity_off_at(elapsed_ms)
+
+
+func keeps_momentum() -> bool:
+	return current != null and current.keep_momentum
 
 
 func has_super_armor() -> bool:
@@ -279,4 +285,4 @@ func _spawn_detached(key: String, index: int) -> void:
 		return
 	DetachedHit.spawn(actor.get_parent(), s.hits[index], actor,
 			combatant.team if combatant else PhysicsLayers.Team.PLAYER, facing,
-			actor.global_position, _current_bonus, s.hit_kind, s.id)
+			actor.global_position, _current_bonus, s.hit_kind, s.id, s.extra_en_on_hit)

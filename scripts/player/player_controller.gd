@@ -32,6 +32,15 @@ var character: CharacterDef
 var pending_skill := ""
 ## Kỹ năng vừa bị từ chối; state Attack trả về ngay.
 var skill_failed := false
+## Đang nạp đòn giữ (đi chậm).
+var charging := false
+## Đang lao xuống (đáp đất): miễn đẩy lùi (M3-6).
+var plunging := false
+## State ghi đè vận tốc (lao xuống).
+var velocity_override_active := false
+var velocity_override := Vector2.ZERO
+## Số đòn trên không đã ra trong lần nhảy này (tối đa 2).
+var air_attacks_used := 0
 
 var _coyote_left := 0.0
 var _jumped_this_tick := false
@@ -49,7 +58,10 @@ func _ready() -> void:
 	_setup_sprite()
 	combatant.setup()
 	runner.setup(self, combatant, character.load_skills() if character else {}, hurtbox)
-	runner.skill_started.connect(func(_k: String, s: SkillDef) -> void: _play(StringName(s.animation)))
+	runner.skill_started.connect(_on_skill_started)
+	var hold: SkillDef = runner.skills.get("hold_1")
+	if hold and hold.charge_start_ms > 0.0:
+		intent.hold_threshold = hold.charge_start_ms / 1000.0
 	MovementStates.register(fsm, self)
 	CombatStates.register(fsm, self)
 	fsm.state_changed.connect(_on_state_changed)
@@ -84,7 +96,10 @@ func step(delta: float) -> void:
 	fsm.physics_update(delta)
 	runner.advance(delta)
 	_apply_horizontal(delta)
-	if runner.suspends_gravity():
+	if velocity_override_active:
+		velocity = velocity_override
+		move_and_slide()
+	elif runner.suspends_gravity():
 		velocity.y = 0.0
 		move_and_slide()
 	else:
@@ -101,6 +116,8 @@ func step(delta: float) -> void:
 		_coyote_left = 0.0
 	else:
 		_coyote_left = maxf(0.0, _coyote_left - delta)
+	if is_on_floor() and not runner.is_running():
+		air_attacks_used = 0
 
 	intent.tick(delta)
 	_update_facing()
@@ -128,11 +145,56 @@ func current_state() -> StringName:
 func combat_transition() -> StringName:
 	if intent.has(PlayerIntent.DODGE) and can_dodge():
 		return CombatStates.DODGE
-	if intent.has(PlayerIntent.ATTACK) and is_on_floor() and runner.has_skill(SkillRunner.NORMAL_FIRST):
-		intent.consume(PlayerIntent.ATTACK)
-		pending_skill = ""
-		return CombatStates.ATTACK
+	if is_on_floor():
+		if intent.is_holding_attack() and runner.has_skill("hold_1") and runner.check("hold_1") == "":
+			return CombatStates.CHARGE
+		if intent.has(PlayerIntent.ATTACK) and runner.has_skill(SkillRunner.NORMAL_FIRST):
+			intent.consume(PlayerIntent.ATTACK)
+			pending_skill = ""
+			return CombatStates.ATTACK
+	elif intent.has(PlayerIntent.ATTACK):
+		var k := air_action()
+		if k != "":
+			intent.consume(PlayerIntent.ATTACK)
+			if k == "landing":
+				return CombatStates.PLUNGE
+			pending_skill = k
+			return CombatStates.ATTACK
 	return &""
+
+
+## Bấm đánh khi đang ở trên không: đáp đất (đã có ≥ 1 đòn trên không, đang rơi, đủ cao),
+## không thì đòn trên không kế tiếp (tối đa 2 mỗi lần nhảy).
+func air_action() -> String:
+	var landing: SkillDef = runner.skills.get("landing")
+	if landing and air_attacks_used >= 1 and velocity.y > 0.0 \
+			and height_above_ground() >= landing.min_height_px and runner.check("landing") == "":
+		return "landing"
+	var next := "air_%d" % (air_attacks_used + 1)
+	if air_attacks_used < 2 and runner.has_skill(next) and runner.check(next) == "":
+		return next
+	return ""
+
+
+## Khoảng cách từ chân xuống mặt đất bên dưới (px); không có đất thì rất lớn.
+func height_above_ground() -> float:
+	var space := get_world_2d().direct_space_state
+	var q := PhysicsRayQueryParameters2D.create(global_position, global_position + Vector2(0, 4000),
+			PhysicsLayers.bit(PhysicsLayers.WORLD), [get_rid()])
+	var hit := space.intersect_ray(q)
+	return 100000.0 if hit.is_empty() else (hit["position"] as Vector2).y - global_position.y
+
+
+## Đòn giữ ứng với thời gian đã giữ (ms): cấp cao nhất đạt được; chưa đạt cấp nào = "" (đòn thường).
+func hold_skill_for(held_ms: float) -> String:
+	var best := ""
+	var best_level := -1.0
+	for k: String in runner.skills:
+		var s: SkillDef = runner.skills[k]
+		if s.key == "hold" and s.charge_level_ms <= held_ms and s.charge_level_ms > best_level:
+			best = k
+			best_level = s.charge_level_ms
+	return best
 
 
 func can_dodge() -> bool:
@@ -161,9 +223,13 @@ func idle_or_air_state() -> StringName:
 
 func _apply_horizontal(delta: float) -> void:
 	if runner.is_running():
-		velocity.x = runner.velocity_x()
+		if not runner.keeps_momentum():
+			velocity.x = runner.velocity_x()
 		return
 	var speed := config.run_speed * (1.0 - combatant.statuses.move_slow())
+	if charging:
+		var hold: SkillDef = runner.skills.get("hold_1")
+		speed *= 1.0 - (hold.charge_move_slow if hold else 0.0)
 	if combatant.statuses.blocks_movement():
 		speed = 0.0
 	var target := intent.move_x * speed
@@ -209,8 +275,18 @@ func _setup_sprite() -> void:
 	sprite.modulate = PLACEHOLDER_TINT.get(element, Color.WHITE) if all_placeholder else Color.WHITE
 
 
+func _on_skill_started(_key: String, s: SkillDef) -> void:
+	_play(StringName(s.animation))
+	if s.key == "air":
+		air_attacks_used += 1
+
+
 func _on_state_changed(from: StringName, to: StringName) -> void:
-	if to not in [CombatStates.ATTACK, CombatStates.DODGE]:
+	if to == CombatStates.CHARGE:
+		_play(&"hold_charge")
+	elif to == CombatStates.PLUNGE:
+		_play(&"landing_attack")
+	elif to not in [CombatStates.ATTACK, CombatStates.DODGE]:
 		_play(to)
 	if to == MovementStates.LAND:
 		landed.emit()

@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 120.0
+duration_ms = 100.0
+atk_ratio = 1.6
+sc_multiplier = 1.5
+shape = 0
+radius_px = 180.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_fire_01.hold_1"
+key = "hold"
+animation = "hold_release"
+hit_kind = 1
+startup_ms = 120.0
+active_ms = 100.0
+recovery_ms = 340.0
+charge_level_ms = 700.0
+cooldown_sec = 1.0
+cooldown_uses_cdr = false
+cooldown_group = "hold"
+extra_en_on_hit = 3.0
+charge_start_ms = 400.0
+charge_move_slow = 0.4
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 1 Liệt Hỏa Tích Lực Cấp 1: hất chém 180 px cung 120°, 160%, khựng, SC x1.5, 120/100/340"

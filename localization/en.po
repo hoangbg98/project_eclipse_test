@@ -43,7 +43,7 @@ msgstr "Test stage"
 
 # Stage
 msgid "STAGE_HINT"
-msgstr "A/D: run · Space: jump · J: attack · L/Shift: dodge · Esc: back to Hub · F3: hide"
+msgstr "A/D: run · Space: jump · J: attack (hold: charge; in air; falling high: plunge) · L/Shift: dodge · Esc: Hub · F3: hide"
 
 # Statuses (StatusDef)
 msgid "STATUS_BURN"
