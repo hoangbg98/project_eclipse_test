@@ -1,15 +1,20 @@
 ; Engine configuration file.
-; Khóa phiên bản Godot 4.6.3. Chỉnh sửa tay chỉ khi hiểu rõ; editor sẽ ghi đè định dạng.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
 
 [application]
 
 config/name="Project Eclipse"
-config/features=PackedStringArray("4.6", "GL Compatibility")
-run/main_scene="res://scenes/main/boot.tscn"
 config/version="0.1.0-m1"
+run/main_scene="res://scenes/main/boot.tscn"
 config/quit_on_go_back=false
+config/features=PackedStringArray("4.6", "GL Compatibility")
 
 [autoload]
 
@@ -26,12 +31,11 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/handheld/orientation=0
 
 [internationalization]
 
-locale/fallback="vi"
 locale/translations=PackedStringArray("res://localization/vi.po", "res://localization/en.po")
+locale/fallback="vi"
 
 [rendering]
 

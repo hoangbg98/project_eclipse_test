@@ -209,3 +209,17 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Có adb cũ 30.0.3 ở `C:\Windows\adb.exe`, có thể xung đột với adb của SDK.
 - **Chưa làm:** build `.exe`/`.apk` và thử trên điện thoại (cần các bước trên).
 - **Ghi chú:** số phiên bản SDK trong hướng dẫn (API 35, Build-Tools 35.0.1) theo tài liệu Godot 4.x, chưa đối chiếu được trên máy; nếu hộp thoại Export báo khác thì làm theo hộp thoại.
+
+## 2026-11-11 — M1-8 Build Windows debug (phần 2)
+
+- **Milestone / task:** 1 / M1-8
+- **Trạng thái:** Windows: TESTED. Android: vẫn BLOCKED (chờ JDK 17, Android SDK, điện thoại).
+- **Owner đã làm:** import project vào Project Manager, mở editor; cài export templates 4.6.3 bằng **Install from File** (tải `.tpz` thủ công vì Godot báo "Can't connect to the mirror", editor đang ở chế độ Offline).
+- **Editor tự sửa `project.godot`:** định dạng lại và bỏ `window/handheld/orientation=0` (0 = ngang là mặc định nên không đổi hành vi). Đã commit nguyên trạng.
+- **Đã chạy:**
+  - `Godot_v4.6.3 --headless --path . --export-debug "Windows Desktop" build/windows/ProjectEclipse.exe`
+  - `build/windows/ProjectEclipse.console.exe --headless --verbose --quit-after 2000`
+- **Kết quả thật:**
+  - Xuất thành công, mã thoát 0: `ProjectEclipse.exe` (~96 MB, PCK nhúng) và `ProjectEclipse.console.exe`. Cảnh báo duy nhất: "Unable to open Android 'build-tools' directory" (do chưa có SDK, không ảnh hưởng Windows).
+  - Chạy bản build: nạp `vi.po`, `en.po`, 4 autoload, Boot rồi Title; không có dòng lỗi/cảnh báo; mã thoát 0.
+- **Chưa kiểm chứng:** chạy có cửa sổ và thao tác bằng chuột/bàn phím trên bản `.exe` (owner mở `build/windows/ProjectEclipse.exe`).
