@@ -436,3 +436,20 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - **Hồi máu** (mục 0: "% ATK + % HP tối đa của mục tiêu") tăng theo cấp kỹ năng như sát thương, không chí mạng, không bị DEF.
   - Làm tròn `round()` (0.5 làm tròn ra xa 0); không có sát thương tối thiểu 1 (đòn 0 ATK gây 0).
   - Sức choáng (SC) chưa tính ở đây; làm cùng quái và thanh SC ở M3-6.
+
+## 2026-11-12 — M3-4 ResourceComponent + CooldownController
+
+- **Milestone / task:** 3 / M3-4
+- **Trạng thái:** TESTED
+- **File tạo:**
+  - `scripts/combat/resource_component.gd` (`ResourceComponent`, RefCounted + `tick`): HP (nhận sát thương trả lượng thực mất; mất HP cộng UG 0.3 mỗi 1% HP tối đa; gục một lần; không hồi khi đã gục), hồi máu trả phần thừa (cho khiên của Seraphine), EN (+2/s trên sân, +1/s dự bị, trần 100, tiêu EN từ chối an toàn khi thiếu), UG (trần 100, báo `ultimate_ready` một lần, `use_ultimate` về 0), `register_hit(kind)` cộng EN/UG theo loại đòn và trả lượng UG để chia 30% cho dự bị, 2 lượt né hồi 4 s/lượt có CDR (trần 40%), hoàn lượt khi né hoàn hảo.
+  - `scripts/combat/cooldown_controller.gd` (`CooldownController`, RefCounted + `tick`): đăng ký khóa (Kĩ năng thường, vũ khí, SI-CD…), CDR áp khi bắt đầu hồi với trần 40%, khóa có thể không chịu CDR, `reduce()` rút CD riêng không bị trần CDR nhưng có mức tối đa mỗi chu kỳ, `progress()` cho vòng hồi HUD, signal bắt đầu/sẵn sàng.
+  - `tests/unit/combat/test_resources_cooldowns.gd` (20 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 121/121 đạt (20 mới), 4 test khói đạt, mã thoát 0.
+- **Lỗi tìm thấy và sửa:** trừ 0.1 s tám mươi lần khỏi 8.0 s còn dư ~1e-15 s → hồi chiêu chậm "sẵn sàng" một khung hình. CooldownController coi phần dư < 1 µs là 0.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - "+3 EN / +2 UG mỗi đòn trúng" tính **một lần mỗi nhát (hit_id)**, không nhân theo số kẻ địch trúng, để đòn diện rộng không nạp quá nhanh.
+  - CDR "chốt" lúc bắt đầu hồi: đổi CDR giữa chừng không ảnh hưởng chu kỳ đang chạy.
+  - Hồi sinh tắt (Q6): đã gục thì không hồi máu, không hồi EN, không né.
+- **Hạn chế đã biết:** chưa nối với nhân vật/HUD (cần SkillRunner, M3-5); HP tối đa tạm truyền vào, sau lấy từ `CharacterDef`; chia UG 30% cho dự bị do PartyManager làm ở M4.
