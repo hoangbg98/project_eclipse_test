@@ -420,3 +420,19 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Bộ nhớ hit_id tính theo thời gian thật; khi có hit-stop/tạm dừng (M3-7) cần xem lại.
   - Hai Hitbox của cùng một đòn (hai vùng chạm) chưa dùng chung hit_id; làm khi kỹ năng cần.
   - Chưa tính sát thương (M3-3) và chưa có máu (M3-4).
+
+## 2026-11-12 — M3-3 DamageCalculator
+
+- **Milestone / task:** 3 / M3-3
+- **Trạng thái:** TESTED
+- **File tạo:**
+  - `scripts/core/random_source.gd` (`RandomSource`): RNG có seed, `chance()`, lưu/khôi phục trạng thái; lớp `Fixed` trả giá trị cố định để test ép chí mạng.
+  - `scripts/combat/damage_calculator.gd` (`DamageCalculator`): hàm thuần `compute()` theo ARCHITECTURE mục 5 (Q1 hệ số cấp + K = 500, Q2 chí mạng, Q3 giảm DEF khác tên cộng dồn, trần 40%, trần giảm sát thương nhận từ CombatRules); `heal()`; trả `Result` kèm từng hệ số (raw, bonus, dealt, mitigation, crit, taken).
+  - `tests/unit/combat/test_damage_calculator.gd` (19 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 101/101 đạt (19 mới), 4 test khói đạt, mã thoát 0. Ví dụ đã kiểm bằng số tính tay: ATK 1000, đòn 70%, DEF 500 → 350; cấp 10 → 539; chí mạng → 525; Nguyền 15% + 20% → 606; 45% → trần 40% → 625; Nguyền áp hai lần vẫn tính một lần → 541; Giáp Địa 35% + 40% → 125, thêm 15% → trần 80% → 100; Mù cát → 400; đủ mọi yếu tố → 446; hồi máu 1000×50% + 10000×3% = 800, cấp 3 → 896; 10 000 roll với seed: chí mạng trong 4–6 %.
+- **Diễn giải Claude thêm (owner xác nhận):**
+  - **Mù cát** (−20% sát thương kẻ địch gây ra) không có trong công thức ARCHITECTURE → thêm hệ số riêng `dealt = 1 − Σ%giảm sát thương gây ra` (chặn 0..1), không gộp vào `bonus`.
+  - **Hồi máu** (mục 0: "% ATK + % HP tối đa của mục tiêu") tăng theo cấp kỹ năng như sát thương, không chí mạng, không bị DEF.
+  - Làm tròn `round()` (0.5 làm tròn ra xa 0); không có sát thương tối thiểu 1 (đòn 0 ATK gây 0).
+  - Sức choáng (SC) chưa tính ở đây; làm cùng quái và thanh SC ở M3-6.
