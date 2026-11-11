@@ -502,3 +502,28 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Đang giữ nút mà đòn giữ còn hồi chiêu → không nạp; nhả ra không có đòn (chưa xử lý thành đòn thường).
   - Đáp đất: bấm đánh **khi đang rơi**, đã có ≥ 1 đòn trên không, cao ≥ 200 px. Đang bay lên → đòn trên không thứ 2.
   - Cấp 1 "khựng", đòn trên không 2 "đẩy xuống 30°", đáp đất "miễn đẩy lùi": cần phản ứng của quái → làm ở M3-6 (đã có cờ `plunging`, `super_armor`).
+
+## 2026-11-12 — M3-5 phần 3: kỹ năng, vũ khí, tuyệt kỹ, nội tại Aether — M3-5 xong
+
+- **Milestone / task:** 3 / M3-5 (phần 3/3)
+- **Trạng thái:** TESTED (headless). **Owner chơi thử được** đủ bộ Aether: U kỹ năng, I vũ khí, O tuyệt kỹ (cần UG đầy).
+- **File tạo/sửa:**
+  - `data/skills/char_fire_01/skill.tres` (Liệt Diễm Luân: 25 EN, CD 6 s, 4 nhịp 80/80/80/110% bán kính 200, Cháy 4 s, kháng khựng), `weapon.tres` (Thiên Hỏa Nhất Kích: 35 EN, CD 12 s, lướt 400 px 220% + Nung chảy −10% DEF 5 s, bất tử khi lướt, vết chém nổ chậm 1.0 s 130%), `ultimate.tres` (Viêm Hoàng Tuyệt Trảm: 100 UG, khóa 2 s **tính từ khi kết thúc**, mục tiêu gần nhất trong 500 px, 5 × 120% + nổ 500%, Cháy 6 s, bất tử).
+  - Trạng thái riêng Aether: `heat` (Nhiệt, 5 tầng, 6 s), `melt` (Nung chảy), `phoenix` (Hỏa Hoàng +20% sát thương 8 s), `hot_breath` (Hơi Nóng). Tổng 15 trạng thái.
+  - Kit nhân vật: `scripts/characters/kits/fire_kit.gd` + `fire_kit_config.gd` + `data/characters/char_fire_01_kit.tres`; `CharacterDef.kit_script/kit_config`. Kit làm: Nhiệt khi đòn trực tiếp trúng mục tiêu đang Cháy (ICD 0.3 s, +4% ATK/tầng), 5 tầng → Kĩ năng thường/vũ khí +25% và tiêu tầng, đạt 5 tầng −1.0 s CD kỹ năng (ICD 6 s), ≥ 3 tầng nạp UG ×1.2; đòn cơ bản trúng mục tiêu Cháy −0.2 s CD kỹ năng (tối đa 2.0 s/chu kỳ); hạ gục mục tiêu Cháy −2.0 s CD vũ khí (tối đa 4.0 s); Hơi Nóng; Hỏa Hoàng thêm sóng lửa cho đòn thường.
+  - Chung: `HitDef.delay_ms`, `at_target`; `SkillDef.ug_cost`, `target_range_px`, `cooldown_starts_on_end`; SkillRunner tìm kẻ địch gần nhất (nhóm `combatants`); `HitInfo` ghi trạng thái mục tiêu trước đòn và cờ hạ gục; buff `damage_dealt_up`; `ResourceComponent.ug_gain_multiplier`.
+  - Né hoàn hảo (chung mọi nhân vật) trong PlayerController: đòn tới trong 150 ms đầu khung bất tử → kẻ đánh chậm 30% 0.6 s, hoàn 1 lượt né, ICD 1.0 s, signal `perfect_dodged`.
+  - Nút U/I/O trong `combat_transition` (trên đất và trên không); HUD debug hiện trạng thái của Aether; gợi ý phím.
+  - `tests/unit/combat/test_aether_skills.gd` (15 test).
+- **Đã chạy:** `tools/run_tests.ps1`; export "Windows Desktop" và chạy bản build headless.
+- **Kết quả thật:** GdUnit4 169/169 đạt (15 mới), 4 test khói đạt, mã thoát 0. Bản build Windows xuất được (~97 MB), chạy không lỗi/cảnh báo.
+  Số đã kiểm: kỹ năng 400, 400, 416, 572 (Nhiệt cộng giữa chừng); thiếu EN bị từ chối; vũ khí lướt 400 px, 1100 rồi nổ 684 (đã −10% DEF); tuyệt kỹ 5 × 600 + 2500, cho Hỏa Hoàng, khóa 2 s sau khi kết thúc; không có mục tiêu thì đặt trước mặt; Nhiệt +4% ATK (1040); 5 Nhiệt → kỹ năng 500, 500, 520, 715 và tiêu tầng; ≥ 3 Nhiệt UG ×1.2; né hoàn hảo hoàn lượt, làm chậm kẻ đánh, không mất máu, đòn thường kế tiếp 455 và áp Cháy; Hỏa Hoàng: đòn 1 420 + sóng 240.
+- **Lỗi tìm thấy và sửa:** tuyệt kỹ bắt đầu khóa 2 s lúc tung chiêu, nhưng tuyệt kỹ dài 2.8 s nên khóa vô nghĩa → thêm `cooldown_starts_on_end`. Một số kỳ vọng ban đầu trong test sai vì chưa tính nội tại Nhiệt cộng giữa các nhịp — đã sửa theo đặc tả.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - Nhiệt chỉ tích từ **đòn đánh trực tiếp**, nhịp Cháy không tính (nếu không sẽ tự đầy).
+  - Né hoàn hảo = đòn tới trong 150 ms đầu khung bất tử (Aether: 40–190 ms của cú né).
+  - Sóng lửa của Hỏa Hoàng: tài liệu không ghi % → dùng sóng đòn 4 (40% ATK).
+  - Hỏa Hoàng áp khi tuyệt kỹ **kết thúc**, kể cả khi không trúng ai.
+  - Vết chém của vũ khí nổ dạng chữ nhật 400 × 280 dọc đường lướt (gần đúng "bán kính 140 dọc đường").
+  - Kỹ năng/vũ khí/tuyệt kỹ dùng được cả trên không; chỉ dùng được từ trạng thái tự do (không huỷ đòn thường).
+- **Chưa làm (để M3-6/M3-7/M4):** dừng thời gian 600 ms + ảnh cut-in của tuyệt kỹ; khựng/đẩy lùi/sức choáng lên quái; không cho đổi nhân vật khi đang tuyệt kỹ chuỗi đòn; hiệu ứng hình (hiện đang vẽ vùng gây đòn màu cam thay VFX).

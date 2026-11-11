@@ -1,0 +1,146 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 900.0
+duration_ms = 80.0
+atk_ratio = 1.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 350.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+at_target = true
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 1150.0
+duration_ms = 80.0
+atk_ratio = 1.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 350.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+at_target = true
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_2"]
+script = ExtResource("2")
+at_ms = 1400.0
+duration_ms = 80.0
+atk_ratio = 1.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 350.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+at_target = true
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_3"]
+script = ExtResource("2")
+at_ms = 1650.0
+duration_ms = 80.0
+atk_ratio = 1.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 350.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+at_target = true
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_4"]
+script = ExtResource("2")
+at_ms = 1900.0
+duration_ms = 80.0
+atk_ratio = 1.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 350.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+at_target = true
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="st_5_0"]
+script = ExtResource("3")
+status_id = "burn"
+duration = 6.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_5"]
+script = ExtResource("2")
+at_ms = 2200.0
+duration_ms = 100.0
+atk_ratio = 5.0
+sc_multiplier = 1.0
+shape = 1
+radius_px = 450.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+at_target = true
+statuses = Array[ExtResource("3")]([SubResource("st_5_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_fire_01.ultimate"
+key = "ultimate"
+animation = "ultimate"
+hit_kind = 6
+startup_ms = 900.0
+active_ms = 1400.0
+recovery_ms = 500.0
+ug_cost = 100.0
+cooldown_sec = 2.0
+cooldown_uses_cdr = false
+cooldown_starts_on_end = true
+target_range_px = 500.0
+suspend_gravity = true
+super_armor = true
+invuln_from_ms = 0.0
+invuln_to_ms = 2300.0
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3"), SubResource("hit_4"), SubResource("hit_5")])
+metadata/source = "Mục 1 Viêm Hoàng Tuyệt Trảm: 100 UG, khóa 2s, 5x120% + 500%, Cháy 6s, cut-in 600/300/1400/500"

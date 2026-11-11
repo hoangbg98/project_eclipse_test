@@ -43,7 +43,7 @@ msgstr "Test stage"
 
 # Stage
 msgid "STAGE_HINT"
-msgstr "A/D: run · Space: jump · J: attack (hold: charge; in air; falling high: plunge) · L/Shift: dodge · Esc: Hub · F3: hide"
+msgstr "A/D run · Space jump · J attack (hold: charge; air; falling high: plunge) · L/Shift dodge · U skill · I weapon · O ultimate · Esc Hub · F3 hide"
 
 # Statuses (StatusDef)
 msgid "STATUS_BURN"
@@ -88,3 +88,15 @@ msgstr "HP"
 
 msgid "DEBUG_COMBAT"
 msgstr "HP %d/%d  EN %d  UG %d  Dodge %d  Skill %s  Weapon %s"
+
+msgid "STATUS_HEAT"
+msgstr "Heat"
+
+msgid "STATUS_MELT"
+msgstr "Melt"
+
+msgid "STATUS_PHOENIX"
+msgstr "Phoenix"
+
+msgid "STATUS_HOT_BREATH"
+msgstr "Hot Breath"

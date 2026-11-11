@@ -36,6 +36,14 @@ func _process(_delta: float) -> void:
 			var r := c.resources
 			lines.append(tr("DEBUG_COMBAT") % [int(r.hp), int(r.max_hp), int(r.en), int(r.ug), r.dodge_charges,
 					_cd(c, &"skill"), _cd(c, &"weapon")])
+			var st := PackedStringArray()
+			for id in c.statuses.active_ids():
+				var n := tr("STATUS_" + id.to_upper())
+				if c.statuses.stacks(id) > 1:
+					n += " ×%d" % c.statuses.stacks(id)
+				st.append("%s %.1fs" % [n, c.statuses.remaining(id)])
+			if not st.is_empty():
+				lines.append(" · ".join(st))
 			if player.runner and player.runner.is_running():
 				lines.append("%s  %d ms" % [player.runner.current.id, int(player.runner.elapsed_ms)])
 	_label.text = "\n".join(lines)

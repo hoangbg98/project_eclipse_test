@@ -10,6 +10,10 @@ extends Resource
 @export var movement: MovementConfig
 ## Thư mục chứa SkillDef của nhân vật.
 @export_dir var skills_dir := ""
+## Logic riêng của nhân vật (nội tại, rút hồi chiêu riêng...): script Node có hàm attach(player, config).
+@export var kit_script: Script
+## Số liệu của kit (Resource riêng theo nhân vật).
+@export var kit_config: Resource
 
 
 ## Nạp mọi SkillDef trong skills_dir, khóa theo `key` của file (tên file không đuôi).

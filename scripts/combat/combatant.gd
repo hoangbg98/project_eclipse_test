@@ -40,7 +40,13 @@ static func of(node: Object) -> Combatant:
 	return null
 
 
+## Nhóm chứa node thực thể (cha của Combatant) để tìm mục tiêu.
+const GROUP := &"combatants"
+
+
 func _ready() -> void:
+	if get_parent():
+		get_parent().add_to_group(GROUP)
 	if auto_setup:
 		setup()
 
@@ -84,6 +90,7 @@ func attacker_snapshot(extra_bonus: Dictionary = {}) -> DamageCalculator.Attacke
 	a.crit_rate = stats.crit_rate
 	a.crit_damage = stats.crit_damage
 	a.damage_bonus = damage_bonus.duplicate()
+	a.damage_bonus.merge(statuses.modifiers(StatusDef.MAGNITUDE_DAMAGE_DEALT_UP), true)
 	a.damage_bonus.merge(extra_bonus, true)
 	a.damage_dealt_down = statuses.modifiers(StatusDef.MAGNITUDE_DAMAGE_DEALT_DOWN)
 	return a
@@ -107,8 +114,11 @@ func receive_hit(hit: HitInfo) -> DamageCalculator.Result:
 	else:
 		a = DamageCalculator.Attacker.from_rules(rules, 0.0)
 	var roll_rng := src.rng if src else rng
+	hit.target_statuses_before = statuses.active_ids()
 	var result := DamageCalculator.compute(rules, a, target_snapshot(), hit.atk_ratio, hit.skill_level, roll_rng)
+	var was_alive := not resources.is_dead()
 	resources.take_damage(result.amount)
+	hit.killed_target = was_alive and resources.is_dead()
 	for s in hit.statuses:
 		if s.on_self:
 			if src:

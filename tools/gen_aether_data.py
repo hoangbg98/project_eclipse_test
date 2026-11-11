@@ -125,12 +125,64 @@ write_skill("landing", base("landing", "landing", "landing_attack", LANDING, 0, 
             [hit(0, 120, 1.40, shape=CIRCLE, radius=180, offset=(0, -40), sc=1.5, statuses=[("burn", 2.0, -1.0)])],
             "Mục 1 Hỏa Trụy: 140%, nổ bán kính 180, Cháy 2s, SC x1.5; 60 ms treo trước khi lao, rồi 120/280 khi chạm đất")
 
+# --- Kĩ năng thường — Liệt Diễm Luân: 25 EN / 6 s; bán kính 200; 4 nhịp trong 600 ms: 80% x3 + 110%;
+#     Cháy 4s; nhịp cuối đẩy 120 px; kháng khựng; 5 Nhiệt +25% (kit) ---
+BURN4 = ("burn", 4.0, -1.0)
+write_skill("skill", base("skill", "skill", "skill_1", SKILL, 120, 600, 260, en_cost=25.0, cooldown_sec=6.0,
+            super_armor=True),
+            [hit(120 + i * 150, 60, 0.80 if i < 3 else 1.10, shape=CIRCLE, radius=200, statuses=[BURN4],
+                 knock=120 if i == 3 else 0) for i in range(4)],
+            "Mục 1 Liệt Diễm Luân: 25 EN, CD 6s, 4 nhịp 80/80/80/110 trong 600 ms, bán kính 200, Cháy 4s, 120/600/260")
+
+# --- Kĩ năng vũ khí — Thiên Hỏa Nhất Kích: 35 EN / 12 s; lướt xuyên 400 px rộng 100; 220% + Nung chảy -10% DEF 5s;
+#     vết chém nổ sau 1.0 s bán kính 140: 130%; bất tử khi lướt; 150/200/360 ---
+write_skill("weapon", base("weapon", "weapon", "skill_2", WEAPON, 150, 200, 360, en_cost=35.0, cooldown_sec=12.0,
+            move_px=400.0, move_from_ms=150.0, move_to_ms=350.0, suspend_gravity=True,
+            invuln_from_ms=150.0, invuln_to_ms=350.0),
+            [hit(150, 200, 2.20, shape=RECT, rect=(120, 100), offset=(0, -110), statuses=[("melt", -1.0, -1.0)]),
+             dict(hit(150, 120, 1.30, shape=RECT, rect=(400, 280), offset=(200, -120), detached=True), delay_ms=1200.0)],
+            "Mục 1 Thiên Hỏa Nhất Kích: 35 EN, CD 12s, lướt 400 px 220% + Nung chảy, vết chém nổ sau 1.0s 130%, 150/200/360")
+
+# --- Tuyệt kỹ — Viêm Hoàng Tuyệt Trảm: 100 UG, khóa 2.0 s; mục tiêu gần nhất trong 500 px;
+#     5 nhịp x 120% (bán kính 350) + nổ 500% (bán kính 450); Cháy 6s; Hỏa Hoàng 8s (kit);
+#     cut-in 600 (dừng thời gian: M3-7) / 300 / 1400 / 500; bất tử từ cut-in tới hết hiệu lực ---
+ULT_START = 900
+write_skill("ultimate", base("ultimate", "ultimate", "ultimate", ULTIMATE, ULT_START, 1400, 500, ug_cost=100.0,
+            cooldown_sec=2.0, cooldown_uses_cdr=False, cooldown_starts_on_end=True, target_range_px=500.0, suspend_gravity=True,
+            super_armor=True, invuln_from_ms=0.0, invuln_to_ms=float(ULT_START + 1400)),
+            [dict(hit(ULT_START + i * 250, 80, 1.20, shape=CIRCLE, radius=350, detached=True), at_target=True)
+             for i in range(5)] +
+            [dict(hit(ULT_START + 1300, 100, 5.00, shape=CIRCLE, radius=450, detached=True,
+                      statuses=[("burn", 6.0, -1.0)]), at_target=True)],
+            "Mục 1 Viêm Hoàng Tuyệt Trảm: 100 UG, khóa 2s, 5x120% + 500%, Cháy 6s, cut-in 600/300/1400/500")
+
+# --- Kit Aether (nội tại, rút CD, Hơi Nóng, Hỏa Hoàng) ---
+wave = hit(0, 300, 0.40, shape=RECT, rect=(220, 90), offset=(110, -45), detached=True, travel=220)
+wave.pop("statuses")
+kit = ['[gd_resource type="Resource" script_class="FireKitConfig" load_steps=3 format=3]', "",
+       '[ext_resource type="Script" path="res://scripts/characters/kits/fire_kit_config.gd" id="1"]',
+       '[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]', "",
+       '[sub_resource type="Resource" id="wave"]', 'script = ExtResource("2")']
+kit += ["%s = %s" % (k, fmt(v)) for k, v in wave.items()]
+kit += ["", "[resource]", 'script = ExtResource("1")',
+        "heat_icd_sec = 0.3", "heat_atk_per_stack = 0.04", "heat_full_bonus = 0.25",
+        "heat_full_skill_cd_reduce_sec = 1.0", "heat_full_skill_cd_icd_sec = 6.0",
+        "skill_cd_per_hit_sec = 0.2", "skill_cd_max_per_cycle_sec = 2.0",
+        "weapon_cd_per_kill_sec = 2.0", "weapon_cd_max_per_cycle_sec = 4.0",
+        "ug_bonus_heat_threshold = 3", "ug_bonus_multiplier = 1.2", "hot_breath_burn_sec = 3.0",
+        'phoenix_wave = SubResource("wave")',
+        'metadata/source = "Mục 1 Aether: nội tại Lửa Bùng Cháy, giảm hồi chiêu, Hơi Nóng, Hỏa Hoàng (sóng lửa = sóng đòn 4, 40%: Claude chọn)"']
+with open(os.path.join(ROOT, "data", "characters", "char_fire_01_kit.tres"), "w", encoding="utf-8", newline="\n") as f:
+    f.write("\n".join(kit) + "\n")
+
 # --- CharacterDef (chỉ số tạm do Claude đặt; owner chỉnh) ---
-char = """[gd_resource type="Resource" script_class="CharacterDef" load_steps=4 format=3]
+char = """[gd_resource type="Resource" script_class="CharacterDef" load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/character_def.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/characters/combat_stats.gd" id="2"]
 [ext_resource type="Resource" path="res://data/config/movement_default.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/characters/kits/fire_kit.gd" id="4"]
+[ext_resource type="Resource" path="res://data/characters/char_fire_01_kit.tres" id="5"]
 
 [sub_resource type="Resource" id="stats"]
 script = ExtResource("2")
@@ -150,6 +202,8 @@ element = "fire"
 stats = SubResource("stats")
 movement = ExtResource("3")
 skills_dir = "res://data/skills/char_fire_01"
+kit_script = ExtResource("4")
+kit_config = ExtResource("5")
 """
 os.makedirs(os.path.join(ROOT, "data", "characters"), exist_ok=True)
 with open(os.path.join(ROOT, "data", "characters", "char_fire_01.tres"), "w", encoding="utf-8", newline="\n") as f:

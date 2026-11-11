@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="FireKitConfig" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/kits/fire_kit_config.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+
+[sub_resource type="Resource" id="wave"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 300.0
+atk_ratio = 0.4
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(220.0, 90.0)
+offset = Vector2(110.0, -45.0)
+knockback_px = 0.0
+detached = true
+travel_px = 220.0
+tick_interval_ms = 0.0
+
+[resource]
+script = ExtResource("1")
+heat_icd_sec = 0.3
+heat_atk_per_stack = 0.04
+heat_full_bonus = 0.25
+heat_full_skill_cd_reduce_sec = 1.0
+heat_full_skill_cd_icd_sec = 6.0
+skill_cd_per_hit_sec = 0.2
+skill_cd_max_per_cycle_sec = 2.0
+weapon_cd_per_kill_sec = 2.0
+weapon_cd_max_per_cycle_sec = 4.0
+ug_bonus_heat_threshold = 3
+ug_bonus_multiplier = 1.2
+hot_breath_burn_sec = 3.0
+phoenix_wave = SubResource("wave")
+metadata/source = "Mục 1 Aether: nội tại Lửa Bùng Cháy, giảm hồi chiêu, Hơi Nóng, Hỏa Hoàng (sóng lửa = sóng đòn 4, 40%: Claude chọn)"

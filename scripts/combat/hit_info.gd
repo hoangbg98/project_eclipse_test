@@ -27,3 +27,7 @@ var statuses: Array[StatusApplication] = []
 var damage_bonus: Dictionary = {}
 ## EN cộng thêm cho người đánh (một lần mỗi hit_id).
 var extra_en := 0.0
+## Do mục tiêu điền khi nhận: trạng thái đang có TRƯỚC đòn này (vd "đang Cháy").
+var target_statuses_before := PackedStringArray()
+## Do mục tiêu điền: đòn này làm mục tiêu gục.
+var killed_target := false

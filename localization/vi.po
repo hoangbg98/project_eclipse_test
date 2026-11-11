@@ -43,7 +43,7 @@ msgstr "Màn thử nghiệm"
 
 # Stage
 msgid "STAGE_HINT"
-msgstr "A/D: chạy · Space: nhảy · J: đánh (giữ: nạp; trên không; đang rơi cao: lao xuống) · L/Shift: né · Esc: Hub · F3: ẩn"
+msgstr "A/D chạy · Space nhảy · J đánh (giữ: nạp; trên không; rơi cao: lao) · L/Shift né · U kỹ năng · I vũ khí · O tuyệt kỹ · Esc Hub · F3 ẩn"
 
 # Trạng thái (StatusDef)
 msgid "STATUS_BURN"
@@ -88,3 +88,15 @@ msgstr "Máu"
 
 msgid "DEBUG_COMBAT"
 msgstr "HP %d/%d  EN %d  UG %d  Né %d  Kỹ năng %s  Vũ khí %s"
+
+msgid "STATUS_HEAT"
+msgstr "Nhiệt"
+
+msgid "STATUS_MELT"
+msgstr "Nung chảy"
+
+msgid "STATUS_PHOENIX"
+msgstr "Hỏa Hoàng"
+
+msgid "STATUS_HOT_BREATH"
+msgstr "Hơi Nóng"

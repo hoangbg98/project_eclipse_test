@@ -133,7 +133,32 @@ func check(key: String) -> String:
 			return "cooldown"
 		if s.en_cost > 0.0 and not combatant.resources.can_spend_en(s.en_cost):
 			return "energy"
+		if s.ug_cost > 0.0 and not combatant.resources.is_ultimate_ready():
+			return "ultimate"
 	return ""
+
+
+## Vị trí chân của mục tiêu đã chọn khi bắt đầu kỹ năng hiện tại (nếu kỹ năng nhắm mục tiêu).
+var target_position := Vector2.ZERO
+var has_target := false
+
+
+## Kẻ địch còn sống gần nhất trong bán kính (đo từ chân), hoặc null.
+func find_nearest_enemy(radius: float) -> Node2D:
+	if actor == null or not actor.is_inside_tree():
+		return null
+	var own_team: int = combatant.team if combatant else PhysicsLayers.Team.PLAYER
+	var best: Node2D = null
+	var best_d := radius
+	for n in actor.get_tree().get_nodes_in_group(Combatant.GROUP):
+		var c := Combatant.of(n)
+		if c == null or c.team == own_team or c.resources == null or c.resources.is_dead():
+			continue
+		var d := (n as Node2D).global_position.distance_to(actor.global_position)
+		if d <= best_d:
+			best_d = d
+			best = n
+	return best
 
 
 ## Bắt đầu kỹ năng (ngắt kỹ năng đang chạy). Trả về false nếu bị từ chối.
@@ -146,9 +171,17 @@ func run(key: String, p_facing: int = 0) -> bool:
 	if combatant:
 		if s.en_cost > 0.0:
 			combatant.resources.spend_en(s.en_cost)
-		if s.cooldown_sec > 0.0:
+		if s.cooldown_sec > 0.0 and not s.cooldown_starts_on_end:
 			combatant.cooldowns.trigger(StringName(s.cooldown_key()))
+		if s.ug_cost > 0.0:
+			combatant.resources.use_ultimate()
 	_stop_current()
+	has_target = false
+	if s.target_range_px > 0.0:
+		var t := find_nearest_enemy(s.target_range_px)
+		if t:
+			has_target = true
+			target_position = t.global_position
 	current = s
 	current_key = key
 	elapsed_ms = 0.0
@@ -211,6 +244,8 @@ func cancel() -> void:
 func _stop_current() -> void:
 	if current == null:
 		return
+	if combatant and current.cooldown_sec > 0.0 and current.cooldown_starts_on_end:
+		combatant.cooldowns.trigger(StringName(current.cooldown_key()))
 	for hb: Hitbox in _hitboxes.get(current_key, []):
 		hb.deactivate()
 	_player.stop()
@@ -283,6 +318,11 @@ func _spawn_detached(key: String, index: int) -> void:
 	var s: SkillDef = skills.get(key)
 	if s == null or actor == null or actor.get_parent() == null:
 		return
-	DetachedHit.spawn(actor.get_parent(), s.hits[index], actor,
+	var h: HitDef = s.hits[index]
+	var origin := actor.global_position
+	if h.at_target:
+		# Không có mục tiêu: đặt trước mặt (200 px).
+		origin = target_position if has_target else actor.global_position + Vector2(200.0 * facing, 0.0)
+	DetachedHit.spawn(actor.get_parent(), h, actor,
 			combatant.team if combatant else PhysicsLayers.Team.PLAYER, facing,
-			actor.global_position, _current_bonus, s.hit_kind, s.id, s.extra_en_on_hit)
+			origin, _current_bonus, s.hit_kind, s.id, s.extra_en_on_hit)

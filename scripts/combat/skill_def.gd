@@ -18,8 +18,14 @@ extends Resource
 @export var cooldown_uses_cdr := true
 ## Khóa hồi chiêu dùng chung (vd hold_1 và hold_2 cùng "hold"); rỗng = theo khóa kỹ năng.
 @export var cooldown_group := ""
+## Hồi chiêu bắt đầu khi kỹ năng KẾT THÚC thay vì lúc dùng (tuyệt kỹ: "khóa 2.0 s sau khi dùng").
+@export var cooldown_starts_on_end := false
 ## EN cộng thêm khi trúng, ngoài mức theo loại đòn (Aether giữ TC: +6 = 3 + 3).
 @export var extra_en_on_hit := 0.0
+## Cần UG đầy để dùng (tuyệt kỹ); > 0 = tiêu toàn bộ UG.
+@export var ug_cost := 0.0
+## Tìm kẻ địch gần nhất trong bán kính này khi bắt đầu (px); 0 = không nhắm.
+@export var target_range_px := 0.0
 
 @export_group("Pha (ms)")
 @export var startup_ms := 100.0

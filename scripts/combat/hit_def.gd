@@ -35,6 +35,10 @@ enum Shape { ARC, CIRCLE, RECT }
 @export var travel_px := 0.0
 ## Vùng tách: gây lại sát thương mỗi khoảng này (ms); 0 = chỉ một lần.
 @export var tick_interval_ms := 0.0
+## Vùng tách: đặt xuống lúc at_ms nhưng chỉ bật sau bấy nhiêu ms (vết chém nổ chậm).
+@export var delay_ms := 0.0
+## Vùng tách: đặt tại mục tiêu kỹ năng đã chọn (tuyệt kỹ) thay vì tại người đánh.
+@export var at_target := false
 
 
 func end_ms() -> float:

@@ -55,8 +55,9 @@ const MAGNITUDE_DAMAGE_TAKEN_UP := "damage_taken_up"      ## nhận thêm % sát
 const MAGNITUDE_DAMAGE_TAKEN_DOWN := "damage_taken_down"  ## giảm % sát thương nhận
 const MAGNITUDE_DAMAGE_DEALT_DOWN := "damage_dealt_down"  ## giảm % sát thương gây ra
 const MAGNITUDE_SHIELD_MAX_HP := "shield_max_hp"  ## khiên hấp thụ = % HP tối đa
+const MAGNITUDE_DAMAGE_DEALT_UP := "damage_dealt_up"  ## tăng % sát thương gây ra (buff)
 const MAGNITUDES: Array[String] = ["", MAGNITUDE_MOVE_SLOW, MAGNITUDE_DEF_REDUCTION, MAGNITUDE_DAMAGE_TAKEN_UP,
-		MAGNITUDE_DAMAGE_TAKEN_DOWN, MAGNITUDE_DAMAGE_DEALT_DOWN, MAGNITUDE_SHIELD_MAX_HP]
+		MAGNITUDE_DAMAGE_TAKEN_DOWN, MAGNITUDE_DAMAGE_DEALT_DOWN, MAGNITUDE_SHIELD_MAX_HP, MAGNITUDE_DAMAGE_DEALT_UP]
 
 
 ## Số nhịp sát thương trong thời gian mặc định (Cháy: 4s / 0.5s = 8).

@@ -7,6 +7,8 @@ extends CharacterBody2D
 signal state_changed(from: StringName, to: StringName)
 signal jumped
 signal landed
+## Né hoàn hảo (mục 0): đòn tới trong cửa sổ đầu của khung bất tử khi né.
+signal perfect_dodged(hit: HitInfo)
 
 const DEFAULT_CONFIG := preload("res://data/config/movement_default.tres")
 const CHARACTER_DATA := "res://data/characters/%s.tres"
@@ -41,6 +43,10 @@ var velocity_override_active := false
 var velocity_override := Vector2.ZERO
 ## Số đòn trên không đã ra trong lần nhảy này (tối đa 2).
 var air_attacks_used := 0
+## Logic riêng của nhân vật (CharacterDef.kit_script), có thể null.
+var kit: Node
+
+var _perfect_dodge_icd := 0.0
 
 var _coyote_left := 0.0
 var _jumped_this_tick := false
@@ -62,6 +68,12 @@ func _ready() -> void:
 	var hold: SkillDef = runner.skills.get("hold_1")
 	if hold and hold.charge_start_ms > 0.0:
 		intent.hold_threshold = hold.charge_start_ms / 1000.0
+	hurtbox.hit_evaded.connect(_on_hit_evaded)
+	if character and character.kit_script:
+		kit = character.kit_script.new()
+		kit.name = "Kit"
+		add_child(kit)
+		kit.attach(self, character.kit_config)
 	MovementStates.register(fsm, self)
 	CombatStates.register(fsm, self)
 	fsm.state_changed.connect(_on_state_changed)
@@ -93,6 +105,9 @@ func step(delta: float) -> void:
 	var was_on_floor := is_on_floor()
 
 	combatant.tick(delta)
+	if kit:
+		kit.tick(delta)
+	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
 	fsm.physics_update(delta)
 	runner.advance(delta)
 	_apply_horizontal(delta)
@@ -142,9 +157,22 @@ func current_state() -> StringName:
 # ---------- Chiến đấu ----------
 
 ## State di chuyển gọi đầu tiên: có cần chuyển sang né / đánh không.
+## Nút kỹ năng → khóa kỹ năng (ưu tiên từ trên xuống).
+const SKILL_BUTTONS := [[PlayerIntent.ULTIMATE, "ultimate"], [PlayerIntent.WEAPON, "weapon"],
+		[PlayerIntent.SKILL, "skill"]]
+
+
 func combat_transition() -> StringName:
 	if intent.has(PlayerIntent.DODGE) and can_dodge():
 		return CombatStates.DODGE
+	for pair in SKILL_BUTTONS:
+		if intent.has(pair[0]) and runner.has_skill(pair[1]):
+			intent.consume(pair[0])
+			var reason := runner.check(pair[1])
+			if reason == "":
+				pending_skill = pair[1]
+				return CombatStates.ATTACK
+			runner.skill_rejected.emit(pair[1], reason)
 	if is_on_floor():
 		if intent.is_holding_attack() and runner.has_skill("hold_1") and runner.check("hold_1") == "":
 			return CombatStates.CHARGE
@@ -273,6 +301,22 @@ func _setup_sprite() -> void:
 	var element := str(result.manifest.get("element", ""))
 	var all_placeholder := result.placeholder_animations.size() == result.sprite_frames.get_animation_names().size()
 	sprite.modulate = PLACEHOLDER_TINT.get(element, Color.WHITE) if all_placeholder else Color.WHITE
+
+
+## Đòn bị né khi đang bất tử: nếu tới trong cửa sổ đầu của cú né → né hoàn hảo (mục 0):
+## kẻ đánh chậm 30% trong 0.6 s, hoàn 1 lượt né, ICD 1.0 s, kit nhận hiệu ứng riêng.
+func _on_hit_evaded(hit: HitInfo) -> void:
+	if runner.current_key != "dodge" or _perfect_dodge_icd > 0.0:
+		return
+	var rules := combatant.rules
+	if runner.elapsed_ms > runner.current.invuln_from_ms + rules.perfect_dodge_window_sec * 1000.0:
+		return
+	_perfect_dodge_icd = rules.perfect_dodge_icd_sec
+	combatant.resources.refund_dodge()
+	var src := Combatant.of(hit.attacker)
+	if src:
+		src.statuses.apply("slow", rules.perfect_dodge_slow_sec, rules.perfect_dodge_enemy_slow, combatant)
+	perfect_dodged.emit(hit)
 
 
 func _on_skill_started(_key: String, s: SkillDef) -> void:

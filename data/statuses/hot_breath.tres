@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="StatusDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/status_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "hot_breath"
+name_key = "STATUS_HOT_BREATH"
+kind = 1
+stacking = 0
+max_stacks = 1
+default_duration = 3.0
+boss_duration_multiplier = 1.0
+resist_after_sec = 0.0
+tick_interval_sec = 0.0
+tick_atk_ratio = 0.0
+default_magnitude = 0.3
+magnitude_meaning = ""
+blocks_movement = false
+blocks_actions = false
+stagger_immune = false
+counts_as_elemental = false
+on_max_stacks_event = ""
+metadata/source = "Mục 1 Aether né hoàn hảo — Hơi Nóng: đòn thường kế tiếp trong 3s +30% sát thương, áp Cháy 3s"

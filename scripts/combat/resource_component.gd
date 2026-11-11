@@ -103,10 +103,16 @@ func spend_en(cost: float) -> bool:
 
 # ---------- UG ----------
 
+## Hệ số nạp UG (nội tại, vd Aether ≥ 3 Nhiệt: 1.2). Chỉ áp cho lượng dương.
+var ug_gain_multiplier := 1.0
+
+
 ## Cộng UG. Phần chia cho dự bị (30%) do PartyManager gọi riêng với lượng đã nhân.
 func add_ug(amount: float) -> void:
 	var was_full := is_ultimate_ready()
 	var before := ug
+	if amount > 0.0:
+		amount *= ug_gain_multiplier
 	ug = clampf(ug + amount, 0.0, rules.ug_max)
 	if ug != before:
 		ug_changed.emit(ug)
