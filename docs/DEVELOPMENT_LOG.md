@@ -86,3 +86,32 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   Nội dung bị xóa trước; thư mục rỗng ban đầu bị tiến trình khác giữ nên owner xóa nốt thủ công.
 - **Kết quả thật:** đã kiểm tra, thư mục không còn trong `New folder (3)`. Bản duy nhất
   của dự án là `C:\Dev\PROJECT_ECLIPSE\`.
+
+## 2026-11-11 — M1-1..M1-3 Nền tảng project, autoload, luồng Boot → Title → Hub
+
+- **Milestone / task:** 1 / M1-1, M1-2, M1-3
+- **Trạng thái:** TESTED (chạy headless; chưa mở bằng editor/cửa sổ thật)
+- **File tạo:**
+  - `project.godot` (1920×1080, stretch `canvas_items`, aspect `expand`, renderer `gl_compatibility`, bật nén ETC2/ASTC, `quit_on_go_back=false`).
+  - Autoload: `scripts/core/game_config.gd`, `event_bus.gd`, `scene_router.gd`.
+  - Scene: `scenes/main/boot.tscn`, `title.tscn`, `hub.tscn`; script `scripts/ui/boot.gd`, `title.gd`, `hub.gd`.
+  - Test khói: `tests/smoke/m1_flow_check.gd`.
+- **Đã chạy:**
+  - `Godot_v4.6.3 --headless --path . --import`
+  - `Godot_v4.6.3 --headless --path . --script res://tests/smoke/m1_flow_check.gd`
+- **Kết quả thật:** 10/10 điều kiện đạt, mã thoát 0, không có lỗi script trong log. Luồng Boot → Title → Hub, Esc ở Hub quay về Title, Tiếp tục bị khóa vì chưa có save.
+- **Quyết định tạm (đổi được):**
+  - Renderer `gl_compatibility` cho cả Windows và Android (an toàn nhất cho 2D trên Android). Chốt lại khi đo máy thật ở M2-4.
+  - Aspect `expand`: màn dài hơn 16:9 mở rộng khung nhìn, không viền đen (theo UI_UX_SPEC). UI cần neo theo góc/safe area ở M7.
+- **Hạn chế đã biết:**
+  - Chữ đang viết thẳng trong scene (tiếng Việt/Anh trộn), chưa qua `tr()`; chuyển ở M1-5.
+  - Chưa quan sát bằng mắt: bố cục, kích thước nút, hiệu ứng mờ. Test chỉ kiểm tra logic luồng.
+  - Phím Back Android chưa thử trên máy thật (chỉ Esc được mô phỏng).
+  - Bấm nút khi đang chuyển cảnh (khoảng 0,2 s) bị bỏ qua, chưa xếp hàng.
+- **Chưa làm trong M1:** M1-4 (InputRouter), M1-5 (dịch), M1-6 (GdUnit4, chờ owner duyệt), M1-7 (export), M1-8 (APK, owner chạy máy thật).
+
+### Ba ưu tiên tiếp theo
+
+1. Owner mở project bằng Godot 4.6.3 để xem Boot/Title/Hub bằng mắt.
+2. M1-4: `InputRouter` và InputMap (bàn phím, tay cầm), khung điều khiển cảm ứng.
+3. M1-5: chuyển chữ sang `tr()` và file dịch nguồn.
