@@ -312,3 +312,22 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Bản **Windows Release** loại `placeholder_*`, nên nếu còn animation `frames: 0` thì animation đó rỗng (không hiện gì). Chỉ build Release khi đã đủ hình.
   - Chưa gom frame thành atlas, chưa chọn chế độ lọc/nén cho ảnh nhân vật; quyết khi có frame thật và đo bộ nhớ (M2-4).
   - `validate_frame_counts()` chỉ chạy được khi phát triển (bản export không còn PNG gốc).
+
+## 2026-11-11 — M2-2 State machine + controller di chuyển
+
+- **Milestone / task:** 2 / M2-2
+- **Trạng thái:** TESTED (headless, input giả; chưa điều khiển bằng tay)
+- **File tạo:**
+  - `scripts/player/movement_config.gd` (`MovementConfig`) + `data/config/movement_default.tres`: tốc độ chạy, gia tốc đất/không, độ cao nhảy + thời gian lên đỉnh (trọng lực và vận tốc nhảy **suy ra**), hệ số rơi, hệ số cắt nhảy, coyote 0.10 s, bộ đệm nhảy 0.12 s, thời gian Land.
+  - `scripts/player/player_intent.gd` (`PlayerIntent`): input của một tick (move_x, giữ nhảy, bộ đệm nhảy theo thời gian vật lý); đọc từ action của InputRouter.
+  - `scripts/player/state_machine.gd` (`StateMachine`), `states/player_state.gd`, `states/movement_states.gd`: `idle`, `run`, `jump_up`, `fall`, `land` (tên trùng animation).
+  - `scripts/player/player_controller.gd` (`PlayerController`, CharacterBody2D) + `scenes/player/player_character.tscn`: gốc node ở chân; capsule 80×240; dựng SpriteFrames bằng AnimationSetBuilder; lật hướng bằng `flip_h`; placeholder tô màu nguyên tố; signal `state_changed`, `jumped`, `landed`.
+  - `tests/unit/player/test_player_movement.gd` (12 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 38/38 đạt (12 mới), 3 test khói đạt, mã thoát 0. Test: rơi → đáp → đứng đúng mặt sàn (±2 px); chạy đạt đúng `run_speed`, analog 0.5 → nửa tốc độ, đổi hướng lật sprite, thả nút dừng và giữ hướng; nhảy giữ nút đạt `jump_height` ±4 %; nhả sau 3 tick cao < 50 %; không nhảy đôi trên không; coyote: nhảy được ở nửa cửa sổ, bị từ chối khi quá cửa sổ; bộ đệm: nhấn ~70 ms trước khi chạm đất thì nhảy ngay khi chạm, nhấn quá sớm thì bỏ.
+- **Lỗi tìm thấy và sửa:** lần chạy đầu đỉnh nhảy chỉ 306 px thay vì 320 (sai số tích phân, mất khoảng v·dt/2). Sửa controller: cộng trọng lực hai nửa quanh `move_and_slide` (tích phân điểm giữa); nay đúng độ cao cấu hình.
+- **Hạn chế đã biết:**
+  - Chưa có màn chơi nào đặt nhân vật; chưa thử cảm giác bằng tay (M2-3).
+  - Bộ đệm nhảy của controller tính theo thời gian vật lý (`PlayerIntent`), tách khỏi bộ đệm thời gian thật của `InputRouter`; đòn đánh/né sau này dùng cùng cách.
+  - Chưa có platform một chiều, platform di chuyển, dốc; làm cùng stage ở M2-3 nếu cần.
+  - Mọi nhân vật dùng chung `movement_default.tres`; cấu hình riêng từng nhân vật làm khi có `CharacterDef`.
