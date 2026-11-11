@@ -193,3 +193,19 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Chưa cài export templates 4.6.3 (thư mục `%APPDATA%\Godot\export_templates\4.6.3.stable` không có) nên chưa xuất được `.exe`/`.apk`; cài ở M1-8.
   - Cache UID trong gói (`.godot/uid_cache.bin`) vẫn ghi tên đường dẫn của `docs/`, `tests/` dưới dạng chuỗi, nhưng không có file nội dung. Chấp nhận được ở giai đoạn này.
   - Android Debug cần keystore debug và JDK/SDK (M1-8).
+
+## 2026-11-11 — M1-8 Hướng dẫn cài đặt xuất bản (phần 1)
+
+- **Milestone / task:** 1 / M1-8
+- **Trạng thái:** BLOCKED — chờ owner cài export templates, JDK 17, Android SDK và cắm điện thoại
+- **File tạo:**
+  - `docs/ANDROID_SETUP.md`: 6 bước (templates, JDK 17, Android SDK, điện thoại, build/cài, bảng thử 9 mục trên máy thật) và mẫu báo kết quả.
+  - `tools/check_build_env.ps1`: script chỉ đọc, báo `[OK]`/`[THIẾU]` cho Godot, templates, JDK, SDK, keystore, điện thoại. Lưu UTF-8 **có BOM** (PowerShell 5.1 cần BOM để đọc tiếng Việt; nếu editor nào lưu lại mất BOM thì chữ sẽ lỗi).
+- **Đã chạy:** `powershell -ExecutionPolicy Bypass -File tools\check_build_env.ps1`
+- **Kết quả thật (tình trạng máy):**
+  - OK: Godot 4.6.3, keystore debug (`%APPDATA%\Godot\keystores\debug.keystore`).
+  - THIẾU: export templates 4.6.3 (Windows và Android); Android SDK (Editor trỏ tới `%LOCALAPPDATA%\Android\Sdk` nhưng thư mục không tồn tại), không có platform-tools, build-tools, platforms.
+  - JDK: Editor đang trỏ JDK 25 (Liberica); tài liệu Godot khuyến nghị JDK 17, script đánh dấu THIẾU cho tới khi đổi.
+  - Có adb cũ 30.0.3 ở `C:\Windows\adb.exe`, có thể xung đột với adb của SDK.
+- **Chưa làm:** build `.exe`/`.apk` và thử trên điện thoại (cần các bước trên).
+- **Ghi chú:** số phiên bản SDK trong hướng dẫn (API 35, Build-Tools 35.0.1) theo tài liệu Godot 4.x, chưa đối chiếu được trên máy; nếu hộp thoại Export báo khác thì làm theo hộp thoại.
