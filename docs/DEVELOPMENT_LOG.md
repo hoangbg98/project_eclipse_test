@@ -168,3 +168,28 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Chưa có font bảo đảm hiển thị đủ dấu tiếng Việt trên mọi máy Android; dùng font mặc định của Godot, cần kiểm tra trên máy thật (M1-8).
   - Chưa có lựa chọn ngôn ngữ trong game (M7); hiện theo locale hệ thống.
   - Test chỉ quét `scenes/main`; khi thêm thư mục scene mới phải thêm vào `SCENE_DIRS` của test.
+
+## 2026-11-11 — M1-7 Bộ lọc export, preset Windows + Android debug
+
+- **Milestone / task:** 1 / M1-7
+- **Trạng thái:** TESTED (đóng gói PCK; chưa xuất được `.exe`/`.apk` vì máy chưa cài export templates)
+- **File tạo:** `export_presets.cfg` với 3 preset:
+
+| Preset | Đầu ra | Loại khỏi gói |
+|---|---|---|
+| Windows Desktop (dev) | `build/windows/ProjectEclipse.exe` | `docs/*`, `tests/*`, `addons/gdUnit4/*` |
+| Windows Release | `build/windows-release/ProjectEclipse.exe` | như trên + `*placeholder_*` |
+| Android Debug | `build/android/ProjectEclipse-debug.apk` | `docs/*`, `tests/*`, `addons/gdUnit4/*` |
+
+- **Đã chạy:**
+  - `Godot_v4.6.3 --headless --path . --export-pack "<preset>" <file>.pck` cho cả 3 preset (có tạm một file `assets/placeholders/placeholder_probe.png` để thử lọc, đã xóa sau đó).
+  - Nạp từng PCK vào một project trống bằng `ProjectSettings.load_resource_pack` rồi liệt kê file thật trong gói.
+- **Kết quả thật:** cả 3 lệnh mã thoát 0. Không gói nào chứa file trong `docs/` hay `tests/`. Hai preset debug có file placeholder thử; preset Release không có. Gói chứa scene, script đã biên dịch, `vi.po`/`en.po`, 6 `frames_manifest.json`.
+- **Quyết định tạm (đổi được):**
+  - Bản dev/debug **giữ** `placeholder_*` vì game cần chúng khi animation còn `frames: 0`; chỉ bản Release loại bỏ (theo FOLDER_STRUCTURE "Loại khỏi export").
+  - Android: chỉ `arm64-v8a`, không dùng Gradle build, chế độ toàn màn hình, tên gói tạm `com.projecteclipse.dev` (**owner chốt tên gói thật trước khi phát hành**; đổi sau khi đã cài lên máy sẽ thành app khác).
+  - Windows: `application/modify_resources=false` để không cần công cụ rcedit; icon `.exe` làm sau.
+- **Hạn chế đã biết:**
+  - Chưa cài export templates 4.6.3 (thư mục `%APPDATA%\Godot\export_templates\4.6.3.stable` không có) nên chưa xuất được `.exe`/`.apk`; cài ở M1-8.
+  - Cache UID trong gói (`.godot/uid_cache.bin`) vẫn ghi tên đường dẫn của `docs/`, `tests/` dưới dạng chuỗi, nhưng không có file nội dung. Chấp nhận được ở giai đoạn này.
+  - Android Debug cần keystore debug và JDK/SDK (M1-8).
