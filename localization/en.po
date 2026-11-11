@@ -100,3 +100,6 @@ msgstr "Phoenix"
 
 msgid "STATUS_HOT_BREATH"
 msgstr "Hot Breath"
+
+msgid "ENEMY_SLIME_01"
+msgstr "Slime"

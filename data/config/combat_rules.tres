@@ -28,4 +28,7 @@ perfect_dodge_slow_sec = 0.6
 perfect_dodge_refund_charges = 1
 perfect_dodge_icd_sec = 1.0
 cdr_cap = 0.4
+player_stagger_sec = 0.3
+knockback_time_sec = 0.15
+sc_points_per_ratio = 100.0
 revive_enabled = false

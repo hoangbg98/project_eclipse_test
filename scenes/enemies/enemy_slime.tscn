@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy_controller.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/combatant.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/combat/skill_runner.gd" id="4"]
+
+[sub_resource type="RectangleShape2D" id="body"]
+size = Vector2(110, 90)
+
+[node name="EnemySlime" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+floor_snap_length = 8.0
+script = ExtResource("1")
+enemy_id = "enemy_slime_01"
+
+[node name="Body" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-60, 0, 60, 0, 58, -30, 45, -62, 15, -86, -20, -86, -48, -66, -60, -34)
+
+[node name="Eye" type="Polygon2D" parent="Body"]
+color = Color(0.1, 0.1, 0.1, 1)
+polygon = PackedVector2Array(20, -60, 32, -60, 32, -46, 20, -46)
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -45)
+shape = SubResource("body")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("2")
+team = 1
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -45)
+shape = SubResource("body")
+
+[node name="Combatant" type="Node" parent="."]
+script = ExtResource("3")
+team = 1
+auto_setup = false
+
+[node name="Skills" type="Node2D" parent="."]
+script = ExtResource("4")

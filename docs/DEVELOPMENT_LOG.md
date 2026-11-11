@@ -527,3 +527,26 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Vết chém của vũ khí nổ dạng chữ nhật 400 × 280 dọc đường lướt (gần đúng "bán kính 140 dọc đường").
   - Kỹ năng/vũ khí/tuyệt kỹ dùng được cả trên không; chỉ dùng được từ trạng thái tự do (không huỷ đòn thường).
 - **Chưa làm (để M3-6/M3-7/M4):** dừng thời gian 600 ms + ảnh cut-in của tuyệt kỹ; khựng/đẩy lùi/sức choáng lên quái; không cho đổi nhân vật khi đang tuyệt kỹ chuỗi đòn; hiệu ứng hình (hiện đang vẽ vùng gây đòn màu cam thay VFX).
+
+## 2026-11-12 — M3-6 Quái thường (slime)
+
+- **Milestone / task:** 3 / M3-6
+- **Trạng thái:** TESTED (headless). Owner chơi thử được: 3 slime trong màn thử nghiệm (sau dãy cột và sau dãy hố).
+- **File tạo/sửa:**
+  - `scripts/enemies/enemy_def.gd` (`EnemyDef`) + `data/enemies/enemy_slime_01.tres` (**placeholder do Claude đặt**: HP 6000, ATK 400, DEF 300, SC 300, tốc độ 160, phát hiện 700 px, tầm đánh 170 px, nghỉ 1.5 s; đòn cắn báo hiệu 500 ms, lao 60 px, 100% ATK, đẩy 120 px).
+  - `scripts/enemies/enemy_controller.gd` (`EnemyController`) + `scenes/enemies/enemy_slime.tscn`: tuần tra ± 200 px có nghỉ → đuổi khi thấy → đánh (thân chuyển cam khi báo hiệu) → hồi → đuổi; trúng đòn: khựng 0.25 s (ngắt được trong pha khởi động, không ngắt khi đòn đã có hiệu lực), đẩy lùi; SC đầy → Choáng (thân xanh, chữ "Choáng"), kháng 8 s; SC tự giảm sau 2 s không bị đánh; chết → mờ 0.6 s rồi xoá; thanh HP nhỏ hiện khi bị đánh + thanh SC.
+  - `CombatRules`: `player_stagger_sec` 0.3, `knockback_time_sec` 0.15, `sc_points_per_ratio` 100 (SC = % ATK của đòn).
+  - `EventBus`: `enemy_stunned`, `enemy_defeated` (cho Liên kết ở M4-3).
+  - Người chơi: state `hurt` (khựng + đẩy lùi), `down` (gục); không khựng khi kỹ năng có kháng khựng hoặc đang lao xuống; `restore_full()`.
+  - Màn thử nghiệm: ký tự `E` trong bản đồ; quái hồi sau 5 s; người chơi gục đứng dậy đầy máu sau 1.5 s (chỉ ở màn thử nghiệm).
+  - `AGENTS.md`: quy ước không gọi thẳng tên autoload trong script gameplay.
+  - `tests/unit/enemies/test_enemy_slime.gd` (14 test).
+- **Đã chạy:** `tools/run_tests.ps1`; export Windows + chạy bản build.
+- **Kết quả thật:** GdUnit4 183/183 đạt (14 mới), 4 test khói đạt, mã thoát 0; bản build chạy không lỗi. Kiểm: tuần tra trong ± 200 px; thấy người chơi thì đuổi và quay mặt; báo hiệu ≥ 24 khung (0.4 s) rồi trúng người chơi 200, người chơi khựng và bị đẩy lùi, hết khựng sau 0.3 s; kỹ năng kháng khựng vẫn mất máu nhưng không bị ngắt; né tránh được đòn; **né hoàn hảo trước đòn thật**: slime bị chậm, Aether có Hơi Nóng, không mất máu; đánh trúng khi slime đang báo hiệu → khựng, đòn bị huỷ; SC đầy → Choáng, phát `enemy_stunned`, kháng 8 s sau đó; đòn 70% → 70 SC; SC giảm sau 2 s; chết phát `enemy_defeated` rồi biến mất; hạ slime đang Cháy rút 2 s CD vũ khí Aether; người chơi gục không điều khiển được, đứng dậy đầy máu.
+- **Lỗi tìm thấy và sửa:** gọi `EventBus.x` trực tiếp làm test khói (`--script`) không biên dịch được → lấy autoload qua đường dẫn.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - "SC bằng % ATK của đòn" → đòn 70% ATK gây 70 điểm SC; thanh slime 300.
+  - Khựng chỉ ngắt được pha khởi động (báo hiệu); khi đòn đã có hiệu lực thì không ngắt.
+  - Quái không chặn đường người chơi (đi xuyên nhau); chỉ va chạm với địa hình.
+  - SC không tích khi đang Choáng và trong 8 s kháng.
+- **Hạn chế đã biết:** quái chưa nhảy/đi vòng qua bậc (đứng dưới chân cột); chưa có thưởng khi hạ (M5/M6); hướng đẩy xuống 30° của đòn trên không 2 chưa làm (đẩy ngang); hiệu ứng hình tạm (đa giác màu).

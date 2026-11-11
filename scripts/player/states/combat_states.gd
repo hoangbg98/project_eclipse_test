@@ -6,6 +6,8 @@ const ATTACK := &"attack"
 const DODGE := &"dodge"
 const CHARGE := &"charge"
 const PLUNGE := &"plunge"
+const HURT := &"hurt"
+const DOWN := &"down"
 
 
 static func register(fsm: StateMachine, player: PlayerController) -> void:
@@ -13,6 +15,38 @@ static func register(fsm: StateMachine, player: PlayerController) -> void:
 	fsm.add(DODGE, Dodge.new(player))
 	fsm.add(CHARGE, Charge.new(player))
 	fsm.add(PLUNGE, Plunge.new(player))
+	fsm.add(HURT, Hurt.new(player))
+	fsm.add(DOWN, Down.new(player))
+
+
+## Bị khựng sau khi trúng đòn: không điều khiển được trong player_stagger_sec.
+class Hurt:
+	extends PlayerState
+	var _t := 0.0
+
+	func enter(_from: StringName) -> void:
+		_t = player.combatant.rules.player_stagger_sec
+		player.intent.clear()
+
+	func physics_update(delta: float) -> StringName:
+		_t -= delta
+		if _t <= 0.0:
+			return player.idle_or_air_state()
+		return &""
+
+
+## Gục (HP 0). Không điều khiển; hồi sinh tắt (Q6) — màn thử nghiệm tự hồi sinh.
+class Down:
+	extends PlayerState
+
+	func enter(_from: StringName) -> void:
+		player.runner.cancel()
+		player.intent.clear()
+
+	func check_transitions() -> StringName:
+		if not player.combatant.resources.is_dead():
+			return player.idle_or_air_state()
+		return &""
 
 
 ## Đang giữ nút đánh để nạp (chỉ trên mặt đất). Nhả: chọn cấp theo thời gian đã giữ.

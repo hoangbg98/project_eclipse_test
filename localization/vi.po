@@ -100,3 +100,6 @@ msgstr "Hỏa Hoàng"
 
 msgid "STATUS_HOT_BREATH"
 msgstr "Hơi Nóng"
+
+msgid "ENEMY_SLIME_01"
+msgstr "Slime"

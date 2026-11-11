@@ -49,6 +49,14 @@ extends Resource
 ## Trần CDR; áp cho Kĩ năng thường, Kĩ năng vũ khí, hồi lượt né, SI-CD. Không áp cho Tuyệt kỹ.
 @export_range(0.0, 1.0) var cdr_cap := 0.40
 
+@export_group("Phản ứng khi trúng đòn (người chơi)")
+## Người chơi bị khựng bao lâu khi trúng đòn (kỹ năng có kháng khựng thì không).
+@export var player_stagger_sec := 0.3
+## Thời gian đẩy lùi diễn ra (s): quãng đẩy chia đều trong khoảng này.
+@export var knockback_time_sec := 0.15
+## Sức choáng = tỉ lệ SC của đòn × hệ số này (mục 0: "SC bằng % ATK của đòn" → 0.7 → 70).
+@export var sc_points_per_ratio := 100.0
+
 @export_group("Cờ chế độ")
 ## Q6: hồi sinh mặc định tắt.
 @export var revive_enabled := false

@@ -47,6 +47,7 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
 - Test mới viết bằng **GdUnit4** trong `tests/unit/<khu vực>/test_*.gd`.
 - Ngẫu nhiên đi qua nguồn có seed để test tái lập được.
 - Lớp va chạm 2D: dùng hằng số trong `scripts/combat/physics_layers.gd` (`PhysicsLayers`), không gõ số lớp tay.
+- Script gameplay (combat, enemies, player, characters) **không gọi thẳng tên autoload** (`EventBus.x`, `GameConfig.x`): lấy qua `get_tree().root.get_node_or_null("EventBus")`. Lý do: test khói chạy bằng `--script` không có tên autoload lúc biên dịch. Script UI/màn hình (scenes/main) được dùng thẳng.
 - Đòn đánh: `Hitbox` (bật theo track AnimationPlayer dựng bằng `HitboxTrack` từ frame + fps) → `Hurtbox` (mỗi `hit_id` trúng một lần). Không tự viết kiểm tra va chạm riêng.
 
 ## 4. Asset và giấy phép

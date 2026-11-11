@@ -1,7 +1,7 @@
 class_name StageMap
 extends RefCounted
 ## Đọc bản đồ ký tự (data/stages/*.json) và dựng TileMapLayer.
-## Ký hiệu: `#` khối đặc, `=` platform một chiều, `P` điểm xuất phát, `D` hình nộm tập, `.` trống.
+## Ký hiệu: `#` khối đặc, `=` platform một chiều, `P` điểm xuất phát, `D` hình nộm tập, `E` quái, `.` trống.
 ## Đổi layout: sửa file JSON, không sửa code.
 
 const TILES_TEXTURE := "res://assets/placeholders/placeholder_tiles_64.png"
@@ -17,6 +17,7 @@ var tile_size := 64
 var rows: PackedStringArray = []
 var spawn_cell := Vector2i(-1, -1)
 var dummy_cells: Array[Vector2i] = []
+var enemy_cells: Array[Vector2i] = []
 var errors := PackedStringArray()
 
 
@@ -48,13 +49,15 @@ func _validate() -> void:
 			errors.append("hàng %d dài %d, cần %d" % [y, rows[y].length(), w])
 		for x in rows[y].length():
 			var ch := rows[y][x]
-			if ch not in ["#", "=", "P", "D", "."]:
+			if ch not in ["#", "=", "P", "D", "E", "."]:
 				errors.append("ký tự lạ '%s' ở (%d, %d)" % [ch, x, y])
 			elif ch == "P":
 				spawn_cell = Vector2i(x, y)
 				spawns += 1
 			elif ch == "D":
 				dummy_cells.append(Vector2i(x, y))
+			elif ch == "E":
+				enemy_cells.append(Vector2i(x, y))
 	if spawns != 1:
 		errors.append("cần đúng 1 điểm 'P', có %d" % spawns)
 

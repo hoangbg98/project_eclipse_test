@@ -9,6 +9,8 @@ signal jumped
 signal landed
 ## Né hoàn hảo (mục 0): đòn tới trong cửa sổ đầu của khung bất tử khi né.
 signal perfect_dodged(hit: HitInfo)
+## HP về 0.
+signal player_died
 
 const DEFAULT_CONFIG := preload("res://data/config/movement_default.tres")
 const CHARACTER_DATA := "res://data/characters/%s.tres"
@@ -47,6 +49,8 @@ var air_attacks_used := 0
 var kit: Node
 
 var _perfect_dodge_icd := 0.0
+var _knock_v := 0.0
+var _knock_t := 0.0
 
 var _coyote_left := 0.0
 var _jumped_this_tick := false
@@ -69,6 +73,9 @@ func _ready() -> void:
 	if hold and hold.charge_start_ms > 0.0:
 		intent.hold_threshold = hold.charge_start_ms / 1000.0
 	hurtbox.hit_evaded.connect(_on_hit_evaded)
+	combatant.damaged.connect(_on_damaged)
+	combatant.resources.died.connect(_on_died)
+	add_to_group(EnemyController.PLAYER_GROUP)
 	if character and character.kit_script:
 		kit = character.kit_script.new()
 		kit.name = "Kit"
@@ -250,6 +257,13 @@ func idle_or_air_state() -> StringName:
 # ---------- Vật lý ----------
 
 func _apply_horizontal(delta: float) -> void:
+	if _knock_t > 0.0:
+		_knock_t -= delta
+		velocity.x = _knock_v
+		return
+	if fsm.current_name in [CombatStates.HURT, CombatStates.DOWN]:
+		velocity.x = move_toward(velocity.x, 0.0, config.ground_decel * delta)
+		return
 	if runner.is_running():
 		if not runner.keeps_momentum():
 			velocity.x = runner.velocity_x()
@@ -301,6 +315,39 @@ func _setup_sprite() -> void:
 	var element := str(result.manifest.get("element", ""))
 	var all_placeholder := result.placeholder_animations.size() == result.sprite_frames.get_animation_names().size()
 	sprite.modulate = PLACEHOLDER_TINT.get(element, Color.WHITE) if all_placeholder else Color.WHITE
+
+
+## Trúng đòn: khựng + đẩy lùi, trừ khi kỹ năng đang chạy có kháng khựng hoặc đang lao xuống (miễn đẩy lùi).
+func _on_damaged(_result: DamageCalculator.Result, hit: HitInfo) -> void:
+	if combatant.resources.is_dead():
+		return
+	if plunging or runner.has_super_armor() or combatant.statuses.stagger_immune():
+		return
+	runner.cancel()
+	var t := combatant.rules.knockback_time_sec
+	if hit.knockback_px > 0.0:
+		_knock_v = signf(hit.knockback_dir.x) * hit.knockback_px / t
+		_knock_t = t
+	fsm.transition(CombatStates.HURT)
+	_play(&"hurt")
+
+
+func _on_died() -> void:
+	_knock_t = 0.0
+	fsm.transition(CombatStates.DOWN)
+	_play(&"down")
+	player_died.emit()
+
+
+## Hồi đầy máu và đứng dậy (màn thử nghiệm; hồi sinh trong game thật tắt theo Q6).
+func restore_full() -> void:
+	var r := combatant.resources
+	r.hp = r.max_hp
+	r.hp_changed.emit(r.hp, r.max_hp)
+	for id in combatant.statuses.active_ids():
+		combatant.statuses.remove(id)
+	_knock_t = 0.0
+	velocity = Vector2.ZERO
 
 
 ## Đòn bị né khi đang bất tử: nếu tới trong cửa sổ đầu của cú né → né hoàn hảo (mục 0):
