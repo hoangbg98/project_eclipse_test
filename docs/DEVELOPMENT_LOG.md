@@ -64,3 +64,17 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 1. Owner xem tài liệu M0 và duyệt kiến trúc (điều kiện xong Milestone 0).
 2. (Khuyến nghị) chuyển thư mục dự án sang `C:\Dev\PROJECT_ECLIPSE\`.
 3. Bắt đầu M1: `project.godot`, autoload, luồng Boot → Title → Hub.
+
+## 2026-11-11 — M1-0 Chuyển thư mục dự án (W3)
+
+- **Milestone / task:** 1 / M1-0
+- **Trạng thái:** VERIFIED
+- **Thay đổi:** sao chép toàn bộ dự án (kể cả `.git/`) từ
+  `C:\Users\default.LAPTOP-6QHN1193\Desktop\New folder (3)\PROJECT_ECLIPSE_kickoff\`
+  sang `C:\Dev\PROJECT_ECLIPSE\`.
+- **Đã chạy:** `cp -a`, `diff -r` giữa hai thư mục, đếm mục bằng `find`, `git status`, `git log`, `git fsck`.
+- **Kết quả thật:** 451 mục ở cả hai nơi; `diff -r` chỉ báo khác `.git/index`
+  (Git làm mới thông tin thời gian của file, bình thường); cây làm việc sạch;
+  commit `84c6335` còn nguyên; `git fsck` không báo lỗi.
+- **Còn lại:** thư mục cũ vẫn còn, giữ làm bản dự phòng cho tới khi owner mở
+  phiên làm việc mới ở `C:\Dev\PROJECT_ECLIPSE\` và đồng ý xóa.
