@@ -275,3 +275,22 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 | M1-8 Windows build | TESTED; **Android hoãn** theo quyết định owner |
 
 Điều kiện xong M1 (bản đã sửa): project mở không lỗi, luồng scene và input chạy, bản Windows build và chạy được — **đạt**, chờ owner xác nhận bằng mắt.
+
+## 2026-11-11 — Thêm pixelfx (tư liệu VFX) và thiết lập Codex
+
+- **Trạng thái:** IMPLEMENTED (render thử được; chưa có sprite sheet nào trong game)
+- **Owner yêu cầu:** đưa kho https://github.com/patch-gg/pixelfx vào dự án làm tư liệu VFX; cho Codex (đã cài trên máy) làm việc trong dự án.
+- **pixelfx:**
+  - MIT. Thư viện JavaScript (244 hiệu ứng là code), xuất sprite sheet PNG + JSON kiểu Aseprite cho Godot bằng Node (`v26.13.0` có sẵn trên máy).
+  - Chép vào `tools/pixelfx/` + `.gdignore`; nguồn, SHA-256 và phạm vi chép ở `tools/pixelfx/UPSTREAM.md`. Không chép `gallery/` (font không thuộc MIT), GIF minh họa, `.github/`, `.claude-plugin/`.
+  - Đã đọc trước khi chạy: `tools/lib/fxlib.mjs` chỉ gọi `ffmpeg` (tùy chọn, cho GIF/MP4); `tools/serve.mjs` chỉ mở gallery ở localhost. Không gọi mạng khi render.
+  - Skill pixelfx cài ở `.claude/skills/pixelfx/` (Claude) và `.agents/skills/pixelfx/` (Codex), nguyên văn upstream.
+  - `docs/ASSET_LICENSES.md`: thêm dòng pixelfx và bảng 1.1 cho từng sprite sheet sẽ dùng.
+- **Codex:** owner chọn "Codex làm việc trong dự án". Tạo `AGENTS.md` (quy tắc, lệnh test/build, quy ước, asset, quyết định đang hiệu lực, cách làm chung nhiều agent); `CLAUDE.md` chỉ gồm `@AGENTS.md` để hai agent dùng chung một bộ quy tắc.
+- **Đã chạy:**
+  - `node tools/render.mjs fire/fire-ring --sheet` (trong `tools/pixelfx/`): 118 frame, 224×128, 30 fps, pivot (112, 92); đã xem `contact.png`, hiệu ứng hiển thị đúng.
+  - `tools/run_tests.ps1`: GdUnit4 + 3 test khói đều ĐẠT, mã thoát 0 (thư mục mới không ảnh hưởng project).
+- **Hạn chế đã biết:**
+  - Hiệu ứng pixelfx là pixel art độ phân giải thấp; nhân vật cao ~256 px trên canvas 384. Cần phóng to (nearest) và owner xem phong cách có hợp nét vẽ nhân vật không (OD-2).
+  - Chưa kiểm tra Codex có nhận skill trong `.agents/skills/` hay không (owner mở dự án trong Codex để xem).
+  - Chưa có importer Godot cho JSON của pixelfx; làm khi cần VFX (M3-7).

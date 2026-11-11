@@ -10,6 +10,15 @@
 |---|---|---|---|---|---|---|
 | Godot Engine | 4.6.3-stable (`7d41c59c4`) | MIT | https://godotengine.org/license | Engine của dự án | Có (thông báo MIT của Godot + bên thứ ba đi kèm engine) | Đã cài trên máy owner |
 | GdUnit4 | 6.2.3 (tag `v6.2.3`, 2026-11-01; README ghi tương thích Godot 4.6.3) | MIT (file `addons/gdUnit4/LICENSE`, © Mike Schulze) | https://github.com/godot-gdunit-labs/gdUnit4 (trước là `MikeSchulze/gdUnit4`); zip mã nguồn của tag, SHA-256 `8fb1a298af110be6d73067af66132bf036049deb6d5929d4a16756e18d2228bb` | Framework test do README chọn | Không ship (`addons/gdUnit4/*` bị loại khỏi mọi preset export, đã kiểm tra), vẫn ghi nhận | Owner duyệt 2026-11-11 (M1-6); đã cài vào `addons/gdUnit4/` |
+| pixelfx (thư viện VFX pixel art, JS) | `main` ngày 2026-11-11, package 0.3.1; zip SHA-256 `31538a63057adc202964490f24df84491281c86662d80b6aafeb9706903b508c` | MIT (© 2026 Patch, © 2026 Hugo Duprez); phần chuyển thể ghi trong `tools/pixelfx/NOTICE.md` (Sprite Fusion, Hollow Crown, đều MIT) | https://github.com/patch-gg/pixelfx | Owner yêu cầu làm tư liệu VFX; xuất sprite sheet cho Godot | **Có** cho mọi sprite sheet ship trong game (giữ thông báo MIT của pixelfx trong màn Credits) | Đã chép vào `tools/pixelfx/` (công cụ, `.gdignore`, không ship). **Không** chép `gallery/` vì font Patch Pixel không thuộc MIT. Chưa có sprite sheet nào trong game. |
+
+### 1.1 Sprite sheet VFX sinh từ pixelfx
+
+Mỗi file chép vào `assets/vfx/pixelfx/` ghi một dòng. Không ship hiệu ứng có vẽ hình nộm (dummy) của pixelfx.
+
+| File | Hiệu ứng (id) | Tùy chọn khi render (palette, seed…) | Ngày |
+|---|---|---|---|
+| — (chưa có) | | | |
 
 ## 2. Asset của owner (art, UI, VFX, nhạc, SFX, font)
 
