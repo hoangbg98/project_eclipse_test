@@ -43,6 +43,20 @@ func test_set_language_rejects_unsupported_and_keeps_locale() -> void:
 	assert_str(TranslationServer.get_locale()).starts_with("vi")
 
 
+func test_default_language_is_vietnamese_regardless_of_os() -> void:
+	TranslationServer.set_locale("en_US")  # giả lập Windows tiếng Anh
+	add_child(_config)  # _ready đặt ngôn ngữ khởi động
+	assert_str(TranslationServer.get_locale()).starts_with("vi")
+	assert_str(TranslationServer.translate("TITLE_NEW_GAME")).is_equal("Game mới")
+
+
+func test_startup_language_from_argument() -> void:
+	assert_str(GameConfigScript.startup_language(PackedStringArray())).is_equal("vi")
+	assert_str(GameConfigScript.startup_language(PackedStringArray(["--lang=en"]))).is_equal("en")
+	assert_str(GameConfigScript.startup_language(PackedStringArray(["--lang=xx"]))).is_equal("vi")
+	assert_str(GameConfigScript.startup_language(PackedStringArray(["--foo", "--lang=en"]))).is_equal("en")
+
+
 func test_translation_switches_with_language() -> void:
 	_config.set_language("vi")
 	assert_str(TranslationServer.translate("TITLE_NEW_GAME")).is_equal("Game mới")

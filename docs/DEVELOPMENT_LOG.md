@@ -363,3 +363,11 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Sửa:** thêm lại dòng đó. `tests/smoke/m1_flow_check.gd` thêm 6 bước: nút ẩn ở Home, hiện ở Battle, ẩn lại khi về Home, bấm vào màn thử nghiệm, Esc về Hub, Esc về Title.
 - **Đã chạy:** test khói luồng **trước** khi sửa → báo FAIL đúng chỗ; **sau** khi sửa → 15/15 đạt; `tools/run_tests.ps1` → tất cả đạt.
 - **Bài học:** sửa file bằng thay chuỗi phải kiểm tra lại kết quả (grep dòng mới) hoặc dùng công cụ Edit báo lỗi khi không khớp; mỗi đường vào màn chơi cần test đi qua đúng nút bấm.
+
+## 2026-11-11 — Ngôn ngữ mặc định: tiếng Việt
+
+- **Owner quyết định:** mặc định tiếng Việt, không theo ngôn ngữ Windows/Android (ảnh chụp owner: Windows tiếng Anh nên game hiện tiếng Anh).
+- **Sửa:** `GameConfig._ready()` đặt `DEFAULT_LANGUAGE = "vi"`; thử ngôn ngữ khác bằng tham số người dùng `-- --lang=en` (tham số `--language` của Godot bị engine dùng trước nên script không đọc được). Sau này ngôn ngữ đã lưu trong Cài đặt sẽ thay mặc định (M5-1/M7).
+- **Tài liệu:** sửa dòng M1-5 ở bảng mốc thử trong `IMPLEMENTATION_ROADMAP.md`, mục 9 bảng thử Android trong `ANDROID_SETUP.md`.
+- **Test:** thêm 2 test (giả lập locale `en_US` → vẫn tiếng Việt; đọc tham số `--lang=`); GdUnit4 nhóm core 8/8 đạt.
+- **Ghi chú:** editor đã lưu lại `scenes/main/boot.tscn` (owner mở/lưu), trong đó nền `Background` lệch `offset_left = 4`, `offset_top = -6`... — có thể do kéo nhầm; đã báo owner, chưa hoàn tác.

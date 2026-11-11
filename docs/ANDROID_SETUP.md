@@ -105,7 +105,7 @@ chạy luôn khi điện thoại đang cắm.
 | 6 | Phím Back ở Title | Không thoát app, không treo |
 | 7 | Nút "‹ Quay lại" ở Hub | Về Title |
 | 8 | Kích thước nút | Chạm dễ bằng ngón cái, không bấm nhầm |
-| 9 | Đổi ngôn ngữ máy sang English rồi mở lại app | Chữ thành tiếng Anh |
+| 9 | Đổi ngôn ngữ máy sang English rồi mở lại app | Vẫn tiếng Việt (mặc định cố định từ 2026-11-11; đổi ngôn ngữ trong Cài đặt ở M7) |
 
 Điều khiển cảm ứng (joystick, nút đánh) **chưa có trên màn nào**, sẽ thử ở M2-3.
 

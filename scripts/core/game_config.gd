@@ -14,6 +14,25 @@ const TRANSITION_TIME := 0.2
 
 ## Ngôn ngữ hỗ trợ (mã locale). Màn Cài đặt (M7) sẽ gọi set_language.
 const LANGUAGES: Array[String] = ["vi", "en"]
+## Mặc định tiếng Việt, không theo ngôn ngữ của hệ điều hành (owner quyết định 2026-11-11).
+const DEFAULT_LANGUAGE := "vi"
+## Đổi khi chạy để thử: godot --path . -- --lang=en
+const LANG_ARG_PREFIX := "--lang="
+
+
+func _ready() -> void:
+	set_language(startup_language(OS.get_cmdline_user_args()))
+
+
+## Ngôn ngữ lúc khởi động: tham số `--lang=xx` nếu hợp lệ, không thì mặc định.
+## Sau này: ngôn ngữ đã lưu trong cài đặt (M5-1 SaveService / M7 Settings).
+static func startup_language(user_args: PackedStringArray) -> String:
+	for a in user_args:
+		if a.begins_with(LANG_ARG_PREFIX):
+			var code := a.trim_prefix(LANG_ARG_PREFIX)
+			if code in LANGUAGES:
+				return code
+	return DEFAULT_LANGUAGE
 
 
 func set_language(code: String) -> bool:

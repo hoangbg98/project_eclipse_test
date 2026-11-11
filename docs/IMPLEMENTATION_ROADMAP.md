@@ -101,7 +101,7 @@ Chạy toàn bộ ACCEPTANCE_TESTS trên Windows và Android, checklist tự ch�
 | Sau task | Thử gì trong Godot | Kết quả mong đợi |
 |---|---|---|
 | M1-3 (đã có) | F5: Boot → Title → Hub, Back/Esc | Luồng chạy, nút Tiếp tục bị xám |
-| M1-5 (đã có) | F5 kèm `--language en` | Chữ chuyển tiếng Anh |
+| M1-5 (đã có) | Mặc định tiếng Việt; thử tiếng Anh: `Godot_v4.6.3-stable_win64.exe --path . -- --lang=en` | Chữ chuyển tiếng Anh |
 | M2-3 | Stage thử nghiệm: chạy, nhảy, platform, camera; bật `force_visible` để thấy điều khiển cảm ứng | Cảm giác di chuyển, vùng chạm không chồng nhau |
 | M3-5, M3-7 | Đánh quái bằng bộ kỹ năng Aether; hit-stop, rung camera, số sát thương | Cảm giác đòn đánh, kỹ năng khớp CHARACTER_SKILLS |
 | M4-4, M4-7 | Đổi 3 nhân vật, switch-in Liên kết, HUD icon dự bị | Vòng SI-CD, vòng sáng Liên kết hiển thị đúng |
