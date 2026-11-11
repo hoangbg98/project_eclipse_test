@@ -37,3 +37,10 @@ msgstr "Cài đặt"
 
 msgid "HUB_WIP"
 msgstr "(đang phát triển)"
+
+msgid "HUB_TEST_STAGE"
+msgstr "Màn thử nghiệm"
+
+# Stage
+msgid "STAGE_HINT"
+msgstr "A/D: chạy · Space: nhảy (giữ = cao) · Esc: về Hub · F3: ẩn dòng này"

@@ -37,3 +37,10 @@ msgstr "Settings"
 
 msgid "HUB_WIP"
 msgstr "(work in progress)"
+
+msgid "HUB_TEST_STAGE"
+msgstr "Test stage"
+
+# Stage
+msgid "STAGE_HINT"
+msgstr "A/D: run · Space: jump (hold = higher) · Esc: back to Hub · F3: hide this"

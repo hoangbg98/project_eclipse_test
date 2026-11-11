@@ -331,3 +331,26 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Bộ đệm nhảy của controller tính theo thời gian vật lý (`PlayerIntent`), tách khỏi bộ đệm thời gian thật của `InputRouter`; đòn đánh/né sau này dùng cùng cách.
   - Chưa có platform một chiều, platform di chuyển, dốc; làm cùng stage ở M2-3 nếu cần.
   - Mọi nhân vật dùng chung `movement_default.tres`; cấu hình riêng từng nhân vật làm khi có `CharacterDef`.
+
+## 2026-11-11 — M2-3 Stage thử nghiệm + camera
+
+- **Milestone / task:** 2 / M2-3
+- **Trạng thái:** TESTED (headless). **Chờ owner chơi thử trong Godot** để chấm cảm giác.
+- **File tạo/sửa:**
+  - `data/stages/test_stage.json`: bản đồ ký tự 112×17 ô (ô 64 px): cột cao 1–4 ô + bậc 5 ô sát cột 4 ô, hố rộng 3/4/5 ô, 3 platform một chiều xếp tầng. Sửa layout bằng file này.
+  - `scripts/world/stage_map.gd` (`StageMap`): đọc/kiểm tra bản đồ, dựng `TileMapLayer` + TileSet (va chạm layer 1, platform một chiều).
+  - `scripts/world/follow_camera.gd` (`FollowCamera`): bám mượt, nhìn trước 220 px theo hướng mặt, vùng chết dọc lệch (lên 360 px, xuống 64 px), khóa trong biên màn.
+  - `scripts/world/test_stage.gd` + `scenes/stages/test_stage.tscn`: đặt nhân vật tại `P`, camera, hồi sinh khi rơi hố, overlay debug, điều khiển cảm ứng (chỉ hiện trên máy cảm ứng).
+  - `scripts/ui/debug_overlay.gd`: phím + state/vận tốc/chạm đất/FPS; chỉ ở bản debug; F3 bật/tắt.
+  - Hub: tab Battle có nút **Màn thử nghiệm** (tạm, thay ở M7). Khóa dịch `HUB_TEST_STAGE`, `STAGE_HINT` (vi/en).
+  - `assets/placeholders/placeholder_tiles_64.png` (sinh bằng `tools/gen_placeholders.gd`).
+  - Test: `tests/unit/world/test_test_stage.gd` (11), `tests/smoke/m2_stage_check.gd` (màn chạy bằng vòng lặp thật). Test i18n quét thêm `scenes/stages`.
+- **Đã chạy:** `tools/run_tests.ps1`; export "Windows Desktop"; nạp PCK vào project trống kiểm tra file.
+- **Kết quả thật:**
+  - GdUnit4 49/49 đạt (11 mới), 4 test khói đạt, mã thoát 0. Kiểm: bản đồ đọc đúng, bản đồ lỗi bị báo (ký tự lạ, hàng lệch, 2 điểm P); nhân vật đứng đúng y = 896; nhảy xuyên platform một chiều từ dưới và đứng trên nó (y = 704); khối đặc chặn đường chạy; rơi hố → hồi sinh tại P; camera nhìn trước ±220 px theo hướng; nhảy cao nhất không làm camera nhấp nhô (< 1 px); bước khỏi platform camera theo xuống 192 px; camera không lộ ngoài biên.
+  - Bản build Windows có đủ bản đồ, config, scene, placeholder; không có `tools/`, `tests/`.
+- **Lỗi tìm thấy và sửa:**
+  - Bản đồ: bậc 5 ô (= độ cao nhảy tối đa) chặn đường → đặt sát cột 4 ô thành bậc thang.
+  - Camera: vùng chết dọc 180 px < độ cao nhảy 320 px → camera nhấp nhô mỗi cú nhảy; đổi sang vùng chết lệch lên 360 / xuống 64.
+- **Phát hiện cần lưu ý:** cửa sổ **hẹp hơn 16:9** (4:3, hoặc kéo cửa sổ Windows cao) với stretch `expand` làm khung nhìn cao hơn 1080; bản đồ cao 1088 px sẽ lộ khoảng trống trên/dưới. Cần quyết ở M6/M7: bản đồ cao hơn, hoặc khóa tỉ lệ tối thiểu 16:9 (viền cho màn hẹp).
+- **Hạn chế đã biết:** chưa có parallax, platform di chuyển, dốc, rơi xuyên platform (chưa có action "xuống"); nền một màu.

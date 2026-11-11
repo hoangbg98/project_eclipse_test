@@ -13,10 +13,13 @@ const TABS := {
 @onready var _back: Button = %BackButton
 @onready var _tab_bar: HBoxContainer = %TabBar
 @onready var _content: Label = %ContentLabel
+@onready var _test_stage: Button = %TestStageButton
 
 
 func _ready() -> void:
 	_back.pressed.connect(func() -> void: SceneRouter.go_back())
+	# Tạm thời (M2-3): tab Battle có nút vào màn thử nghiệm. Thay bằng màn chọn màn ở M7.
+	_test_stage.pressed.connect(func() -> void: SceneRouter.push(GameConfig.SCENE_TEST_STAGE))
 	for tab_name: String in TABS:
 		var button: Button = _tab_bar.get_node(tab_name)
 		button.pressed.connect(_show_tab.bind(tab_name))

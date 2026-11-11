@@ -2,7 +2,7 @@ extends SceneTree
 ## Kiểm tra khói M1-5 (headless): file dịch vi/en đủ khóa, mọi chữ trong scene là khóa dịch có bản dịch.
 ## Chạy: godot --headless --path . --script res://tests/smoke/m1_i18n_check.gd
 
-const SCENE_DIRS: Array[String] = ["res://scenes/main"]
+const SCENE_DIRS: Array[String] = ["res://scenes/main", "res://scenes/stages"]
 ## Chữ không dịch: tên thương hiệu và giá trị tạm được script ghi đè khi chạy.
 const ALLOWED_LITERALS: Array[String] = ["PROJECT ECLIPSE", "v0"]
 const PO_FILES := {"vi": "res://localization/vi.po", "en": "res://localization/en.po"}

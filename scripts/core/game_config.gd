@@ -6,6 +6,7 @@ const BASE_RESOLUTION := Vector2i(1920, 1080)
 const SCENE_BOOT := "res://scenes/main/boot.tscn"
 const SCENE_TITLE := "res://scenes/main/title.tscn"
 const SCENE_HUB := "res://scenes/main/hub.tscn"
+const SCENE_TEST_STAGE := "res://scenes/stages/test_stage.tscn"
 
 ## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
 const TRANSITION_TIME := 0.2
