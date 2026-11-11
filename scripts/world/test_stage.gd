@@ -2,6 +2,7 @@ extends Node2D
 ## Màn thử nghiệm M2-3: dựng tile từ bản đồ JSON, đặt nhân vật, camera, hồi sinh khi rơi hố.
 
 const PLAYER_SCENE := preload("res://scenes/player/player_character.tscn")
+const DUMMY_SCENE := preload("res://scenes/world/training_dummy.tscn")
 
 @export_file("*.json") var map_path := "res://data/stages/test_stage.json"
 @export var character_id := "char_fire_01"
@@ -11,6 +12,7 @@ const PLAYER_SCENE := preload("res://scenes/player/player_character.tscn")
 var map: StageMap
 var tiles: TileMapLayer
 var player: PlayerController
+var dummies: Array[TrainingDummy] = []
 
 @onready var camera: FollowCamera = $Camera
 
@@ -24,6 +26,12 @@ func _ready() -> void:
 	tiles = map.build_layer()
 	add_child(tiles)
 	move_child(tiles, 0)
+
+	for cell in map.dummy_cells:
+		var d: TrainingDummy = DUMMY_SCENE.instantiate()
+		d.position = map.cell_feet(cell)
+		add_child(d)
+		dummies.append(d)
 
 	player = PLAYER_SCENE.instantiate()
 	player.character_id = character_id

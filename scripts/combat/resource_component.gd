@@ -12,7 +12,8 @@ signal dodge_charges_changed(charges: int)
 signal died
 
 ## Loại đòn trúng để cộng EN/UG (mục 0).
-enum HitKind { NORMAL, HOLD, AIR, LANDING, SKILL, WEAPON, ULTIMATE, SWITCH_IN }
+## NONE: vùng phụ không nạp EN/UG (vd vệt lửa khi né).
+enum HitKind { NORMAL, HOLD, AIR, LANDING, SKILL, WEAPON, ULTIMATE, SWITCH_IN, NONE }
 
 var rules: CombatRules
 var max_hp := 1.0

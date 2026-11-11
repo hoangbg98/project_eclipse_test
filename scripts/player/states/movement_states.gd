@@ -25,6 +25,9 @@ class Idle:
 	extends PlayerState
 
 	func check_transitions() -> StringName:
+		var c := player.combat_transition()
+		if c != &"":
+			return c
 		if not player.is_on_floor():
 			return FALL
 		if player.intent.has_jump():
@@ -38,6 +41,9 @@ class Run:
 	extends PlayerState
 
 	func check_transitions() -> StringName:
+		var c := player.combat_transition()
+		if c != &"":
+			return c
 		if not player.is_on_floor():
 			return FALL
 		if player.intent.has_jump():
@@ -63,6 +69,9 @@ class JumpUp:
 		return check_transitions()
 
 	func check_transitions() -> StringName:
+		var c := player.combat_transition()
+		if c != &"":
+			return c
 		if player.velocity.y >= 0.0:
 			return FALL
 		return &""
@@ -72,6 +81,9 @@ class Fall:
 	extends PlayerState
 
 	func check_transitions() -> StringName:
+		var c := player.combat_transition()
+		if c != &"":
+			return c
 		if player.is_on_floor():
 			return LAND
 		if player.intent.has_jump() and player.can_coyote_jump():
@@ -91,6 +103,9 @@ class Land:
 		return check_transitions()
 
 	func check_transitions() -> StringName:
+		var c := player.combat_transition()
+		if c != &"":
+			return c
 		if not player.is_on_floor():
 			return FALL
 		# Nhảy hoặc chạy đều huỷ ngay pha đáp.

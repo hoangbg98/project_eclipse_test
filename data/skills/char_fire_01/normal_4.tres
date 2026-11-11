@@ -1,0 +1,68 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "burn"
+duration = 3.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 160.0
+duration_ms = 120.0
+atk_ratio = 0.85
+sc_multiplier = 1.5
+shape = 0
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[sub_resource type="Resource" id="st_1_0"]
+script = ExtResource("3")
+status_id = "burn"
+duration = 3.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 160.0
+duration_ms = 300.0
+atk_ratio = 0.4
+sc_multiplier = 1.5
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(220.0, 90.0)
+offset = Vector2(110.0, -45.0)
+knockback_px = 0.0
+detached = true
+travel_px = 220.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_1_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_fire_01.normal_4"
+key = "normal"
+animation = "attack_4"
+hit_kind = 0
+startup_ms = 160.0
+active_ms = 120.0
+recovery_ms = 320.0
+move_px = 40.0
+move_from_ms = 0.0
+move_to_ms = 280.0
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1")])
+metadata/source = "Mục 1 Hỏa Trảm Đ4: kiếm 85% + sóng lửa 40% (220x90 bay 220 px), Cháy 3s, SC x1.5, 160/120/320"

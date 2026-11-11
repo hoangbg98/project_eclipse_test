@@ -13,6 +13,11 @@ signal hit_landed(hurtbox: Hurtbox, hit: HitInfo)
 ## Hệ số sức choáng so với atk_ratio (mục 0: ×1 mặc định; ghi ×1.5, ×2 ở từng kỹ năng).
 @export var sc_multiplier := 1.0
 @export var knockback_px := 0.0
+@export var hit_kind := 0
+@export var skill_level := 1
+@export var statuses: Array[StatusApplication] = []
+## % tăng sát thương riêng của lần bật hiện tại; SkillRunner đặt trước khi bật.
+var damage_bonus: Dictionary = {}
 
 ## Bộ đếm toàn cục để hit_id không trùng giữa các Hitbox.
 static var _next_hit_id := 0
@@ -80,6 +85,10 @@ func make_hit_info() -> HitInfo:
 		facing = float(attacker.facing)
 	hit.knockback_dir = Vector2(signf(facing), 0.0)
 	hit.knockback_px = knockback_px
+	hit.hit_kind = hit_kind
+	hit.skill_level = skill_level
+	hit.statuses = statuses
+	hit.damage_bonus = damage_bonus.duplicate()
 	return hit
 
 
@@ -87,3 +96,20 @@ func _set_shapes_enabled(on: bool) -> void:
 	for c in get_children():
 		if c is CollisionShape2D or c is CollisionPolygon2D:
 			c.set_deferred("disabled", not on)
+	queue_redraw()
+
+
+## Hiện vùng gây đòn khi bật: tạm thay VFX cho tới khi owner giao hiệu ứng thật.
+@export var show_shape := true
+
+
+func _draw() -> void:
+	if not show_shape or not active:
+		return
+	var col := Color(1.0, 0.45, 0.15, 0.35) if team == PhysicsLayers.Team.PLAYER else Color(0.9, 0.2, 0.3, 0.35)
+	for c in get_children():
+		if c is CollisionPolygon2D and c.polygon.size() >= 3:
+			var pts := PackedVector2Array()
+			for p in c.polygon:
+				pts.append(p + c.position)
+			draw_colored_polygon(pts, col)

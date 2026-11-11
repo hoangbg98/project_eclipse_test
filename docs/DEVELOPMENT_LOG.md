@@ -453,3 +453,32 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - CDR "chốt" lúc bắt đầu hồi: đổi CDR giữa chừng không ảnh hưởng chu kỳ đang chạy.
   - Hồi sinh tắt (Q6): đã gục thì không hồi máu, không hồi EN, không né.
 - **Hạn chế đã biết:** chưa nối với nhân vật/HUD (cần SkillRunner, M3-5); HP tối đa tạm truyền vào, sau lấy từ `CharacterDef`; chia UG 30% cho dự bị do PartyManager làm ở M4.
+
+## 2026-11-12 — M3-5 phần 1: nền kỹ năng, StatusController, đòn thường + né Aether, hình nộm
+
+- **Milestone / task:** 3 / M3-5 (phần 1/3)
+- **Trạng thái:** TESTED (headless). **Owner chơi thử được**: màn thử nghiệm có 2 hình nộm, J đánh, L/Shift né.
+- **File tạo:**
+  - Dữ liệu kỹ năng: `scripts/combat/skill_def.gd` (`SkillDef`: pha ms, EN, CD, vùng gây đòn, di chuyển, bất tử, kháng khựng, nối đòn), `hit_def.gd` (`HitDef`: thời điểm, % ATK, SC, hình cung/tròn/chữ nhật, đẩy lùi, trạng thái, vùng tách bay/tick), `status_application.gd`.
+  - `scripts/characters/combat_stats.gd`, `character_def.gd` + `data/characters/char_fire_01.tres` (**chỉ số tạm: HP 12000, ATK 1000, DEF 500** — README chưa có).
+  - `data/skills/char_fire_01/normal_1..4.tres`, `dodge.tres` (sinh bằng `tools/gen_aether_data.py`, ghi nguồn ở `metadata/source`).
+  - `scripts/combat/status_controller.gd` (`StatusController`): áp/làm mới (giữ mức mạnh hơn)/cộng tầng, nhịp sát thương, hết hạn, kháng sau Choáng, boss, gộp chỉ số cho DamageCalculator.
+  - `scripts/combat/combatant.gd` (`Combatant`): chỉ số + ResourceComponent + CooldownController + StatusController; nhận đòn từ Hurtbox, tính sát thương bằng chỉ số người đánh, áp trạng thái, cộng EN/UG một lần mỗi hit_id, sát thương Cháy (không chí mạng).
+  - `scripts/combat/skill_runner.gd` (`SkillRunner`): dựng một animation/kỹ năng với track bật Hitbox (HitboxTrack), tiêu EN, hồi chiêu, khóa hướng, di chuyển, bất tử, nối đòn + reset 0.8 s, huỷ bằng né nửa sau hồi phục. `detached_hit.gd` cho sóng lửa / vệt lửa.
+  - Player: state `attack`, `dodge` (`scripts/player/states/combat_states.gd`); `PlayerIntent` đệm mọi nút, đòn thường tính khi **nhả** nút (giữ ≥ 400 ms để dành cho đòn giữ); controller nạp `CharacterDef`.
+  - Hình nộm: `scenes/world/training_dummy.tscn` (HP 200 000, DEF 500, hồi đầy sau 3 s không bị đánh, hiện máu/DPS/trạng thái), `scripts/ui/floating_number.gd`; bản đồ thêm ký tự `D`.
+  - Hitbox tự vẽ vùng khi bật (cam trong suốt) thay VFX tạm.
+  - Dòng debug: HP/EN/UG/lượt né/hồi chiêu, kỹ năng đang chạy.
+  - Test: `test_status_controller.gd` (9), `test_aether_basic.gd` (12).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 142/142 đạt (21 mới), 4 test khói đạt, mã thoát 0. Kiểm: tổng Hỏa Trảm 355% ATK; đòn 1 trúng hình nộm đúng 1 lần = 350; chuỗi 4 đòn ra 350, 375, 425 rồi kiếm 425 + sóng 200, áp Cháy; Cháy 3 s = 6 nhịp × 40; chuỗi reset sau 0.8 s; mỗi đòn tiến 40 px; né lướt 280 px, bất tử trong 40–220 ms, theo hướng đang giữ; vệt lửa 2 × 125 và không nạp EN; hết lượt không né được; né chỉ huỷ được nửa sau hồi phục.
+- **Lỗi tìm thấy và sửa:**
+  - `SkillRunner` xoá đòn đã xếp hàng trước khi đọc → chuỗi không nối quá đòn 1. Sửa: đọc hàng đợi trước khi dừng đòn.
+  - `_ready` của node con chạy trước cha → Combatant dựng tài nguyên với chỉ số mặc định. Thêm `auto_setup`, controller gọi `setup()` sau khi gán chỉ số.
+  - `StatusController.tick` viết lần đầu rối → viết lại: thời gian trôi → phát nhịp đến hạn (kể cả nhịp đúng lúc hết hạn) → xét hết hạn.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - "Nối đòn nếu bấm trong 260 ms cuối pha hồi phục" nhưng đòn 1–2 chỉ hồi phục 160 ms → tính **260 ms cuối cả đòn**; đòn kế chạy khi đòn hiện tại kết thúc (chỉ né mới huỷ được hồi phục).
+  - Đòn thường tính khi **nhả** nút (vì giữ ≥ 400 ms là đòn giữ).
+  - Sóng lửa đòn 4 bay 220 px trong 300 ms; cả kiếm và sóng đều áp Cháy 3 s, SC ×1.5.
+  - Vệt lửa khi né không nạp EN/UG (`HitKind.NONE`).
+- **Chưa làm (phần 2–3):** giữ nút, trên không, đáp đất; kỹ năng, kỹ năng vũ khí, tuyệt kỹ, nội tại Nhiệt, né hoàn hảo — Hơi Nóng.

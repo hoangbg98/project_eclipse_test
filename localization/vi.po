@@ -43,7 +43,7 @@ msgstr "Màn thử nghiệm"
 
 # Stage
 msgid "STAGE_HINT"
-msgstr "A/D: chạy · Space: nhảy (giữ = cao) · Esc: về Hub · F3: ẩn dòng này"
+msgstr "A/D: chạy · Space: nhảy · J: đánh · L/Shift: né · Esc: về Hub · F3: ẩn"
 
 # Trạng thái (StatusDef)
 msgid "STATUS_BURN"
@@ -78,3 +78,13 @@ msgstr "Khiên"
 
 msgid "STATUS_TAUNT"
 msgstr "Khiêu khích"
+
+# Nhân vật (tên tạm)
+msgid "CHAR_FIRE_01"
+msgstr "Aether"
+
+msgid "DUMMY_HP"
+msgstr "Máu"
+
+msgid "DEBUG_COMBAT"
+msgstr "HP %d/%d  EN %d  UG %d  Né %d  Kỹ năng %s  Vũ khí %s"

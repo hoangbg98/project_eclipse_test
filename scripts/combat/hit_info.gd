@@ -18,3 +18,10 @@ var sc_ratio := 0.0
 var origin := Vector2.ZERO
 var knockback_dir := Vector2.RIGHT
 var knockback_px := 0.0
+## Loại đòn (ResourceComponent.HitKind) để cộng EN/UG cho người đánh.
+var hit_kind := 0
+var skill_level := 1
+## Trạng thái áp lên mục tiêu khi trúng.
+var statuses: Array[StatusApplication] = []
+## % tăng sát thương riêng của lần đánh này (vd 5 tầng Nhiệt +25%), khóa theo nguồn.
+var damage_bonus: Dictionary = {}
