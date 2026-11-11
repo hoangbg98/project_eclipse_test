@@ -36,7 +36,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 128)
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "‹ Back"
+text = "HUB_BACK"
 
 [node name="TabBar" type="HBoxContainer" parent="TopBar"]
 unique_name_in_owner = true
@@ -49,35 +49,35 @@ custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 36
-text = "Home"
+text = "HUB_TAB_HOME"
 
 [node name="BattleTab" type="Button" parent="TopBar/TabBar"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 36
-text = "Battle"
+text = "HUB_TAB_BATTLE"
 
 [node name="CharactersTab" type="Button" parent="TopBar/TabBar"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 36
-text = "Characters"
+text = "HUB_TAB_CHARACTERS"
 
 [node name="RecruitTab" type="Button" parent="TopBar/TabBar"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 36
-text = "Recruit"
+text = "HUB_TAB_RECRUIT"
 
 [node name="SettingsTab" type="Button" parent="TopBar/TabBar"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 36
-text = "Settings"
+text = "HUB_TAB_SETTINGS"
 
 [node name="ContentLabel" type="Label" parent="."]
 unique_name_in_owner = true
@@ -94,6 +94,6 @@ offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 64
-text = "Home"
+text = "HUB_TAB_HOME"
 horizontal_alignment = 1
 vertical_alignment = 1

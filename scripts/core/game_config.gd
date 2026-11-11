@@ -11,5 +11,16 @@ const SCENE_HUB := "res://scenes/main/hub.tscn"
 const TRANSITION_TIME := 0.2
 
 
+## Ngôn ngữ hỗ trợ (mã locale). Màn Cài đặt (M7) sẽ gọi set_language.
+const LANGUAGES: Array[String] = ["vi", "en"]
+
+
+func set_language(code: String) -> bool:
+	if code not in LANGUAGES:
+		return false
+	TranslationServer.set_locale(code)
+	return true
+
+
 func get_version() -> String:
 	return str(ProjectSettings.get_setting("application/config/version", "dev"))

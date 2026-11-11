@@ -3,11 +3,11 @@ extends Control
 ## Nội dung từng tab là placeholder; màn thật làm ở M7.
 
 const TABS := {
-	"HomeTab": "Home",
-	"BattleTab": "Battle",
-	"CharactersTab": "Characters / Equipment",
-	"RecruitTab": "Recruit",
-	"SettingsTab": "Settings",
+	"HomeTab": "HUB_TAB_HOME",
+	"BattleTab": "HUB_TAB_BATTLE",
+	"CharactersTab": "HUB_TAB_CHARACTERS",
+	"RecruitTab": "HUB_TAB_RECRUIT",
+	"SettingsTab": "HUB_TAB_SETTINGS",
 }
 
 @onready var _back: Button = %BackButton
@@ -25,4 +25,4 @@ func _ready() -> void:
 
 
 func _show_tab(tab_name: String) -> void:
-	_content.text = "%s\n(đang phát triển)" % TABS[tab_name]
+	_content.text = "%s\n%s" % [tr(TABS[tab_name]), tr("HUB_WIP")]

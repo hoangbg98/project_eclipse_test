@@ -46,18 +46,18 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
-text = "Tiếp tục"
+text = "TITLE_CONTINUE"
 
 [node name="NewGameButton" type="Button" parent="Center"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
-text = "Game mới"
+text = "TITLE_NEW_GAME"
 
 [node name="QuitButton" type="Button" parent="Center"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
-text = "Thoát"
+text = "TITLE_QUIT"

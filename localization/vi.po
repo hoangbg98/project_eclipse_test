@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Project Eclipse\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Title
+msgid "TITLE_CONTINUE"
+msgstr "Tiếp tục"
+
+msgid "TITLE_NEW_GAME"
+msgstr "Game mới"
+
+msgid "TITLE_QUIT"
+msgstr "Thoát"
+
+# Hub
+msgid "HUB_BACK"
+msgstr "‹ Quay lại"
+
+msgid "HUB_TAB_HOME"
+msgstr "Trang chủ"
+
+msgid "HUB_TAB_BATTLE"
+msgstr "Chiến đấu"
+
+msgid "HUB_TAB_CHARACTERS"
+msgstr "Nhân vật"
+
+msgid "HUB_TAB_RECRUIT"
+msgstr "Chiêu mộ"
+
+msgid "HUB_TAB_SETTINGS"
+msgstr "Cài đặt"
+
+msgid "HUB_WIP"
+msgstr "(đang phát triển)"

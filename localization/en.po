@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Project Eclipse\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Title
+msgid "TITLE_CONTINUE"
+msgstr "Continue"
+
+msgid "TITLE_NEW_GAME"
+msgstr "New Game"
+
+msgid "TITLE_QUIT"
+msgstr "Quit"
+
+# Hub
+msgid "HUB_BACK"
+msgstr "‹ Back"
+
+msgid "HUB_TAB_HOME"
+msgstr "Home"
+
+msgid "HUB_TAB_BATTLE"
+msgstr "Battle"
+
+msgid "HUB_TAB_CHARACTERS"
+msgstr "Characters"
+
+msgid "HUB_TAB_RECRUIT"
+msgstr "Recruit"
+
+msgid "HUB_TAB_SETTINGS"
+msgstr "Settings"
+
+msgid "HUB_WIP"
+msgstr "(work in progress)"

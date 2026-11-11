@@ -28,6 +28,11 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=0
 
+[internationalization]
+
+locale/fallback="vi"
+locale/translations=PackedStringArray("res://localization/vi.po", "res://localization/en.po")
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
