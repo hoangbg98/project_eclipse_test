@@ -1,0 +1,142 @@
+{
+  "character_id": "char_light_01",
+  "working_name": "Seraphine",
+  "element": "light",
+  "frames_delivered": false,
+  "canvas": {
+    "width": 384,
+    "height": 384,
+    "pivot_x": 192,
+    "baseline_y": 336
+  },
+  "facing": "right",
+  "file_pattern": "{id}_{animation}_{NNN}.png",
+  "animations": {
+    "idle": {
+      "frames": 0,
+      "fps": 12,
+      "loop": true,
+      "skill_key": null
+    },
+    "run": {
+      "frames": 0,
+      "fps": 12,
+      "loop": true,
+      "skill_key": null
+    },
+    "jump_up": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": null
+    },
+    "fall": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": null
+    },
+    "land": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": null
+    },
+    "attack_1": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "normal"
+    },
+    "attack_2": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "normal"
+    },
+    "attack_3": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "normal"
+    },
+    "dodge": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "dodge"
+    },
+    "hold_charge": {
+      "frames": 0,
+      "fps": 12,
+      "loop": true,
+      "skill_key": "hold"
+    },
+    "hold_release": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "hold"
+    },
+    "air_1": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "air"
+    },
+    "landing_attack": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "landing"
+    },
+    "skill_1": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "skill"
+    },
+    "skill_2": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "weapon"
+    },
+    "ultimate": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "ultimate"
+    },
+    "switch_in": {
+      "frames": 0,
+      "fps": 24,
+      "loop": false,
+      "skill_key": "switch_in"
+    },
+    "switch_out": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": null
+    },
+    "hurt": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": null
+    },
+    "knockback": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": null
+    },
+    "down": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": null
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Godot 4 editor cache and generated imports (regenerated on open)
+.godot/
+
+# Android build template installed by the editor
+/android/
+
+# Export output
+/build/
+/export/
+
+# Signing material: never commit keystores or credentials
+*.keystore
+*.jks
+export_credentials.cfg
+
+# OS / editor noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.tmp
+.vscode/

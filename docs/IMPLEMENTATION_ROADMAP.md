@@ -1,0 +1,87 @@
+# Lộ trình triển khai
+
+> Theo README mục 9. Mỗi task có ID `M{n}-{k}`. Trạng thái dùng đúng nghĩa ở
+> README 11: `PENDING`, `IMPLEMENTED`, `TESTED`, `VERIFIED`, `BLOCKED`.
+
+## Milestone 0 — Kiểm tra workspace, kiến trúc
+
+| ID | Task | Trạng thái |
+|---|---|---|
+| M0-0 | Báo cáo kiểm tra workspace | TESTED |
+| M0-1 | Repo git riêng, `.gitignore`, đổi tên `README.md` | IMPLEMENTED |
+| M0-2 | 9 tài liệu trong `docs/` | IMPLEMENTED |
+
+**Điều kiện xong:** tài liệu nền tồn tại; owner duyệt kiến trúc.
+
+## Milestone 1 — Nền tảng
+
+| ID | Task | Phụ thuộc |
+|---|---|---|
+| M1-0 | (Khuyến nghị) Chuyển dự án sang đường dẫn không dấu cách, vd `C:\Dev\PROJECT_ECLIPSE\` | — |
+| M1-1 | `project.godot`: 1920×1080 ngang, stretch, nén ASTC/ETC2, renderer | M0 |
+| M1-2 | Autoload `GameConfig`, `EventBus`, `SceneRouter` | M1-1 |
+| M1-3 | Scene Boot → Title → Hub (tối thiểu, nút thật), nút Back/Esc | M1-2 |
+| M1-4 | `InputRouter` + InputMap (bàn phím, tay cầm), khung điều khiển cảm ứng | M1-2 |
+| M1-5 | Localization: `tr()` + file dịch nguồn | M1-3 |
+| M1-6 | GdUnit4 (cần owner duyệt) + 1 test headless | M1-1 |
+| M1-7 | Bộ lọc export, preset Windows + Android debug | M1-1 |
+| M1-8 | Hướng dẫn owner cài JDK/SDK/export templates; build APK debug; owner chạy trên máy thật | M1-7 |
+
+**Điều kiện xong:** project mở không lỗi, luồng scene và input chạy; APK debug cài được.
+
+## Milestone 2 — Người chơi và animation
+
+| ID | Task |
+|---|---|
+| M2-1 | `AnimationSetBuilder`: manifest → `SpriteFrames`, placeholder khi `frames: 0`; test đếm PNG = `frames` |
+| M2-2 | State machine + controller: chạy, nhảy (coyote 80–120 ms, nhảy cao thấp), rơi, đáp |
+| M2-3 | Stage thử nghiệm (tile, va chạm, platform), camera follow + look-ahead |
+| M2-4 | Đo bộ nhớ texture trên Android (owner) |
+
+## Milestone 3 — Combat cơ bản
+
+| ID | Task |
+|---|---|
+| M3-1 | `CombatRules`, `StatusDef` từ CHARACTER_SKILLS mục 0 + Q1–Q4 |
+| M3-2 | Hitbox/Hurtbox theo track AnimationPlayer, một lần trúng mỗi `hit_id` |
+| M3-3 | `DamageCalculator` + test |
+| M3-4 | `ResourceComponent` (HP/EN/UG/lượt né), `CooldownController` (CDR trần 40%) + test |
+| M3-5 | Bộ kỹ năng đầy đủ của `char_fire_01` (data-driven) |
+| M3-6 | Quái thường: state machine, phát hiện, tấn công, khựng, Choáng (thanh SC) |
+| M3-7 | Phản hồi đòn: hit-stop, flash, rung camera, số sát thương, combo counter |
+
+## Milestone 4 — Đội 3 người
+
+| ID | Task |
+|---|---|
+| M4-1 | `PartyManager`: một người trên sân, chờ chung 1.0s, khóa chuyển |
+| M4-2 | `CharacterRuntime` cho dự bị: timer chạy, EN +1/s, UG 30% |
+| M4-3 | `LinkTracker`: 6 điều kiện, cửa sổ 6.0s, SI-CD |
+| M4-4 | Switch-in Thường / Liên kết / mặc định cho Kael, Lyra, Aether |
+| M4-5 | 15 `ReactionDef` + `ReactionResolver` (ICD 5.0s, boss ×0.5) + test đủ 15 cặp |
+| M4-6 | Kael, Lyra: di chuyển, đòn thường, né (Q5) |
+| M4-7 | HUD icon dự bị: HP, vòng SI-CD, vòng sáng Liên kết (README 17.5) |
+
+## Milestone 5 — RPG và chiêu mộ
+
+| ID | Task | Ghi chú |
+|---|---|---|
+| M5-1 | `SaveService` đầy đủ: version, migration, backup, checksum + test | |
+| M5-2 | Cấp nhân vật, EXP, tài nguyên | |
+| M5-3 | Kho đồ, trang bị cơ bản | |
+| M5-4 | Gacha: banner, pity, rate-up, bảo hiểm, lịch sử, test có seed | **BLOCKED: chờ tỉ lệ từ owner** |
+
+## Milestone 6 — Thế giới và trận đấu
+
+Màn đầu (3–5 phút, 2–3 đợt quái, checkpoint, parallax), boss 2 phase
+(telegraph ≥ 0.4s, khóa camera), phần thưởng, màn kết quả.
+
+## Milestone 7 — UI và hoàn thiện
+
+Hub, chọn màn, chọn đội, nhân vật, trang bị, chiêu mộ, cài đặt, pause; âm
+thanh; điều khiển cảm ứng hoàn chỉnh; safe area; credits/giấy phép.
+
+## Milestone 8 — QA và chuẩn bị phát hành
+
+Chạy toàn bộ ACCEPTANCE_TESTS trên Windows và Android, checklist tự chơi
+(README 16), ghi lỗi tồn đọng. Đổi tên Aether/Noctis trước khi công khai.
