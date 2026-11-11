@@ -371,3 +371,28 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Tài liệu:** sửa dòng M1-5 ở bảng mốc thử trong `IMPLEMENTATION_ROADMAP.md`, mục 9 bảng thử Android trong `ANDROID_SETUP.md`.
 - **Test:** thêm 2 test (giả lập locale `en_US` → vẫn tiếng Việt; đọc tham số `--lang=`); GdUnit4 nhóm core 8/8 đạt.
 - **Ghi chú:** editor đã lưu lại `scenes/main/boot.tscn` (owner mở/lưu), trong đó nền `Background` lệch `offset_left = 4`, `offset_top = -6`... — có thể do kéo nhầm; đã báo owner, chưa hoàn tác.
+
+## 2026-11-11 — M2-4 hoãn
+
+- **Trạng thái:** PENDING (hoãn). Đo bộ nhớ texture cần điện thoại Android và frame thật; owner đang hoãn Android và chưa giao frame. Ghi trong `IMPLEMENTATION_ROADMAP.md`. Chuyển sang M3-1.
+
+## 2026-11-11 — M3-1 CombatRules + StatusDef
+
+- **Milestone / task:** 3 / M3-1
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `scripts/combat/combat_rules.gd` (`CombatRules`) + `data/config/combat_rules.tres`: Q1 (hệ số cấp 0.06, K = 500), Q2 (chí mạng 5% / +50%), Q3 (trần giảm DEF 40%), trần CDR 40%, EN/UG/lượt né theo mục 0, dự bị EN +1/s và UG 30% theo **ghi đè 8.1**, né hoàn hảo (150 ms, chậm 30% trong 0.6 s, hoàn 1 lượt, ICD 1.0 s), Q6 `revive_enabled = false`; `validate()`.
+  - `scripts/combat/status_def.gd` (`StatusDef`): loại, cách cộng (REFRESH/STACKS), thời gian mặc định, hệ số boss, kháng sau khi hết, tick, độ mạnh + ý nghĩa, cờ (chặn di chuyển/hành động, kháng khựng, tính là hiệu ứng nguyên tố cho Liên kết của Kael), sự kiện đủ tầng; `validate()`, `tick_count()`, `duration_for()`.
+  - `data/statuses/*.tres` (11): burn, slow, lightning_mark, judgment, curse, earth_guard, root, stun (mục 0); sand_blind, shield, taunt (Q4). Mỗi file có `metadata/source` ghi nguồn số liệu.
+  - `scripts/combat/status_library.gd` (`StatusLibrary`): nạp thư mục bằng `ResourceLoader.list_directory` (xử lý `.remap` khi export), kiểm id = tên file.
+  - `GameConfig`: nạp `combat_rules` và `statuses` khi khởi động, báo lỗi ra log.
+  - Khóa dịch `STATUS_*` (11, vi/en).
+  - `tests/unit/combat/test_combat_data.gd` (16 test).
+- **Đã chạy:** `tools/run_tests.ps1`; export PCK và nạp trong project trống.
+- **Kết quả thật:** GdUnit4 67/67 đạt (16 mới), 4 test khói đạt, mã thoát 0. Trong bản export, thư mục `data/statuses` chứa `*.tres.remap` (liệt kê thường sẽ không thấy gì); `list_directory` trả đúng 11 tên, nạp được `stun` (2.0 s) và `combat_rules` (K = 500).
+- **Giá trị Claude tự đặt (owner chỉnh):**
+  - `damage_taken_reduction_cap = 0.80`: đặc tả chỉ ghi "cap đặt trong config".
+  - `taunt.boss_duration_multiplier = 0.5` (theo Terra 3 s → boss 1.5 s; kỹ năng khác có thể ghi đè, vd ảo ảnh của Seraphine boss miễn).
+  - `slow.default_magnitude = 0.30` (mức phổ biến nhất; kỹ năng ghi X% riêng).
+  - `sand_blind.counts_as_elemental = true` (mục 8.3 liệt kê "..." nên chưa chắc; xác nhận khi làm LinkTracker M4-3).
+- **Hạn chế đã biết:** mới là dữ liệu tĩnh; áp/làm mới/hết hạn/tick do `StatusController` (chưa làm); `LinkRules` (mục 8.2, 8.3) làm ở M4-3.

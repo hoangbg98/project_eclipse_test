@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="CombatRules" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/combat_rules.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+skill_level_scaling = 0.06
+def_constant_k = 500.0
+base_crit_rate = 0.05
+base_crit_damage = 0.5
+def_reduction_cap = 0.4
+damage_taken_reduction_cap = 0.8
+en_max = 100.0
+en_regen_per_sec = 2.0
+en_per_basic_hit = 3.0
+reserve_en_regen_per_sec = 1.0
+ug_max = 100.0
+ug_per_normal_hit = 2.0
+ug_per_skill_hit = 10.0
+ug_per_weapon_hit = 15.0
+ug_per_hp_percent_lost = 0.3
+reserve_ug_share = 0.3
+dodge_charges = 2
+dodge_recharge_sec = 4.0
+perfect_dodge_window_sec = 0.15
+perfect_dodge_enemy_slow = 0.3
+perfect_dodge_slow_sec = 0.6
+perfect_dodge_refund_charges = 1
+perfect_dodge_icd_sec = 1.0
+cdr_cap = 0.4
+revive_enabled = false

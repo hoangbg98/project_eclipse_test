@@ -44,3 +44,37 @@ msgstr "Test stage"
 # Stage
 msgid "STAGE_HINT"
 msgstr "A/D: run · Space: jump (hold = higher) · Esc: back to Hub · F3: hide this"
+
+# Statuses (StatusDef)
+msgid "STATUS_BURN"
+msgstr "Burn"
+
+msgid "STATUS_SLOW"
+msgstr "Slow"
+
+msgid "STATUS_LIGHTNING_MARK"
+msgstr "Lightning Mark"
+
+msgid "STATUS_JUDGMENT"
+msgstr "Judgment"
+
+msgid "STATUS_CURSE"
+msgstr "Curse"
+
+msgid "STATUS_EARTH_GUARD"
+msgstr "Earth Guard"
+
+msgid "STATUS_ROOT"
+msgstr "Root"
+
+msgid "STATUS_STUN"
+msgstr "Stun"
+
+msgid "STATUS_SAND_BLIND"
+msgstr "Sand Blind"
+
+msgid "STATUS_SHIELD"
+msgstr "Shield"
+
+msgid "STATUS_TAUNT"
+msgstr "Taunt"

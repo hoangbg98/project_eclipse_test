@@ -20,8 +20,30 @@ const DEFAULT_LANGUAGE := "vi"
 const LANG_ARG_PREFIX := "--lang="
 
 
+const COMBAT_RULES_PATH := "res://data/config/combat_rules.tres"
+
+## Luật chiến đấu chung (chỉ đọc).
+var combat_rules: CombatRules
+## Các StatusDef trong data/statuses/.
+var statuses: StatusLibrary
+
+
 func _ready() -> void:
 	set_language(startup_language(OS.get_cmdline_user_args()))
+	load_data()
+
+
+## Nạp dữ liệu tĩnh; lỗi được báo ra log, không chặn game.
+func load_data() -> void:
+	combat_rules = load(COMBAT_RULES_PATH) as CombatRules
+	if combat_rules == null:
+		push_error("GameConfig: không nạp được %s" % COMBAT_RULES_PATH)
+	else:
+		for e in combat_rules.validate():
+			push_error("GameConfig combat_rules: %s" % e)
+	statuses = StatusLibrary.load_dir()
+	for e in statuses.errors:
+		push_error("GameConfig statuses: %s" % e)
 
 
 ## Ngôn ngữ lúc khởi động: tham số `--lang=xx` nếu hợp lệ, không thì mặc định.

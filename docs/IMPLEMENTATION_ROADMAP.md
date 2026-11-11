@@ -42,7 +42,7 @@
 | M2-1 | `AnimationSetBuilder`: manifest → `SpriteFrames`, placeholder khi `frames: 0`; test đếm PNG = `frames` |
 | M2-2 | State machine + controller: chạy, nhảy (coyote 80–120 ms, nhảy cao thấp), rơi, đáp |
 | M2-3 | Stage thử nghiệm (tile, va chạm, platform), camera follow + look-ahead |
-| M2-4 | Đo bộ nhớ texture trên Android (owner) |
+| M2-4 | Đo bộ nhớ texture trên Android (owner) — **hoãn** cùng Android (2026-11-11); làm khi có frame thật và máy Android |
 
 ## Milestone 3 — Combat cơ bản
 

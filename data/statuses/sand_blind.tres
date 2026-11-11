@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="StatusDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/status_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "sand_blind"
+name_key = "STATUS_SAND_BLIND"
+kind = 0
+stacking = 0
+max_stacks = 1
+default_duration = 4.0
+boss_duration_multiplier = 1.0
+resist_after_sec = 0.0
+tick_interval_sec = 0.0
+tick_atk_ratio = 0.0
+default_magnitude = 0.2
+magnitude_meaning = "damage_dealt_down"
+blocks_movement = false
+blocks_actions = false
+stagger_immune = false
+counts_as_elemental = true
+on_max_stacks_event = ""
+metadata/source = "Q4 / mục 8.4 Bão Cát: -20% sát thương kẻ địch gây ra trong 4s"

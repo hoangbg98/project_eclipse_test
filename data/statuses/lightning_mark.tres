@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="StatusDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/status_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "lightning_mark"
+name_key = "STATUS_LIGHTNING_MARK"
+kind = 0
+stacking = 1
+max_stacks = 3
+default_duration = 6.0
+boss_duration_multiplier = 1.0
+resist_after_sec = 0.0
+tick_interval_sec = 0.0
+tick_atk_ratio = 0.0
+default_magnitude = 0.0
+magnitude_meaning = ""
+blocks_movement = false
+blocks_actions = false
+stagger_immune = false
+counts_as_elemental = true
+on_max_stacks_event = "lightning_burst"
+metadata/source = "Mục 0: tối đa 3 tầng, 6s, đủ 3 tầng Bùng nổ Sét"

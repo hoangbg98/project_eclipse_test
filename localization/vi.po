@@ -44,3 +44,37 @@ msgstr "Màn thử nghiệm"
 # Stage
 msgid "STAGE_HINT"
 msgstr "A/D: chạy · Space: nhảy (giữ = cao) · Esc: về Hub · F3: ẩn dòng này"
+
+# Trạng thái (StatusDef)
+msgid "STATUS_BURN"
+msgstr "Cháy"
+
+msgid "STATUS_SLOW"
+msgstr "Chậm"
+
+msgid "STATUS_LIGHTNING_MARK"
+msgstr "Dấu Sét"
+
+msgid "STATUS_JUDGMENT"
+msgstr "Phán quyết"
+
+msgid "STATUS_CURSE"
+msgstr "Nguyền"
+
+msgid "STATUS_EARTH_GUARD"
+msgstr "Giáp Địa"
+
+msgid "STATUS_ROOT"
+msgstr "Trói"
+
+msgid "STATUS_STUN"
+msgstr "Choáng"
+
+msgid "STATUS_SAND_BLIND"
+msgstr "Mù cát"
+
+msgid "STATUS_SHIELD"
+msgstr "Khiên"
+
+msgid "STATUS_TAUNT"
+msgstr "Khiêu khích"
