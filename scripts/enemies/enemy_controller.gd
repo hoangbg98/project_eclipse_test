@@ -46,7 +46,7 @@ func _ready() -> void:
 	def = load(ENEMY_DATA % enemy_id)
 	combatant.stats = def.stats
 	combatant.setup()
-	runner.setup(self, combatant, {"attack": def.attack} if def.attack else {}, hurtbox)
+	runner.setup(self, combatant, _skill_table(), hurtbox)
 	combatant.damaged.connect(_on_damaged)
 	combatant.resources.died.connect(_on_died)
 	body.color = def.placeholder_color
@@ -101,12 +101,12 @@ func step(delta: float) -> void:
 				var dx := target.global_position.x - global_position.x
 				if absf(dx) > 4.0:
 					facing = 1 if dx > 0.0 else -1
-				if absf(dx) <= def.attack_range and _attack_cd <= 0.0 and is_on_floor():
-					if runner.run("attack", facing):
+				if absf(dx) <= _attack_range() and _attack_cd <= 0.0 and is_on_floor():
+					if runner.run(_next_attack_key(), facing):
 						state = State.ATTACK
 		State.ATTACK:
 			if not runner.is_running():
-				_attack_cd = def.attack_cooldown_sec
+				_attack_cd = _attack_cooldown()
 				state = State.CHASE
 		State.STAGGER:
 			_timer -= delta
@@ -125,6 +125,28 @@ func step(delta: float) -> void:
 	queue_redraw()
 
 
+# ---------- Điểm mở rộng (BossController ghi đè) ----------
+
+func _skill_table() -> Dictionary:
+	return {"attack": def.attack} if def.attack else {}
+
+
+func _next_attack_key() -> String:
+	return "attack"
+
+
+func _attack_range() -> float:
+	return def.attack_range
+
+
+func _attack_cooldown() -> float:
+	return def.attack_cooldown_sec
+
+
+func _move_speed() -> float:
+	return def.move_speed
+
+
 func is_dead() -> bool:
 	return state == State.DEAD
 
@@ -141,14 +163,14 @@ func _desired_velocity_x(delta: float) -> float:
 		return _knock_v
 	if combatant.statuses.blocks_movement():
 		return 0.0
-	var speed := def.move_speed * (1.0 - combatant.statuses.move_slow())
+	var speed := _move_speed() * (1.0 - combatant.statuses.move_slow())
 	match state:
 		State.ATTACK:
 			return runner.velocity_x()
 		State.CHASE:
 			var dx := target.global_position.x - global_position.x if _target_alive() else 0.0
 			# Dừng lại khi đã vào tầm đánh (chờ hồi đòn).
-			return 0.0 if absf(dx) <= def.attack_range * 0.8 else speed * signf(dx)
+			return 0.0 if absf(dx) <= _attack_range() * 0.8 else speed * signf(dx)
 		State.PATROL:
 			return _patrol_velocity(delta, speed)
 	return 0.0
@@ -268,6 +290,25 @@ func _sees_target() -> bool:
 
 # ---------- Hiển thị tạm ----------
 
+## Báo hiệu đòn (README 15.7): trong pha khởi động, vẽ vùng đòn sắp đánh, đậm dần tới lúc ra đòn.
+func _draw_telegraph() -> void:
+	if not is_telegraphing():
+		return
+	var s := runner.current
+	var k := clampf(runner.elapsed_ms / maxf(s.active_start_ms(), 1.0), 0.0, 1.0)
+	var col := Color(1.0, 0.2, 0.15, 0.12 + 0.3 * k)
+	for h in s.hits:
+		var pts := PackedVector2Array()
+		for p in h.build_polygon():
+			var q: Vector2 = p + h.offset
+			if h.detached and h.travel_px != 0.0:
+				q.x += h.travel_px * 0.5   # vùng bay: vẽ giữa quãng đường
+			pts.append(Vector2(q.x * facing, q.y))
+		if pts.size() >= 3:
+			draw_colored_polygon(pts, col)
+			draw_polyline(pts + PackedVector2Array([pts[0]]), Color(1.0, 0.3, 0.2, 0.5 + 0.5 * k), 3.0)
+
+
 func _update_look() -> void:
 	body.scale.x = facing
 	if _flash > 0.0:
@@ -283,6 +324,7 @@ func _update_look() -> void:
 func _draw() -> void:
 	if state == State.DEAD or combatant == null or combatant.resources == null:
 		return
+	_draw_telegraph()
 	var r := combatant.resources
 	var w := 120.0
 	var y := -150.0

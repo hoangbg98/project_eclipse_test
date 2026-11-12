@@ -231,3 +231,6 @@ msgstr "Giáp"
 
 msgid "SLOT_ACCESSORY"
 msgstr "Phụ kiện"
+
+msgid "BOSS_GOLEM_01"
+msgstr "Golem Đá Cổ"
