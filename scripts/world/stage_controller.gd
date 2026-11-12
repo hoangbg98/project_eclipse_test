@@ -103,6 +103,7 @@ func _ready() -> void:
 	add_child(hud)
 	var touch := get_node_or_null("TouchControls") as TouchControls
 	if touch:
+		touch.party = party
 		for a: StringName in [&"switch_1", &"switch_2"]:
 			if touch.buttons.has(a):
 				touch.buttons[a].visible = false
@@ -233,6 +234,7 @@ func _start_boss() -> void:
 		_on_boss_defeated()
 		return
 	boss_started.emit(boss)
+	_audio_music("boss")
 
 
 func _on_boss_defeated() -> void:
@@ -286,6 +288,7 @@ func _on_party_defeated() -> void:
 	_freeze_all()
 	last_summary = {"victory": false, "time_sec": elapsed_sec, "stage_id": stage_id}
 	stage_failed.emit()
+	_audio_sfx("stage_fail")
 	_show_result()
 
 
@@ -311,7 +314,20 @@ func _finish_cleared() -> void:
 		save.save_game()
 	last_summary = summary
 	stage_cleared.emit(summary)
+	_audio_sfx("stage_clear")
 	_show_result()
+
+
+func _audio_sfx(event: String) -> void:
+	var audio := get_tree().root.get_node_or_null("AudioRouter")
+	if audio:
+		audio.play_event(event)
+
+
+func _audio_music(event: String) -> void:
+	var audio := get_tree().root.get_node_or_null("AudioRouter")
+	if audio:
+		audio.play_event_music(event)
 
 
 func _freeze_all() -> void:

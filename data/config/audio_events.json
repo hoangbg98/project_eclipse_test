@@ -1,0 +1,24 @@
+{
+	"description": "Sự kiện trong game → ID file âm thanh. File đặt ở assets/audio/sfx/{id}.wav|ogg và assets/audio/music/{id}.ogg|mp3. Thiếu file thì game im lặng ở sự kiện đó. Đổi ID ở đây, không sửa code.",
+	"sfx": {
+		"hit": "sfx_hit",
+		"hit_crit": "sfx_hit_crit",
+		"player_hurt": "sfx_player_hurt",
+		"enemy_down": "sfx_enemy_down",
+		"enemy_stunned": "sfx_enemy_stunned",
+		"switch": "sfx_switch",
+		"switch_linked": "sfx_switch_linked",
+		"link_ready": "sfx_link_ready",
+		"reaction": "sfx_reaction",
+		"ultimate": "sfx_ultimate",
+		"stage_clear": "sfx_stage_clear",
+		"stage_fail": "sfx_stage_fail"
+	},
+	"music": {
+		"title": "music_menu",
+		"hub": "music_menu",
+		"stage": "music_stage",
+		"test_stage": "music_stage",
+		"boss": "music_boss"
+	}
+}

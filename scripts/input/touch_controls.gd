@@ -11,6 +11,11 @@ const MARGIN := 64.0
 
 var joystick: VirtualJoystick
 var buttons: Dictionary = {}  # action -> TouchButton
+## Đội đang chơi (màn chơi gán): để nút kỹ năng hiện hồi chiêu / EN / UG / lượt né của người trên sân.
+var party: PartyManager
+
+## Nút → khóa kỹ năng trong SkillRunner.
+const SKILL_ACTIONS := {&"skill": "skill", &"weapon": "weapon", &"ultimate": "ultimate", &"dodge": "dodge"}
 
 
 func _ready() -> void:
@@ -43,6 +48,45 @@ func _ready() -> void:
 		buttons[action] = b
 
 	visible = force_visible or DisplayServer.is_touchscreen_available()
+
+
+func _process(_delta: float) -> void:
+	if not visible or party == null or not is_instance_valid(party):
+		return
+	var p := party.active_controller()
+	for action: StringName in SKILL_ACTIONS:
+		if buttons.has(action):
+			(buttons[action] as TouchButton).set_state(button_state(action, p))
+
+
+## Trạng thái hiển thị của một nút theo nhân vật trên sân: {cooldown_ratio, overlay_text, charge_ratio, dimmed}.
+## Tách riêng (static) để test không cần màn hình cảm ứng.
+static func button_state(action: StringName, p: PlayerController) -> Dictionary:
+	var out := {"cooldown_ratio": 0.0, "overlay_text": "", "charge_ratio": -1.0, "dimmed": false}
+	if p == null or not is_instance_valid(p) or p.combatant == null or p.combatant.resources == null:
+		return out
+	var key: String = SKILL_ACTIONS.get(action, "")
+	var res := p.combatant.resources
+	if action == &"dodge":
+		out["overlay_text"] = str(res.dodge_charges)
+		out["dimmed"] = res.dodge_charges <= 0 or not p.runner.has_skill(key)
+		return out
+	var s: SkillDef = p.runner.skills.get(key)
+	if s == null:
+		out["dimmed"] = true                      # nhân vật chưa có kỹ năng này (Kael, Lyra ngoài slice)
+		return out
+	if action == &"ultimate":
+		out["charge_ratio"] = clampf(res.ug / res.rules.ug_max, 0.0, 1.0)
+		out["dimmed"] = not res.is_ultimate_ready()
+	var cds := p.combatant.cooldowns
+	var cd_key := StringName(s.cooldown_key())
+	if s.cooldown_sec > 0.0 and cds.has(cd_key) and not cds.is_ready(cd_key):
+		var total := cds.duration_of(cd_key)
+		out["cooldown_ratio"] = clampf(cds.remaining(cd_key) / total, 0.0, 1.0) if total > 0.0 else 0.0
+		out["overlay_text"] = "%.0f" % ceilf(cds.remaining(cd_key))
+	if s.en_cost > 0.0 and not res.can_spend_en(s.en_cost):
+		out["dimmed"] = true
+	return out
 
 
 func _add_button(root: Control, action: StringName, text: String, diameter: float, from_corner: Vector2) -> void:

@@ -97,6 +97,27 @@ Seraphine (`char_light_01`), Noctis (`char_dark_01`), Terra (`char_earth_01`): c
 Mọi file bên ngoài (font, nhạc, SFX) phải ghi nguồn và giấy phép vào
 `docs/ASSET_LICENSES.md`. Gửi Claude thông tin, Claude ghi giúp.
 
+### D1. Tên file âm thanh game đang chờ (M7-3)
+
+Code đã gắn sẵn; chỉ cần đặt file đúng tên là có tiếng, thiếu file nào thì sự kiện đó im lặng.
+Muốn đổi tên hoặc gán lại: sửa `data/config/audio_events.json` (không sửa code).
+
+| Thư mục | File (đuôi `.ogg` hoặc `.mp3` cho nhạc; `.wav` hoặc `.ogg` cho SFX) | Phát khi |
+|---|---|---|
+| `assets/audio/music/` | `music_menu` | Màn Title và Hub |
+| | `music_stage` | Trong màn chơi |
+| | `music_boss` | Vào đấu trường boss |
+| `assets/audio/sfx/` | `sfx_hit`, `sfx_hit_crit` | Đòn trúng kẻ địch (thường / chí mạng) |
+| | `sfx_player_hurt` | Nhân vật bị đánh trúng |
+| | `sfx_enemy_stunned`, `sfx_enemy_down` | Kẻ địch bị Choáng / bị hạ |
+| | `sfx_switch`, `sfx_switch_linked` | Đổi nhân vật (thường / Liên kết) |
+| | `sfx_link_ready` | Vòng sáng Liên kết bật lên |
+| | `sfx_reaction` | Phản ứng nguyên tố nổ |
+| | `sfx_ultimate` | Bắt đầu tuyệt kỹ |
+| | `sfx_stage_clear`, `sfx_stage_fail` | Qua màn / thất bại |
+
+Nhạc cần lặp thì bật Loop trong tab Import của Godot cho file đó.
+
 ## E. Thứ tự gợi ý
 
 1. Trả lời **tỉ lệ gacha** (mục A1). Đây là chỗ duy nhất đang bị chặn.

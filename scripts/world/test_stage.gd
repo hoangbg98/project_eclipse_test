@@ -75,6 +75,7 @@ func _ready() -> void:
 	# Icon dự bị thay hai nút chuyển của lớp cảm ứng (cùng góc trên-phải).
 	var touch := get_node_or_null("TouchControls") as TouchControls
 	if touch:
+		touch.party = party
 		for a: StringName in [&"switch_1", &"switch_2"]:
 			if touch.buttons.has(a):
 				touch.buttons[a].visible = false
