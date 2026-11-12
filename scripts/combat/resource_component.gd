@@ -12,6 +12,8 @@ signal ug_gained(amount: float)
 signal ultimate_ready
 signal dodge_charges_changed(charges: int)
 signal died
+## Khiên bị đánh vỡ (hấp thụ hết).
+signal shield_broken
 
 ## Loại đòn trúng để cộng EN/UG (mục 0).
 ## NONE: vùng phụ không nạp EN/UG (vd vệt lửa khi né).
@@ -27,6 +29,8 @@ var dodge_charges := 0
 var cdr := 0.0
 ## true: đang trên sân (EN +2/s); false: dự bị (EN +1/s).
 var on_field := true
+## Lượng sát thương khiên còn hấp thụ được (trạng thái "shield": % HP tối đa).
+var shield := 0.0
 
 var _dodge_timer := 0.0
 
@@ -55,6 +59,15 @@ func tick(delta: float) -> void:
 func take_damage(amount: float) -> float:
 	if is_dead() or amount <= 0.0:
 		return 0.0
+	if shield > 0.0:
+		var absorbed := minf(shield, amount)
+		shield -= absorbed
+		amount -= absorbed
+		if shield <= 0.0:
+			shield = 0.0
+			shield_broken.emit()
+		if amount <= 0.0:
+			return 0.0
 	var lost := minf(amount, hp)
 	hp -= lost
 	hp_changed.emit(hp, max_hp)
@@ -63,6 +76,11 @@ func take_damage(amount: float) -> float:
 		hp = 0.0
 		died.emit()
 	return lost
+
+
+## Đặt khiên (không cộng dồn: lấy mức lớn hơn; 0 = xóa).
+func set_shield(amount: float) -> void:
+	shield = maxf(shield, amount) if amount > 0.0 else 0.0
 
 
 ## Hồi máu; trả về lượng thừa vượt HP tối đa (nội tại Seraphine đổi thành khiên).

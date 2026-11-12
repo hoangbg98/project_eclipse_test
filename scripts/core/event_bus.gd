@@ -19,6 +19,8 @@ signal status_max_stacks(target: Object, status_id: String, source: Object)
 ## Đội (M4). Cửa sổ Liên kết của nhân vật dự bị mở / đóng (HUD vòng sáng).
 signal link_window_opened(character_id: String, seconds: float)
 signal link_window_closed(character_id: String)
+## Phản ứng nguyên tố kích hoạt (M4-5): def là ReactionDef, tâm phản ứng, người vào sân.
+signal reaction_triggered(reaction: Resource, center: Vector2, by: Node)
 ## Đã chuyển nhân vật; mode: "normal" | "linked" | "default" (mục 8.2).
 signal character_switched(from_id: String, to_id: String, mode: String)
 

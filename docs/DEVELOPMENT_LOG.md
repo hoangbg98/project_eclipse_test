@@ -674,3 +674,21 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Lỗi tìm thấy và sửa:** lần cắt đầu làm thủng áo sơ mi trắng (ô 4 px không thuộc vùng) → lấp lỗ; đáy áo hở ra nền nên vẫn còn vết → đổi sang chỉ loại pixel thuộc vùng của bộ phận *khác*; vài chấm lẻ cạnh 18, 22, 28 → bỏ mảnh vụn.
 - **Quyết định Claude chọn:** thư mục `rig_parts/` cạnh `frames/`; tên file không dấu; ảnh đứng 16 làm chân dung toàn thân.
 - **Hạn chế đã biết:** sheet là JPEG 1272×1236 nên bộ phận nhỏ (mặt ~130 px, kiếm ~380 px), viền có thể còn quầng nhạt trên nền tối; chưa có điểm khớp (pivot) cho rig; chưa ráp thành frame 384×384 cho `frames/`; chưa xác định ảnh có phải do AI tạo (nếu có, owner ghi vào ASSET_LICENSES 2.1). Splash art / màn tiêu đề chưa đổi.
+
+## 2026-11-12 — M4-5 Phản ứng nguyên tố (15 ReactionDef + ReactionResolver)
+
+- **Milestone / task:** 4 / M4-5
+- **Trạng thái:** TESTED (headless)
+- **File tạo/sửa:**
+  - `scripts/party/reaction_def.gd` (`ReactionDef`: cặp nguyên tố, chế độ tâm FIRST_HIT / SELF / HIGHEST_HP, danh sách `HitDef`, tán xạ, buff bản thân, hồi đội, xóa hiệu ứng xấu), `reaction_resolver.gd` (`ReactionResolver`: nạp `data/reactions`, ICD chung 5.0 s, vùng đòn là `DetachedHit` do người vào sân gây).
+  - `data/reactions/*.tres` (15 file, sinh bằng `tools/gen_reaction_data.py`) + 15 khóa dịch `REACTION_*` (vi + en).
+  - `PartyManager`: vào sân Liên kết → chuẩn bị phản ứng của cặp (người rời, người vào); nổ tại kẻ địch đầu tiên trúng Kĩ năng vào sân; Thanh Phong / Thánh Giáp nổ ngay tại người vào sân; trượt thì không nổ và không tốn ICD. Phát `EventBus.reaction_triggered`.
+  - `HitFeedback` + `scripts/ui/reaction_fx.gd`: hit-stop 60 ms, hai quả cầu màu va nhau 0.3 s, tên phản ứng 0.8 s.
+  - Cơ chế mới: `HitDef.pull_to_origin` (kéo về tâm, không quá tâm); `HitInfo.boss_control_multiplier` (khống chế / Chậm lên boss ×0.5; trạng thái có hệ số boss riêng thì dùng hệ số đó; `root` boss ×0.4 → 2.0 s còn 0.8 s); khiên thật (`ResourceComponent.shield`, hấp thụ trước máu, vỡ thì mất trạng thái, hết hạn thì mất khiên); `burn` nhận `tick_bonus` (Thiêu Hồn: tick gấp đôi); `DetachedHit.spawn(..., extra_delay_sec)`.
+  - `CombatRules`: `reaction_icd_sec` 5.0, `reaction_boss_control_multiplier` 0.5. `HitFeedbackConfig`: `reaction_hitstop_ms` 60, `reaction_name_sec` 0.8, `reaction_orb_sec` 0.3.
+  - `tests/unit/party/test_reactions.gd` (21 test).
+- **Đã chạy:** `godot --headless --import`; `python tools/gen_reaction_data.py`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 278/278 đạt, 4 test khói đạt, mã thoát 0. Kiểm: đủ 15 cặp, không thiếu, không trùng, đối xứng, có bản dịch; tổng % ATK khớp bảng 8.4; ICD 5.0 s chặn cả phản ứng khác; Liên kết + trúng → nổ đúng cặp tại kẻ địch đầu tiên, có sự kiện và tên hiện; vào Thường không nổ; Liên kết mà trượt không nổ, không tốn ICD; Thanh Phong nổ ngay, hồi 8% HP cả đội (kể cả dự bị), xóa 1 hiệu ứng xấu; sát thương theo ATK người vào sân (1000/950); Hỏa Lốc Cháy 5 s cả hai hình nộm; Thiêu Hồn tick 16%; Dung Nham 1 nổ + 6 nhịp, Chậm 30% chỉ khi còn vùng; Bão Sét 4 tia trễ 0/0.3/0.6/0.9 s trong ±400 px; Thần Phạt chỉ đánh mục tiêu HP cao nhất, Phán quyết 6 s; Thánh Giáp khiên 12% hấp thụ rồi vỡ, hết hạn sau 6 s; Lốc Oán kéo ~120 px về tâm, không vượt tâm; boss: Chậm 3 s → 1.5 s, Trói 2.0 s → 0.8 s, Nguyền không đổi.
+- **Lỗi tìm thấy và sửa (trong test):** slime bị chặn bởi bậc địa hình ở x ≈ 1591 và đuổi người chơi giữa các nhịp kéo → chuyển sang sàn phẳng, đo ngay sau nhịp đầu.
+- **Quyết định Claude chọn:** vùng kéo dài (lửa thánh, dung nham) bắt đầu 0.1 s sau cú nổ, 6 nhịp; Chậm trong vùng là Chậm 0.7 s được làm mới mỗi nhịp; Bão Sét tán xạ theo trục ngang, bán kính mỗi tia 110 px; hướng đẩy của Quá Tải theo hướng nhìn người vào sân; "xóa 1 hiệu ứng xấu" ưu tiên khống chế; vào sân mà phản ứng còn ICD thì bỏ qua (không xếp hàng).
+- **Hạn chế đã biết:** hiển thị là hình tạm (hai vòng tròn màu + chữ); Seraphine, Noctis, Terra chưa có Kĩ năng vào sân nên 12 cặp có họ chỉ test được qua resolver; phản ứng với trạng thái sẵn có trên kẻ địch để sau (mục 8.11).

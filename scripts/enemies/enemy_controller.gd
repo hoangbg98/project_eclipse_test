@@ -199,7 +199,12 @@ func _apply_knockback(hit: HitInfo, extra_px: float) -> void:
 	if px <= 0.0:
 		return
 	var t := combatant.rules.knockback_time_sec
-	_knock_v = signf(hit.knockback_dir.x) * px / t
+	var dir := signf(hit.knockback_dir.x)
+	if hit.pull_to_origin:
+		var dx := hit.origin.x - global_position.x
+		dir = signf(dx)
+		px = minf(px, absf(dx))  # không kéo quá tâm
+	_knock_v = dir * px / t
 	_knock_t = t
 
 

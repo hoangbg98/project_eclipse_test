@@ -78,6 +78,12 @@ extends Resource
 @export var link_bonus_ug := 15.0
 @export var link_bonus_en := 10.0
 
+@export_group("Phản ứng nguyên tố (mục 8.4)")
+## ICD chung giữa hai phản ứng.
+@export var reaction_icd_sec := 5.0
+## Khống chế (Trói, Choáng, Chậm) từ phản ứng lên boss: thời gian × hệ số này.
+@export_range(0.0, 1.0) var reaction_boss_control_multiplier := 0.5
+
 @export_group("Cờ chế độ")
 ## Q6: hồi sinh mặc định tắt.
 @export var revive_enabled := false

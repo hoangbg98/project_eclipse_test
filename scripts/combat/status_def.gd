@@ -58,9 +58,10 @@ const MAGNITUDE_SHIELD_MAX_HP := "shield_max_hp"  ## khiên hấp thụ = % HP t
 const MAGNITUDE_DAMAGE_DEALT_UP := "damage_dealt_up"  ## tăng % sát thương gây ra (buff)
 const MAGNITUDE_MOVE_SPEED_UP := "move_speed_up"      ## tăng % tốc độ di chuyển (Gió Trợ Bước)
 const MAGNITUDE_ATTACK_SPEED_UP := "attack_speed_up"  ## tăng % tốc độ tấn công (đòn cơ bản chạy nhanh hơn)
+const MAGNITUDE_TICK_BONUS := "tick_bonus"  ## tăng % sát thương mỗi nhịp (Thiêu Hồn: Cháy tick gấp đôi = 1.0)
 const MAGNITUDES: Array[String] = ["", MAGNITUDE_MOVE_SLOW, MAGNITUDE_DEF_REDUCTION, MAGNITUDE_DAMAGE_TAKEN_UP,
 		MAGNITUDE_DAMAGE_TAKEN_DOWN, MAGNITUDE_DAMAGE_DEALT_DOWN, MAGNITUDE_SHIELD_MAX_HP, MAGNITUDE_DAMAGE_DEALT_UP,
-		MAGNITUDE_MOVE_SPEED_UP, MAGNITUDE_ATTACK_SPEED_UP]
+		MAGNITUDE_MOVE_SPEED_UP, MAGNITUDE_ATTACK_SPEED_UP, MAGNITUDE_TICK_BONUS]
 
 
 ## Số nhịp sát thương trong thời gian mặc định (Cháy: 4s / 0.5s = 8).

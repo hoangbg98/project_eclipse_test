@@ -31,6 +31,8 @@ enum Shape { ARC, CIRCLE, RECT }
 ## (vd vào sân Liên kết Aether: kẻ địch đang Choáng +30%).
 @export var bonus_vs_status := ""
 @export var bonus_vs_status_ratio := 0.0
+## Đẩy lùi hướng VỀ tâm vùng đòn (kéo vào, vd Lốc Oán) thay vì theo hướng người đánh; không kéo quá tâm.
+@export var pull_to_origin := false
 
 @export_group("Tách khỏi nhân vật")
 ## true: vùng nằm lại trong thế giới (sóng bay, vệt lửa, vết nổ) thay vì đi theo nhân vật.

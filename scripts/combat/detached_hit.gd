@@ -18,12 +18,13 @@ var _started := false
 
 ## Tạo từ HitDef. `facing` 1/-1; `pos` là điểm gốc (chân người đánh, hoặc chân mục tiêu nếu at_target).
 static func spawn(parent: Node, def: HitDef, attacker: Node, team: PhysicsLayers.Team, facing: int,
-		pos: Vector2, damage_bonus: Dictionary, hit_kind: int, skill_id: String, extra_en := 0.0) -> DetachedHit:
+		pos: Vector2, damage_bonus: Dictionary, hit_kind: int, skill_id: String, extra_en := 0.0,
+		extra_delay_sec := 0.0) -> DetachedHit:
 	var d := DetachedHit.new()
 	d.name = "DetachedHit"
 	d.lifetime = def.duration_ms / 1000.0
 	d.tick_interval = def.tick_interval_ms / 1000.0
-	d.delay = def.delay_ms / 1000.0
+	d.delay = def.delay_ms / 1000.0 + extra_delay_sec
 	if def.travel_px != 0.0 and d.lifetime > 0.0:
 		var a := deg_to_rad(def.travel_angle_deg)
 		d.velocity = Vector2(cos(a) * facing, sin(a)) * (def.travel_px / d.lifetime)

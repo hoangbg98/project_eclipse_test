@@ -40,4 +40,6 @@ link_hp_loss_ratio = 0.25
 link_hp_loss_window_sec = 3.0
 link_bonus_ug = 15.0
 link_bonus_en = 10.0
+reaction_icd_sec = 5.0
+reaction_boss_control_multiplier = 0.5
 revive_enabled = false

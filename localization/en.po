@@ -136,3 +136,49 @@ msgstr "Phoenix Sovereign Slash"
 
 msgid "HUD_COMBO"
 msgstr "%d COMBO"
+
+# Phản ứng nguyên tố (mục 8.4)
+msgid "REACTION_FIRE_WIND"
+msgstr "Firestorm"
+
+msgid "REACTION_FIRE_LIGHTNING"
+msgstr "Overload"
+
+msgid "REACTION_FIRE_LIGHT"
+msgstr "Solar Scorch"
+
+msgid "REACTION_FIRE_DARK"
+msgstr "Soulburn"
+
+msgid "REACTION_FIRE_EARTH"
+msgstr "Magma"
+
+msgid "REACTION_WIND_LIGHTNING"
+msgstr "Thunderstorm"
+
+msgid "REACTION_WIND_LIGHT"
+msgstr "Gentle Breeze"
+
+msgid "REACTION_WIND_DARK"
+msgstr "Wailing Vortex"
+
+msgid "REACTION_WIND_EARTH"
+msgstr "Sandstorm"
+
+msgid "REACTION_LIGHTNING_LIGHT"
+msgstr "Divine Smite"
+
+msgid "REACTION_LIGHTNING_DARK"
+msgstr "Soul Shock"
+
+msgid "REACTION_LIGHTNING_EARTH"
+msgstr "Magnetic Quake"
+
+msgid "REACTION_LIGHT_DARK"
+msgstr "Eclipse"
+
+msgid "REACTION_LIGHT_EARTH"
+msgstr "Holy Aegis"
+
+msgid "REACTION_DARK_EARTH"
+msgstr "Earthen Tomb"

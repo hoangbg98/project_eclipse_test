@@ -136,3 +136,49 @@ msgstr "Viêm Hoàng Tuyệt Trảm"
 
 msgid "HUD_COMBO"
 msgstr "%d COMBO"
+
+# Phản ứng nguyên tố (mục 8.4)
+msgid "REACTION_FIRE_WIND"
+msgstr "Hỏa Lốc"
+
+msgid "REACTION_FIRE_LIGHTNING"
+msgstr "Quá Tải"
+
+msgid "REACTION_FIRE_LIGHT"
+msgstr "Nhật Thiêu"
+
+msgid "REACTION_FIRE_DARK"
+msgstr "Thiêu Hồn"
+
+msgid "REACTION_FIRE_EARTH"
+msgstr "Dung Nham"
+
+msgid "REACTION_WIND_LIGHTNING"
+msgstr "Bão Sét"
+
+msgid "REACTION_WIND_LIGHT"
+msgstr "Thanh Phong"
+
+msgid "REACTION_WIND_DARK"
+msgstr "Lốc Oán"
+
+msgid "REACTION_WIND_EARTH"
+msgstr "Bão Cát"
+
+msgid "REACTION_LIGHTNING_LIGHT"
+msgstr "Thần Phạt"
+
+msgid "REACTION_LIGHTNING_DARK"
+msgstr "Điện Hồn"
+
+msgid "REACTION_LIGHTNING_EARTH"
+msgstr "Từ Chấn"
+
+msgid "REACTION_LIGHT_DARK"
+msgstr "Nhật Thực"
+
+msgid "REACTION_LIGHT_EARTH"
+msgstr "Thánh Giáp"
+
+msgid "REACTION_DARK_EARTH"
+msgstr "Địa Táng"

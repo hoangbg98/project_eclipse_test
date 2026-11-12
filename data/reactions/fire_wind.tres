@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/party/reaction_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "burn"
+duration = 5.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 100.0
+atk_ratio = 1.8
+sc_multiplier = 1.0
+shape = 1
+radius_px = 260.0
+offset = Vector2(0.0, -80.0)
+knockback_px = 0.0
+pull_to_origin = false
+detached = true
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[resource]
+script = ExtResource("1")
+id = "reaction.fire_wind"
+elements = PackedStringArray("fire", "wind")
+name_key = "REACTION_FIRE_WIND"
+target_mode = 0
+target_range_px = 0.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+scatter_radius_px = 0.0
+self_statuses = Array[ExtResource("3")]([])
+team_heal_max_hp_ratio = 0.0
+team_cleanse_count = 0
+metadata/source = "Mục 8.4 Hỏa + Phong: 180% ATK bán kính 260, Cháy 5s mọi kẻ địch trong vùng"

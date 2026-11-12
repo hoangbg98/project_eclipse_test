@@ -103,6 +103,7 @@ static func make_hitbox(h: HitDef, team: PhysicsLayers.Team, skill_id: String, h
 	hb.statuses = h.statuses
 	hb.bonus_vs_status = h.bonus_vs_status
 	hb.bonus_vs_status_ratio = h.bonus_vs_status_ratio
+	hb.pull_to_origin = h.pull_to_origin
 	var poly := CollisionPolygon2D.new()
 	poly.polygon = h.build_polygon()
 	if not h.detached:

@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/party/reaction_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 100.0
+atk_ratio = 1.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 200.0
+offset = Vector2(0.0, -80.0)
+knockback_px = 0.0
+pull_to_origin = false
+detached = true
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="self_0"]
+script = ExtResource("3")
+status_id = "shield"
+duration = 6.0
+magnitude = 0.12
+
+[sub_resource type="Resource" id="self_1"]
+script = ExtResource("3")
+status_id = "earth_guard"
+duration = 6.0
+magnitude = 0.2
+
+[resource]
+script = ExtResource("1")
+id = "reaction.light_earth"
+elements = PackedStringArray("light", "earth")
+name_key = "REACTION_LIGHT_EARTH"
+target_mode = 1
+target_range_px = 0.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+scatter_radius_px = 0.0
+self_statuses = Array[ExtResource("3")]([SubResource("self_0"), SubResource("self_1")])
+team_heal_max_hp_ratio = 0.0
+team_cleanse_count = 0
+metadata/source = "Mục 8.4 Quang + Địa: 120% ATK bán kính 200 tại nhân vật vào sân, Khiên 12% HP tối đa 6s, Giáp Địa -20% 6s"

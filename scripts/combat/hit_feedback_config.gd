@@ -33,3 +33,10 @@ extends Resource
 @export_group("Tuyệt kỹ")
 ## Dừng thời gian kẻ địch + cut-in (CHARACTER_SKILLS mục 1: 600 ms). Kỹ năng có thể ghi riêng (SkillDef.time_stop_ms).
 @export var cut_in_default_ms := 600.0
+
+@export_group("Phản ứng nguyên tố (mục 8.4)")
+@export var reaction_hitstop_ms := 60.0
+## Tên phản ứng hiện bao lâu (s).
+@export var reaction_name_sec := 0.8
+## Hai quả cầu nguyên tố va vào nhau (s).
+@export var reaction_orb_sec := 0.3

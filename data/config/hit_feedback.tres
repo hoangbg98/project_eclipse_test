@@ -21,4 +21,7 @@ shake_player_hurt_sec = 0.14
 combo_window_sec = 2.0
 combo_min_display = 2
 cut_in_default_ms = 600.0
+reaction_hitstop_ms = 60.0
+reaction_name_sec = 0.8
+reaction_orb_sec = 0.3
 metadata/source = "README 15.7 (hit-stop 40-80 ms, rung camera nhỏ, số sát thương); giá trị cụ thể Claude chọn"

@@ -23,6 +23,10 @@ var extra_en := 0.0
 ## Thêm sát thương nếu mục tiêu đang mang trạng thái này (HitDef.bonus_vs_status).
 var bonus_vs_status := ""
 var bonus_vs_status_ratio := 0.0
+## Kéo mục tiêu về tâm vùng đòn thay vì đẩy theo hướng người đánh.
+var pull_to_origin := false
+## Hệ số thời gian cho trạng thái khống chế / Chậm khi mục tiêu là boss (phản ứng nguyên tố: 0.5).
+var boss_control_multiplier := 1.0
 
 ## Bộ đếm toàn cục để hit_id không trùng giữa các Hitbox.
 static var _next_hit_id := 0
@@ -97,6 +101,8 @@ func make_hit_info() -> HitInfo:
 	hit.extra_en = extra_en
 	hit.bonus_vs_status = bonus_vs_status
 	hit.bonus_vs_status_ratio = bonus_vs_status_ratio
+	hit.pull_to_origin = pull_to_origin
+	hit.boss_control_multiplier = boss_control_multiplier
 	return hit
 
 

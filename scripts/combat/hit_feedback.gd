@@ -36,6 +36,7 @@ func _ready() -> void:
 		bus.hit_landed.connect(_on_hit_landed)
 		bus.dot_landed.connect(_on_dot_landed)
 		bus.ultimate_started.connect(_on_ultimate_started)
+		bus.reaction_triggered.connect(_on_reaction_triggered)
 	_build_hud()
 
 
@@ -188,6 +189,34 @@ func _update_cutin(delta: float) -> void:
 	_cutin.modulate.a = 1.0 - clampf((t - 0.8) / 0.2, 0.0, 1.0)
 	if _cutin_left <= 0.0:
 		_cutin.visible = false
+
+
+# ---------- Phản ứng nguyên tố (mục 8.4) ----------
+
+## Màu quả cầu theo nguyên tố (token vòng Liên kết, README 17.5).
+const ELEMENT_COLOR := {
+	"fire": Color("#FF6A3D"), "wind": Color("#3DDBB5"), "lightning": Color("#FFD93D"),
+	"light": Color("#FFF2B8"), "dark": Color("#A855F7"), "earth": Color("#D99A3E"),
+}
+var last_reaction_id := ""
+
+
+## Hit-stop 60 ms, hai quả cầu màu va vào nhau 300 ms, tên phản ứng hiện 0.8 s.
+func _on_reaction_triggered(reaction: Resource, center: Vector2, by: Node) -> void:
+	var def := reaction as ReactionDef
+	if def == null:
+		return
+	last_reaction_id = def.id
+	hitstop(config.reaction_hitstop_ms)
+	_shake(config.shake_heavy_px, config.shake_heavy_sec)
+	var parent := by.get_parent() if by and by.get_parent() else get_parent()
+	if parent == null:
+		return
+	var fx := ReactionFx.new()
+	fx.setup(tr(def.name_key), ELEMENT_COLOR.get(def.elements[0], Color.WHITE),
+			ELEMENT_COLOR.get(def.elements[1], Color.WHITE), config.reaction_orb_sec, config.reaction_name_sec)
+	parent.add_child(fx)
+	fx.global_position = center + Vector2(0, -140)
 
 
 # ---------- HUD tạm ----------

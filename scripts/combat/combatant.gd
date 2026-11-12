@@ -72,6 +72,8 @@ func setup(seed_value := 0) -> void:
 	statuses.tick_damage.connect(_on_status_tick)
 	statuses.applied_from.connect(_on_status_applied)
 	statuses.max_stacks_reached.connect(_on_status_max_stacks)
+	statuses.expired.connect(_on_status_expired)
+	resources.shield_broken.connect(func() -> void: statuses.remove(SHIELD_STATUS))
 	rng = RandomSource.new(seed_value)
 
 
@@ -130,7 +132,7 @@ func receive_hit(hit: HitInfo) -> DamageCalculator.Result:
 			if src:
 				src.statuses.apply(s.status_id, s.duration, s.magnitude, src)
 		else:
-			statuses.apply(s.status_id, s.duration, s.magnitude, src)
+			statuses.apply(s.status_id, _boss_scaled(s, hit), s.magnitude, src)
 	damaged.emit(result, hit)
 	if src:
 		src._on_hit_dealt(self, result, hit)
@@ -167,10 +169,34 @@ func _on_status_tick(status_id: String, atk_ratio: float, source: Object) -> voi
 		bus.dot_landed.emit(self, result.amount, status_id)
 
 
+## Thời gian trạng thái từ đòn có `boss_control_multiplier` (phản ứng nguyên tố, mục 8.4): khống chế và Chậm
+## lên boss ×0.5. Trạng thái đã có hệ số boss riêng trong StatusDef (Choáng, Trói) thì dùng hệ số đó.
+func _boss_scaled(s: StatusApplication, hit: HitInfo) -> float:
+	if not is_boss or hit.boss_control_multiplier >= 1.0:
+		return s.duration
+	var def := statuses.library.get_status(s.status_id) if statuses.library else null
+	if def == null or def.boss_duration_multiplier != 1.0:
+		return s.duration
+	if def.kind != StatusDef.Kind.CONTROL and def.magnitude_meaning != StatusDef.MAGNITUDE_MOVE_SLOW:
+		return s.duration
+	var d := def.default_duration if s.duration < 0.0 else s.duration
+	return d * hit.boss_control_multiplier
+
+
+const SHIELD_STATUS := "shield"
+
+
 func _on_status_applied(status_id: String, source: Object) -> void:
+	if status_id == SHIELD_STATUS:
+		resources.set_shield(statuses.magnitude(SHIELD_STATUS) * resources.max_hp)
 	var bus := _bus()
 	if bus:
 		bus.status_applied.emit(self, status_id, source)
+
+
+func _on_status_expired(status_id: String) -> void:
+	if status_id == SHIELD_STATUS:
+		resources.set_shield(0.0)
 
 
 ## Đủ tầng (vd 3 Dấu Sét → Bùng nổ Sét): báo lên EventBus.

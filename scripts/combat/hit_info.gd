@@ -30,6 +30,10 @@ var extra_en := 0.0
 ## Mục tiêu đang mang trạng thái này thì thêm % sát thương.
 var bonus_vs_status := ""
 var bonus_vs_status_ratio := 0.0
+## Kéo về `origin` thay vì đẩy theo knockback_dir.
+var pull_to_origin := false
+## Hệ số thời gian trạng thái khống chế / Chậm khi mục tiêu là boss.
+var boss_control_multiplier := 1.0
 ## Do mục tiêu điền khi nhận: trạng thái đang có TRƯỚC đòn này (vd "đang Cháy").
 var target_statuses_before := PackedStringArray()
 ## Do mục tiêu điền: đòn này làm mục tiêu gục.

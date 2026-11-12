@@ -10,7 +10,8 @@ extends Node
 ## - Liên kết / SI-CD: LinkTracker (M4-3); PartyManager cấp sự kiện từ EventBus và người trên sân.
 ## - Kĩ năng vào sân (M4-4): Thường chạy `switch_in`, Liên kết chạy `switch_in_linked` (thiếu thì `switch_in`),
 ##   mặc định không chạy kỹ năng; áp buff bản thân và giảm SI-CD riêng theo SwitchInDef.
-## Phản ứng nguyên tố: M4-5.
+## - Phản ứng nguyên tố (M4-5): chỉ khi vào sân Liên kết; nổ tại kẻ địch đầu tiên trúng Kĩ năng vào sân
+##   (Thanh Phong, Thánh Giáp nổ ngay tại người vào sân); ICD chung do ReactionResolver giữ.
 
 ## mode: LinkTracker.MODE_LINKED | MODE_NORMAL | MODE_DEFAULT.
 signal switched(from: CharacterRuntime, to: CharacterRuntime, mode: String)
@@ -42,6 +43,10 @@ var members: Array[CharacterRuntime] = []
 var active_index := 0
 var rules: CombatRules
 var links: LinkTracker
+var reactions: ReactionResolver
+## Phản ứng đang chờ Kĩ năng vào sân trúng kẻ địch.
+var _pending_reaction: ReactionDef
+var _pending_reaction_member: CharacterRuntime
 ## Mức vào sân của lần chuyển gần nhất.
 var last_switch_mode := ""
 
@@ -69,6 +74,7 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 		p.perfect_dodged.connect(_on_perfect_dodged.bind(m))
 		p.runner.skill_started.connect(_on_skill_started.bind(m))
 		p.combatant.hit_dealt.connect(_on_member_hit_dealt.bind(m))
+		p.runner.skill_finished.connect(_on_skill_finished.bind(m))
 	active_index = 0
 	for m in members:
 		if m.party_index != active_index:
@@ -78,6 +84,9 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 	links.setup(members, active_index)
 	links.window_opened.connect(_on_window_opened)
 	links.window_closed.connect(_on_window_closed)
+	reactions = ReactionResolver.new(rules)
+	for e in reactions.load_dir():
+		push_warning("PartyManager: phản ứng: %s" % e)
 	var bus := _bus()
 	if bus:
 		bus.enemy_stunned.connect(_on_enemy_stunned)
@@ -179,6 +188,7 @@ func _try_pending(expire: bool) -> void:
 func tick(delta: float) -> void:
 	_switch_cd = maxf(_switch_cd - delta, 0.0)
 	links.tick(delta)
+	reactions.tick(delta)
 	if _pending_slot >= 0:
 		_pending_t -= delta
 		_try_pending(_pending_t <= 0.0)
@@ -220,7 +230,10 @@ func _do_switch(index: int, auto := false) -> void:
 	active_index = index
 	links.on_switched(to, mode)
 	last_switch_mode = mode
+	_pending_reaction = null
 	_start_switch_in(to, mode)
+	if mode == LinkTracker.MODE_LINKED:
+		_arm_reaction(from, to)
 	_switch_cd = rules.switch_cooldown_sec
 	_auto_switch_timer = -1.0
 	switched.emit(from, to, mode)
@@ -314,6 +327,12 @@ func _on_member_hit_dealt(_target: Combatant, _result: DamageCalculator.Result, 
 		m: CharacterRuntime) -> void:
 	if m.party_index != active_index or not hit.skill_id.begins_with(m.id + "." + SKILL_SWITCH_IN):
 		return
+	if _pending_reaction != null and _pending_reaction_member == m:
+		var node := _target.get_parent() as Node2D
+		var def := _pending_reaction
+		_pending_reaction = null
+		if node:
+			_fire_reaction(def, m, node.global_position)
 	if hit.target_statuses_before.has("stun"):
 		_try_reduce_si_cd(m, SwitchInDef.REDUCE_STUNNED_HIT, false)
 
@@ -322,6 +341,33 @@ func _on_member_hit_dealt(_target: Combatant, _result: DamageCalculator.Result, 
 func _on_status_max_stacks(_target: Object, status_id: String, source: Object) -> void:
 	if status_id == LIGHTNING_MARK and _is_active_combatant(source):
 		_try_reduce_si_cd(active(), SwitchInDef.REDUCE_LIGHTNING_BURST)
+
+
+# ---------- Phản ứng nguyên tố (mục 8.4) ----------
+
+## Vào sân Liên kết: chuẩn bị phản ứng của cặp (nguyên tố người rời sân, nguyên tố người vào sân).
+func _arm_reaction(from: CharacterRuntime, to: CharacterRuntime) -> void:
+	var def := reactions.find(from.element(), to.element())
+	if def == null or not reactions.can_trigger():
+		return
+	if def.target_mode == ReactionDef.TargetMode.SELF:
+		_fire_reaction(def, to, to.controller.global_position)
+	else:
+		_pending_reaction = def
+		_pending_reaction_member = to
+
+
+func _fire_reaction(def: ReactionDef, m: CharacterRuntime, center: Vector2) -> void:
+	if reactions.trigger(def, m.controller, center, members):
+		var bus := _bus()
+		if bus:
+			bus.reaction_triggered.emit(def, center, m.controller)
+
+
+## Kĩ năng vào sân kết thúc mà không trúng ai: phản ứng không xảy ra (không tốn ICD).
+func _on_skill_finished(_key: String, skill: SkillDef, m: CharacterRuntime) -> void:
+	if skill.key == SKILL_SWITCH_IN and _pending_reaction_member == m:
+		_pending_reaction = null
 
 
 # ---------- Điều kiện Liên kết (mục 8.3) ----------

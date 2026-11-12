@@ -109,7 +109,10 @@ func tick(delta: float) -> void:
 			e["tick_timer"] = float(e["tick_timer"]) + dt
 			while float(e["tick_timer"]) >= def.tick_interval_sec - 0.000001:
 				e["tick_timer"] = float(e["tick_timer"]) - def.tick_interval_sec
-				tick_damage.emit(id, def.tick_atk_ratio, e["source"])
+				var ratio := def.tick_atk_ratio
+				if def.magnitude_meaning == StatusDef.MAGNITUDE_TICK_BONUS:
+					ratio *= 1.0 + float(e["magnitude"])
+				tick_damage.emit(id, ratio, e["source"])
 		if float(e["remaining"]) <= 0.000001:
 			_active.erase(id)
 			if def.resist_after_sec > 0.0:

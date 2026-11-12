@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/party/reaction_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "slow"
+duration = 0.7
+magnitude = 0.3
+
+[sub_resource type="Resource" id="st_0_1"]
+script = ExtResource("3")
+status_id = "sand_blind"
+duration = 4.0
+magnitude = 0.2
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 4000.0
+atk_ratio = 0.15
+sc_multiplier = 1.0
+shape = 1
+radius_px = 280.0
+offset = Vector2(0.0, -80.0)
+knockback_px = 0.0
+pull_to_origin = false
+detached = true
+tick_interval_ms = 500.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0"), SubResource("st_0_1")])
+
+[resource]
+script = ExtResource("1")
+id = "reaction.wind_earth"
+elements = PackedStringArray("wind", "earth")
+name_key = "REACTION_WIND_EARTH"
+target_mode = 0
+target_range_px = 0.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+scatter_radius_px = 0.0
+self_statuses = Array[ExtResource("3")]([])
+team_heal_max_hp_ratio = 0.0
+team_cleanse_count = 0
+metadata/source = "Mục 8.4 Phong + Địa: 8 nhịp x 15% = 120% trong 4s bán kính 280, Chậm 30%, Mù cát -20% sát thương 4s"
