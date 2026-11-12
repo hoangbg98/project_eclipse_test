@@ -1,0 +1,200 @@
+class_name GachaService
+extends RefCounted
+## Chiêu mộ ngoại tuyến (README "Gacha and recruitment"; ARCHITECTURE mục 9). Không biết UI.
+## Luồng: yêu cầu → kiểm tra tiền → luật banner → quay (tỉ lệ / pity / bảo hiểm) → trao thưởng → lịch sử.
+## Người gọi lưu file sau đó (`SaveService.save_game()`).
+##
+## - Tỉ lệ cố định theo BannerDef, không đổi ngẫu nhiên lúc chạy; bảng hiển thị (`rates_table`) sinh từ cùng config.
+## - Ngẫu nhiên qua RandomSource có seed → test tái lập được.
+## - Pity của một bậc = số lượt kể từ lần ra đúng bậc đó gần nhất (theo nhóm pity của banner).
+
+const REASON_OK := ""
+const REASON_INVALID := "invalid_banner"
+const REASON_NOT_ENOUGH := "not_enough_currency"
+const REASON_BAD_COUNT := "bad_count"
+
+var profile: PlayerProfile
+var rng: RandomSource
+
+
+func _init(player_profile: PlayerProfile, random: RandomSource = null) -> void:
+	profile = player_profile
+	rng = random if random else RandomSource.new(int(Time.get_unix_time_from_system()))
+
+
+# ---------- Giá ----------
+
+## Giá cho `count` lượt: 1 = giá đơn, `multi_count` = giá gói; số khác không hợp lệ (-1).
+static func cost_of(banner: BannerDef, count: int) -> int:
+	if count == 1:
+		return banner.cost_single
+	if count == banner.multi_count:
+		return banner.cost_multi
+	return -1
+
+
+func check(banner: BannerDef, count: int) -> String:
+	if banner == null or not banner.validate().is_empty():
+		return REASON_INVALID
+	var cost := cost_of(banner, count)
+	if cost < 0:
+		return REASON_BAD_COUNT
+	if not profile.inventory.can_spend(banner.cost_currency, cost):
+		return REASON_NOT_ENOUGH
+	return REASON_OK
+
+
+# ---------- Quay ----------
+
+## Quay `count` lượt. Trả về {"reason": "", "results": [ {item, rarity, featured, duplicate, pity} ]}.
+## Thất bại (reason khác rỗng): không trừ tiền, không đổi pity, không ghi lịch sử.
+func pull(banner: BannerDef, count: int) -> Dictionary:
+	var reason := check(banner, count)
+	if reason != REASON_OK:
+		return {"reason": reason, "results": []}
+	profile.inventory.spend_currency(banner.cost_currency, cost_of(banner, count))
+	var results: Array = []
+	for i in count:
+		results.append(_pull_one(banner))
+	return {"reason": REASON_OK, "results": results}
+
+
+func _pull_one(banner: BannerDef) -> Dictionary:
+	var group := banner.group()
+	var pity := _pity_table(group)
+	# Mỗi lượt: mọi bộ đếm +1 (đây là lượt thứ n kể từ lần ra bậc đó).
+	for t in banner.tiers:
+		pity[str(t.rarity)] = int(pity.get(str(t.rarity), 0)) + 1
+	var tier := _roll_tier(banner, pity)
+	var pity_at := int(pity[str(tier.rarity)])
+	pity[str(tier.rarity)] = 0
+	var picked := _pick_reward(tier, group)
+	var item: String = picked["item"]
+	var dup := _grant(item, tier)
+	var entry := {"banner": banner.id, "item": item, "rarity": tier.rarity, "featured": picked["featured"],
+			"duplicate": dup, "pity": pity_at, "time": Time.get_datetime_string_from_system(true)}
+	var hist: Array = profile.data["gacha"]["history"]
+	hist.append(entry)
+	while hist.size() > SaveSchema.HISTORY_LIMIT:
+		hist.pop_front()
+	return entry
+
+
+## Tỉ lệ thực của một bậc ở lượt hiện tại (đã tính pity mềm / cứng); bậc cuối không dùng hàm này.
+static func tier_rate(t: GachaTierDef, pulls_since: int) -> float:
+	if t.hard_pity > 0 and pulls_since >= t.hard_pity:
+		return 1.0
+	var r := t.base_rate
+	if t.soft_pity_start > 0 and pulls_since >= t.soft_pity_start:
+		r += t.soft_pity_step * float(pulls_since - t.soft_pity_start + 1)
+	return clampf(r, 0.0, 1.0)
+
+
+func _roll_tier(banner: BannerDef, pity: Dictionary) -> GachaTierDef:
+	var last := banner.tiers.size() - 1
+	# Pity cứng: bậc hiếm nhất đang chạm ngưỡng được ưu tiên.
+	for i in last:
+		var t := banner.tiers[i]
+		if t.hard_pity > 0 and int(pity[str(t.rarity)]) >= t.hard_pity:
+			return t
+	var roll := rng.randf()
+	var acc := 0.0
+	for i in last:
+		var t := banner.tiers[i]
+		acc += tier_rate(t, int(pity[str(t.rarity)]))
+		if roll < acc:
+			return t
+	return banner.tiers[last]
+
+
+func _pick_reward(tier: GachaTierDef, group: String) -> Dictionary:
+	if tier.featured.is_empty():
+		return {"item": tier.pool[rng.randi_range(0, tier.pool.size() - 1)], "featured": false}
+	var g := _guarantee_table(group)
+	var key := str(tier.rarity)
+	var others := PackedStringArray()
+	for p in tier.pool:
+		if p not in tier.featured:
+			others.append(p)
+	var want_featured := bool(g.get(key, false)) or others.is_empty() or rng.randf() < tier.featured_rate
+	if want_featured:
+		g[key] = false
+		return {"item": tier.featured[rng.randi_range(0, tier.featured.size() - 1)], "featured": true}
+	if tier.guarantee_after_miss:
+		g[key] = true
+	return {"item": others[rng.randi_range(0, others.size() - 1)], "featured": false}
+
+
+## Trao thưởng; trả về true nếu là nhân vật trùng (đã sở hữu).
+func _grant(item: String, tier: GachaTierDef) -> bool:
+	var kind := item.get_slice(":", 0)
+	var id := item.get_slice(":", 1)
+	match kind:
+		"char":
+			if profile.progression.unlock(id):
+				return false
+			if tier.duplicate_item != "" and tier.duplicate_count > 0:
+				profile.inventory.add_material(tier.duplicate_item, tier.duplicate_count)
+			return true
+		"equip":
+			profile.inventory.add_equipment(id)
+		"item":
+			profile.inventory.add_material(id, 1)
+	return false
+
+
+# ---------- Pity / bảo hiểm trong save ----------
+
+func _pity_table(group: String) -> Dictionary:
+	var all: Dictionary = profile.data["gacha"]["pity"]
+	if not (all.get(group) is Dictionary):
+		all[group] = {}
+	return all[group]
+
+
+func _guarantee_table(group: String) -> Dictionary:
+	var all: Dictionary = profile.data["gacha"]["guarantee"]
+	if not (all.get(group) is Dictionary):
+		all[group] = {}
+	return all[group]
+
+
+## Số lượt kể từ lần ra bậc `rarity` gần nhất (để UI hiện "còn N lượt nữa chắc chắn ra").
+func pity_count(banner: BannerDef, rarity: int) -> int:
+	return int(_pity_table(banner.group()).get(str(rarity), 0))
+
+
+func is_guaranteed(banner: BannerDef, rarity: int) -> bool:
+	return bool(_guarantee_table(banner.group()).get(str(rarity), false))
+
+
+func history() -> Array:
+	return profile.data["gacha"]["history"]
+
+
+# ---------- Bảng tỉ lệ hiển thị (sinh từ cùng config) ----------
+
+## [{rarity, rate, hard_pity, soft_pity_start, soft_pity_step, guarantee_after_miss, items: [{item, rate, featured}]}]
+## `rate` là tỉ lệ gốc mỗi lượt (chưa tính pity); tổng mọi bậc = 1; tổng items của một bậc = rate của bậc.
+static func rates_table(banner: BannerDef) -> Array:
+	var out: Array = []
+	var upper := 0.0
+	var last := banner.tiers.size() - 1
+	for i in banner.tiers.size():
+		var t := banner.tiers[i]
+		var rate := t.base_rate if i < last else maxf(1.0 - upper, 0.0)
+		if i < last:
+			upper += t.base_rate
+		var items: Array = []
+		var n_feat := t.featured.size()
+		var n_other := t.pool.size() - n_feat
+		for p in t.pool:
+			var is_f := p in t.featured
+			var share := 1.0 / t.pool.size()
+			if n_feat > 0:
+				var f_rate := 1.0 if n_other == 0 else t.featured_rate
+				share = f_rate / n_feat if is_f else (1.0 - f_rate) / n_other
+			items.append({"item": p, "rate": rate * share, "featured": is_f})
+		out.append({"rarity": t.rarity, "rate": rate, "hard_pity": t.hard_pity, "soft_pity_start": t.soft_pity_start,
+				"soft_pity_step": t.soft_pity_step, "guarantee_after_miss": t.guarantee_after_miss, "items": items})
+	return out
