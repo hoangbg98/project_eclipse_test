@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "eq_acc_hourglass"
+name_key = "EQUIP_EQ_ACC_HOURGLASS"
+slot = "accessory"
+rarity = 3
+max_level = 10
+atk = 0.0
+max_hp = 400.0
+def = 0.0
+crit_rate = 0.0
+crit_damage = 0.0
+cdr = 0.08
+growth_per_level = 0.1
+enhance_gold_base = 600
+enhance_points_base = 300
+metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

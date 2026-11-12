@@ -182,3 +182,52 @@ msgstr "Holy Aegis"
 
 msgid "REACTION_DARK_EARTH"
 msgstr "Earthen Tomb"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_EXP_SMALL"
+msgstr "Small EXP Book"
+
+msgid "ITEM_MAT_EXP_MEDIUM"
+msgstr "Medium EXP Book"
+
+msgid "ITEM_MAT_EXP_LARGE"
+msgstr "Large EXP Book"
+
+msgid "ITEM_MAT_ENHANCE_ORE"
+msgstr "Enhancement Ore"
+
+msgid "ITEM_MAT_ENHANCE_CRYSTAL"
+msgstr "Enhancement Crystal"
+
+msgid "EQUIP_EQ_WEAPON_IRON"
+msgstr "Iron Weapon Core"
+
+msgid "EQUIP_EQ_WEAPON_FLAME"
+msgstr "Flame Weapon Core"
+
+msgid "EQUIP_EQ_ARMOR_LEATHER"
+msgstr "Leather Armor"
+
+msgid "EQUIP_EQ_ARMOR_GUARDIAN"
+msgstr "Guardian Armor"
+
+msgid "EQUIP_EQ_ACC_RING"
+msgstr "Elite Ring"
+
+msgid "EQUIP_EQ_ACC_HOURGLASS"
+msgstr "Hourglass Charm"
+
+msgid "CURRENCY_GOLD"
+msgstr "Gold"
+
+msgid "CURRENCY_GEMS"
+msgstr "Gems"
+
+msgid "SLOT_WEAPON"
+msgstr "Weapon"
+
+msgid "SLOT_ARMOR"
+msgstr "Armor"
+
+msgid "SLOT_ACCESSORY"
+msgstr "Accessory"

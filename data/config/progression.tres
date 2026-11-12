@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ProgressionRules" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/progression_rules.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+max_level = 50
+exp_base = 100.0
+exp_exponent = 1.5
+hp_growth_per_level = 0.06
+atk_growth_per_level = 0.06
+def_growth_per_level = 0.05
+gold_per_exp = 0.2
+metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

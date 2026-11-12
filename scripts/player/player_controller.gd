@@ -47,6 +47,8 @@ var velocity_override := Vector2.ZERO
 var air_attacks_used := 0
 ## Logic riêng của nhân vật (CharacterDef.kit_script), có thể null.
 var kit: Node
+## Chỉ số thay cho chỉ số gốc của CharacterDef (cấp + trang bị, do PartyManager gán trước khi vào cây).
+var stats_override: CombatStats
 
 var _perfect_dodge_icd := 0.0
 var _knock_v := 0.0
@@ -98,7 +100,9 @@ func _load_character() -> void:
 	character = load(path)
 	if character.movement:
 		config = character.movement
-	if character.stats:
+	if stats_override:
+		combatant.stats = stats_override
+	elif character.stats:
 		combatant.stats = character.stats
 
 

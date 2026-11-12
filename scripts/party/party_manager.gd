@@ -40,6 +40,9 @@ const LIGHTNING_MARK := "lightning_mark"
 @export var use_player_input := true
 
 var members: Array[CharacterRuntime] = []
+## (character_id) -> CombatStats: chỉ số theo cấp + trang bị của người chơi (PlayerProfile.stats_of).
+## Không gán thì dùng chỉ số gốc cấp 1 trong CharacterDef.
+var stats_provider: Callable
 var active_index := 0
 var rules: CombatRules
 var links: LinkTracker
@@ -65,6 +68,8 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 	for i in character_ids.size():
 		var p: PlayerController = PLAYER_SCENE.instantiate()
 		p.character_id = character_ids[i]
+		if stats_provider.is_valid():
+			p.stats_override = stats_provider.call(character_ids[i])
 		p.position = spawn
 		parent.add_child(p)
 		var m := CharacterRuntime.new(character_ids[i], p, i)

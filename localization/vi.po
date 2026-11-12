@@ -182,3 +182,52 @@ msgstr "Thánh Giáp"
 
 msgid "REACTION_DARK_EARTH"
 msgstr "Địa Táng"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_EXP_SMALL"
+msgstr "Sách kinh nghiệm nhỏ"
+
+msgid "ITEM_MAT_EXP_MEDIUM"
+msgstr "Sách kinh nghiệm vừa"
+
+msgid "ITEM_MAT_EXP_LARGE"
+msgstr "Sách kinh nghiệm lớn"
+
+msgid "ITEM_MAT_ENHANCE_ORE"
+msgstr "Quặng cường hóa"
+
+msgid "ITEM_MAT_ENHANCE_CRYSTAL"
+msgstr "Tinh thể cường hóa"
+
+msgid "EQUIP_EQ_WEAPON_IRON"
+msgstr "Lõi vũ khí sắt"
+
+msgid "EQUIP_EQ_WEAPON_FLAME"
+msgstr "Lõi vũ khí hỏa tinh"
+
+msgid "EQUIP_EQ_ARMOR_LEATHER"
+msgstr "Giáp da"
+
+msgid "EQUIP_EQ_ARMOR_GUARDIAN"
+msgstr "Giáp hộ vệ"
+
+msgid "EQUIP_EQ_ACC_RING"
+msgstr "Nhẫn tinh anh"
+
+msgid "EQUIP_EQ_ACC_HOURGLASS"
+msgstr "Đồng hồ cát"
+
+msgid "CURRENCY_GOLD"
+msgstr "Vàng"
+
+msgid "CURRENCY_GEMS"
+msgstr "Ngọc"
+
+msgid "SLOT_WEAPON"
+msgstr "Vũ khí"
+
+msgid "SLOT_ARMOR"
+msgstr "Giáp"
+
+msgid "SLOT_ACCESSORY"
+msgstr "Phụ kiện"

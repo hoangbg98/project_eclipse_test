@@ -1,0 +1,121 @@
+class_name Progression
+extends RefCounted
+## Cấp và EXP của nhân vật + chỉ số cuối cùng (gốc × cấp + trang bị) (M5-2, M5-3).
+## Thao tác trên dữ liệu save được truyền vào; không tự ghi file.
+
+signal leveled_up(character_id: String, from_level: int, to_level: int)
+signal changed
+
+var data: Dictionary
+var rules: ProgressionRules
+var inventory: Inventory
+
+
+func _init(save_data: Dictionary, progression_rules: ProgressionRules, inv: Inventory) -> void:
+	data = save_data
+	rules = progression_rules
+	inventory = inv
+
+
+func owns(character_id: String) -> bool:
+	return data["characters"].has(character_id)
+
+
+func level_of(character_id: String) -> int:
+	return clampi(int(data["characters"][character_id]["level"]), 1, rules.max_level) if owns(character_id) else 1
+
+
+func exp_of(character_id: String) -> int:
+	return int(data["characters"][character_id]["exp"]) if owns(character_id) else 0
+
+
+func is_max_level(character_id: String) -> bool:
+	return level_of(character_id) >= rules.max_level
+
+
+## Mở khóa nhân vật mới ở cấp 1 (đã có thì không đổi). Trả về true nếu vừa thêm.
+func unlock(character_id: String) -> bool:
+	if owns(character_id):
+		return false
+	data["characters"][character_id] = SaveSchema.default_character()
+	changed.emit()
+	return true
+
+
+## Cộng EXP, tự lên cấp; EXP thừa ở cấp tối đa bị bỏ. Trả về số cấp đã lên.
+func add_exp(character_id: String, amount: int) -> int:
+	if not owns(character_id) or amount <= 0:
+		return 0
+	var c: Dictionary = data["characters"][character_id]
+	var start := level_of(character_id)
+	var level := start
+	var xp := exp_of(character_id) + amount
+	while level < rules.max_level and xp >= rules.exp_to_next(level):
+		xp -= rules.exp_to_next(level)
+		level += 1
+	if level >= rules.max_level:
+		xp = 0
+	c["level"] = level
+	c["exp"] = xp
+	changed.emit()
+	if level > start:
+		leveled_up.emit(character_id, start, level)
+	return level - start
+
+
+## EXP còn nhận được trước khi chạm cấp tối đa.
+func exp_room(character_id: String) -> int:
+	if not owns(character_id) or is_max_level(character_id):
+		return 0
+	return rules.total_exp_for(rules.max_level) - rules.total_exp_for(level_of(character_id)) - exp_of(character_id)
+
+
+## Lý do không dùng được `count` nguyên liệu EXP cho nhân vật ("" = được).
+func check_use_exp_material(character_id: String, material_id: String, count: int) -> String:
+	if not owns(character_id):
+		return Inventory.REASON_UNKNOWN_CHARACTER
+	var mat := inventory.items.get_def(material_id) as ItemDef
+	if mat == null or mat.kind != ItemDef.Kind.EXP:
+		return Inventory.REASON_UNKNOWN_ITEM
+	if count <= 0:
+		return Inventory.REASON_INVALID
+	if is_max_level(character_id):
+		return Inventory.REASON_MAX_LEVEL
+	if inventory.material_count(material_id) < count:
+		return Inventory.REASON_NOT_ENOUGH
+	if not inventory.can_spend("gold", exp_material_gold_cost(material_id, count)):
+		return Inventory.REASON_NOT_ENOUGH
+	return Inventory.OK_REASON
+
+
+func exp_material_gold_cost(material_id: String, count: int) -> int:
+	var mat := inventory.items.get_def(material_id) as ItemDef
+	return int(ceil(mat.value * count * rules.gold_per_exp)) if mat else 0
+
+
+## Dùng nguyên liệu EXP: trừ nguyên liệu + vàng, cộng EXP. Trả về lý do ("" = thành công); thất bại thì không trừ gì.
+func use_exp_material(character_id: String, material_id: String, count: int) -> String:
+	var reason := check_use_exp_material(character_id, material_id, count)
+	if reason != Inventory.OK_REASON:
+		return reason
+	var mat := inventory.items.get_def(material_id) as ItemDef
+	inventory.spend_currency("gold", exp_material_gold_cost(material_id, count))
+	inventory.consume_material(material_id, count)
+	add_exp(character_id, mat.value * count)
+	return Inventory.OK_REASON
+
+
+## Chỉ số chiến đấu cuối cùng: gốc (CharacterDef) × hệ số cấp + trang bị. Trả về CombatStats mới (không sửa bản gốc).
+func stats_for(def: CharacterDef) -> CombatStats:
+	var base := def.stats if def and def.stats else CombatStats.new()
+	var out := base.duplicate() as CombatStats
+	var id := def.id if def else ""
+	var level := level_of(id)
+	var bonus := inventory.equipped_bonus(id) if inventory else {}
+	out.max_hp = round(base.max_hp * rules.stat_multiplier(rules.hp_growth_per_level, level) + float(bonus.get("max_hp", 0.0)))
+	out.atk = round(base.atk * rules.stat_multiplier(rules.atk_growth_per_level, level) + float(bonus.get("atk", 0.0)))
+	out.def = round(base.def * rules.stat_multiplier(rules.def_growth_per_level, level) + float(bonus.get("def", 0.0)))
+	out.crit_rate = clampf(base.crit_rate + float(bonus.get("crit_rate", 0.0)), 0.0, 1.0)
+	out.crit_damage = base.crit_damage + float(bonus.get("crit_damage", 0.0))
+	out.cdr = clampf(base.cdr + float(bonus.get("cdr", 0.0)), 0.0, 1.0)
+	return out

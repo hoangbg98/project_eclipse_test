@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "eq_acc_ring"
+name_key = "EQUIP_EQ_ACC_RING"
+slot = "accessory"
+rarity = 2
+max_level = 10
+atk = 30.0
+max_hp = 0.0
+def = 0.0
+crit_rate = 0.04
+crit_damage = 0.1
+cdr = 0.0
+growth_per_level = 0.1
+enhance_gold_base = 400
+enhance_points_base = 200
+metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

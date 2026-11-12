@@ -1,0 +1,71 @@
+"""Sinh dữ liệu khởi điểm cho M5-2 / M5-3: luật tăng trưởng, nguyên liệu, trang bị + khóa dịch.
+Chạy: python -X utf8 tools/gen_item_data.py   (ghi đè data/config/progression.tres, data/items/*.tres, data/equipment/*.tres)
+Mọi số là giá trị Claude đặt làm khởi điểm (README chưa có); owner chỉnh trong file .tres.
+"""
+import io
+import os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."
+
+
+def write(rel, script, cls, fields):
+    p = os.path.join(ROOT, rel)
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    lines = ['[gd_resource type="Resource" script_class="%s" load_steps=2 format=3]' % cls, "",
+             '[ext_resource type="Script" path="res://scripts/progression/%s" id="1"]' % script, "",
+             "[resource]", 'script = ExtResource("1")']
+    for k, v in fields:
+        if isinstance(v, bool):
+            v = "true" if v else "false"
+        elif isinstance(v, str):
+            v = '"%s"' % v
+        lines.append("%s = %s" % (k, v))
+    lines.append('metadata/source = "%s"' % SRC)
+    io.open(p, "w", encoding="utf-8", newline="\n").write("\n".join(lines) + "\n")
+
+
+write("data/config/progression.tres", "progression_rules.gd", "ProgressionRules", [
+    ("max_level", 50), ("exp_base", 100.0), ("exp_exponent", 1.5),
+    ("hp_growth_per_level", 0.06), ("atk_growth_per_level", 0.06), ("def_growth_per_level", 0.05),
+    ("gold_per_exp", 0.2)])
+
+EXP, ENHANCE, MISC = 0, 1, 2
+ITEMS = [  # id, kind, value, rarity, vi, en
+    ("mat_exp_small", EXP, 100, 1, "Sách kinh nghiệm nhỏ", "Small EXP Book"),
+    ("mat_exp_medium", EXP, 500, 2, "Sách kinh nghiệm vừa", "Medium EXP Book"),
+    ("mat_exp_large", EXP, 2000, 3, "Sách kinh nghiệm lớn", "Large EXP Book"),
+    ("mat_enhance_ore", ENHANCE, 50, 1, "Quặng cường hóa", "Enhancement Ore"),
+    ("mat_enhance_crystal", ENHANCE, 250, 3, "Tinh thể cường hóa", "Enhancement Crystal"),
+]
+for iid, kind, value, rarity, vi, en in ITEMS:
+    write("data/items/%s.tres" % iid, "item_def.gd", "ItemDef",
+          [("id", iid), ("name_key", "ITEM_" + iid.upper()), ("kind", kind), ("value", value), ("rarity", rarity)])
+
+EQUIP = [  # id, slot, rarity, atk, hp, def, crit_rate, crit_dmg, cdr, vi, en
+    ("eq_weapon_iron", "weapon", 1, 80.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Lõi vũ khí sắt", "Iron Weapon Core"),
+    ("eq_weapon_flame", "weapon", 3, 160.0, 0.0, 0.0, 0.05, 0.0, 0.0, "Lõi vũ khí hỏa tinh", "Flame Weapon Core"),
+    ("eq_armor_leather", "armor", 1, 0.0, 900.0, 40.0, 0.0, 0.0, 0.0, "Giáp da", "Leather Armor"),
+    ("eq_armor_guardian", "armor", 3, 0.0, 1800.0, 90.0, 0.0, 0.0, 0.0, "Giáp hộ vệ", "Guardian Armor"),
+    ("eq_acc_ring", "accessory", 2, 30.0, 0.0, 0.0, 0.04, 0.10, 0.0, "Nhẫn tinh anh", "Elite Ring"),
+    ("eq_acc_hourglass", "accessory", 3, 0.0, 400.0, 0.0, 0.0, 0.0, 0.08, "Đồng hồ cát", "Hourglass Charm"),
+]
+for eid, slot, rarity, atk, hp, df, cr, cd, cdr, vi, en in EQUIP:
+    write("data/equipment/%s.tres" % eid, "equipment_def.gd", "EquipmentDef",
+          [("id", eid), ("name_key", "EQUIP_" + eid.upper()), ("slot", slot), ("rarity", rarity), ("max_level", 10),
+           ("atk", atk), ("max_hp", hp), ("def", df), ("crit_rate", cr), ("crit_damage", cd), ("cdr", cdr),
+           ("growth_per_level", 0.1), ("enhance_gold_base", 200 * rarity), ("enhance_points_base", 100 * rarity)])
+
+EXTRA = [("CURRENCY_GOLD", "Vàng", "Gold"), ("CURRENCY_GEMS", "Ngọc", "Gems"),
+         ("SLOT_WEAPON", "Vũ khí", "Weapon"), ("SLOT_ARMOR", "Giáp", "Armor"), ("SLOT_ACCESSORY", "Phụ kiện", "Accessory")]
+for po, idx in (("vi.po", 0), ("en.po", 1)):
+    p = os.path.join(ROOT, "localization", po)
+    s = io.open(p, encoding="utf-8").read()
+    add = ""
+    rows = [("ITEM_" + i[0].upper(), i[4], i[5]) for i in ITEMS] + [("EQUIP_" + e[0].upper(), e[9], e[10]) for e in EQUIP] + EXTRA
+    for key, vi, en in rows:
+        if 'msgid "%s"' % key not in s:
+            add += '\nmsgid "%s"\nmsgstr "%s"\n' % (key, (vi, en)[idx])
+    if add:
+        io.open(p, "w", encoding="utf-8", newline="\n").write(s.rstrip("\n") + "\n\n# Vật phẩm, trang bị (M5)" + add)
+print("ok")
