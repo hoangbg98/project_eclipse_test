@@ -1,0 +1,906 @@
+{
+ "character_id": "char_fire_01",
+ "source_sheet": "char_fire_01_parts_sheet.jpg",
+ "sheet_size": [
+  1272,
+  1236
+ ],
+ "parts": [
+  {
+   "id": 1,
+   "file": "char_fire_01_part_01_face_mat_mac_dinh.png",
+   "category": "face",
+   "name": "Mặt mặc định",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    389,
+    23,
+    128,
+    129
+   ]
+  },
+  {
+   "id": 2,
+   "file": "char_fire_01_part_02_face_mat_nghiem.png",
+   "category": "face",
+   "name": "Mặt nghiêm",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    523,
+    23,
+    133,
+    119
+   ]
+  },
+  {
+   "id": 3,
+   "file": "char_fire_01_part_03_face_mat_binh_thuong.png",
+   "category": "face",
+   "name": "Mặt bình thường",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    672,
+    23,
+    132,
+    119
+   ]
+  },
+  {
+   "id": 4,
+   "file": "char_fire_01_part_04_face_mat_ha_mieng_het.png",
+   "category": "face",
+   "name": "Mặt há miệng (hét)",
+   "side": "near",
+   "note": "Dùng cho đòn tụ lực",
+   "sheet_rect": [
+    817,
+    23,
+    133,
+    119
+   ]
+  },
+  {
+   "id": 5,
+   "file": "char_fire_01_part_05_face_mat_nham_mat_dau.png",
+   "category": "face",
+   "name": "Mặt nhắm mắt (đau)",
+   "side": "near",
+   "note": "Dùng cho nhân vật bị đánh trúng",
+   "sheet_rect": [
+    962,
+    23,
+    132,
+    119
+   ]
+  },
+  {
+   "id": 6,
+   "file": "char_fire_01_part_06_face_mat_lo_lang.png",
+   "category": "face",
+   "name": "Mặt lo lắng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1107,
+    23,
+    130,
+    118
+   ]
+  },
+  {
+   "id": 7,
+   "file": "char_fire_01_part_07_hair_toc_truoc_mai_lon_cam.png",
+   "category": "hair",
+   "name": "Tóc trước (mái, lọn cam)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    370,
+    173,
+    179,
+    166
+   ]
+  },
+  {
+   "id": 8,
+   "file": "char_fire_01_part_08_hair_toc_nghieng.png",
+   "category": "hair",
+   "name": "Tóc nghiêng",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    536,
+    162,
+    115,
+    165
+   ]
+  },
+  {
+   "id": 9,
+   "file": "char_fire_01_part_09_hair_toc_sau.png",
+   "category": "hair",
+   "name": "Tóc sau",
+   "side": "",
+   "note": "Dùng khi nhân vật xoay người tung chiêu",
+   "sheet_rect": [
+    652,
+    156,
+    168,
+    177
+   ]
+  },
+  {
+   "id": 10,
+   "file": "char_fire_01_part_10_hair_toc_truoc_ban_2.png",
+   "category": "hair",
+   "name": "Tóc trước (bản 2)",
+   "side": "near",
+   "note": "Dùng khi nhân vật đi hướng ngược lại",
+   "sheet_rect": [
+    822,
+    161,
+    162,
+    174
+   ]
+  },
+  {
+   "id": 11,
+   "file": "char_fire_01_part_11_hair_toc_sau_ban_2.png",
+   "category": "hair",
+   "name": "Tóc sau (bản 2)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    986,
+    171,
+    160,
+    149
+   ]
+  },
+  {
+   "id": 12,
+   "file": "char_fire_01_part_12_hair_strand_lon_toc_roi.png",
+   "category": "hair_strand",
+   "name": "Lọn tóc rời",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1149,
+    182,
+    51,
+    59
+   ]
+  },
+  {
+   "id": 13,
+   "file": "char_fire_01_part_13_hair_strand_lon_toc_roi.png",
+   "category": "hair_strand",
+   "name": "Lọn tóc rời",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1207,
+    192,
+    18,
+    65
+   ]
+  },
+  {
+   "id": 14,
+   "file": "char_fire_01_part_14_hair_strand_lon_toc_roi.png",
+   "category": "hair_strand",
+   "name": "Lọn tóc rời",
+   "side": "far",
+   "note": "",
+   "sheet_rect": [
+    1230,
+    232,
+    16,
+    69
+   ]
+  },
+  {
+   "id": 15,
+   "file": "char_fire_01_part_15_hair_strand_lon_toc_roi.png",
+   "category": "hair_strand",
+   "name": "Lọn tóc rời",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1158,
+    234,
+    23,
+    83
+   ]
+  },
+  {
+   "id": 16,
+   "file": "char_fire_01_part_16_pose_anh_dung_tong_the_tham_chieu.png",
+   "category": "pose",
+   "name": "Ảnh đứng tổng thể (tham chiếu)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    9,
+    14,
+    335,
+    686
+   ]
+  },
+  {
+   "id": 17,
+   "file": "char_fire_01_part_17_torso_ao_khoac_so_mi_truoc.png",
+   "category": "torso",
+   "name": "Áo khoác + sơ mi (trước)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    382,
+    343,
+    143,
+    138
+   ]
+  },
+  {
+   "id": 18,
+   "file": "char_fire_01_part_18_torso_co_ao_dai_ao.png",
+   "category": "torso",
+   "name": "Cổ áo / dải áo",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    727,
+    347,
+    55,
+    133
+   ]
+  },
+  {
+   "id": 19,
+   "file": "char_fire_01_part_19_arm_ong_tay_ao_doan.png",
+   "category": "arm",
+   "name": "Ống tay áo (đoạn)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1142,
+    368,
+    43,
+    67
+   ]
+  },
+  {
+   "id": 20,
+   "file": "char_fire_01_part_20_arm_co_tay_ao_doan.png",
+   "category": "arm",
+   "name": "Cổ tay áo (đoạn)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1213,
+    367,
+    39,
+    68
+   ]
+  },
+  {
+   "id": 21,
+   "file": "char_fire_01_part_21_torso_ao_khoac_mo_ban_2.png",
+   "category": "torso",
+   "name": "Áo khoác mở (bản 2)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    525,
+    341,
+    149,
+    154
+   ]
+  },
+  {
+   "id": 22,
+   "file": "char_fire_01_part_22_torso_vat_ao_nghieng.png",
+   "category": "torso",
+   "name": "Vạt áo nghiêng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    674,
+    363,
+    68,
+    131
+   ]
+  },
+  {
+   "id": 23,
+   "file": "char_fire_01_part_23_armor_giap_vai.png",
+   "category": "armor",
+   "name": "Giáp vai",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    780,
+    345,
+    75,
+    145
+   ]
+  },
+  {
+   "id": 24,
+   "file": "char_fire_01_part_24_arm_canh_tay_gang.png",
+   "category": "arm",
+   "name": "Cánh tay + găng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    861,
+    355,
+    61,
+    178
+   ]
+  },
+  {
+   "id": 25,
+   "file": "char_fire_01_part_25_arm_canh_tay_gang.png",
+   "category": "arm",
+   "name": "Cánh tay + găng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    918,
+    354,
+    63,
+    201
+   ]
+  },
+  {
+   "id": 26,
+   "file": "char_fire_01_part_26_arm_canh_tay_gang.png",
+   "category": "arm",
+   "name": "Cánh tay + găng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    992,
+    357,
+    58,
+    179
+   ]
+  },
+  {
+   "id": 27,
+   "file": "char_fire_01_part_27_arm_canh_tay_gang.png",
+   "category": "arm",
+   "name": "Cánh tay + găng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1073,
+    361,
+    58,
+    172
+   ]
+  },
+  {
+   "id": 28,
+   "file": "char_fire_01_part_28_leg_cang_chan_doan.png",
+   "category": "leg",
+   "name": "Cẳng chân (đoạn)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    571,
+    500,
+    57,
+    104
+   ]
+  },
+  {
+   "id": 29,
+   "file": "char_fire_01_part_29_armor_chi_tiet_giap_nho.png",
+   "category": "armor",
+   "name": "Chi tiết giáp nhỏ",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    641,
+    531,
+    43,
+    69
+   ]
+  },
+  {
+   "id": 30,
+   "file": "char_fire_01_part_30_belt_khoa_that_lung.png",
+   "category": "belt",
+   "name": "Khóa thắt lưng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    694,
+    534,
+    76,
+    56
+   ]
+  },
+  {
+   "id": 31,
+   "file": "char_fire_01_part_31_hand_ban_tay.png",
+   "category": "hand",
+   "name": "Bàn tay",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1143,
+    482,
+    46,
+    63
+   ]
+  },
+  {
+   "id": 32,
+   "file": "char_fire_01_part_32_hand_ban_tay.png",
+   "category": "hand",
+   "name": "Bàn tay",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1207,
+    483,
+    45,
+    64
+   ]
+  },
+  {
+   "id": 33,
+   "file": "char_fire_01_part_33_leg_quan_ung_ca_hai_chan.png",
+   "category": "leg",
+   "name": "Quần + ủng (cả hai chân)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    360,
+    489,
+    217,
+    236
+   ]
+  },
+  {
+   "id": 34,
+   "file": "char_fire_01_part_34_torso_vat_ao_sau.png",
+   "category": "torso",
+   "name": "Vạt áo sau",
+   "side": "far",
+   "note": "",
+   "sheet_rect": [
+    787,
+    517,
+    62,
+    114
+   ]
+  },
+  {
+   "id": 35,
+   "file": "char_fire_01_part_35_hand_nam_tay.png",
+   "category": "hand",
+   "name": "Nắm tay",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    869,
+    559,
+    38,
+    61
+   ]
+  },
+  {
+   "id": 36,
+   "file": "char_fire_01_part_36_hand_nam_tay.png",
+   "category": "hand",
+   "name": "Nắm tay",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    918,
+    560,
+    44,
+    66
+   ]
+  },
+  {
+   "id": 37,
+   "file": "char_fire_01_part_37_boot_ung.png",
+   "category": "boot",
+   "name": "Ủng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    987,
+    556,
+    59,
+    77
+   ]
+  },
+  {
+   "id": 38,
+   "file": "char_fire_01_part_38_boot_ung.png",
+   "category": "boot",
+   "name": "Ủng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1076,
+    558,
+    60,
+    77
+   ]
+  },
+  {
+   "id": 39,
+   "file": "char_fire_01_part_39_hand_ban_tay.png",
+   "category": "hand",
+   "name": "Bàn tay",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1145,
+    559,
+    49,
+    53
+   ]
+  },
+  {
+   "id": 40,
+   "file": "char_fire_01_part_40_hand_ban_tay.png",
+   "category": "hand",
+   "name": "Bàn tay",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1209,
+    561,
+    48,
+    50
+   ]
+  },
+  {
+   "id": 41,
+   "file": "char_fire_01_part_41_boot_chan_ung_thang.png",
+   "category": "boot",
+   "name": "Chân + ủng (thẳng)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    586,
+    620,
+    54,
+    169
+   ]
+  },
+  {
+   "id": 42,
+   "file": "char_fire_01_part_42_boot_chan_ung.png",
+   "category": "boot",
+   "name": "Chân + ủng",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    668,
+    623,
+    56,
+    166
+   ]
+  },
+  {
+   "id": 43,
+   "file": "char_fire_01_part_43_leg_chan_buoc_ung_giap.png",
+   "category": "leg",
+   "name": "Chân bước + ủng giáp",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    736,
+    622,
+    90,
+    151
+   ]
+  },
+  {
+   "id": 44,
+   "file": "char_fire_01_part_44_weapon_kiem_lua.png",
+   "category": "weapon",
+   "name": "Kiếm lửa",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    856,
+    644,
+    378,
+    94
+   ]
+  },
+  {
+   "id": 45,
+   "file": "char_fire_01_part_45_weapon_bao_kiem.png",
+   "category": "weapon",
+   "name": "Bao kiếm",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1056,
+    716,
+    193,
+    54
+   ]
+  },
+  {
+   "id": 46,
+   "file": "char_fire_01_part_46_weapon_kiem_lua_ban_2.png",
+   "category": "weapon",
+   "name": "Kiếm lửa (bản 2)",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    840,
+    738,
+    376,
+    81
+   ]
+  },
+  {
+   "id": 47,
+   "file": "char_fire_01_part_47_face_mat_bieu_cam.png",
+   "category": "face",
+   "name": "Mặt biểu cảm",
+   "side": "near",
+   "note": "Dùng cho đòn tụ lực",
+   "sheet_rect": [
+    13,
+    830,
+    111,
+    116
+   ]
+  },
+  {
+   "id": 48,
+   "file": "char_fire_01_part_48_face_mat_bieu_cam.png",
+   "category": "face",
+   "name": "Mặt biểu cảm",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    145,
+    832,
+    116,
+    114
+   ]
+  },
+  {
+   "id": 49,
+   "file": "char_fire_01_part_49_face_mat_bieu_cam.png",
+   "category": "face",
+   "name": "Mặt biểu cảm",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    288,
+    830,
+    112,
+    115
+   ]
+  },
+  {
+   "id": 50,
+   "file": "char_fire_01_part_50_face_mat_bieu_cam.png",
+   "category": "face",
+   "name": "Mặt biểu cảm",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    419,
+    834,
+    112,
+    108
+   ]
+  },
+  {
+   "id": 51,
+   "file": "char_fire_01_part_51_face_mat_bieu_cam.png",
+   "category": "face",
+   "name": "Mặt biểu cảm",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    547,
+    831,
+    106,
+    112
+   ]
+  },
+  {
+   "id": 52,
+   "file": "char_fire_01_part_52_armor_giap_tay_gang_giap.png",
+   "category": "armor",
+   "name": "Giáp tay / găng giáp",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    686,
+    831,
+    106,
+    115
+   ]
+  },
+  {
+   "id": 53,
+   "file": "char_fire_01_part_53_armor_manh_giap.png",
+   "category": "armor",
+   "name": "Mảnh giáp",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    815,
+    834,
+    60,
+    97
+   ]
+  },
+  {
+   "id": 54,
+   "file": "char_fire_01_part_54_armor_manh_giap.png",
+   "category": "armor",
+   "name": "Mảnh giáp",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    896,
+    836,
+    58,
+    105
+   ]
+  },
+  {
+   "id": 55,
+   "file": "char_fire_01_part_55_armor_manh_giap.png",
+   "category": "armor",
+   "name": "Mảnh giáp",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    977,
+    841,
+    55,
+    93
+   ]
+  },
+  {
+   "id": 56,
+   "file": "char_fire_01_part_56_armor_manh_giap.png",
+   "category": "armor",
+   "name": "Mảnh giáp",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1049,
+    846,
+    41,
+    66
+   ]
+  },
+  {
+   "id": 57,
+   "file": "char_fire_01_part_57_armor_manh_giap.png",
+   "category": "armor",
+   "name": "Mảnh giáp",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1109,
+    842,
+    140,
+    65
+   ]
+  },
+  {
+   "id": 58,
+   "file": "char_fire_01_part_58_pose_pose_mau.png",
+   "category": "pose",
+   "name": "Pose mẫu",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    13,
+    973,
+    113,
+    240
+   ]
+  },
+  {
+   "id": 59,
+   "file": "char_fire_01_part_59_pose_pose_mau.png",
+   "category": "pose",
+   "name": "Pose mẫu",
+   "side": "near",
+   "note": "Nhân vật di chuyển",
+   "sheet_rect": [
+    147,
+    974,
+    129,
+    236
+   ]
+  },
+  {
+   "id": 60,
+   "file": "char_fire_01_part_60_pose_pose_mau.png",
+   "category": "pose",
+   "name": "Pose mẫu",
+   "side": "",
+   "note": "Nhân vật lướt",
+   "sheet_rect": [
+    307,
+    987,
+    157,
+    207
+   ]
+  },
+  {
+   "id": 61,
+   "file": "char_fire_01_part_61_pose_pose_mau.png",
+   "category": "pose",
+   "name": "Pose mẫu",
+   "side": "near",
+   "note": "Nhân vật nhảy lên",
+   "sheet_rect": [
+    475,
+    966,
+    260,
+    218
+   ]
+  },
+  {
+   "id": 62,
+   "file": "char_fire_01_part_62_pose_pose_mau.png",
+   "category": "pose",
+   "name": "Pose mẫu",
+   "side": "near",
+   "note": "Dùng cho đòn tiếp đất",
+   "sheet_rect": [
+    689,
+    988,
+    215,
+    220
+   ]
+  },
+  {
+   "id": 63,
+   "file": "char_fire_01_part_63_pose_pose_mau.png",
+   "category": "pose",
+   "name": "Pose mẫu",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    915,
+    972,
+    181,
+    235
+   ]
+  },
+  {
+   "id": 64,
+   "file": "char_fire_01_part_64_pose_pose_mau.png",
+   "category": "pose",
+   "name": "Pose mẫu",
+   "side": "near",
+   "note": "",
+   "sheet_rect": [
+    1095,
+    960,
+    162,
+    245
+   ]
+  }
+ ]
+}

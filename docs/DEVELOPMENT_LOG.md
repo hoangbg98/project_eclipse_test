@@ -657,3 +657,20 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Tốc độ tấn công chỉ tăng tốc đòn cơ bản (normal, hold, air, landing).
   - Tự đổi khi gục: vào mặc định (như M4-3).
 - **Hạn chế đã biết:** chưa có animation vào sân / ra sân (dùng hình placeholder), chưa có VFX (vùng đòn hiện đa giác màu); Bùng nổ Sét (sát thương khi đủ 3 Dấu Sét) thuộc bộ kỹ năng Kael (M4-6), hiện chỉ có sự kiện để giảm SI-CD; chưa có phản ứng nguyên tố (M4-5); Kael, Lyra vẫn chưa đánh thường / né được (M4-6); HUD icon dự bị là M4-7 (tạm xem dòng đội trên debug overlay).
+
+## 2026-11-12 — Asset: bộ phận rig Aether (chibi) từ sheet của owner
+
+- **Milestone / task:** ngoài lộ trình (asset owner giao, chuẩn bị cho B1 hình nhân vật)
+- **Trạng thái:** IMPLEMENTED (cắt xong, owner đã đặt tên 64/64 bộ phận; chưa ráp rig, chưa dùng trong game)
+- **Owner quyết định (2026-11-12):** ảnh do AI tạo được đưa vào bản phát hành chính thức. Đã ghi vào `AGENTS.md` (mục "Ảnh do AI tạo": nơi lưu, quy cách, ghi nguồn, không bắt chước bên thứ ba), `docs/ASSET_LICENSES.md` mục 2.1, và việc khai báo nội dung AI khi lên store trong `docs/OWNER_ASSET_CHECKLIST.md` mục A (commit `b4054e6`).
+- **File tạo/sửa:**
+  - `assets/characters/char_fire_01/rig_parts/`: 64 PNG nền trong suốt `char_fire_01_part_{NN}_{loại}_{tên}.png` + `parts_manifest.json` (id, file, loại, tên, lớp gần/xa, ghi chú, vị trí trên sheet). `source/` (có `.gdignore`): sheet gốc và nhãn owner điền.
+  - `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` (bộ phận 16, ảnh đứng toàn thân).
+  - `tools/sprite_parts/segment_parts.py`, `cut_parts.py`, `README.md`.
+  - `docs/ASSET_LICENSES.md` mục 2.
+- **Cách làm:** tách vùng trên nền trắng (ngưỡng 190, lưới 4 px) → 64 khung đánh số → trang artifact "Bảng tên bộ phận Aether" để owner chọn loại / lớp / tên / ghi chú (lưu trong db của trang) → đọc lại → cắt: mỗi bộ phận chỉ giữ pixel của chính nó (khung chồng nhau như 44/45/46, 61/62 không lẫn), lấp vùng trắng kín bên trong, loang nền trắng từ mép, làm mềm viền JPEG, bỏ mảnh vụn < 2%.
+- **Đã chạy:** các script trên; ghép thử toàn bộ PNG lên nền tối và bảng tiếp xúc 8×8 để soát bằng mắt (Claude); `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** 64/64 PNG; bản ghép khớp sheet gốc; tests 257/257 + 4 test khói đạt, mã thoát 0.
+- **Lỗi tìm thấy và sửa:** lần cắt đầu làm thủng áo sơ mi trắng (ô 4 px không thuộc vùng) → lấp lỗ; đáy áo hở ra nền nên vẫn còn vết → đổi sang chỉ loại pixel thuộc vùng của bộ phận *khác*; vài chấm lẻ cạnh 18, 22, 28 → bỏ mảnh vụn.
+- **Quyết định Claude chọn:** thư mục `rig_parts/` cạnh `frames/`; tên file không dấu; ảnh đứng 16 làm chân dung toàn thân.
+- **Hạn chế đã biết:** sheet là JPEG 1272×1236 nên bộ phận nhỏ (mặt ~130 px, kiếm ~380 px), viền có thể còn quầng nhạt trên nền tối; chưa có điểm khớp (pivot) cho rig; chưa ráp thành frame 384×384 cho `frames/`; chưa xác định ảnh có phải do AI tạo (nếu có, owner ghi vào ASSET_LICENSES 2.1). Splash art / màn tiêu đề chưa đổi.

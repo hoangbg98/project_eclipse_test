@@ -27,7 +27,10 @@ nhạc, SFX bên ngoài. Ghi từng file bên ngoài vào bảng dưới khi đ�
 
 | File / thư mục | Loại | Tác giả / nguồn | Giấy phép | Bằng chứng | Ngày thêm |
 |---|---|---|---|---|---|
-| — | — | — | — | — | — |
+| `assets/characters/char_fire_01/rig_parts/` (64 PNG + `parts_manifest.json`; sheet gốc ở `source/`) | Bộ phận nhân vật Aether (chibi) để ráp rig: mặt, tóc, áo, tay, chân, ủng, vũ khí, giáp, pose mẫu | Owner cung cấp (ảnh sheet tải lên 2026-11-12); Claude chỉ cắt nền và tách file bằng `tools/sprite_parts/` | Của owner; dùng cho bản phát hành theo quyết định owner 2026-11-12 | Owner đặt tên 64/64 bộ phận qua trang "Bảng tên bộ phận Aether" | 2026-11-12 |
+| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Ảnh đứng toàn thân Aether (bộ phận 16 của sheet trên) | Như trên | Như trên | Như trên | 2026-11-12 |
+
+> Nếu sheet trên được tạo bằng công cụ AI, owner ghi thêm công cụ vào mục 2.1 để khai báo khi phát hành.
 
 ### 2.1 Ảnh do AI tạo (được ship, owner quyết định 2026-11-12)
 
