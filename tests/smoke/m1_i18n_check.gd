@@ -100,9 +100,13 @@ func _run() -> void:
 	var hub: Control = load("res://scenes/main/hub.tscn").instantiate()
 	root.add_child(hub)
 	await process_frame
-	var content: Label = hub.get_node("%ContentLabel")
-	_check(content.text.contains("Home") and content.text.contains("work in progress"),
-			"Hub (en) hiện chữ tiếng Anh: %s" % content.text.replace("\n", " | "))
+	# M7-2: nội dung tab là bảng dựng bằng code; gom chữ của mọi Label trong vùng nội dung.
+	var texts := PackedStringArray()
+	for l in hub.get_node("Content").find_children("*", "Label", true, false):
+		texts.append((l as Label).text)
+	var joined := " | ".join(texts)
+	_check(joined.contains("Party") and joined.contains("Gold") and joined.contains("Stages cleared"),
+			"Hub (en) hiện chữ tiếng Anh: %s" % joined)
 	hub.queue_free()
 	game_config.set_language("vi")
 

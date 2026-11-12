@@ -354,3 +354,90 @@ msgstr "Quit"
 
 msgid "PAUSE_QUIT_NO"
 msgstr "Stay"
+
+msgid "BATTLE_PARTY_TITLE"
+msgstr "Party"
+
+msgid "BATTLE_PARTY_HINT"
+msgstr "Tap to add / remove a character (up to 3, in tap order)."
+
+msgid "BATTLE_STAGES_TITLE"
+msgstr "Stages"
+
+msgid "BATTLE_STAGE_CLEARED"
+msgstr "cleared"
+
+msgid "BATTLE_STAGE_BEST"
+msgstr "best %s"
+
+msgid "BATTLE_STAGE_NEW"
+msgstr "not cleared"
+
+msgid "HOME_STAGES_CLEARED"
+msgstr "Stages cleared: %d"
+
+msgid "CHAR_MAX_LEVEL"
+msgstr "max"
+
+msgid "CHAR_CRIT_RATE"
+msgstr "Crit"
+
+msgid "CHAR_CRIT_DAMAGE"
+msgstr "Crit damage"
+
+msgid "CHAR_EQUIP_NEXT"
+msgstr "Swap"
+
+msgid "CHAR_ENHANCE"
+msgstr "Enhance"
+
+msgid "CHAR_UNEQUIP"
+msgstr "Remove"
+
+msgid "RECRUIT_CLOSED"
+msgstr "Recruitment is not open yet."
+
+msgid "RECRUIT_PULL"
+msgstr "Recruit ×%d (%d gems)"
+
+msgid "RECRUIT_HARD_PITY"
+msgstr "guaranteed within %d pulls (%d so far)"
+
+msgid "RECRUIT_SOFT_PITY"
+msgstr "from pull %d: +%.1f%% per pull"
+
+msgid "RECRUIT_GUARANTEE"
+msgstr "miss the rate-up and the next one is guaranteed"
+
+msgid "RECRUIT_DUPLICATE"
+msgstr "duplicate"
+
+msgid "RECRUIT_HISTORY"
+msgstr "History: %d pulls"
+
+msgid "REASON_NOT_ENOUGH"
+msgstr "Not enough gold or materials."
+
+msgid "REASON_MAX_LEVEL"
+msgstr "Already at max level."
+
+msgid "REASON_UNKNOWN_ITEM"
+msgstr "That item cannot be used here."
+
+msgid "REASON_NOT_OWNED"
+msgstr "You do not own that item."
+
+msgid "REASON_UNKNOWN_CHARACTER"
+msgstr "You do not own that character."
+
+msgid "REASON_INVALID"
+msgstr "Invalid action."
+
+msgid "REASON_NOT_ENOUGH_CURRENCY"
+msgstr "Not enough gems."
+
+msgid "REASON_INVALID_BANNER"
+msgstr "Invalid banner."
+
+msgid "REASON_BAD_COUNT"
+msgstr "Invalid pull count."

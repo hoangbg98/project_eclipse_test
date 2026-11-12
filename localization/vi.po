@@ -354,3 +354,90 @@ msgstr "Thoát"
 
 msgid "PAUSE_QUIT_NO"
 msgstr "Ở lại"
+
+msgid "BATTLE_PARTY_TITLE"
+msgstr "Đội hình"
+
+msgid "BATTLE_PARTY_HINT"
+msgstr "Bấm để thêm / bỏ nhân vật (tối đa 3, theo thứ tự bấm)."
+
+msgid "BATTLE_STAGES_TITLE"
+msgstr "Màn chơi"
+
+msgid "BATTLE_STAGE_CLEARED"
+msgstr "đã qua"
+
+msgid "BATTLE_STAGE_BEST"
+msgstr "kỷ lục %s"
+
+msgid "BATTLE_STAGE_NEW"
+msgstr "chưa qua"
+
+msgid "HOME_STAGES_CLEARED"
+msgstr "Số màn đã qua: %d"
+
+msgid "CHAR_MAX_LEVEL"
+msgstr "tối đa"
+
+msgid "CHAR_CRIT_RATE"
+msgstr "Chí mạng"
+
+msgid "CHAR_CRIT_DAMAGE"
+msgstr "Sát thương chí mạng"
+
+msgid "CHAR_EQUIP_NEXT"
+msgstr "Đổi món"
+
+msgid "CHAR_ENHANCE"
+msgstr "Cường hóa"
+
+msgid "CHAR_UNEQUIP"
+msgstr "Tháo"
+
+msgid "RECRUIT_CLOSED"
+msgstr "Chiêu mộ chưa mở."
+
+msgid "RECRUIT_PULL"
+msgstr "Chiêu mộ ×%d (%d ngọc)"
+
+msgid "RECRUIT_HARD_PITY"
+msgstr "chắc chắn trong %d lượt (đã quay %d)"
+
+msgid "RECRUIT_SOFT_PITY"
+msgstr "từ lượt %d: +%.1f%% mỗi lượt"
+
+msgid "RECRUIT_GUARANTEE"
+msgstr "trượt rate-up thì lần sau chắc chắn trúng"
+
+msgid "RECRUIT_DUPLICATE"
+msgstr "trùng"
+
+msgid "RECRUIT_HISTORY"
+msgstr "Lịch sử: %d lượt"
+
+msgid "REASON_NOT_ENOUGH"
+msgstr "Không đủ vàng hoặc nguyên liệu."
+
+msgid "REASON_MAX_LEVEL"
+msgstr "Đã đạt cấp tối đa."
+
+msgid "REASON_UNKNOWN_ITEM"
+msgstr "Vật phẩm không dùng được ở đây."
+
+msgid "REASON_NOT_OWNED"
+msgstr "Chưa có món này."
+
+msgid "REASON_UNKNOWN_CHARACTER"
+msgstr "Chưa sở hữu nhân vật này."
+
+msgid "REASON_INVALID"
+msgstr "Thao tác không hợp lệ."
+
+msgid "REASON_NOT_ENOUGH_CURRENCY"
+msgstr "Không đủ ngọc."
+
+msgid "REASON_INVALID_BANNER"
+msgstr "Banner không hợp lệ."
+
+msgid "REASON_BAD_COUNT"
+msgstr "Số lượt không hợp lệ."
