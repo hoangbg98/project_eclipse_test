@@ -234,3 +234,60 @@ msgstr "Accessory"
 
 msgid "BOSS_GOLEM_01"
 msgstr "Ancient Stone Golem"
+
+msgid "HUB_STAGE_01"
+msgstr "Stage 1"
+
+msgid "STAGE_01_NAME"
+msgstr "Ashen Valley"
+
+msgid "STAGE_OBJ_ADVANCE"
+msgstr "Advance →"
+
+msgid "STAGE_OBJ_WAVE"
+msgstr "Wave %d/%d · %d enemies left"
+
+msgid "STAGE_OBJ_BOSS"
+msgstr "Defeat the boss"
+
+msgid "STAGE_CHECKPOINT"
+msgstr "Checkpoint"
+
+msgid "STAGE_WAVE_CLEARED"
+msgstr "Wave cleared"
+
+msgid "STAGE_BOSS_PHASE"
+msgstr "Phase %d"
+
+msgid "RESULT_VICTORY"
+msgstr "VICTORY"
+
+msgid "RESULT_DEFEAT"
+msgstr "DEFEAT"
+
+msgid "RESULT_DEFEAT_HINT"
+msgstr "The whole party is down. Try again."
+
+msgid "RESULT_TIME"
+msgstr "Time: %s"
+
+msgid "RESULT_BEST_TIME"
+msgstr "(new best)"
+
+msgid "RESULT_REWARDS"
+msgstr "Rewards"
+
+msgid "RESULT_FIRST_CLEAR"
+msgstr "First clear bonus"
+
+msgid "RESULT_EQUIPMENT"
+msgstr "Equipment ×%d"
+
+msgid "RESULT_LEVEL_UP"
+msgstr "%s gained %d level(s)"
+
+msgid "RESULT_RETRY"
+msgstr "Retry"
+
+msgid "RESULT_TO_HUB"
+msgstr "Back to Hub"

@@ -234,3 +234,60 @@ msgstr "Phụ kiện"
 
 msgid "BOSS_GOLEM_01"
 msgstr "Golem Đá Cổ"
+
+msgid "HUB_STAGE_01"
+msgstr "Màn 1"
+
+msgid "STAGE_01_NAME"
+msgstr "Thung lũng tro tàn"
+
+msgid "STAGE_OBJ_ADVANCE"
+msgstr "Tiến lên →"
+
+msgid "STAGE_OBJ_WAVE"
+msgstr "Đợt %d/%d · còn %d kẻ địch"
+
+msgid "STAGE_OBJ_BOSS"
+msgstr "Hạ gục boss"
+
+msgid "STAGE_CHECKPOINT"
+msgstr "Điểm lưu"
+
+msgid "STAGE_WAVE_CLEARED"
+msgstr "Đã dẹp xong"
+
+msgid "STAGE_BOSS_PHASE"
+msgstr "Pha %d"
+
+msgid "RESULT_VICTORY"
+msgstr "CHIẾN THẮNG"
+
+msgid "RESULT_DEFEAT"
+msgstr "THẤT BẠI"
+
+msgid "RESULT_DEFEAT_HINT"
+msgstr "Cả đội đã gục. Thử lại nhé."
+
+msgid "RESULT_TIME"
+msgstr "Thời gian: %s"
+
+msgid "RESULT_BEST_TIME"
+msgstr "(kỷ lục mới)"
+
+msgid "RESULT_REWARDS"
+msgstr "Phần thưởng"
+
+msgid "RESULT_FIRST_CLEAR"
+msgstr "Thưởng qua màn lần đầu"
+
+msgid "RESULT_EQUIPMENT"
+msgstr "Trang bị ×%d"
+
+msgid "RESULT_LEVEL_UP"
+msgstr "%s lên %d cấp"
+
+msgid "RESULT_RETRY"
+msgstr "Chơi lại"
+
+msgid "RESULT_TO_HUB"
+msgstr "Về Hub"

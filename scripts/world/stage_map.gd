@@ -1,7 +1,8 @@
 class_name StageMap
 extends RefCounted
 ## Đọc bản đồ ký tự (data/stages/*.json) và dựng TileMapLayer.
-## Ký hiệu: `#` khối đặc, `=` platform một chiều, `P` điểm xuất phát, `D` hình nộm tập, `E` quái, `.` trống.
+## Ký hiệu: `#` khối đặc, `=` platform một chiều, `P` điểm xuất phát, `D` hình nộm tập, `E` quái,
+## `C` checkpoint, `.` trống. Màn thật (M6) còn có `waves`, `boss`, `rewards` trong cùng file (xem StageController).
 ## Đổi layout: sửa file JSON, không sửa code.
 
 const TILES_TEXTURE := "res://assets/placeholders/placeholder_tiles_64.png"
@@ -18,6 +19,9 @@ var rows: PackedStringArray = []
 var spawn_cell := Vector2i(-1, -1)
 var dummy_cells: Array[Vector2i] = []
 var enemy_cells: Array[Vector2i] = []
+var checkpoint_cells: Array[Vector2i] = []
+## Toàn bộ nội dung file (id, waves, boss, rewards…).
+var data: Dictionary = {}
 var errors := PackedStringArray()
 
 
@@ -30,6 +34,7 @@ static func load_from(path: String) -> StageMap:
 	if typeof(data) != TYPE_DICTIONARY or typeof(data.get("rows")) != TYPE_ARRAY:
 		m.errors.append("bản đồ sai định dạng (cần object có 'rows'): %s" % path)
 		return m
+	m.data = data
 	m.name = str(data.get("name", path.get_file().get_basename()))
 	m.tile_size = int(data.get("tile_size", 64))
 	for r in data["rows"]:
@@ -49,7 +54,7 @@ func _validate() -> void:
 			errors.append("hàng %d dài %d, cần %d" % [y, rows[y].length(), w])
 		for x in rows[y].length():
 			var ch := rows[y][x]
-			if ch not in ["#", "=", "P", "D", "E", "."]:
+			if ch not in ["#", "=", "P", "D", "E", "C", "."]:
 				errors.append("ký tự lạ '%s' ở (%d, %d)" % [ch, x, y])
 			elif ch == "P":
 				spawn_cell = Vector2i(x, y)
@@ -58,6 +63,8 @@ func _validate() -> void:
 				dummy_cells.append(Vector2i(x, y))
 			elif ch == "E":
 				enemy_cells.append(Vector2i(x, y))
+			elif ch == "C":
+				checkpoint_cells.append(Vector2i(x, y))
 	if spawns != 1:
 		errors.append("cần đúng 1 điểm 'P', có %d" % spawns)
 
@@ -74,6 +81,21 @@ func bounds_px() -> Rect2i:
 ## Điểm xuất phát: giữa đáy ô `P` (chân nhân vật).
 func spawn_position() -> Vector2:
 	return cell_feet(spawn_cell)
+
+
+## Vị trí chân trên mặt đất của một cột: ô trống thấp nhất nằm ngay trên khối đặc (tính từ trên xuống,
+## bỏ qua platform). Không có đất (hố) thì trả về đáy bản đồ.
+func ground_feet(col: int) -> Vector2:
+	col = clampi(col, 0, size_cells().x - 1)
+	for y in range(1, rows.size()):
+		if rows[y][col] == "#" and rows[y - 1][col] != "#":
+			return cell_feet(Vector2i(col, y - 1))
+	return cell_feet(Vector2i(col, rows.size() - 1))
+
+
+## Tọa độ x (px) của mép trái một cột.
+func col_x(col: int) -> float:
+	return float(col * tile_size)
 
 
 ## Giữa đáy một ô (vị trí chân).
