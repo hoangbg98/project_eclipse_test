@@ -57,6 +57,17 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
 - Frame nhân vật: 384×384, chân y = 336, tâm x = 192, vẽ hướng phải; tên `{id}_{animation}_{NNN}.png`; số frame/fps trong `frames_manifest.json` (README 2.2, 17.4).
 - Loại khỏi export: `docs/`, `tests/`, `addons/gdUnit4/`; bản Release loại thêm `*placeholder_*`.
 
+### Ảnh do AI tạo (Codex imagegen, owner quyết định 2026-11-12)
+
+- Owner cho phép ảnh AI **vào bản phát hành chính thức**. Không đặt tên `placeholder_*` cho ảnh AI dùng thật.
+- Codex tạo bằng skill `imagegen` (công cụ `image_gen` tích hợp, không cần API key). Ảnh mặc định nằm ở `$CODEX_HOME/generated_images/`: **phải chép** ảnh được chọn vào dự án, không để dự án trỏ ra ngoài.
+- Nơi lưu và quy cách giống asset của owner: frame nhân vật vào `assets/characters/{id}/frames/` đúng README 2.2 / 17.4 (384×384, chân y = 336, tâm x = 192, vẽ hướng phải, tên `{id}_{animation}_{NNN}.png`); chân dung vào `assets/characters/{id}/portrait/`; UI, nền, splash vào `assets/ui/` hoặc `assets/backgrounds/`.
+- Ảnh tham chiếu nhân vật: luôn đưa ảnh gốc của owner vào làm tham chiếu để giữ đúng thiết kế (Aether: `assets/characters/char_fire_01/portrait/`).
+- Không tạo ảnh bắt chước nhân vật, logo, thương hiệu hay phong cách nhận diện được của bên thứ ba.
+- **Ghi từng file** vào `docs/ASSET_LICENSES.md` mục 2.1 (file, công cụ + model, prompt rút gọn, ảnh tham chiếu, ngày). Không ghi thì không được commit.
+- Không ghi đè asset đã có; tạo bản `-v2`.
+- Phát hành: Steam và một số store bắt buộc khai báo nội dung AI tạo (xem `docs/OWNER_ASSET_CHECKLIST.md` mục A).
+
 ### VFX từ pixelfx
 
 - Thư viện ở `tools/pixelfx/` (MIT, có `.gdignore` nên Godot không quét). Nguồn và phạm vi chép: `tools/pixelfx/UPSTREAM.md`.

@@ -13,6 +13,7 @@
 | [ ] | **Tỉ lệ gacha** | M5-4 (**đang BLOCKED**) | Trả lời các câu ở mục A1 |
 | [ ] | Tên thật thay Aether (`char_fire_01`) và Noctis (`char_dark_01`) | Trước khi công khai | Trùng tên nhân vật nổi tiếng; chỉ đổi data |
 | [ ] | Tên gói Android thật (thay `com.projecteclipse.dev`) | Khi làm lại Android | Đổi sau khi đã cài lên máy = app khác |
+| [ ] | **Khai báo nội dung AI tạo** trên trang store (Steam: mục "AI Generated Content Disclosure" khi nộp bản build) | Trước khi nộp lên store | Owner cho phép ảnh AI vào bản phát hành (2026-11-12); danh sách file ở `docs/ASSET_LICENSES.md` mục 2.1. Kiểm tra điều khoản thương mại của dịch vụ tạo ảnh với tài khoản đang dùng |
 | [ ] | OD-1 đến OD-6 (README 15.8) | Không gấp | Đang dùng mặc định: side-scroll; vũ khí cố định; không stamina; icon dự bị góc trên-phải |
 
 ### A1. Câu hỏi gacha

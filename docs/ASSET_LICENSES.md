@@ -29,6 +29,15 @@ nhạc, SFX bên ngoài. Ghi từng file bên ngoài vào bảng dưới khi đ�
 |---|---|---|---|---|---|
 | — | — | — | — | — | — |
 
+### 2.1 Ảnh do AI tạo (được ship, owner quyết định 2026-11-12)
+
+Tạo bằng Codex `imagegen` (hoặc owner tự tạo bằng công cụ AI). Quyền sử dụng theo điều khoản của dịch vụ
+tạo ảnh với tài khoản owner. Phải khai báo nội dung AI khi phát hành trên store có yêu cầu (Steam...).
+
+| File | Công cụ / model | Prompt (rút gọn) | Ảnh tham chiếu | Người tạo | Ngày |
+|---|---|---|---|---|---|
+| — (chưa có) | | | | | |
+
 ## 3. Placeholder (không bao giờ ship)
 
 Tạo bởi Claude (hình khối màu, âm sinh tự động). Tên luôn bắt đầu bằng
