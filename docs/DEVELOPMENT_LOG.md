@@ -578,3 +578,28 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Combo đếm **mỗi lần trúng một mục tiêu**; ngắt sau 2 s hoặc khi bị đánh; hiện từ 2 đòn.
   - Cut-in tạm: nền tối + dải màu lửa + tên chiêu trượt vào từ phải; dừng thời gian áp cho kẻ địch và hình nộm (Aether vẫn chạy pha khởi động, đang bất tử).
 - **Hạn chế đã biết:** chưa có âm thanh trúng đòn (M7, chờ SFX); VFX vẫn là đa giác; phản ứng nguyên tố (hit-stop 60 ms, tên phản ứng 0.8 s) làm ở M4-5.
+
+## 2026-11-12 — M4-1 PartyManager + M4-2 CharacterRuntime cho dự bị
+
+- **Milestone / task:** 4 / M4-1, M4-2
+- **Trạng thái:** TESTED (headless). Chưa thử bằng tay (mốc chơi thử của M4 là M4-4 / M4-7).
+- **File tạo/sửa:**
+  - `scripts/party/party_manager.gd` (`PartyManager`): đội 3 người, 1 người trên sân; chuyển bằng `switch_1`/`switch_2` (Q/1, E/2); chờ chung 1.0 s; khóa khi tuyệt kỹ chuỗi đòn; không chuyển sang người đã gục; giữ lệnh chuyển 0.15 s nếu chưa chuyển được (mục 8.11); dự bị nhận 30% UG; người trên sân gục → tự đưa người còn sống đầu tiên vào; cả đội gục → `party_defeated`. Signal `switched`, `switch_rejected`, `member_down`.
+  - `scripts/party/character_runtime.gd` (`CharacterRuntime`): giữ PlayerController của từng thành viên; ở dự bị node bị **gỡ khỏi cây** (không có trên sân, không AI, không bị nhắm) nhưng `tick_reserve` vẫn chạy tài nguyên, hồi chiêu, trạng thái, kit (Nhiệt...).
+  - `PlayerController`: `leave_field`, `enter_field`, `tick_reserve`, `is_switch_locked`.
+  - `ResourceComponent`: signal `ug_gained`; `add_ug(amount, apply_multiplier)`; nhân vật đã gục không nhận UG.
+  - `SkillDef.locks_switch`; tuyệt kỹ Aether bật (cả `tools/gen_aether_data.py`, chạy lại ra đúng file).
+  - `CombatRules` + `combat_rules.tres`: `switch_cooldown_sec` 1.0, `switch_input_buffer_sec` 0.15, `down_auto_switch_sec` 1.0.
+  - `data/characters/char_lightning_01.tres` (Kael), `char_wind_01.tres` (Lyra): chỉ số tạm, chỉ di chuyển; khóa dịch `CHAR_LIGHTNING_01`, `CHAR_WIND_01` (vi + en).
+  - `EnemyController`: mục tiêu rời sân (node ngoài cây) → nhắm người mới trên sân.
+  - Màn thử nghiệm: đội Aether / Kael / Lyra qua PartyManager; camera, HitFeedback, debug bám người trên sân; thành viên gục ở dự bị đứng dậy sau 1.5 s; cả đội gục thì hồi cả đội.
+  - `tests/unit/party/test_party_manager.gd` (20 test); sửa `test_enemy_slime.gd::test_player_down_then_revives_in_test_stage` theo hành vi mới.
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `python tools/gen_aether_data.py` (so diff); export Windows Desktop.
+- **Kết quả thật:** GdUnit4 213/213 đạt (20 mới), 0 orphan, 4 test khói đạt, mã thoát 0; export mã 0. Kiểm: chỉ người trên sân ở trong cây và nhóm `player`; chuyển giữ vị trí và hướng, camera/HitFeedback đổi theo; chuyển lần hai trong 1.0 s bị từ chối, sau 1.0 s được; bấm sớm 0.1 s thì lệnh được giữ và chuyển, quá 0.15 s thì bỏ; trong tuyệt kỹ Aether bị khóa, xong thì mở; không chuyển sang người gục; dự bị EN +1/s, trên sân +2/s; dự bị nhận 30% UG (dùng hệ số của người trên sân, không nhân hệ số của dự bị); hồi chiêu và Nhiệt của Aether vẫn chạy khi ở dự bị; Aether gục → 1.0 s sau người còn sống kế tiếp vào sân; cả đội gục phát `party_defeated`; slime đổi mục tiêu sang người mới; node dự bị được giải phóng cùng màn.
+- **Quyết định Claude chọn:**
+  - Dự bị = node PlayerController gỡ khỏi cây (không ẩn/tắt trong cây), để tự động ra khỏi nhóm `player`/`combatants`, không va chạm, không xử lý input.
+  - Icon dự bị theo thứ tự trong đội, bỏ người trên sân (đội Aether, Kael, Lyra: lúc đầu icon 1 = Kael, icon 2 = Lyra).
+  - Người trên sân gục: tự đưa người dự bị còn sống đầu tiên vào sau 1.0 s, vào mặc định, không tính chờ chung. Đặc tả chưa ghi trường hợp này.
+  - Phần UG chia cho dự bị tính trên lượng người trên sân nhận **trước khi chặn trần** (người trên sân đầy UG thì dự bị vẫn nhận).
+  - Chỉ số tạm Kael HP 10500 / ATK 950 / DEF 450, Lyra HP 9500 / ATK 800 / DEF 400.
+- **Hạn chế đã biết:** chưa có Kĩ năng vào sân, SI-CD, Liên kết (M4-3, M4-4); animation vào/ra sân chưa có (đổi tức thì); Kael, Lyra chưa đánh được (M4-6); chưa có HUD icon dự bị (M4-7), muốn biết đang là ai thì xem debug overlay; nút cảm ứng switch_1/2 đã có từ M1 nhưng chưa có icon.

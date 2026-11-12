@@ -7,6 +7,8 @@ extends RefCounted
 signal hp_changed(hp: float, max_hp: float)
 signal en_changed(en: float)
 signal ug_changed(ug: float)
+## Lượng UG dương vừa nhận (sau hệ số, trước khi chặn trần). PartyManager chia phần cho dự bị.
+signal ug_gained(amount: float)
 signal ultimate_ready
 signal dodge_charges_changed(charges: int)
 signal died
@@ -107,15 +109,21 @@ func spend_en(cost: float) -> bool:
 var ug_gain_multiplier := 1.0
 
 
-## Cộng UG. Phần chia cho dự bị (30%) do PartyManager gọi riêng với lượng đã nhân.
-func add_ug(amount: float) -> void:
+## Cộng UG. Phần chia cho dự bị (30%) do PartyManager gọi riêng với lượng đã nhân
+## (`apply_multiplier = false`: không nhân hệ số của chính nhân vật dự bị lần nữa).
+## Nhân vật đã gục không nhận UG.
+func add_ug(amount: float, apply_multiplier := true) -> void:
+	if amount > 0.0 and is_dead():
+		return
 	var was_full := is_ultimate_ready()
 	var before := ug
-	if amount > 0.0:
+	if amount > 0.0 and apply_multiplier:
 		amount *= ug_gain_multiplier
 	ug = clampf(ug + amount, 0.0, rules.ug_max)
 	if ug != before:
 		ug_changed.emit(ug)
+	if amount > 0.0:
+		ug_gained.emit(amount)
 	if not was_full and is_ultimate_ready():
 		ultimate_ready.emit()
 

@@ -82,7 +82,8 @@ func step(delta: float) -> void:
 		return
 	_attack_cd = maxf(_attack_cd - delta, 0.0)
 	_tick_sc(delta)
-	if target == null or not is_instance_valid(target):
+	# Mục tiêu rời sân (chuyển nhân vật) → node bị gỡ khỏi cây: nhắm người mới trên sân.
+	if target == null or not is_instance_valid(target) or not target.is_inside_tree():
 		target = get_tree().get_first_node_in_group(PLAYER_GROUP) as Node2D if is_inside_tree() else null
 
 	if combatant.statuses.blocks_actions():
@@ -246,7 +247,7 @@ func _bus() -> Node:
 # ---------- AI ----------
 
 func _target_alive() -> bool:
-	if target == null or not is_instance_valid(target):
+	if target == null or not is_instance_valid(target) or not target.is_inside_tree():
 		return false
 	var c := Combatant.of(target)
 	return c == null or c.resources == null or not c.resources.is_dead()

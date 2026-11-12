@@ -149,7 +149,7 @@ write_skill("weapon", base("weapon", "weapon", "skill_2", WEAPON, 150, 200, 360,
 ULT_START = 900
 write_skill("ultimate", base("ultimate", "ultimate", "ultimate", ULTIMATE, ULT_START, 1400, 500, ug_cost=100.0,
             cooldown_sec=2.0, cooldown_uses_cdr=False, cooldown_starts_on_end=True, target_range_px=500.0, name_key="SKILL_FIRE_01_ULTIMATE", time_stop_ms=600.0, suspend_gravity=True,
-            super_armor=True, invuln_from_ms=0.0, invuln_to_ms=float(ULT_START + 1400)),
+            super_armor=True, locks_switch=True, invuln_from_ms=0.0, invuln_to_ms=float(ULT_START + 1400)),
             [dict(hit(ULT_START + i * 250, 80, 1.20, shape=CIRCLE, radius=350, detached=True), at_target=True)
              for i in range(5)] +
             [dict(hit(ULT_START + 1300, 100, 5.00, shape=CIRCLE, radius=450, detached=True,

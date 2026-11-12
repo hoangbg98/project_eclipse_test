@@ -74,6 +74,8 @@ extends Resource
 @export var invuln_to_ms := -1.0
 ## Kháng khựng suốt kỹ năng.
 @export var super_armor := false
+## Không cho chuyển nhân vật khi kỹ năng đang chạy (tuyệt kỹ loại chuỗi đòn, mục 0 / 8.1).
+@export var locks_switch := false
 
 @export_group("Nối đòn")
 ## Bấm trong bấy nhiêu ms CUỐI ĐÒN thì đòn `next_skill` chạy ngay khi đòn này kết thúc.

@@ -251,7 +251,15 @@ func test_player_down_then_revives_in_test_stage() -> void:
 	_player.intent.tap_attack(_buf())
 	await _frames(5)
 	assert_str(String(_player.current_state())).is_equal("down")            # gục: không điều khiển
-	await _frames(100)                                                      # > 1.5 s
+	# M4-1: sau down_auto_switch_sec người dự bị còn sống vào sân; Aether đứng dậy ở dự bị sau 1.5 s.
+	await _frames(70)                                                       # > 1.0 s
+	assert_str(_stage.party.active().id).is_equal("char_lightning_01")
+	assert_object(_stage.player).is_not_same(_player)
+	await _frames(35)                                                       # > 1.5 s
 	assert_bool(_player.combatant.resources.is_dead()).is_false()
 	assert_float(_player.combatant.resources.hp).is_equal(_player.combatant.resources.max_hp)
+	# Quay lại Aether: đã đứng dậy, không còn ở trạng thái gục.
+	_stage.party.tick(1.0)
+	assert_bool(_stage.party.request_switch(0)).is_true()
+	await _frames(2)
 	assert_str(String(_player.current_state())).is_not_equal("down")

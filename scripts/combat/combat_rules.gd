@@ -57,6 +57,15 @@ extends Resource
 ## Sức choáng = tỉ lệ SC của đòn × hệ số này (mục 0: "SC bằng % ATK của đòn" → 0.7 → 70).
 @export var sc_points_per_ratio := 100.0
 
+@export_group("Đội (mục 8.2)")
+## Khoảng chờ chung giữa hai lần chuyển nhân vật.
+@export var switch_cooldown_sec := 1.0
+## Bấm chuyển khi còn chờ / đang bị khóa: giữ lệnh bấy nhiêu giây rồi thử lại (mục 8.11: 150 ms).
+@export var switch_input_buffer_sec := 0.15
+## Nhân vật trên sân gục: sau bấy nhiêu giây tự đưa nhân vật dự bị còn sống đầu tiên vào sân
+## (vào sân mặc định, không kỹ năng). Đặc tả chưa ghi; Claude chọn, owner chỉnh.
+@export var down_auto_switch_sec := 1.0
+
 @export_group("Cờ chế độ")
 ## Q6: hồi sinh mặc định tắt.
 @export var revive_enabled := false

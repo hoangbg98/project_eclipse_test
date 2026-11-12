@@ -3,12 +3,12 @@ extends Node2D
 ## Rơi hố → về điểm xuất phát. Gục → đứng dậy đầy máu sau `player_revive_sec`. Quái chết → hồi sau `enemy_respawn_sec`.
 ## (Hồi sinh chỉ có ở màn thử nghiệm; trong game thật tắt theo Q6.)
 
-const PLAYER_SCENE := preload("res://scenes/player/player_character.tscn")
 const DUMMY_SCENE := preload("res://scenes/world/training_dummy.tscn")
 const ENEMY_SCENE := preload("res://scenes/enemies/enemy_slime.tscn")
 
 @export_file("*.json") var map_path := "res://data/stages/test_stage.json"
-@export var character_id := "char_fire_01"
+## Đội 3 người (người đầu tiên vào sân trước). Kael, Lyra mới chỉ di chuyển (đòn: M4-6).
+@export var party_ids := PackedStringArray(["char_fire_01", "char_lightning_01", "char_wind_01"])
 ## Rơi thấp hơn đáy bản đồ bao nhiêu thì hồi sinh (px).
 @export var kill_margin := 400.0
 @export var player_revive_sec := 1.5
@@ -18,13 +18,16 @@ const ENEMY_SCENE := preload("res://scenes/enemies/enemy_slime.tscn")
 
 var map: StageMap
 var tiles: TileMapLayer
+## Nhân vật đang trên sân (đổi theo PartyManager).
 var player: PlayerController
+var party: PartyManager
 var dummies: Array[TrainingDummy] = []
 var enemies: Array[EnemyController] = []
 var feedback: HitFeedback
 
 var _revive_timer := -1.0
 var _respawns: Array = []  # [giây còn lại, ô]
+var _member_revives: Array = []  # [giây còn lại, CharacterRuntime]
 
 @onready var camera: FollowCamera = $Camera
 
@@ -48,22 +51,47 @@ func _ready() -> void:
 		for cell in map.enemy_cells:
 			spawn_enemy(cell)
 
-	player = PLAYER_SCENE.instantiate()
-	player.character_id = character_id
-	player.position = map.spawn_position()
-	add_child(player)
-	player.player_died.connect(func() -> void: _revive_timer = player_revive_sec)
+	party = PartyManager.new()
+	party.name = "Party"
+	add_child(party)
+	party.setup(party_ids, self, map.spawn_position())
+	party.party_defeated.connect(func() -> void: _revive_timer = player_revive_sec)
+	party.member_down.connect(_on_member_down)
+	party.switched.connect(func(_from: CharacterRuntime, _to: CharacterRuntime) -> void: _bind_player())
 
 	camera.set_bounds(map.bounds_px())
-	camera.follow(player)
 	feedback = HitFeedback.new()
 	feedback.name = "HitFeedback"
 	feedback.camera = camera
-	feedback.player = player
 	add_child(feedback)
+	_bind_player()
+
+
+## Gắn camera, phản hồi đòn, debug vào nhân vật đang trên sân.
+func _bind_player() -> void:
+	player = party.active_controller()
+	camera.follow(player)
+	feedback.player = player
 	var overlay := get_node_or_null("DebugOverlay")
 	if overlay:
 		overlay.player = player
+
+
+## Màn thử nghiệm: thành viên gục ở dự bị cũng tự đứng dậy sau `player_revive_sec`
+## (trừ khi cả đội gục: khi đó hồi cả đội cùng lúc).
+func _on_member_down(m: CharacterRuntime) -> void:
+	_member_revives.append([player_revive_sec, m])
+
+
+func _tick_member_revives(delta: float) -> void:
+	for r in _member_revives.duplicate():
+		r[0] -= delta
+		if r[0] > 0.0:
+			continue
+		_member_revives.erase(r)
+		var m: CharacterRuntime = r[1]
+		if m.is_down() and not party.is_defeated() and not m.is_on_field():
+			m.controller.restore_full()
 
 
 func spawn_enemy(cell: Vector2i) -> EnemyController:
@@ -79,10 +107,11 @@ func spawn_enemy(cell: Vector2i) -> EnemyController:
 
 func _physics_process(delta: float) -> void:
 	check_fall()
+	_tick_member_revives(delta)
 	if _revive_timer >= 0.0:
 		_revive_timer -= delta
 		if _revive_timer < 0.0:
-			player.restore_full()
+			party.restore_all()
 			respawn()
 	for r in _respawns.duplicate():
 		r[0] -= delta

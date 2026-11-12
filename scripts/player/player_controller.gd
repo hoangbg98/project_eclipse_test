@@ -357,6 +357,51 @@ func restore_full() -> void:
 	velocity = Vector2.ZERO
 
 
+# ---------- Đội (M4-1) ----------
+
+## Đang trong kỹ năng khóa chuyển nhân vật (tuyệt kỹ loại chuỗi đòn).
+func is_switch_locked() -> bool:
+	return runner.is_running() and runner.current != null and runner.current.locks_switch
+
+
+## Rời sân: dừng mọi hành động; PartyManager gỡ node khỏi cây ngay sau đó.
+func leave_field() -> void:
+	runner.cancel()
+	intent.clear()
+	intent.move_x = 0.0
+	intent.attack_held = false
+	intent.jump_held = false
+	charging = false
+	plunging = false
+	velocity_override_active = false
+	velocity = Vector2.ZERO
+	_knock_t = 0.0
+	_hurt_flash = 0.0
+	combatant.resources.on_field = false
+
+
+## Vào sân tại `pos` (chân), nhìn theo `dir`. Gọi sau khi node đã vào cây.
+func enter_field(pos: Vector2, dir: int) -> void:
+	global_position = pos
+	facing = dir
+	velocity = Vector2.ZERO
+	_coyote_left = 0.0
+	combatant.resources.on_field = true
+	if combatant.resources.is_dead():
+		fsm.transition(CombatStates.DOWN)
+	else:
+		fsm.transition(MovementStates.FALL)
+	_update_facing()
+
+
+## Tick khi ở dự bị (không có node trên sân): tài nguyên, hồi chiêu, trạng thái, kit vẫn chạy (mục 8.1).
+func tick_reserve(delta: float) -> void:
+	combatant.tick(delta)
+	if kit:
+		kit.tick(delta)
+	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
+
+
 ## Đòn bị né khi đang bất tử: nếu tới trong cửa sổ đầu của cú né → né hoàn hảo (mục 0):
 ## kẻ đánh chậm 30% trong 0.6 s, hoàn 1 lượt né, ICD 1.0 s, kit nhận hiệu ứng riêng.
 func _on_hit_evaded(hit: HitInfo) -> void:

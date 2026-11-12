@@ -31,4 +31,7 @@ cdr_cap = 0.4
 player_stagger_sec = 0.3
 knockback_time_sec = 0.15
 sc_points_per_ratio = 100.0
+switch_cooldown_sec = 1.0
+switch_input_buffer_sec = 0.15
+down_auto_switch_sec = 1.0
 revive_enabled = false

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterDef" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/character_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/characters/combat_stats.gd" id="2"]
+[ext_resource type="Resource" path="res://data/config/movement_default.tres" id="3"]
+
+[sub_resource type="Resource" id="stats"]
+script = ExtResource("2")
+max_hp = 10500.0
+atk = 950.0
+def = 450.0
+crit_rate = 0.05
+crit_damage = 0.5
+cdr = 0.0
+metadata/source = "Số tạm do Claude đặt (README chưa có chỉ số gốc); owner chỉnh."
+
+[resource]
+script = ExtResource("1")
+id = "char_lightning_01"
+name_key = "CHAR_LIGHTNING_01"
+element = "lightning"
+stats = SubResource("stats")
+movement = ExtResource("3")
+metadata/source = "M4-1: chỉ di chuyển; đòn thường, né, switch-in thêm ở M4-4 / M4-6 (Q5)."

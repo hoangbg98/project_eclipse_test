@@ -142,6 +142,7 @@ name_key = "SKILL_FIRE_01_ULTIMATE"
 time_stop_ms = 600.0
 suspend_gravity = true
 super_armor = true
+locks_switch = true
 invuln_from_ms = 0.0
 invuln_to_ms = 2300.0
 hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3"), SubResource("hit_4"), SubResource("hit_5")])

@@ -83,6 +83,12 @@ msgstr "Khiêu khích"
 msgid "CHAR_FIRE_01"
 msgstr "Aether"
 
+msgid "CHAR_WIND_01"
+msgstr "Lyra"
+
+msgid "CHAR_LIGHTNING_01"
+msgstr "Kael"
+
 msgid "DUMMY_HP"
 msgstr "Máu"
 
