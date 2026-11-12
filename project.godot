@@ -22,6 +22,7 @@ GameConfig="*res://scripts/core/game_config.gd"
 EventBus="*res://scripts/core/event_bus.gd"
 InputRouter="*res://scripts/input/input_router.gd"
 SceneRouter="*res://scripts/core/scene_router.gd"
+AudioRouter="*res://scripts/core/audio_router.gd"
 SaveService="*res://scripts/save/save_service.gd"
 
 [display]

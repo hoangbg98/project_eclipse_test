@@ -291,3 +291,66 @@ msgstr "Chơi lại"
 
 msgid "RESULT_TO_HUB"
 msgstr "Về Hub"
+
+msgid "UI_BACK"
+msgstr "Quay lại"
+
+msgid "SETTINGS_TITLE"
+msgstr "Cài đặt"
+
+msgid "SETTINGS_LANGUAGE"
+msgstr "Ngôn ngữ"
+
+msgid "LANGUAGE_VI"
+msgstr "Tiếng Việt"
+
+msgid "LANGUAGE_EN"
+msgstr "English"
+
+msgid "SETTINGS_VOLUME_MASTER"
+msgstr "Âm lượng chung"
+
+msgid "SETTINGS_VOLUME_MUSIC"
+msgstr "Nhạc nền"
+
+msgid "SETTINGS_VOLUME_SFX"
+msgstr "Hiệu ứng"
+
+msgid "SETTINGS_FULLSCREEN"
+msgstr "Toàn màn hình"
+
+msgid "CREDITS_TITLE"
+msgstr "Credits và giấy phép"
+
+msgid "CREDITS_ROLE"
+msgstr "Vai trò"
+
+msgid "CREDITS_LICENSE"
+msgstr "Giấy phép"
+
+msgid "CREDITS_COPYRIGHT"
+msgstr "Bản quyền"
+
+msgid "CREDITS_SOURCE"
+msgstr "Nguồn"
+
+msgid "PAUSE_TITLE"
+msgstr "TẠM DỪNG"
+
+msgid "PAUSE_RESUME"
+msgstr "Tiếp tục"
+
+msgid "PAUSE_SETTINGS"
+msgstr "Cài đặt"
+
+msgid "PAUSE_QUIT"
+msgstr "Thoát màn"
+
+msgid "PAUSE_QUIT_CONFIRM"
+msgstr "Thoát về Hub? Tiến độ màn này sẽ mất."
+
+msgid "PAUSE_QUIT_YES"
+msgstr "Thoát"
+
+msgid "PAUSE_QUIT_NO"
+msgstr "Ở lại"

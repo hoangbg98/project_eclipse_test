@@ -1,0 +1,16 @@
+{
+	"description": "Nội dung màn Credits / giấy phép trong game. Soạn theo docs/ASSET_LICENSES.md: mọi thành phần ship trong bản build cần hiển thị giấy phép phải có ở đây. Giấy phép Godot Engine được thêm tự động.",
+	"entries": [
+		{
+			"name": "PROJECT ECLIPSE",
+			"role": "Thiết kế, art, âm thanh: đội phát triển (3 người). Lập trình: đội phát triển cùng Claude Code và Codex."
+		},
+		{
+			"name": "pixelfx",
+			"role": "Thư viện hiệu ứng pixel art dùng để xuất sprite sheet VFX",
+			"license": "MIT",
+			"copyright": "© 2026 Patch, © 2026 Hugo Duprez",
+			"source": "https://github.com/patch-gg/pixelfx"
+		}
+	]
+}

@@ -28,6 +28,28 @@ KEYS = [
     ("RESULT_LEVEL_UP", "%s lên %d cấp", "%s gained %d level(s)"),
     ("RESULT_RETRY", "Chơi lại", "Retry"),
     ("RESULT_TO_HUB", "Về Hub", "Back to Hub"),
+    # M7 — cài đặt, tạm dừng, credits
+    ("UI_BACK", "Quay lại", "Back"),
+    ("SETTINGS_TITLE", "Cài đặt", "Settings"),
+    ("SETTINGS_LANGUAGE", "Ngôn ngữ", "Language"),
+    ("LANGUAGE_VI", "Tiếng Việt", "Tiếng Việt"),
+    ("LANGUAGE_EN", "English", "English"),
+    ("SETTINGS_VOLUME_MASTER", "Âm lượng chung", "Master volume"),
+    ("SETTINGS_VOLUME_MUSIC", "Nhạc nền", "Music"),
+    ("SETTINGS_VOLUME_SFX", "Hiệu ứng", "Sound effects"),
+    ("SETTINGS_FULLSCREEN", "Toàn màn hình", "Fullscreen"),
+    ("CREDITS_TITLE", "Credits và giấy phép", "Credits and licenses"),
+    ("CREDITS_ROLE", "Vai trò", "Role"),
+    ("CREDITS_LICENSE", "Giấy phép", "License"),
+    ("CREDITS_COPYRIGHT", "Bản quyền", "Copyright"),
+    ("CREDITS_SOURCE", "Nguồn", "Source"),
+    ("PAUSE_TITLE", "TẠM DỪNG", "PAUSED"),
+    ("PAUSE_RESUME", "Tiếp tục", "Resume"),
+    ("PAUSE_SETTINGS", "Cài đặt", "Settings"),
+    ("PAUSE_QUIT", "Thoát màn", "Quit stage"),
+    ("PAUSE_QUIT_CONFIRM", "Thoát về Hub? Tiến độ màn này sẽ mất.", "Quit to Hub? Progress in this stage will be lost."),
+    ("PAUSE_QUIT_YES", "Thoát", "Quit"),
+    ("PAUSE_QUIT_NO", "Ở lại", "Stay"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

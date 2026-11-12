@@ -28,7 +28,7 @@ static func default_data() -> Dictionary:
 		"currencies": {"gold": 0, "gems": 0},
 		"gacha": {"pity": {}, "guarantee": {}, "history": []},
 		"progress": {"stages": {}},          # stage_id -> {cleared, best_time_sec}
-		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0},
+		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0, "fullscreen": false},
 		"stats": {"play_time_sec": 0.0},
 	}
 
@@ -125,6 +125,8 @@ static func _merge_fixed(def: Dictionary, src: Dictionary, dynamic: Array, path:
 				out[k] = _merge_fixed(dv, sv if sv is Dictionary else {}, dynamic, p)
 		elif dv is Array:
 			out[k] = sv if sv is Array else dv
+		elif dv is bool:
+			out[k] = sv if sv is bool else dv
 		elif dv is String:
 			out[k] = sv if sv is String else dv
 		elif dv is float:

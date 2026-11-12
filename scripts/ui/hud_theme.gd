@@ -33,6 +33,8 @@ const RING_COLOR := {
 const ACTIVE_CARD_POS := Vector2(40.0, 36.0)
 const ACTIVE_CARD_SIZE := Vector2(520.0, 132.0)
 const BAR_WIDTH := 380.0
+## Nút Tạm dừng (vùng chạm ≥ 128 px).
+const PAUSE_BUTTON_SIZE := 132.0
 const HP_BAR_HEIGHT := 22.0
 const SMALL_BAR_HEIGHT := 12.0
 

@@ -19,6 +19,12 @@ func _ready() -> void:
 	if DisplayServer.get_name() == "headless":
 		store = SaveStore.new(HEADLESS_DIR)
 	load_game()
+	# Áp cài đặt đã lưu (ngôn ngữ, âm lượng, toàn màn hình); tham số --lang trên dòng lệnh được ưu tiên.
+	var lang_arg := false
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--lang="):
+			lang_arg = true
+	SettingsPanel.apply_settings(data["settings"], has_save() and not lang_arg)
 
 
 func has_save() -> bool:

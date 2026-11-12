@@ -25,14 +25,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_back"):
 		get_viewport().set_input_as_handled()
 		EventBus.back_requested.emit()
-		go_back()
+		if not _intercepted():
+			go_back()
 
 
 func _notification(what: int) -> void:
 	# Phím Back của Android (quit_on_go_back đã tắt trong project.godot).
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		EventBus.back_requested.emit()
-		go_back()
+		if not _intercepted():
+			go_back()
+
+
+## Node trong nhóm `back_interceptor` (vd menu Tạm dừng) được hỏi trước: trả về true thì không quay lại scene trước.
+func _intercepted() -> bool:
+	for n in get_tree().get_nodes_in_group(&"back_interceptor"):
+		if n.has_method("intercept_back") and n.intercept_back():
+			return true
+	return false
 
 
 ## Vào scene mới và nhớ scene hiện tại để Back quay lại.

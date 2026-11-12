@@ -8,6 +8,8 @@ var party: PartyManager
 var icons: Array[ReserveIcon] = []
 
 var _card: Control
+## Nút Tạm dừng, đặt cạnh thẻ nhân vật, xa icon dự bị (README 15.5).
+var pause_button: Button
 
 
 func _ready() -> void:
@@ -23,6 +25,20 @@ func _ready() -> void:
 	_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_card.draw.connect(_draw_card)
 	root.add_child(_card)
+
+	pause_button = Button.new()
+	pause_button.name = "PauseButton"
+	pause_button.text = "II"
+	pause_button.focus_mode = Control.FOCUS_NONE
+	pause_button.add_theme_font_size_override("font_size", 40)
+	pause_button.position = HudTheme.ACTIVE_CARD_POS + Vector2(0.0, HudTheme.ACTIVE_CARD_SIZE.y + 290.0)
+	pause_button.size = Vector2.ONE * HudTheme.PAUSE_BUTTON_SIZE
+	pause_button.pressed.connect(func() -> void:
+		var menu := get_parent().get_node_or_null("PauseMenu") if get_parent() else null
+		if menu and menu.has_method("open"):
+			menu.open())
+	root.add_child(pause_button)
+	UiKit.apply_safe_area(root)
 
 	var s := HudTheme.RESERVE_ICON_SIZE
 	for i in 2:

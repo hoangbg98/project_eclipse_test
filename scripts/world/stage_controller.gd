@@ -325,6 +325,9 @@ func _freeze_all() -> void:
 
 
 func _show_result() -> void:
+	var pause := get_node_or_null("PauseMenu")
+	if pause and "enabled" in pause:
+		pause.enabled = false
 	var screen := get_node_or_null("ResultScreen")
 	if screen and screen.has_method("show_result"):
 		screen.show_result(last_summary)

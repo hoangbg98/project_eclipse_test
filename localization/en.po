@@ -291,3 +291,66 @@ msgstr "Retry"
 
 msgid "RESULT_TO_HUB"
 msgstr "Back to Hub"
+
+msgid "UI_BACK"
+msgstr "Back"
+
+msgid "SETTINGS_TITLE"
+msgstr "Settings"
+
+msgid "SETTINGS_LANGUAGE"
+msgstr "Language"
+
+msgid "LANGUAGE_VI"
+msgstr "Tiếng Việt"
+
+msgid "LANGUAGE_EN"
+msgstr "English"
+
+msgid "SETTINGS_VOLUME_MASTER"
+msgstr "Master volume"
+
+msgid "SETTINGS_VOLUME_MUSIC"
+msgstr "Music"
+
+msgid "SETTINGS_VOLUME_SFX"
+msgstr "Sound effects"
+
+msgid "SETTINGS_FULLSCREEN"
+msgstr "Fullscreen"
+
+msgid "CREDITS_TITLE"
+msgstr "Credits and licenses"
+
+msgid "CREDITS_ROLE"
+msgstr "Role"
+
+msgid "CREDITS_LICENSE"
+msgstr "License"
+
+msgid "CREDITS_COPYRIGHT"
+msgstr "Copyright"
+
+msgid "CREDITS_SOURCE"
+msgstr "Source"
+
+msgid "PAUSE_TITLE"
+msgstr "PAUSED"
+
+msgid "PAUSE_RESUME"
+msgstr "Resume"
+
+msgid "PAUSE_SETTINGS"
+msgstr "Settings"
+
+msgid "PAUSE_QUIT"
+msgstr "Quit stage"
+
+msgid "PAUSE_QUIT_CONFIRM"
+msgstr "Quit to Hub? Progress in this stage will be lost."
+
+msgid "PAUSE_QUIT_YES"
+msgstr "Quit"
+
+msgid "PAUSE_QUIT_NO"
+msgstr "Stay"
