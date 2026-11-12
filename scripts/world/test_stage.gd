@@ -24,6 +24,7 @@ var party: PartyManager
 var dummies: Array[TrainingDummy] = []
 var enemies: Array[EnemyController] = []
 var feedback: HitFeedback
+var hud: BattleHud
 
 var _revive_timer := -1.0
 var _respawns: Array = []  # [giây còn lại, ô]
@@ -64,6 +65,16 @@ func _ready() -> void:
 	feedback.name = "HitFeedback"
 	feedback.camera = camera
 	add_child(feedback)
+	hud = BattleHud.new()
+	hud.name = "BattleHud"
+	hud.party = party
+	add_child(hud)
+	# Icon dự bị thay hai nút chuyển của lớp cảm ứng (cùng góc trên-phải).
+	var touch := get_node_or_null("TouchControls") as TouchControls
+	if touch:
+		for a: StringName in [&"switch_1", &"switch_2"]:
+			if touch.buttons.has(a):
+				touch.buttons[a].visible = false
 	_bind_player()
 
 

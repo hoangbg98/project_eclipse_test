@@ -709,3 +709,19 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Lỗi tìm thấy và sửa:** cửa sổ lướt 30 ms của né Kael ngắn hơn hai khung hình nên chỉ đi được ~177 px → dịch chuyển tức thì một lần; tia điện của né đặt sai phía (trước mặt sau khi dịch chuyển) → nối từ điểm đến về điểm xuất phát.
 - **Quyết định Claude chọn:** làm luôn Bùng nổ Sét và hiệu ứng né hoàn hảo dù Q5 chỉ ghi "đòn thường, né" (không có thì Dấu Sét vô nghĩa); cửa sổ nối đòn Kael 180 ms, Lyra 200 ms; Kael đi xuyên kẻ địch khi tiến đòn (quái không chặn đường, như M3-6).
 - **Hạn chế đã biết:** tên Lyra bay thẳng ngang, chưa tự nhắm ±25°; chuỗi Kael reset sau 0.8 s (đặc tả 0.7 s; hằng số chung của SkillRunner); Lyra chưa lùi nửa bước mỗi phát; nội tại Gió Thuận, đòn giữ / trên không / kỹ năng / tuyệt kỹ của Kael và Lyra ngoài slice Q5.
+
+## 2026-11-12 — M4-7 HUD icon dự bị (HP, vòng SI-CD, vòng sáng Liên kết)
+
+- **Milestone / task:** 4 / M4-7. **Milestone 4 hoàn tất.**
+- **Trạng thái:** TESTED (headless) + Claude đã xem một ảnh chụp màn thử nghiệm. **Mốc owner chơi thử trong Godot** (đổi 3 nhân vật, vòng sáng, phản ứng).
+- **File tạo/sửa:**
+  - `scripts/ui/hud_theme.gd` (`HudTheme`: vị trí, kích thước, màu, thời gian HUD gom một chỗ; token màu vòng README 17.5).
+  - `scripts/ui/reserve_icon.gd` (`ReserveIcon`, 160 px ≥ 140): chân dung (ảnh `portrait/{id}_portrait_full.png` nếu có, không thì vòng màu + chữ cái), thanh HP nhỏ, quạt hồi SI-CD + số giây, vòng sáng Liên kết (hiện 150 ms, nhịp 0.8 s phóng 1.0→1.12 sáng 0.6→1.0, 3 hạt quay, cung mỏng co theo 6.0 s, mờ 300 ms khi hết, nổ 200 ms khi dùng), trạng thái gục; chạm / click để chuyển.
+  - `scripts/ui/battle_hud.gd` (`BattleHud`): thẻ nhân vật trên sân góc trên-trái (tên, HP + khiên, EN, UG, lượt né) + 2 icon dự bị góc trên-phải.
+  - Màn thử nghiệm tạo BattleHud, ẩn hai nút `switch_1/2` của lớp cảm ứng (icon thay thế); debug overlay dời xuống dưới thẻ nhân vật.
+  - `tools/screenshot_stage.gd`: chụp ảnh màn thử nghiệm ra `build/screenshots/` (cần cửa sổ).
+  - `tests/unit/ui/test_battle_hud.gd` (14 test).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . --resolution 1280x720 -s tools/screenshot_stage.gd`.
+- **Kết quả thật:** GdUnit4 304/304 đạt, 4 test khói đạt, mã thoát 0. Ảnh chụp: thẻ Kael (6825/10500), icon Aether có chân dung thật + vòng đỏ cam + cung đếm ngược, icon Lyra chữ "L" xanh ngọc + thanh HP 40%; dòng debug "Q: Aether ✦ LIÊN KẾT 5.6s". Test: hằng số khớp 17.5; 2 icon ≥ 140 px, không chồng nhau, sát góc trên-phải; icon theo thứ tự dự bị; HP và trạng thái gục; tỉ lệ quạt SI-CD; vòng hiện đủ sau 150 ms, nhịp và cung đúng, mờ hết sau 300 ms; cửa sổ còn mà SI-CD chưa hồi thì không sáng; hai icon sáng cùng lúc; dùng Liên kết nổ 200 ms, Thường thì không; chạm / click icon thì chuyển; chạm người đã gục bị từ chối.
+- **Quyết định Claude chọn:** icon 1 (Q) bên trái, icon 2 (E) sát mép phải; chân dung cắt 42% phần trên của ảnh đứng; thanh khiên là vạch xanh nhạt dưới thanh HP.
+- **Hạn chế đã biết:** chưa có âm thanh khi vòng sáng bật (M7, chờ SFX); nút kỹ năng có vòng hồi và nút Pause là M7; gợi ý phím của debug overlay dài, đè lên icon ở cửa sổ hẹp (chỉ bản debug, F3 để ẩn); nhãn hai hình nộm chồng chữ nhau (có từ M3).

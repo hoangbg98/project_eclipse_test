@@ -13,7 +13,7 @@ func _ready() -> void:
 	layer = 90
 	visible = OS.is_debug_build()
 	_label = Label.new()
-	_label.position = Vector2(24, 16)
+	_label.position = Vector2(40, 184)  # dưới thẻ nhân vật của BattleHud
 	_label.add_theme_font_size_override("font_size", 28)
 	_label.add_theme_color_override("font_outline_color", Color.BLACK)
 	_label.add_theme_constant_override("outline_size", 8)
