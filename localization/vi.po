@@ -43,7 +43,7 @@ msgstr "Màn thử nghiệm"
 
 # Stage
 msgid "STAGE_HINT"
-msgstr "A/D chạy · Space nhảy · J đánh (giữ: nạp; trên không; rơi cao: lao) · L/Shift né · U kỹ năng · I vũ khí · O tuyệt kỹ · Esc Hub · F3 ẩn"
+msgstr "A/D chạy · Space nhảy · J đánh (giữ: nạp; trên không; rơi cao: lao) · L/Shift né · U kỹ năng · I vũ khí · O tuyệt kỹ · Q/E đổi nhân vật · Esc Hub · F3 ẩn"
 
 # Trạng thái (StatusDef)
 msgid "STATUS_BURN"
@@ -78,6 +78,18 @@ msgstr "Khiên"
 
 msgid "STATUS_TAUNT"
 msgstr "Khiêu khích"
+
+msgid "STATUS_WIND_STEP"
+msgstr "Gió Trợ Bước"
+
+msgid "STATUS_ATTACK_SPEED_UP"
+msgstr "Tăng tốc đánh"
+
+msgid "DEBUG_PARTY_DOWN"
+msgstr "(gục)"
+
+msgid "DEBUG_PARTY_LINK"
+msgstr "LIÊN KẾT"
 
 # Nhân vật (tên tạm)
 msgid "CHAR_FIRE_01"

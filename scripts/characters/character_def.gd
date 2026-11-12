@@ -21,6 +21,8 @@ extends Resource
 		"weapon_or_ultimate") var link_condition := "enemy_stunned"
 ## SI-CD: hồi chiêu vào sân (s), chịu CDR chung.
 @export var switch_in_cd_sec := 10.0
+## Buff và giảm SI-CD riêng của Kĩ năng vào sân (null = không có).
+@export var switch_in: SwitchInDef
 
 
 ## Nạp mọi SkillDef trong skills_dir, khóa theo `key` của file (tên file không đuôi).

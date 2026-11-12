@@ -20,6 +20,9 @@ signal hit_landed(hurtbox: Hurtbox, hit: HitInfo)
 var damage_bonus: Dictionary = {}
 ## EN cộng thêm cho người đánh khi trúng (ngoài mức theo loại đòn).
 var extra_en := 0.0
+## Thêm sát thương nếu mục tiêu đang mang trạng thái này (HitDef.bonus_vs_status).
+var bonus_vs_status := ""
+var bonus_vs_status_ratio := 0.0
 
 ## Bộ đếm toàn cục để hit_id không trùng giữa các Hitbox.
 static var _next_hit_id := 0
@@ -92,6 +95,8 @@ func make_hit_info() -> HitInfo:
 	hit.statuses = statuses
 	hit.damage_bonus = damage_bonus.duplicate()
 	hit.extra_en = extra_en
+	hit.bonus_vs_status = bonus_vs_status
+	hit.bonus_vs_status_ratio = bonus_vs_status_ratio
 	return hit
 
 

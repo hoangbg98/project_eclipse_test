@@ -73,10 +73,12 @@ func test_switch_keeps_position_and_facing() -> void:
 	old.facing = -1
 	var pos := old.global_position
 	var got := []
-	_party.switched.connect(func(a: CharacterRuntime, b: CharacterRuntime, _mode: String) -> void: got.append([a.id, b.id]))
+	_party.switched.connect(func(a: CharacterRuntime, b: CharacterRuntime, mode: String) -> void: got.append([a.id, b.id, mode]))
+	# SI-CD chưa hồi → vào mặc định (không kỹ năng, không dịch chuyển tới mục tiêu).
+	_m(1).combatant().cooldowns.trigger(LinkTracker.SI_CD_KEY)
 	assert_bool(_party.request_switch_slot(0)).is_true()
 	assert_str(_party.active().id).is_equal("char_lightning_01")
-	assert_array(got).is_equal([["char_fire_01", "char_lightning_01"]])
+	assert_array(got).is_equal([["char_fire_01", "char_lightning_01", "default"]])
 	var now := _stage.player as PlayerController
 	assert_object(now).is_same(_m(1).controller)
 	assert_bool(now.is_inside_tree()).is_true()

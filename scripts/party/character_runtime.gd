@@ -9,6 +9,9 @@ var id := ""
 var controller: PlayerController
 ## Vị trí trong đội (0..2), không đổi khi chuyển.
 var party_index := 0
+## Cửa sổ "sau khi vào sân" cho cơ chế giảm SI-CD riêng (SwitchInDef.reduce_window_sec) và ICD của nó.
+var si_window_left := 0.0
+var si_icd_left := 0.0
 
 
 func _init(character_id: String, node: PlayerController, index: int) -> void:
@@ -19,6 +22,10 @@ func _init(character_id: String, node: PlayerController, index: int) -> void:
 
 func def() -> CharacterDef:
 	return controller.character
+
+
+func switch_in_def() -> SwitchInDef:
+	return controller.character.switch_in if controller.character else null
 
 
 func element() -> String:

@@ -8,7 +8,9 @@ extends Node
 ## - Người trên sân gục: sau `down_auto_switch_sec` tự đưa người dự bị còn sống đầu tiên vào (vào mặc định);
 ##   cả đội gục → `party_defeated`.
 ## - Liên kết / SI-CD: LinkTracker (M4-3); PartyManager cấp sự kiện từ EventBus và người trên sân.
-## Kĩ năng vào sân / phản ứng: M4-4, M4-5.
+## - Kĩ năng vào sân (M4-4): Thường chạy `switch_in`, Liên kết chạy `switch_in_linked` (thiếu thì `switch_in`),
+##   mặc định không chạy kỹ năng; áp buff bản thân và giảm SI-CD riêng theo SwitchInDef.
+## Phản ứng nguyên tố: M4-5.
 
 ## mode: LinkTracker.MODE_LINKED | MODE_NORMAL | MODE_DEFAULT.
 signal switched(from: CharacterRuntime, to: CharacterRuntime, mode: String)
@@ -28,6 +30,10 @@ const REASON_INVALID := "invalid"
 
 ## Nút chuyển → ô dự bị (0, 1).
 const SWITCH_ACTIONS: Array[StringName] = [&"switch_1", &"switch_2"]
+const SKILL_SWITCH_IN := "switch_in"
+const SKILL_SWITCH_IN_LINKED := "switch_in_linked"
+## Trạng thái đủ tầng tính là Bùng nổ Sét (giảm SI-CD Kael).
+const LIGHTNING_MARK := "lightning_mark"
 
 ## Tắt để test tự gọi `request_switch` / `tick`.
 @export var use_player_input := true
@@ -62,6 +68,7 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 		p.player_died.connect(_on_member_died.bind(m))
 		p.perfect_dodged.connect(_on_perfect_dodged.bind(m))
 		p.runner.skill_started.connect(_on_skill_started.bind(m))
+		p.combatant.hit_dealt.connect(_on_member_hit_dealt.bind(m))
 	active_index = 0
 	for m in members:
 		if m.party_index != active_index:
@@ -76,6 +83,7 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 		bus.enemy_stunned.connect(_on_enemy_stunned)
 		bus.enemy_defeated.connect(_on_enemy_defeated)
 		bus.status_applied.connect(_on_status_applied)
+		bus.status_max_stacks.connect(_on_status_max_stacks)
 
 
 func active() -> CharacterRuntime:
@@ -177,6 +185,8 @@ func tick(delta: float) -> void:
 	for m in members:
 		if m.party_index != active_index:
 			m.tick_reserve(delta)
+		m.si_window_left = maxf(m.si_window_left - delta, 0.0)
+		m.si_icd_left = maxf(m.si_icd_left - delta, 0.0)
 	if _auto_switch_timer >= 0.0:
 		_auto_switch_timer -= delta
 		if _auto_switch_timer < 0.0:
@@ -206,9 +216,11 @@ func _do_switch(index: int, auto := false) -> void:
 	parent.add_child(to.controller)
 	parent.move_child(to.controller, at)
 	to.controller.enter_field(pos, dir)
+	from.si_window_left = 0.0
 	active_index = index
 	links.on_switched(to, mode)
 	last_switch_mode = mode
+	_start_switch_in(to, mode)
 	_switch_cd = rules.switch_cooldown_sec
 	_auto_switch_timer = -1.0
 	switched.emit(from, to, mode)
@@ -262,6 +274,56 @@ func _notification(what: int) -> void:
 				m.controller.free()
 
 
+# ---------- Kĩ năng vào sân (mục 8.5–8.10) ----------
+
+## Chạy Kĩ năng vào sân theo mức, áp buff bản thân, mở cửa sổ giảm SI-CD.
+func _start_switch_in(m: CharacterRuntime, mode: String) -> void:
+	m.si_window_left = 0.0
+	m.si_icd_left = 0.0
+	if mode == LinkTracker.MODE_DEFAULT:
+		return
+	var linked := mode == LinkTracker.MODE_LINKED
+	var key := SKILL_SWITCH_IN_LINKED if linked and m.controller.runner.has_skill(SKILL_SWITCH_IN_LINKED) \
+			else SKILL_SWITCH_IN
+	m.controller.start_switch_in(key)
+	var sd := m.switch_in_def()
+	if sd == null:
+		return
+	for st in (sd.self_statuses_linked if linked else sd.self_statuses_normal):
+		m.combatant().statuses.apply(st.status_id, st.duration, st.magnitude, m.combatant())
+	m.si_window_left = sd.reduce_window_sec
+
+
+## Giảm SI-CD riêng của `m` nếu `trigger` đúng cơ chế của nhân vật và còn trong cửa sổ / hết ICD.
+func _try_reduce_si_cd(m: CharacterRuntime, trigger: String, needs_window := true) -> float:
+	var sd := m.switch_in_def()
+	if sd == null or sd.reduce_on != trigger or sd.reduce_sec <= 0.0:
+		return 0.0
+	if needs_window and m.si_window_left <= 0.0:
+		return 0.0
+	if m.si_icd_left > 0.0:
+		return 0.0
+	var cut := m.combatant().cooldowns.reduce(LinkTracker.SI_CD_KEY, sd.reduce_sec, sd.reduce_max_per_cycle_sec)
+	if cut > 0.0:
+		m.si_icd_left = sd.reduce_icd_sec
+	return cut
+
+
+## Aether: mỗi kẻ địch đang Choáng trúng đòn vào sân.
+func _on_member_hit_dealt(_target: Combatant, _result: DamageCalculator.Result, hit: HitInfo,
+		m: CharacterRuntime) -> void:
+	if m.party_index != active_index or not hit.skill_id.begins_with(m.id + "." + SKILL_SWITCH_IN):
+		return
+	if hit.target_statuses_before.has("stun"):
+		_try_reduce_si_cd(m, SwitchInDef.REDUCE_STUNNED_HIT, false)
+
+
+## Kael: Bùng nổ Sét (Dấu Sét đủ tầng do người trên sân gây).
+func _on_status_max_stacks(_target: Object, status_id: String, source: Object) -> void:
+	if status_id == LIGHTNING_MARK and _is_active_combatant(source):
+		_try_reduce_si_cd(active(), SwitchInDef.REDUCE_LIGHTNING_BURST)
+
+
 # ---------- Điều kiện Liên kết (mục 8.3) ----------
 
 func _is_active_combatant(c: Object) -> bool:
@@ -295,6 +357,7 @@ func _on_status_applied(target: Object, status_id: String, source: Object) -> vo
 func _on_perfect_dodged(_hit: HitInfo, m: CharacterRuntime) -> void:
 	if m.party_index == active_index:
 		links.notify(LinkTracker.COND_PERFECT_DODGE)
+		_try_reduce_si_cd(m, SwitchInDef.REDUCE_PERFECT_DODGE)  # Lyra
 
 
 func _on_skill_started(_key: String, skill: SkillDef, m: CharacterRuntime) -> void:

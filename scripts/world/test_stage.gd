@@ -75,6 +75,7 @@ func _bind_player() -> void:
 	var overlay := get_node_or_null("DebugOverlay")
 	if overlay:
 		overlay.player = player
+		overlay.party = party
 
 
 ## Màn thử nghiệm: thành viên gục ở dự bị cũng tự đứng dậy sau `player_revive_sec`

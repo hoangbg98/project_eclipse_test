@@ -1,8 +1,10 @@
-[gd_resource type="Resource" script_class="CharacterDef" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="CharacterDef" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/character_def.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/characters/combat_stats.gd" id="2"]
 [ext_resource type="Resource" path="res://data/config/movement_default.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/party/switch_in_def.gd" id="si_def"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="si_st"]
 
 [sub_resource type="Resource" id="stats"]
 script = ExtResource("2")
@@ -14,6 +16,29 @@ crit_damage = 0.5
 cdr = 0.0
 metadata/source = "Số tạm do Claude đặt (README chưa có chỉ số gốc); owner chỉnh."
 
+[sub_resource type="Resource" id="si_n_0"]
+script = ExtResource("si_st")
+status_id = "wind_step"
+duration = 3.0
+magnitude = 0.1
+
+[sub_resource type="Resource" id="si_l_0"]
+script = ExtResource("si_st")
+status_id = "wind_step"
+duration = 4.0
+magnitude = 0.25
+
+[sub_resource type="Resource" id="switch_in"]
+script = ExtResource("si_def")
+self_statuses_normal = Array[ExtResource("si_st")]([SubResource("si_n_0")])
+self_statuses_linked = Array[ExtResource("si_st")]([SubResource("si_l_0")])
+reduce_on = "perfect_dodge"
+reduce_sec = 1.5
+reduce_max_per_cycle_sec = 3.0
+reduce_window_sec = 4.0
+reduce_icd_sec = 3.0
+metadata/source = "Mục 8.6: Gió Trợ Bước Thường +10% 3s, Liên kết +25% 4s; né hoàn hảo trong 4s sau khi vào sân -1.5s (ICD 3s, tối đa -3.0s)"
+
 [resource]
 script = ExtResource("1")
 id = "char_wind_01"
@@ -23,4 +48,6 @@ stats = SubResource("stats")
 movement = ExtResource("3")
 link_condition = "perfect_dodge"
 switch_in_cd_sec = 9.0
+switch_in = SubResource("switch_in")
+skills_dir = "res://data/skills/char_wind_01"
 metadata/source = "M4-1: chỉ di chuyển; đòn thường, né, switch-in thêm ở M4-4 / M4-6 (Q5)."

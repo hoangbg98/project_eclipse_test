@@ -43,7 +43,7 @@ msgstr "Test stage"
 
 # Stage
 msgid "STAGE_HINT"
-msgstr "A/D run · Space jump · J attack (hold: charge; air; falling high: plunge) · L/Shift dodge · U skill · I weapon · O ultimate · Esc Hub · F3 hide"
+msgstr "A/D run · Space jump · J attack (hold: charge; air; falling high: plunge) · L/Shift dodge · U skill · I weapon · O ultimate · Q/E switch · Esc Hub · F3 hide"
 
 # Statuses (StatusDef)
 msgid "STATUS_BURN"
@@ -78,6 +78,18 @@ msgstr "Shield"
 
 msgid "STATUS_TAUNT"
 msgstr "Taunt"
+
+msgid "STATUS_WIND_STEP"
+msgstr "Tailwind"
+
+msgid "STATUS_ATTACK_SPEED_UP"
+msgstr "Attack Speed Up"
+
+msgid "DEBUG_PARTY_DOWN"
+msgstr "(down)"
+
+msgid "DEBUG_PARTY_LINK"
+msgstr "LINK"
 
 # Characters (working names)
 msgid "CHAR_FIRE_01"

@@ -27,12 +27,18 @@ enum Shape { ARC, CIRCLE, RECT }
 @export_group("Hiệu ứng")
 @export var knockback_px := 0.0
 @export var statuses: Array[StatusApplication] = []
+## Mục tiêu đang mang trạng thái này (trước đòn) thì đòn gây thêm `bonus_vs_status_ratio` sát thương
+## (vd vào sân Liên kết Aether: kẻ địch đang Choáng +30%).
+@export var bonus_vs_status := ""
+@export var bonus_vs_status_ratio := 0.0
 
 @export_group("Tách khỏi nhân vật")
 ## true: vùng nằm lại trong thế giới (sóng bay, vệt lửa, vết nổ) thay vì đi theo nhân vật.
 @export var detached := false
 ## Vùng tách: bay về phía trước bao xa trong thời gian tồn tại (px).
 @export var travel_px := 0.0
+## Vùng tách: góc bay so với phương ngang (độ; dương = chếch xuống), lật theo hướng nhìn (tên hình quạt).
+@export var travel_angle_deg := 0.0
 ## Vùng tách: gây lại sát thương mỗi khoảng này (ms); 0 = chỉ một lần.
 @export var tick_interval_ms := 0.0
 ## Vùng tách: đặt xuống lúc at_ms nhưng chỉ bật sau bấy nhiêu ms (vết chém nổ chậm).

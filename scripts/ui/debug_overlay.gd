@@ -3,6 +3,8 @@ extends CanvasLayer
 ## Chỉ hiện ở bản debug (editor, build debug); F3 bật/tắt.
 
 var player: PlayerController
+## Đội (màn thử nghiệm gán); hiện người trên sân, icon dự bị, SI-CD, Liên kết cho tới khi có HUD (M4-7).
+var party: PartyManager
 
 var _label: Label
 
@@ -46,7 +48,29 @@ func _process(_delta: float) -> void:
 				lines.append(" · ".join(st))
 			if player.runner and player.runner.is_running():
 				lines.append("%s  %d ms" % [player.runner.current.id, int(player.runner.elapsed_ms)])
+	if party and is_instance_valid(party) and party.links:
+		lines.append(_party_line())
 	_label.text = "\n".join(lines)
+
+
+## "[Aether] Q: Kael SI 3.2s · E: Lyra ✦ LIÊN KẾT 4.1s" — trạng thái icon dự bị.
+func _party_line() -> String:
+	var parts := PackedStringArray(["[%s]" % tr(party.active().def().name_key)])
+	var keys := ["Q", "E"]
+	var r := party.reserves()
+	for i in r.size():
+		var m := r[i]
+		var s := "%s: %s" % [keys[i] if i < keys.size() else "?", tr(m.def().name_key)]
+		if m.is_down():
+			s += " " + tr("DEBUG_PARTY_DOWN")
+		elif party.links.is_glowing(m):
+			s += " ✦ %s %.1fs" % [tr("DEBUG_PARTY_LINK"), party.links.window_left(m)]
+		elif not party.links.si_cd_ready(m):
+			s += " SI %.1fs" % party.links.si_cd_left(m)
+		parts.append(s)
+	if party.switch_cooldown_left() > 0.0:
+		parts.append("%.1fs" % party.switch_cooldown_left())
+	return "  ·  ".join(parts)
 
 
 func _cd(c: Combatant, key: StringName) -> String:

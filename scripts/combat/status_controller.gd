@@ -136,6 +136,23 @@ func move_slow() -> float:
 	return m
 
 
+## % tăng tốc độ di chuyển (lấy mức cao nhất).
+func move_speed_up() -> float:
+	return _max_of(StatusDef.MAGNITUDE_MOVE_SPEED_UP)
+
+
+## % tăng tốc độ tấn công (lấy mức cao nhất).
+func attack_speed_up() -> float:
+	return _max_of(StatusDef.MAGNITUDE_ATTACK_SPEED_UP)
+
+
+func _max_of(meaning: String) -> float:
+	var m := 0.0
+	for v in modifiers(meaning).values():
+		m = maxf(m, float(v))
+	return m
+
+
 func blocks_movement() -> bool:
 	return _any_flag("blocks_movement") or _any_flag("blocks_actions")
 

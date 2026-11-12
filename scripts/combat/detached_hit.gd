@@ -25,7 +25,9 @@ static func spawn(parent: Node, def: HitDef, attacker: Node, team: PhysicsLayers
 	d.tick_interval = def.tick_interval_ms / 1000.0
 	d.delay = def.delay_ms / 1000.0
 	if def.travel_px != 0.0 and d.lifetime > 0.0:
-		d.velocity = Vector2(def.travel_px / d.lifetime * facing, 0.0)
+		var a := deg_to_rad(def.travel_angle_deg)
+		d.velocity = Vector2(cos(a) * facing, sin(a)) * (def.travel_px / d.lifetime)
+		d.rotation = a * facing
 	d.scale.x = facing
 	d.hitbox = SkillRunner.make_hitbox(def, team, skill_id, hit_kind)
 	d.hitbox.attacker = attacker

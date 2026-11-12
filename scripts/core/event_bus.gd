@@ -13,6 +13,8 @@ signal enemy_stunned(enemy: Node, by: Object)
 signal enemy_defeated(enemy: Node, by: Object)
 ## Một trạng thái được áp lên `target` (Combatant) bởi `source` (Combatant hoặc null).
 signal status_applied(target: Object, status_id: String, source: Object)
+## Trạng thái đạt tầng tối đa trên `target` (vd 3 Dấu Sét = Bùng nổ Sét; giảm SI-CD Kael).
+signal status_max_stacks(target: Object, status_id: String, source: Object)
 
 ## Đội (M4). Cửa sổ Liên kết của nhân vật dự bị mở / đóng (HUD vòng sáng).
 signal link_window_opened(character_id: String, seconds: float)

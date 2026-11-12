@@ -118,7 +118,7 @@ func step(delta: float) -> void:
 		kit.tick(delta)
 	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
 	fsm.physics_update(delta)
-	runner.advance(delta)
+	runner.advance(delta * attack_speed_factor())
 	_apply_horizontal(delta)
 	if velocity_override_active:
 		velocity = velocity_override
@@ -273,7 +273,8 @@ func _apply_horizontal(delta: float) -> void:
 		if not runner.keeps_momentum():
 			velocity.x = runner.velocity_x()
 		return
-	var speed := config.run_speed * (1.0 - combatant.statuses.move_slow())
+	var st := combatant.statuses
+	var speed := config.run_speed * maxf(1.0 + st.move_speed_up() - st.move_slow(), 0.0)
 	if charging:
 		var hold: SkillDef = runner.skills.get("hold_1")
 		speed *= 1.0 - (hold.charge_move_slow if hold else 0.0)
@@ -392,6 +393,26 @@ func enter_field(pos: Vector2, dir: int) -> void:
 	else:
 		fsm.transition(MovementStates.FALL)
 	_update_facing()
+
+
+## Kỹ năng chịu tốc độ tấn công (đòn cơ bản); kỹ năng, vũ khí, tuyệt kỹ, né, vào sân thì không.
+const ATTACK_SPEED_KEYS := ["normal", "hold", "air", "landing"]
+
+
+## Hệ số thời gian cho kỹ năng đang chạy (1 + % tốc độ tấn công nếu là đòn cơ bản).
+func attack_speed_factor() -> float:
+	if runner.current != null and runner.current.key in ATTACK_SPEED_KEYS:
+		return 1.0 + combatant.statuses.attack_speed_up()
+	return 1.0
+
+
+## Chạy Kĩ năng vào sân `key` (switch_in / switch_in_linked) qua state Attack. Trả về true nếu chạy được.
+func start_switch_in(key: String) -> bool:
+	if not runner.has_skill(key):
+		return false
+	pending_skill = key
+	fsm.transition(CombatStates.ATTACK)
+	return runner.current_key == key
 
 
 ## Tick khi ở dự bị (không có node trên sân): tài nguyên, hồi chiêu, trạng thái, kit vẫn chạy (mục 8.1).

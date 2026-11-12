@@ -1,4 +1,4 @@
-"""Sinh data/characters/char_fire_01.tres và data/skills/char_fire_01/*.tres từ CHARACTER_SKILLS mục 1.
+"""Sinh data/skills/char_fire_01/*.tres (trừ switch_in*: gen_switch_in_data.py) từ CHARACTER_SKILLS mục 1.
 
 Chạy một lần khi dựng dữ liệu ban đầu: python tools/gen_aether_data.py
 CẢNH BÁO: chạy lại sẽ GHI ĐÈ các file .tres (mất chỉnh sửa trong editor). Sau khi sinh, file .tres là nguồn chính.
@@ -8,57 +8,14 @@ import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKILL_DIR = os.path.join(ROOT, "data", "skills", "char_fire_01")
 
-# ResourceComponent.HitKind
-NORMAL, HOLD, AIR, LANDING, SKILL, WEAPON, ULTIMATE, SWITCH_IN, NONE = range(9)
-ARC, CIRCLE, RECT = range(3)
-
-
-def fmt(v):
-    if isinstance(v, bool):
-        return "true" if v else "false"
-    if isinstance(v, (int, float)):
-        return repr(float(v)) if isinstance(v, float) else str(v)
-    if isinstance(v, tuple):
-        return "Vector2(%s, %s)" % (float(v[0]), float(v[1]))
-    return '"%s"' % v
-
-
-def hit(at, dur, ratio, shape=ARC, radius=140, arc=120, tilt=0, rect=(100, 100), offset=(0, -120),
-        sc=1.0, knock=0, statuses=(), detached=False, travel=0, tick=0):
-    return dict(at_ms=float(at), duration_ms=float(dur), atk_ratio=float(ratio), sc_multiplier=float(sc),
-                shape=shape, radius_px=float(radius), arc_deg=float(arc), arc_tilt_deg=float(tilt),
-                rect_size=rect, offset=offset, knockback_px=float(knock), statuses=list(statuses),
-                detached=detached, travel_px=float(travel), tick_interval_ms=float(tick))
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from skill_data_lib import *  # noqa: E402,F401,F403
+from skill_data_lib import write_skill as _write_skill  # noqa: E402
 
 
 def write_skill(name, skill, hits, source):
-    ext = ['[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]',
-           '[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]',
-           '[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]']
-    subs, hit_ids = [], []
-    for i, h in enumerate(hits):
-        st_ids = []
-        for j, (sid, dur, mag) in enumerate(h.pop("statuses")):
-            st_id = "st_%d_%d" % (i, j)
-            st_ids.append(st_id)
-            subs.append('[sub_resource type="Resource" id="%s"]\nscript = ExtResource("3")\nstatus_id = "%s"\n'
-                        'duration = %s\nmagnitude = %s\n' % (st_id, sid, float(dur), float(mag)))
-        hid = "hit_%d" % i
-        hit_ids.append(hid)
-        body = ['[sub_resource type="Resource" id="%s"]' % hid, 'script = ExtResource("2")']
-        body += ["%s = %s" % (k, fmt(v)) for k, v in h.items()]
-        body.append('statuses = Array[ExtResource("3")]([%s])' % ", ".join('SubResource("%s")' % s for s in st_ids))
-        subs.append("\n".join(body) + "\n")
-    lines = ['[gd_resource type="Resource" script_class="SkillDef" load_steps=%d format=3]' % (len(ext) + len(subs) + 1), ""]
-    lines += [e for e in ext] + [""]
-    lines += subs
-    lines += ["[resource]", 'script = ExtResource("1")']
-    lines += ["%s = %s" % (k, fmt(v)) for k, v in skill.items()]
-    lines.append('hits = Array[ExtResource("2")]([%s])' % ", ".join('SubResource("%s")' % h for h in hit_ids))
-    lines.append('metadata/source = "%s"' % source)
-    os.makedirs(SKILL_DIR, exist_ok=True)
-    with open(os.path.join(SKILL_DIR, name + ".tres"), "w", encoding="utf-8", newline="\n") as f:
-        f.write("\n".join(lines) + "\n")
+    _write_skill(name, skill, hits, source, SKILL_DIR)
 
 
 def base(sid, key, anim, kind, s, a, r, **kw):
@@ -175,37 +132,6 @@ kit += ["", "[resource]", 'script = ExtResource("1")',
 with open(os.path.join(ROOT, "data", "characters", "char_fire_01_kit.tres"), "w", encoding="utf-8", newline="\n") as f:
     f.write("\n".join(kit) + "\n")
 
-# --- CharacterDef (chỉ số tạm do Claude đặt; owner chỉnh) ---
-char = """[gd_resource type="Resource" script_class="CharacterDef" load_steps=6 format=3]
-
-[ext_resource type="Script" path="res://scripts/characters/character_def.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/characters/combat_stats.gd" id="2"]
-[ext_resource type="Resource" path="res://data/config/movement_default.tres" id="3"]
-[ext_resource type="Script" path="res://scripts/characters/kits/fire_kit.gd" id="4"]
-[ext_resource type="Resource" path="res://data/characters/char_fire_01_kit.tres" id="5"]
-
-[sub_resource type="Resource" id="stats"]
-script = ExtResource("2")
-max_hp = 12000.0
-atk = 1000.0
-def = 500.0
-crit_rate = 0.05
-crit_damage = 0.5
-cdr = 0.0
-metadata/source = "Số tạm do Claude đặt (README chưa có chỉ số gốc); owner chỉnh."
-
-[resource]
-script = ExtResource("1")
-id = "char_fire_01"
-name_key = "CHAR_FIRE_01"
-element = "fire"
-stats = SubResource("stats")
-movement = ExtResource("3")
-skills_dir = "res://data/skills/char_fire_01"
-kit_script = ExtResource("4")
-kit_config = ExtResource("5")
-"""
-os.makedirs(os.path.join(ROOT, "data", "characters"), exist_ok=True)
-with open(os.path.join(ROOT, "data", "characters", "char_fire_01.tres"), "w", encoding="utf-8", newline="\n") as f:
-    f.write(char)
+# --- CharacterDef: từ M4-4 sửa tay trong data/characters/char_fire_01.tres (có dữ liệu Liên kết, vào sân);
+#     script này không ghi file nhân vật nữa. ---
 print("ok")

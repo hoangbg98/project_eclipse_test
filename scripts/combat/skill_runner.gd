@@ -101,6 +101,8 @@ static func make_hitbox(h: HitDef, team: PhysicsLayers.Team, skill_id: String, h
 	hb.knockback_px = h.knockback_px
 	hb.hit_kind = hit_kind
 	hb.statuses = h.statuses
+	hb.bonus_vs_status = h.bonus_vs_status
+	hb.bonus_vs_status_ratio = h.bonus_vs_status_ratio
 	var poly := CollisionPolygon2D.new()
 	poly.polygon = h.build_polygon()
 	if not h.detached:
@@ -144,12 +146,14 @@ var has_target := false
 
 
 ## Kẻ địch còn sống gần nhất trong bán kính (đo từ chân), hoặc null.
-func find_nearest_enemy(radius: float) -> Node2D:
+func find_nearest_enemy(radius: float, prefer := "") -> Node2D:
 	if actor == null or not actor.is_inside_tree():
 		return null
 	var own_team: int = combatant.team if combatant else PhysicsLayers.Team.PLAYER
 	var best: Node2D = null
 	var best_d := radius
+	var best_pref: Node2D = null
+	var best_pref_d := radius
 	for n in actor.get_tree().get_nodes_in_group(Combatant.GROUP):
 		var c := Combatant.of(n)
 		if c == null or c.team == own_team or c.resources == null or c.resources.is_dead():
@@ -158,7 +162,16 @@ func find_nearest_enemy(radius: float) -> Node2D:
 		if d <= best_d:
 			best_d = d
 			best = n
-	return best
+		if prefer != "" and d <= best_pref_d and _matches_prefer(c, prefer):
+			best_pref_d = d
+			best_pref = n
+	return best_pref if best_pref else best
+
+
+static func _matches_prefer(c: Combatant, prefer: String) -> bool:
+	if prefer == "elemental":
+		return c.statuses.has_elemental()
+	return c.statuses.has(prefer)
 
 
 ## Bắt đầu kỹ năng (ngắt kỹ năng đang chạy). Trả về false nếu bị từ chối.
@@ -178,7 +191,7 @@ func run(key: String, p_facing: int = 0) -> bool:
 	_stop_current()
 	has_target = false
 	if s.target_range_px > 0.0:
-		var t := find_nearest_enemy(s.target_range_px)
+		var t := find_nearest_enemy(s.target_range_px, s.target_prefer)
 		if t:
 			has_target = true
 			target_position = t.global_position
@@ -190,6 +203,17 @@ func run(key: String, p_facing: int = 0) -> bool:
 		facing = p_facing
 	elif actor and "facing" in actor:
 		facing = int(actor.facing)
+	_move_px = s.move_px
+	if s.approach_target and has_target and actor:
+		var dx := target_position.x - actor.global_position.x
+		if absf(dx) > 1.0:
+			facing = 1 if dx > 0.0 else -1
+		_move_px = clampf(absf(dx) - s.approach_stop_px, 0.0, s.approach_max_px)
+		if s.teleport:
+			actor.global_position.x += _move_px * facing
+			_move_px = 0.0
+	if actor and "facing" in actor:
+		actor.facing = facing
 	_attached.scale.x = facing
 	var bonus: Dictionary = bonus_provider.call(s) if bonus_provider.is_valid() else {}
 	for hb: Hitbox in _hitboxes.get(key, []):
@@ -206,6 +230,8 @@ func run(key: String, p_facing: int = 0) -> bool:
 
 
 var _current_bonus: Dictionary = {}
+## Quãng lướt của lần chạy hiện tại (move_px, hoặc tính theo mục tiêu khi approach_target).
+var _move_px := 0.0
 
 
 ## Gọi mỗi tick vật lý.
@@ -294,12 +320,12 @@ func can_dodge_cancel() -> bool:
 
 ## Vận tốc ngang mong muốn khi đang chạy kỹ năng (px/s).
 func velocity_x() -> float:
-	if current == null or current.move_px == 0.0:
+	if current == null or _move_px == 0.0:
 		return 0.0
 	var span := current.move_to_ms - current.move_from_ms
 	if span <= 0.0 or elapsed_ms < current.move_from_ms or elapsed_ms >= current.move_to_ms:
 		return 0.0
-	return current.move_px / (span / 1000.0) * facing
+	return _move_px / (span / 1000.0) * facing
 
 
 func suspends_gravity() -> bool:

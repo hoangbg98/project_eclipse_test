@@ -1,0 +1,82 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 180.0
+duration_ms = 300.0
+atk_ratio = 0.4
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 700.0
+tick_interval_ms = 0.0
+travel_angle_deg = -15.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 230.0
+duration_ms = 300.0
+atk_ratio = 0.4
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 700.0
+tick_interval_ms = 0.0
+travel_angle_deg = 15.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="st_2_0"]
+script = ExtResource("3")
+status_id = "slow"
+duration = 2.0
+magnitude = 0.25
+
+[sub_resource type="Resource" id="hit_2"]
+script = ExtResource("2")
+at_ms = 280.0
+duration_ms = 300.0
+atk_ratio = 0.4
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 100.0
+detached = true
+travel_px = 700.0
+tick_interval_ms = 0.0
+travel_angle_deg = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_2_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_wind_01.switch_in"
+key = "switch_in"
+animation = "switch_in"
+hit_kind = 7
+startup_ms = 180.0
+active_ms = 200.0
+recovery_ms = 220.0
+invuln_from_ms = 0.0
+invuln_to_ms = 380.0
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2")])
+metadata/source = "Mục 8.6 Phong Dực Giáng Tiễn (Thường): 3 tên ±15° tầm 700, 3x40%, tên cuối đẩy 100 + Chậm 25% 2s, 180/200/220, bất tử 0-380"

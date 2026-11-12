@@ -52,6 +52,16 @@ extends Resource
 ## Giữ vận tốc ngang đang có (đòn trên không) thay vì đứng lại.
 @export var keep_momentum := false
 
+## Có mục tiêu (target_range_px): quay về phía mục tiêu và đi tới nó thay vì đi `move_px` cố định:
+## quãng = |khoảng cách| − approach_stop_px, tối đa approach_max_px (Kĩ năng vào sân Aether, Kael).
+@export var approach_target := false
+@export var approach_max_px := 0.0
+@export var approach_stop_px := 60.0
+## Tới mục tiêu tức thì lúc bắt đầu (dịch chuyển) thay vì lướt trong [move_from_ms, move_to_ms).
+@export var teleport := false
+## Ưu tiên mục tiêu: id trạng thái (vd "stun"), hoặc "elemental" = đang mang hiệu ứng nguyên tố. Rỗng = gần nhất.
+@export var target_prefer := ""
+
 @export_group("Nạp (đòn giữ)")
 ## Giữ nút bao lâu thì bắt đầu nạp (ms); nhả sớm hơn là đòn thường.
 @export var charge_start_ms := 0.0

@@ -71,6 +71,7 @@ func setup(seed_value := 0) -> void:
 	statuses = StatusController.new(lib, is_boss)
 	statuses.tick_damage.connect(_on_status_tick)
 	statuses.applied_from.connect(_on_status_applied)
+	statuses.max_stacks_reached.connect(_on_status_max_stacks)
 	rng = RandomSource.new(seed_value)
 
 
@@ -110,8 +111,12 @@ func target_snapshot() -> DamageCalculator.Target:
 func receive_hit(hit: HitInfo) -> DamageCalculator.Result:
 	var src := Combatant.of(hit.attacker)
 	var a: DamageCalculator.Attacker
+	var bonus := hit.damage_bonus
+	if hit.bonus_vs_status != "" and statuses.has(hit.bonus_vs_status):
+		bonus = bonus.duplicate()
+		bonus["vs_" + hit.bonus_vs_status] = hit.bonus_vs_status_ratio
 	if src:
-		a = src.attacker_snapshot(hit.damage_bonus)
+		a = src.attacker_snapshot(bonus)
 	else:
 		a = DamageCalculator.Attacker.from_rules(rules, 0.0)
 	var roll_rng := src.rng if src else rng
@@ -166,6 +171,13 @@ func _on_status_applied(status_id: String, source: Object) -> void:
 	var bus := _bus()
 	if bus:
 		bus.status_applied.emit(self, status_id, source)
+
+
+## Đủ tầng (vd 3 Dấu Sét → Bùng nổ Sét): báo lên EventBus.
+func _on_status_max_stacks(status_id: String, source: Object) -> void:
+	var bus := _bus()
+	if bus:
+		bus.status_max_stacks.emit(self, status_id, source)
 
 
 func _game_config() -> Node:

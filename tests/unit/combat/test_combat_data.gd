@@ -2,8 +2,9 @@ extends GdUnitTestSuite
 ## Test M3-1: CombatRules và StatusDef khớp CHARACTER_SKILLS mục 0, ghi đè 8.1, quyết định Q1-Q4, Q6.
 
 const RULES_PATH := "res://data/config/combat_rules.tres"
-const EXPECTED_STATUSES := ["burn", "curse", "earth_guard", "heat", "hot_breath", "judgment",
-		"lightning_mark", "melt", "phoenix", "root", "sand_blind", "shield", "slow", "stun", "taunt"]
+const EXPECTED_STATUSES := ["attack_speed_up", "burn", "curse", "earth_guard", "heat", "hot_breath", "judgment",
+		"lightning_mark", "melt", "phoenix", "root", "sand_blind", "shield", "slow", "stun", "taunt",
+		"wind_step"]
 
 var _rules: CombatRules
 var _lib: StatusLibrary

@@ -628,3 +628,32 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - +15 UG của vào sân Liên kết vẫn chia 30% cho dự bị như mọi UG khác.
   - Hồ sơ tạm Seraphine HP 10000 / ATK 750, Noctis 10000 / 900, Terra 14000 / 750 / DEF 650.
 - **Hạn chế đã biết:** chưa có Kĩ năng vào sân và cơ chế giảm SI-CD riêng của từng nhân vật (M4-4); chưa có phản ứng nguyên tố (M4-5); chưa có HUD vòng sáng (M4-7), nên chưa thấy được trong game.
+
+## 2026-11-12 — M4-4 Kĩ năng vào sân Thường / Liên kết / mặc định (Aether, Lyra, Kael)
+
+- **Milestone / task:** 4 / M4-4
+- **Trạng thái:** TESTED (headless). **Mốc owner chơi thử trong Godot** (đổi nhân vật, vào sân Liên kết).
+- **File tạo/sửa:**
+  - Dữ liệu `data/skills/{char_fire_01, char_wind_01, char_lightning_01}/switch_in.tres` (Thường) và `switch_in_linked.tres` (Liên kết), sinh bằng `tools/gen_switch_in_data.py`. Hàm sinh dùng chung tách ra `tools/skill_data_lib.py`; `gen_aether_data.py` dùng lại và **không ghi file nhân vật nữa** (file nhân vật sửa tay vì có dữ liệu Liên kết / vào sân). Chạy lại `gen_aether_data.py` ra đúng dữ liệu cũ.
+  - `scripts/party/switch_in_def.gd` (`SwitchInDef`): buff bản thân khi vào sân (Thường / Liên kết) và cơ chế giảm SI-CD riêng (`reduce_on`, giây, tối đa mỗi chu kỳ, cửa sổ sau khi vào sân, ICD). Gắn vào `CharacterDef.switch_in`; Kael, Lyra có `skills_dir`.
+  - `PartyManager`: chuyển xong thì chạy `switch_in` (Thường) / `switch_in_linked` (Liên kết) qua state Attack, áp buff bản thân, mở cửa sổ giảm SI-CD; nghe `EventBus.status_max_stacks` (Bùng nổ Sét) và `hit_dealt` của thành viên (Aether).
+  - `SkillDef`: `approach_target`, `approach_max_px`, `approach_stop_px`, `teleport`, `target_prefer` ("stun" / "elemental"). `SkillRunner`: chọn mục tiêu có ưu tiên, quay về phía mục tiêu, lướt hoặc dịch chuyển tới nó.
+  - `HitDef.bonus_vs_status(_ratio)` → Hitbox → HitInfo → `Combatant.receive_hit` (mục tiêu đang mang trạng thái thì thêm % sát thương). `HitDef.travel_angle_deg` cho vùng tách bay chéo (tên hình quạt, lật theo hướng nhìn).
+  - Trạng thái mới `wind_step` (Gió Trợ Bước, +% tốc độ di chuyển) và `attack_speed_up` (+% tốc độ tấn công); `StatusDef.MAGNITUDE_MOVE_SPEED_UP/ATTACK_SPEED_UP`; `StatusController.move_speed_up()/attack_speed_up()`. PlayerController: tốc độ chạy × (1 + tăng − chậm); đòn cơ bản (normal, hold, air, landing) chạy nhanh theo tốc độ tấn công.
+  - `EventBus.status_max_stacks`; `Combatant` chuyển `max_stacks_reached` lên bus.
+  - `PlayerController.start_switch_in()`, `attack_speed_factor()`.
+  - Debug overlay (F3): dòng đội "[người trên sân] Q: … E: …" kèm SI-CD, ✦ LIÊN KẾT còn bao lâu, (gục), chờ chung. Gợi ý phím thêm "Q/E đổi nhân vật". Khóa dịch mới (vi + en): `STATUS_WIND_STEP`, `STATUS_ATTACK_SPEED_UP`, `DEBUG_PARTY_DOWN`, `DEBUG_PARTY_LINK`.
+  - `tests/unit/party/test_switch_in.gd` (21 test); `test_party_manager.gd::test_switch_keeps_position_and_facing` đổi sang vào mặc định (vào Thường thì Kael dịch chuyển tới mục tiêu); `test_combat_data.gd` thêm 2 trạng thái.
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `python tools/gen_aether_data.py` (so diff: không đổi); `python tools/gen_switch_in_data.py`; export Windows Desktop.
+- **Kết quả thật:** GdUnit4 257/257 đạt (21 mới), 0 orphan, 4 test khói đạt, mã thoát 0; export mã 0; không có SCRIPT ERROR khi debug overlay chạy trong test đội. Kiểm: dữ liệu 3 nhân vật khớp 8.5–8.7 (tổng % ATK Thường/Liên kết 130/190, 120/180, 110/160; timing; bất tử ≤ 500 ms; không tốn EN); vào Thường chạy `switch_in` và bất tử rồi hết; vào mặc định không chạy gì; Kael dịch chuyển tới hình nộm gần nhất (dừng cách 70 px), ưu tiên mục tiêu đang Cháy, Thường 1 Dấu Sét, Liên kết 2 Dấu Sét + 15% tốc độ tấn công 4 s; Bùng nổ Sét do Kael trong 5 s −1.0 s SI-CD, nguồn khác / quá 5 s không tính; Aether lướt 348 px (≤ 350) tới hình nộm, Cháy 3 s, ưu tiên mục tiêu đang Choáng, Liên kết +2 Nhiệt, hình nộm đang Choáng nhận đúng ×1.30 so với hình nộm kia, Cháy 5 s, SI-CD −1 s; giảm tối đa 3 s mỗi chu kỳ; đòn không phải vào sân hoặc mục tiêu không Choáng không tính; Lyra bắn 3 tên −15°, +15°, 0°, tên cuối Chậm 25%, Gió Trợ Bước 10% 3 s / Liên kết 25% 4 s, tốc độ chạy ×1.25 đúng; né hoàn hảo −1.5 s có ICD 3 s, tối đa 3 s, cửa sổ 4 s; tốc độ tấn công chỉ áp cho đòn cơ bản.
+- **Lỗi tìm thấy và sửa:**
+  - Heredoc Python qua stdin hỏng ký tự tiếng Việt khiến script sửa file lỗi giữa chừng; lệnh `gen_aether_data.py` chạy sau đó ghi đè `char_fire_01.tres` (mất `link_condition`). Đã khôi phục bằng `git checkout`, chuyển script sang file trong scratchpad, và bỏ phần ghi file nhân vật khỏi `gen_aether_data.py` để không lặp lại.
+  - `@export_enum` không nhận giá trị rỗng → `reduce_on` là chuỗi thường.
+- **Quyết định Claude chọn:**
+  - Vào sân dùng **hai SkillDef** (`switch_in`, `switch_in_linked`); thiếu bản Liên kết thì dùng bản Thường.
+  - Aether: lướt trong pha khởi động (0–220 ms), dừng cách mục tiêu 80 px; không có mục tiêu thì chém tại chỗ. Vùng chém tròn bán kính 180 tâm trước mặt 40 px.
+  - Kael: dịch chuyển tức thì lúc bắt đầu, dừng cách mục tiêu 70 px; Thường 1 Dấu Sét ở nhát đầu, Liên kết mỗi nhát 1.
+  - Lyra: ba tên bắn lần lượt (180, 230, 280 ms), thứ tự chếch lên −15°, chếch xuống +15°, thẳng 0° (tên cuối bay thẳng để đẩy lùi + Chậm trúng chắc). Tên bay 700 px trong 0.3 s. Chưa làm "lao xuống từ trên cao" và "vùng gió tiếp đất 160 px" (đặc tả không ghi sát thương / hiệu ứng riêng cho vùng).
+  - Tốc độ tấn công chỉ tăng tốc đòn cơ bản (normal, hold, air, landing).
+  - Tự đổi khi gục: vào mặc định (như M4-3).
+- **Hạn chế đã biết:** chưa có animation vào sân / ra sân (dùng hình placeholder), chưa có VFX (vùng đòn hiện đa giác màu); Bùng nổ Sét (sát thương khi đủ 3 Dấu Sét) thuộc bộ kỹ năng Kael (M4-6), hiện chỉ có sự kiện để giảm SI-CD; chưa có phản ứng nguyên tố (M4-5); Kael, Lyra vẫn chưa đánh thường / né được (M4-6); HUD icon dự bị là M4-7 (tạm xem dòng đội trên debug overlay).
