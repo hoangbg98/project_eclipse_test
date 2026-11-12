@@ -602,4 +602,4 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Người trên sân gục: tự đưa người dự bị còn sống đầu tiên vào sau 1.0 s, vào mặc định, không tính chờ chung. Đặc tả chưa ghi trường hợp này.
   - Phần UG chia cho dự bị tính trên lượng người trên sân nhận **trước khi chặn trần** (người trên sân đầy UG thì dự bị vẫn nhận).
   - Chỉ số tạm Kael HP 10500 / ATK 950 / DEF 450, Lyra HP 9500 / ATK 800 / DEF 400.
-- **Hạn chế đã biết:** chưa có Kĩ năng vào sân, SI-CD, Liên kết (M4-3, M4-4); animation vào/ra sân chưa có (đổi tức thì); Kael, Lyra chưa đánh được (M4-6); chưa có HUD icon dự bị (M4-7), muốn biết đang là ai thì xem debug overlay; nút cảm ứng switch_1/2 đã có từ M1 nhưng chưa có icon.
+- **Hạn chế đã biết:** chưa có Kĩ năng vào sân, SI-CD, Liên kết (M4-3, M4-4); animation vào/ra sân chưa có (đổi tức thì); Kael, Lyra chưa đánh được (M4-6); chưa có HUD icon dự bị (M4-7), tạm nhận biết người trên sân qua màu placeholder (Aether đỏ cam, Kael vàng, Lyra xanh ngọc); nút cảm ứng switch_1/2 đã có từ M1 nhưng chưa có icon.
