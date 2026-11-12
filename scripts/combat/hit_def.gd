@@ -31,6 +31,8 @@ enum Shape { ARC, CIRCLE, RECT }
 ## (vd vào sân Liên kết Aether: kẻ địch đang Choáng +30%).
 @export var bonus_vs_status := ""
 @export var bonus_vs_status_ratio := 0.0
+## Số mục tiêu tối đa mỗi lần bật (0 = không giới hạn). Tên thường: 1; tên xuyên: 2.
+@export var max_targets := 0
 ## Đẩy lùi hướng VỀ tâm vùng đòn (kéo vào, vd Lốc Oán) thay vì theo hướng người đánh; không kéo quá tâm.
 @export var pull_to_origin := false
 

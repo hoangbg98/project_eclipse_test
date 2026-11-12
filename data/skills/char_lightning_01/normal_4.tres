@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "lightning_mark"
+duration = -1.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 70.0
+duration_ms = 50.0
+atk_ratio = 0.55
+sc_multiplier = 1.0
+shape = 0
+radius_px = 110.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_lightning_01.normal_4"
+key = "normal"
+animation = "attack_4"
+hit_kind = 0
+startup_ms = 70.0
+active_ms = 50.0
+recovery_ms = 110.0
+move_px = 50.0
+move_from_ms = 0.0
+move_to_ms = 120.0
+chain_window_ms = 180.0
+next_skill = "normal_5"
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 3 Lôi Nhận Liên Hoàn Đ4: 55%, 1 Dấu Sét, 70/50/110"

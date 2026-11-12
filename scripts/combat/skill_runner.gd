@@ -104,6 +104,7 @@ static func make_hitbox(h: HitDef, team: PhysicsLayers.Team, skill_id: String, h
 	hb.bonus_vs_status = h.bonus_vs_status
 	hb.bonus_vs_status_ratio = h.bonus_vs_status_ratio
 	hb.pull_to_origin = h.pull_to_origin
+	hb.max_targets = h.max_targets
 	var poly := CollisionPolygon2D.new()
 	poly.polygon = h.build_polygon()
 	if not h.detached:
@@ -211,8 +212,9 @@ func run(key: String, p_facing: int = 0) -> bool:
 			facing = 1 if dx > 0.0 else -1
 		_move_px = clampf(absf(dx) - s.approach_stop_px, 0.0, s.approach_max_px)
 		if s.teleport:
-			actor.global_position.x += _move_px * facing
+			_blink(_move_px * facing)
 			_move_px = 0.0
+	_blink_pending = s.teleport and not s.approach_target and _move_px != 0.0
 	if actor and "facing" in actor:
 		actor.facing = facing
 	_attached.scale.x = facing
@@ -233,6 +235,18 @@ func run(key: String, p_facing: int = 0) -> bool:
 var _current_bonus: Dictionary = {}
 ## Quãng lướt của lần chạy hiện tại (move_px, hoặc tính theo mục tiêu khi approach_target).
 var _move_px := 0.0
+## Kỹ năng `teleport` không nhắm mục tiêu: dịch chuyển một lần `move_px` tại `move_from_ms` (né Kael).
+var _blink_pending := false
+
+
+## Dịch chuyển tức thì theo trục ngang; thân vật lý thì dừng ở tường (không xuyên địa hình).
+func _blink(dx: float) -> void:
+	if actor == null or dx == 0.0:
+		return
+	if actor is PhysicsBody2D and actor.is_inside_tree():
+		(actor as PhysicsBody2D).move_and_collide(Vector2(dx, 0.0))
+	else:
+		actor.global_position.x += dx
 
 
 ## Gọi mỗi tick vật lý.
@@ -244,6 +258,9 @@ func advance(delta: float) -> void:
 				_combo_next = ""
 		return
 	elapsed_ms += delta * 1000.0
+	if _blink_pending and elapsed_ms >= current.move_from_ms:
+		_blink_pending = false
+		_blink(_move_px * facing)
 	_player.advance(delta)
 	_update_invuln()
 	if elapsed_ms >= current.total_ms() - 0.001:
@@ -321,7 +338,7 @@ func can_dodge_cancel() -> bool:
 
 ## Vận tốc ngang mong muốn khi đang chạy kỹ năng (px/s).
 func velocity_x() -> float:
-	if current == null or _move_px == 0.0:
+	if current == null or _move_px == 0.0 or current.teleport:
 		return 0.0
 	var span := current.move_to_ms - current.move_from_ms
 	if span <= 0.0 or elapsed_ms < current.move_from_ms or elapsed_ms >= current.move_to_ms:

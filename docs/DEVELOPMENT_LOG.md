@@ -692,3 +692,20 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Lỗi tìm thấy và sửa (trong test):** slime bị chặn bởi bậc địa hình ở x ≈ 1591 và đuổi người chơi giữa các nhịp kéo → chuyển sang sàn phẳng, đo ngay sau nhịp đầu.
 - **Quyết định Claude chọn:** vùng kéo dài (lửa thánh, dung nham) bắt đầu 0.1 s sau cú nổ, 6 nhịp; Chậm trong vùng là Chậm 0.7 s được làm mới mỗi nhịp; Bão Sét tán xạ theo trục ngang, bán kính mỗi tia 110 px; hướng đẩy của Quá Tải theo hướng nhìn người vào sân; "xóa 1 hiệu ứng xấu" ưu tiên khống chế; vào sân mà phản ứng còn ICD thì bỏ qua (không xếp hàng).
 - **Hạn chế đã biết:** hiển thị là hình tạm (hai vòng tròn màu + chữ); Seraphine, Noctis, Terra chưa có Kĩ năng vào sân nên 12 cặp có họ chỉ test được qua resolver; phản ứng với trạng thái sẵn có trên kẻ địch để sau (mục 8.11).
+
+## 2026-11-12 — M4-6 Kael, Lyra: đòn thường, né (Q5)
+
+- **Milestone / task:** 4 / M4-6
+- **Trạng thái:** TESTED (headless)
+- **File tạo/sửa:**
+  - `data/skills/char_lightning_01/normal_1..5.tres`, `dodge.tres`; `data/skills/char_wind_01/normal_1..3.tres`, `dodge.tres` (sinh bằng `tools/gen_kael_lyra_data.py`).
+  - `scripts/characters/kits/lightning_kit.gd` + config + `data/characters/char_lightning_01_kit.tres`: Bùng nổ Sét (đủ 3 Dấu Sét do Kael gây: 150% bán kính 140, SC ×2, xóa dấu, ICD 4 s mỗi mục tiêu, +10% tốc độ tấn công 3 s, −1 s CD vũ khí), Sét Phản khi né hoàn hảo (80% bán kính 150 tại điểm xuất phát, 2 Dấu Sét).
+  - `scripts/characters/kits/wind_kit.gd` + config + `data/characters/char_wind_01_kit.tres`: né hoàn hảo → Gió Trợ Bước +25% 3 s, +5 EN.
+  - `HitDef.max_targets` (tên thường dừng ở mục tiêu đầu, tên xuyên 2) → `Hitbox`.
+  - `SkillRunner`: kỹ năng `teleport` không nhắm mục tiêu dịch chuyển một lần tại `move_from_ms` (né Kael), dùng `move_and_collide` nên dừng ở tường.
+  - `tests/unit/combat/test_kael_lyra.gd` (12 test).
+- **Đã chạy:** `python tools/gen_kael_lyra_data.py`; `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 290/290 đạt, 4 test khói đạt, mã thoát 0. Kiểm: Kael 5 đòn 45/45/55/55/110 = 310%, Dấu Sét ở đòn 2, 4, 5, đòn 5 đẩy 80 px, timing 70/50/110 và 130/90/260; chuỗi 5 đòn chạy liền, đủ 3 dấu thì nổ và xóa dấu, Kael +10% tốc độ tấn công; ICD 4 s theo từng mục tiêu; dấu do nguồn khác không nổ; né dịch chuyển đúng 320 px ra sau lưng hình nộm, bất tử, tia điện trúng mục tiêu trên đường; Sét Phản áp 2 dấu. Lyra 3 phát 55/55/90 = 200%, tên 1800 px/s tầm 700 (ngoài tầm thì trượt), phát 1–2 dừng ở mục tiêu đầu, phát 3 xuyên 2 và Chậm 20% 2 s; né lùi 240 px, vẫn nhìn về trước, tên 40% trúng; né hoàn hảo +25% tốc độ 3 s, +5 EN.
+- **Lỗi tìm thấy và sửa:** cửa sổ lướt 30 ms của né Kael ngắn hơn hai khung hình nên chỉ đi được ~177 px → dịch chuyển tức thì một lần; tia điện của né đặt sai phía (trước mặt sau khi dịch chuyển) → nối từ điểm đến về điểm xuất phát.
+- **Quyết định Claude chọn:** làm luôn Bùng nổ Sét và hiệu ứng né hoàn hảo dù Q5 chỉ ghi "đòn thường, né" (không có thì Dấu Sét vô nghĩa); cửa sổ nối đòn Kael 180 ms, Lyra 200 ms; Kael đi xuyên kẻ địch khi tiến đòn (quái không chặn đường, như M3-6).
+- **Hạn chế đã biết:** tên Lyra bay thẳng ngang, chưa tự nhắm ±25°; chuỗi Kael reset sau 0.8 s (đặc tả 0.7 s; hằng số chung của SkillRunner); Lyra chưa lùi nửa bước mỗi phát; nội tại Gió Thuận, đòn giữ / trên không / kỹ năng / tuyệt kỹ của Kael và Lyra ngoài slice Q5.

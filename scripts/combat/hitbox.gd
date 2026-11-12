@@ -27,6 +27,9 @@ var bonus_vs_status_ratio := 0.0
 var pull_to_origin := false
 ## Hệ số thời gian cho trạng thái khống chế / Chậm khi mục tiêu là boss (phản ứng nguyên tố: 0.5).
 var boss_control_multiplier := 1.0
+## Số mục tiêu tối đa mỗi lần bật (0 = không giới hạn); đủ thì tự tắt.
+var max_targets := 0
+var _landed := 0
 
 ## Bộ đếm toàn cục để hit_id không trùng giữa các Hitbox.
 static var _next_hit_id := 0
@@ -52,6 +55,7 @@ func activate(keep_hit_id := false) -> void:
 	if not keep_hit_id or hit_id == 0:
 		_next_hit_id += 1
 		hit_id = _next_hit_id
+		_landed = 0
 	active = true
 	_set_shapes_enabled(true)
 
@@ -77,6 +81,9 @@ func try_hit(hurtbox: Hurtbox) -> bool:
 	var accepted := hurtbox.receive(hit)
 	if accepted:
 		hit_landed.emit(hurtbox, hit)
+		_landed += 1
+		if max_targets > 0 and _landed >= max_targets:
+			deactivate()
 	return accepted
 
 

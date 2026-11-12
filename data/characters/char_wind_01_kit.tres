@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WindKitConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/kits/wind_kit_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+perfect_dodge_speed = 0.25
+perfect_dodge_speed_sec = 3.0
+perfect_dodge_en = 5.0
+metadata/source = "Mục 2 Lộn Gió Lùi: né hoàn hảo +25% tốc độ di chuyển 3s, hồi 5 EN"

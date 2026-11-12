@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 100.0
+duration_ms = 389.0
+atk_ratio = 0.55
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 700.0
+tick_interval_ms = 0.0
+max_targets = 1
+statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_wind_01.normal_1"
+key = "normal"
+animation = "attack_1"
+hit_kind = 0
+startup_ms = 100.0
+active_ms = 40.0
+recovery_ms = 140.0
+chain_window_ms = 200.0
+next_skill = "normal_2"
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 2 Phong Tiễn P1: 55%, tên 1800 px/s tầm 700, 100/40/140"

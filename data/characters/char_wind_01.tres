@@ -1,10 +1,12 @@
-[gd_resource type="Resource" script_class="CharacterDef" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="CharacterDef" load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/character_def.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/characters/combat_stats.gd" id="2"]
 [ext_resource type="Resource" path="res://data/config/movement_default.tres" id="3"]
 [ext_resource type="Script" path="res://scripts/party/switch_in_def.gd" id="si_def"]
 [ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="si_st"]
+[ext_resource type="Script" path="res://scripts/characters/kits/wind_kit.gd" id="kit_s"]
+[ext_resource type="Resource" path="res://data/characters/char_wind_01_kit.tres" id="kit_c"]
 
 [sub_resource type="Resource" id="stats"]
 script = ExtResource("2")
@@ -50,4 +52,6 @@ link_condition = "perfect_dodge"
 switch_in_cd_sec = 9.0
 switch_in = SubResource("switch_in")
 skills_dir = "res://data/skills/char_wind_01"
-metadata/source = "M4-1: chỉ di chuyển; đòn thường, né, switch-in thêm ở M4-4 / M4-6 (Q5)."
+kit_script = ExtResource("kit_s")
+kit_config = ExtResource("kit_c")
+metadata/source = "Q5: di chuyển, đòn thường, né, switch-in. Kỹ năng khác ngoài slice."

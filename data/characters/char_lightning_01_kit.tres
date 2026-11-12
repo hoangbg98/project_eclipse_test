@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="LightningKitConfig" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/kits/lightning_kit_config.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="burst"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 100.0
+atk_ratio = 1.5
+sc_multiplier = 2.0
+shape = 1
+radius_px = 140.0
+offset = Vector2(0.0, -80.0)
+detached = true
+
+[sub_resource type="Resource" id="mark_a"]
+script = ExtResource("3")
+status_id = "lightning_mark"
+
+[sub_resource type="Resource" id="mark_b"]
+script = ExtResource("3")
+status_id = "lightning_mark"
+
+[sub_resource type="Resource" id="counter"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 100.0
+atk_ratio = 0.8
+sc_multiplier = 1.0
+shape = 1
+radius_px = 150.0
+offset = Vector2(0.0, -80.0)
+detached = true
+statuses = Array[ExtResource("3")]([SubResource("mark_a"), SubResource("mark_b")])
+
+[resource]
+script = ExtResource("1")
+burst = SubResource("burst")
+burst_icd_per_target_sec = 4.0
+burst_attack_speed = 0.1
+burst_attack_speed_sec = 3.0
+weapon_cd_per_burst_sec = 1.0
+weapon_cd_max_per_cycle_sec = 3.0
+counter = SubResource("counter")
+metadata/source = "Mục 3: Bùng nổ Sét 150% bán kính 140 SC x2, ICD 4s mỗi mục tiêu, +10% tốc độ tấn công 3s, -1.0s CD vũ khí (tối đa -3.0s); Sét Phản 80% bán kính 150 + 2 Dấu Sét"
