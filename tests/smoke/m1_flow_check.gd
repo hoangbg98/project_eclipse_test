@@ -38,6 +38,12 @@ func _run() -> void:
 		quit(1)
 		return
 
+	# M5-1: bắt đầu từ trạng thái chưa có save (headless dùng thư mục save riêng, không đụng save thật).
+	var save := root.get_node_or_null("SaveService")
+	_check(save != null, "autoload SaveService tồn tại")
+	if save:
+		save.delete_save()
+
 	change_scene_to_file(gc.SCENE_BOOT)
 	_check(await _wait_for_scene(gc.SCENE_BOOT, 2.0), "vào Boot")
 	_check(await _wait_for_scene(gc.SCENE_TITLE, 5.0), "Boot tự chuyển sang Title")
@@ -65,6 +71,12 @@ func _run() -> void:
 	_send_back()
 	_check(await _wait_for_scene(gc.SCENE_TITLE, 3.0), "Esc ở Hub -> Title")
 	_check(not router.can_go_back(), "ở Title không còn lịch sử")
+	if save:
+		_check(save.has_save(), "Game mới đã tạo save")
+		_check(not (current_scene.get_node("%ContinueButton") as Button).disabled, "có save: nút Tiếp tục bật")
+		(current_scene.get_node("%ContinueButton") as Button).pressed.emit()
+		_check(await _wait_for_scene(gc.SCENE_HUB, 3.0), "Tiếp tục -> Hub")
+		save.delete_save()
 
 	print("KẾT QUẢ: %d lỗi" % _failures)
 	quit(1 if _failures > 0 else 0)
