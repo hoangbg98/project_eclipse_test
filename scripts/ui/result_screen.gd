@@ -131,7 +131,12 @@ func _on_hub() -> void:
 	closed.emit("hub")
 	var router := _autoload("SceneRouter")
 	var gc := _autoload("GameConfig")
-	if router and gc and not router.go_back():
+	if router == null or gc == null:
+		return
+	# go_back() là hàm bất đồng bộ: không dùng giá trị trả về, hỏi can_go_back() trước.
+	if router.can_go_back():
+		router.go_back()
+	else:
 		router.replace(gc.SCENE_HUB)
 
 

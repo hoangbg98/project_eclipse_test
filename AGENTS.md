@@ -14,6 +14,7 @@ ngữ kỹ thuật, tên code giữ tiếng Anh.
 4. `docs/IMPLEMENTATION_ROADMAP.md` — task `M{n}-{k}` và trạng thái.
 5. `docs/DEVELOPMENT_LOG.md` — đã làm gì, quyết định nào, còn chặn gì. **Đọc mục cuối trước khi bắt đầu.**
 6. `docs/OWNER_ASSET_CHECKLIST.md` — asset/quyết định owner còn nợ.
+7. `docs/KNOWN_ISSUES.md` — việc tồn đọng trước khi phát hành; `docs/ACCEPTANCE_TESTS.md` — trạng thái nghiệm thu.
 
 Nếu tài liệu mâu thuẫn: hỏi owner, không tự chọn.
 
@@ -40,7 +41,7 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
 - Logic gameplay tách khỏi UI; UI chỉ đọc state và nghe signal (`EventBus`).
 - **Mọi số cân bằng nằm trong data** (`.tres` trong `data/`), không viết cứng trong script.
 - Nhân vật dùng **Data ID** (`char_fire_01`…), không dùng tên hiển thị trong code/data.
-- Autoload hiện có: `GameConfig`, `EventBus`, `InputRouter`, `SceneRouter` (thứ tự trong `project.godot`). Không thêm luật gameplay vào autoload.
+- Autoload hiện có: `GameConfig`, `EventBus`, `InputRouter`, `SceneRouter`, `AudioRouter`, `SaveService` (thứ tự trong `project.godot`). Không thêm luật gameplay vào autoload.
 - Input: dùng action của `InputRouter` (`move_left/right`, `jump`, `attack`, `dodge`, `skill`, `weapon`, `ultimate`, `switch_1/2`, `pause`, `ui_back`) và `InputRouter.consume_buffered()`; không đọc phím trực tiếp.
 - Chữ hiển thị: khóa `UPPER_SNAKE` qua `tr()`, thêm vào **cả** `localization/vi.po` và `en.po`.
 - Đặt tên: file/hàm/biến `snake_case`, `class_name` `PascalCase`, hằng `UPPER_SNAKE`.
@@ -98,7 +99,9 @@ Sau mỗi task, thêm mục vào cuối `docs/DEVELOPMENT_LOG.md`:
 
 - **Android hoãn** (owner, 2026-11-11): build/thử trên Windows. Vẫn giữ code đa nền tảng (cảm ứng, phím Back, ETC2/ASTC). Nhắc owner làm lại Android trước M2-4, chậm nhất trước M7.
 - **Nhắc owner thử trong Godot** trước các task ở bảng "Mốc owner nên mở Godot để thử" cuối `docs/IMPLEMENTATION_ROADMAP.md` (M2-3, M3-5/M3-7, M4-4/M4-7, M6, M7).
-- Tỉ lệ gacha chưa có: M5-4 **BLOCKED**, không tự đặt số.
+- Tỉ lệ gacha chưa có: logic M5-4 đã xong (`scripts/gacha/`), **dữ liệu banner BLOCKED**; không tự đặt số, không thêm file vào `data/banners/` khi owner chưa cho tỉ lệ.
+- Script UI nằm trong scene màn chơi (ResultScreen, PauseMenu, SettingsPanel...) lấy autoload qua `UiKit.autoload("Tên")`, vì scene đó còn được nạp bằng `--script`.
+- Sửa file có tiếng Việt bằng script Python: ghi script ra file rồi chạy `python -X utf8 file.py`; **không** dán qua heredoc stdin (hỏng dấu, đã làm mất dữ liệu một lần).
 - Q1–Q6 (công thức sát thương, chí mạng, debuff, trạng thái, phạm vi slice, revive): xem bảng trong `docs/DEVELOPMENT_LOG.md` mục M0-2.
 
 ## 7. Làm việc chung giữa nhiều agent

@@ -803,3 +803,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** GdUnit4 402/402, 4 test khói đạt, mã thoát 0. Kiểm: nút kỹ năng sẵn sàng → hồi đủ vòng "6" → còn 1/4 vòng "2" → sẵn sàng; thiếu EN thì mờ (25 / 35 EN); nút tuyệt kỹ vòng 40% rồi đầy và sáng; nút né hiện số lượt, hết lượt thì mờ; đổi sang Kael thì nút kỹ năng / vũ khí / tuyệt kỹ mờ, né vẫn dùng được; `TouchControls` cập nhật nút thật; bảng âm thanh đủ 11 sự kiện + 4 nhạc; mỗi sự kiện yêu cầu đúng ID, đòn chí mạng và bị đánh có tiếng riêng, hai đòn cùng lúc không phát chồng; đổi scene yêu cầu đúng nhạc, scene lạ giữ nhạc cũ.
 - **Quyết định Claude chọn:** âm thanh gắn qua EventBus (logic game không gọi AudioRouter, trừ StageController cho nhạc boss và kết quả màn); tên file theo bảng D1.
 - **Hạn chế đã biết (Milestone 7):** chưa có file âm thanh, font riêng, art UI: mọi thứ dùng control và font mặc định của Godot; chưa có tiếng nút UI; chưa có tùy chọn đổi vị trí icon dự bị / joystick cố định; lề an toàn mới áp cho HUD trận; điều khiển cảm ứng chưa thử trên máy thật.
+
+## 2026-11-12 — Milestone 8: QA và chuẩn bị phát hành (phần làm được không cần owner)
+
+- **Milestone / task:** 8
+- **Trạng thái:** TESTED. Các mục cần owner (chơi thử bằng tay, Android, asset, tỉ lệ chiêu mộ, đổi tên nhân vật) để `NOT RUN` / `BLOCKED`.
+- **File tạo/sửa:** `tests/smoke/m8_playthrough_check.gd` (chơi xuyên suốt theo README 16 bằng input giả lập, 38 bước); `docs/ACCEPTANCE_TESTS.md` (trạng thái + bằng chứng cho từng tiêu chí); `docs/KNOWN_ISSUES.md` (9 việc chờ owner, 14 hạn chế trong code, 3 mục đã soát không phải lỗi); `AGENTS.md` (autoload mới, tài liệu mới, quy ước `UiKit.autoload`, cảnh báo heredoc tiếng Việt); `scripts/ui/result_screen.gd` (sửa lỗi dưới).
+- **Đã chạy:** `tools/run_tests.ps1`; `godot --headless --path . --editor --quit`; export Windows Desktop + chạy `ProjectEclipse.console.exe --headless`.
+- **Kết quả thật:** GdUnit4 402/402, 5 test khói đạt (thêm `m8_playthrough_check` 38/38), mã thoát 0; editor headless mã thoát 0, log sạch; export mã 0, bản build khởi động không lỗi script. Nghiệm thu: 31 tiêu chí PASS (một số ghi rõ "auto" hoặc "một phần"), AT-PLT-01/02/03 NOT RUN, chiêu mộ với banner thật BLOCKED.
+- **Lỗi tìm thấy và sửa:** nút "Về Hub" ở màn kết quả dùng giá trị trả về của `SceneRouter.go_back()` (hàm bất đồng bộ) trong điều kiện → SCRIPT ERROR "async function without await" (vẫn về được Hub nhưng nhánh dự phòng không chạy đúng). Đổi sang hỏi `can_go_back()` trước. Test khói mới bắt được lỗi này; test đơn vị thì không vì không bấm nút.
+- **Chưa làm được (ghi trong KNOWN_ISSUES):** Claude không chơi game bằng tay và không có máy Android; bản Release chưa build thử (preset loại placeholder, cần art thật).
