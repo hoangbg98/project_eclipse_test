@@ -8,6 +8,8 @@ extends RefCounted
 ## RefCounted + tick(delta).
 
 signal applied(status_id: String, stacks: int)
+## Như `applied` nhưng kèm nguồn (Combatant gây ra); LinkTracker (Kael) nghe qua EventBus.status_applied.
+signal applied_from(status_id: String, source: Object)
 signal expired(status_id: String)
 signal max_stacks_reached(status_id: String, source: Object)
 signal tick_damage(status_id: String, atk_ratio: float, source: Object)
@@ -48,12 +50,14 @@ func apply(status_id: String, duration := -1.0, magnitude := -1.0, source: Objec
 			e["stacks"] = mini(before + 1, def.max_stacks)
 			if before < def.max_stacks and int(e["stacks"]) >= def.max_stacks:
 				applied.emit(status_id, e["stacks"])
+				applied_from.emit(status_id, source)
 				max_stacks_reached.emit(status_id, source)
 				return true
 	else:
 		_active[status_id] = {"def": def, "remaining": dur, "stacks": 1, "magnitude": mag,
 				"source": source, "tick_timer": 0.0}
 	applied.emit(status_id, int(_active[status_id]["stacks"]))
+	applied_from.emit(status_id, source)
 	return true
 
 

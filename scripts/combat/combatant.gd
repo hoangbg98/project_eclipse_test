@@ -70,6 +70,7 @@ func setup(seed_value := 0) -> void:
 	cooldowns.cdr = stats.cdr
 	statuses = StatusController.new(lib, is_boss)
 	statuses.tick_damage.connect(_on_status_tick)
+	statuses.applied_from.connect(_on_status_applied)
 	rng = RandomSource.new(seed_value)
 
 
@@ -159,6 +160,12 @@ func _on_status_tick(status_id: String, atk_ratio: float, source: Object) -> voi
 	var bus := _bus()
 	if bus:
 		bus.dot_landed.emit(self, result.amount, status_id)
+
+
+func _on_status_applied(status_id: String, source: Object) -> void:
+	var bus := _bus()
+	if bus:
+		bus.status_applied.emit(self, status_id, source)
 
 
 func _game_config() -> Node:

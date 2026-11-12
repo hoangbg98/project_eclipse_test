@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterDef" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/character_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/characters/combat_stats.gd" id="2"]
+[ext_resource type="Resource" path="res://data/config/movement_default.tres" id="3"]
+
+[sub_resource type="Resource" id="stats"]
+script = ExtResource("2")
+max_hp = 14000.0
+atk = 750.0
+def = 650.0
+crit_rate = 0.05
+crit_damage = 0.5
+cdr = 0.0
+metadata/source = "Số tạm do Claude đặt (README chưa có chỉ số gốc); owner chỉnh."
+
+[resource]
+script = ExtResource("1")
+id = "char_earth_01"
+name_key = "CHAR_EARTH_01"
+element = "earth"
+stats = SubResource("stats")
+movement = ExtResource("3")
+link_condition = "weapon_or_ultimate"
+switch_in_cd_sec = 12.0
+metadata/source = "M4-3: hồ sơ tạm (điều kiện Liên kết, SI-CD mục 8.3) để test Liên kết; ngoài phạm vi slice Q5, chưa có kỹ năng."

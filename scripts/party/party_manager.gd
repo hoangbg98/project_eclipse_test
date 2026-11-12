@@ -7,9 +7,11 @@ extends Node
 ## - Dự bị: EN +1/s (ResourceComponent.on_field = false), nhận `reserve_ug_share` UG mà người trên sân nhận.
 ## - Người trên sân gục: sau `down_auto_switch_sec` tự đưa người dự bị còn sống đầu tiên vào (vào mặc định);
 ##   cả đội gục → `party_defeated`.
-## Kĩ năng vào sân / Liên kết / phản ứng: M4-3..M4-5.
+## - Liên kết / SI-CD: LinkTracker (M4-3); PartyManager cấp sự kiện từ EventBus và người trên sân.
+## Kĩ năng vào sân / phản ứng: M4-4, M4-5.
 
-signal switched(from: CharacterRuntime, to: CharacterRuntime)
+## mode: LinkTracker.MODE_LINKED | MODE_NORMAL | MODE_DEFAULT.
+signal switched(from: CharacterRuntime, to: CharacterRuntime, mode: String)
 signal switch_rejected(index: int, reason: String)
 ## Một thành viên gục.
 signal member_down(member: CharacterRuntime)
@@ -33,6 +35,9 @@ const SWITCH_ACTIONS: Array[StringName] = [&"switch_1", &"switch_2"]
 var members: Array[CharacterRuntime] = []
 var active_index := 0
 var rules: CombatRules
+var links: LinkTracker
+## Mức vào sân của lần chuyển gần nhất.
+var last_switch_mode := ""
 
 var _switch_cd := 0.0
 var _auto_switch_timer := -1.0
@@ -55,11 +60,22 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 		members.append(m)
 		p.combatant.resources.ug_gained.connect(_on_ug_gained.bind(m))
 		p.player_died.connect(_on_member_died.bind(m))
+		p.perfect_dodged.connect(_on_perfect_dodged.bind(m))
+		p.runner.skill_started.connect(_on_skill_started.bind(m))
 	active_index = 0
 	for m in members:
 		if m.party_index != active_index:
 			m.controller.leave_field()
 			parent.remove_child(m.controller)
+	links = LinkTracker.new(rules)
+	links.setup(members, active_index)
+	links.window_opened.connect(_on_window_opened)
+	links.window_closed.connect(_on_window_closed)
+	var bus := _bus()
+	if bus:
+		bus.enemy_stunned.connect(_on_enemy_stunned)
+		bus.enemy_defeated.connect(_on_enemy_defeated)
+		bus.status_applied.connect(_on_status_applied)
 
 
 func active() -> CharacterRuntime:
@@ -130,6 +146,11 @@ func press_switch(slot: int) -> void:
 	_try_pending(false)
 
 
+## Mức vào sân nếu chuyển sang thành viên `index` lúc này.
+func mode_for(index: int) -> String:
+	return links.mode_for(members[index])
+
+
 func _try_pending(expire: bool) -> void:
 	if _pending_slot < 0:
 		return
@@ -149,6 +170,7 @@ func _try_pending(expire: bool) -> void:
 
 func tick(delta: float) -> void:
 	_switch_cd = maxf(_switch_cd - delta, 0.0)
+	links.tick(delta)
 	if _pending_slot >= 0:
 		_pending_t -= delta
 		_try_pending(_pending_t <= 0.0)
@@ -170,9 +192,10 @@ func _read_input() -> void:
 			press_switch(slot)
 
 
-func _do_switch(index: int) -> void:
+func _do_switch(index: int, auto := false) -> void:
 	var from := active()
 	var to := members[index]
+	var mode := LinkTracker.MODE_DEFAULT if auto else links.mode_for(to)
 	var old := from.controller
 	var pos := old.global_position
 	var dir := old.facing
@@ -184,15 +207,20 @@ func _do_switch(index: int) -> void:
 	parent.move_child(to.controller, at)
 	to.controller.enter_field(pos, dir)
 	active_index = index
+	links.on_switched(to, mode)
+	last_switch_mode = mode
 	_switch_cd = rules.switch_cooldown_sec
 	_auto_switch_timer = -1.0
-	switched.emit(from, to)
+	switched.emit(from, to, mode)
+	var bus := _bus()
+	if bus:
+		bus.character_switched.emit(from.id, to.id, mode)
 
 
 func _auto_switch() -> void:
 	for m in members:
 		if not m.is_down():
-			_do_switch(m.party_index)
+			_do_switch(m.party_index, true)
 			return
 
 
@@ -232,6 +260,62 @@ func _notification(what: int) -> void:
 		for m in members:
 			if is_instance_valid(m.controller) and m.controller.get_parent() == null:
 				m.controller.free()
+
+
+# ---------- Điều kiện Liên kết (mục 8.3) ----------
+
+func _is_active_combatant(c: Object) -> bool:
+	var a := active()
+	return a != null and c != null and c == a.combatant()
+
+
+func _on_enemy_stunned(_enemy: Node, by: Object) -> void:
+	if _is_active_combatant(by):
+		links.notify(LinkTracker.COND_ENEMY_STUNNED)
+
+
+func _on_enemy_defeated(_enemy: Node, by: Object) -> void:
+	if _is_active_combatant(by):
+		links.notify(LinkTracker.COND_ENEMY_DEFEATED)
+
+
+## Kael: người trên sân gây hiệu ứng nguyên tố (StatusDef.counts_as_elemental) lên kẻ địch.
+func _on_status_applied(target: Object, status_id: String, source: Object) -> void:
+	if not _is_active_combatant(source):
+		return
+	var t := target as Combatant
+	var src := source as Combatant
+	if t == null or t.team == src.team:
+		return
+	var def := t.statuses.library.get_status(status_id) if t.statuses.library else null
+	if def and def.counts_as_elemental:
+		links.notify(LinkTracker.COND_ELEMENTAL_STATUS)
+
+
+func _on_perfect_dodged(_hit: HitInfo, m: CharacterRuntime) -> void:
+	if m.party_index == active_index:
+		links.notify(LinkTracker.COND_PERFECT_DODGE)
+
+
+func _on_skill_started(_key: String, skill: SkillDef, m: CharacterRuntime) -> void:
+	if m.party_index == active_index and skill.key in ["weapon", "ultimate"]:
+		links.notify(LinkTracker.COND_WEAPON_OR_ULTIMATE)
+
+
+func _on_window_opened(m: CharacterRuntime, seconds: float) -> void:
+	var bus := _bus()
+	if bus:
+		bus.link_window_opened.emit(m.id, seconds)
+
+
+func _on_window_closed(m: CharacterRuntime) -> void:
+	var bus := _bus()
+	if bus:
+		bus.link_window_closed.emit(m.id)
+
+
+func _bus() -> Node:
+	return get_tree().root.get_node_or_null("EventBus") if is_inside_tree() else null
 
 
 func _rules() -> CombatRules:

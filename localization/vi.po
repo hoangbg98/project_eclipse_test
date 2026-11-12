@@ -89,6 +89,15 @@ msgstr "Lyra"
 msgid "CHAR_LIGHTNING_01"
 msgstr "Kael"
 
+msgid "CHAR_LIGHT_01"
+msgstr "Seraphine"
+
+msgid "CHAR_DARK_01"
+msgstr "Noctis"
+
+msgid "CHAR_EARTH_01"
+msgstr "Terra"
+
 msgid "DUMMY_HP"
 msgstr "Máu"
 

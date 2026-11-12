@@ -15,6 +15,13 @@ extends Resource
 ## Số liệu của kit (Resource riêng theo nhân vật).
 @export var kit_config: Resource
 
+@export_group("Vào sân (mục 8.3)")
+## Điều kiện Liên kết: việc nhân vật trên sân làm để icon của nhân vật này sáng (hằng số LinkTracker.COND_*).
+@export_enum("enemy_stunned", "perfect_dodge", "elemental_status", "low_hp", "enemy_defeated",
+		"weapon_or_ultimate") var link_condition := "enemy_stunned"
+## SI-CD: hồi chiêu vào sân (s), chịu CDR chung.
+@export var switch_in_cd_sec := 10.0
+
 
 ## Nạp mọi SkillDef trong skills_dir, khóa theo `key` của file (tên file không đuôi).
 func load_skills() -> Dictionary:

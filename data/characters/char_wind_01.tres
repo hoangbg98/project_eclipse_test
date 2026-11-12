@@ -21,4 +21,6 @@ name_key = "CHAR_WIND_01"
 element = "wind"
 stats = SubResource("stats")
 movement = ExtResource("3")
+link_condition = "perfect_dodge"
+switch_in_cd_sec = 9.0
 metadata/source = "M4-1: chỉ di chuyển; đòn thường, né, switch-in thêm ở M4-4 / M4-6 (Q5)."

@@ -66,6 +66,18 @@ extends Resource
 ## (vào sân mặc định, không kỹ năng). Đặc tả chưa ghi; Claude chọn, owner chỉnh.
 @export var down_auto_switch_sec := 1.0
 
+@export_group("Liên kết (mục 8.3)")
+## Cửa sổ vòng sáng sau khi điều kiện xảy ra.
+@export var link_window_sec := 6.0
+## Điều kiện Seraphine: HP người trên sân ≤ tỉ lệ này...
+@export_range(0.0, 1.0) var link_low_hp_ratio := 0.5
+## ...hoặc mất ≥ tỉ lệ HP tối đa này trong `link_hp_loss_window_sec`.
+@export_range(0.0, 1.0) var link_hp_loss_ratio := 0.25
+@export var link_hp_loss_window_sec := 3.0
+## Vào sân Liên kết: nhân vật vào sân nhận thêm.
+@export var link_bonus_ug := 15.0
+@export var link_bonus_en := 10.0
+
 @export_group("Cờ chế độ")
 ## Q6: hồi sinh mặc định tắt.
 @export var revive_enabled := false

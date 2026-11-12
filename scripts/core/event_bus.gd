@@ -11,6 +11,14 @@ signal back_requested
 signal enemy_stunned(enemy: Node, by: Object)
 ## Kẻ địch bị hạ.
 signal enemy_defeated(enemy: Node, by: Object)
+## Một trạng thái được áp lên `target` (Combatant) bởi `source` (Combatant hoặc null).
+signal status_applied(target: Object, status_id: String, source: Object)
+
+## Đội (M4). Cửa sổ Liên kết của nhân vật dự bị mở / đóng (HUD vòng sáng).
+signal link_window_opened(character_id: String, seconds: float)
+signal link_window_closed(character_id: String)
+## Đã chuyển nhân vật; mode: "normal" | "linked" | "default" (mục 8.2).
+signal character_switched(from_id: String, to_id: String, mode: String)
 
 ## Phản hồi đòn (HitFeedback M3-7 nghe; logic combat không phụ thuộc vào ai nghe).
 ## Một đòn trực tiếp trúng: attacker/target là Combatant; result là DamageCalculator.Result.

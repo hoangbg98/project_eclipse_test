@@ -57,7 +57,7 @@ func _ready() -> void:
 	party.setup(party_ids, self, map.spawn_position())
 	party.party_defeated.connect(func() -> void: _revive_timer = player_revive_sec)
 	party.member_down.connect(_on_member_down)
-	party.switched.connect(func(_from: CharacterRuntime, _to: CharacterRuntime) -> void: _bind_player())
+	party.switched.connect(func(_from: CharacterRuntime, _to: CharacterRuntime, _mode: String) -> void: _bind_player())
 
 	camera.set_bounds(map.bounds_px())
 	feedback = HitFeedback.new()

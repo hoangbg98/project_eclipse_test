@@ -73,7 +73,7 @@ func test_switch_keeps_position_and_facing() -> void:
 	old.facing = -1
 	var pos := old.global_position
 	var got := []
-	_party.switched.connect(func(a: CharacterRuntime, b: CharacterRuntime) -> void: got.append([a.id, b.id]))
+	_party.switched.connect(func(a: CharacterRuntime, b: CharacterRuntime, _mode: String) -> void: got.append([a.id, b.id]))
 	assert_bool(_party.request_switch_slot(0)).is_true()
 	assert_str(_party.active().id).is_equal("char_lightning_01")
 	assert_array(got).is_equal([["char_fire_01", "char_lightning_01"]])

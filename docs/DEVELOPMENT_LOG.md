@@ -603,3 +603,28 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Phần UG chia cho dự bị tính trên lượng người trên sân nhận **trước khi chặn trần** (người trên sân đầy UG thì dự bị vẫn nhận).
   - Chỉ số tạm Kael HP 10500 / ATK 950 / DEF 450, Lyra HP 9500 / ATK 800 / DEF 400.
 - **Hạn chế đã biết:** chưa có Kĩ năng vào sân, SI-CD, Liên kết (M4-3, M4-4); animation vào/ra sân chưa có (đổi tức thì); Kael, Lyra chưa đánh được (M4-6); chưa có HUD icon dự bị (M4-7), tạm nhận biết người trên sân qua màu placeholder (Aether đỏ cam, Kael vàng, Lyra xanh ngọc); nút cảm ứng switch_1/2 đã có từ M1 nhưng chưa có icon.
+
+## 2026-11-12 — M4-3 LinkTracker: 6 điều kiện Liên kết, cửa sổ 6.0 s, SI-CD
+
+- **Milestone / task:** 4 / M4-3
+- **Trạng thái:** TESTED (headless). Chưa thấy được bằng mắt (vòng sáng là M4-7).
+- **File tạo/sửa:**
+  - `scripts/party/link_tracker.gd` (`LinkTracker`): điều kiện của từng nhân vật lấy từ `CharacterDef.link_condition`; người trên sân làm việc đó → cửa sổ `link_window_sec` (6.0 s) của người dự bị có điều kiện đó mở (làm mới nếu đang mở). Vòng sáng = cửa sổ còn + SI-CD đã hồi + chưa gục. Mức vào sân: Liên kết / Thường / mặc định; Thường và Liên kết bắt đầu SI-CD; Liên kết +15 UG, +10 EN cho người vào sân. SI-CD là khóa `switch_in` trong CooldownController của từng nhân vật (đếm cả khi dự bị, chịu CDR chung, trần 40%).
+  - `PartyManager`: tạo LinkTracker; cấp sự kiện từ EventBus (`enemy_stunned`, `enemy_defeated`, `status_applied`) và từ người trên sân (`perfect_dodged`, kỹ năng vũ khí/tuyệt kỹ bắt đầu); `mode_for()`, `last_switch_mode`; signal `switched(from, to, mode)`; phát `character_switched`, `link_window_opened/closed` lên EventBus.
+  - `EventBus`: `status_applied`, `link_window_opened`, `link_window_closed`, `character_switched`.
+  - `StatusController.applied_from(status_id, source)`; `Combatant` chuyển lên `EventBus.status_applied`.
+  - `CharacterDef`: `link_condition`, `switch_in_cd_sec`. Dữ liệu 6 nhân vật theo bảng 8.3 (Aether Choáng 10 s, Lyra né hoàn hảo 9 s, Kael hiệu ứng nguyên tố 8 s, Seraphine HP thấp 12 s, Noctis hạ gục 11 s, Terra vũ khí/tuyệt kỹ 12 s).
+  - Hồ sơ tạm `char_light_01`, `char_dark_01`, `char_earth_01` (chỉ số tạm, chưa có kỹ năng; ngoài slice Q5) để test đủ 6 điều kiện; khóa dịch `CHAR_LIGHT_01`, `CHAR_DARK_01`, `CHAR_EARTH_01` (vi + en).
+  - `CombatRules`: `link_window_sec` 6.0, `link_low_hp_ratio` 0.5, `link_hp_loss_ratio` 0.25, `link_hp_loss_window_sec` 3.0, `link_bonus_ug` 15, `link_bonus_en` 10.
+  - `tests/unit/party/test_link_tracker.gd` (23 test).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; export Windows Desktop.
+- **Kết quả thật:** GdUnit4 236/236 đạt (23 mới), 0 orphan, 4 test khói đạt, mã thoát 0; export mã 0. Kiểm: dữ liệu 6 nhân vật khớp bảng 8.3, đủ 6 điều kiện; SI-CD hồi sẵn lúc đầu, vào Thường bắt đầu 8 s, đếm khi dự bị, vào mặc định khi chưa hồi và không bắt đầu lại; CDR 25% → 6 s, CDR 90% bị chặn 40% → 4.8 s; cửa sổ mở đúng 6.0 s rồi đóng (5.9 s còn, 6.1 s hết), lặp lại thì làm mới không phát lại; sự kiện của người dự bị / không phải người chơi bị bỏ qua; điều kiện của chính người trên sân không mở gì; cửa sổ còn mà SI-CD chưa hồi → không sáng, vào mặc định; hai icon sáng cùng lúc, chọn một chỉ tiêu cửa sổ đó; Liên kết +10 EN +15 UG, SI-CD bắt đầu, EventBus báo "linked"; Thường không cộng; tự đổi khi gục là mặc định. Từng điều kiện: Kael (Cháy lên hình nộm do người trên sân; Nhiệt tự buff, Choáng, nguồn là người dự bị: không tính), Lyra (né hoàn hảo của người trên sân), Seraphine (HP ≤ 50%; mất 26% trong 2 s; mất 40% trải hơn 3 s thì không; HP thấp kéo dài giữ vòng sáng), Noctis (hạ gục), Terra (vũ khí, tuyệt kỹ; kỹ năng thường không), người dự bị đã gục không sáng. Trong trận thật: Aether đánh thường có Hơi Nóng áp Cháy → icon Kael sáng.
+- **Lỗi tìm thấy và sửa (trong test):** SI-CD của người đang trên sân đếm theo khung vật lý chứ không theo `party.tick` → sửa kỳ vọng; lượng HP mất được ghi ở tick kế tiếp → test thêm 1 tick nhỏ; Aether vừa dịch chỗ còn đang rơi nên ra đòn trên không → chờ chạm đất.
+- **Quyết định Claude chọn:**
+  - Cửa sổ chỉ mở cho người **đang dự bị** lúc sự kiện xảy ra; chuyển sang ai (bất kể mức) thì cửa sổ của người đó đóng.
+  - Seraphine "HP ≤ 50%" là trạng thái kéo dài: còn đúng thì cửa sổ được làm mới liên tục. Lượng mất tính tổng các lần giảm HP (hồi máu không trừ lại).
+  - Kael: chỉ tính trạng thái có `counts_as_elemental` (Cháy, Chậm, Dấu Sét, Nguyền, Phán quyết, Trói, Nung chảy, Mù cát) áp lên phe khác; Choáng không tính.
+  - Tự đổi khi người trên sân gục: vào mặc định, không tiêu SI-CD.
+  - +15 UG của vào sân Liên kết vẫn chia 30% cho dự bị như mọi UG khác.
+  - Hồ sơ tạm Seraphine HP 10000 / ATK 750, Noctis 10000 / 900, Terra 14000 / 750 / DEF 650.
+- **Hạn chế đã biết:** chưa có Kĩ năng vào sân và cơ chế giảm SI-CD riêng của từng nhân vật (M4-4); chưa có phản ứng nguyên tố (M4-5); chưa có HUD vòng sáng (M4-7), nên chưa thấy được trong game.
