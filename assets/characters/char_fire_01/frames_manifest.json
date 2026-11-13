@@ -43,8 +43,8 @@
       "skill_key": null
     },
     "attack_1": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 6,
+      "fps": 18,
       "loop": false,
       "skill_key": "normal"
     },
