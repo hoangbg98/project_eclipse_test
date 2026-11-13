@@ -1,6 +1,5 @@
 extends GdUnitTestSuite
-## Test M7-2: các bảng trong Hub — Home, Chiến đấu (chọn đội, danh sách màn), Nhân vật (EXP, trang bị, cường hóa),
-## Chiêu mộ (chưa mở / bảng tỉ lệ / quay), và việc lưu sau mỗi thao tác.
+## Test M7-2: các bảng trong Hub — Home, Chiến đấu (chọn đội, danh sách màn), Chiêu mộ (chưa mở / bảng tỉ lệ / quay), và việc lưu sau mỗi thao tác.
 
 const HUB_SCENE := preload("res://scenes/main/hub.tscn")
 const SAVE_DIR := "user://test_saves_m7_2"
@@ -52,7 +51,7 @@ func test_hub_shows_a_panel_per_tab() -> void:
 	var hub: Control = auto_free(HUB_SCENE.instantiate())
 	add_child(hub)
 	assert_bool(hub.panel is HubHomePanel).is_true()
-	var expect := {"BattleTab": "HubBattlePanel", "CharactersTab": "HubCharactersPanel", "RecruitTab": "HubRecruitPanel"}
+	var expect := {"BattleTab": "HubBattlePanel", "RecruitTab": "HubRecruitPanel"}
 	for tab: String in expect:
 		hub.show_tab(tab)
 		assert_str((hub.panel.get_script() as Script).get_global_name()).is_equal(expect[tab])
@@ -105,59 +104,7 @@ func test_stage_list_shows_progress_and_hides_test_stage() -> void:
 	assert_bool(p.stage_lines()[0].contains("3:20") and p.stage_lines()[0].contains(tr("STAGE_01_NAME"))).is_true()
 
 
-# ---------- Nhân vật ----------
-
-func test_use_exp_book_levels_up_and_saves() -> void:
-	var p := _add(HubCharactersPanel.new()) as HubCharactersPanel
-	p.profile.inventory.add_material("mat_exp_medium", 2)
-	p.profile.inventory.add_currency("gold", 1000)
-	p.refresh()
-	assert_str(p.selected).is_equal(A)
-	assert_bool(p.use_exp("mat_exp_medium")).is_true()
-	assert_int(p.profile.progression.level_of(A)).is_equal(3)         # 500 EXP: 100 + 283, dư 117
-	assert_bool(p.stat_lines()[0].contains("Lv.3")).is_true()
-	assert_int(int(_disk()["characters"][A]["level"])).is_equal(3)
-	assert_int(_disk()["currencies"]["gold"]).is_equal(900)
-
-
-func test_failed_action_shows_reason_and_changes_nothing() -> void:
-	var p := _add(HubCharactersPanel.new()) as HubCharactersPanel
-	p.profile.inventory.add_material("mat_exp_small", 1)              # có sách nhưng không có vàng
-	assert_bool(p.use_exp("mat_exp_small")).is_false()
-	assert_str(p.last_reason).is_equal(Inventory.REASON_NOT_ENOUGH)
-	assert_bool(_texts(p).contains(tr("REASON_NOT_ENOUGH"))).is_true()
-	assert_int(p.profile.inventory.material_count("mat_exp_small")).is_equal(1)
-	assert_int(p.profile.progression.level_of(A)).is_equal(1)
-
-
-func test_equip_swap_enhance_unequip() -> void:
-	var p := _add(HubCharactersPanel.new()) as HubCharactersPanel
-	var inv := p.profile.inventory
-	var w1 := inv.add_equipment("eq_weapon_iron")
-	var w2 := inv.add_equipment("eq_weapon_flame")
-	inv.add_currency("gold", 5000)
-	inv.add_material("mat_enhance_ore", 10)
-	p.refresh()
-	assert_bool(p.equip_next("weapon")).is_true()
-	assert_str(inv.equipped_uid(A, "weapon")).is_equal(w1)
-	assert_float(p.profile.stats_of(A).atk).is_equal(1080.0)
-	assert_bool(p.equip_next("weapon")).is_true()                     # xoay sang món kia
-	assert_str(inv.equipped_uid(A, "weapon")).is_equal(w2)
-	assert_bool(p.equip_next("stigma_mid")).is_false()                     # không có giáp trong kho
-	assert_bool(p.enhance_slot("weapon")).is_true()
-	assert_int(inv.equipment_level(w2)).is_equal(1)
-	assert_bool(_texts(p).contains("+1")).is_true()
-	assert_str(_disk()["characters"][A]["equipment"]["weapon"]).is_equal(w2)
-	assert_bool(p.unequip("weapon")).is_true()
-	assert_float(p.profile.stats_of(A).atk).is_equal(1000.0)
-	assert_bool(p.enhance_slot("weapon")).is_false()                  # ô trống
-
-
-func test_select_other_character() -> void:
-	var p := _add(HubCharactersPanel.new()) as HubCharactersPanel
-	p.select("char_wind_01")
-	assert_bool(p.stat_lines()[0].begins_with("Lyra")).is_true()
-	assert_bool(p.stat_lines()[1].contains("ATK 800")).is_true()
+# Màn Nhân vật: tests/unit/ui/test_character_screen.gd
 
 
 # ---------- Chiêu mộ ----------

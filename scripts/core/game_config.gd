@@ -8,9 +8,12 @@ const SCENE_TITLE := "res://scenes/main/title.tscn"
 const SCENE_HUB := "res://scenes/main/hub.tscn"
 const SCENE_TEST_STAGE := "res://scenes/stages/test_stage.tscn"
 const SCENE_STAGE := "res://scenes/stages/stage.tscn"
+const SCENE_CHARACTER := "res://scenes/main/character_screen.tscn"
 
 ## Màn sẽ chơi khi mở SCENE_STAGE (data/stages/{id}.json).
 var selected_stage_id := "stage_01"
+## Nhân vật mở sẵn khi vào màn Nhân vật (rỗng = nhân vật đầu đội).
+var selected_character_id := ""
 
 ## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
 const TRANSITION_TIME := 0.2

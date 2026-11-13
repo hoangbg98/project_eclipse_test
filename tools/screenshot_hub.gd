@@ -3,7 +3,7 @@ extends SceneTree
 ##   <godot> --path . -s tools/screenshot_hub.gd
 ## Ảnh ra build/screenshots/hub_<tab>.png. Chỉ thêm đồ vào bộ nhớ để có gì mà xem; KHÔNG ghi save.
 
-const TABS := ["HomeTab", "BattleTab", "CharactersTab", "RecruitTab", "SettingsTab"]
+const TABS := ["HomeTab", "BattleTab", "RecruitTab", "SettingsTab"]
 
 var _frames := 0
 var _hub: Control

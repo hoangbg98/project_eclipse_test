@@ -11,6 +11,8 @@ const TABS := {
 	"SettingsTab": "HUB_TAB_SETTINGS",
 }
 
+const CHARACTERS_TAB := "CharactersTab"
+
 var current_tab := ""
 ## Bảng đang hiện (để test truy cập).
 var panel: Control
@@ -43,9 +45,19 @@ func _ready() -> void:
 	for tab_name: String in TABS:
 		var button: Button = _tab_bar.get_node(tab_name)
 		button.toggle_mode = true
-		button.pressed.connect(show_tab.bind(tab_name))
+		if tab_name == CHARACTERS_TAB:
+			button.pressed.connect(open_characters)
+		else:
+			button.pressed.connect(show_tab.bind(tab_name))
 	show_tab("HomeTab")
 	(_tab_bar.get_node("HomeTab") as Button).grab_focus()
+
+
+## Tab Nhân vật mở màn riêng CharacterScreen (6 ảnh tham chiếu của owner), không đặt bảng vào Hub.
+func open_characters() -> void:
+	(_tab_bar.get_node(CHARACTERS_TAB) as Button).set_pressed_no_signal(current_tab == CHARACTERS_TAB)
+	GameConfig.selected_character_id = ""
+	SceneRouter.push(GameConfig.SCENE_CHARACTER)
 
 
 func show_tab(tab_name: String) -> void:
@@ -69,8 +81,6 @@ func _make_panel(tab_name: String) -> Control:
 	match tab_name:
 		"BattleTab":
 			return HubBattlePanel.new()
-		"CharactersTab":
-			return HubCharactersPanel.new()
 		"RecruitTab":
 			return HubRecruitPanel.new()
 		"SettingsTab":

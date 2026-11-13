@@ -1,0 +1,330 @@
+extends GdUnitTestSuite
+## Test màn Nhân vật (6 ảnh tham chiếu owner 2026-11-12): bố cục đọc từ JSON, tổng quan + đổi nhân vật, 4 tab,
+## chi tiết kỹ năng, nâng cấp, trang bị qua bảng chọn, lùi từng bước, lưu sau thao tác.
+
+const SCREEN_SCENE := preload("res://scenes/main/character_screen.tscn")
+const SAVE_DIR := "user://test_saves_char_screen"
+const A := "char_fire_01"
+const L := "char_wind_01"
+
+var _save: Node
+var _old_store: SaveStore
+var _old_data: Dictionary
+
+
+func before_test() -> void:
+	_save = get_tree().root.get_node("SaveService")
+	_old_store = _save.store
+	_old_data = _save.data
+	_save.store = SaveStore.new(SAVE_DIR)
+	_save.store.delete_all()
+	_save.data = SaveSchema.default_data()
+	_save.data["account"]["level"] = 50
+
+
+func after_test() -> void:
+	_save.store.delete_all()
+	DirAccess.remove_absolute(SAVE_DIR)
+	_save.store = _old_store
+	_save.data = _old_data
+
+
+func _screen() -> CharacterScreen:
+	var s: CharacterScreen = auto_free(SCREEN_SCENE.instantiate())
+	add_child(s)
+	_resize(s, Vector2(1920, 1080))
+	return s
+
+
+## Màn neo kín khung cha; trong test cha là Node nên đặt kích thước tay (bỏ neo để Godot không cảnh báo).
+func _resize(s: CharacterScreen, sz: Vector2) -> void:
+	s.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	s.size = sz
+
+
+func _node(s: CharacterScreen, name_: String) -> Control:
+	return s.find_child(name_, true, false) as Control
+
+
+func _texts(n: Node) -> String:
+	var out := PackedStringArray()
+	for c in n.find_children("*", "Label", true, false):
+		out.append((c as Label).text)
+	for c in n.find_children("*", "Button", true, false):
+		out.append((c as Button).text)
+	return "\n".join(out)
+
+
+func _disk() -> Dictionary:
+	return SaveStore.new(SAVE_DIR).read()
+
+
+# ---------- Bố cục ----------
+
+func test_layout_file_is_valid_and_complete() -> void:
+	var l := UiLayout.load_from(CharacterScreen.LAYOUT_PATH)
+	assert_array(Array(l.errors)).is_empty()
+	assert_vector(l.design_size).is_equal(Vector2(1920, 1080))
+	for path in ["overview.character_art", "overview.title", "overview.weapon_card", "overview.roster", "detail.tab_bar",
+			"level_tab.exp_bar", "weapon_tab.art", "stigma_tab.set_text", "skill_detail.panel", "skill_detail.description"]:
+		assert_bool(l.rect(path).size.x > 0.0).override_failure_message(path).is_true()
+	assert_int((l.get_value("skill_tab.nodes", []) as Array).size()).is_equal(8)
+	assert_int((l.get_value("stigma_tab.cards.rects", []) as Array).size()).is_equal(3)
+
+
+func test_layout_anchor_shift_on_wider_screen() -> void:
+	var l := UiLayout.load_from(CharacterScreen.LAYOUT_PATH)
+	var r := l.rect("overview.weapon_card")
+	l.view_size = Vector2(2400, 1080)
+	assert_float(l.rect("overview.weapon_card").position.x - r.position.x).is_equal(480.0)
+	assert_float(l.anchor_shift("center")).is_equal(240.0)
+	assert_float(l.anchor_shift("left")).is_equal(0.0)
+	assert_float(l.rect("common.back_button").position.x).is_equal(
+			UiLayout.load_from(CharacterScreen.LAYOUT_PATH).rect("common.back_button").position.x)
+
+
+func test_layout_missing_values_fall_back() -> void:
+	var l := UiLayout.load_from("res://khong_co.json")
+	assert_int(l.errors.size()).is_equal(1)
+	assert_float(l.rect("x.y", Rect2(1, 2, 3, 4)).size.x).is_equal(3.0)
+	assert_float(l.num("a.b", 7.0)).is_equal(7.0)
+	assert_object(l.color("none", Color.RED)).is_equal(Color.RED)
+
+
+func test_placeholder_art_without_texture() -> void:
+	var a: PlaceholderArt = auto_free(PlaceholderArt.new())
+	assert_bool(a.is_placeholder()).is_true()
+	a.texture = PlaceholderTexture2D.new()
+	assert_bool(a.is_placeholder()).is_false()
+
+
+# ---------- Tổng quan (ảnh 1) ----------
+
+func test_overview_shows_selected_character_and_roster() -> void:
+	_save.data["characters"][L] = SaveSchema.default_character()
+	var s := _screen()
+	assert_int(s.view).is_equal(CharacterScreen.View.OVERVIEW)
+	assert_str(s.selected).is_equal(A)
+	var t := _texts(s)
+	assert_bool(t.contains(tr("CHAR_FIRE_01")) and t.contains("Lv.1") and t.contains(tr("ELEMENT_FIRE"))).is_true()
+	assert_object(_node(s, "Roster_%s" % A)).is_not_null()
+	assert_object(_node(s, "Roster_%s" % L)).is_not_null()
+	(_node(s, "Roster_%s" % L) as Button).pressed.emit()
+	assert_str(s.selected).is_equal(L)
+	assert_bool(_texts(s).contains(tr("CHAR_WIND_01"))).is_true()
+
+
+func test_overview_art_uses_portrait_or_placeholder() -> void:
+	var s := _screen()
+	var art := _node(s, "CharacterArt") as PlaceholderArt
+	assert_bool(art.is_placeholder()).is_equal(s.portrait(A) == null)
+	_save.data["characters"]["char_lightning_01"] = SaveSchema.default_character()
+	s.select("char_lightning_01")
+	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()   # Kael chưa có ảnh
+
+
+func test_selected_from_game_config() -> void:
+	_save.data["characters"][L] = SaveSchema.default_character()
+	var gc := get_tree().root.get_node("GameConfig")
+	gc.selected_character_id = L
+	var s := _screen()
+	gc.selected_character_id = ""
+	assert_str(s.selected).is_equal(L)
+
+
+func test_overview_buttons_open_tabs() -> void:
+	var s := _screen()
+	(_node(s, "WeaponCardButton") as Button).pressed.emit()
+	assert_int(s.view).is_equal(CharacterScreen.View.DETAIL)
+	assert_str(s.tab).is_equal("weapon")
+	s.intercept_back()
+	(_node(s, "StigmaIcon1") as Button).pressed.emit()
+	assert_str(s.tab).is_equal("stigma")
+	s.intercept_back()
+	(_node(s, "SkillViewButton") as Button).pressed.emit()
+	assert_str(s.tab).is_equal("skill")
+
+
+func test_back_steps_then_lets_router_go() -> void:
+	var s := _screen()
+	s.open_skill("ultimate")
+	s.glossary_open = true
+	assert_bool(s.intercept_back()).is_true()
+	assert_bool(s.glossary_open).is_false()
+	assert_bool(s.intercept_back()).is_true()
+	assert_int(s.view).is_equal(CharacterScreen.View.DETAIL)
+	assert_str(s.tab).is_equal("skill")
+	assert_bool(s.intercept_back()).is_true()
+	assert_int(s.view).is_equal(CharacterScreen.View.OVERVIEW)
+	assert_bool(s.intercept_back()).is_false()
+	assert_bool(s.is_in_group(CharacterScreen.BACK_GROUP)).is_true()
+
+
+# ---------- Tab Tăng cấp (ảnh 4) ----------
+
+func test_level_tab_stats_and_exp_book() -> void:
+	var s := _screen()
+	s.profile.inventory.add_material("mat_exp_medium", 2)
+	s.profile.inventory.add_currency("gold", 1000)
+	s.open_tab("level")
+	assert_str((_node(s, "Stat_atk") as Label).text).is_equal("1000")
+	(_node(s, "LevelUpButton") as Button).pressed.emit()
+	assert_str(s.picker).is_equal("exp")
+	(_node(s, "UseExp_mat_exp_medium") as Button).pressed.emit()
+	assert_int(s.profile.progression.level_of(A)).is_equal(3)
+	assert_int(int(_disk()["characters"][A]["level"])).is_equal(3)
+	assert_int(_disk()["currencies"]["gold"]).is_equal(900)
+
+
+func test_failed_exp_shows_reason() -> void:
+	var s := _screen()
+	s.profile.inventory.add_material("mat_exp_small", 1)              # có sách, không có vàng
+	s.open_tab("level")
+	s.use_exp("mat_exp_small")
+	assert_str(s.notice).is_equal(tr("REASON_NOT_ENOUGH"))
+	assert_bool(_texts(s).contains(tr("REASON_NOT_ENOUGH"))).is_true()
+	assert_int(s.profile.progression.level_of(A)).is_equal(1)
+
+
+func test_promotion_from_fragments() -> void:
+	var s := _screen()
+	s.open_tab("level")
+	assert_bool((_node(s, "PromoteButton") as Button).disabled).is_false()
+	s.promote()                                                        # chưa đủ mảnh
+	assert_int(s.profile.progression.promotion_of(A)).is_equal(0)
+	s.profile.progression.add_fragments(A, 10)
+	s.promote()
+	assert_int(s.profile.progression.promotion_of(A)).is_equal(1)
+	assert_int(int(_disk()["characters"][A]["promotion"])).is_equal(1)
+	assert_str((_node(s, "FragmentCount") as Label).text).is_equal("0/20")
+
+
+# ---------- Tab Vũ khí / Vết thánh (ảnh 2, 3) ----------
+
+func test_weapon_picker_only_lists_matching_type_and_equips() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var w1 := inv.add_equipment("eq_weapon_iron")
+	var w2 := inv.add_equipment("eq_weapon_flame")
+	var bow := inv.add_equipment("eq_weapon_bow_gale")
+	s.open_tab("weapon")
+	assert_bool(_texts(s).contains(tr("CHAR_UI_EMPTY"))).is_true()
+	var c := s.candidates("weapon")
+	assert_bool(w1 in c and w2 in c).is_true()
+	assert_bool(bow in c).is_false()                                   # Aether dùng kiếm
+	(_node(s, "ChangeWeaponButton") as Button).pressed.emit()
+	(_node(s, "Equip_%s" % w2) as Button).pressed.emit()
+	assert_str(inv.equipped_uid(A, "weapon")).is_equal(w2)
+	assert_str(s.picker).is_equal("")
+	assert_str((_node(s, "WeaponName") as Label).text).is_equal(tr(inv.equipment_def_of(w2).name_key))
+	assert_str(_disk()["characters"][A]["equipment"]["weapon"]).is_equal(w2)
+	assert_str(s.candidates("weapon")[0]).is_equal(w2)                 # món đang mặc lên đầu
+
+
+func test_enhance_weapon() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var w := inv.add_equipment("eq_weapon_flame")
+	inv.equip(A, w)
+	inv.add_currency("gold", 5000)
+	inv.add_material("mat_enhance_ore", 10)
+	s.open_tab("weapon")
+	(_node(s, "EnhanceButton") as Button).pressed.emit()
+	assert_int(inv.equipment_level(w)).is_equal(1)
+	assert_bool(_texts(s).contains("+1")).is_true()
+
+
+func test_stigma_tab_three_slots_and_unequip() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var mid := inv.add_equipment("eq_stigma_mid_hide")
+	s.open_tab("stigma")
+	for i in 3:
+		assert_object(_node(s, "StigmaSlot%d" % i)).is_not_null()
+		assert_object(_node(s, "ChangeStigma%d" % i)).is_not_null()
+	(_node(s, "ChangeStigma1") as Button).pressed.emit()
+	assert_str(s.picker).is_equal("stigma_mid")
+	(_node(s, "Equip_%s" % mid) as Button).pressed.emit()
+	assert_str(inv.equipped_uid(A, "stigma_mid")).is_equal(mid)
+	assert_bool((_node(s, "StigmaText") as Label).text.contains(tr(inv.equipment_def_of(mid).name_key))).is_true()
+	s.open_picker("stigma_mid")
+	(_node(s, "Unequip") as Button).pressed.emit()
+	assert_str(inv.equipped_uid(A, "stigma_mid")).is_equal("")
+	s.open_picker("stigma_top")
+	assert_bool(_texts(s).contains(tr("CHAR_UI_NOTHING"))).is_true()
+
+
+# ---------- Tab Skill + chi tiết (ảnh 5, 6) ----------
+
+func test_skill_tree_has_eight_nodes_and_levels() -> void:
+	var s := _screen()
+	s.open_tab("skill")
+	for g in SkillText.GROUP_ORDER:
+		assert_object(_node(s, "SkillNode_%s" % g)).override_failure_message(g).is_not_null()
+	assert_str((_node(s, "SkillLevel_ultimate") as Label).text).is_equal("+0")
+	assert_bool(_texts(s).contains(tr("SKILL_FIRE_01_ULTIMATE"))).is_true()
+	(_node(s, "SkillNode_ultimate") as Button).pressed.emit()
+	assert_int(s.view).is_equal(CharacterScreen.View.SKILL_DETAIL)
+	assert_str(s.skill_group).is_equal("ultimate")
+
+
+func test_skill_detail_description_from_data() -> void:
+	var s := _screen()
+	s.open_skill("normal")
+	var d := (_node(s, "Description") as RichTextLabel).text
+	assert_bool(d.contains(tr("SUBSKILL_NORMAL") % 1) and d.contains(tr("SUBSKILL_NORMAL") % 4)).is_true()
+	assert_bool(d.contains("ATK")).is_true()
+	(_node(s, "BriefToggle") as Button).pressed.emit()
+	assert_bool(s.brief).is_true()
+	var brief := (_node(s, "Description") as RichTextLabel).text
+	assert_int(brief.length()).is_less(d.length())
+	s.open_skill("passive")
+	assert_bool((_node(s, "Description") as RichTextLabel).text.contains("4%")).is_true()   # +4% ATK mỗi tầng Nhiệt
+	assert_object(_node(s, "UpgradeSkillButton")).is_null()               # bị động không nâng cấp
+
+
+func test_skill_upgrade_costs_gold_and_saves() -> void:
+	var s := _screen()
+	s.profile.inventory.add_currency("gold", 600)
+	s.open_skill("skill")
+	(_node(s, "UpgradeSkillButton") as Button).pressed.emit()
+	assert_int(s.profile.progression.skill_level(A, "skill")).is_equal(2)
+	assert_int(_disk()["currencies"]["gold"]).is_equal(100)
+	s.upgrade_skill()                                                    # thiếu vàng
+	assert_int(s.profile.progression.skill_level(A, "skill")).is_equal(2)
+	assert_str(s.notice).is_not_empty()
+	s.open_tab("skill")
+	assert_str((_node(s, "SkillLevel_skill") as Label).text).is_equal("+1")
+
+
+func test_skill_nav_cycles_groups() -> void:
+	var s := _screen()
+	s.open_skill(SkillText.GROUP_ORDER[0])
+	(_node(s, "NavNext") as Button).pressed.emit()
+	assert_str(s.skill_group).is_equal(SkillText.GROUP_ORDER[1])
+	(_node(s, "NavPrev") as Button).pressed.emit()
+	(_node(s, "NavPrev") as Button).pressed.emit()
+	assert_str(s.skill_group).is_equal(SkillText.GROUP_ORDER[-1])
+
+
+func test_glossary_lists_statuses() -> void:
+	var s := _screen()
+	s.open_skill("skill")
+	(_node(s, "GlossaryButton") as Button).pressed.emit()
+	assert_object(_node(s, "Glossary")).is_not_null()
+	var lines := SkillText.glossary_lines(StatusLibrary.load_dir())
+	assert_int(lines.size()).is_greater(5)
+	assert_bool("\n".join(lines).contains(tr("STATUS_BURN"))).is_true()
+
+
+func test_every_screen_builds_at_other_sizes() -> void:
+	var s := _screen()
+	for sz in [Vector2(2560, 1080), Vector2(1280, 720)]:
+		_resize(s, sz)
+		for t in ["level", "weapon", "stigma", "skill"]:
+			s.open_tab(t)
+		for g in SkillText.GROUP_ORDER:
+			s.open_skill(g)
+		s.view = CharacterScreen.View.OVERVIEW
+		s.refresh()
+	assert_object(_node(s, "BackButton")).is_not_null()

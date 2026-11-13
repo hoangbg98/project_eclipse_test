@@ -518,3 +518,393 @@ msgstr "Chiêu mộ: Kael"
 
 msgid "CAPTAIN_LEVEL"
 msgstr "Cấp đội trưởng %d"
+
+msgid "CHAR_TAB_LEVEL"
+msgstr "Tăng cấp"
+
+msgid "CHAR_TAB_WEAPON"
+msgstr "Vũ khí"
+
+msgid "CHAR_TAB_STIGMA"
+msgstr "Vết Thánh"
+
+msgid "CHAR_TAB_SKILL"
+msgstr "Skill"
+
+msgid "CHAR_UI_BRIEF"
+msgstr "Sơ lược"
+
+msgid "CHAR_UI_CHANGE"
+msgstr "Đổi"
+
+msgid "CHAR_UI_CONVERT"
+msgstr "Chuyển đổi"
+
+msgid "CHAR_UI_DEMO"
+msgstr "Minh họa"
+
+msgid "CHAR_UI_DETAIL_STATS"
+msgstr "Chỉ số chi tiết"
+
+msgid "CHAR_UI_EMPTY"
+msgstr "Chưa trang bị"
+
+msgid "CHAR_UI_EQUIP"
+msgstr "Trang bị"
+
+msgid "CHAR_UI_FAVORITE"
+msgstr "Yêu thích"
+
+msgid "CHAR_UI_FILTER"
+msgstr "Lọc"
+
+msgid "CHAR_UI_FRAGMENTS"
+msgstr "Mảnh nhân vật"
+
+msgid "CHAR_UI_FRAGMENT_HINT"
+msgstr "Mảnh nhận được khi chiêu mộ trùng nhân vật."
+
+msgid "CHAR_UI_GLOSSARY"
+msgstr "Giải thích từ ngữ"
+
+msgid "CHAR_UI_GRID"
+msgstr "Lưới"
+
+msgid "CHAR_UI_INSPECT"
+msgstr "Quan sát"
+
+msgid "CHAR_UI_LEVEL_UP"
+msgstr "Tăng cấp"
+
+msgid "CHAR_UI_MAXED"
+msgstr "Đầy cấp"
+
+msgid "CHAR_UI_NOTHING"
+msgstr "Không có gì để chọn."
+
+msgid "CHAR_UI_NOT_YET"
+msgstr "Chức năng này chưa có trong bản thử."
+
+msgid "CHAR_UI_NO_SET_BONUS"
+msgstr "Hiệu ứng bộ: chưa có (chờ dữ liệu bộ vết thánh)."
+
+msgid "CHAR_UI_OUTFIT"
+msgstr "Trang phục"
+
+msgid "CHAR_UI_PHOTO"
+msgstr "Chụp ảnh"
+
+msgid "CHAR_UI_PORTRAIT"
+msgstr "Chân dung"
+
+msgid "CHAR_UI_PROMOTE"
+msgstr "Đi tăng cấp"
+
+msgid "CHAR_UI_PROMOTION"
+msgstr "Tiến cấp"
+
+msgid "CHAR_UI_PROMOTION_BONUS"
+msgstr "Thưởng tiến cấp: +%d%% chỉ số"
+
+msgid "CHAR_UI_SKILLS"
+msgstr "Skill Nhân Vật"
+
+msgid "CHAR_UI_SOURCE"
+msgstr "Nguồn"
+
+msgid "CHAR_UI_STIGMA_ART"
+msgstr "Vết thánh %s"
+
+msgid "CHAR_UI_STIGMA_HEADER"
+msgstr "Vết Thánh"
+
+msgid "CHAR_UI_STRATEGY"
+msgstr "Chiến thuật"
+
+msgid "CHAR_UI_SWAP"
+msgstr "Đổi nhân vật"
+
+msgid "CHAR_UI_TUTORIAL"
+msgstr "Hướng dẫn"
+
+msgid "CHAR_UI_UPGRADE_SKILL"
+msgstr "Nâng cấp — %d vàng"
+
+msgid "CHAR_UI_USE"
+msgstr "Dùng"
+
+msgid "CHAR_UI_VIEW"
+msgstr "Xem"
+
+msgid "STAT_HP"
+msgstr "HP"
+
+msgid "STAT_ATK"
+msgstr "ATK"
+
+msgid "STAT_DEF"
+msgstr "DEF"
+
+msgid "STAT_CRIT"
+msgstr "Tỉ lệ bạo kích"
+
+msgid "STAT_CRIT_DAMAGE"
+msgstr "Sát thương bạo kích"
+
+msgid "STAT_CDR"
+msgstr "Giảm hồi chiêu"
+
+msgid "STAT_EN"
+msgstr "EN tối đa"
+
+msgid "ELEMENT_FIRE"
+msgstr "Hỏa"
+
+msgid "ELEMENT_LIGHTNING"
+msgstr "Lôi"
+
+msgid "ELEMENT_WIND"
+msgstr "Phong"
+
+msgid "ELEMENT_LIGHT"
+msgstr "Quang"
+
+msgid "ELEMENT_DARK"
+msgstr "Ám"
+
+msgid "ELEMENT_EARTH"
+msgstr "Địa"
+
+msgid "SLOT_SHORT_WEAPON"
+msgstr "VK"
+
+msgid "SLOT_SHORT_STIGMA_TOP"
+msgstr "Đầu"
+
+msgid "SLOT_SHORT_STIGMA_MID"
+msgstr "Thân"
+
+msgid "SLOT_SHORT_STIGMA_BOT"
+msgstr "Chân"
+
+msgid "SKILL_GROUP_NORMAL"
+msgstr "Tấn công thường"
+
+msgid "SKILL_GROUP_SPECIAL"
+msgstr "Tấn công đặc biệt"
+
+msgid "SKILL_GROUP_DODGE"
+msgstr "Né tránh"
+
+msgid "SKILL_GROUP_SKILL"
+msgstr "Kĩ năng thường"
+
+msgid "SKILL_GROUP_WEAPON"
+msgstr "Kĩ năng vũ khí"
+
+msgid "SKILL_GROUP_ULTIMATE"
+msgstr "Tuyệt kỹ"
+
+msgid "SKILL_GROUP_SWITCH_IN"
+msgstr "Vào sân"
+
+msgid "SKILL_GROUP_PASSIVE"
+msgstr "Bị động"
+
+msgid "SUBSKILL_NORMAL"
+msgstr "Đòn %d"
+
+msgid "SUBSKILL_HOLD"
+msgstr "Nhấn giữ — mức %d"
+
+msgid "SUBSKILL_AIR"
+msgstr "Trên không — đòn %d"
+
+msgid "SUBSKILL_LANDING"
+msgstr "Đáp đất"
+
+msgid "SUBSKILL_DODGE"
+msgstr "Né"
+
+msgid "SUBSKILL_SKILL"
+msgstr "Kĩ năng"
+
+msgid "SUBSKILL_WEAPON"
+msgstr "Vũ khí"
+
+msgid "SUBSKILL_ULTIMATE"
+msgstr "Tuyệt kỹ"
+
+msgid "SUBSKILL_SWITCH_IN"
+msgstr "Vào sân"
+
+msgid "SUBSKILL_SWITCH_IN_LINKED"
+msgstr "Vào sân liên kết"
+
+msgid "SKILLTXT_DAMAGE"
+msgstr "Sát thương: %s ATK (%d vùng đánh)"
+
+msgid "SKILLTXT_EN"
+msgstr "Tốn %d EN"
+
+msgid "SKILLTXT_UG"
+msgstr "Tốn %d UG"
+
+msgid "SKILLTXT_CD"
+msgstr "Hồi chiêu %ss"
+
+msgid "SKILLTXT_STATUSES"
+msgstr "Áp: %s"
+
+msgid "SKILLTXT_TIMING"
+msgstr "Pha: chuẩn bị %d ms · hiệu lực %d ms · hồi %d ms"
+
+msgid "SKILLTXT_INVULN"
+msgstr "Bất tử %d–%d ms"
+
+msgid "SKILLTXT_SUPER_ARMOR"
+msgstr "Giáp cứng (không bị khựng)"
+
+msgid "SKILLTXT_MOVE"
+msgstr "Di chuyển tối đa %d px"
+
+msgid "SKILLTXT_NEXT_LEVEL"
+msgstr "Cấp %d: sát thương +%d%% so với cấp trước."
+
+msgid "SKILLTXT_NOT_IN_SLICE"
+msgstr "Kỹ năng này chưa có dữ liệu trong bản thử."
+
+msgid "SKILLTXT_NO_PASSIVE"
+msgstr "Chưa có mô tả bị động."
+
+msgid "GLOSS_DURATION"
+msgstr "kéo dài %ss"
+
+msgid "GLOSS_TICK"
+msgstr "%s ATK mỗi %ss"
+
+msgid "GLOSS_MOVE_SLOW"
+msgstr "giảm %s tốc độ di chuyển"
+
+msgid "GLOSS_DEF_REDUCTION"
+msgstr "giảm %s DEF"
+
+msgid "GLOSS_DAMAGE_TAKEN_UP"
+msgstr "nhận thêm %s sát thương"
+
+msgid "GLOSS_DAMAGE_TAKEN_DOWN"
+msgstr "nhận ít hơn %s sát thương"
+
+msgid "GLOSS_DAMAGE_DEALT_DOWN"
+msgstr "gây ít hơn %s sát thương"
+
+msgid "GLOSS_DAMAGE_DEALT_UP"
+msgstr "gây thêm %s sát thương"
+
+msgid "GLOSS_SHIELD_MAX_HP"
+msgstr "khiên bằng %s HP tối đa"
+
+msgid "GLOSS_MOVE_SPEED_UP"
+msgstr "tăng %s tốc độ di chuyển"
+
+msgid "GLOSS_ATTACK_SPEED_UP"
+msgstr "tăng %s tốc độ tấn công"
+
+msgid "GLOSS_TICK_BONUS"
+msgstr "tăng %s sát thương theo nhịp"
+
+msgid "GLOSS_STACKS"
+msgstr "tối đa %d tầng"
+
+msgid "GLOSS_BLOCKS_ACTIONS"
+msgstr "không thể hành động"
+
+msgid "GLOSS_BLOCKS_MOVEMENT"
+msgstr "không thể di chuyển"
+
+msgid "SKILL_FIRE_01_NORMAL"
+msgstr "Hỏa Trảm"
+
+msgid "SKILL_FIRE_01_DODGE"
+msgstr "Lướt Lửa"
+
+msgid "SKILL_FIRE_01_PASSIVE"
+msgstr "Lửa Bùng Cháy"
+
+msgid "SKILL_FIRE_01_SPECIAL"
+msgstr "Liệt Hỏa Tích Lực"
+
+msgid "SKILL_FIRE_01_SKILL"
+msgstr "Liệt Diễm Luân"
+
+msgid "SKILL_FIRE_01_WEAPON"
+msgstr "Thiên Hỏa Nhất Kích"
+
+msgid "SKILL_FIRE_01_PASSIVE_DESC"
+msgstr "Mỗi đòn trúng mục tiêu đang Cháy: +1 tầng Nhiệt, mỗi tầng +%s ATK. Đủ tầng: Kĩ năng thường hoặc Kĩ năng vũ khí kế tiếp +%s sát thương. Từ %d tầng Nhiệt, Tuyệt kỹ +%s sát thương."
+
+msgid "SKILL_LIGHTNING_01_NORMAL"
+msgstr "Lôi Nhận Liên Hoàn"
+
+msgid "SKILL_LIGHTNING_01_DODGE"
+msgstr "Thiểm Điện"
+
+msgid "SKILL_LIGHTNING_01_PASSIVE"
+msgstr "Tích Điện Quá Tải"
+
+msgid "SKILL_LIGHTNING_01_SPECIAL"
+msgstr "Lôi Quang Loạn Vũ"
+
+msgid "SKILL_LIGHTNING_01_SKILL"
+msgstr "Chớp Giật Liên Hoàn"
+
+msgid "SKILL_LIGHTNING_01_WEAPON"
+msgstr "Song Lôi Phi Nhận"
+
+msgid "SKILL_LIGHTNING_01_ULTIMATE"
+msgstr "Lôi Thần Quyết"
+
+msgid "SKILL_LIGHTNING_01_PASSIVE_DESC"
+msgstr "Mục tiêu đủ Dấu Sét thì Bùng nổ Sét: %s ATK (mỗi mục tiêu cách nhau %ss). Sau mỗi Bùng nổ, Kael +%s tốc độ tấn công trong %ss."
+
+msgid "SKILL_WIND_01_NORMAL"
+msgstr "Phong Tiễn"
+
+msgid "SKILL_WIND_01_DODGE"
+msgstr "Lộn Gió Lùi"
+
+msgid "SKILL_WIND_01_PASSIVE"
+msgstr "Gió Thuận"
+
+msgid "SKILL_WIND_01_SPECIAL"
+msgstr "Xuyên Phong Tiễn"
+
+msgid "SKILL_WIND_01_SKILL"
+msgstr "Phong Vực"
+
+msgid "SKILL_WIND_01_WEAPON"
+msgstr "Liên Châu Phong Tiễn"
+
+msgid "SKILL_WIND_01_ULTIMATE"
+msgstr "Bão Tiễn Thiên Không"
+
+msgid "SKILL_WIND_01_PASSIVE_DESC"
+msgstr "Né hoàn hảo — Gió Trợ Bước: +%s tốc độ di chuyển trong %ss, hồi %d EN. (Phần Gió Thuận cho cả đội chưa có trong bản thử.)"
+
+msgid "SKILL_LIGHT_01_NORMAL"
+msgstr "Quang Châm"
+
+msgid "SKILL_LIGHT_01_ULTIMATE"
+msgstr "Thiên Sứ Giáng Lâm"
+
+msgid "SKILL_DARK_01_NORMAL"
+msgstr "Ảnh Liêm"
+
+msgid "SKILL_DARK_01_ULTIMATE"
+msgstr "Đêm Vĩnh Hằng"
+
+msgid "SKILL_EARTH_01_NORMAL"
+msgstr "Đại Địa Trảm"
+
+msgid "SKILL_EARTH_01_ULTIMATE"
+msgstr "Sơn Băng Địa Liệt"

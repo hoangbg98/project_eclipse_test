@@ -518,3 +518,393 @@ msgstr "Recruitment: Kael"
 
 msgid "CAPTAIN_LEVEL"
 msgstr "Captain Lv.%d"
+
+msgid "CHAR_TAB_LEVEL"
+msgstr "Level up"
+
+msgid "CHAR_TAB_WEAPON"
+msgstr "Weapon"
+
+msgid "CHAR_TAB_STIGMA"
+msgstr "Stigmata"
+
+msgid "CHAR_TAB_SKILL"
+msgstr "Skills"
+
+msgid "CHAR_UI_BRIEF"
+msgstr "Brief"
+
+msgid "CHAR_UI_CHANGE"
+msgstr "Change"
+
+msgid "CHAR_UI_CONVERT"
+msgstr "Convert"
+
+msgid "CHAR_UI_DEMO"
+msgstr "Demo"
+
+msgid "CHAR_UI_DETAIL_STATS"
+msgstr "Detailed stats"
+
+msgid "CHAR_UI_EMPTY"
+msgstr "Empty"
+
+msgid "CHAR_UI_EQUIP"
+msgstr "Equip"
+
+msgid "CHAR_UI_FAVORITE"
+msgstr "Favorite"
+
+msgid "CHAR_UI_FILTER"
+msgstr "Filter"
+
+msgid "CHAR_UI_FRAGMENTS"
+msgstr "Character fragments"
+
+msgid "CHAR_UI_FRAGMENT_HINT"
+msgstr "Fragments come from duplicate recruits."
+
+msgid "CHAR_UI_GLOSSARY"
+msgstr "Glossary"
+
+msgid "CHAR_UI_GRID"
+msgstr "Grid"
+
+msgid "CHAR_UI_INSPECT"
+msgstr "Inspect"
+
+msgid "CHAR_UI_LEVEL_UP"
+msgstr "Level up"
+
+msgid "CHAR_UI_MAXED"
+msgstr "Maxed"
+
+msgid "CHAR_UI_NOTHING"
+msgstr "Nothing to choose."
+
+msgid "CHAR_UI_NOT_YET"
+msgstr "Not available in this build yet."
+
+msgid "CHAR_UI_NO_SET_BONUS"
+msgstr "Set bonus: none yet (set data pending)."
+
+msgid "CHAR_UI_OUTFIT"
+msgstr "Outfit"
+
+msgid "CHAR_UI_PHOTO"
+msgstr "Photo"
+
+msgid "CHAR_UI_PORTRAIT"
+msgstr "Portrait"
+
+msgid "CHAR_UI_PROMOTE"
+msgstr "Promote"
+
+msgid "CHAR_UI_PROMOTION"
+msgstr "Promotion"
+
+msgid "CHAR_UI_PROMOTION_BONUS"
+msgstr "Promotion bonus: +%d%% stats"
+
+msgid "CHAR_UI_SKILLS"
+msgstr "Character Skills"
+
+msgid "CHAR_UI_SOURCE"
+msgstr "Source"
+
+msgid "CHAR_UI_STIGMA_ART"
+msgstr "Stigma %s"
+
+msgid "CHAR_UI_STIGMA_HEADER"
+msgstr "Stigmata"
+
+msgid "CHAR_UI_STRATEGY"
+msgstr "Strategy"
+
+msgid "CHAR_UI_SWAP"
+msgstr "Swap"
+
+msgid "CHAR_UI_TUTORIAL"
+msgstr "Tutorial"
+
+msgid "CHAR_UI_UPGRADE_SKILL"
+msgstr "Upgrade — %d gold"
+
+msgid "CHAR_UI_USE"
+msgstr "Use"
+
+msgid "CHAR_UI_VIEW"
+msgstr "View"
+
+msgid "STAT_HP"
+msgstr "HP"
+
+msgid "STAT_ATK"
+msgstr "ATK"
+
+msgid "STAT_DEF"
+msgstr "DEF"
+
+msgid "STAT_CRIT"
+msgstr "Crit rate"
+
+msgid "STAT_CRIT_DAMAGE"
+msgstr "Crit damage"
+
+msgid "STAT_CDR"
+msgstr "Cooldown reduction"
+
+msgid "STAT_EN"
+msgstr "Max EN"
+
+msgid "ELEMENT_FIRE"
+msgstr "Fire"
+
+msgid "ELEMENT_LIGHTNING"
+msgstr "Lightning"
+
+msgid "ELEMENT_WIND"
+msgstr "Wind"
+
+msgid "ELEMENT_LIGHT"
+msgstr "Light"
+
+msgid "ELEMENT_DARK"
+msgstr "Dark"
+
+msgid "ELEMENT_EARTH"
+msgstr "Earth"
+
+msgid "SLOT_SHORT_WEAPON"
+msgstr "W"
+
+msgid "SLOT_SHORT_STIGMA_TOP"
+msgstr "T"
+
+msgid "SLOT_SHORT_STIGMA_MID"
+msgstr "M"
+
+msgid "SLOT_SHORT_STIGMA_BOT"
+msgstr "B"
+
+msgid "SKILL_GROUP_NORMAL"
+msgstr "Basic attack"
+
+msgid "SKILL_GROUP_SPECIAL"
+msgstr "Special attack"
+
+msgid "SKILL_GROUP_DODGE"
+msgstr "Evasion"
+
+msgid "SKILL_GROUP_SKILL"
+msgstr "Skill"
+
+msgid "SKILL_GROUP_WEAPON"
+msgstr "Weapon skill"
+
+msgid "SKILL_GROUP_ULTIMATE"
+msgstr "Ultimate"
+
+msgid "SKILL_GROUP_SWITCH_IN"
+msgstr "Switch-in"
+
+msgid "SKILL_GROUP_PASSIVE"
+msgstr "Passive"
+
+msgid "SUBSKILL_NORMAL"
+msgstr "Hit %d"
+
+msgid "SUBSKILL_HOLD"
+msgstr "Hold — tier %d"
+
+msgid "SUBSKILL_AIR"
+msgstr "Aerial — hit %d"
+
+msgid "SUBSKILL_LANDING"
+msgstr "Landing"
+
+msgid "SUBSKILL_DODGE"
+msgstr "Dodge"
+
+msgid "SUBSKILL_SKILL"
+msgstr "Skill"
+
+msgid "SUBSKILL_WEAPON"
+msgstr "Weapon"
+
+msgid "SUBSKILL_ULTIMATE"
+msgstr "Ultimate"
+
+msgid "SUBSKILL_SWITCH_IN"
+msgstr "Switch-in"
+
+msgid "SUBSKILL_SWITCH_IN_LINKED"
+msgstr "Linked switch-in"
+
+msgid "SKILLTXT_DAMAGE"
+msgstr "Damage: %s ATK (%d hit zones)"
+
+msgid "SKILLTXT_EN"
+msgstr "Costs %d EN"
+
+msgid "SKILLTXT_UG"
+msgstr "Costs %d UG"
+
+msgid "SKILLTXT_CD"
+msgstr "Cooldown %ss"
+
+msgid "SKILLTXT_STATUSES"
+msgstr "Applies: %s"
+
+msgid "SKILLTXT_TIMING"
+msgstr "Timing: startup %d ms · active %d ms · recovery %d ms"
+
+msgid "SKILLTXT_INVULN"
+msgstr "Invulnerable %d–%d ms"
+
+msgid "SKILLTXT_SUPER_ARMOR"
+msgstr "Super armor (no stagger)"
+
+msgid "SKILLTXT_MOVE"
+msgstr "Moves up to %d px"
+
+msgid "SKILLTXT_NEXT_LEVEL"
+msgstr "Level %d: damage +%d%% over the previous level."
+
+msgid "SKILLTXT_NOT_IN_SLICE"
+msgstr "No data for this skill in this build yet."
+
+msgid "SKILLTXT_NO_PASSIVE"
+msgstr "No passive description yet."
+
+msgid "GLOSS_DURATION"
+msgstr "lasts %ss"
+
+msgid "GLOSS_TICK"
+msgstr "%s ATK every %ss"
+
+msgid "GLOSS_MOVE_SLOW"
+msgstr "%s slower movement"
+
+msgid "GLOSS_DEF_REDUCTION"
+msgstr "%s less DEF"
+
+msgid "GLOSS_DAMAGE_TAKEN_UP"
+msgstr "takes %s more damage"
+
+msgid "GLOSS_DAMAGE_TAKEN_DOWN"
+msgstr "takes %s less damage"
+
+msgid "GLOSS_DAMAGE_DEALT_DOWN"
+msgstr "deals %s less damage"
+
+msgid "GLOSS_DAMAGE_DEALT_UP"
+msgstr "deals %s more damage"
+
+msgid "GLOSS_SHIELD_MAX_HP"
+msgstr "shield equal to %s max HP"
+
+msgid "GLOSS_MOVE_SPEED_UP"
+msgstr "%s faster movement"
+
+msgid "GLOSS_ATTACK_SPEED_UP"
+msgstr "%s faster attacks"
+
+msgid "GLOSS_TICK_BONUS"
+msgstr "%s more tick damage"
+
+msgid "GLOSS_STACKS"
+msgstr "up to %d stacks"
+
+msgid "GLOSS_BLOCKS_ACTIONS"
+msgstr "cannot act"
+
+msgid "GLOSS_BLOCKS_MOVEMENT"
+msgstr "cannot move"
+
+msgid "SKILL_FIRE_01_NORMAL"
+msgstr "Flame Slash"
+
+msgid "SKILL_FIRE_01_DODGE"
+msgstr "Flame Dash"
+
+msgid "SKILL_FIRE_01_PASSIVE"
+msgstr "Blazing Fire"
+
+msgid "SKILL_FIRE_01_SPECIAL"
+msgstr "Searing Charge"
+
+msgid "SKILL_FIRE_01_SKILL"
+msgstr "Blazing Wheel"
+
+msgid "SKILL_FIRE_01_WEAPON"
+msgstr "Heavenfire Strike"
+
+msgid "SKILL_FIRE_01_PASSIVE_DESC"
+msgstr "Each hit on a Burning target: +1 Heat stack, +%s ATK per stack. At full stacks the next Skill or Weapon skill deals +%s damage. With %d+ Heat, the Ultimate deals +%s damage."
+
+msgid "SKILL_LIGHTNING_01_NORMAL"
+msgstr "Chain Thunder Blades"
+
+msgid "SKILL_LIGHTNING_01_DODGE"
+msgstr "Flash Step"
+
+msgid "SKILL_LIGHTNING_01_PASSIVE"
+msgstr "Overcharge"
+
+msgid "SKILL_LIGHTNING_01_SPECIAL"
+msgstr "Thunderlight Frenzy"
+
+msgid "SKILL_LIGHTNING_01_SKILL"
+msgstr "Chain Lightning"
+
+msgid "SKILL_LIGHTNING_01_WEAPON"
+msgstr "Twin Thunder Blades"
+
+msgid "SKILL_LIGHTNING_01_ULTIMATE"
+msgstr "Thunder God's Verdict"
+
+msgid "SKILL_LIGHTNING_01_PASSIVE_DESC"
+msgstr "A target with full Lightning Marks erupts in a Lightning Burst: %s ATK (once per %ss per target). After each Burst, Kael gains +%s attack speed for %ss."
+
+msgid "SKILL_WIND_01_NORMAL"
+msgstr "Gale Arrows"
+
+msgid "SKILL_WIND_01_DODGE"
+msgstr "Wind Backflip"
+
+msgid "SKILL_WIND_01_PASSIVE"
+msgstr "Tailwind"
+
+msgid "SKILL_WIND_01_SPECIAL"
+msgstr "Piercing Gale"
+
+msgid "SKILL_WIND_01_SKILL"
+msgstr "Wind Domain"
+
+msgid "SKILL_WIND_01_WEAPON"
+msgstr "Gale Barrage"
+
+msgid "SKILL_WIND_01_ULTIMATE"
+msgstr "Skyborne Arrow Storm"
+
+msgid "SKILL_WIND_01_PASSIVE_DESC"
+msgstr "Perfect dodge — Wind Step: +%s movement speed for %ss, restores %d EN. (Tailwind team buff not in this build yet.)"
+
+msgid "SKILL_LIGHT_01_NORMAL"
+msgstr "Light Needles"
+
+msgid "SKILL_LIGHT_01_ULTIMATE"
+msgstr "Seraph's Descent"
+
+msgid "SKILL_DARK_01_NORMAL"
+msgstr "Shadow Scythe"
+
+msgid "SKILL_DARK_01_ULTIMATE"
+msgstr "Eternal Night"
+
+msgid "SKILL_EARTH_01_NORMAL"
+msgstr "Earthsplitter"
+
+msgid "SKILL_EARTH_01_ULTIMATE"
+msgstr "Mountain Collapse"
