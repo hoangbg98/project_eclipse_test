@@ -22,3 +22,7 @@ Desktop.ini
 
 # GdUnit4 test reports
 /reports/
+
+# Frame AI chờ owner duyệt (tools/frames/), không vào git
+/art_review/
+__pycache__/

@@ -1,0 +1,50 @@
+# Frame Enkiba (char_fire_01) — làm từng animation, owner duyệt từng cái
+
+> Sinh bởi `python -I tools/frames/gen_prompts.py char_fire_01`. Bảng trạng thái cập nhật khi chạy lại.
+
+## Quy trình
+
+1. Owner mở Codex trên PC tại `C:\Dev\PROJECT_ECLIPSE`, mở phiếu của animation kế tiếp (bảng dưới, theo thứ tự),
+   kéo các ảnh tham chiếu ghi trong phiếu vào khung chat, dán khối **Prompt dán cho Codex**.
+2. Codex tạo ảnh → `slice_strip.py` cắt về canvas chuẩn trong `art_review/` → `check_frames.py` kiểm và tạo
+   `_preview/sheet.png`, `anim.gif`, `anim_flip.gif` → **dừng, gửi owner xem**. Chưa có gì vào game.
+3. Owner xem: đạt thì trả lời `duyệt <animation>`; chưa đạt thì chỉ ra frame cần sửa (vd "frame 003 kiếm đổi tay").
+4. Sau khi duyệt, Codex (hoặc Claude) chạy `approve_frames.py`: chép vào `assets/characters/char_fire_01/frames/`,
+   cập nhật `frames_manifest.json`, ghi `docs/ASSET_LICENSES.md` mục 2.1, chạy test, ghi nhật ký, commit.
+5. Mở Godot (F5 → Màn thử nghiệm) xem trong game. Muốn thay bản đã duyệt: `approve_frames.py ... --replace`
+   (bản cũ chuyển sang `art_review/char_fire_01/_replaced/`, không xóa).
+
+`idle` làm đầu tiên: nó khóa tỉ lệ (hệ số `scale` trong `art_review/char_fire_01/idle/meta.json`) cho mọi animation sau.
+Hiệu ứng (lửa, vệt kiếm, phượng hoàng, cut-in) làm riêng ở `assets/vfx/`, không vẽ vào frame nhân vật.
+Thư mục `art_review/` không vào git và không vào game (`.gdignore`).
+
+## Danh sách animation
+
+| # | Animation | Frame | fps | Frame trúng đòn | Trạng thái |
+|---|---|---|---|---|---|
+| 01 | [`idle`](01_idle.md) | 6 | 8 | — | Chưa làm |
+| 02 | [`run`](02_run.md) | 8 | 12 | — | Chưa làm |
+| 03 | [`attack_1`](03_attack_1.md) | 6 | 18 | 001, 002 | Chưa làm |
+| 04 | [`attack_2`](04_attack_2.md) | 6 | 18 | 001, 002 | Chưa làm |
+| 05 | [`attack_3`](05_attack_3.md) | 6 | 15 | 001, 002 | Chưa làm |
+| 06 | [`attack_4`](06_attack_4.md) | 7 | 12 | 001, 002, 003, 004, 005 | Chưa làm |
+| 07 | [`dodge`](07_dodge.md) | 5 | 15 | 000, 001, 002, 003, 004 | Chưa làm |
+| 08 | [`jump_up`](08_jump_up.md) | 3 | 12 | — | Chưa làm |
+| 09 | [`fall`](09_fall.md) | 3 | 12 | — | Chưa làm |
+| 10 | [`land`](10_land.md) | 3 | 12 | — | Chưa làm |
+| 11 | [`hurt`](11_hurt.md) | 4 | 12 | — | Chưa làm |
+| 12 | [`knockback`](12_knockback.md) | 3 | 12 | — | Chưa làm |
+| 13 | [`down`](13_down.md) | 6 | 12 | — | Chưa làm |
+| 14 | [`hold_charge`](14_hold_charge.md) | 4 | 12 | — | Chưa làm |
+| 15 | [`hold_release`](15_hold_release.md) | 9 | 12 | 001, 002, 003, 004, 005, 006 | Chưa làm |
+| 16 | [`air_1`](16_air_1.md) | 5 | 18 | 001, 002 | Chưa làm |
+| 17 | [`air_2`](17_air_2.md) | 5 | 12 | 001, 002 | Chưa làm |
+| 18 | [`landing_attack`](18_landing_attack.md) | 6 | 15 | 000, 001 | Chưa làm |
+| 19 | [`skill_1`](19_skill_1.md) | 10 | 10 | 001, 002, 003, 004, 005, 006 | Chưa làm |
+| 20 | [`skill_2`](20_skill_2.md) | 13 | 18 | 002, 003, 004, 005, 006 | Chưa làm |
+| 21 | [`switch_in`](21_switch_in.md) | 7 | 12 | 002, 003, 004 | Chưa làm |
+| 22 | [`switch_out`](22_switch_out.md) | 3 | 12 | — | Chưa làm |
+| 23 | [`ultimate`](23_ultimate.md) | 22 | 8 | 007, 009, 011, 013, 015, 017, 018 | Chưa làm |
+
+Số frame / fps của đòn đánh tính từ thời gian kỹ năng (`data/skills/char_fire_01/`) để hình khớp hitbox.
+Walk, guard, victory, death chưa có trạng thái trong game nên chưa có phiếu.

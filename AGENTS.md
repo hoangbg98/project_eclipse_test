@@ -63,7 +63,8 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
 - Owner cho phép ảnh AI **vào bản phát hành chính thức**. Không đặt tên `placeholder_*` cho ảnh AI dùng thật.
 - Codex tạo bằng skill `imagegen` (công cụ `image_gen` tích hợp, không cần API key). Ảnh mặc định nằm ở `$CODEX_HOME/generated_images/`: **phải chép** ảnh được chọn vào dự án, không để dự án trỏ ra ngoài.
 - Nơi lưu và quy cách giống asset của owner: frame nhân vật vào `assets/characters/{id}/frames/` đúng README 2.2 / 17.4 (384×384, chân y = 336, tâm x = 192, vẽ hướng phải, tên `{id}_{animation}_{NNN}.png`); chân dung vào `assets/characters/{id}/portrait/`; UI, nền, splash vào `assets/ui/` hoặc `assets/backgrounds/`.
-- Ảnh tham chiếu nhân vật: luôn đưa ảnh gốc của owner vào làm tham chiếu để giữ đúng thiết kế (Aether: `assets/characters/char_fire_01/portrait/`).
+- Ảnh tham chiếu nhân vật: luôn đưa ảnh gốc của owner vào làm tham chiếu để giữ đúng thiết kế (Enkiba: `assets/characters/char_fire_01/portrait/`).
+- **Frame nhân vật: mỗi lần MỘT animation, owner duyệt từng cái** (owner 2026-11-13). Làm theo phiếu `docs/prompts/codex_frames/{id}/NN_{anim}.md`: tạo ảnh → `tools/frames/slice_strip.py` → `art_review/{id}/{anim}/` (không vào git, không vào game) → `tools/frames/check_frames.py` phải ĐẠT → **dừng, gửi owner `_preview/`**. Chỉ khi owner trả lời "duyệt {anim}" mới chạy `tools/frames/approve_frames.py` (chép vào assets, cập nhật manifest, ghi ASSET_LICENSES 2.1), chạy test, ghi nhật ký, commit. Số frame / fps của đòn đánh tính từ `data/skills/` — không tự đổi; sửa phiếu ở `tools/frames/jobs/{id}.json` rồi chạy `gen_prompts.py`.
 - Không tạo ảnh bắt chước nhân vật, logo, thương hiệu hay phong cách nhận diện được của bên thứ ba.
 - **Ghi từng file** vào `docs/ASSET_LICENSES.md` mục 2.1 (file, công cụ + model, prompt rút gọn, ảnh tham chiếu, ngày). Không ghi thì không được commit.
 - Không ghi đè asset đã có; tạo bản `-v2`.
