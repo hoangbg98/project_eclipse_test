@@ -1200,3 +1200,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Đêm Vĩnh Hằng: lực kéo 500 px gộp vào nhát 1 (đòn không sát thương không đẩy / kéo được).
   - Lăn Giáp, Thạch Phá: Giáp cứng là trạng thái `hard_armor` (−50%); Khiên Đá 6 s; khiên Liên kết Iwagane 6 s; cửa sổ giảm SI-CD sau khi vào sân 6 s cho cả ba.
 - **Hạn chế đã biết:** AI quái chưa đọc trạng thái khiêu khích (Iwagane áp `taunt` nhưng chưa có tác dụng; ảo ảnh khiêu khích của Quang Bộ chưa làm). Đòn thường của Hikarine bay thẳng, chưa tự dẫn. Thiên Trụy Trảm chưa rơi nhanh hơn 30%. Bị Choáng chưa ngắt đòn giữ kéo dài. Hồi sinh tắt theo Q6 (`revive_enabled = false`). Animation còn placeholder.
+
+## 2026-11-14 — Raikiba: tờ bộ phận và trang điền tên (wireframe)
+
+- **Milestone / task:** art (rig bộ phận) — owner gửi tờ bộ phận cắt lớp của Raikiba (`char_lightning_01`), yêu cầu wireframe để điền tên
+- **Trạng thái:** IMPLEMENTED (chờ owner điền tên)
+- **File tạo/sửa:** `assets/characters/char_lightning_01/rig_parts/source/char_lightning_01_parts_sheet.jpg` (ảnh gốc WebP nền trong suốt, ghép nền trắng), `char_lightning_01_parts_boxes.json` (52 khung), `.gdignore`; trang artifact "Bảng tên bộ phận Raikiba" (https://claude.ai/artifact/JdGdTkh1jCwQBXTj2Cid2p, dựng từ trang Kazeyumi, lưu từng ô vào db `labels`, có gợi ý loại + tên cho cả 52 ô).
+- **Đã chạy:** xóa pixel alpha < 250 (ánh sét mờ) rồi `python -I tools/sprite_parts/segment_parts.py <ảnh> ... 190 0` → 49 vùng.
+- **Kết quả thật:** 42 vùng phía trên tách sạch. Hàng dưới (5 mặt nhỏ, 5 pose) chồng lên nhau và dính hiệu ứng sét → bỏ các khung gộp, đặt 10 khung bằng tay (5 mặt + 5 pose), thêm 2 khung bằng tay cho dây đai có khóa và băng cổ tay bị dính vào pose.
+- **Lỗi tìm thấy và sửa:** máy không có scipy nên không tách theo alpha trực tiếp được; dùng ảnh "đặc" (bỏ pixel bán trong suốt) làm đầu vào cho công cụ tách có sẵn.
+- **Hạn chế đã biết:** khung mặt nhỏ hàng dưới đè một phần lên pose 48; `tools/sprite_parts/cut_parts.py` vẫn ghi cứng `char_fire_01`, cần sửa trước khi cắt Kazeyumi / Raikiba.
