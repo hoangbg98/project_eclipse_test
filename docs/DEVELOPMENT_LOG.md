@@ -1063,3 +1063,14 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Lỗi tìm thấy và sửa:** trong Pillow 10.2, `ImageDraw.floodfill` trên ảnh tạo từ mảng numpy không làm gì (phải `.copy()` trước) nên bước "nền nối mép" lúc đầu không chạy, tool chỉ xóa được nền nhờ nhánh tìm lỗ kín; sửa và đổi sang quy tắc theo diện tích + độ trắng, kiểm tra trên cả 5 ảnh (thành phần sáng kín lớn nhất đều là nền thật).
 - **Quyết định Claude chọn:** ảnh chibi vẫn dùng cho thẻ nhân vật ở danh sách bên dưới và biểu tượng mảnh nhân vật (cắt phần đầu); ảnh splash giữ độ phân giải gốc (không thu nhỏ); ô vết thánh đặt ngoài thân nhân vật để không che ảnh; bảng chỉ số vết thánh vẫn phủ lên phần ủng (nền đen trong suốt 60%).
 - **Hạn chế đã biết:** mới Enkiba có splash, 5 nhân vật còn lại vẫn chibi / placeholder; công cụ tạo splash chưa rõ nên ghi giấy phép "không rõ" (cần owner xác nhận để khai báo AI khi phát hành); nút Home chạm nhẹ tóc ở vài pose; ảnh splash ~0.5–0.8 MB mỗi file (tổng 3.5 MB), chấp nhận cho bản đầu.
+
+
+## 2026-11-14 — Art: Enkiba animations dodge–switch_out (AI)
+- **Milestone / task:** art pipeline — owner duyệt gộp các animation từ `dodge` đến hết, tích hợp các bản review còn chờ vào `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt tất cả động tác từ dodge đến hết". `fall` (3 frame) và `ultimate` (22 frame) đã tích hợp trước đó; lần này tích hợp 14 animation, tổng 83 frame: `dodge` 5/15 fps, `land` 3/12, `hurt` 4/12, `knockback` 3/12, `down` 6/12, `hold_charge` 4/12, `hold_release` 9/12, `air_1` 5/18, `air_2` 5/12, `landing_attack` 6/15, `skill_1` 10/10, `skill_2` 13/18, `switch_in` 7/12, `switch_out` 3/12; giữ loop và hit frame theo phiếu.
+- **File tạo/sửa:** frame PNG và sidecar `.import` cho 14 animation trong `assets/characters/char_fire_01/frames/`; `frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` kiểm tra 23 animation đã giao cùng số frame.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 {dodge,fall,land,hurt,knockback,down,hold_charge,hold_release,air_1,air_2,landing_attack,skill_1,skill_2,switch_in,switch_out}`; `python -I tools/frames/approve_frames.py char_fire_01 <animation>` cho 14 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** checker báo ĐẠT cho mọi animation đã kiểm tra; GdUnit4 461/461, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** tích hợp theo nguyên số frame / fps / loop của phiếu; bỏ qua thao tác chép lại `fall` và `ultimate` đã có trong dự án.
+- **Hạn chế đã biết:** `air_1` checker cảnh báo tâm chân ở frame 001 (x=113) và 002 (x=89) lệch trái so với mốc x=192; giữ nguyên theo duyệt gộp của owner.

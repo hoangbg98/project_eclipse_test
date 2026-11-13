@@ -71,13 +71,13 @@ func test_undelivered_animations_use_placeholder() -> void:
 	var result := Builder.build_for_character("char_fire_01")
 	var placeholder: Texture2D = load(Builder.PLACEHOLDER_PATH)
 	assert_object(placeholder).is_not_null()
-	# Enkiba: các animation đã duyệt có frame thật; phần còn lại dùng placeholder.
+	# Enkiba: mọi animation đã duyệt có frame thật; phần còn lại dùng placeholder.
 	var delivered := 0
 	for n: String in result.manifest["animations"]:
 		if int(result.manifest["animations"][n]["frames"]) > 0:
 			delivered += 1
-	assert_int(delivered).is_equal(9)
-	assert_int(result.placeholder_animations.size()).is_equal(result.manifest["animations"].size() - 9)
+	assert_int(delivered).is_equal(23)
+	assert_int(result.placeholder_animations.size()).is_equal(result.manifest["animations"].size() - 23)
 	assert_bool(result.placeholder_animations.has("idle")).is_false()
 	assert_bool(result.placeholder_animations.has("run")).is_false()
 	assert_bool(result.placeholder_animations.has("jump_up")).is_false()
@@ -86,7 +86,26 @@ func test_undelivered_animations_use_placeholder() -> void:
 	assert_bool(result.placeholder_animations.has("attack_2")).is_false()
 	assert_bool(result.placeholder_animations.has("attack_3")).is_false()
 	assert_bool(result.placeholder_animations.has("attack_4")).is_false()
-	assert_bool(result.placeholder_animations.has("ultimate")).is_false()
+	var newly_delivered := {
+		"dodge": 5,
+		"land": 3,
+		"hurt": 4,
+		"knockback": 3,
+		"down": 6,
+		"hold_charge": 4,
+		"hold_release": 9,
+		"air_1": 5,
+		"air_2": 5,
+		"landing_attack": 6,
+		"skill_1": 10,
+		"skill_2": 13,
+		"switch_in": 7,
+		"switch_out": 3,
+		"ultimate": 22,
+	}
+	for animation: String in newly_delivered:
+		assert_bool(result.placeholder_animations.has(animation)).is_false()
+		assert_int(result.sprite_frames.get_frame_count(StringName(animation))).is_equal(newly_delivered[animation])
 	assert_int(result.sprite_frames.get_frame_count(&"idle")).is_equal(6)
 	assert_int(result.sprite_frames.get_frame_count(&"run")).is_equal(8)
 	assert_int(result.sprite_frames.get_frame_count(&"jump_up")).is_equal(3)
@@ -95,7 +114,6 @@ func test_undelivered_animations_use_placeholder() -> void:
 	assert_int(result.sprite_frames.get_frame_count(&"attack_2")).is_equal(6)
 	assert_int(result.sprite_frames.get_frame_count(&"attack_3")).is_equal(6)
 	assert_int(result.sprite_frames.get_frame_count(&"attack_4")).is_equal(7)
-	assert_int(result.sprite_frames.get_frame_count(&"ultimate")).is_equal(22)
 	assert_object(result.sprite_frames.get_frame_texture(&"run", 0)).is_not_same(placeholder)
 
 
