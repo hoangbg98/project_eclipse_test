@@ -996,3 +996,14 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** checker ĐẠT, 6 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
 - **Hạn chế đã biết:** model imagegen không được expose.
+
+
+## 2026-11-13 — Art: Enkiba attack_3 frames (AI)
+- **Milestone / task:** art pipeline — duyệt và tích hợp animation `attack_3` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt attack từ 1-4"; giữ 6 frame, 15 fps, không lặp.
+- **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/attack_3/char_fire_01_attack_3_000..005.png` và sidecar `.import`; manifest cập nhật `attack_3`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_3`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_3`; `python -I tools/frames/approve_frames.py char_fire_01 attack_3`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
+- **Kết quả thật:** checker ĐẠT, 6 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
+- **Hạn chế đã biết:** model imagegen không được expose; frame 002 được thu nhỏ nhẹ để vừa khung và giữ khoảng cách ở mũi kiếm như đã nêu trong preview.
