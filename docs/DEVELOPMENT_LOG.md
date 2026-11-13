@@ -952,3 +952,14 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `approve_frames.py` duyệt và chép 8 frame; GdUnit4 438 test, 0 lỗi / 0 thất bại; 5 smoke check đạt; tổng mã thoát 0.
 - **Quyết định Codex chọn:** cập nhật test tài nguyên để kiểm tra cả idle (6 frame) và run (8 frame) là animation đã giao, các animation còn lại tiếp tục placeholder.
 - **Hạn chế đã biết:** model imagegen không được expose; frame 003 và 007 là pose trên không có kiếm sát chân/ủng (đã nêu ở preview, owner vẫn duyệt).
+
+
+## 2026-11-13 — Art: Enkiba jump_up frames (AI)
+- **Milestone / task:** art pipeline — đưa animation `jump_up` đã được owner duyệt cho `char_fire_01` vào game.
+- **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt jump_up thêm vào dự án"; giữ 3 frame, 12 fps, không lặp.
+- **File tạo/sửa:** `assets/characters/char_fire_01/frames/jump_up/char_fire_01_jump_up_000..002.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (jump_up: 3 frame, 12 fps, không lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật kỳ vọng ba animation đã giao.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 jump_up`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
+- **Kết quả thật:** `approve_frames.py` duyệt và chép 3 frame; GdUnit4 446 test, 0 lỗi / 0 thất bại; 5 smoke check đạt; tổng mã thoát 0.
+- **Quyết định Codex chọn:** mở rộng kiểm tra asset đã giao từ idle + run thành idle (6 frame), run (8 frame) và jump_up (3 frame); animation còn lại tiếp tục placeholder.
+- **Hạn chế đã biết:** model imagegen không được expose; frame 001 giữ một chân chạm đất trong pha đẩy lên như phiếu mô tả (owner đã duyệt preview).
