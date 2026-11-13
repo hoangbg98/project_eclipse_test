@@ -61,8 +61,8 @@
       "skill_key": "normal"
     },
     "attack_4": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 7,
+      "fps": 12,
       "loop": false,
       "skill_key": "normal"
     },
