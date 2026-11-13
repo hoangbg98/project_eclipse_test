@@ -274,6 +274,8 @@ KEYS = [
     ("DEBUG_GIFT_LINE_FRAG", "Mảnh %s +%d", "%s fragments +%d"),
     ("DEBUG_GIFT_LINE_CAPTAIN", "Cấp người chơi tối thiểu %d", "Player level at least %d"),
     ("DEBUG_GIFT_LINE_CAPTAIN_EXP", "EXP người chơi +%d", "Player EXP +%d"),
+    # Kazeyumi tuyệt kỹ
+    ("STATUS_STORM_BLESSING", "Bão Tiễn", "Arrow Storm"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

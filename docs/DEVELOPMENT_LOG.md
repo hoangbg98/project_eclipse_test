@@ -1120,3 +1120,31 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Kỹ năng chưa có SkillDef lấy thời gian theo CHARACTER_SKILLS.md: hold_release 100/50/300, air_1 90/90/160, landing_attack 70/80/220 (vùng gió 1 500 ms là VFX), skill_1 150/60/220, skill_2 200/900/300 (6 phát cách 150 ms), ultimate 700/1000/400 (bão 5 s là VFX).
   - Chiều cao đứng mục tiêu 280 px như Enkiba.
 - **Hạn chế đã biết:** khi thêm SkillDef cho các kỹ năng trên, đổi phiếu sang `skill` rồi sinh lại; màu mắt / viền vàng trong 00_PHAN_TICH là ước lượng bằng mắt.
+
+
+## 2026-11-14 — Art: Kazeyumi idle frames (AI)
+- **Milestone / task:** art pipeline — owner duyệt và tích hợp animation `idle` cho `char_wind_01`.
+- **Trạng thái:** BLOCKED (đã tích hợp 6 frame; toàn bộ test bị Godot crash trước khi chạy test logic).
+- **File tạo/sửa:** 6 frame PNG + sidecar `.import` trong `assets/characters/char_wind_01/frames/idle/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `art_review/char_wind_01/idle/meta.json` ghi duyệt.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 idle` (thực thi bằng Python 3.12 cài sẵn vì `python` không có trong PATH); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; chạy lại runner với `-Godot C:\Godot\4.6.3\Godot_v4.6.3-stable_win64.exe`; chạy riêng `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --script res://tests/smoke/m1_flow_check.gd` để xác định lỗi.
+- **Kết quả thật:** approve chép đủ 6 frame, 8 fps, lặp; manifest và giấy phép được cập nhật. Cả hai lần chạy toàn bộ test đều thoát mã 1: GdUnit4 và 5 smoke trả `-1073741819` (Windows access violation); smoke trực tiếp bằng console crash signal 11 với `no debug info in PE/COFF executable`. Smoke trực tiếp bằng executable GUI thoát mã 0 nhưng không có output; runner toàn bộ với executable GUI vẫn gặp cùng lỗi. Chưa có toàn bộ test nào được xác nhận đạt.
+- **Quyết định Codex chọn:** giữ tích hợp đã được owner duyệt, ghi trạng thái `BLOCKED`; chưa commit vì điều kiện test mã thoát 0 chưa đạt.
+- **Hạn chế đã biết:** cần khắc phục crash môi trường Godot / test runner rồi chạy lại toàn bộ test trước khi commit.
+
+## 2026-11-14 — Kazeyumi, Raikiba: đủ bộ kỹ năng (giữ, trên không, đáp đất, kỹ năng, vũ khí, tuyệt kỹ)
+
+- **Milestone / task:** combat — owner: Kazeyumi và Raikiba mới thử được đòn thường, né, vào sân; làm thêm phần còn lại
+- **Trạng thái:** TESTED (chưa thử bằng mắt trong Godot)
+- **File tạo/sửa:**
+  - `tools/gen_wind_lightning_skills.py` (mới) sinh `data/skills/char_wind_01/{hold_1,hold_2,air_1,air_2,landing,skill,weapon,ultimate}.tres`, `data/skills/char_lightning_01/{hold_1,air_1..3,landing,skill,weapon,ultimate}.tres`, `data/statuses/storm_blessing.tres`; `tools/skill_data_lib.py` thêm `self_statuses`
+  - `scripts/combat/skill_def.gd`: `fire_on_charge`, `release_ends`, `dive_angle_deg`, `self_statuses`, `blocks_normal_ms`
+  - `scripts/combat/skill_runner.gd`: áp `self_statuses` khi bắt đầu; **sửa lỗi**: mỗi vùng tách một track method (hai vùng cùng `at_ms` trên một track thì key sau ghi đè key trước, vùng đầu không bao giờ sinh)
+  - `scripts/player/player_controller.gd`: số đòn trên không = số kỹ năng `air_N` (bỏ trần cứng 2), khóa đòn thường, `auto_hold_skill_for`; `scripts/player/states/combat_states.gd`: đòn giữ tự chạy khi đủ nạp, nhả nút dừng sớm, lao chéo
+  - Kit: `wind_kit.gd` (tên trúng kẻ địch đang Chậm −0.3 s CD Phong Vực, tối đa −3 s), `lightning_kit.gd` (Bùng nổ Sét −1 s CD Chớp Giật Liên Hoàn tối đa −3 s, +5 UG)
+  - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd` (12 test), `test_combat_data.gd` (thêm storm_blessing); khóa dịch `STATUS_STORM_BLESSING`
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 496/496, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tổng % ATK khớp tài liệu: Kazeyumi giữ 180/300, trên không 135, đáp đất 120, Phong Vực 240, Liên Châu 360, Tuyệt kỹ 1000; Raikiba giữ 240, trên không 150, đáp đất 130, Chớp Giật 210, Song Lôi 200, Tuyệt kỹ 1090.
+- **Quyết định Claude chọn:**
+  - Kazeyumi Hạ Phong Trận: rơi 500 px/s (thả dù), vùng gió đặt ở chỗ tiếp đất. Phong Vực / Bão Tiễn: buff đồng đội áp cho người dùng lúc cast (chỉ một nhân vật trên sân), không xét đứng trong vùng. Bão kéo 37.5 px mỗi nhịp (= 150 px/s). Thiên Phong Loạt Tiễn lần 1 nối sang lần 2 bằng cửa sổ 200 ms như Enkiba.
+  - Raikiba Song Lôi Phi Nhận: thân nhân vật chỉ giữ 140 + 180 ms để vẫn di chuyển được, đao bay độc lập, khóa đòn thường 800 ms. Lôi Trụy Thuấn: vệt điện Chậm 20% gộp vào vụ nổ. Lôi Thần Quyết: nhát đầu +150% ATK nếu mục tiêu có Dấu Sét (bonus_vs_status 1.875 × 80%).
+- **Hạn chế đã biết:** chưa làm: nội tại Gió Thuận (buff cả đội), Liên Châu +25% trong Phong Vực, nạp UG +20% trong Phong Vực, Kazeyumi bay lên 300 px khi tuyệt kỹ, Quá Tải của Raikiba làm đòn thường áp Dấu Sét, đòn giữ Raikiba +1 EN mỗi nhịp (đang +3 theo loại đòn giữ). Animation của các chiêu mới còn placeholder (Codex chưa vẽ).

@@ -60,6 +60,9 @@ func _on_status_max_stacks(target: Object, status_id: String, source: Object) ->
 			node.global_position, {}, ResourceComponent.HitKind.NONE, player.character_id + BURST_ID_SUFFIX)
 	combatant.statuses.apply("attack_speed_up", config.burst_attack_speed_sec, config.burst_attack_speed, combatant)
 	combatant.cooldowns.reduce(&"weapon", config.weapon_cd_per_burst_sec, config.weapon_cd_max_per_cycle_sec)
+	combatant.cooldowns.reduce(&"skill", config.skill_cd_per_burst_sec, config.skill_cd_max_per_cycle_sec)
+	if config.ug_per_burst > 0.0:
+		combatant.resources.add_ug(config.ug_per_burst)
 
 
 func _on_perfect_dodge(_hit: HitInfo) -> void:

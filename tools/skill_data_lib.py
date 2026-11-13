@@ -24,7 +24,8 @@ def hit(at, dur, ratio, shape=ARC, radius=140, arc=120, tilt=0, rect=(100, 100),
                 detached=detached, travel_px=float(travel), tick_interval_ms=float(tick), **extra)
 
 
-def write_skill(name, skill, hits, source, skill_dir):
+def write_skill(name, skill, hits, source, skill_dir, self_statuses=()):
+    """self_statuses: [(id, thời gian, độ lớn)] áp lên người dùng lúc bắt đầu (SkillDef.self_statuses)."""
     ext = ['[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]',
            '[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]',
            '[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]']
@@ -44,12 +45,20 @@ def write_skill(name, skill, hits, source, skill_dir):
         body += ["%s = %s" % (k, fmt(v)) for k, v in h.items()]
         body.append('statuses = Array[ExtResource("3")]([%s])' % ", ".join('SubResource("%s")' % s for s in st_ids))
         subs.append("\n".join(body) + "\n")
+    self_ids = []
+    for j, st in enumerate(self_statuses):
+        st_id = "self_%d" % j
+        self_ids.append(st_id)
+        subs.append('[sub_resource type="Resource" id="%s"]\nscript = ExtResource("3")\nstatus_id = "%s"\n'
+                    'duration = %s\nmagnitude = %s\n' % (st_id, st[0], float(st[1]), float(st[2])))
     lines = ['[gd_resource type="Resource" script_class="SkillDef" load_steps=%d format=3]' % (len(ext) + len(subs) + 1), ""]
     lines += [e for e in ext] + [""]
     lines += subs
     lines += ["[resource]", 'script = ExtResource("1")']
     lines += ["%s = %s" % (k, fmt(v)) for k, v in skill.items()]
     lines.append('hits = Array[ExtResource("2")]([%s])' % ", ".join('SubResource("%s")' % h for h in hit_ids))
+    if self_ids:
+        lines.append('self_statuses = Array[ExtResource("3")]([%s])' % ", ".join('SubResource("%s")' % s for s in self_ids))
     lines.append('metadata/source = "%s"' % source)
     os.makedirs(skill_dir, exist_ok=True)
     with open(os.path.join(skill_dir, name + ".tres"), "w", encoding="utf-8", newline="\n") as f:

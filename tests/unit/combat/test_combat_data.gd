@@ -3,7 +3,7 @@ extends GdUnitTestSuite
 
 const RULES_PATH := "res://data/config/combat_rules.tres"
 const EXPECTED_STATUSES := ["attack_speed_up", "burn", "curse", "earth_guard", "heat", "hot_breath", "judgment",
-		"lightning_mark", "melt", "phoenix", "root", "sand_blind", "shield", "slow", "stun", "taunt",
+		"lightning_mark", "melt", "phoenix", "root", "sand_blind", "shield", "slow", "storm_blessing", "stun", "taunt",
 		"wind_step"]
 
 var _rules: CombatRules

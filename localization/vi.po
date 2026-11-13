@@ -1130,3 +1130,6 @@ msgstr "Cấp người chơi tối thiểu %d"
 
 msgid "DEBUG_GIFT_LINE_CAPTAIN_EXP"
 msgstr "EXP người chơi +%d"
+
+msgid "STATUS_STORM_BLESSING"
+msgstr "Bão Tiễn"

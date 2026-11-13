@@ -65,6 +65,11 @@ class Charge:
 		if not player.is_on_floor():
 			return MovementStates.FALL
 		if player.intent.attack_held:
+			# Đòn giữ tự chạy khi đủ thời gian nạp (không chờ nhả).
+			var auto := player.auto_hold_skill_for(player.intent.attack_hold_time * 1000.0)
+			if auto != "":
+				player.pending_skill = auto
+				return ATTACK
 			return &""
 		# Đã nhả: cấp cao nhất đạt được; chưa tới cấp 1 thì là đòn thường.
 		player.pending_skill = player.hold_skill_for(player.intent.released_hold_time * 1000.0)
@@ -93,7 +98,9 @@ class Plunge:
 		if _t < _skill.pre_dive_ms:
 			player.velocity_override = Vector2.ZERO
 		else:
-			player.velocity_override = Vector2(0.0, _skill.dive_speed_px)
+			# Góc 0 = thẳng xuống; nghiêng về hướng mặt (Raikiba lao chéo 45°).
+			var a := deg_to_rad(_skill.dive_angle_deg)
+			player.velocity_override = Vector2(sin(a) * player.facing, cos(a)) * _skill.dive_speed_px
 		if player.is_on_floor() and _t >= _skill.pre_dive_ms:
 			player.pending_skill = "landing"
 			return ATTACK
@@ -114,6 +121,10 @@ class Attack:
 
 	func physics_update(_delta: float) -> StringName:
 		var r := player.runner
+		# Đòn giữ chém liên tục: nhả nút thì dừng sớm.
+		if r.current and r.current.release_ends and not player.intent.attack_held:
+			r.cancel()
+			return player.idle_or_air_state()
 		# Bấm đánh trong cửa sổ nối đòn: đòn kế tiếp chạy ngay khi đòn này hết.
 		if player.intent.has(PlayerIntent.ATTACK) and r.can_queue_chain():
 			r.queue_chain()

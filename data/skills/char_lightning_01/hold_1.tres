@@ -1,0 +1,200 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 150.0
+duration_ms = 60.0
+atk_ratio = 0.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 130.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(40.0, -110.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="st_1_0"]
+script = ExtResource("3")
+status_id = "lightning_mark"
+duration = -1.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 300.0
+duration_ms = 60.0
+atk_ratio = 0.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 130.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(40.0, -110.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_1_0")])
+
+[sub_resource type="Resource" id="hit_2"]
+script = ExtResource("2")
+at_ms = 450.0
+duration_ms = 60.0
+atk_ratio = 0.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 130.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(40.0, -110.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="st_3_0"]
+script = ExtResource("3")
+status_id = "lightning_mark"
+duration = -1.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_3"]
+script = ExtResource("2")
+at_ms = 600.0
+duration_ms = 60.0
+atk_ratio = 0.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 130.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(40.0, -110.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_3_0")])
+
+[sub_resource type="Resource" id="hit_4"]
+script = ExtResource("2")
+at_ms = 750.0
+duration_ms = 60.0
+atk_ratio = 0.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 130.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(40.0, -110.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="st_5_0"]
+script = ExtResource("3")
+status_id = "lightning_mark"
+duration = -1.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_5"]
+script = ExtResource("2")
+at_ms = 900.0
+duration_ms = 60.0
+atk_ratio = 0.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 130.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(40.0, -110.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_5_0")])
+
+[sub_resource type="Resource" id="hit_6"]
+script = ExtResource("2")
+at_ms = 1050.0
+duration_ms = 60.0
+atk_ratio = 0.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 130.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(40.0, -110.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="st_7_0"]
+script = ExtResource("3")
+status_id = "lightning_mark"
+duration = -1.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_7"]
+script = ExtResource("2")
+at_ms = 1200.0
+duration_ms = 60.0
+atk_ratio = 0.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 130.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(40.0, -110.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_7_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_lightning_01.hold_1"
+key = "hold"
+animation = "hold_release"
+hit_kind = 1
+startup_ms = 150.0
+active_ms = 1200.0
+recovery_ms = 220.0
+charge_start_ms = 350.0
+charge_level_ms = 350.0
+fire_on_charge = true
+release_ends = true
+cooldown_sec = 3.0
+cooldown_uses_cdr = false
+cooldown_group = "hold"
+cooldown_starts_on_end = true
+target_range_px = 300.0
+approach_target = true
+approach_max_px = 300.0
+approach_stop_px = 40.0
+move_from_ms = 0.0
+move_to_ms = 150.0
+super_armor = true
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3"), SubResource("hit_4"), SubResource("hit_5"), SubResource("hit_6"), SubResource("hit_7")])
+metadata/source = "Mục 3 Lôi Quang Loạn Vũ: giữ 350 ms tự kích hoạt, lao tới mục tiêu trong 300 px, 30% mỗi 150 ms x8 (240%), Dấu Sét mỗi 2 nhịp, thả nút dừng sớm, kháng khựng, CD 3s sau khi kết thúc; 150/1200/220"

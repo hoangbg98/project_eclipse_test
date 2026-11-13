@@ -72,14 +72,13 @@ func _build_animation(key: String, s: SkillDef) -> Animation:
 	var anim := Animation.new()
 	anim.length = maxf(s.total_ms(), 1.0) / 1000.0
 	var list: Array[Hitbox] = []
-	var detached_track := -1
 	for i in s.hits.size():
 		var h: HitDef = s.hits[i]
 		if h.detached:
-			if detached_track < 0:
-				detached_track = anim.add_track(Animation.TYPE_METHOD)
-				anim.track_set_path(detached_track, ^".")
-			anim.track_insert_key(detached_track, h.at_ms / 1000.0, {"method": &"_spawn_detached", "args": [key, i]})
+			# Mỗi vùng tách một track: hai vùng cùng at_ms trên một track thì key sau ghi đè key trước.
+			var t := anim.add_track(Animation.TYPE_METHOD)
+			anim.track_set_path(t, ^".")
+			anim.track_insert_key(t, h.at_ms / 1000.0, {"method": &"_spawn_detached", "args": [key, i]})
 			continue
 		var hb := make_hitbox(h, combatant.team if combatant else PhysicsLayers.Team.PLAYER, s.id, s.hit_kind)
 		hb.name = "%s_%d" % [key, i]
@@ -229,6 +228,9 @@ func run(key: String, p_facing: int = 0) -> bool:
 	if s.key == "normal":
 		_combo_next = s.next_skill
 		_combo_timer = 0.0
+	if combatant:
+		for st in s.self_statuses:
+			combatant.statuses.apply(st.status_id, st.duration, st.magnitude, combatant)
 	_player.play(StringName(key))
 	_player.advance(0.0)
 	_update_invuln()

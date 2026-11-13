@@ -1,0 +1,84 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "slow"
+duration = 0.5
+magnitude = 0.3
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 700.0
+duration_ms = 5000.0
+atk_ratio = 0.35
+sc_multiplier = 1.0
+shape = 1
+radius_px = 450.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -150.0)
+knockback_px = 37.5
+detached = true
+travel_px = 0.0
+tick_interval_ms = 250.0
+pull_to_origin = true
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 700.0
+duration_ms = 120.0
+atk_ratio = 3.0
+sc_multiplier = 1.0
+shape = 1
+radius_px = 450.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+delay_ms = 5000.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="self_0"]
+script = ExtResource("3")
+status_id = "storm_blessing"
+duration = 8.0
+magnitude = 0.15
+
+[sub_resource type="Resource" id="self_1"]
+script = ExtResource("3")
+status_id = "wind_step"
+duration = 8.0
+magnitude = 0.2
+
+[resource]
+script = ExtResource("1")
+id = "char_wind_01.ultimate"
+key = "ultimate"
+animation = "ultimate"
+hit_kind = 6
+startup_ms = 700.0
+active_ms = 1000.0
+recovery_ms = 400.0
+ug_cost = 100.0
+cooldown_sec = 2.0
+cooldown_uses_cdr = false
+cooldown_starts_on_end = true
+name_key = "SKILL_WIND_01_ULTIMATE"
+time_stop_ms = 500.0
+suspend_gravity = true
+super_armor = true
+invuln_from_ms = 0.0
+invuln_to_ms = 700.0
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1")])
+self_statuses = Array[ExtResource("3")]([SubResource("self_0"), SubResource("self_1")])
+metadata/source = "Mục 2 Bão Tiễn Thiên Không: 100 UG, khóa 2s, bão bán kính 450 5s 35% mỗi 0.25s (700%) kéo 150 px/s, Chậm 30%, nổ cuối 300%; +15% sát thương +20% tốc độ 8s; cut-in 500 / 700 / 5000 (bão) / 400; thân nhân vật 700/1000/400"

@@ -51,6 +51,8 @@ var kit: Node
 var stats_override: CombatStats
 ## Cấp kỹ năng theo SkillDef.key (từ hồ sơ người chơi); thiếu key = cấp 1.
 var skill_levels: Dictionary = {}
+## Còn bấy nhiêu giây không dùng được đòn thường (SkillDef.blocks_normal_ms, vd Raikiba ném đao).
+var normal_lock_sec := 0.0
 
 var _perfect_dodge_icd := 0.0
 var _knock_v := 0.0
@@ -124,6 +126,7 @@ func step(delta: float) -> void:
 	if kit:
 		kit.tick(delta)
 	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
+	normal_lock_sec = maxf(normal_lock_sec - delta, 0.0)
 	fsm.physics_update(delta)
 	runner.advance(delta * attack_speed_factor())
 	_apply_horizontal(delta)
@@ -193,13 +196,15 @@ func combat_transition() -> StringName:
 				return CombatStates.ATTACK
 			runner.skill_rejected.emit(pair[1], reason)
 	if is_on_floor():
+		if normal_lock_sec > 0.0:
+			return &""
 		if intent.is_holding_attack() and runner.has_skill("hold_1") and runner.check("hold_1") == "":
 			return CombatStates.CHARGE
 		if intent.has(PlayerIntent.ATTACK) and runner.has_skill(SkillRunner.NORMAL_FIRST):
 			intent.consume(PlayerIntent.ATTACK)
 			pending_skill = ""
 			return CombatStates.ATTACK
-	elif intent.has(PlayerIntent.ATTACK):
+	elif intent.has(PlayerIntent.ATTACK) and normal_lock_sec <= 0.0:
 		var k := air_action()
 		if k != "":
 			intent.consume(PlayerIntent.ATTACK)
@@ -217,8 +222,9 @@ func air_action() -> String:
 	if landing and air_attacks_used >= 1 and velocity.y > 0.0 \
 			and height_above_ground() >= landing.min_height_px and runner.check("landing") == "":
 		return "landing"
+	# Số đòn trên không mỗi lần nhảy = số kỹ năng air_N (Enkiba, Kazeyumi 2; Raikiba 3).
 	var next := "air_%d" % (air_attacks_used + 1)
-	if air_attacks_used < 2 and runner.has_skill(next) and runner.check(next) == "":
+	if runner.has_skill(next) and runner.check(next) == "":
 		return next
 	return ""
 
@@ -230,6 +236,15 @@ func height_above_ground() -> float:
 			PhysicsLayers.bit(PhysicsLayers.WORLD), [get_rid()])
 	var hit := space.intersect_ray(q)
 	return 100000.0 if hit.is_empty() else (hit["position"] as Vector2).y - global_position.y
+
+
+## Đòn giữ `fire_on_charge` đã đủ thời gian nạp khi vẫn đang giữ (ms); không có = "".
+func auto_hold_skill_for(held_ms: float) -> String:
+	for k: String in runner.skills:
+		var s: SkillDef = runner.skills[k]
+		if s.key == "hold" and s.fire_on_charge and s.charge_level_ms <= held_ms:
+			return k
+	return ""
 
 
 ## Đòn giữ ứng với thời gian đã giữ (ms): cấp cao nhất đạt được; chưa đạt cấp nào = "" (đòn thường).
@@ -381,6 +396,7 @@ func leave_field() -> void:
 	intent.jump_held = false
 	charging = false
 	plunging = false
+	normal_lock_sec = 0.0
 	velocity_override_active = false
 	velocity = Vector2.ZERO
 	_knock_t = 0.0
@@ -448,6 +464,8 @@ func _on_hit_evaded(hit: HitInfo) -> void:
 
 func _on_skill_started(_key: String, s: SkillDef) -> void:
 	_play(StringName(s.animation))
+	if s.blocks_normal_ms > 0.0:
+		normal_lock_sec = s.blocks_normal_ms / 1000.0
 	if s.key == "air":
 		air_attacks_used += 1
 	if s.key == "ultimate":

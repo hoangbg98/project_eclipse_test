@@ -69,6 +69,10 @@ extends Resource
 @export var charge_level_ms := 0.0
 ## Giảm tốc độ di chuyển khi đang nạp (0.4 = chậm 40%).
 @export var charge_move_slow := 0.0
+## Giữ tới charge_level_ms thì chạy ngay, không chờ nhả (Lôi Quang Loạn Vũ của Raikiba).
+@export var fire_on_charge := false
+## Nhả nút đánh trong lúc kỹ năng chạy thì dừng sớm (đòn giữ chém liên tục).
+@export var release_ends := false
 
 @export_group("Lao xuống (đáp đất)")
 ## Tốc độ lao xuống (px/s); > 0 = kỹ năng đáp đất.
@@ -77,6 +81,14 @@ extends Resource
 @export var min_height_px := 0.0
 ## Treo trên không bấy nhiêu ms trước khi lao.
 @export var pre_dive_ms := 0.0
+## Góc lao so với phương thẳng đứng (độ), nghiêng về hướng mặt; 0 = lao thẳng xuống (Raikiba: 45).
+@export var dive_angle_deg := 0.0
+
+@export_group("Bản thân")
+## Trạng thái áp lên chính người dùng khi kỹ năng bắt đầu (buff của vùng, tuyệt kỹ).
+@export var self_statuses: Array[StatusApplication] = []
+## Không dùng được đòn thường trong bấy nhiêu ms kể từ khi bắt đầu (vẫn di chuyển, né, dùng kỹ năng).
+@export var blocks_normal_ms := 0.0
 
 @export_group("Phòng thủ")
 ## Bất tử trong [invuln_from_ms, invuln_to_ms); âm = không.

@@ -13,6 +13,11 @@ extends Resource
 ## Mỗi Bùng nổ rút CD Kĩ năng vũ khí (tối đa mỗi chu kỳ).
 @export var weapon_cd_per_burst_sec := 1.0
 @export var weapon_cd_max_per_cycle_sec := 3.0
+## Mỗi Bùng nổ rút CD Kĩ năng thường (Chớp Giật Liên Hoàn: −1.0 s, tối đa −3.0 s mỗi chu kỳ).
+@export var skill_cd_per_burst_sec := 1.0
+@export var skill_cd_max_per_cycle_sec := 3.0
+## Mỗi Bùng nổ cộng thêm UG (Tuyệt kỹ Lôi Thần Quyết: +5).
+@export var ug_per_burst := 5.0
 
 @export_group("Né hoàn hảo — Sét Phản")
 ## Nổ điện tại điểm xuất phát: 80% ATK, bán kính 150, 2 Dấu Sét.

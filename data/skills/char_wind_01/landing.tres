@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 80.0
+atk_ratio = 0.6
+sc_multiplier = 1.0
+shape = 1
+radius_px = 160.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -40.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="st_1_0"]
+script = ExtResource("3")
+status_id = "slow"
+duration = 0.6
+magnitude = 0.35
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 1500.0
+atk_ratio = 0.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 160.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -40.0)
+knockback_px = 30.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 500.0
+pull_to_origin = true
+statuses = Array[ExtResource("3")]([SubResource("st_1_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_wind_01.landing"
+key = "landing"
+animation = "landing_attack"
+hit_kind = 3
+startup_ms = 0.0
+active_ms = 80.0
+recovery_ms = 220.0
+super_armor = true
+dive_speed_px = 500.0
+min_height_px = 200.0
+pre_dive_ms = 70.0
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1")])
+metadata/source = "Mục 2 Hạ Phong Trận: chạm đất 60%, vùng gió bán kính 160 1.5s 20% mỗi 0.5s x3, kéo về tâm, Chậm 35%; rơi 500 px/s (thả dù, Claude chọn); 70/80/220"

@@ -1130,3 +1130,6 @@ msgstr "Player level at least %d"
 
 msgid "DEBUG_GIFT_LINE_CAPTAIN_EXP"
 msgstr "Player EXP +%d"
+
+msgid "STATUS_STORM_BLESSING"
+msgstr "Arrow Storm"

@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 100.0
+duration_ms = 500.0
+atk_ratio = 1.8
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(90.0, 28.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 900.0
+tick_interval_ms = 0.0
+max_targets = 0
+travel_angle_deg = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_wind_01.hold_1"
+key = "hold"
+animation = "hold_release"
+hit_kind = 1
+startup_ms = 100.0
+active_ms = 50.0
+recovery_ms = 300.0
+charge_level_ms = 900.0
+cooldown_sec = 1.2
+cooldown_uses_cdr = false
+cooldown_group = "hold"
+extra_en_on_hit = 3.0
+charge_start_ms = 500.0
+charge_move_slow = 0.5
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 2 Xuyên Phong Tiễn Cấp 1: tên xuyên 900 px 180%, 100/50/300"

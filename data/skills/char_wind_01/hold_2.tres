@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "slow"
+duration = 3.0
+magnitude = 0.3
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 100.0
+duration_ms = 667.0
+atk_ratio = 3.0
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(120.0, 40.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 120.0
+detached = true
+travel_px = 1200.0
+tick_interval_ms = 0.0
+max_targets = 0
+travel_angle_deg = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_wind_01.hold_2"
+key = "hold"
+animation = "hold_release"
+hit_kind = 1
+startup_ms = 100.0
+active_ms = 50.0
+recovery_ms = 300.0
+charge_level_ms = 1600.0
+cooldown_sec = 1.2
+cooldown_uses_cdr = false
+cooldown_group = "hold"
+extra_en_on_hit = 3.0
+charge_start_ms = 500.0
+charge_move_slow = 0.5
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 2 Xuyên Phong Tiễn Cấp 2: xuyên mọi mục tiêu 1200 px 300%, đẩy lùi 120 px, Chậm 30% 3s, 100/50/300"

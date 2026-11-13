@@ -1,0 +1,148 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 200.0
+duration_ms = 444.0
+atk_ratio = 0.6
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 800.0
+tick_interval_ms = 0.0
+max_targets = 1
+travel_angle_deg = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 350.0
+duration_ms = 444.0
+atk_ratio = 0.6
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 800.0
+tick_interval_ms = 0.0
+max_targets = 1
+travel_angle_deg = -8.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_2"]
+script = ExtResource("2")
+at_ms = 500.0
+duration_ms = 444.0
+atk_ratio = 0.6
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 800.0
+tick_interval_ms = 0.0
+max_targets = 1
+travel_angle_deg = 8.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_3"]
+script = ExtResource("2")
+at_ms = 650.0
+duration_ms = 444.0
+atk_ratio = 0.6
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 800.0
+tick_interval_ms = 0.0
+max_targets = 1
+travel_angle_deg = -4.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_4"]
+script = ExtResource("2")
+at_ms = 800.0
+duration_ms = 444.0
+atk_ratio = 0.6
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(70.0, 24.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 800.0
+tick_interval_ms = 0.0
+max_targets = 1
+travel_angle_deg = 4.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="st_5_0"]
+script = ExtResource("3")
+status_id = "slow"
+duration = 2.0
+magnitude = 0.3
+
+[sub_resource type="Resource" id="hit_5"]
+script = ExtResource("2")
+at_ms = 950.0
+duration_ms = 444.0
+atk_ratio = 0.6
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 36.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 100.0
+detached = true
+travel_px = 800.0
+tick_interval_ms = 0.0
+max_targets = 1
+travel_angle_deg = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_5_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_wind_01.weapon"
+key = "weapon"
+animation = "skill_2"
+hit_kind = 5
+startup_ms = 200.0
+active_ms = 900.0
+recovery_ms = 300.0
+en_cost = 35.0
+cooldown_sec = 13.0
+move_px = -150.0
+move_from_ms = 0.0
+move_to_ms = 200.0
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3"), SubResource("hit_4"), SubResource("hit_5")])
+metadata/source = "Mục 2 Liên Châu Phong Tiễn: 35 EN, CD 13s, lùi 150 px, 6 tên 60% trong 900 ms tầm 800 quạt ±8°, tên cuối đẩy 100 px + Chậm 30% 2s; 200/900/300"
