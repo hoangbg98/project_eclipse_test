@@ -1082,3 +1082,51 @@ msgstr "Vũ Khí & Ấn Nham Thạch"
 
 msgid "RECRUIT_UI_NOTE_EQUIP"
 msgstr "Vũ khí và vết thánh đề cử có tỉ lệ tăng. Xem Chi tiết để biết tỉ lệ."
+
+msgid "DEBUG_GIFT_OPEN"
+msgstr "Quà thử nghiệm (debug)"
+
+msgid "DEBUG_GIFT_TITLE"
+msgstr "Quà thử nghiệm"
+
+msgid "DEBUG_GIFT_WARN"
+msgstr "Chỉ có trong bản debug. Quà được gửi thẳng vào save đang dùng."
+
+msgid "DEBUG_GIFT_STATUS"
+msgstr "Ngọc %d  ·  Vàng %d  ·  Cấp người chơi %d  ·  %d nhân vật  ·  %d trang bị"
+
+msgid "DEBUG_GIFT_PRESETS"
+msgstr "Gói quà mẫu (sửa ở data/debug/gift_presets.json)"
+
+msgid "DEBUG_GIFT_NO_PRESETS"
+msgstr "Không có gói quà mẫu (thiếu data/debug/gift_presets.json)."
+
+msgid "DEBUG_GIFT_CUSTOM"
+msgstr "Quà tùy chọn"
+
+msgid "DEBUG_GIFT_SEND"
+msgstr "Gửi"
+
+msgid "DEBUG_GIFT_HINT"
+msgstr "Cú pháp: gems=N  gold=N  item:<id>=N  equip:<id>=N  char:<id>  frag:<id>=N  captain=<cấp>  preset:<tên>. item / equip / char / frag nhận all (mọi ID)."
+
+msgid "DEBUG_GIFT_OK"
+msgstr "Đã gửi:"
+
+msgid "DEBUG_GIFT_ERRORS"
+msgstr "Không gửi được (chưa đổi gì):"
+
+msgid "DEBUG_GIFT_EMPTY"
+msgstr "Quà trống: chưa có gì để gửi."
+
+msgid "DEBUG_GIFT_LINE_CHAR_UNLOCK"
+msgstr "Mở khóa nhân vật: %s"
+
+msgid "DEBUG_GIFT_LINE_FRAG"
+msgstr "Mảnh %s +%d"
+
+msgid "DEBUG_GIFT_LINE_CAPTAIN"
+msgstr "Cấp người chơi tối thiểu %d"
+
+msgid "DEBUG_GIFT_LINE_CAPTAIN_EXP"
+msgstr "EXP người chơi +%d"

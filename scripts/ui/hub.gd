@@ -98,6 +98,12 @@ func _make_panel(tab_name: String) -> Control:
 			var credits := CreditsPanel.new()
 			credits.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			box.add_child(credits)
+			# Công cụ gửi quà thử nghiệm: chỉ bản debug (DebugGiftScreen.available()).
+			if DebugGiftScreen.available():
+				var gift_button := UiKit.button(tr("DEBUG_GIFT_OPEN"), 380.0, 28)
+				gift_button.name = "DebugGiftButton"
+				gift_button.pressed.connect(func() -> void: SceneRouter.push(GameConfig.SCENE_DEBUG_GIFT))
+				box.add_child(gift_button)
 			return box
 	return HubHomePanel.new()
 

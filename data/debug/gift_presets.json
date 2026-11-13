@@ -1,0 +1,19 @@
+{
+	"_huong_dan": [
+		"Gói quà mẫu cho công cụ gửi quà thử nghiệm (màn 'Quà thử nghiệm' trong bản debug và tools/give_gift.ps1). Owner sửa file này để đổi hoặc thêm gói; không cần sửa code.",
+		"'gift' dùng cú pháp quà: gems=5000 gold=100000 item:<id>=<n> equip:<id>=<n> char:<id> frag:<id>=<n> captain=<cấp> captain_exp=<n> preset:<tên gói khác>.",
+		"item:all, equip:all, char:all, frag:all=<n> áp cho mọi ID hiện có. Có ID lạ thì cả gói bị từ chối (không áp nửa chừng).",
+		"Danh sách ID: powershell -ExecutionPolicy Bypass -File tools\\give_gift.ps1 --list.",
+		"Thư mục data/debug/ bị loại khỏi bản Release (không có gói nào, công cụ chỉ chạy ở bản debug)."
+	],
+	"presets": {
+		"rich": {"title": "Giàu có", "gift": "gems=50000 gold=500000"},
+		"gacha_10x10": {"title": "Đủ quay 10 lần ×10 (25 200 ngọc)", "gift": "gems=25200"},
+		"level_up": {"title": "Đồ tăng cấp nhân vật + cấp người chơi 50", "gift": "item:mat_exp_small=50 item:mat_exp_medium=50 item:mat_exp_large=50 captain=50 gold=200000"},
+		"enhance": {"title": "Đồ cường hóa trang bị", "gift": "item:mat_enhance_ore=100 item:mat_enhance_crystal=100 gold=200000"},
+		"gear": {"title": "Mỗi trang bị một món", "gift": "equip:all"},
+		"all_characters": {"title": "Mở khóa mọi nhân vật", "gift": "char:all"},
+		"promotion": {"title": "Mảnh tiến cấp (100 mảnh mỗi nhân vật)", "gift": "frag:all=100"},
+		"everything": {"title": "Tất cả các gói trên", "gift": "preset:rich preset:level_up preset:enhance preset:gear preset:all_characters preset:promotion"}
+	}
+}

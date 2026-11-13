@@ -42,6 +42,7 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
 - **Mọi số cân bằng nằm trong data** (`.tres` trong `data/`), không viết cứng trong script.
 - Nhân vật dùng **Data ID** (`char_fire_01`…), không dùng tên hiển thị trong code/data. Mỗi Data ID là một **giáp** (owner 2026-11-13); `CharacterDef.person_id` nối các giáp cùng nhân vật, `suit_key` là tên giáp. Đội không có hai giáp cùng nhân vật. Tên hiện tại: Enkiba (fire), Kazeyumi (wind), Raikiba (lightning), Hikarine (light), Yomigari (dark), Iwagane (earth) — tên cũ Aether / Lyra / Kael / Seraphine / Noctis / Terra không dùng cho chữ hiển thị nữa.
 - Autoload hiện có: `GameConfig`, `EventBus`, `InputRouter`, `SceneRouter`, `AudioRouter`, `SaveService` (thứ tự trong `project.godot`). Không thêm luật gameplay vào autoload.
+- Công cụ thử nghiệm: gửi quà thẳng vào save bằng `DebugGift` (bảng "Quà thử nghiệm" ở tab Cài đặt của Hub, chỉ bản debug) hoặc `tools\give_gift.ps1` (game đã đóng); gói quà mẫu ở `data/debug/gift_presets.json`, hướng dẫn ở `docs/DEBUG_GIFT.md`. Không dùng cho luật gameplay.
 - Input: dùng action của `InputRouter` (`move_left/right`, `jump`, `attack`, `dodge`, `skill`, `weapon`, `ultimate`, `switch_1/2`, `pause`, `ui_back`) và `InputRouter.consume_buffered()`; không đọc phím trực tiếp.
 - Chữ hiển thị: khóa `UPPER_SNAKE` qua `tr()`, thêm vào **cả** `localization/vi.po` và `en.po`.
 - Đặt tên: file/hàm/biến `snake_case`, `class_name` `PascalCase`, hằng `UPPER_SNAKE`.

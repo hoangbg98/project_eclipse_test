@@ -257,6 +257,23 @@ KEYS = [
     ("BANNER_KIND_EQUIP", "Banner vũ khí & vết thánh", "Weapon & stigma banner"),
     ("BANNER_TITLE_TERRA", "Nham Thạch Thức Tỉnh", "Awakening of Stone"),
     ("BANNER_TITLE_EQUIP_TERRA", "Vũ Khí & Ấn Nham Thạch", "Magma Blade & Bedrock Sigils"),
+    # Công cụ gửi quà thử nghiệm (owner 2026-11-14)
+    ("DEBUG_GIFT_OPEN", "Quà thử nghiệm (debug)", "Test gifts (debug)"),
+    ("DEBUG_GIFT_TITLE", "Quà thử nghiệm", "Test gifts"),
+    ("DEBUG_GIFT_WARN", "Chỉ có trong bản debug. Quà được gửi thẳng vào save đang dùng.", "Debug builds only. Gifts go straight into the current save."),
+    ("DEBUG_GIFT_STATUS", "Ngọc %d  ·  Vàng %d  ·  Cấp người chơi %d  ·  %d nhân vật  ·  %d trang bị", "Gems %d  ·  Gold %d  ·  Player level %d  ·  %d characters  ·  %d equipment"),
+    ("DEBUG_GIFT_PRESETS", "Gói quà mẫu (sửa ở data/debug/gift_presets.json)", "Preset gifts (edit data/debug/gift_presets.json)"),
+    ("DEBUG_GIFT_NO_PRESETS", "Không có gói quà mẫu (thiếu data/debug/gift_presets.json).", "No preset gifts (data/debug/gift_presets.json is missing)."),
+    ("DEBUG_GIFT_CUSTOM", "Quà tùy chọn", "Custom gift"),
+    ("DEBUG_GIFT_SEND", "Gửi", "Send"),
+    ("DEBUG_GIFT_HINT", "Cú pháp: gems=N  gold=N  item:<id>=N  equip:<id>=N  char:<id>  frag:<id>=N  captain=<cấp>  preset:<tên>. item / equip / char / frag nhận all (mọi ID).", "Syntax: gems=N  gold=N  item:<id>=N  equip:<id>=N  char:<id>  frag:<id>=N  captain=<level>  preset:<name>. item / equip / char / frag accept all (every ID)."),
+    ("DEBUG_GIFT_OK", "Đã gửi:", "Sent:"),
+    ("DEBUG_GIFT_ERRORS", "Không gửi được (chưa đổi gì):", "Not sent (nothing changed):"),
+    ("DEBUG_GIFT_EMPTY", "Quà trống: chưa có gì để gửi.", "Empty gift: nothing to send."),
+    ("DEBUG_GIFT_LINE_CHAR_UNLOCK", "Mở khóa nhân vật: %s", "Unlock character: %s"),
+    ("DEBUG_GIFT_LINE_FRAG", "Mảnh %s +%d", "%s fragments +%d"),
+    ("DEBUG_GIFT_LINE_CAPTAIN", "Cấp người chơi tối thiểu %d", "Player level at least %d"),
+    ("DEBUG_GIFT_LINE_CAPTAIN_EXP", "EXP người chơi +%d", "Player EXP +%d"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

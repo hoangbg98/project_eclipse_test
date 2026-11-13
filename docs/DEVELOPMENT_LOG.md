@@ -1074,3 +1074,20 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** checker báo ĐẠT cho mọi animation đã kiểm tra; GdUnit4 461/461, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** tích hợp theo nguyên số frame / fps / loop của phiếu; bỏ qua thao tác chép lại `fall` và `ultimate` đã có trong dự án.
 - **Hạn chế đã biết:** `air_1` checker cảnh báo tâm chân ở frame 001 (x=113) và 002 (x=89) lệch trái so với mốc x=192; giữ nguyên theo duyệt gộp của owner.
+
+## 2026-11-14 — Công cụ gửi quà thử nghiệm vào tài khoản
+
+- **Milestone / task:** công cụ thử game (không thuộc milestone) — owner yêu cầu tool gửi trực tiếp quà vào account để test
+- **Trạng thái:** TESTED (headless + chạy thật lệnh dòng lệnh + ảnh chụp); chưa VERIFIED (owner chưa dùng trong Godot)
+- **File tạo/sửa:**
+  - `scripts/debug/debug_gift.gd` (`DebugGift`): cú pháp quà, gói quà mẫu, kiểm tra trước (ID lạ / cấp vượt tối đa → không áp gì), áp vào `PlayerProfile` (ngọc, vàng, vật phẩm, trang bị nhiều bản, mở khóa nhân vật, mảnh có tự mở khóa, cấp người chơi chỉ tăng, EXP người chơi), tóm tắt hiển thị, `run_args` cho dòng lệnh.
+  - `scripts/ui/debug_gift_screen.gd` + `scenes/main/debug_gift_screen.tscn`: màn "Quà thử nghiệm" (nút gói quà mẫu, ô nhập quà tùy chọn giữ lại nội dung khi sửa, trạng thái tài khoản, khung kết quả); nút mở ở tab Cài đặt của Hub chỉ khi `DebugGiftScreen.available()` (`OS.is_debug_build()`).
+  - `tools/give_gift.gd` + `tools/give_gift.ps1` (BOM, tắt gán theo vị trí, in UTF-8): lệnh `--list`, `--dry-run`, `--save-dir=`, mã thoát 0 / 1 / 2.
+  - `data/debug/gift_presets.json` (8 gói: rich, gacha_10x10, level_up, enhance, gear, all_characters, promotion, everything); `export_presets.cfg` loại `data/debug/*` khỏi bản Release; `GameConfig.SCENE_DEBUG_GIFT`; 16 khóa dịch `DEBUG_GIFT_*`; `docs/DEBUG_GIFT.md`; AGENTS.md mục 6.
+  - Test: `tests/unit/debug/test_debug_gift.gd` (22): cú pháp + lỗi, `all`, gói lồng nhau có chặn vòng, gói mẫu hợp lệ, `everything` áp đủ, áp nguyên khối hoặc không áp gì, cấp không bị hạ, lệnh dòng lệnh (không ghi khi lỗi / dry-run, cộng dồn vào save có sẵn), màn trong game (nút gói, lưu file, lỗi, ô nhập), nút Hub theo bản debug / Release.
+  - `tools/screenshot_gift.gd`.
+- **Đã chạy:** `godot --headless --import`; `tools\give_gift.ps1 --list`, quà lỗi, quà thật vào `user://test_give`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_gift.gd`.
+- **Kết quả thật:** lệnh dòng lệnh in đúng tiếng Việt, ID lạ → mã 1 và không ghi file; gửi thật → mã 0, file save tạo đúng; đã xem 3 ảnh chụp màn (bắt đầu, đã gửi, lỗi). GdUnit4 483/483, 5 test khói đạt, mã thoát 0.
+- **Lỗi tìm thấy và sửa:** PowerShell gán mục quà đầu tiên vào tham số `-Godot` (báo "không tìm thấy Godot: gems=100") → tắt gán theo vị trí; nút gói quà bị cắt chữ vì tóm tắt dài → hiện chuỗi quà của gói.
+- **Quyết định Claude chọn:** hai cách dùng (bảng trong game cho thử tức thì vì game đang mở sẽ ghi đè save do lệnh dòng lệnh sửa; lệnh dòng lệnh cho tự động hóa); quà bỏ qua mọi luật chơi (đây là công cụ debug) và không đụng tới pity, lịch sử chiêu mộ, tiến độ màn; không có nút xóa / đặt lại tài khoản (đã có "Game mới"); đặt nút ở tab Cài đặt thay vì thêm tab Hub; không dùng phím tắt (quy tắc InputRouter).
+- **Hạn chế đã biết:** lệnh dòng lệnh phải chạy khi game đã đóng; chưa có quà "đặt cấp nhân vật" (dùng sách EXP + `captain=`); bản Release không có công cụ; chưa thử trên Android (hoãn).

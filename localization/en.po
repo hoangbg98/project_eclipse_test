@@ -1082,3 +1082,51 @@ msgstr "Magma Blade & Bedrock Sigils"
 
 msgid "RECRUIT_UI_NOTE_EQUIP"
 msgstr "The featured weapon and stigmata have boosted rates. See Details for the rates."
+
+msgid "DEBUG_GIFT_OPEN"
+msgstr "Test gifts (debug)"
+
+msgid "DEBUG_GIFT_TITLE"
+msgstr "Test gifts"
+
+msgid "DEBUG_GIFT_WARN"
+msgstr "Debug builds only. Gifts go straight into the current save."
+
+msgid "DEBUG_GIFT_STATUS"
+msgstr "Gems %d  ·  Gold %d  ·  Player level %d  ·  %d characters  ·  %d equipment"
+
+msgid "DEBUG_GIFT_PRESETS"
+msgstr "Preset gifts (edit data/debug/gift_presets.json)"
+
+msgid "DEBUG_GIFT_NO_PRESETS"
+msgstr "No preset gifts (data/debug/gift_presets.json is missing)."
+
+msgid "DEBUG_GIFT_CUSTOM"
+msgstr "Custom gift"
+
+msgid "DEBUG_GIFT_SEND"
+msgstr "Send"
+
+msgid "DEBUG_GIFT_HINT"
+msgstr "Syntax: gems=N  gold=N  item:<id>=N  equip:<id>=N  char:<id>  frag:<id>=N  captain=<level>  preset:<name>. item / equip / char / frag accept all (every ID)."
+
+msgid "DEBUG_GIFT_OK"
+msgstr "Sent:"
+
+msgid "DEBUG_GIFT_ERRORS"
+msgstr "Not sent (nothing changed):"
+
+msgid "DEBUG_GIFT_EMPTY"
+msgstr "Empty gift: nothing to send."
+
+msgid "DEBUG_GIFT_LINE_CHAR_UNLOCK"
+msgstr "Unlock character: %s"
+
+msgid "DEBUG_GIFT_LINE_FRAG"
+msgstr "%s fragments +%d"
+
+msgid "DEBUG_GIFT_LINE_CAPTAIN"
+msgstr "Player level at least %d"
+
+msgid "DEBUG_GIFT_LINE_CAPTAIN_EXP"
+msgstr "Player EXP +%d"

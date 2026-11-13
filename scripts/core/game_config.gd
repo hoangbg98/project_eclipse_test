@@ -10,6 +10,7 @@ const SCENE_TEST_STAGE := "res://scenes/stages/test_stage.tscn"
 const SCENE_STAGE := "res://scenes/stages/stage.tscn"
 const SCENE_CHARACTER := "res://scenes/main/character_screen.tscn"
 const SCENE_RECRUIT := "res://scenes/main/recruit_screen.tscn"
+const SCENE_DEBUG_GIFT := "res://scenes/main/debug_gift_screen.tscn"
 
 ## Màn sẽ chơi khi mở SCENE_STAGE (data/stages/{id}.json).
 var selected_stage_id := "stage_01"
