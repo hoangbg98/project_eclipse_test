@@ -1091,3 +1091,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Lỗi tìm thấy và sửa:** PowerShell gán mục quà đầu tiên vào tham số `-Godot` (báo "không tìm thấy Godot: gems=100") → tắt gán theo vị trí; nút gói quà bị cắt chữ vì tóm tắt dài → hiện chuỗi quà của gói.
 - **Quyết định Claude chọn:** hai cách dùng (bảng trong game cho thử tức thì vì game đang mở sẽ ghi đè save do lệnh dòng lệnh sửa; lệnh dòng lệnh cho tự động hóa); quà bỏ qua mọi luật chơi (đây là công cụ debug) và không đụng tới pity, lịch sử chiêu mộ, tiến độ màn; không có nút xóa / đặt lại tài khoản (đã có "Game mới"); đặt nút ở tab Cài đặt thay vì thêm tab Hub; không dùng phím tắt (quy tắc InputRouter).
 - **Hạn chế đã biết:** lệnh dòng lệnh phải chạy khi game đã đóng; chưa có quà "đặt cấp nhân vật" (dùng sách EXP + `captain=`); bản Release không có công cụ; chưa thử trên Android (hoãn).
+
+## 2026-11-14 — Kazeyumi: tờ bộ phận và trang điền tên (wireframe)
+
+- **Milestone / task:** art (rig bộ phận) — owner gửi tờ bộ phận cắt lớp của Kazeyumi (`char_wind_01`), yêu cầu tạo wireframe để điền tên
+- **Trạng thái:** IMPLEMENTED (chờ owner điền tên)
+- **File tạo/sửa:** `assets/characters/char_wind_01/rig_parts/source/char_wind_01_parts_sheet.jpg` (ảnh gốc nền trong suốt, ghép nền trắng), `char_wind_01_parts_boxes.json` (60 khung), `.gdignore`; trang artifact "Bảng tên bộ phận Kazeyumi" (https://claude.ai/artifact/NPXQcciN28KAwKk6eLMpq1, lưu từng ô vào db `labels`, giống trang của Enkiba).
+- **Đã chạy:** `python -I tools/sprite_parts/segment_parts.py ... 190 0` → 59 vùng; đọc lại `labels` của trang (trống, đúng vì chưa điền).
+- **Kết quả thật:** 59 vùng tách sạch; vùng 24 (áo + áo choàng bản 2) dính mảnh cẳng tay bên dưới → tách tay thành ô 60. Có gợi ý loại + tên cho cả 60 ô (thêm loại "Hiệu ứng" cho mũi tên gió số 42).
+- **Lỗi tìm thấy và sửa:** ảnh gốc là WebP nền trong suốt; chuyển thẳng sang JPG làm nền thành đen nên cả tờ thành một khối → ghép lên nền trắng trước khi tách.
+- **Hạn chế đã biết:** `tools/sprite_parts/cut_parts.py` đang ghi cứng `char_fire_01` trong manifest (README đã ghi), cần sửa khi cắt Kazeyumi sau khi owner điền xong.
