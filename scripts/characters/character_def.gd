@@ -2,9 +2,14 @@ class_name CharacterDef
 extends Resource
 ## Định nghĩa tĩnh một nhân vật (README 4). Dữ liệu ở data/characters/{id}.tres.
 
+## Mỗi CharacterDef là một **giáp** (owner 2026-11-13): một nhân vật có thể có nhiều giáp với hạng khác nhau.
 @export var id := ""
-## Khóa dịch tên hiển thị (tên tạm, đổi trước khi công khai).
+## Khóa dịch tên nhân vật (vd "Enkiba"); các giáp cùng nhân vật dùng cùng tên.
 @export var name_key := ""
+## Nhân vật mà giáp này thuộc về (vd "enkiba"). Đội không được có hai giáp cùng nhân vật. Rỗng = dùng `id`.
+@export var person_id := ""
+## Khóa dịch tên giáp (vd "Hỏa Diễm Mãnh Liệt").
+@export var suit_key := ""
 @export var element := ""
 ## Hạng nhân vật trong chiêu mộ: "S", "A" hoặc "B" (owner gán; rỗng = chưa gán, UI hiện "?").
 @export var rank := ""
@@ -27,6 +32,10 @@ extends Resource
 @export var switch_in_cd_sec := 10.0
 ## Buff và giảm SI-CD riêng của Kĩ năng vào sân (null = không có).
 @export var switch_in: SwitchInDef
+
+
+func person() -> String:
+	return person_id if person_id != "" else id
 
 
 ## Nạp mọi SkillDef trong skills_dir, khóa theo `key` của file (tên file không đuôi).

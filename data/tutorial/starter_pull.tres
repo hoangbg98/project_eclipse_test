@@ -48,4 +48,4 @@ pity_group = "starter"
 multi_guarantee_tiers = PackedStringArray()
 multi_guarantee_pick = PackedStringArray()
 starter_free_multi = true
-metadata/source = "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Kael, 9 lượt còn lại là nguyên liệu tăng cấp."
+metadata/source = "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Raikiba, 9 lượt còn lại là nguyên liệu tăng cấp."

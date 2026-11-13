@@ -1,8 +1,8 @@
 extends GdUnitTestSuite
 ## Test banner tiếp tế vũ khí + vết thánh (owner 2026-11-12/13: 2.87 / 14 / 10.7 / 14.43 / 58%, pity cứng vũ khí 4★ 60,
-## 10 lượt chắc chắn 4★ ưu tiên vết thánh) và lượt x10 miễn phí đầu tiên (chắc chắn 1 Kael, còn lại nguyên liệu).
+## 10 lượt chắc chắn 4★ ưu tiên vết thánh) và lượt x10 miễn phí đầu tiên (chắc chắn 1 Raikiba, còn lại nguyên liệu).
 
-const EQUIP_PATH := "res://data/banners/banner_equip_aether.tres"
+const EQUIP_PATH := "res://data/banners/banner_equip_terra.tres"
 const STARTER_PATH := "res://data/tutorial/starter_pull.tres"
 
 var _data: Dictionary
@@ -43,7 +43,7 @@ func test_equip_config_matches_owner_and_sums_to_100() -> void:
 	assert_array(Array(b.multi_guarantee_tiers)).is_equal(["W4", "S4"])
 	assert_array(Array(b.multi_guarantee_pick)).is_equal(["S4"])          # ưu tiên vết thánh
 	assert_str(b.group()).is_equal("equip")
-	assert_array(Array(b.tier("W4").featured)).is_equal(["equip:eq_weapon_flame"])
+	assert_array(Array(b.tier("W4").featured)).is_equal(["equip:eq_weapon_greatsword_magma"])
 	assert_int(b.tier("S4").featured.size()).is_equal(3)                  # bộ Đầu / Thân / Chân đề cử
 
 
@@ -92,7 +92,7 @@ func test_equip_pull_adds_equipment_and_shares_no_pity_with_characters() -> void
 		if str(r["item"]).begins_with("equip:"):
 			equips += 1
 	assert_int(_profile.inventory.equipment_uids().size() - before).is_equal(equips)
-	var char_banner: BannerDef = load("res://data/banners/banner_char_aether.tres")
+	var char_banner: BannerDef = load("res://data/banners/banner_char_terra.tres")
 	assert_int(s.pity_count(char_banner, "S")).is_equal(0)
 
 
@@ -102,7 +102,7 @@ func test_starter_pull_is_free_once_with_exactly_one_kael() -> void:
 	var b: BannerDef = load(STARTER_PATH)
 	assert_array(b.validate()).is_empty()
 	assert_bool(b.starter_free_multi).is_true()
-	_data["characters"].erase("char_lightning_01")                     # người mới chưa có Kael
+	_data["characters"].erase("char_lightning_01")                     # người mới chưa có Raikiba
 	var s := _svc(21)
 	assert_bool(s.starter_available(b)).is_true()
 	var gems := _profile.inventory.currency("gems")

@@ -46,8 +46,19 @@ nguyên liệu tăng cấp (đã có dữ liệu `data/tutorial/starter_pull.tre
 phó bản; cấp nhân vật không vượt cấp người chơi. Trong code vẫn tên `account` / `captain_*`; hiện mới có EXP khi qua màn
 (chưa có hệ thống nhiệm vụ).
 
-Còn hỏi owner: banner nhân vật đang đề cử **Aether** (Claude chọn, vì là nhân vật S duy nhất chơi được và có vũ khí /
-vết thánh 4★ để đề cử). Terra là S nhưng chưa có kỹ năng.
+Owner 2026-11-13: banner đầu tiên đề cử **Iwagane — Thần Kiếm Nham Thạch** (Terra cũ); banner tiếp tế đi kèm đề cử
+Đại kiếm Dung Nham 4★ + bộ Ấn Nham Thạch 4★ (đồ do Claude đặt tên và chỉ số tạm). Iwagane chưa có kỹ năng.
+
+**Tên mới (owner 2026-11-13).** Mỗi CharacterDef là một **giáp**; một nhân vật có thể có nhiều giáp, hạng khác nhau:
+
+| Data ID | Nhân vật (tên cũ) | Giáp | Hạng |
+|---|---|---|---|
+| `char_fire_01` | Enkiba (Aether) | Hỏa Diễm Mãnh Liệt | S |
+| `char_wind_01` | Kazeyumi (Lyra) | Đôi Cánh Của Gió | B |
+| `char_lightning_01` | Raikiba (Kael) | Nanh Của Lôi Thần | B |
+| `char_light_01` | Hikarine (Seraphine) | Ánh Sáng Thiên Giới | A |
+| `char_dark_01` | Yomigari (Noctis) | Lưỡi Hái Hắc Ám | A |
+| `char_earth_01` | Iwagane (Terra) | Thần Kiếm Nham Thạch | S |
 
 ## B. Hình nhân vật (frame-by-frame)
 

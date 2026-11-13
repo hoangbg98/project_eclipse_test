@@ -13,9 +13,9 @@ hard_pity = 60
 soft_pity_start = 0
 soft_pity_step = 0.0
 soft_pity_mode = "step"
-pool = PackedStringArray("equip:eq_weapon_flame")
-featured = PackedStringArray("equip:eq_weapon_flame")
-featured_rate = 1.0
+pool = PackedStringArray("equip:eq_weapon_flame", "equip:eq_weapon_greatsword_magma")
+featured = PackedStringArray("equip:eq_weapon_greatsword_magma")
+featured_rate = 0.5
 guarantee_after_miss = false
 duplicate_fragments = 0
 
@@ -29,8 +29,8 @@ hard_pity = 0
 soft_pity_start = 0
 soft_pity_step = 0.0
 soft_pity_mode = "step"
-pool = PackedStringArray("equip:eq_stigma_bot_blaze", "equip:eq_stigma_bot_hourglass", "equip:eq_stigma_mid_blaze", "equip:eq_stigma_mid_guardian", "equip:eq_stigma_top_blaze")
-featured = PackedStringArray("equip:eq_stigma_top_blaze", "equip:eq_stigma_mid_blaze", "equip:eq_stigma_bot_blaze")
+pool = PackedStringArray("equip:eq_stigma_bot_bedrock", "equip:eq_stigma_bot_blaze", "equip:eq_stigma_bot_hourglass", "equip:eq_stigma_mid_bedrock", "equip:eq_stigma_mid_blaze", "equip:eq_stigma_mid_guardian", "equip:eq_stigma_top_bedrock", "equip:eq_stigma_top_blaze")
+featured = PackedStringArray("equip:eq_stigma_top_bedrock", "equip:eq_stigma_mid_bedrock", "equip:eq_stigma_bot_bedrock")
 featured_rate = 0.5
 guarantee_after_miss = false
 duplicate_fragments = 0
@@ -85,8 +85,8 @@ duplicate_fragments = 0
 
 [resource]
 script = ExtResource("1")
-id = "banner_equip_aether"
-name_key = "BANNER_EQUIP_AETHER"
+id = "banner_equip_terra"
+name_key = "BANNER_EQUIP_TERRA"
 tiers = Array[ExtResource("2")]([SubResource("t_w4"), SubResource("t_s4"), SubResource("t_w3"), SubResource("t_s3"), SubResource("t_m")])
 cost_currency = "gems"
 cost_single = 280

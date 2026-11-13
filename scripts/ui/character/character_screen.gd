@@ -27,6 +27,10 @@ var glossary_open := false
 var detail_stats_open := false
 ## Bảng chọn đang mở: "" (không), "exp", "weapon", "stigma_top", "stigma_mid", "stigma_bot".
 var picker := ""
+## Bộ lọc danh sách giáp (owner 2026-11-13): mỗi nhóm rỗng = không lọc theo nhóm đó; trong nhóm là "hoặc", giữa các
+## nhóm là "và". Chỉ giữ trong phiên.
+var filter := {"rank": [], "element": [], "person": []}
+var filter_open := false
 ## Lý do thao tác gần nhất bị từ chối, hoặc thông báo ngắn; hiện ở giữa trên màn.
 var notice := ""
 ## false: không ghi file save (test dùng dữ liệu riêng).
@@ -67,6 +71,46 @@ func _owned_ids() -> PackedStringArray:
 	return out
 
 
+## Giáp đang sở hữu khớp bộ lọc, theo thứ tự của danh sách.
+func filtered_ids() -> PackedStringArray:
+	var out := PackedStringArray()
+	for id in _owned_ids():
+		var d := char_def(id)
+		if d == null:
+			continue
+		if not (filter["rank"] as Array).is_empty() and d.rank not in filter["rank"]:
+			continue
+		if not (filter["element"] as Array).is_empty() and d.element not in filter["element"]:
+			continue
+		if not (filter["person"] as Array).is_empty() and d.person() not in filter["person"]:
+			continue
+		out.append(id)
+	return out
+
+
+func is_filtered() -> bool:
+	for k: String in filter:
+		if not (filter[k] as Array).is_empty():
+			return true
+	return false
+
+
+## Bật / tắt một giá trị trong nhóm lọc ("rank", "element", "person").
+func toggle_filter(kind: String, value: String) -> void:
+	var arr: Array = filter[kind]
+	if value in arr:
+		arr.erase(value)
+	else:
+		arr.append(value)
+	refresh()
+
+
+func clear_filter() -> void:
+	for k: String in filter:
+		(filter[k] as Array).clear()
+	refresh()
+
+
 func char_def(id: String) -> CharacterDef:
 	var p := CHARACTER_PATH % id
 	return load(p) as CharacterDef if ResourceLoader.exists(p) else null
@@ -75,6 +119,12 @@ func char_def(id: String) -> CharacterDef:
 func char_name(id: String) -> String:
 	var d := char_def(id)
 	return tr(d.name_key) if d else id
+
+
+## Tên giáp (vd "Hỏa Diễm Mãnh Liệt"); chưa có thì rỗng.
+func suit_name(id: String) -> String:
+	var d := char_def(id)
+	return tr(d.suit_key) if d and d.suit_key != "" else ""
 
 
 func portrait(id: String) -> Texture2D:
@@ -141,10 +191,11 @@ func open_skill(group: String) -> void:
 
 ## Lùi một bước trong màn; trả về true nếu đã xử lý (false = đang ở tổng quan, để SceneRouter về Hub).
 func intercept_back() -> bool:
-	if picker != "" or glossary_open or detail_stats_open:
+	if picker != "" or glossary_open or detail_stats_open or filter_open:
 		picker = ""
 		glossary_open = false
 		detail_stats_open = false
+		filter_open = false
 	elif view == View.SKILL_DETAIL:
 		view = View.DETAIL
 		tab = "skill"
@@ -206,6 +257,8 @@ func refresh() -> void:
 		_build_glossary()
 	if picker != "":
 		_build_picker()
+	if filter_open and view == View.OVERVIEW:
+		_build_filter()
 	if notice != "":
 		var n := _label(Rect2(layout.view_size.x * 0.5 - 500, 960 if view == View.OVERVIEW else 110, 1000, 50), notice, 28,
 				layout.color("accent", Color.ORANGE), HORIZONTAL_ALIGNMENT_CENTER)
@@ -332,7 +385,7 @@ func _build_overview() -> void:
 	_button(layout.rect(o + "info_button"), layout.label(o + "info_button", "!"), 40, Callable())
 	_label(layout.rect(o + "title"), char_name(selected), layout.font(o + "title", 64), Color.WHITE)
 	_badge(layout.rect(o + "rank_badge"), rank_text(selected), layout.font(o + "rank_badge", 40))
-	var sub := "%s · %s" % [tr("ELEMENT_" + def.element.to_upper()) if def else "?",
+	var sub := "%s · %s · %s" % [suit_name(selected), tr("ELEMENT_" + def.element.to_upper()) if def else "?",
 			tr("WEAPON_TYPE_" + def.weapon_type.to_upper()) if def and def.weapon_type != "" else "?"]
 	_label(layout.rect(o + "subtitle"), sub, layout.font(o + "subtitle", 32), Color.WHITE)
 	_panel(layout.rect(o + "level_box"), Color(0.1, 0.1, 0.14, 0.9))
@@ -421,7 +474,9 @@ func _build_roster() -> void:
 	var card_v: Variant = layout.get_value(o + "roster.card", [168, 190])
 	var card := Vector2(float(card_v[0]), float(card_v[1]))
 	var gap := layout.num(o + "roster.gap", 15)
-	var ids := _owned_ids()
+	var ids := filtered_ids()
+	if ids.is_empty():
+		_label(Rect2(area.position, Vector2(900, card.y)), tr("CHAR_UI_FILTER_EMPTY"), 30, layout.color("text_dim", Color.GRAY)).name = "FilterEmpty"
 	for i in ids.size():
 		var id := ids[i]
 		var r := Rect2(area.position + Vector2(i * (card.x + gap), 0), card)
@@ -436,8 +491,61 @@ func _build_roster() -> void:
 				layout.font(o + "roster", 34), Color.BLACK if sel else Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
 		var b := _button(r, "", 10, select.bind(id), false, "Roster_%s" % id)
 		b.add_theme_stylebox_override("normal", _style(Color(0, 0, 0, 0), Color(1, 0.85, 0.3) if sel else Color(1, 1, 1, 0.15)))
-	_button(layout.rect(o + "roster_filter"), layout.label(o + "roster_filter"), layout.font(o + "roster_filter", 18), Callable())
+	var fb := _button(layout.rect(o + "roster_filter"), layout.label(o + "roster_filter"), layout.font(o + "roster_filter", 18),
+			func() -> void:
+				filter_open = true
+				refresh(), is_filtered(), "FilterButton")
+	fb.tooltip_text = tr("CHAR_UI_FILTER_COUNT") % [ids.size(), _owned_ids().size()]
 	_button(layout.rect(o + "roster_grid"), layout.label(o + "roster_grid"), layout.font(o + "roster_grid", 18), Callable())
+
+
+## Bảng lọc: hạng giáp, nguyên tố, nhân vật (chỉ những gì đang sở hữu), nút Bỏ lọc, dòng đếm.
+func _build_filter() -> void:
+	var r := layout.rect("filter", Rect2(360, 160, 1200, 760))
+	var fs := layout.font("filter", 28)
+	var bh := layout.num("filter.button_height", 64)
+	_panel(Rect2(Vector2.ZERO, layout.view_size), Color(0, 0, 0, 0.65))   # làm tối nền phía sau
+	var bg := layout.color("panel_light", Color(0.16, 0.18, 0.24))
+	bg.a = 1.0
+	_panel(r, bg, "FilterPanel")
+	_label(Rect2(r.position + Vector2(30, 14), Vector2(r.size.x - 260, 60)), tr("CHAR_UI_FILTER_TITLE"), 38, Color.WHITE)
+	_button(Rect2(r.position + Vector2(r.size.x - 220, 14), Vector2(200, 60)), tr("UI_BACK"), 28, intercept_back, false, "FilterClose")
+	var ranks := PackedStringArray()
+	var elements := PackedStringArray()
+	var persons := {}
+	for id in _owned_ids():
+		var d := char_def(id)
+		if d == null:
+			continue
+		if d.rank != "" and d.rank not in ranks:
+			ranks.append(d.rank)
+		if d.element not in elements:
+			elements.append(d.element)
+		persons[d.person()] = tr(d.name_key)
+	ranks.sort()
+	var groups := [
+		["rank", "CHAR_UI_FILTER_RANK", Array(ranks).map(func(x: String) -> Array: return [x, x])],
+		["element", "CHAR_UI_FILTER_ELEMENT", Array(elements).map(func(x: String) -> Array: return [x, tr("ELEMENT_" + x.to_upper())])],
+		["person", "CHAR_UI_FILTER_PERSON", persons.keys().map(func(x: String) -> Array: return [x, persons[x]])],
+	]
+	var y := r.position.y + 90
+	for g: Array in groups:
+		_label(Rect2(r.position.x + 30, y, r.size.x - 60, 44), tr(str(g[1])), fs, layout.color("accent_blue", Color.SKY_BLUE))
+		y += 50
+		var x := r.position.x + 30
+		for opt: Array in g[2]:
+			var w := maxf(140.0, 24.0 + str(opt[1]).length() * fs * 0.6)
+			if x + w > r.end.x - 30:
+				x = r.position.x + 30
+				y += bh + 10
+			var on: bool = str(opt[0]) in filter[str(g[0])]
+			_button(Rect2(x, y, w, bh), str(opt[1]), fs, toggle_filter.bind(str(g[0]), str(opt[0])), on,
+					"Filter_%s_%s" % [g[0], opt[0]])
+			x += w + 12
+		y += bh + 24
+	_label(Rect2(r.position.x + 30, r.end.y - 84, 600, 64), tr("CHAR_UI_FILTER_COUNT") % [filtered_ids().size(), _owned_ids().size()],
+			fs, Color.WHITE).name = "FilterCount"
+	_button(Rect2(r.end.x - 250, r.end.y - 84, 220, 64), tr("CHAR_UI_FILTER_CLEAR"), fs, clear_filter, false, "FilterClear")
 
 
 # ---------- Ảnh 2–5: chi tiết + tab ----------

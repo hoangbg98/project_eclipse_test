@@ -89,7 +89,7 @@ KEYS = [
     ("GACHA_TIER_CHAR_A", "Nhân vật A", "A-rank character"),
     ("GACHA_TIER_CHAR_B", "Nhân vật B", "B-rank character"),
     ("GACHA_TIER_MATERIALS", "Nguyên liệu, vàng", "Materials, gold"),
-    ("BANNER_CHAR_KAEL", "Chiêu mộ: Kael", "Recruitment: Kael"),
+    ("BANNER_CHAR_KAEL", "Chiêu mộ: Raikiba", "Recruitment: Raikiba"),
     ("CAPTAIN_LEVEL", "Cấp người chơi %d", "Player level %d"),
     # Màn Nhân vật (6 ảnh tham chiếu owner 2026-11-12)
     ("CHAR_TAB_LEVEL", "Tăng cấp", "Level up"),
@@ -207,7 +207,7 @@ KEYS = [
     ("SKILL_LIGHTNING_01_SKILL", "Chớp Giật Liên Hoàn", "Chain Lightning"),
     ("SKILL_LIGHTNING_01_WEAPON", "Song Lôi Phi Nhận", "Twin Thunder Blades"),
     ("SKILL_LIGHTNING_01_ULTIMATE", "Lôi Thần Quyết", "Thunder God's Verdict"),
-    ("SKILL_LIGHTNING_01_PASSIVE_DESC", "Mục tiêu đủ Dấu Sét thì Bùng nổ Sét: %s ATK (mỗi mục tiêu cách nhau %ss). Sau mỗi Bùng nổ, Kael +%s tốc độ tấn công trong %ss.", "A target with full Lightning Marks erupts in a Lightning Burst: %s ATK (once per %ss per target). After each Burst, Kael gains +%s attack speed for %ss."),
+    ("SKILL_LIGHTNING_01_PASSIVE_DESC", "Mục tiêu đủ Dấu Sét thì Bùng nổ Sét: %s ATK (mỗi mục tiêu cách nhau %ss). Sau mỗi Bùng nổ, Raikiba +%s tốc độ tấn công trong %ss.", "A target with full Lightning Marks erupts in a Lightning Burst: %s ATK (once per %ss per target). After each Burst, Raikiba gains +%s attack speed for %ss."),
     ("SKILL_WIND_01_NORMAL", "Phong Tiễn", "Gale Arrows"),
     ("SKILL_WIND_01_DODGE", "Lộn Gió Lùi", "Wind Backflip"),
     ("SKILL_WIND_01_PASSIVE", "Gió Thuận", "Tailwind"),
@@ -223,8 +223,8 @@ KEYS = [
     ("SKILL_EARTH_01_NORMAL", "Đại Địa Trảm", "Earthsplitter"),
     ("SKILL_EARTH_01_ULTIMATE", "Sơn Băng Địa Liệt", "Mountain Collapse"),
     # Banner theo owner 2026-11-13
-    ("BANNER_CHAR_AETHER", "Chiêu mộ: Aether", "Recruitment: Aether"),
-    ("BANNER_EQUIP_AETHER", "Tiếp tế: vũ khí & vết thánh của Aether", "Supply: Aether's weapon & stigmata"),
+    ("BANNER_CHAR_AETHER", "Chiêu mộ: Enkiba", "Recruitment: Enkiba"),
+    ("BANNER_EQUIP_AETHER", "Tiếp tế: vũ khí & vết thánh của Enkiba", "Supply: Enkiba's weapon & stigmata"),
     ("BANNER_STARTER", "Chiêu mộ đầu tiên (miễn phí)", "First recruitment (free)"),
     ("GACHA_TIER_WEAPON_4", "Vũ khí 4★", "4★ weapon"),
     ("GACHA_TIER_STIGMA_4", "Vết thánh 4★", "4★ stigma"),

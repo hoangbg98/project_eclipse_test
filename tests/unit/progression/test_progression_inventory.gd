@@ -31,7 +31,7 @@ func test_data_is_valid() -> void:
 	assert_array(PlayerProfile.item_defs().errors).is_empty()
 	assert_array(PlayerProfile.equipment_defs().errors).is_empty()
 	assert_int(PlayerProfile.item_defs().defs.size()).is_equal(5)
-	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(12)
+	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(16)
 	var slots := {}
 	for id in PlayerProfile.equipment_defs().ids():
 		var d: EquipmentDef = PlayerProfile.equipment_defs().get_def(id)
@@ -222,6 +222,14 @@ func test_set_party_validates() -> void:
 	assert_bool(_p.set_party([A, "char_dark_01"])).is_false()         # chưa sở hữu
 	assert_bool(_p.set_party([A, "char_wind_01", "char_lightning_01", A])).is_false()
 	assert_array(Array(_p.party_ids())).is_equal(["char_wind_01", A])   # giữ nguyên khi không hợp lệ
+
+
+func test_party_rejects_two_suits_of_same_person() -> void:
+	assert_str(_p.person_of(A)).is_equal("enkiba")
+	assert_str(_p.person_of("char_earth_01")).is_equal("iwagane")
+	_p.person_cache["char_wind_01"] = "enkiba"                          # giả lập Lyra là giáp thứ hai của Enkiba
+	assert_bool(_p.set_party([A, "char_wind_01"])).is_false()
+	assert_bool(_p.set_party([A, "char_lightning_01"])).is_true()
 
 
 func test_grant_reward_summary() -> void:

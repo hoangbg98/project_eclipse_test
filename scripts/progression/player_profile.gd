@@ -55,14 +55,32 @@ func skill_levels_of(character_id: String) -> Dictionary:
 
 
 ## Đặt đội (1–3 nhân vật đang sở hữu, không trùng). Trả về false và giữ nguyên nếu không hợp lệ.
+## Nhân vật (person_id) mà giáp `character_id` thuộc về; đọc CharacterDef một lần rồi nhớ (test có thể điền sẵn).
+var person_cache := {}
+
+
+func person_of(character_id: String) -> String:
+	if not person_cache.has(character_id):
+		var p := CHARACTER_DATA % character_id
+		var d := load(p) as CharacterDef if ResourceLoader.exists(p) else null
+		person_cache[character_id] = d.person() if d else character_id
+	return person_cache[character_id]
+
+
 func set_party(ids: Array) -> bool:
 	if ids.is_empty() or ids.size() > 3:
 		return false
 	var seen := {}
+	var persons := {}
 	for id in ids:
 		if not progression.owns(str(id)) or seen.has(str(id)):
 			return false
 		seen[str(id)] = true
+		# Hai giáp của cùng một nhân vật không ra trận cùng lúc.
+		var p := person_of(str(id))
+		if persons.has(p):
+			return false
+		persons[p] = true
 	data["party"] = ids.duplicate()
 	return true
 

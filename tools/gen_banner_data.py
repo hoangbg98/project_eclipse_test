@@ -18,12 +18,11 @@ COST_SINGLE, COST_MULTI, MULTI = 280, 2520, 10
 #   S 1.5% (chỉ 1 nhân vật rate-up), A 16.3%, B 10.874%, phần còn lại là nguyên liệu tăng cấp nhân vật,
 #   nguyên liệu nâng bậc vũ khí, vàng. Pity cứng S 100 lượt; từ lượt 80 tỉ lệ S +10% (một lần, owner xác nhận
 #   2026-11-13). 10 lượt chắc chắn ≥ 1 nhân vật A. Pity chuyển sang banner nhân vật kế tiếp (chung nhóm "char").
-#   Hạng (owner 2026-11-13, tạm): S = Aether, Terra; A = Seraphine, Noctis; B = Kael, Lyra (CharacterDef.rank).
+#   Hạng (owner 2026-11-13, tạm): S = Enkiba, Iwagane; A = Hikarine, Yomigari; B = Raikiba, Kazeyumi (CharacterDef.rank).
 CHAR_RATES = {"S": 0.015, "A": 0.163, "B": 0.10874}
-# Claude chọn (chờ owner xác nhận): đề cử Aether — nhân vật S duy nhất chơi được trong bản thử và có vũ khí /
-# vết thánh 4★ để đề cử ở banner tiếp tế. Trùng nhân vật thì thành mảnh để tiến cấp.
-FEATURED = "char_fire_01"
-CHAR_BANNERS = [("banner_char_aether", "BANNER_CHAR_AETHER", FEATURED)]
+# Owner 2026-11-13: banner đầu tiên đề cử Iwagane — Thần Kiếm Nham Thạch (char_earth_01).
+FEATURED = "char_earth_01"
+CHAR_BANNERS = [("banner_char_terra", "BANNER_CHAR_TERRA", FEATURED)]
 # Claude chọn: mảnh khi trùng nhân vật; vàng mỗi lần ra; nguyên liệu chia đều trong bậc.
 DUP_FRAGMENTS = {"S": 25, "A": 10, "B": 5}
 MATERIALS = ["item:mat_exp_small", "item:mat_exp_medium", "item:mat_exp_large", "item:mat_enhance_ore",
@@ -35,13 +34,13 @@ MATERIALS = ["item:mat_exp_small", "item:mat_exp_medium", "item:mat_exp_large", 
 #   Pity cứng vũ khí 4★: 60. 10 lượt chắc chắn 1 vũ khí / vết thánh 4★, ưu tiên vết thánh.
 #   Rate-up: vũ khí 4★ và bộ vết thánh 4★ đề cử của nhân vật đang đề cử.
 EQUIP_RATES = {"W4": 0.0287, "S4": 0.14, "W3": 0.107, "S3": 0.1443}   # còn lại 0.58 = nguyên liệu
-EQUIP_BANNERS = [("banner_equip_aether", "BANNER_EQUIP_AETHER",
-                  ["equip:eq_weapon_flame"],
-                  ["equip:eq_stigma_top_blaze", "equip:eq_stigma_mid_blaze", "equip:eq_stigma_bot_blaze"])]
+EQUIP_BANNERS = [("banner_equip_terra", "BANNER_EQUIP_TERRA",
+                  ["equip:eq_weapon_greatsword_magma"],
+                  ["equip:eq_stigma_top_bedrock", "equip:eq_stigma_mid_bedrock", "equip:eq_stigma_bot_bedrock"])]
 # Claude chọn: khi ra vết thánh 4★, 50% là món trong bộ đề cử.
 STIGMA_FEATURED_RATE = 0.5
 
-# --- Owner 2026-11-13: lượt x10 miễn phí đầu tiên (hướng dẫn) BẮT BUỘC có 1 Kael, còn lại nguyên liệu tăng cấp ---
+# --- Owner 2026-11-13: lượt x10 miễn phí đầu tiên (hướng dẫn) BẮT BUỘC có 1 Raikiba, còn lại nguyên liệu tăng cấp ---
 STARTER_CHARACTER = "char_lightning_01"
 STARTER_MATERIALS = ["item:mat_exp_small", "item:mat_exp_medium", "item:mat_exp_large"]
 
@@ -129,7 +128,7 @@ for file_id, name_key, featured in CHAR_BANNERS:
     ]
     write_banner(OUT, file_id, name_key, tiers, ["S", "A"], ["A"], "char",
                  "Owner 2026-11-12/13: S 1.5%%, A 16.3%%, B 10.874%%, nguyên liệu phần còn lại; pity cứng S 100, "
-                 "từ lượt 80 +10%%; 10 lượt chắc chắn A; giá 280 / 2520. Đề cử %s (Claude chọn)." % featured)
+                 "từ lượt 80 +10%%; 10 lượt chắc chắn A; giá 280 / 2520. Đề cử %s." % featured)
     print("viết", file_id, "A:", a_pool, "B:", b_pool)
 
 assert abs(sum(EQUIP_RATES.values()) + 0.58 - 1.0) < 1e-9, "tỉ lệ tiếp tế phải cộng lại 100%"
@@ -157,6 +156,6 @@ starter_tiers = [
     ("t_m", tier("t_m", "MAT", 1, 0.0, STARTER_MATERIALS, "GACHA_TIER_MATERIALS")),
 ]
 write_banner(OUT_TUTORIAL, "starter_pull", "BANNER_STARTER", starter_tiers, [], [], "starter",
-             "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Kael, 9 lượt còn lại là nguyên liệu tăng cấp.",
+             "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Raikiba, 9 lượt còn lại là nguyên liệu tăng cấp.",
              starter=True)
 print("viết starter_pull")

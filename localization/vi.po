@@ -93,22 +93,22 @@ msgstr "LIÊN KẾT"
 
 # Nhân vật (tên tạm)
 msgid "CHAR_FIRE_01"
-msgstr "Aether"
+msgstr "Enkiba"
 
 msgid "CHAR_WIND_01"
-msgstr "Lyra"
+msgstr "Kazeyumi"
 
 msgid "CHAR_LIGHTNING_01"
-msgstr "Kael"
+msgstr "Raikiba"
 
 msgid "CHAR_LIGHT_01"
-msgstr "Seraphine"
+msgstr "Hikarine"
 
 msgid "CHAR_DARK_01"
-msgstr "Noctis"
+msgstr "Yomigari"
 
 msgid "CHAR_EARTH_01"
-msgstr "Terra"
+msgstr "Iwagane"
 
 msgid "DUMMY_HP"
 msgstr "Máu"
@@ -514,7 +514,7 @@ msgid "GACHA_TIER_MATERIALS"
 msgstr "Nguyên liệu, vàng"
 
 msgid "BANNER_CHAR_KAEL"
-msgstr "Chiêu mộ: Kael"
+msgstr "Chiêu mộ: Raikiba"
 
 msgid "CAPTAIN_LEVEL"
 msgstr "Cấp người chơi %d"
@@ -865,7 +865,7 @@ msgid "SKILL_LIGHTNING_01_ULTIMATE"
 msgstr "Lôi Thần Quyết"
 
 msgid "SKILL_LIGHTNING_01_PASSIVE_DESC"
-msgstr "Mục tiêu đủ Dấu Sét thì Bùng nổ Sét: %s ATK (mỗi mục tiêu cách nhau %ss). Sau mỗi Bùng nổ, Kael +%s tốc độ tấn công trong %ss."
+msgstr "Mục tiêu đủ Dấu Sét thì Bùng nổ Sét: %s ATK (mỗi mục tiêu cách nhau %ss). Sau mỗi Bùng nổ, Raikiba +%s tốc độ tấn công trong %ss."
 
 msgid "SKILL_WIND_01_NORMAL"
 msgstr "Phong Tiễn"
@@ -923,10 +923,10 @@ msgid "EQUIP_EQ_STIGMA_BOT_SANDAL"
 msgstr "Ấn Dép Cỏ (Chân)"
 
 msgid "BANNER_CHAR_AETHER"
-msgstr "Chiêu mộ: Aether"
+msgstr "Chiêu mộ: Enkiba"
 
 msgid "BANNER_EQUIP_AETHER"
-msgstr "Tiếp tế: vũ khí & vết thánh của Aether"
+msgstr "Tiếp tế: vũ khí & vết thánh của Enkiba"
 
 msgid "BANNER_STARTER"
 msgstr "Chiêu mộ đầu tiên (miễn phí)"
@@ -945,3 +945,65 @@ msgstr "Vết thánh 3★"
 
 msgid "REASON_STARTER_USED"
 msgstr "Đã dùng lượt miễn phí này"
+
+# Tên giáp, bộ lọc (owner 2026-11-13)
+msgid "SUIT_FIRE_01"
+msgstr "Hỏa Diễm Mãnh Liệt"
+
+msgid "SUIT_WIND_01"
+msgstr "Đôi Cánh Của Gió"
+
+msgid "SUIT_LIGHTNING_01"
+msgstr "Nanh Của Lôi Thần"
+
+msgid "SUIT_LIGHT_01"
+msgstr "Ánh Sáng Thiên Giới"
+
+msgid "SUIT_DARK_01"
+msgstr "Lưỡi Hái Hắc Ám"
+
+msgid "SUIT_EARTH_01"
+msgstr "Thần Kiếm Nham Thạch"
+
+msgid "BANNER_CHAR_TERRA"
+msgstr "Chiêu mộ: Iwagane — Thần Kiếm Nham Thạch"
+
+msgid "BANNER_EQUIP_TERRA"
+msgstr "Tiếp tế: vũ khí & vết thánh của Iwagane"
+
+msgid "CHAR_UI_FILTER_TITLE"
+msgstr "Lọc nhân vật"
+
+msgid "CHAR_UI_FILTER_RANK"
+msgstr "Hạng giáp"
+
+msgid "CHAR_UI_FILTER_ELEMENT"
+msgstr "Nguyên tố"
+
+msgid "CHAR_UI_FILTER_PERSON"
+msgstr "Nhân vật"
+
+msgid "CHAR_UI_FILTER_CLEAR"
+msgstr "Bỏ lọc"
+
+msgid "CHAR_UI_FILTER_COUNT"
+msgstr "Đang hiện %d/%d giáp"
+
+msgid "CHAR_UI_FILTER_EMPTY"
+msgstr "Không có giáp nào khớp bộ lọc."
+
+msgid "PARTY_SAME_PERSON"
+msgstr "Hai giáp của cùng một nhân vật không thể ra trận cùng lúc."
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_GREATSWORD_MAGMA"
+msgstr "Đại kiếm Dung Nham"
+
+msgid "EQUIP_EQ_STIGMA_TOP_BEDROCK"
+msgstr "Ấn Nham Thạch (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_BEDROCK"
+msgstr "Ấn Nham Thạch (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_BEDROCK"
+msgstr "Ấn Nham Thạch (Chân)"

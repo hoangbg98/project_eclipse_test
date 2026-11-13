@@ -857,3 +857,20 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** GdUnit4 443/443, 5 test khói đạt, mã thoát 0. Kiểm: tiếp tế 2.87 / 14 / 10.7 / 14.43 / 58% cộng đúng 100%; mỗi bậc chỉ chứa đúng số sao và loại; 120 lần quay 10 lượt lần nào cũng có món 4★, lượt bảo đảm luôn là vết thánh, vũ khí 4★ không quá 60 lượt; pity tiếp tế tách khỏi pity nhân vật; lượt miễn phí không trừ Ngọc, đúng 1 Kael ở vị trí ngẫu nhiên, 9 sách EXP, dùng lần hai bị từ chối, lưu qua sanitize; tab Chiêu mộ hiện 2 banner.
 - **Quyết định Claude chọn:** banner nhân vật đề cử **Aether** (S duy nhất chơi được và có đồ 4★ để đề cử; Terra chưa có kỹ năng) — chờ owner xác nhận; bộ vết thánh 4★ đề cử chiếm 50% khi ra vết thánh 4★; vật phẩm bậc nguyên liệu của tiếp tế dùng chung danh sách với banner nhân vật; lượt miễn phí dùng nhóm pity riêng "starter" (không ảnh hưởng pity thật); chỉ số 4 vết thánh mới là số tạm.
 - **Hạn chế đã biết:** chưa có màn hướng dẫn nên lượt miễn phí chưa gắn UI; người chơi mới vẫn có sẵn Kael trong đội khởi đầu (giữ để test khói và màn 1 chạy) — khi làm hướng dẫn cần bỏ Kael khỏi `STARTER_CHARACTERS`; chưa có hệ thống nhiệm vụ để lên cấp người chơi.
+
+## 2026-11-13 — Banner đầu đề cử Iwagane, đổi tên nhân vật, giáp, bộ lọc nhân vật
+
+- **Milestone / task:** 5 (M5-2) + 7 (M7-2) — theo yêu cầu owner 2026-11-13
+- **Trạng thái:** TESTED (headless + ảnh chụp)
+- **Owner quyết định:** banner đầu tiên đề cử Terra; đổi tên tránh trùng: Aether → Enkiba (giáp S Hỏa Diễm Mãnh Liệt), Lyra → Kazeyumi (giáp B Đôi Cánh Của Gió), Kael → Raikiba (giáp B Nanh Của Lôi Thần), Seraphine → Hikarine (giáp A Ánh Sáng Thiên Giới), Noctis → Yomigari (giáp A Lưỡi Hái Hắc Ám), Terra → Iwagane (giáp S Thần Kiếm Nham Thạch); thêm bộ lọc nhân vật; một nhân vật có thể có nhiều giáp với hạng khác nhau.
+- **File tạo/sửa:**
+  - `CharacterDef.person_id`, `suit_key`, `person()`; 6 file `data/characters/*.tres`; khóa `SUIT_*`, tên `CHAR_*` mới trong `localization/*.po`.
+  - `PlayerProfile.person_of` + `set_party` từ chối hai giáp cùng nhân vật.
+  - Banner: `tools/gen_banner_data.py` → `banner_char_terra.tres`, `banner_equip_terra.tres` (xóa bản Aether); `tools/gen_item_data.py` + Đại kiếm Dung Nham 4★ và bộ Ấn Nham Thạch 4★ (Đầu / Thân / Chân).
+  - Màn Nhân vật: dòng phụ hiện tên giáp · nguyên tố · vũ khí; nút **Lọc** mở bảng lọc theo hạng giáp, nguyên tố, nhân vật (trong nhóm "hoặc", giữa nhóm "và"), dòng "Đang hiện N/M giáp", Bỏ lọc; Esc đóng bảng; khung `filter` trong `data/ui/character_screen_layout.json`.
+  - Test: `test_character_screen` (+2: tên giáp, bộ lọc), `test_progression_inventory` (+1: hai giáp cùng nhân vật), sửa test gacha / Hub theo tên và banner mới; `tools/screenshot_character.gd` thêm ảnh bảng lọc.
+  - Tài liệu: AGENTS.md, OWNER_ASSET_CHECKLIST A2 (bảng tên), KNOWN_ISSUES A7 (xong), B2.
+- **Đã chạy:** `python -X utf8 tools/gen_item_data.py`; `python -X utf8 tools/gen_banner_data.py`; `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_character.gd`.
+- **Kết quả thật:** GdUnit4 446/446, 5 test khói đạt, mã thoát 0. Ảnh chụp: tổng quan hiện "Enkiba", "Hỏa Diễm Mãnh Liệt · Hỏa · Kiếm", thẻ Raikiba / Kazeyumi hạng B, Iwagane hạng S; bảng lọc hạng S hiện 2/4 giáp.
+- **Quyết định Claude chọn:** giữ khóa `CHAR_*` làm tên nhân vật (các giáp cùng nhân vật dùng chung tên), thêm `SUIT_*` cho tên giáp; Data ID và tên file (vd `gen_aether_data.py`, `test_kael_lyra.gd`) giữ nguyên; tên tiếng Anh của giáp do Claude dịch; banner tiếp tế: khi ra vũ khí 4★ có 50% là vũ khí đề cử (giờ có 2 vũ khí 4★); đội chọn thêm giáp trùng nhân vật thì bị từ chối im lặng như khi đội đủ 3.
+- **Hạn chế đã biết:** chưa có giáp thứ hai nào cho cùng một nhân vật (cấu trúc đã sẵn, test giả lập); Iwagane được đề cử nhưng chưa có kỹ năng (B2); tài liệu thiết kế `CHARACTER_SKILLS.md` vẫn dùng tên cũ (không sửa theo quy tắc).

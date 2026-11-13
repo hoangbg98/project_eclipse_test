@@ -10,6 +10,7 @@ const SHOTS := [
 	["4_level", "tab", "level"],
 	["5_skill_tree", "tab", "skill"],
 	["6_skill_detail", "skill", "ultimate"],
+	["7_filter", "filter", "S"],
 ]
 
 var _frames := 0
@@ -30,7 +31,7 @@ func _prepare() -> void:
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_guardian"))
 	p.progression.add_exp("char_fire_01", 1500)
 	p.progression.add_fragments("char_fire_01", 6)
-	for id in ["char_lightning_01", "char_wind_01"]:
+	for id in ["char_lightning_01", "char_wind_01", "char_earth_01"]:
 		p.progression.unlock(id)
 	if save:
 		save.data = data
@@ -57,6 +58,10 @@ func _process(_delta: float) -> bool:
 				_screen.open_tab(str(s[2]))
 			"skill":
 				_screen.open_skill(str(s[2]))
+			"filter":
+				_screen.view = CharacterScreen.View.OVERVIEW
+				_screen.filter_open = true
+				_screen.toggle_filter("rank", str(s[2]))
 	if _frames % 12 == 10:
 		var out := "res://build/screenshots/character_%s.png" % str(SHOTS[_index][0])
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out.get_base_dir()))

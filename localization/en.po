@@ -93,22 +93,22 @@ msgstr "LINK"
 
 # Characters (working names)
 msgid "CHAR_FIRE_01"
-msgstr "Aether"
+msgstr "Enkiba"
 
 msgid "CHAR_WIND_01"
-msgstr "Lyra"
+msgstr "Kazeyumi"
 
 msgid "CHAR_LIGHTNING_01"
-msgstr "Kael"
+msgstr "Raikiba"
 
 msgid "CHAR_LIGHT_01"
-msgstr "Seraphine"
+msgstr "Hikarine"
 
 msgid "CHAR_DARK_01"
-msgstr "Noctis"
+msgstr "Yomigari"
 
 msgid "CHAR_EARTH_01"
-msgstr "Terra"
+msgstr "Iwagane"
 
 msgid "DUMMY_HP"
 msgstr "HP"
@@ -514,7 +514,7 @@ msgid "GACHA_TIER_MATERIALS"
 msgstr "Materials, gold"
 
 msgid "BANNER_CHAR_KAEL"
-msgstr "Recruitment: Kael"
+msgstr "Recruitment: Raikiba"
 
 msgid "CAPTAIN_LEVEL"
 msgstr "Player level %d"
@@ -865,7 +865,7 @@ msgid "SKILL_LIGHTNING_01_ULTIMATE"
 msgstr "Thunder God's Verdict"
 
 msgid "SKILL_LIGHTNING_01_PASSIVE_DESC"
-msgstr "A target with full Lightning Marks erupts in a Lightning Burst: %s ATK (once per %ss per target). After each Burst, Kael gains +%s attack speed for %ss."
+msgstr "A target with full Lightning Marks erupts in a Lightning Burst: %s ATK (once per %ss per target). After each Burst, Raikiba gains +%s attack speed for %ss."
 
 msgid "SKILL_WIND_01_NORMAL"
 msgstr "Gale Arrows"
@@ -923,10 +923,10 @@ msgid "EQUIP_EQ_STIGMA_BOT_SANDAL"
 msgstr "Straw Sandal Sigil (Bottom)"
 
 msgid "BANNER_CHAR_AETHER"
-msgstr "Recruitment: Aether"
+msgstr "Recruitment: Enkiba"
 
 msgid "BANNER_EQUIP_AETHER"
-msgstr "Supply: Aether's weapon & stigmata"
+msgstr "Supply: Enkiba's weapon & stigmata"
 
 msgid "BANNER_STARTER"
 msgstr "First recruitment (free)"
@@ -945,3 +945,65 @@ msgstr "3★ stigma"
 
 msgid "REASON_STARTER_USED"
 msgstr "Free pull already used"
+
+# Tên giáp, bộ lọc (owner 2026-11-13)
+msgid "SUIT_FIRE_01"
+msgstr "Raging Inferno"
+
+msgid "SUIT_WIND_01"
+msgstr "Wings of the Wind"
+
+msgid "SUIT_LIGHTNING_01"
+msgstr "Fang of the Thunder God"
+
+msgid "SUIT_LIGHT_01"
+msgstr "Celestial Light"
+
+msgid "SUIT_DARK_01"
+msgstr "Scythe of Darkness"
+
+msgid "SUIT_EARTH_01"
+msgstr "Divine Blade of Stone"
+
+msgid "BANNER_CHAR_TERRA"
+msgstr "Recruitment: Iwagane — Divine Blade of Stone"
+
+msgid "BANNER_EQUIP_TERRA"
+msgstr "Supply: Iwagane's weapon & stigmata"
+
+msgid "CHAR_UI_FILTER_TITLE"
+msgstr "Filter characters"
+
+msgid "CHAR_UI_FILTER_RANK"
+msgstr "Battlesuit rank"
+
+msgid "CHAR_UI_FILTER_ELEMENT"
+msgstr "Element"
+
+msgid "CHAR_UI_FILTER_PERSON"
+msgstr "Character"
+
+msgid "CHAR_UI_FILTER_CLEAR"
+msgstr "Clear"
+
+msgid "CHAR_UI_FILTER_COUNT"
+msgstr "Showing %d/%d battlesuits"
+
+msgid "CHAR_UI_FILTER_EMPTY"
+msgstr "No battlesuit matches the filter."
+
+msgid "PARTY_SAME_PERSON"
+msgstr "Two battlesuits of the same character can't deploy together."
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_GREATSWORD_MAGMA"
+msgstr "Magma Greatsword"
+
+msgid "EQUIP_EQ_STIGMA_TOP_BEDROCK"
+msgstr "Bedrock Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_BEDROCK"
+msgstr "Bedrock Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_BEDROCK"
+msgstr "Bedrock Sigil (Bottom)"

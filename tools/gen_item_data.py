@@ -47,7 +47,7 @@ for iid, kind, value, rarity, vi, en in ITEMS:
 # Trang bị (owner, 2026-11-12): mỗi nhân vật mang 1 vũ khí + 3 vết thánh theo thứ tự Đầu / Thân / Chân.
 # Độ hiếm 3★ / 4★ (khớp tiếp tế vũ khí). `cost` là hệ số giá cường hóa giữ từ thiết kế trước (200 vàng, 100 điểm × cost).
 WEAPON_TYPE = {"eq_weapon_iron": "sword", "eq_weapon_flame": "sword", "eq_weapon_bow_gale": "bow",
-               "eq_weapon_blades_spark": "dual_blades"}
+               "eq_weapon_blades_spark": "dual_blades", "eq_weapon_greatsword_magma": "greatsword"}
 EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi, en
     ("eq_weapon_iron", "weapon", 3, 1, 80.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Lõi vũ khí sắt", "Iron Weapon Core"),
     ("eq_weapon_flame", "weapon", 4, 3, 160.0, 0.0, 0.0, 0.05, 0.0, 0.0, "Lõi vũ khí hỏa tinh", "Flame Weapon Core"),
@@ -62,6 +62,11 @@ EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi,
     ("eq_stigma_mid_blaze", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Viêm Hoàng (Thân)", "Blaze Sovereign Sigil (Middle)"),
     ("eq_stigma_bot_blaze", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Viêm Hoàng (Chân)", "Blaze Sovereign Sigil (Bottom)"),
     ("eq_stigma_bot_sandal", "stigma_bot", 3, 1, 0.0, 500.0, 30.0, 0.0, 0.0, 0.0, "Ấn Dép Cỏ (Chân)", "Straw Sandal Sigil (Bottom)"),
+    # Đồ 4★ đề cử cho Iwagane (banner đầu tiên, owner 2026-11-13). Số tạm.
+    ("eq_weapon_greatsword_magma", "weapon", 4, 3, 170.0, 0.0, 0.0, 0.0, 0.10, 0.0, "Đại kiếm Dung Nham", "Magma Greatsword"),
+    ("eq_stigma_top_bedrock", "stigma_top", 4, 3, 30.0, 800.0, 0.0, 0.0, 0.0, 0.0, "Ấn Nham Thạch (Đầu)", "Bedrock Sigil (Top)"),
+    ("eq_stigma_mid_bedrock", "stigma_mid", 4, 3, 0.0, 1600.0, 80.0, 0.0, 0.0, 0.0, "Ấn Nham Thạch (Thân)", "Bedrock Sigil (Middle)"),
+    ("eq_stigma_bot_bedrock", "stigma_bot", 4, 3, 40.0, 0.0, 60.0, 0.0, 0.0, 0.05, "Ấn Nham Thạch (Chân)", "Bedrock Sigil (Bottom)"),
 ]
 for eid, slot, rarity, cost, atk, hp, df, cr, cd, cdr, vi, en in EQUIP:
     write("data/equipment/%s.tres" % eid, "equipment_def.gd", "EquipmentDef",

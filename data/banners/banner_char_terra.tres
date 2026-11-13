@@ -13,8 +13,8 @@ hard_pity = 100
 soft_pity_start = 80
 soft_pity_step = 0.1
 soft_pity_mode = "flat"
-pool = PackedStringArray("char:char_fire_01")
-featured = PackedStringArray("char:char_fire_01")
+pool = PackedStringArray("char:char_earth_01")
+featured = PackedStringArray("char:char_earth_01")
 featured_rate = 1.0
 guarantee_after_miss = false
 duplicate_fragments = 25
@@ -69,8 +69,8 @@ duplicate_fragments = 0
 
 [resource]
 script = ExtResource("1")
-id = "banner_char_aether"
-name_key = "BANNER_CHAR_AETHER"
+id = "banner_char_terra"
+name_key = "BANNER_CHAR_TERRA"
 tiers = Array[ExtResource("2")]([SubResource("t_s"), SubResource("t_a"), SubResource("t_b"), SubResource("t_m")])
 cost_currency = "gems"
 cost_single = 280
@@ -80,4 +80,4 @@ pity_group = "char"
 multi_guarantee_tiers = PackedStringArray("S", "A")
 multi_guarantee_pick = PackedStringArray("A")
 starter_free_multi = false
-metadata/source = "Owner 2026-11-12/13: S 1.5%, A 16.3%, B 10.874%, nguyên liệu phần còn lại; pity cứng S 100, từ lượt 80 +10%; 10 lượt chắc chắn A; giá 280 / 2520. Đề cử char_fire_01 (Claude chọn)."
+metadata/source = "Owner 2026-11-12/13: S 1.5%, A 16.3%, B 10.874%, nguyên liệu phần còn lại; pity cứng S 100, từ lượt 80 +10%; 10 lượt chắc chắn A; giá 280 / 2520. Đề cử char_earth_01."

@@ -69,7 +69,7 @@ func test_home_summary() -> void:
 	_save.data["progress"]["stages"]["stage_01"] = {"cleared": true, "best_time_sec": 190.0}
 	var p := _add(HubHomePanel.new()) as HubHomePanel
 	var t := "\n".join(p.summary_lines())
-	assert_bool(t.contains("777") and t.contains("Aether Lv.1") and t.contains(tr("HOME_STAGES_CLEARED") % 1)).is_true()
+	assert_bool(t.contains("777") and t.contains("Enkiba Lv.1") and t.contains(tr("HOME_STAGES_CLEARED") % 1)).is_true()
 
 
 # ---------- Chiến đấu ----------
@@ -154,7 +154,7 @@ func test_recruit_rates_come_from_config_and_pull_works() -> void:
 	p.service.rng = RandomSource.new(42)
 	var lines := "\n".join(p.rate_lines(p.banners[0]))
 	assert_bool(lines.contains("5★  25.000%") and lines.contains("3★  75.000%")).is_true()   # đúng số trong config
-	assert_bool(lines.contains("Noctis")).is_true()
+	assert_bool(lines.contains("Yomigari")).is_true()
 	assert_bool(p.pull(1)).is_false()                                 # chưa có ngọc
 	assert_str(p.last_reason).is_equal(GachaService.REASON_NOT_ENOUGH)
 	assert_bool(_texts(p).contains(tr("REASON_NOT_ENOUGH_CURRENCY"))).is_true()

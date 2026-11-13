@@ -153,5 +153,8 @@
 	},
 	"picker": {
 		"rect": [460, 140, 1000, 800], "anchor": "center", "font": 30, "row_height": 96
+	},
+	"filter": {
+		"rect": [360, 160, 1200, 760], "anchor": "center", "font": 28, "button_height": 64
 	}
 }

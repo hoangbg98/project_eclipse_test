@@ -120,7 +120,7 @@ func test_overview_art_uses_portrait_or_placeholder() -> void:
 	assert_bool(art.is_placeholder()).is_equal(s.portrait(A) == null)
 	_save.data["characters"]["char_lightning_01"] = SaveSchema.default_character()
 	s.select("char_lightning_01")
-	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()   # Kael chưa có ảnh
+	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()   # Raikiba chưa có ảnh
 
 
 func test_selected_from_game_config() -> void:
@@ -211,7 +211,7 @@ func test_weapon_picker_only_lists_matching_type_and_equips() -> void:
 	assert_bool(_texts(s).contains(tr("CHAR_UI_EMPTY"))).is_true()
 	var c := s.candidates("weapon")
 	assert_bool(w1 in c and w2 in c).is_true()
-	assert_bool(bow in c).is_false()                                   # Aether dùng kiếm
+	assert_bool(bow in c).is_false()                                   # Enkiba dùng kiếm
 	(_node(s, "ChangeWeaponButton") as Button).pressed.emit()
 	(_node(s, "Equip_%s" % w2) as Button).pressed.emit()
 	assert_str(inv.equipped_uid(A, "weapon")).is_equal(w2)
@@ -315,6 +315,41 @@ func test_glossary_lists_statuses() -> void:
 	var lines := SkillText.glossary_lines(StatusLibrary.load_dir())
 	assert_int(lines.size()).is_greater(5)
 	assert_bool("\n".join(lines).contains(tr("STATUS_BURN"))).is_true()
+
+
+func test_title_shows_person_and_suit_name() -> void:
+	var s := _screen()
+	var t := _texts(s)
+	assert_bool(t.contains("Enkiba") and t.contains(tr("SUIT_FIRE_01"))).is_true()
+	assert_str(s.suit_name("char_earth_01")).is_equal(tr("SUIT_EARTH_01"))
+
+
+func test_filter_by_rank_element_person() -> void:
+	_save.data["characters"]["char_lightning_01"] = SaveSchema.default_character()
+	_save.data["characters"][L] = SaveSchema.default_character()
+	_save.data["characters"]["char_earth_01"] = SaveSchema.default_character()
+	var s := _screen()
+	assert_int(s.filtered_ids().size()).is_equal(4)
+	(_node(s, "FilterButton") as Button).pressed.emit()
+	assert_bool(s.filter_open).is_true()
+	assert_object(_node(s, "Filter_rank_S")).is_not_null()
+	(_node(s, "Filter_rank_S") as Button).pressed.emit()                  # S = Enkiba, Iwagane
+	assert_array(Array(s.filtered_ids())).contains_exactly_in_any_order([A, "char_earth_01"])
+	(_node(s, "Filter_element_earth") as Button).pressed.emit()           # và nguyên tố Địa
+	assert_array(Array(s.filtered_ids())).is_equal(["char_earth_01"])
+	assert_str((_node(s, "FilterCount") as Label).text).is_equal(tr("CHAR_UI_FILTER_COUNT") % [1, 4])
+	(_node(s, "Filter_element_earth") as Button).pressed.emit()           # bấm lại thì bỏ
+	(_node(s, "Filter_rank_S") as Button).pressed.emit()
+	s.toggle_filter("person", "kazeyumi")
+	assert_array(Array(s.filtered_ids())).is_equal([L])
+	s.toggle_filter("rank", "A")                                          # không ai khớp
+	assert_bool(s.intercept_back()).is_true()                             # đóng bảng lọc
+	assert_bool(s.filter_open).is_false()
+	assert_object(_node(s, "FilterEmpty")).is_not_null()
+	assert_object(_node(s, "Roster_%s" % L)).is_null()
+	s.clear_filter()
+	assert_bool(s.is_filtered()).is_false()
+	assert_object(_node(s, "Roster_%s" % L)).is_not_null()
 
 
 func test_every_screen_builds_at_other_sizes() -> void:
