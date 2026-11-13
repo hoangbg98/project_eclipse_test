@@ -941,3 +941,14 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** Đưa vào game 6 frame; GdUnit4 446/446, 5 smoke checks đều đạt, tổng mã thoát 0. Bản idle cũ được chuyển sang `_replaced/` thay vì xóa.
 - **Quyết định Codex chọn:** dùng một dải sáu pose duy nhất, giữ kiếm rút trên tay ở cả sáu frame; metadata và giấy phép ghi model là "not exposed by the imagegen tool" vì công cụ không cung cấp tên model.
 - **Hạn chế đã biết:** owner duyệt bản preview, chưa xác nhận trực tiếp trong Godot; tên model tạo ảnh không được công cụ imagegen expose.
+
+
+## 2026-11-13 — Art: Enkiba run frames (AI)
+- **Milestone / task:** art pipeline — đưa animation `run` đã được owner duyệt cho `char_fire_01` vào game.
+- **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt run" sau bước preview; giữ 8 frame, 12 fps, lặp.
+- **File tạo/sửa:** `assets/characters/char_fire_01/frames/run/char_fire_01_run_000..007.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (run: 8 frame, 12 fps, lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật kỳ vọng idle + run đã giao.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 run`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
+- **Kết quả thật:** `approve_frames.py` duyệt và chép 8 frame; GdUnit4 438 test, 0 lỗi / 0 thất bại; 5 smoke check đạt; tổng mã thoát 0.
+- **Quyết định Codex chọn:** cập nhật test tài nguyên để kiểm tra cả idle (6 frame) và run (8 frame) là animation đã giao, các animation còn lại tiếp tục placeholder.
+- **Hạn chế đã biết:** model imagegen không được expose; frame 003 và 007 là pose trên không có kiếm sát chân/ủng (đã nêu ở preview, owner vẫn duyệt).

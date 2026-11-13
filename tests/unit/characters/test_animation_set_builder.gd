@@ -71,17 +71,18 @@ func test_undelivered_animations_use_placeholder() -> void:
 	var result := Builder.build_for_character("char_fire_01")
 	var placeholder: Texture2D = load(Builder.PLACEHOLDER_PATH)
 	assert_object(placeholder).is_not_null()
-	# Enkiba: idle đã giao (owner 2026-11-13); mọi animation khác vẫn dùng 1 frame placeholder.
+	# Enkiba: idle và run đã được owner duyệt; các animation còn lại dùng placeholder.
 	var delivered := 0
 	for n: String in result.manifest["animations"]:
 		if int(result.manifest["animations"][n]["frames"]) > 0:
 			delivered += 1
-	assert_int(delivered).is_equal(1)
-	assert_int(result.placeholder_animations.size()).is_equal(result.manifest["animations"].size() - 1)
+	assert_int(delivered).is_equal(2)
+	assert_int(result.placeholder_animations.size()).is_equal(result.manifest["animations"].size() - 2)
 	assert_bool(result.placeholder_animations.has("idle")).is_false()
+	assert_bool(result.placeholder_animations.has("run")).is_false()
 	assert_int(result.sprite_frames.get_frame_count(&"idle")).is_equal(6)
-	assert_int(result.sprite_frames.get_frame_count(&"run")).is_equal(1)
-	assert_object(result.sprite_frames.get_frame_texture(&"run", 0)).is_same(placeholder)
+	assert_int(result.sprite_frames.get_frame_count(&"run")).is_equal(8)
+	assert_object(result.sprite_frames.get_frame_texture(&"run", 0)).is_not_same(placeholder)
 
 
 func test_sprite_offset_puts_feet_at_origin() -> void:
