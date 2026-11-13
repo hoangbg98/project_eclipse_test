@@ -56,8 +56,7 @@
 			"refs": [],
 			"motion_vi": "Đứng thủ thế thả lỏng, kiếm đã rút cầm thấp ở tay gần camera, vai nhấp nhô theo nhịp thở, tóc và vạt áo đung đưa nhẹ. Lặp liền: frame cuối nối frame đầu.",
 			"prompt_en": "Idle breathing loop: relaxed but ready fighting stance, sword held low, chest and shoulders rise and fall slightly, hair and jacket hem sway gently (secondary motion). The last frame flows seamlessly back into the first. The near hand holds the drawn sword low, blade angled down and slightly forward, tip clear of the ground.",
-			"sword": "drawn",
-			"redo_reason": "idle đã duyệt (6 frame, owner cung cấp) có kiếm đeo sau lưng, trái quy tắc \"Enkiba luôn rút kiếm\" (2026-11-13). Làm lại với kiếm cầm tay; khi owner duyệt bản mới, chạy approve_frames.py với --replace."
+			"weapon_state": "drawn"
 		},
 		"run": {
 			"target_frames": 8,
@@ -71,9 +70,9 @@
 			],
 			"motion_vi": "Chạy: thân nghiêng về trước, kiếm kéo phía sau, chân luân phiên rõ (chạm, nhún, lướt qua, bật), có khoảnh khắc hai chân rời đất, tóc và áo bay ra sau. Lặp liền.",
 			"prompt_en": "Run cycle loop: torso leaning forward, sword trailing behind, clear contact / down / passing / up poses, one airborne moment per stride, hair and jacket blown backward. The last frame flows into the first. The near hand holds the drawn sword, blade angled back along the leg, tip never touching the ground.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 0.97
+			"ref_ratio": 0.97,
+			"weapon_state": "drawn"
 		},
 		"jump_up": {
 			"target_frames": 3,
@@ -87,9 +86,9 @@
 			],
 			"motion_vi": "Nhảy lên: khuỵu lấy đà, bật khỏi đất, bay lên co gối. Frame 1 chân chạm đất, các frame sau cao dần.",
 			"prompt_en": "Jump take-off: crouch for anticipation, push off the ground, rising with knees tucked. Frame 1 feet on the ground, then each frame higher. The sword stays in the near hand, blade trailing below.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 0.8
+			"ref_ratio": 0.8,
+			"weapon_state": "drawn"
 		},
 		"fall": {
 			"target_frames": 3,
@@ -103,9 +102,9 @@
 			],
 			"motion_vi": "Rơi: người hơi ưỡn, tóc và áo hất lên trên, chân duỗi xuống tìm đất.",
 			"prompt_en": "Falling: body slightly arched, hair and jacket blown upward, legs reaching down for the ground. All frames airborne at the same height. The sword stays in the near hand, blade trailing upward with the fall.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"land": {
 			"target_frames": 3,
@@ -114,9 +113,9 @@
 			"refs": [],
 			"motion_vi": "Tiếp đất: chạm đất, khuỵu gối đỡ lực, nảy nhẹ rồi về thủ thế.",
 			"prompt_en": "Landing: feet touch down, knees bend to absorb the impact, small bounce, recover to the idle stance. The sword stays in the near hand, lowered beside the leg as the body absorbs the landing.",
-			"sword": "drawn",
 			"ref_frame": -1,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"attack_1": {
 			"skill": "normal_1",
@@ -125,9 +124,9 @@
 			"refs": [],
 			"motion_vi": "Đòn 1: chém ngang từ phải sang trái — lấy đà, vung, kiếm vượt qua, thu về.",
 			"prompt_en": "Combo hit 1: horizontal slash from right to left: wind-up, fast swing, follow-through, recover to stance.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"attack_2": {
 			"skill": "normal_2",
@@ -136,9 +135,9 @@
 			"refs": [],
 			"motion_vi": "Đòn 2: hất ngược từ dưới lên, thân nâng theo đường kiếm.",
 			"prompt_en": "Combo hit 2: rising upward slash from low to high, body lifting with the swing, then recover.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"attack_3": {
 			"skill": "normal_3",
@@ -147,9 +146,9 @@
 			"refs": [],
 			"motion_vi": "Đòn 3: xoay người rồi đâm thẳng kiếm về trước.",
 			"prompt_en": "Combo hit 3: turn the body and thrust the sword straight forward, then recover.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"attack_4": {
 			"skill": "normal_4",
@@ -158,9 +157,9 @@
 			"refs": [],
 			"motion_vi": "Đòn 4 (kết combo): nhảy nhẹ, bổ dọc kiếm xuống đất (sóng lửa trên mặt đất là VFX riêng, không vẽ).",
 			"prompt_en": "Combo finisher: small hop, heavy vertical overhead slash down into the ground, hold the impact pose briefly, recover.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"dodge": {
 			"skill": "dodge",
@@ -174,9 +173,9 @@
 			],
 			"motion_vi": "Lướt né: nghiêng người về trước, lao vút sát đất, tóc và áo bay ra sau, trượt chân dừng lại.",
 			"prompt_en": "Dash dodge: lean forward, burst forward low to the ground, hair and coat streaming back, skid to a stop. The sword stays in the near hand, blade trailing behind the body.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 0.95
+			"ref_ratio": 0.95,
+			"weapon_state": "drawn"
 		},
 		"hold_charge": {
 			"target_frames": 4,
@@ -191,9 +190,9 @@
 			],
 			"motion_vi": "Tụ lực (lặp): hạ thấp người, kiếm kéo ra sau, mặt hét. Vòng lửa quanh chân là VFX riêng.",
 			"prompt_en": "Charging loop: low crouch, sword pulled back behind the body, shouting face (open-mouth face reference), slight trembling. Loops seamlessly.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 0.75
+			"ref_ratio": 0.75,
+			"weapon_state": "drawn"
 		},
 		"hold_release": {
 			"skill": "hold_2",
@@ -202,9 +201,9 @@
 			"refs": [],
 			"motion_vi": "Nhả tụ lực: bước dài, chém hất từ dưới lên thật mạnh, thu về.",
 			"prompt_en": "Charged release: long step forward with a big rising slash from low to high, then recover.",
-			"sword": "drawn",
 			"ref_frame": -1,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"air_1": {
 			"skill": "air_1",
@@ -213,9 +212,9 @@
 			"refs": [],
 			"motion_vi": "Trên không đòn 1: chém ngang khi lộn nhẹ giữa không trung.",
 			"prompt_en": "Mid-air slash 1: horizontal slash while doing a light flip in the air.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"air_2": {
 			"skill": "air_2",
@@ -224,9 +223,9 @@
 			"refs": [],
 			"motion_vi": "Trên không đòn 2: chém chéo xuống từ trên cao.",
 			"prompt_en": "Mid-air slash 2: diagonal downward slash from high above.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"landing_attack": {
 			"skill": "landing",
@@ -240,9 +239,9 @@
 			],
 			"motion_vi": "Đòn tiếp đất: 2 frame lao thẳng xuống, mũi kiếm hướng xuống; 4 frame đâm kiếm xuống đất và đứng dậy. Vòng lửa là VFX riêng.",
 			"prompt_en": "Plunge attack: 2 frames diving straight down with the sword pointing down, then 4 frames stabbing the sword into the ground on impact and rising.",
-			"sword": "drawn",
 			"ref_frame": -1,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"skill_1": {
 			"skill": "skill",
@@ -251,9 +250,9 @@
 			"refs": [],
 			"motion_vi": "Liệt Diễm Luân: xoay người một vòng, kiếm quét vòng rộng quanh mình, nhịp cuối cắm kiếm ngang.",
 			"prompt_en": "Spinning skill: full 360-degree body spin with the sword sweeping a wide circle around the body, final frames plant the sword horizontally.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"skill_2": {
 			"skill": "weapon",
@@ -262,9 +261,9 @@
 			"refs": [],
 			"motion_vi": "Thiên Hỏa Nhất Kích: gồng người, kiếm ngang, lao xuyên về trước, dừng cuối đường, hạ kiếm xuống bên người (vẫn cầm tay; CHARACTER_SKILLS ghi \"tra kiếm nửa chừng\" nhưng owner đã quyết kiếm luôn rút).",
 			"prompt_en": "Weapon skill: braced stance with the sword held level, piercing dash forward, stop at the end and lower the sword to the side while still gripping it (never sheathed).",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"ultimate": {
 			"skill": "ultimate",
@@ -278,9 +277,9 @@
 			],
 			"motion_vi": "Viêm Hoàng Tuyệt Trảm: nhảy vọt, giương kiếm trên đầu, lao xuống chém 5 nhát liên hoàn, tiếp đất mạnh. Phượng hoàng lửa, cut-in là VFX / ảnh riêng.",
 			"prompt_en": "Ultimate: leap high raising the sword overhead, dive down for five rapid slashes, end in a powerful landing pose.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"switch_in": {
 			"skill": "switch_in",
@@ -289,9 +288,9 @@
 			"refs": [],
 			"motion_vi": "Vào sân: lao vào từ phía sau, nhảy lên chém chéo xuống, cắm kiếm xuống đất, đứng dậy sẵn sàng.",
 			"prompt_en": "Entrance attack: dash in from behind, leap and slash diagonally downward, plant the sword into the ground, stand up ready.",
-			"sword": "drawn",
 			"ref_frame": -1,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"switch_out": {
 			"target_frames": 3,
@@ -300,9 +299,9 @@
 			"refs": [],
 			"motion_vi": "Rời sân: quay người, lùi về sau, kiếm vẫn cầm tay (hiệu ứng tan biến làm bằng VFX, không vẽ).",
 			"prompt_en": "Exit: turn away and step back out of the fight (no dissolve effect drawn). The sword stays in the near hand.",
-			"sword": "drawn",
 			"ref_frame": 0,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"hurt": {
 			"target_frames": 4,
@@ -316,9 +315,9 @@
 			],
 			"motion_vi": "Bị đánh nhẹ: giật người ra sau, mặt nhăn đau, lấy lại thế.",
 			"prompt_en": "Hit reaction: flinch backward, eyes shut in pain (pained face reference), recover to stance. The sword stays gripped in the near hand.",
-			"sword": "drawn",
 			"ref_frame": -1,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"knockback": {
 			"target_frames": 3,
@@ -332,9 +331,9 @@
 			],
 			"motion_vi": "Bị hất lùi: mất thăng bằng bật ra sau, trượt, đứng vững lại.",
 			"prompt_en": "Knocked back: thrown backward off balance, sliding, regaining footing. The sword stays gripped in the near hand.",
-			"sword": "drawn",
 			"ref_frame": -1,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		},
 		"down": {
 			"target_frames": 6,
@@ -348,9 +347,37 @@
 			],
 			"motion_vi": "Bị hạ gục: ngã ngửa xuống đất, nằm, chống tay đứng dậy.",
 			"prompt_en": "Knocked down: fall backward to the ground, lie down, push up and get back on the feet. The sword stays gripped in the near hand the whole time (never dropped, never sheathed).",
-			"sword": "drawn",
 			"ref_frame": -1,
-			"ref_ratio": 1.0
+			"ref_ratio": 1.0,
+			"weapon_state": "drawn"
 		}
+	},
+	"default_weapon_state": "drawn",
+	"text": {
+		"weapon_label_vi": "Kiếm",
+		"weapon_word_en": "sword",
+		"impact_en": "sword fully extended at the moment of the hit",
+		"weapon_states": {
+			"drawn": {
+				"vi": "**cầm trong tay** (đã rút sẵn từ frame đầu)",
+				"en": "the sword is DRAWN and held in the hand in front of the body in every pose (it is not on the back); keep its exact flame design."
+			},
+			"sheathed": {
+				"vi": "**đeo sau lưng** như idle đã duyệt",
+				"en": "the sword stays SHEATHED on the back, hilt above the near shoulder, exactly as in the idle reference frames."
+			}
+		},
+		"extra_common_en": [
+			"The older idle reference frames are the ground truth ONLY for the side view, line art, proportions and colors; IGNORE the sword on their back - in your frames the sword is always in the hand."
+		],
+		"vfx_en": "fire trails, slash arcs, sparks, glow, speed lines",
+		"check_parts_vi": "tóc, mặt, áo, giáp vai, găng, ủng, kiếm, màu",
+		"flip_check_vi": "kiếm không nhảy tay",
+		"vfx_vi": "lửa, vệt chém, tia sáng",
+		"vfx_examples_vi": "lửa, vệt kiếm, phượng hoàng, cut-in",
+		"scale_note_vi": "`slice_strip.py --like idle` canh chiều cao theo idle trong assets (idle cũ vẫn đo được ~281 px; làm lại idle trước để có bản chuẩn kiếm cầm tay).",
+		"readme_notes": [
+			"Enkiba **luôn rút kiếm** (kiếm cầm tay ở mọi frame, owner 2026-11-13): xem `00_PHAN_TICH.md`."
+		]
 	}
 }

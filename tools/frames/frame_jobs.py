@@ -99,12 +99,28 @@ def plan(character_id, anim, base=None):
                 active.add(i)
         out.update(frames=frames, fps=best, duration_ms=total, active_frames=sorted(active),
                    timing="%d/%d/%d ms" % (sk["startup_ms"], sk["active_ms"], sk["recovery_ms"]))
+    elif job.get("timing_ms"):
+        # Chưa có SkillDef trong data/: lấy khởi động / hiệu lực / hồi phục (ms) ghi trong phiếu, theo CHARACTER_SKILLS.md.
+        s, a, r = [float(x) for x in job["timing_ms"]]
+        total = s + a + r
+        best = min(FPS_CHOICES, key=lambda f: (abs(total * f / 1000.0 - target), -f))
+        frames = max(1, int(round(total * best / 1000.0)))
+        hits = [tuple(h) for h in job.get("hits_ms", [[s, a]])]
+        active = set()
+        for at, dur in hits:
+            first = int(math.floor(at * best / 1000.0))
+            last = int(math.ceil((at + dur) * best / 1000.0)) - 1
+            for i in range(first, min(last, frames - 1) + 1):
+                active.add(i)
+        out.update(frames=frames, fps=best, duration_ms=total, active_frames=sorted(active),
+                   timing="%d/%d/%d ms (theo CHARACTER_SKILLS.md, chưa có SkillDef)" % (s, a, r))
     else:
         fps = int(job.get("fps", 12))
         out.update(frames=target, fps=fps, duration_ms=round(target * 1000.0 / fps), timing=None)
     out["calls"] = calls(out["frames"])
     out["phases"] = phases(out["frames"], out["active_frames"])
-    out["sword"] = job.get("sword", "drawn")
+    out["weapon_state"] = job.get("weapon_state", job.get("sword", jobs.get("default_weapon_state", "drawn")))
+    out["sword"] = out["weapon_state"]
     out["ref_frame"] = int(job.get("ref_frame", 0))
     out["ref_ratio"] = float(job.get("ref_ratio", 1.0))
     return out

@@ -1101,3 +1101,22 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 59 vùng tách sạch; vùng 24 (áo + áo choàng bản 2) dính mảnh cẳng tay bên dưới → tách tay thành ô 60. Có gợi ý loại + tên cho cả 60 ô (thêm loại "Hiệu ứng" cho mũi tên gió số 42).
 - **Lỗi tìm thấy và sửa:** ảnh gốc là WebP nền trong suốt; chuyển thẳng sang JPG làm nền thành đen nên cả tờ thành một khối → ghép lên nền trắng trước khi tách.
 - **Hạn chế đã biết:** `tools/sprite_parts/cut_parts.py` đang ghi cứng `char_fire_01` trong manifest (README đã ghi), cần sửa khi cắt Kazeyumi sau khi owner điền xong.
+
+## 2026-11-14 — Kazeyumi: phiếu prompt Codex tạo frame (21 animation)
+
+- **Milestone / task:** art (frame nhân vật) — owner yêu cầu prompt cho Codex tạo chuyển động Kazeyumi (`char_wind_01`) theo mô tả kỹ năng, giống quy trình Enkiba
+- **Trạng thái:** IMPLEMENTED (chờ Codex tạo `idle` và owner duyệt từng animation)
+- **File tạo/sửa:**
+  - `tools/frames/jobs/char_wind_01.json` (phiếu 21 animation), `docs/prompts/codex_frames/char_wind_01/` (00_PHAN_TICH.md + 21 phiếu + README, sinh tự động)
+  - `tools/frames/frame_jobs.py`: thêm `timing_ms` / `hits_ms` cho kỹ năng chưa có SkillDef; `sword` → `weapon_state` (giữ tương thích)
+  - `tools/frames/gen_prompts.py`: mọi chữ riêng của nhân vật (vũ khí, VFX, mục tự kiểm tra, ghi chú README) chuyển vào `text` trong phiếu JSON
+  - `tools/frames/jobs/char_fire_01.json`: chuyển chữ Enkiba vào `text`, bỏ `redo_reason` của idle (Codex đã làm lại, commit 438bc03); phiếu Enkiba sinh lại chỉ khác trạng thái README và phiếu idle
+  - Ảnh tham chiếu cắt từ tờ bộ phận: `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`, `rig_parts/source/refs/char_wind_01_ref_*.png` (13 ảnh: toàn thân, pose 54–59, cung, mũi tên, 4 mặt)
+  - `assets/characters/char_wind_01/frames_manifest.json`: `working_name` Lyra → Kazeyumi
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_wind_01` (21 phiếu), `... char_fire_01` (23 phiếu); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** test TẤT CẢ ĐẠT, mã thoát 0. Số frame tính ra: attack_1/2 5 @ 18 fps, attack_3 8 @ 15, dodge 6 @ 20, hold_release 5 @ 12, air_1 6 @ 18, landing_attack 6 @ 15, skill_1 8 @ 18, skill_2 11 @ 8, switch_in 6 @ 10, ultimate 17 @ 8 (3 lần gọi).
+- **Quyết định Claude chọn:**
+  - Hai trạng thái cung: `ready` (cầm hạ thấp) và `shoot` (giương bắn); không vẽ mũi tên đã bay (game sinh projectile).
+  - Kỹ năng chưa có SkillDef lấy thời gian theo CHARACTER_SKILLS.md: hold_release 100/50/300, air_1 90/90/160, landing_attack 70/80/220 (vùng gió 1 500 ms là VFX), skill_1 150/60/220, skill_2 200/900/300 (6 phát cách 150 ms), ultimate 700/1000/400 (bão 5 s là VFX).
+  - Chiều cao đứng mục tiêu 280 px như Enkiba.
+- **Hạn chế đã biết:** khi thêm SkillDef cho các kỹ năng trên, đổi phiếu sang `skill` rồi sinh lại; màu mắt / viền vàng trong 00_PHAN_TICH là ước lượng bằng mắt.

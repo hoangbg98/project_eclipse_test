@@ -3,8 +3,6 @@
 > Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/char_fire_01.json` và `data/skills/`.
 > Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.
 
-> **CẦN LÀM LẠI:** idle đã duyệt (6 frame, owner cung cấp) có kiếm đeo sau lưng, trái quy tắc "Enkiba luôn rút kiếm" (2026-11-13). Làm lại với kiếm cầm tay; khi owner duyệt bản mới, chạy approve_frames.py với --replace.
-
 ## Thông số (khớp thời gian trong game)
 
 | Mục | Giá trị |
@@ -48,7 +46,7 @@ docs/prompts/codex_frames/char_fire_01/01_idle.md. Giữ đúng ngoại hình mo
 5. Tự soát theo danh sách trong phiếu (mục Tự kiểm tra). Sửa frame sai lệch ngoại hình dựa trên ảnh gốc.
 6. DỪNG: gửi tôi art_review/char_fire_01/idle/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
    KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt idle".
-7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_fire_01 idle --replace, chạy
+7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_fire_01 idle, chạy
    powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1 (mã thoát 0), ghi docs/DEVELOPMENT_LOG.md,
    commit "Art: Enkiba idle frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
 ```
