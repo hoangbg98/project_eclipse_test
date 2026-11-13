@@ -16,7 +16,7 @@
 5. Mở Godot (F5 → Màn thử nghiệm) xem trong game. Muốn thay bản đã duyệt: `approve_frames.py ... --replace`
    (bản cũ chuyển sang `art_review/char_fire_01/_replaced/`, không xóa).
 
-`idle` đã duyệt khóa tỉ lệ: `slice_strip.py --like idle` canh chiều cao theo idle trong assets cho mọi animation sau.
+`slice_strip.py --like idle` canh chiều cao theo idle trong assets (idle cũ vẫn đo được ~281 px; làm lại idle trước để có bản chuẩn kiếm cầm tay).
 Hiệu ứng (lửa, vệt kiếm, phượng hoàng, cut-in) làm riêng ở `assets/vfx/`, không vẽ vào frame nhân vật.
 Thư mục `art_review/` không vào git và không vào game (`.gdignore`).
 
@@ -24,7 +24,7 @@ Thư mục `art_review/` không vào git và không vào game (`.gdignore`).
 
 | # | Animation | Frame | fps | Frame trúng đòn | Trạng thái |
 |---|---|---|---|---|---|
-| 01 | [`idle`](01_idle.md) | 6 | 8 | — | Đã duyệt |
+| 01 | [`idle`](01_idle.md) | 6 | 8 | — | Đã duyệt — **cần làm lại** |
 | 02 | [`run`](02_run.md) | 8 | 12 | — | Chưa làm |
 | 03 | [`attack_1`](03_attack_1.md) | 6 | 18 | 001, 002 | Chưa làm |
 | 04 | [`attack_2`](04_attack_2.md) | 6 | 18 | 001, 002 | Chưa làm |
@@ -50,3 +50,4 @@ Thư mục `art_review/` không vào git và không vào game (`.gdignore`).
 
 Số frame / fps của đòn đánh tính từ thời gian kỹ năng (`data/skills/char_fire_01/`) để hình khớp hitbox.
 Walk, guard, victory, death chưa có trạng thái trong game nên chưa có phiếu.
+Enkiba **luôn rút kiếm** (kiếm cầm tay ở mọi frame, owner 2026-11-13): xem `00_PHAN_TICH.md`.

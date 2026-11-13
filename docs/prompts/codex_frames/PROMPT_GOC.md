@@ -18,7 +18,8 @@
 
 Đã có sẵn ở `<id>/00_PHAN_TICH.md`: tỉ lệ chibi, nét viền, kiểu đổ bóng, bảng màu, tóc, mặt, trang phục, vũ khí và trạng thái
 vũ khí, góc nhìn, lớp (layer) từng bộ phận, pivot. Đọc trước khi tạo ảnh. Nếu ảnh tham chiếu mâu thuẫn nhau (vd kiếm cầm
-tay ở ảnh 3/4 nhưng đeo lưng ở idle), **idle đã duyệt là chuẩn cho nhìn ngang**; báo owner thay vì tự chọn.
+tay ở ảnh 3/4 nhưng đeo lưng ở một frame cũ), **quy tắc ghi trong `00_PHAN_TICH.md` thắng** (Enkiba: kiếm luôn rút, cầm tay);
+frame cũ chỉ dùng khóa nét, màu, tỉ lệ, góc nhìn ngang. Còn mâu thuẫn khác thì báo owner thay vì tự chọn.
 
 ## 2. Bảo toàn ngoại hình (quan trọng nhất)
 
@@ -46,8 +47,8 @@ frame nào thuộc giai đoạn nào (tính từ thời gian kỹ năng).
 
 Giữ độ dày và màu nét viền, kiểu đổ bóng cel shading, vị trí highlight tóc / mắt, bảng màu; không đổi sắc độ giữa các frame,
 không làm mờ, không đổi nét giữa các frame. Không 3D, không realistic, không đổi tỉ lệ chibi. Đặt hai frame bất kỳ cạnh nhau
-vẫn như cùng một họa sĩ vẽ. Ảnh tham chiếu bắt buộc đính kèm mỗi lần tạo ảnh: **idle đã duyệt** (khóa nét + màu + góc nhìn
-ngang), ảnh gốc 3/4, hình kiếm; từ lần gọi thứ 2 trong một animation, đính kèm thêm dải vừa tạo.
+vẫn như cùng một họa sĩ vẽ. Ảnh tham chiếu bắt buộc đính kèm mỗi lần tạo ảnh: **frame đã duyệt** (khóa nét + màu + góc nhìn
+ngang), ảnh gốc 3/4 (cách cầm kiếm), hình kiếm; từ lần gọi thứ 2 trong một animation, đính kèm thêm dải vừa tạo.
 
 ## 5. Xuất file và tích hợp (đã có công cụ, không tự làm tay)
 

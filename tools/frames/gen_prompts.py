@@ -14,7 +14,7 @@ import frame_jobs as F  # noqa: E402
 
 COMMON_EN = """2D side-scrolling action game sprite strip of the SAME character as the reference images: {design}
 Keep the exact design, proportions (chibi, big head, short limbs), colors, dark outline thickness and colour (2-3 px), and 2-3 tone cel shading of the references.
-The approved idle reference frames are the ground truth for the side view, line art and colors.
+The older idle reference frames are the ground truth ONLY for the side view, line art, proportions and colors; IGNORE the sword on their back - in your frames the sword is always in the hand.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and sword; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
 One single horizontal row of exactly {n} poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
@@ -28,7 +28,7 @@ BG_CHROMA = "solid flat magenta #FF00FF everywhere outside the character (used a
 def status(cid, anim):
     m = F.load_manifest(cid)
     if int(m["animations"].get(anim, {}).get("frames", 0)) > 0:
-        return "Đã duyệt"
+        return "Đã duyệt — **cần làm lại**" if F.load_jobs(cid)["animations"][anim].get("redo_reason") else "Đã duyệt"
     d = F.review_dir(cid, anim)
     if os.path.isdir(d) and any(f.endswith(".png") for f in os.listdir(d)):
         return "Chờ owner duyệt"
@@ -43,7 +43,8 @@ def card(cid, jobs, idx, anim):
     calls = p["calls"]
     lines = ["# Phiếu %02d — %s / `%s`" % (idx, jobs["display_name"], anim), "",
              "> Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/%s.json` và `data/skills/`." % cid,
-             "> Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.", "",
+             "> Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.", ""] + (
+             ["> **CẦN LÀM LẠI:** " + job["redo_reason"], ""] if job.get("redo_reason") else []) + [
              "## Thông số (khớp thời gian trong game)", "",
              "| Mục | Giá trị |", "|---|---|",
              "| Thư mục chờ duyệt | `art_review/%s/%s/` |" % (cid, anim),
@@ -83,7 +84,7 @@ def card(cid, jobs, idx, anim):
         "5. Tự soát theo danh sách trong phiếu (mục Tự kiểm tra). Sửa frame sai lệch ngoại hình dựa trên ảnh gốc.",
         "6. DỪNG: gửi tôi art_review/%s/%s/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ." % (cid, anim),
         "   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời \"duyệt %s\"." % anim,
-        "7. Khi tôi duyệt: python -I tools/frames/approve_frames.py %s %s, chạy" % (cid, anim),
+        "7. Khi tôi duyệt: python -I tools/frames/approve_frames.py %s %s%s, chạy" % (cid, anim, " --replace" if job.get("redo_reason") else ""),
         "   powershell -ExecutionPolicy Bypass -File tools\\run_tests.ps1 (mã thoát 0), ghi docs/DEVELOPMENT_LOG.md,",
         "   commit \"Art: %s %s frames (AI)\". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra." % (jobs["display_name"], anim),
         "```", "",
@@ -146,13 +147,14 @@ def main(argv=None):
         "   cập nhật `frames_manifest.json`, ghi `docs/ASSET_LICENSES.md` mục 2.1, chạy test, ghi nhật ký, commit.",
         "5. Mở Godot (F5 → Màn thử nghiệm) xem trong game. Muốn thay bản đã duyệt: `approve_frames.py ... --replace`",
         "   (bản cũ chuyển sang `art_review/%s/_replaced/`, không xóa)." % cid, "",
-        "`idle` đã duyệt khóa tỉ lệ: `slice_strip.py --like idle` canh chiều cao theo idle trong assets cho mọi animation sau.",
+        "`slice_strip.py --like idle` canh chiều cao theo idle trong assets (idle cũ vẫn đo được ~281 px; làm lại idle trước để có bản chuẩn kiếm cầm tay).",
         "Hiệu ứng (lửa, vệt kiếm, phượng hoàng, cut-in) làm riêng ở `assets/vfx/`, không vẽ vào frame nhân vật.",
         "Thư mục `art_review/` không vào git và không vào game (`.gdignore`).", "",
         "## Danh sách animation", "",
         "| # | Animation | Frame | fps | Frame trúng đòn | Trạng thái |", "|---|---|---|---|---|---|"] + rows + [
         "", "Số frame / fps của đòn đánh tính từ thời gian kỹ năng (`data/skills/%s/`) để hình khớp hitbox." % cid,
-        "Walk, guard, victory, death chưa có trạng thái trong game nên chưa có phiếu.", ""]
+        "Walk, guard, victory, death chưa có trạng thái trong game nên chưa có phiếu.",
+        "Enkiba **luôn rút kiếm** (kiếm cầm tay ở mọi frame, owner 2026-11-13): xem `00_PHAN_TICH.md`.", ""]
     with io.open(os.path.join(out, "README.md"), "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(readme))
     print("Đã ghi %d phiếu vào %s" % (len(rows), out))

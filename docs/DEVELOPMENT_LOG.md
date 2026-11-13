@@ -918,3 +918,15 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** GdUnit4 446/446, 5 test khói đạt, mã thoát 0.
 - **Quyết định Claude chọn:** kiếm đeo lưng ở idle, run, nhảy, rơi, tiếp đất, lướt, bị đánh, ngã, rời sân; kiếm cầm tay ở mọi đòn đánh, tụ lực, kỹ năng, tuyệt kỹ, vào sân; kiếm "xuất hiện" ngay ở frame đầu (không vẽ rút kiếm); `skill_2` kết thúc tra kiếm ra sau lưng; pose tham chiếu để canh tỉ lệ chọn theo từng animation (vd khuỵu = 0.8× chiều cao đứng).
 - **Hạn chế đã biết:** chưa biết Codex tạo dải có đúng khoảng trống giữa pose không; kiếm đeo lưng ở idle khác ảnh gốc cầm tay (đã ghi trong 00_PHAN_TICH.md, hỏi owner có muốn làm animation rút / tra kiếm riêng); gói ZIP gửi trước đó là bản cũ (không còn cần vì Codex làm trực tiếp trong dự án).
+
+## 2026-11-13 — Enkiba luôn rút kiếm: sửa toàn bộ phiếu prompt
+
+- **Milestone / task:** art pipeline — owner yêu cầu Enkiba luôn ở trạng thái rút kiếm
+- **Trạng thái:** TESTED (sinh phiếu + test dự án); chưa có animation mới do Codex tạo
+- **Owner quyết định:** kiếm cầm tay ở mọi frame của mọi animation (không đeo lưng, không bao kiếm, không vẽ rút / tra kiếm).
+- **File sửa:** `tools/frames/jobs/char_fire_01.json` (mọi animation `sword: drawn`; thiết kế tiếng Anh ghi "ALWAYS DRAWN, NOTHING on the back"; prompt các animation không đánh nhắc cách cầm kiếm: idle hạ thấp, run lưỡi xuôi ra sau, nhảy / rơi / tiếp đất / lướt / bị đánh / ngã giữ kiếm trong tay; `skill_2` kết thúc hạ kiếm xuống bên người thay vì tra kiếm; `switch_out` cầm kiếm; ảnh tham chiếu đặt ảnh gốc 3/4 và hình kiếm lên đầu, idle cũ chỉ để khóa nét / màu / tỉ lệ và bỏ qua kiếm sau lưng); `docs/prompts/codex_frames/PROMPT_GOC.md` và `char_fire_01/00_PHAN_TICH.md` (mục "Kiếm luôn rút", bỏ "hai trạng thái kiếm"); `tools/frames/gen_prompts.py` (mục `redo_reason`, `--replace` ở bước duyệt, câu tham chiếu idle); 23 phiếu và README sinh lại.
+- **Idle cần làm lại:** idle đã duyệt (6 frame owner cung cấp, commit 72ad85e) có kiếm đeo lưng nên trái quy tắc mới. Giữ nguyên trong game cho tới khi owner duyệt bản mới; phiếu `01_idle.md` và bảng trạng thái ghi "cần làm lại", bước duyệt dùng `approve_frames.py ... --replace` (bản cũ chuyển sang `art_review/char_fire_01/_replaced/`). Hệ số tỉ lệ `--like idle` vẫn đo được từ idle cũ (~281 px).
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_fire_01`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 446/446, 5 test khói đạt, mã thoát 0.
+- **Quyết định Claude chọn:** hạ kiếm xuống bên người ở cuối `skill_2` thay cho "tra kiếm nửa chừng" của CHARACTER_SKILLS (không sửa tài liệu thiết kế); cách cầm lấy từ ảnh gốc (tay gần camera, mũi kiếm hạ xuống trước).
+- **Hạn chế đã biết:** ảnh gốc là 3/4 nên cách cầm kiếm ở góc nhìn ngang do Codex suy ra; kiếm cầm tay che một phần chân / thân ở nhiều pose, cần soát thứ tự lớp khi duyệt; idle trong game tạm thời vẫn là bản kiếm đeo lưng.

@@ -3,6 +3,8 @@
 > Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/char_fire_01.json` và `data/skills/`.
 > Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.
 
+> **CẦN LÀM LẠI:** idle đã duyệt (6 frame, owner cung cấp) có kiếm đeo sau lưng, trái quy tắc "Enkiba luôn rút kiếm" (2026-11-13). Làm lại với kiếm cầm tay; khi owner duyệt bản mới, chạy approve_frames.py với --replace.
+
 ## Thông số (khớp thời gian trong game)
 
 | Mục | Giá trị |
@@ -12,19 +14,19 @@
 | fps / lặp | 8 fps, lặp liền mạch |
 | Thời lượng | 750 ms |
 | Frame trúng đòn | — |
-| Kiếm | **đeo sau lưng** như idle đã duyệt |
+| Kiếm | **cầm trong tay** (đã rút sẵn từ frame đầu) |
 | Đứng đất | có: chân ở y = 336 mọi frame |
 
-**Động tác:** Đứng thủ thế thả lỏng, kiếm cầm thấp, vai nhấp nhô theo nhịp thở, tóc và vạt áo đung đưa nhẹ. Lặp liền: frame cuối nối frame đầu.
+**Động tác:** Đứng thủ thế thả lỏng, kiếm đã rút cầm thấp ở tay gần camera, vai nhấp nhô theo nhịp thở, tóc và vạt áo đung đưa nhẹ. Lặp liền: frame cuối nối frame đầu.
 
 ## Ảnh đính kèm cho Codex
 
 | File | Dùng để |
 |---|---|
-| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000.png` | Idle đã duyệt, nhìn ngang quay phải, kiếm đeo sau vai: KHÓA tỉ lệ, màu, nét viền, kiểu đổ bóng |
-| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_003.png` | Idle đã duyệt, pose khác (tóc, áo đung đưa) |
-| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Ảnh gốc 3/4 của owner: khuôn mặt, kiểu tóc, hình dáng kiếm khi cầm tay |
-| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_44_weapon_kiem_lua.png` | Kiếm lửa (số 44): giữ đúng hình kiếm khi rút ra |
+| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Ảnh gốc của owner: khuôn mặt, tóc, trang phục và CÁCH CẦM KIẾM (kiếm luôn cầm tay, mũi kiếm hạ xuống trước) |
+| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_44_weapon_kiem_lua.png` | Kiếm lửa (số 44): giữ đúng hình kiếm |
+| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000.png` | Idle cũ (nhìn ngang quay phải): CHỈ để khóa nét viền, màu, tỉ lệ chibi, góc nhìn ngang. BỎ QUA thanh kiếm đeo sau lưng — kiếm phải cầm tay |
+| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_003.png` | Idle cũ, pose khác: tóc, áo đung đưa (cũng bỏ qua kiếm sau lưng) |
 
 ## Prompt dán cho Codex
 
@@ -46,7 +48,7 @@ docs/prompts/codex_frames/char_fire_01/01_idle.md. Giữ đúng ngoại hình mo
 5. Tự soát theo danh sách trong phiếu (mục Tự kiểm tra). Sửa frame sai lệch ngoại hình dựa trên ảnh gốc.
 6. DỪNG: gửi tôi art_review/char_fire_01/idle/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
    KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt idle".
-7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_fire_01 idle, chạy
+7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_fire_01 idle --replace, chạy
    powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1 (mã thoát 0), ghi docs/DEVELOPMENT_LOG.md,
    commit "Art: Enkiba idle frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
 ```
@@ -54,17 +56,17 @@ docs/prompts/codex_frames/char_fire_01/01_idle.md. Giữ đúng ngoại hình mo
 ## Prompt ảnh (tiếng Anh, mỗi lần gọi)
 
 ```text
-2D side-scrolling action game sprite strip of the SAME character as the reference images: Enkiba, chibi anime swordsman (about 2.5 heads tall, big head, short limbs): spiky crimson hair with one bright orange streak at the front, amber eyes, serious calm face; black cropped short-sleeved jacket with gold trim and flame motifs, open at the chest over a white shirt; ONE red-and-gold pauldron on the shoulder nearest the viewer; black fingerless gloves with gold marks; dark red trousers; black boots with gold trim and orange soles; a gold flame-shaped belt buckle; a long red-and-orange flame-patterned coat tail hanging behind the hips. Weapon: a flame-patterned red-gold sword with a gold crossguard and an orange gem. When sheathed it is worn diagonally on the back with the hilt above the near shoulder (exactly as in the idle reference frames); when drawn it is held in the hand in front of the body.
+2D side-scrolling action game sprite strip of the SAME character as the reference images: Enkiba, chibi anime swordsman (about 2.5 heads tall, big head, short limbs): spiky crimson hair with one bright orange streak at the front, amber eyes, serious calm face; black cropped short-sleeved jacket with gold trim and flame motifs, open at the chest over a white shirt; ONE red-and-gold pauldron on the shoulder nearest the viewer; black fingerless gloves with gold marks; dark red trousers; black boots with gold trim and orange soles; a gold flame-shaped belt buckle; a long red-and-orange flame-patterned coat tail hanging behind the hips. Weapon: a flame-patterned red-gold sword (gold crossguard, orange gem). The sword is ALWAYS DRAWN: it is held in the hand nearest the viewer in EVERY frame of EVERY animation, exactly as in the original portrait. There is NO scabbard and NOTHING on the back: never draw the sword sheathed or worn on the back.
 Keep the exact design, proportions (chibi, big head, short limbs), colors, dark outline thickness and colour (2-3 px), and 2-3 tone cel shading of the references.
-The approved idle reference frames are the ground truth for the side view, line art and colors.
+The older idle reference frames are the ground truth ONLY for the side view, line art, proportions and colors; IGNORE the sword on their back - in your frames the sword is always in the hand.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and sword; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
 One single horizontal row of exactly 6 poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
 Background: fully transparent. No ground line, no shadow, no text, no numbers, no frame borders.
 No visual effects (no fire trails, slash arcs, sparks, glow, speed lines): character and sword only.
 
-Animation: Idle breathing loop: relaxed but ready fighting stance, sword held low, chest and shoulders rise and fall slightly, hair and jacket hem sway gently (secondary motion). The last frame flows seamlessly back into the first.
-Sword: the sword stays SHEATHED on the back, hilt above the near shoulder, exactly as in the idle reference frames.
+Animation: Idle breathing loop: relaxed but ready fighting stance, sword held low, chest and shoulders rise and fall slightly, hair and jacket hem sway gently (secondary motion). The last frame flows seamlessly back into the first. The near hand holds the drawn sword low, blade angled down and slightly forward, tip clear of the ground.
+Sword: the sword is DRAWN and held in the hand in front of the body in every pose (it is not on the back); keep its exact flame design.
 Looping animation: the last pose must lead smoothly back into the first pose.
 ```
 

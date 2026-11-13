@@ -21,10 +21,10 @@
 
 | File | Dùng để |
 |---|---|
-| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000.png` | Idle đã duyệt, nhìn ngang quay phải, kiếm đeo sau vai: KHÓA tỉ lệ, màu, nét viền, kiểu đổ bóng |
-| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_003.png` | Idle đã duyệt, pose khác (tóc, áo đung đưa) |
-| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Ảnh gốc 3/4 của owner: khuôn mặt, kiểu tóc, hình dáng kiếm khi cầm tay |
-| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_44_weapon_kiem_lua.png` | Kiếm lửa (số 44): giữ đúng hình kiếm khi rút ra |
+| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Ảnh gốc của owner: khuôn mặt, tóc, trang phục và CÁCH CẦM KIẾM (kiếm luôn cầm tay, mũi kiếm hạ xuống trước) |
+| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_44_weapon_kiem_lua.png` | Kiếm lửa (số 44): giữ đúng hình kiếm |
+| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000.png` | Idle cũ (nhìn ngang quay phải): CHỈ để khóa nét viền, màu, tỉ lệ chibi, góc nhìn ngang. BỎ QUA thanh kiếm đeo sau lưng — kiếm phải cầm tay |
+| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_003.png` | Idle cũ, pose khác: tóc, áo đung đưa (cũng bỏ qua kiếm sau lưng) |
 | `assets/characters/char_fire_01/rig_parts/char_fire_01_part_04_face_mat_ha_mieng_het.png` | Mặt hét (số 04) |
 
 ## Giai đoạn từng frame
@@ -82,9 +82,9 @@ docs/prompts/codex_frames/char_fire_01/23_ultimate.md. Giữ đúng ngoại hìn
 ## Prompt ảnh (tiếng Anh, mỗi lần gọi)
 
 ```text
-2D side-scrolling action game sprite strip of the SAME character as the reference images: Enkiba, chibi anime swordsman (about 2.5 heads tall, big head, short limbs): spiky crimson hair with one bright orange streak at the front, amber eyes, serious calm face; black cropped short-sleeved jacket with gold trim and flame motifs, open at the chest over a white shirt; ONE red-and-gold pauldron on the shoulder nearest the viewer; black fingerless gloves with gold marks; dark red trousers; black boots with gold trim and orange soles; a gold flame-shaped belt buckle; a long red-and-orange flame-patterned coat tail hanging behind the hips. Weapon: a flame-patterned red-gold sword with a gold crossguard and an orange gem. When sheathed it is worn diagonally on the back with the hilt above the near shoulder (exactly as in the idle reference frames); when drawn it is held in the hand in front of the body.
+2D side-scrolling action game sprite strip of the SAME character as the reference images: Enkiba, chibi anime swordsman (about 2.5 heads tall, big head, short limbs): spiky crimson hair with one bright orange streak at the front, amber eyes, serious calm face; black cropped short-sleeved jacket with gold trim and flame motifs, open at the chest over a white shirt; ONE red-and-gold pauldron on the shoulder nearest the viewer; black fingerless gloves with gold marks; dark red trousers; black boots with gold trim and orange soles; a gold flame-shaped belt buckle; a long red-and-orange flame-patterned coat tail hanging behind the hips. Weapon: a flame-patterned red-gold sword (gold crossguard, orange gem). The sword is ALWAYS DRAWN: it is held in the hand nearest the viewer in EVERY frame of EVERY animation, exactly as in the original portrait. There is NO scabbard and NOTHING on the back: never draw the sword sheathed or worn on the back.
 Keep the exact design, proportions (chibi, big head, short limbs), colors, dark outline thickness and colour (2-3 px), and 2-3 tone cel shading of the references.
-The approved idle reference frames are the ground truth for the side view, line art and colors.
+The older idle reference frames are the ground truth ONLY for the side view, line art, proportions and colors; IGNORE the sword on their back - in your frames the sword is always in the hand.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and sword; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
 One single horizontal row of exactly {n} poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
