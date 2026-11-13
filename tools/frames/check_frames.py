@@ -80,6 +80,11 @@ def check(character_id, anim, approved=False, base=None):
         heights.append(info["height"])
     if heights and max(heights) > min(heights) * 1.45 and p["grounded"] and anim in ("idle", "run"):
         errors.append("chiều cao giữa các frame lệch %d–%d px: tỉ lệ không đều" % (min(heights), max(heights)))
+    # So với nhân vật đứng trong idle: cùng tỉ lệ thì pose cao nhất xấp xỉ chiều cao idle (hoặc hơn khi nhảy / vung kiếm).
+    if heights and anim != "idle":
+        ih = F.idle_height(character_id, base)
+        if ih and not (0.55 * ih <= max(heights) <= 1.6 * ih):
+            warnings.append("pose cao nhất %d px so với idle %.0f px: kiểm tra lại tỉ lệ (dùng --like idle)" % (max(heights), ih))
     return p, d, errors, warnings, frames
 
 

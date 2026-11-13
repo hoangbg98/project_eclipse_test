@@ -12,6 +12,7 @@
 | fps / lặp | 18 fps, không lặp |
 | Thời lượng | 710 ms — khởi động / hiệu lực / hồi phục 150/200/360 ms |
 | Frame trúng đòn | 002, 003, 004, 005, 006 |
+| Kiếm | **cầm trong tay** (đã rút sẵn từ frame đầu) |
 | Đứng đất | có: chân ở y = 336 mọi frame |
 
 **Động tác:** Thiên Hỏa Nhất Kích: gồng người, kiếm ngang, lao xuyên về trước, dừng cuối đường, tra kiếm nửa chừng.
@@ -20,23 +21,42 @@
 
 | File | Dùng để |
 |---|---|
-| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Khóa thiết kế: tỉ lệ chibi, màu, trang phục, tay cầm kiếm |
-| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_16_pose_anh_dung_tong_the_tham_chieu.png` | Ảnh đứng tổng thể (bảng bộ phận số 16) |
-| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_44_weapon_kiem_lua.png` | Kiếm lửa (số 44): giữ đúng hình kiếm |
-| Frame `idle` đã duyệt (nếu có): `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000.png` | Khóa tỉ lệ và màu cho các animation sau |
+| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000.png` | Idle đã duyệt, nhìn ngang quay phải, kiếm đeo sau vai: KHÓA tỉ lệ, màu, nét viền, kiểu đổ bóng |
+| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_003.png` | Idle đã duyệt, pose khác (tóc, áo đung đưa) |
+| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Ảnh gốc 3/4 của owner: khuôn mặt, kiểu tóc, hình dáng kiếm khi cầm tay |
+| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_44_weapon_kiem_lua.png` | Kiếm lửa (số 44): giữ đúng hình kiếm khi rút ra |
+
+## Giai đoạn từng frame
+
+| Frame | Giai đoạn |
+|---|---|
+| 000 | Khởi động (lấy đà) |
+| 001 | Khởi động (lấy đà) |
+| 002 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
+| 003 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
+| 004 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
+| 005 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
+| 006 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
+| 007 | Hồi phục (thu về) |
+| 008 | Hồi phục (thu về) |
+| 009 | Hồi phục (thu về) |
+| 010 | Hồi phục (thu về) |
+| 011 | Hồi phục (thu về) |
+| 012 | Hồi phục (thu về) |
 
 ## Prompt dán cho Codex
 
 ```text
-Việc: tạo frame animation `skill_2` cho Enkiba (char_fire_01), MỘT animation này thôi. Đọc AGENTS.md (mục Ảnh do AI tạo)
-và file docs/prompts/codex_frames/char_fire_01/20_skill_2.md trước khi làm.
+Việc: tạo frame animation `skill_2` cho Enkiba (char_fire_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
+docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/char_fire_01/00_PHAN_TICH.md rồi phiếu
+docs/prompts/codex_frames/char_fire_01/20_skill_2.md. Giữ đúng ngoại hình model gốc, kiếm theo mục Kiếm của phiếu.
 
 1. Tạo ảnh bằng skill imagegen, 3 lần gọi (5 pose, 4 pose, 4 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
    dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;
    từ lần gọi thứ 2, đính kèm thêm dải vừa tạo để giữ liền mạch. Nếu không ra nền trong suốt: nền #FF00FF.
 2. Chép các dải đã chọn vào art_review/char_fire_01/skill_2/_strips/ rồi cắt:
-   python -I tools/frames/slice_strip.py char_fire_01 skill_2 <dải 1> [<dải 2> ...] [--chroma FF00FF]
-   (animation khác idle: thêm --scale <số> lấy từ art_review/char_fire_01/idle/meta.json để cùng tỉ lệ với idle)
+   python -I tools/frames/slice_strip.py char_fire_01 skill_2 <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
+   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame 0, cao 1.00× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
 3. Ghi art_review/char_fire_01/skill_2/meta.json: {"tool": "Codex imagegen", "model": "<model>",
    "prompt": "<prompt rút gọn>", "refs": [<ảnh tham chiếu đã đính kèm>], "date": "YYYY-MM-DD"}
    (giữ các khóa scale/strips mà slice_strip.py đã ghi).
@@ -52,16 +72,19 @@ và file docs/prompts/codex_frames/char_fire_01/20_skill_2.md trước khi làm.
 ## Prompt ảnh (tiếng Anh, mỗi lần gọi)
 
 ```text
-2D side-scrolling action game sprite strip of the SAME character as the reference images: Enkiba, chibi anime swordsman (about 2.5 heads tall): spiky crimson hair with one orange streak, amber eyes, black cropped jacket with red-and-gold trim and flame motifs, white shirt, a single red-gold shoulder pauldron, dark red trousers, black fingerless gloves, black boots with orange soles, flame-patterned red-gold sword held in the same hand as in the reference.
-Keep the exact design, proportions (chibi), colors, line art thickness and colour, and cel shading of the references.
+2D side-scrolling action game sprite strip of the SAME character as the reference images: Enkiba, chibi anime swordsman (about 2.5 heads tall, big head, short limbs): spiky crimson hair with one bright orange streak at the front, amber eyes, serious calm face; black cropped short-sleeved jacket with gold trim and flame motifs, open at the chest over a white shirt; ONE red-and-gold pauldron on the shoulder nearest the viewer; black fingerless gloves with gold marks; dark red trousers; black boots with gold trim and orange soles; a gold flame-shaped belt buckle; a long red-and-orange flame-patterned coat tail hanging behind the hips. Weapon: a flame-patterned red-gold sword with a gold crossguard and an orange gem. When sheathed it is worn diagonally on the back with the hilt above the near shoulder (exactly as in the idle reference frames); when drawn it is held in the hand in front of the body.
+Keep the exact design, proportions (chibi, big head, short limbs), colors, dark outline thickness and colour (2-3 px), and 2-3 tone cel shading of the references.
+The approved idle reference frames are the ground truth for the side view, line art and colors.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and sword; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
 One single horizontal row of exactly {n} poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
 Background: fully transparent. No ground line, no shadow, no text, no numbers, no frame borders.
 No visual effects (no fire trails, slash arcs, sparks, glow, speed lines): character and sword only.
 
-Animation: Weapon skill: braced stance with the sword held level, piercing dash forward, stop at the end and half-sheathe the sword.
+Animation: Weapon skill: braced stance with the sword held level, piercing dash forward, stop at the end and half-sheathe the sword over the shoulder onto the back.
 This call: poses {a}–{b} of 13 (describe only this part of the motion; continue exactly from the attached previous strip).
+Sword: the sword is DRAWN and held in the hand in front of the body in every pose (it is not on the back); keep its exact flame design.
+Phase map (poses counted from 1): wind-up 1-2, impact 3-7 (clear extended pose, readable silhouette, brief hold), recovery 8-13.
 Impact poses (sword fully extended at the moment of the hit): poses 3, 4, 5, 6, 7 of 13, counting from 1.
 ```
 

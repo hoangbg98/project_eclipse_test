@@ -7,7 +7,8 @@
 - Nền: trong suốt (alpha) hoặc một màu phẳng (--chroma, mặc định tự nhận màu góc ảnh nếu ảnh không có alpha).
 - Tỉ lệ: frame số --ref-frame (mặc định 0) của DẢI ĐẦU được phóng sao cho cao --height px (mặc định lấy
   standing_height_px trong phiếu); cùng một hệ số cho mọi frame và mọi dải → không đổi kích thước giữa các frame.
-  Nếu frame tham chiếu không đứng thẳng (vd nhảy), dùng --scale <số> lấy từ meta.json của animation đã duyệt (idle).
+  --like idle: canh theo chiều cao nhân vật đứng trong idle đã duyệt (xem frame_jobs.idle_height); frame tham chiếu và tỉ lệ
+  chiều cao của nó lấy từ phiếu (ref_frame, ref_ratio), ghi đè bằng --ref-frame / --ref-ratio. --scale đặt hệ số tay.
 - Canvas 384×384, nhân vật quay phải, tâm x = 192. Animation đứng đất: điểm thấp nhất y = 336 cho từng frame.
   Animation trên không: frame thấp nhất của cả animation chạm 336, các frame khác giữ đúng độ cao tương đối.
 - Ghi art_review/{id}/{anim}/{id}_{anim}_NNN.png (xóa frame cũ trong thư mục chờ duyệt, không đụng assets/).
@@ -107,9 +108,12 @@ def main(argv=None):
     ap.add_argument("strips", nargs="+")
     ap.add_argument("--chroma", help="màu nền phẳng dạng RRGGBB (vd FF00FF)")
     ap.add_argument("--tol", type=int, default=40)
-    ap.add_argument("--ref-frame", type=int, default=0)
+    ap.add_argument("--ref-frame", type=int, default=None, help="frame canh tỉ lệ (âm = từ cuối)")
     ap.add_argument("--height", type=float)
     ap.add_argument("--scale", type=float, help="hệ số phóng cố định (bỏ qua --height)")
+    ap.add_argument("--like", choices=["idle"], help="canh tỉ lệ theo nhân vật đứng trong idle: frame tham chiếu "
+                    "(--ref-frame, mặc định theo phiếu, âm = đếm từ cuối) được phóng để cao = chiều cao idle × --ref-ratio")
+    ap.add_argument("--ref-ratio", type=float, help="chiều cao pose tham chiếu so với lúc đứng thẳng (mặc định theo phiếu)")
     ap.add_argument("--anchor", choices=["feet", "bbox"], default="feet")
     ap.add_argument("--base", help="thư mục gốc dự án (test)")
     args = ap.parse_args(argv)
@@ -133,9 +137,17 @@ def main(argv=None):
 
     if args.scale:
         scale = args.scale
+    elif args.like:
+        base_h = F.idle_height(args.character_id, args.base)
+        if base_h is None:
+            raise SystemExit("Chưa có idle (assets hoặc art_review) để canh tỉ lệ. Làm idle trước hoặc dùng --height.")
+        ref = args.ref_frame if args.ref_frame is not None else p["ref_frame"]
+        ratio = args.ref_ratio if args.ref_ratio is not None else p["ref_ratio"]
+        scale = base_h * ratio / frames[ref][0].size[1]
+        print("Canh tỉ lệ theo idle: cao %.0f px × %.2f, frame tham chiếu %d." % (base_h, ratio, ref))
     else:
         height = args.height or float(jobs.get("standing_height_px", 280))
-        scale = height / frames[args.ref_frame][0].size[1]
+        scale = height / frames[args.ref_frame or 0][0].size[1]
     scaled = [f.resize((max(1, round(f.size[0] * scale)), max(1, round(f.size[1] * scale))), Image.LANCZOS)
               for f, _ in frames]
     # Trên không: frame có đáy thấp nhất (trong dải gốc) chạm 336, frame khác nâng lên đúng độ chênh × hệ số.

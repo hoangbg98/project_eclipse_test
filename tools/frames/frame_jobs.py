@@ -58,9 +58,23 @@ def read_skill(character_id, skill_file, base=None):
         m = re.search(r"^%s = ([-\d.]+)" % key, s, re.M)
         return float(m.group(1)) if m else default
 
-    hits = [(float(a), float(b)) for a, b in re.findall(r"^at_ms = ([\d.]+)\nduration_ms = ([\d.]+)", s, re.M)]
-    return {"startup_ms": num("startup_ms", 100.0), "active_ms": num("active_ms", 100.0),
-            "recovery_ms": num("recovery_ms", 200.0), "hits": hits}
+    # Chỉ tính hit do kiếm chém (gồm chém tại mục tiêu của tuyệt kỹ). Hit bay đi (travel_px > 0, sóng lửa) hoặc nổ trễ
+    # (delay_ms > 0) không quyết định pose trúng đòn; nếu không còn hit nào thì dùng cửa sổ [khởi động, khởi động + hiệu lực).
+    hits = []
+    for block in s.split("[sub_resource")[1:]:
+        m = re.search(r"^at_ms = ([\d.]+)\nduration_ms = ([\d.]+)", block, re.M)
+        if not m:
+            continue
+        travel = re.search(r"^travel_px = ([\d.]+)", block, re.M)
+        delay = re.search(r"^delay_ms = ([\d.]+)", block, re.M)
+        flies = re.search(r"^detached = true", block, re.M) and (
+            (travel and float(travel.group(1)) > 0) or (delay and float(delay.group(1)) > 0))
+        if not flies:
+            hits.append((float(m.group(1)), float(m.group(2))))
+    startup, active = num("startup_ms", 100.0), num("active_ms", 100.0)
+    if not hits:
+        hits = [(startup, active)]
+    return {"startup_ms": startup, "active_ms": active, "recovery_ms": num("recovery_ms", 200.0), "hits": hits}
 
 
 def plan(character_id, anim, base=None):
@@ -89,7 +103,37 @@ def plan(character_id, anim, base=None):
         fps = int(job.get("fps", 12))
         out.update(frames=target, fps=fps, duration_ms=round(target * 1000.0 / fps), timing=None)
     out["calls"] = calls(out["frames"])
+    out["phases"] = phases(out["frames"], out["active_frames"])
+    out["sword"] = job.get("sword", "drawn")
+    out["ref_frame"] = int(job.get("ref_frame", 0))
+    out["ref_ratio"] = float(job.get("ref_ratio", 1.0))
     return out
+
+
+def phases(frames, active):
+    """Giai đoạn từng frame: startup / active / recovery (rỗng nếu animation không có đòn đánh)."""
+    if not active:
+        return [None] * frames
+    first, last = min(active), max(active)
+    return ["startup" if i < first else ("active" if i <= last else "recovery") for i in range(frames)]
+
+
+def idle_height(character_id, base=None):
+    """Chiều cao trung bình (px) của nhân vật đứng, đo từ idle: bản đã duyệt trong assets, không có thì bản chờ duyệt."""
+    from PIL import Image
+    for d in (frames_dir(character_id, "idle", base), review_dir(character_id, "idle", base)):
+        if not os.path.isdir(d):
+            continue
+        hs = []
+        for name in sorted(os.listdir(d)):
+            if name.endswith(".png"):
+                bb = Image.open(os.path.join(d, name)).convert("RGBA").getchannel("A").point(
+                    lambda v: 255 if v >= 16 else 0).getbbox()
+                if bb:
+                    hs.append(bb[3] - bb[1])
+        if hs:
+            return sum(hs) / len(hs)
+    return None
 
 
 def calls(frames):

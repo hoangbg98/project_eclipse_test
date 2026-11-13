@@ -13,7 +13,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import frame_jobs as F  # noqa: E402
 
 COMMON_EN = """2D side-scrolling action game sprite strip of the SAME character as the reference images: {design}
-Keep the exact design, proportions (chibi), colors, line art thickness and colour, and cel shading of the references.
+Keep the exact design, proportions (chibi, big head, short limbs), colors, dark outline thickness and colour (2-3 px), and 2-3 tone cel shading of the references.
+The approved idle reference frames are the ground truth for the side view, line art and colors.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and sword; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
 One single horizontal row of exactly {n} poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
@@ -51,24 +52,30 @@ def card(cid, jobs, idx, anim):
              "| fps / lặp | %d fps, %s |" % (p["fps"], "lặp liền mạch" if p["loop"] else "không lặp"),
              "| Thời lượng | %s ms%s |" % (int(p["duration_ms"]), (" — khởi động / hiệu lực / hồi phục " + p["timing"]) if p["timing"] else ""),
              "| Frame trúng đòn | %s |" % (", ".join("%03d" % i for i in p["active_frames"]) or "—"),
+             "| Kiếm | %s |" % ("**đeo sau lưng** như idle đã duyệt" if p["sword"] == "sheathed" else "**cầm trong tay** (đã rút sẵn từ frame đầu)"),
              "| Đứng đất | %s |" % ("có: chân ở y = 336 mọi frame" if p["grounded"] else "không: frame thấp nhất chạm y = 336, frame khác giữ độ cao tương đối"),
              "", "**Động tác:** " + job["motion_vi"], "",
              "## Ảnh đính kèm cho Codex", "",
              "| File | Dùng để |", "|---|---|"]
     lines += ["| `%s` | %s |" % (r, why) for r, why in refs]
-    lines += ["| Frame `idle` đã duyệt (nếu có): `%sframes/idle/%s_idle_000.png` | Khóa tỉ lệ và màu cho các animation sau |" % (rp, cid)]
+    if any(p["phases"]):
+        names = {"startup": "Khởi động (lấy đà)", "active": "Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp)", "recovery": "Hồi phục (thu về)"}
+        lines += ["", "## Giai đoạn từng frame", "", "| Frame | Giai đoạn |", "|---|---|"]
+        lines += ["| %03d | %s |" % (i, names[ph]) for i, ph in enumerate(p["phases"])]
     lines += ["", "## Prompt dán cho Codex", "", "```text"]
     lines += [
-        "Việc: tạo frame animation `%s` cho %s (%s), MỘT animation này thôi. Đọc AGENTS.md (mục Ảnh do AI tạo)" % (anim, jobs["display_name"], cid),
-        "và file docs/prompts/codex_frames/%s/%02d_%s.md trước khi làm." % (cid, idx, anim),
+        "Việc: tạo frame animation `%s` cho %s (%s), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo)," % (anim, jobs["display_name"], cid),
+        "docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/%s/00_PHAN_TICH.md rồi phiếu" % cid,
+        "docs/prompts/codex_frames/%s/%02d_%s.md. Giữ đúng ngoại hình model gốc, kiếm theo mục Kiếm của phiếu." % (cid, idx, anim),
         "",
         "1. Tạo ảnh bằng skill imagegen, %d lần gọi (%s). Mỗi lần: một hàng ngang đúng số pose của lần đó," % (
             len(calls), ", ".join("%d pose" % (b - a + 1) for a, b in calls)),
         "   dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;",
         "   từ lần gọi thứ 2, đính kèm thêm dải vừa tạo để giữ liền mạch. Nếu không ra nền trong suốt: nền #FF00FF.",
         "2. Chép các dải đã chọn vào art_review/%s/%s/_strips/ rồi cắt:" % (cid, anim),
-        "   python -I tools/frames/slice_strip.py %s %s <dải 1> [<dải 2> ...] [--chroma FF00FF]" % (cid, anim),
-        "   (animation khác idle: thêm --scale <số> lấy từ art_review/%s/idle/meta.json để cùng tỉ lệ với idle)" % cid,
+        "   python -I tools/frames/slice_strip.py %s %s <dải 1> [<dải 2> ...]%s [--chroma FF00FF]" % (cid, anim, "" if anim == "idle" else " --like idle"),
+        ("   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame %d, cao %.2f× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)"
+         % (p["ref_frame"], p["ref_ratio"])) if anim != "idle" else "   (idle: chiều cao đứng 280 px)",
         "3. Ghi art_review/%s/%s/meta.json: {\"tool\": \"Codex imagegen\", \"model\": \"<model>\"," % (cid, anim),
         "   \"prompt\": \"<prompt rút gọn>\", \"refs\": [<ảnh tham chiếu đã đính kèm>], \"date\": \"YYYY-MM-DD\"}",
         "   (giữ các khóa scale/strips mà slice_strip.py đã ghi).",
@@ -86,6 +93,15 @@ def card(cid, jobs, idx, anim):
     ]
     if len(calls) > 1:
         lines.append("This call: poses {a}–{b} of %d (describe only this part of the motion; continue exactly from the attached previous strip)." % p["frames"])
+    lines.append("Sword: " + ("the sword stays SHEATHED on the back, hilt above the near shoulder, exactly as in the idle reference frames."
+                              if p["sword"] == "sheathed" else
+                              "the sword is DRAWN and held in the hand in front of the body in every pose (it is not on the back); keep its exact flame design."))
+    if any(p["phases"]):
+        def span(name):
+            idx_ = [i + 1 for i, ph in enumerate(p["phases"]) if ph == name]
+            return "%d-%d" % (idx_[0], idx_[-1]) if idx_ else "none"
+        lines.append("Phase map (poses counted from 1): wind-up %s, impact %s (clear extended pose, readable silhouette, brief hold), recovery %s." % (
+            span("startup"), span("active"), span("recovery")))
     if p["active_frames"]:
         lines.append("Impact poses (sword fully extended at the moment of the hit): poses %s of %d, counting from 1." % (
             ", ".join(str(i + 1) for i in p["active_frames"]), p["frames"]))
@@ -120,6 +136,7 @@ def main(argv=None):
         "# Frame %s (%s) — làm từng animation, owner duyệt từng cái" % (jobs["display_name"], cid), "",
         "> Sinh bởi `python -I tools/frames/gen_prompts.py %s`. Bảng trạng thái cập nhật khi chạy lại." % cid, "",
         "## Quy trình", "",
+        "Đọc trước: [`../PROMPT_GOC.md`](../PROMPT_GOC.md) (prompt gốc chuyển thể từ file của owner) và [`00_PHAN_TICH.md`](00_PHAN_TICH.md) (phân tích model).", "",
         "1. Owner mở Codex trên PC tại `C:\\Dev\\PROJECT_ECLIPSE`, mở phiếu của animation kế tiếp (bảng dưới, theo thứ tự),",
         "   kéo các ảnh tham chiếu ghi trong phiếu vào khung chat, dán khối **Prompt dán cho Codex**.",
         "2. Codex tạo ảnh → `slice_strip.py` cắt về canvas chuẩn trong `art_review/` → `check_frames.py` kiểm và tạo",
@@ -129,7 +146,7 @@ def main(argv=None):
         "   cập nhật `frames_manifest.json`, ghi `docs/ASSET_LICENSES.md` mục 2.1, chạy test, ghi nhật ký, commit.",
         "5. Mở Godot (F5 → Màn thử nghiệm) xem trong game. Muốn thay bản đã duyệt: `approve_frames.py ... --replace`",
         "   (bản cũ chuyển sang `art_review/%s/_replaced/`, không xóa)." % cid, "",
-        "`idle` làm đầu tiên: nó khóa tỉ lệ (hệ số `scale` trong `art_review/%s/idle/meta.json`) cho mọi animation sau." % cid,
+        "`idle` đã duyệt khóa tỉ lệ: `slice_strip.py --like idle` canh chiều cao theo idle trong assets cho mọi animation sau.",
         "Hiệu ứng (lửa, vệt kiếm, phượng hoàng, cut-in) làm riêng ở `assets/vfx/`, không vẽ vào frame nhân vật.",
         "Thư mục `art_review/` không vào git và không vào game (`.gdignore`).", "",
         "## Danh sách animation", "",

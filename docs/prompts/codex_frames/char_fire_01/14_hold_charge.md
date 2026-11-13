@@ -12,6 +12,7 @@
 | fps / lặp | 12 fps, lặp liền mạch |
 | Thời lượng | 333 ms |
 | Frame trúng đòn | — |
+| Kiếm | **cầm trong tay** (đã rút sẵn từ frame đầu) |
 | Đứng đất | có: chân ở y = 336 mọi frame |
 
 **Động tác:** Tụ lực (lặp): hạ thấp người, kiếm kéo ra sau, mặt hét. Vòng lửa quanh chân là VFX riêng.
@@ -20,24 +21,25 @@
 
 | File | Dùng để |
 |---|---|
-| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Khóa thiết kế: tỉ lệ chibi, màu, trang phục, tay cầm kiếm |
-| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_16_pose_anh_dung_tong_the_tham_chieu.png` | Ảnh đứng tổng thể (bảng bộ phận số 16) |
-| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_44_weapon_kiem_lua.png` | Kiếm lửa (số 44): giữ đúng hình kiếm |
+| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000.png` | Idle đã duyệt, nhìn ngang quay phải, kiếm đeo sau vai: KHÓA tỉ lệ, màu, nét viền, kiểu đổ bóng |
+| `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_003.png` | Idle đã duyệt, pose khác (tóc, áo đung đưa) |
+| `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Ảnh gốc 3/4 của owner: khuôn mặt, kiểu tóc, hình dáng kiếm khi cầm tay |
+| `assets/characters/char_fire_01/rig_parts/char_fire_01_part_44_weapon_kiem_lua.png` | Kiếm lửa (số 44): giữ đúng hình kiếm khi rút ra |
 | `assets/characters/char_fire_01/rig_parts/char_fire_01_part_04_face_mat_ha_mieng_het.png` | Mặt há miệng hét (số 04) |
-| Frame `idle` đã duyệt (nếu có): `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000.png` | Khóa tỉ lệ và màu cho các animation sau |
 
 ## Prompt dán cho Codex
 
 ```text
-Việc: tạo frame animation `hold_charge` cho Enkiba (char_fire_01), MỘT animation này thôi. Đọc AGENTS.md (mục Ảnh do AI tạo)
-và file docs/prompts/codex_frames/char_fire_01/14_hold_charge.md trước khi làm.
+Việc: tạo frame animation `hold_charge` cho Enkiba (char_fire_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
+docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/char_fire_01/00_PHAN_TICH.md rồi phiếu
+docs/prompts/codex_frames/char_fire_01/14_hold_charge.md. Giữ đúng ngoại hình model gốc, kiếm theo mục Kiếm của phiếu.
 
 1. Tạo ảnh bằng skill imagegen, 1 lần gọi (4 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
    dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;
    từ lần gọi thứ 2, đính kèm thêm dải vừa tạo để giữ liền mạch. Nếu không ra nền trong suốt: nền #FF00FF.
 2. Chép các dải đã chọn vào art_review/char_fire_01/hold_charge/_strips/ rồi cắt:
-   python -I tools/frames/slice_strip.py char_fire_01 hold_charge <dải 1> [<dải 2> ...] [--chroma FF00FF]
-   (animation khác idle: thêm --scale <số> lấy từ art_review/char_fire_01/idle/meta.json để cùng tỉ lệ với idle)
+   python -I tools/frames/slice_strip.py char_fire_01 hold_charge <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
+   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame 0, cao 0.75× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
 3. Ghi art_review/char_fire_01/hold_charge/meta.json: {"tool": "Codex imagegen", "model": "<model>",
    "prompt": "<prompt rút gọn>", "refs": [<ảnh tham chiếu đã đính kèm>], "date": "YYYY-MM-DD"}
    (giữ các khóa scale/strips mà slice_strip.py đã ghi).
@@ -53,8 +55,9 @@ và file docs/prompts/codex_frames/char_fire_01/14_hold_charge.md trước khi l
 ## Prompt ảnh (tiếng Anh, mỗi lần gọi)
 
 ```text
-2D side-scrolling action game sprite strip of the SAME character as the reference images: Enkiba, chibi anime swordsman (about 2.5 heads tall): spiky crimson hair with one orange streak, amber eyes, black cropped jacket with red-and-gold trim and flame motifs, white shirt, a single red-gold shoulder pauldron, dark red trousers, black fingerless gloves, black boots with orange soles, flame-patterned red-gold sword held in the same hand as in the reference.
-Keep the exact design, proportions (chibi), colors, line art thickness and colour, and cel shading of the references.
+2D side-scrolling action game sprite strip of the SAME character as the reference images: Enkiba, chibi anime swordsman (about 2.5 heads tall, big head, short limbs): spiky crimson hair with one bright orange streak at the front, amber eyes, serious calm face; black cropped short-sleeved jacket with gold trim and flame motifs, open at the chest over a white shirt; ONE red-and-gold pauldron on the shoulder nearest the viewer; black fingerless gloves with gold marks; dark red trousers; black boots with gold trim and orange soles; a gold flame-shaped belt buckle; a long red-and-orange flame-patterned coat tail hanging behind the hips. Weapon: a flame-patterned red-gold sword with a gold crossguard and an orange gem. When sheathed it is worn diagonally on the back with the hilt above the near shoulder (exactly as in the idle reference frames); when drawn it is held in the hand in front of the body.
+Keep the exact design, proportions (chibi, big head, short limbs), colors, dark outline thickness and colour (2-3 px), and 2-3 tone cel shading of the references.
+The approved idle reference frames are the ground truth for the side view, line art and colors.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and sword; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
 One single horizontal row of exactly 4 poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
@@ -62,6 +65,7 @@ Background: fully transparent. No ground line, no shadow, no text, no numbers, n
 No visual effects (no fire trails, slash arcs, sparks, glow, speed lines): character and sword only.
 
 Animation: Charging loop: low crouch, sword pulled back behind the body, shouting face (open-mouth face reference), slight trembling. Loops seamlessly.
+Sword: the sword is DRAWN and held in the hand in front of the body in every pose (it is not on the back); keep its exact flame design.
 Looping animation: the last pose must lead smoothly back into the first pose.
 ```
 

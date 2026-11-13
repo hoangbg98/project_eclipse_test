@@ -901,3 +901,20 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** check ĐẠT (chân ở y = 336, tâm chân trong ngưỡng, không cắt mép); GdUnit4 446/446, 5 test khói đạt, mã thoát 0. Test đầu tiên hỏng vì giả định chưa có frame nào; đã sửa test theo trạng thái mới.
 - **Quyết định Claude chọn:** nguồn ảnh ghi là "owner cung cấp (công cụ không rõ)" vì dải không kèm prompt hay model; hệ số phóng lấy từ frame 0 cao 280 px.
 - **Hạn chế đã biết:** kiếm đang đeo sau vai, còn ảnh đứng gốc (portrait, bộ phận 16) cầm kiếm ở tay trái. Chờ owner xác nhận đây là thiết kế đúng hay cần làm lại. Nguồn công cụ tạo ảnh chưa rõ, cần owner xác nhận để ghi đúng vào giấy phép ảnh AI (ASSET_LICENSES 2.1) và khai báo khi phát hành.
+
+## 2026-11-13 — Cập nhật bộ prompt Codex cho Enkiba (prompt gốc, phân tích model, kiếm, giai đoạn từng frame)
+
+- **Milestone / task:** art pipeline — owner yêu cầu viết lại prompt tạo ảnh chuyển động theo skill Enkiba dựa trên file prompt gốc, thêm file vào dự án.
+- **Trạng thái:** TESTED (công cụ + sinh phiếu); chưa có animation mới nào được Codex tạo
+- **File tạo/sửa:**
+  - `docs/prompts/codex_frames/PROMPT_GOC.md`: prompt gốc của owner chuyển thể đủ các mục (bối cảnh, phân tích model, bảo toàn ngoại hình, chuyển động 3 giai đoạn, phong cách, xuất file / tích hợp, tự kiểm tra, nguyên tắc), dùng chung mọi nhân vật; ghi rõ phần nào đã có công cụ thay (state machine, hitbox, atlas JSON không tạo mới).
+  - `docs/prompts/codex_frames/char_fire_01/00_PHAN_TICH.md`: phân tích model Enkiba (tỉ lệ 2.5 đầu, nét viền, bảng màu — màu đo từ idle_000 và màu ước lượng ghi riêng, thứ tự lớp, hai trạng thái kiếm, pivot).
+  - `tools/frames/jobs/char_fire_01.json`: thiết kế tiếng Anh theo idle đã duyệt; tham chiếu bắt buộc thêm idle_000, idle_003; mỗi animation có `sword` (sheathed / drawn), `ref_frame`, `ref_ratio`.
+  - `tools/frames/frame_jobs.py`: giai đoạn từng frame (startup / active / recovery), `idle_height()`; chỉ tính hit do kiếm chém (loại hit bay `travel_px > 0` và nổ trễ `delay_ms > 0`: attack_4 còn 3 frame trúng đòn thay vì 5, hold_release 3 thay vì 6).
+  - `tools/frames/slice_strip.py` thêm `--like idle` (canh tỉ lệ theo chiều cao idle đã duyệt, ~281 px), `--ref-frame` âm, `--ref-ratio`; `check_frames.py` cảnh báo khi pose cao nhất lệch xa idle; `gen_prompts.py` ghi mục Kiếm, bảng giai đoạn từng frame, phase map trong prompt ảnh, lệnh `--like idle`; 23 phiếu sinh lại.
+  - AGENTS.md mục Ảnh do AI tạo.
+- **Lỗi tìm thấy và sửa:** phiếu cũ bảo Codex dùng `--scale` của idle cho animation khác — sai vì mỗi dải ảnh AI có độ phân giải khác nhau; thay bằng `--like idle` (đo lại chiều cao pose tham chiếu của dải mới). Chạy thử: dải 6 pose giả → attack_1 phóng 0.9336, check ĐẠT (đã xóa dữ liệu thử).
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_fire_01`; thử `slice_strip.py ... --like idle` + `check_frames.py`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 446/446, 5 test khói đạt, mã thoát 0.
+- **Quyết định Claude chọn:** kiếm đeo lưng ở idle, run, nhảy, rơi, tiếp đất, lướt, bị đánh, ngã, rời sân; kiếm cầm tay ở mọi đòn đánh, tụ lực, kỹ năng, tuyệt kỹ, vào sân; kiếm "xuất hiện" ngay ở frame đầu (không vẽ rút kiếm); `skill_2` kết thúc tra kiếm ra sau lưng; pose tham chiếu để canh tỉ lệ chọn theo từng animation (vd khuỵu = 0.8× chiều cao đứng).
+- **Hạn chế đã biết:** chưa biết Codex tạo dải có đúng khoảng trống giữa pose không; kiếm đeo lưng ở idle khác ảnh gốc cầm tay (đã ghi trong 00_PHAN_TICH.md, hỏi owner có muốn làm animation rút / tra kiếm riêng); gói ZIP gửi trước đó là bản cũ (không còn cần vì Codex làm trực tiếp trong dự án).
