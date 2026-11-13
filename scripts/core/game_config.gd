@@ -9,6 +9,7 @@ const SCENE_HUB := "res://scenes/main/hub.tscn"
 const SCENE_TEST_STAGE := "res://scenes/stages/test_stage.tscn"
 const SCENE_STAGE := "res://scenes/stages/stage.tscn"
 const SCENE_CHARACTER := "res://scenes/main/character_screen.tscn"
+const SCENE_RECRUIT := "res://scenes/main/recruit_screen.tscn"
 
 ## Màn sẽ chơi khi mở SCENE_STAGE (data/stages/{id}.json).
 var selected_stage_id := "stage_01"

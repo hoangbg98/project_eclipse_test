@@ -1,5 +1,5 @@
 extends GdUnitTestSuite
-## Test M7-2: các bảng trong Hub — Home, Chiến đấu (chọn đội, danh sách màn), Chiêu mộ (chưa mở / bảng tỉ lệ / quay), và việc lưu sau mỗi thao tác.
+## Test M7-2: các bảng trong Hub — Home, Chiến đấu (chọn đội, danh sách màn), và việc lưu sau mỗi thao tác.
 
 const HUB_SCENE := preload("res://scenes/main/hub.tscn")
 const SAVE_DIR := "user://test_saves_m7_2"
@@ -51,7 +51,7 @@ func test_hub_shows_a_panel_per_tab() -> void:
 	var hub: Control = auto_free(HUB_SCENE.instantiate())
 	add_child(hub)
 	assert_bool(hub.panel is HubHomePanel).is_true()
-	var expect := {"BattleTab": "HubBattlePanel", "RecruitTab": "HubRecruitPanel"}
+	var expect := {"BattleTab": "HubBattlePanel"}
 	for tab: String in expect:
 		hub.show_tab(tab)
 		assert_str((hub.panel.get_script() as Script).get_global_name()).is_equal(expect[tab])
@@ -107,61 +107,4 @@ func test_stage_list_shows_progress_and_hides_test_stage() -> void:
 # Màn Nhân vật: tests/unit/ui/test_character_screen.gd
 
 
-# ---------- Chiêu mộ ----------
-
-func test_recruit_closed_without_banner_data() -> void:
-	var p := HubRecruitPanel.new()
-	p.banners_injected = true                                       # không có banner nào
-	_add(p)
-	assert_int(p.banners.size()).is_equal(0)
-	assert_bool(_texts(p).contains(tr("RECRUIT_CLOSED"))).is_true()
-
-
-func test_recruit_loads_shipped_character_banner() -> void:
-	var p := _add(HubRecruitPanel.new()) as HubRecruitPanel
-	assert_int(p.banners.size()).is_equal(2)                          # nhân vật + tiếp tế
-	var lines := "\n".join(p.rate_lines(p.banners[0]))
-	assert_bool(lines.contains("1.500%") and lines.contains("16.300%") and lines.contains("10.874%")).is_true()
-	assert_bool(lines.contains(tr("RECRUIT_MULTI_GUARANTEE") % 10)).is_true()
-	var eq := "\n".join(p.rate_lines(p.banners[1]))
-	assert_bool(eq.contains("2.870%") and eq.contains("14.430%") and eq.contains("58.000%")).is_true()
-	assert_bool(eq.contains(tr("GACHA_TIER_STIGMA_4"))).is_true()
-
-
-func _test_banner() -> BannerDef:
-	var b := BannerDef.new()
-	b.id = "ui_test_banner"
-	b.name_key = "RECRUIT_CLOSED"
-	b.cost_single = 100
-	b.cost_multi = 900
-	var top := GachaTierDef.new()
-	top.rarity = 5
-	top.base_rate = 0.25
-	top.hard_pity = 20
-	top.pool = PackedStringArray(["char:char_dark_01"])
-	var low := GachaTierDef.new()
-	low.rarity = 3
-	low.pool = PackedStringArray(["item:mat_exp_small"])
-	b.tiers = [top, low]
-	return b
-
-
-func test_recruit_rates_come_from_config_and_pull_works() -> void:
-	var p := HubRecruitPanel.new()
-	p.banners = [_test_banner()]
-	p.banners_injected = true
-	_add(p)
-	p.service.rng = RandomSource.new(42)
-	var lines := "\n".join(p.rate_lines(p.banners[0]))
-	assert_bool(lines.contains("5★  25.000%") and lines.contains("3★  75.000%")).is_true()   # đúng số trong config
-	assert_bool(lines.contains("Yomigari")).is_true()
-	assert_bool(p.pull(1)).is_false()                                 # chưa có ngọc
-	assert_str(p.last_reason).is_equal(GachaService.REASON_NOT_ENOUGH)
-	assert_bool(_texts(p).contains(tr("REASON_NOT_ENOUGH_CURRENCY"))).is_true()
-	p.profile.inventory.add_currency("gems", 1000)
-	assert_bool(p.pull(10)).is_true()
-	assert_int(p.last_results.size()).is_equal(10)
-	assert_int(p.profile.inventory.currency("gems")).is_equal(100)
-	assert_int(_disk()["gacha"]["history"].size()).is_equal(10)        # lịch sử đã lưu
-	assert_int(_disk()["currencies"]["gems"]).is_equal(100)
-	assert_bool(_texts(p).contains(tr("RECRUIT_HISTORY") % 10)).is_true()
+# Màn Chiêu mộ: tests/unit/ui/test_recruit_screen.gd

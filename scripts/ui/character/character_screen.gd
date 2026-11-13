@@ -504,7 +504,8 @@ func _build_filter() -> void:
 	var r := layout.rect("filter", Rect2(360, 160, 1200, 760))
 	var fs := layout.font("filter", 28)
 	var bh := layout.num("filter.button_height", 64)
-	_panel(Rect2(Vector2.ZERO, layout.view_size), Color(0, 0, 0, 0.65))   # làm tối nền phía sau
+	var dim := _panel(Rect2(Vector2.ZERO, layout.view_size), Color(0, 0, 0, 0.65), "Dim")   # làm tối nền phía sau
+	dim.mouse_filter = Control.MOUSE_FILTER_STOP   # chặn bấm xuyên xuống các nút bên dưới
 	var bg := layout.color("panel_light", Color(0.16, 0.18, 0.24))
 	bg.a = 1.0
 	_panel(r, bg, "FilterPanel")

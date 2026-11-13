@@ -1,0 +1,70 @@
+{
+	"_huong_dan": [
+		"Bố cục màn Chiêu mộ (owner 2026-11-13, theo ảnh tham chiếu màn Wish). Sửa file này rồi mở lại màn để thấy thay đổi; không cần sửa code.",
+		"Tọa độ theo khung thiết kế 1920×1080. rect = [x, y, rộng, cao] tính từ góc trên-trái của khung thiết kế.",
+		"anchor: 'left' (mặc định) giữ khoảng cách mép trái; 'right' dời theo phần màn hình rộng thêm (màn > 16:9); 'center' dời một nửa.",
+		"font = cỡ chữ (px). color = mã màu '#RRGGBB' hoặc '#RRGGBBAA'. Thiếu mục nào thì màn dùng giá trị mặc định trong code, không lỗi.",
+		"Ảnh banner: đặt vào assets/ui/recruit/ theo tên {id banner}_banner.png (lớn) và {id banner}_thumb.png (nhỏ), xem README.md trong thư mục đó.",
+		"Tỉ lệ chi tiết không nằm trên màn chính: bấm nút Chi tiết."
+	],
+	"design_size": [1920, 1080],
+	"colors": {
+		"background": "#1B1E2B",
+		"panel": "#14161FE0",
+		"panel_light": "#2A2E3E",
+		"button": "#1E2130F0",
+		"button_border": "#5C6380",
+		"button_selected": "#FFFFFF",
+		"text": "#FFFFFF",
+		"text_dark": "#1B1E2B",
+		"text_dim": "#B8BCCB",
+		"accent": "#FF7A3D",
+		"accent_blue": "#7FD4FF",
+		"orange_box": "#D9552B",
+		"rank_s": "#FFD23F",
+		"rank_a": "#C77DFF",
+		"rank_b": "#4CC9F0",
+		"star": "#FFD23F",
+		"placeholder_fill": "#3A3F55",
+		"placeholder_figure": "#5B6180",
+		"placeholder_text": "#D8DCEB"
+	},
+	"top": {
+		"title": {"rect": [200, 36, 500, 64], "font": 40, "text_key": "RECRUIT_UI_TITLE"},
+		"close_button": {"rect": [1733, 24, 72, 72], "anchor": "right"},
+		"gold_pill": {"rect": [1090, 34, 230, 54], "anchor": "right", "font": 28},
+		"gems_pill": {"rect": [1340, 34, 250, 54], "anchor": "right", "font": 28},
+		"gems_plus": {"rect": [1604, 34, 54, 54], "anchor": "right", "font": 34}
+	},
+	"list": {
+		"origin": [62, 119], "item": [176, 101], "active": [195, 113], "step": 129,
+		"font": 22
+	},
+	"panel": {
+		"rect": [370, 119, 1301, 839], "anchor": "center",
+		"kind_tag": {"rect": [365, 116, 293, 48], "font": 28},
+		"title": {"rect": [420, 166, 820, 210], "font": 64},
+		"tagline": {"rect": [418, 425, 600, 52], "font": 38},
+		"orange_box": {"rect": [418, 484, 468, 150], "font": 28},
+		"note": {"rect": [418, 646, 520, 130], "font": 26},
+		"element_icon": {"rect": [1040, 712, 68, 68], "font": 34},
+		"featured_name": {"rect": [1118, 684, 560, 84], "font": 70},
+		"up_tag": {"rect": [1590, 672, 90, 40], "font": 30},
+		"stars": {"rect": [1118, 772, 360, 44], "font": 40},
+		"featured_sub": {"rect": [1108, 820, 330, 46], "font": 28},
+		"time_label": {"rect": [420, 862, 420, 40], "font": 28, "text_key": "RECRUIT_UI_TIME_LEFT"},
+		"time_value": {"rect": [420, 904, 520, 46], "font": 32},
+		"pity": {"rect": [1080, 896, 708, 40], "font": 26}
+	},
+	"bottom": {
+		"shop_button": {"rect": [252, 981, 173, 54], "font": 28, "text_key": "RECRUIT_UI_SHOP"},
+		"details_button": {"rect": [444, 981, 173, 54], "font": 28, "text_key": "RECRUIT_UI_DETAILS"},
+		"history_button": {"rect": [636, 981, 173, 54], "font": 28, "text_key": "RECRUIT_UI_HISTORY"},
+		"wish_1": {"rect": [1072, 943, 341, 93], "anchor": "center", "font": 34},
+		"wish_10": {"rect": [1447, 943, 341, 93], "anchor": "center", "font": 34}
+	},
+	"overlay": {
+		"rect": [300, 110, 1320, 860], "anchor": "center", "font": 26,
+		"result_card": [224, 168], "result_columns": 5, "result_gap": 18
+	}
+}

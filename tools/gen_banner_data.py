@@ -93,6 +93,13 @@ def tier(sub_id, tier_id, rarity, rate, pool, label_key, featured=(), featured_r
         "guarantee_after_miss = false", "duplicate_fragments = %d" % dup_frag, ""])
 
 
+# Hiển thị màn Chiêu mộ (owner 2026-11-13): nhãn loại + tiêu đề lớn theo banner. Ảnh banner đặt ở assets/ui/recruit/.
+DISPLAY = {
+    "banner_char_terra": ("BANNER_KIND_CHAR", "BANNER_TITLE_TERRA"),
+    "banner_equip_terra": ("BANNER_KIND_EQUIP", "BANNER_TITLE_EQUIP_TERRA"),
+}
+
+
 def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_pick, group, source, starter=False):
     subs = [t[1] for t in tiers]
     arr = lambda xs: "PackedStringArray(%s)" % ", ".join('"%s"' % x for x in xs)
@@ -105,6 +112,8 @@ def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_p
               'cost_currency = "gems"', "cost_single = %d" % COST_SINGLE, "multi_count = %d" % MULTI,
               "cost_multi = %d" % COST_MULTI, 'pity_group = "%s"' % group,
               "multi_guarantee_tiers = %s" % arr(guarantee_tiers), "multi_guarantee_pick = %s" % arr(guarantee_pick),
+              'kind_key = "%s"' % DISPLAY.get(file_id, ("", ""))[0], 'title_key = "%s"' % DISPLAY.get(file_id, ("", ""))[1],
+              "end_unix = 0",
               "starter_free_multi = %s" % ("true" if starter else "false"),
               'metadata/source = "%s"' % source]
     os.makedirs(out_dir, exist_ok=True)

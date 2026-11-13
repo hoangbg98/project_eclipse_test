@@ -58,6 +58,18 @@ Tạo bởi Claude (hình khối màu, âm sinh tự động). Tên luôn bắt 
 | `assets/placeholders/placeholder_character_384.png` | Mọi animation nhân vật còn `frames: 0` (viên nang xám 96×256, chân y = 336, mũi chỉ hướng phải). Sinh bằng `tools/gen_placeholders.gd` (2026-11-11). | Có — khi owner giao frame (OWNER_ASSET_CHECKLIST mục B) |
 | `assets/placeholders/placeholder_tiles_64.png` | Tile màn thử nghiệm: ô (0,0) khối đặc, ô (1,0) platform một chiều. Sinh bằng `tools/gen_placeholders.gd` (2026-11-11). | Có — khi owner giao tile màn đầu (mục C) |
 
+### 3.1 Ảnh tạm màn Chiêu mộ (owner 2026-11-13)
+
+Sinh bằng `tools/gen_recruit_placeholders.py` (Pillow, hình người xám + nhãn ASCII). Owner thay bằng ảnh thật theo
+`assets/ui/recruit/README.md`; màn ưu tiên file không có tiền tố `placeholder_`.
+
+| File | Thay cho | Ngày |
+|---|---|---|
+| `assets/ui/recruit/placeholder_banner_char_terra_banner.png` (1301×839) | Ảnh banner lớn của banner nhân vật | 2026-11-13 |
+| `assets/ui/recruit/placeholder_banner_char_terra_thumb.png` (390×226) | Ảnh nhỏ trong danh sách | 2026-11-13 |
+| `assets/ui/recruit/placeholder_banner_equip_terra_banner.png` (1301×839) | Ảnh banner lớn của banner tiếp tế | 2026-11-13 |
+| `assets/ui/recruit/placeholder_banner_equip_terra_thumb.png` (390×226) | Ảnh nhỏ trong danh sách | 2026-11-13 |
+
 ## 4. Tài liệu tham khảo (không phải asset game)
 
 | File | Nội dung | Ghi chú |

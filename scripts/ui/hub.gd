@@ -12,6 +12,7 @@ const TABS := {
 }
 
 const CHARACTERS_TAB := "CharactersTab"
+const RECRUIT_TAB := "RecruitTab"
 
 var current_tab := ""
 ## Bảng đang hiện (để test truy cập).
@@ -47,6 +48,8 @@ func _ready() -> void:
 		button.toggle_mode = true
 		if tab_name == CHARACTERS_TAB:
 			button.pressed.connect(open_characters)
+		elif tab_name == RECRUIT_TAB:
+			button.pressed.connect(open_recruit)
 		else:
 			button.pressed.connect(show_tab.bind(tab_name))
 	show_tab("HomeTab")
@@ -58,6 +61,12 @@ func open_characters() -> void:
 	(_tab_bar.get_node(CHARACTERS_TAB) as Button).set_pressed_no_signal(current_tab == CHARACTERS_TAB)
 	GameConfig.selected_character_id = ""
 	SceneRouter.push(GameConfig.SCENE_CHARACTER)
+
+
+## Tab Chiêu mộ mở màn riêng RecruitScreen (theo ảnh tham chiếu màn Wish của owner).
+func open_recruit() -> void:
+	(_tab_bar.get_node(RECRUIT_TAB) as Button).set_pressed_no_signal(current_tab == RECRUIT_TAB)
+	SceneRouter.push(GameConfig.SCENE_RECRUIT)
 
 
 func show_tab(tab_name: String) -> void:
@@ -81,8 +90,6 @@ func _make_panel(tab_name: String) -> Control:
 	match tab_name:
 		"BattleTab":
 			return HubBattlePanel.new()
-		"RecruitTab":
-			return HubRecruitPanel.new()
 		"SettingsTab":
 			var box := UiKit.hbox(64)
 			var settings := SettingsPanel.new()

@@ -1017,3 +1017,21 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** checker ĐẠT, 7 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
 - **Hạn chế đã biết:** model imagegen không được expose; các frame 001–003 giữ pose bổ dọc gần nhau có chủ ý để giữ nhịp tác động.
+
+## 2026-11-13 — Làm lại màn Chiêu mộ theo bố cục màn Wish (ảnh tham chiếu của owner)
+
+- **Milestone / task:** 7 (M7-2, làm lại tab Chiêu mộ) + 5 (hiển thị banner) — owner yêu cầu: cấu trúc banner đang thô, đổi theo ảnh, tỉ lệ để trong Chi tiết, ảnh tạm + thư mục ảnh trong dự án
+- **Trạng thái:** TESTED (headless + ảnh chụp); chưa VERIFIED (owner chưa xem trong Godot)
+- **File tạo/sửa:**
+  - `scripts/ui/recruit_screen.gd` + `scenes/main/recruit_screen.tscn` (`RecruitScreen`): danh sách banner bên trái (thẻ đang chọn to hơn), banner lớn giữa màn (nhãn loại, tiêu đề, "Tăng xác suất!", ô cam bảo đảm 10 lượt, chú thích, nhân vật / vật phẩm đề cử + sao + nguyên tố + tên giáp + "UP!", thời gian còn lại, dòng bảo đảm), nút Cửa hàng / Chi tiết / Lịch sử, Chiêu mộ ×1 / ×10, vàng + ngọc ở góc trên, nút đóng. **Chi tiết** hiện bảng tỉ lệ (từ cùng config với logic quay), **Lịch sử** hiện 50 lượt gần nhất, **Kết quả** hiện thẻ từng lượt viền theo hạng. Esc / nút đóng lùi từng bước.
+  - `scripts/ui/layout_screen.gd` (`LayoutScreen`): lớp nền dùng chung cho màn đặt vị trí theo file bố cục (CharacterScreen giữ bản dựng riêng, có thể chuyển sau).
+  - `data/ui/recruit_screen_layout.json`: **file cấu hình bố cục** (vị trí, cỡ chữ, màu), cùng quy ước với màn Nhân vật.
+  - `BannerDef` thêm `kind_key`, `title_key`, `banner_art`, `thumb_art`, `end_unix` (0 = không giới hạn); `tools/gen_banner_data.py` ghi các trường này; chữ mới `BANNER_KIND_*`, `BANNER_TITLE_*`, `RECRUIT_UI_*` (25 khóa vi/en).
+  - **Thư mục ảnh** `assets/ui/recruit/` + `README.md` (tên file, kích thước, thứ tự tìm ảnh) + 4 ảnh tạm `placeholder_*` sinh bằng `tools/gen_recruit_placeholders.py`; ghi `docs/ASSET_LICENSES.md` mục 3.1.
+  - Hub: tab Chiêu mộ mở màn mới (`GameConfig.SCENE_RECRUIT`); bỏ `HubRecruitPanel`; test cũ chuyển sang `tests/unit/ui/test_recruit_screen.gd` (15 test); `tools/screenshot_recruit.gd`.
+  - Sửa kèm: bảng lọc màn Nhân vật chặn bấm xuyên xuống nút bên dưới (thêm kiểm tra vào test).
+  - Cập nhật OWNER_ASSET_CHECKLIST (hạng, tên, thêm việc ảnh banner).
+- **Đã chạy:** `python -X utf8 tools/gen_banner_data.py`, `tools/add_locale_keys.py`, `tools/gen_recruit_placeholders.py`; `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_recruit.gd`.
+- **Kết quả thật:** GdUnit4 458/458, 5 test khói đạt, mã thoát 0. Đã xem 5 ảnh chụp và sửa: ô cam tràn chữ, nhãn trên ảnh tạm đè chữ của màn, nhãn ảnh nhỏ bị cắt, "UP!" xa tên, tên dài ("Đại kiếm Dung Nham") xuống dòng đè hàng sao (giờ thu nhỏ chữ cho vừa một dòng), nhãn loại tràn khỏi thẻ, chú thích banner vũ khí nói nhầm về "nhân vật S".
+- **Quyết định Claude chọn:** màn riêng (như màn Nhân vật) thay vì panel trong Hub; nút ×1 / ×10 luôn bấm được, thiếu ngọc thì hiện lý do thay vì làm mờ nút; nút Cửa hàng và "+" cạnh ngọc là placeholder ("chưa có trong bản thử"); tiêu đề banner nhân vật tạm "Nham Thạch Thức Tỉnh", banner vũ khí "Vũ Khí & Ấn Nham Thạch" (chữ tạm, owner đổi trong localization); thời gian còn lại ghi "Không giới hạn" vì chưa có lịch banner (đặt `end_unix` trong `.tres` để hiện đếm ngược); ảnh banner lớn 1301×839 theo khung trong ảnh tham chiếu, ảnh nhỏ 390×226 (gấp đôi ô 195×113).
+- **Hạn chế đã biết:** banner hết hạn (`end_unix` đã qua) mới chỉ ghi "Đã kết thúc", chưa khóa quay; nút Cửa hàng chưa có; lượt miễn phí đầu tiên (starter) vẫn chưa gắn vào UI; chưa thử trên điện thoại (màn rộng hơn 16:9 chỉ dịch phần giữa, đã test dựng ở 2560×1080 và 1280×720); ảnh tham chiếu là Genshin Impact: chỉ học bố cục, không dùng chữ, biểu tượng hay hình của bên thứ ba.

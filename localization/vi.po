@@ -1007,3 +1007,78 @@ msgstr "Ấn Nham Thạch (Thân)"
 
 msgid "EQUIP_EQ_STIGMA_BOT_BEDROCK"
 msgstr "Ấn Nham Thạch (Chân)"
+
+msgid "RECRUIT_UI_TITLE"
+msgstr "Chiêu mộ"
+
+msgid "RECRUIT_UI_SHOP"
+msgstr "Cửa hàng"
+
+msgid "RECRUIT_UI_DETAILS"
+msgstr "Chi tiết"
+
+msgid "RECRUIT_UI_HISTORY"
+msgstr "Lịch sử"
+
+msgid "RECRUIT_UI_WISH"
+msgstr "Chiêu mộ ×%d"
+
+msgid "RECRUIT_UI_TAGLINE"
+msgstr "Tăng xác suất!"
+
+msgid "RECRUIT_UI_GUARANTEE_BOX"
+msgstr "Mỗi %d lượt chắc chắn có ít nhất 1: %s"
+
+msgid "RECRUIT_UI_NOTE"
+msgstr "Nhân vật hạng S của sự kiện chỉ nhận được trong banner này. Xem Chi tiết để biết tỉ lệ."
+
+msgid "RECRUIT_UI_TIME_LEFT"
+msgstr "Thời gian còn lại"
+
+msgid "RECRUIT_UI_TIME_FMT"
+msgstr "%d ngày %d giờ %d phút"
+
+msgid "RECRUIT_UI_PERMANENT"
+msgstr "Không giới hạn thời gian"
+
+msgid "RECRUIT_UI_ENDED"
+msgstr "Đã kết thúc"
+
+msgid "RECRUIT_UI_PITY"
+msgstr "Bảo đảm %s: %d/%d lượt"
+
+msgid "RECRUIT_UI_UP"
+msgstr "UP!"
+
+msgid "RECRUIT_UI_STIGMA_SET"
+msgstr "+ %d vết thánh đề cử"
+
+msgid "RECRUIT_UI_DETAILS_TITLE"
+msgstr "Chi tiết banner"
+
+msgid "RECRUIT_UI_HISTORY_TITLE"
+msgstr "Lịch sử chiêu mộ"
+
+msgid "RECRUIT_UI_HISTORY_EMPTY"
+msgstr "Chưa có lượt chiêu mộ nào."
+
+msgid "RECRUIT_UI_RESULT_TITLE"
+msgstr "Kết quả"
+
+msgid "RECRUIT_UI_CONFIRM"
+msgstr "Xác nhận"
+
+msgid "BANNER_KIND_CHAR"
+msgstr "Banner nhân vật"
+
+msgid "BANNER_KIND_EQUIP"
+msgstr "Banner vũ khí & vết thánh"
+
+msgid "BANNER_TITLE_TERRA"
+msgstr "Nham Thạch Thức Tỉnh"
+
+msgid "BANNER_TITLE_EQUIP_TERRA"
+msgstr "Vũ Khí & Ấn Nham Thạch"
+
+msgid "RECRUIT_UI_NOTE_EQUIP"
+msgstr "Vũ khí và vết thánh đề cử có tỉ lệ tăng. Xem Chi tiết để biết tỉ lệ."

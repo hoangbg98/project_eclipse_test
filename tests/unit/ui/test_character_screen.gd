@@ -333,6 +333,7 @@ func test_filter_by_rank_element_person() -> void:
 	(_node(s, "FilterButton") as Button).pressed.emit()
 	assert_bool(s.filter_open).is_true()
 	assert_object(_node(s, "Filter_rank_S")).is_not_null()
+	assert_int(_node(s, "Dim").mouse_filter).is_equal(Control.MOUSE_FILTER_STOP)   # không bấm xuyên xuống nút bên dưới
 	(_node(s, "Filter_rank_S") as Button).pressed.emit()                  # S = Enkiba, Iwagane
 	assert_array(Array(s.filtered_ids())).contains_exactly_in_any_order([A, "char_earth_01"])
 	(_node(s, "Filter_element_earth") as Button).pressed.emit()           # và nguyên tố Địa

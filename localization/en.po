@@ -1007,3 +1007,78 @@ msgstr "Bedrock Sigil (Middle)"
 
 msgid "EQUIP_EQ_STIGMA_BOT_BEDROCK"
 msgstr "Bedrock Sigil (Bottom)"
+
+msgid "RECRUIT_UI_TITLE"
+msgstr "Recruitment"
+
+msgid "RECRUIT_UI_SHOP"
+msgstr "Shop"
+
+msgid "RECRUIT_UI_DETAILS"
+msgstr "Details"
+
+msgid "RECRUIT_UI_HISTORY"
+msgstr "History"
+
+msgid "RECRUIT_UI_WISH"
+msgstr "Recruit ×%d"
+
+msgid "RECRUIT_UI_TAGLINE"
+msgstr "Probability up!"
+
+msgid "RECRUIT_UI_GUARANTEE_BOX"
+msgstr "Every %d recruits is guaranteed to include at least 1: %s"
+
+msgid "RECRUIT_UI_NOTE"
+msgstr "The event S-rank character can only be obtained in this banner. See Details for the rates."
+
+msgid "RECRUIT_UI_TIME_LEFT"
+msgstr "Time remaining"
+
+msgid "RECRUIT_UI_TIME_FMT"
+msgstr "%d day(s) %d hour(s) %d minute(s)"
+
+msgid "RECRUIT_UI_PERMANENT"
+msgstr "No time limit"
+
+msgid "RECRUIT_UI_ENDED"
+msgstr "Ended"
+
+msgid "RECRUIT_UI_PITY"
+msgstr "Guarantee %s: %d/%d pulls"
+
+msgid "RECRUIT_UI_UP"
+msgstr "UP!"
+
+msgid "RECRUIT_UI_STIGMA_SET"
+msgstr "+ %d featured stigmata"
+
+msgid "RECRUIT_UI_DETAILS_TITLE"
+msgstr "Banner details"
+
+msgid "RECRUIT_UI_HISTORY_TITLE"
+msgstr "Recruitment history"
+
+msgid "RECRUIT_UI_HISTORY_EMPTY"
+msgstr "No recruits yet."
+
+msgid "RECRUIT_UI_RESULT_TITLE"
+msgstr "Results"
+
+msgid "RECRUIT_UI_CONFIRM"
+msgstr "Confirm"
+
+msgid "BANNER_KIND_CHAR"
+msgstr "Character banner"
+
+msgid "BANNER_KIND_EQUIP"
+msgstr "Weapon & stigma banner"
+
+msgid "BANNER_TITLE_TERRA"
+msgstr "Awakening of Stone"
+
+msgid "BANNER_TITLE_EQUIP_TERRA"
+msgstr "Magma Blade & Bedrock Sigils"
+
+msgid "RECRUIT_UI_NOTE_EQUIP"
+msgstr "The featured weapon and stigmata have boosted rates. See Details for the rates."

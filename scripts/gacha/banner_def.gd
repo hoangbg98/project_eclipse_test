@@ -25,6 +25,18 @@ extends Resource
 @export var multi_guarantee_tiers: PackedStringArray = PackedStringArray()
 @export var multi_guarantee_pick: PackedStringArray = PackedStringArray()
 
+@export_group("Hiển thị (màn Chiêu mộ)")
+## Nhãn thẻ góc trái trên của banner (vd "Banner nhân vật"). Rỗng = không hiện.
+@export var kind_key := ""
+## Tiêu đề lớn của banner (khóa dịch). Rỗng = dùng `name_key`.
+@export var title_key := ""
+## Ảnh banner lớn / ảnh nhỏ trong danh sách bên trái. Rỗng = theo quy ước trong assets/ui/recruit/:
+## `{id}_banner.png`, `{id}_thumb.png`, rồi bản `placeholder_{id}_*.png`, cuối cùng vẽ hình người placeholder.
+@export_file("*.png", "*.webp", "*.jpg") var banner_art := ""
+@export_file("*.png", "*.webp", "*.jpg") var thumb_art := ""
+## Hết hạn (giây Unix UTC). 0 = không giới hạn thời gian.
+@export var end_unix := 0
+
 @export_group("Lượt miễn phí hướng dẫn")
 ## Banner dùng một lần cho người mới (owner 2026-11-13): quay gói `multi_count` không tốn tiền, đúng 1 lượt ra bậc
 ## đầu tiên (vd Kael), các lượt còn lại ra bậc cuối (nguyên liệu). Không xuất hiện ở tab Chiêu mộ.
