@@ -1,36 +1,49 @@
-"""Sinh banner chiêu mộ (data/banners/*.tres) theo câu trả lời của owner ngày 2026-11-12 (OWNER_ASSET_CHECKLIST A1).
-Chạy: python -X utf8 tools/gen_banner_data.py   (ghi đè file banner)
+"""Sinh banner chiêu mộ (data/banners/*.tres) và lượt x10 miễn phí đầu tiên (data/tutorial/starter_pull.tres)
+theo câu trả lời của owner ngày 2026-11-12 và 2026-11-13 (OWNER_ASSET_CHECKLIST A1, A2).
+Chạy: python -X utf8 tools/gen_banner_data.py   (ghi đè các file này)
 
-Tỉ lệ, pity, giá là SỐ CỦA OWNER — không tự đổi. Những gì Claude tự chọn (ghi rõ bên dưới): chia đều phần nguyên liệu
-trong bậc nguyên liệu, lượng vàng mỗi lần ra vàng, số mảnh khi trùng nhân vật, hạng tạm của từng nhân vật.
+Tỉ lệ, pity, giá là SỐ CỦA OWNER — không tự đổi. Những gì Claude tự chọn ghi rõ "Claude chọn" bên dưới.
 """
 import io
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "banners")
+OUT_TUTORIAL = os.path.join(ROOT, "data", "tutorial")
 
 # --- Owner: giá 1 lượt 280, 10 lượt 2520 (tiền tệ trong game = Ngọc) ---
 COST_SINGLE, COST_MULTI, MULTI = 280, 2520, 10
 
 # --- Owner: banner nhân vật ---
 #   S 1.5% (chỉ 1 nhân vật rate-up), A 16.3%, B 10.874%, phần còn lại là nguyên liệu tăng cấp nhân vật,
-#   nguyên liệu nâng bậc vũ khí, vàng. Pity cứng S 100 lượt; từ lượt 80 tỉ lệ S +10% (một lần).
-#   10 lượt chắc chắn ≥ 1 nhân vật A. Pity chuyển sang banner nhân vật kế tiếp (chung nhóm "char").
+#   nguyên liệu nâng bậc vũ khí, vàng. Pity cứng S 100 lượt; từ lượt 80 tỉ lệ S +10% (một lần, owner xác nhận
+#   2026-11-13). 10 lượt chắc chắn ≥ 1 nhân vật A. Pity chuyển sang banner nhân vật kế tiếp (chung nhóm "char").
+#   Hạng (owner 2026-11-13, tạm): S = Aether, Terra; A = Seraphine, Noctis; B = Kael, Lyra (CharacterDef.rank).
 CHAR_RATES = {"S": 0.015, "A": 0.163, "B": 0.10874}
-# Claude chọn (chờ owner xác nhận): banner đầu đề cử Kael (ví dụ owner nêu), hạng lấy từ CharacterDef.rank.
-CHAR_BANNERS = [("banner_char_kael", "BANNER_CHAR_KAEL", "char_lightning_01")]
+# Claude chọn (chờ owner xác nhận): đề cử Aether — nhân vật S duy nhất chơi được trong bản thử và có vũ khí /
+# vết thánh 4★ để đề cử ở banner tiếp tế. Trùng nhân vật thì thành mảnh để tiến cấp.
+FEATURED = "char_fire_01"
+CHAR_BANNERS = [("banner_char_aether", "BANNER_CHAR_AETHER", FEATURED)]
 # Claude chọn: mảnh khi trùng nhân vật; vàng mỗi lần ra; nguyên liệu chia đều trong bậc.
 DUP_FRAGMENTS = {"S": 25, "A": 10, "B": 5}
 MATERIALS = ["item:mat_exp_small", "item:mat_exp_medium", "item:mat_exp_large", "item:mat_enhance_ore",
              "item:mat_enhance_crystal", "gold:2000"]
 
-# --- Owner: tiếp tế vũ khí + vết thánh (dùng chung) ---
-#   Vũ khí 4★ 2.87%; vết thánh 4★ "mỗi cái 14%"; vũ khí 3★ 10.7%; vết thánh 3★ "mỗi cái 13%"; nguyên liệu 58%.
+# --- Owner: tiếp tế vũ khí + vết thánh (dùng chung một banner) ---
+#   Vũ khí 4★ 2.87%; vết thánh 4★ 14%; vũ khí 3★ 10.7%; vết thánh 3★ 13% → owner 2026-11-13: "tăng vết thánh 3★
+#   cho khớp 100%" = 14.43%; nguyên liệu bồi dưỡng + thông dụng 58%. Mỗi số là tổng cả nhóm (3 ô Đầu / Thân / Chân).
 #   Pity cứng vũ khí 4★: 60. 10 lượt chắc chắn 1 vũ khí / vết thánh 4★, ưu tiên vết thánh.
-#   CHƯA SINH: các số trên cộng lại khác 100% (đọc "mỗi cái" là cho từng ô Đầu / Thân / Chân thì tổng 152.57%;
-#   đọc là tổng cả 3 ô thì 98.57%). Chờ owner xác nhận rồi đặt WEAPON_RATES_CONFIRMED = True.
-WEAPON_RATES_CONFIRMED = False
+#   Rate-up: vũ khí 4★ và bộ vết thánh 4★ đề cử của nhân vật đang đề cử.
+EQUIP_RATES = {"W4": 0.0287, "S4": 0.14, "W3": 0.107, "S3": 0.1443}   # còn lại 0.58 = nguyên liệu
+EQUIP_BANNERS = [("banner_equip_aether", "BANNER_EQUIP_AETHER",
+                  ["equip:eq_weapon_flame"],
+                  ["equip:eq_stigma_top_blaze", "equip:eq_stigma_mid_blaze", "equip:eq_stigma_bot_blaze"])]
+# Claude chọn: khi ra vết thánh 4★, 50% là món trong bộ đề cử.
+STIGMA_FEATURED_RATE = 0.5
+
+# --- Owner 2026-11-13: lượt x10 miễn phí đầu tiên (hướng dẫn) BẮT BUỘC có 1 Kael, còn lại nguyên liệu tăng cấp ---
+STARTER_CHARACTER = "char_lightning_01"
+STARTER_MATERIALS = ["item:mat_exp_small", "item:mat_exp_medium", "item:mat_exp_large"]
 
 
 def char_ranks():
@@ -50,6 +63,25 @@ def char_ranks():
     return out
 
 
+def equip_by(rarity, stigma):
+    """Trang bị trong data/equipment theo số sao và loại (vũ khí / vết thánh)."""
+    out = []
+    d = os.path.join(ROOT, "data", "equipment")
+    for f in sorted(os.listdir(d)):
+        if not f.endswith(".tres"):
+            continue
+        text = io.open(os.path.join(d, f), encoding="utf-8").read()
+        r = slot = None
+        for line in text.splitlines():
+            if line.startswith("rarity = "):
+                r = int(line.split("=")[1])
+            if line.startswith('slot = "'):
+                slot = line.split('"')[1]
+        if r == rarity and (slot.startswith("stigma") if stigma else slot == "weapon"):
+            out.append("equip:" + f[:-5])
+    return out
+
+
 def tier(sub_id, tier_id, rarity, rate, pool, label_key, featured=(), featured_rate=0.0, hard=0, soft_start=0,
          soft_step=0.0, soft_mode="step", dup_frag=0):
     arr = lambda xs: "PackedStringArray(%s)" % ", ".join('"%s"' % x for x in xs)
@@ -62,7 +94,7 @@ def tier(sub_id, tier_id, rarity, rate, pool, label_key, featured=(), featured_r
         "guarantee_after_miss = false", "duplicate_fragments = %d" % dup_frag, ""])
 
 
-def write_banner(file_id, name_key, tiers, guarantee_tiers, guarantee_pick, group, source):
+def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_pick, group, source, starter=False):
     subs = [t[1] for t in tiers]
     arr = lambda xs: "PackedStringArray(%s)" % ", ".join('"%s"' % x for x in xs)
     lines = ['[gd_resource type="Resource" script_class="BannerDef" load_steps=%d format=3]' % (len(subs) + 3), "",
@@ -74,9 +106,10 @@ def write_banner(file_id, name_key, tiers, guarantee_tiers, guarantee_pick, grou
               'cost_currency = "gems"', "cost_single = %d" % COST_SINGLE, "multi_count = %d" % MULTI,
               "cost_multi = %d" % COST_MULTI, 'pity_group = "%s"' % group,
               "multi_guarantee_tiers = %s" % arr(guarantee_tiers), "multi_guarantee_pick = %s" % arr(guarantee_pick),
+              "starter_free_multi = %s" % ("true" if starter else "false"),
               'metadata/source = "%s"' % source]
-    os.makedirs(OUT, exist_ok=True)
-    with io.open(os.path.join(OUT, file_id + ".tres"), "w", encoding="utf-8", newline="\n") as f:
+    os.makedirs(out_dir, exist_ok=True)
+    with io.open(os.path.join(out_dir, file_id + ".tres"), "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines) + "\n")
 
 
@@ -94,10 +127,36 @@ for file_id, name_key, featured in CHAR_BANNERS:
         ("t_b", tier("t_b", "B", 3, CHAR_RATES["B"], b_pool, "GACHA_TIER_CHAR_B", dup_frag=DUP_FRAGMENTS["B"])),
         ("t_m", tier("t_m", "MAT", 1, 0.0, MATERIALS, "GACHA_TIER_MATERIALS")),
     ]
-    write_banner(file_id, name_key, tiers, ["S", "A"], ["A"], "char",
-                 "Owner 2026-11-12: S 1.5%%, A 16.3%%, B 10.874%%, nguyên liệu phần còn lại; pity cứng S 100, "
-                 "từ lượt 80 +10%%; 10 lượt chắc chắn A; giá 280 / 2520. Đề cử %s." % featured)
+    write_banner(OUT, file_id, name_key, tiers, ["S", "A"], ["A"], "char",
+                 "Owner 2026-11-12/13: S 1.5%%, A 16.3%%, B 10.874%%, nguyên liệu phần còn lại; pity cứng S 100, "
+                 "từ lượt 80 +10%%; 10 lượt chắc chắn A; giá 280 / 2520. Đề cử %s (Claude chọn)." % featured)
     print("viết", file_id, "A:", a_pool, "B:", b_pool)
 
-if not WEAPON_RATES_CONFIRMED:
-    print("bỏ qua banner tiếp tế vũ khí: chờ owner xác nhận tỉ lệ")
+assert abs(sum(EQUIP_RATES.values()) + 0.58 - 1.0) < 1e-9, "tỉ lệ tiếp tế phải cộng lại 100%"
+for file_id, name_key, weapons, stigmata in EQUIP_BANNERS:
+    w4, s4 = equip_by(4, False), equip_by(4, True)
+    w3, s3 = equip_by(3, False), equip_by(3, True)
+    assert all(x in w4 for x in weapons) and all(x in s4 for x in stigmata), "món đề cử phải nằm trong bậc 4★"
+    tiers = [
+        ("t_w4", tier("t_w4", "W4", 4, EQUIP_RATES["W4"], w4, "GACHA_TIER_WEAPON_4", featured=weapons,
+                      featured_rate=1.0 if len(weapons) == len(w4) else 0.5, hard=60)),
+        ("t_s4", tier("t_s4", "S4", 4, EQUIP_RATES["S4"], s4, "GACHA_TIER_STIGMA_4", featured=stigmata,
+                      featured_rate=1.0 if len(stigmata) == len(s4) else STIGMA_FEATURED_RATE)),
+        ("t_w3", tier("t_w3", "W3", 3, EQUIP_RATES["W3"], w3, "GACHA_TIER_WEAPON_3")),
+        ("t_s3", tier("t_s3", "S3", 3, EQUIP_RATES["S3"], s3, "GACHA_TIER_STIGMA_3")),
+        ("t_m", tier("t_m", "MAT", 1, 0.0, MATERIALS, "GACHA_TIER_MATERIALS")),
+    ]
+    write_banner(OUT, file_id, name_key, tiers, ["W4", "S4"], ["S4"], "equip",
+                 "Owner 2026-11-12/13: vũ khí 4★ 2.87%%, vết thánh 4★ 14%%, vũ khí 3★ 10.7%%, vết thánh 3★ 14.43%%, "
+                 "nguyên liệu 58%%; pity cứng vũ khí 4★ 60; 10 lượt chắc chắn 4★ (ưu tiên vết thánh); giá 280 / 2520.")
+    print("viết", file_id, "W4:", w4, "S4:", s4, "W3:", w3, "S3:", s3)
+
+starter_tiers = [
+    ("t_k", tier("t_k", "STARTER", 3, 0.0, ["char:" + STARTER_CHARACTER], "GACHA_TIER_CHAR_B",
+                 dup_frag=DUP_FRAGMENTS["B"])),
+    ("t_m", tier("t_m", "MAT", 1, 0.0, STARTER_MATERIALS, "GACHA_TIER_MATERIALS")),
+]
+write_banner(OUT_TUTORIAL, "starter_pull", "BANNER_STARTER", starter_tiers, [], [], "starter",
+             "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Kael, 9 lượt còn lại là nguyên liệu tăng cấp.",
+             starter=True)
+print("viết starter_pull")

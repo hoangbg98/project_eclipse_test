@@ -57,6 +57,11 @@ EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi,
     ("eq_stigma_mid_hide", "stigma_mid", 3, 1, 0.0, 900.0, 40.0, 0.0, 0.0, 0.0, "Ấn Da Thú (Thân)", "Hide Sigil (Middle)"),
     ("eq_stigma_mid_guardian", "stigma_mid", 4, 3, 0.0, 1800.0, 90.0, 0.0, 0.0, 0.0, "Ấn Hộ Vệ (Thân)", "Guardian Sigil (Middle)"),
     ("eq_stigma_bot_hourglass", "stigma_bot", 4, 3, 0.0, 400.0, 0.0, 0.0, 0.0, 0.08, "Ấn Đồng Hồ Cát (Chân)", "Hourglass Sigil (Bottom)"),
+    # Bộ vết thánh 4★ đề cử cho Aether (banner tiếp tế, owner 2026-11-13) + vết thánh Chân 3★ cho đủ 3 ô ở bậc 3★.
+    ("eq_stigma_top_blaze", "stigma_top", 4, 3, 60.0, 0.0, 0.0, 0.06, 0.0, 0.0, "Ấn Viêm Hoàng (Đầu)", "Blaze Sovereign Sigil (Top)"),
+    ("eq_stigma_mid_blaze", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Viêm Hoàng (Thân)", "Blaze Sovereign Sigil (Middle)"),
+    ("eq_stigma_bot_blaze", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Viêm Hoàng (Chân)", "Blaze Sovereign Sigil (Bottom)"),
+    ("eq_stigma_bot_sandal", "stigma_bot", 3, 1, 0.0, 500.0, 30.0, 0.0, 0.0, 0.0, "Ấn Dép Cỏ (Chân)", "Straw Sandal Sigil (Bottom)"),
 ]
 for eid, slot, rarity, cost, atk, hp, df, cr, cd, cdr, vi, en in EQUIP:
     write("data/equipment/%s.tres" % eid, "equipment_def.gd", "EquipmentDef",

@@ -99,7 +99,7 @@ Sau mỗi task, thêm mục vào cuối `docs/DEVELOPMENT_LOG.md`:
 
 - **Android hoãn** (owner, 2026-11-11): build/thử trên Windows. Vẫn giữ code đa nền tảng (cảm ứng, phím Back, ETC2/ASTC). Nhắc owner làm lại Android trước M2-4, chậm nhất trước M7.
 - **Nhắc owner thử trong Godot** trước các task ở bảng "Mốc owner nên mở Godot để thử" cuối `docs/IMPLEMENTATION_ROADMAP.md` (M2-3, M3-5/M3-7, M4-4/M4-7, M6, M7).
-- Gacha: banner nhân vật theo số của owner (2026-11-12) sinh bằng `tools/gen_banner_data.py`; **tiếp tế vũ khí chờ owner sửa tỉ lệ** (OWNER_ASSET_CHECKLIST A2), không tự đặt số. Trang bị: 1 vũ khí (theo loại vũ khí của nhân vật) + 3 vết thánh Đầu / Thân / Chân. Cấp nhân vật ≤ cấp đội trưởng.
+- Gacha: banner nhân vật, tiếp tế vũ khí / vết thánh và lượt x10 miễn phí đầu tiên (chắc chắn Kael) theo số của owner (2026-11-12/13) sinh bằng `tools/gen_banner_data.py`; không tự đặt tỉ lệ (OWNER_ASSET_CHECKLIST A2). Trang bị: 1 vũ khí (theo loại vũ khí của nhân vật) + 3 vết thánh Đầu / Thân / Chân. Cấp nhân vật ≤ **cấp người chơi** (người quản lý, không có hình; lên cấp qua nhiệm vụ, phó bản; code gọi `account` / `captain_*`).
 - Script UI nằm trong scene màn chơi (ResultScreen, PauseMenu, SettingsPanel...) lấy autoload qua `UiKit.autoload("Tên")`, vì scene đó còn được nạp bằng `--script`.
 - Sửa file có tiếng Việt bằng script Python: ghi script ra file rồi chạy `python -X utf8 file.py`; **không** dán qua heredoc stdin (hỏng dấu, đã làm mất dữ liệu một lần).
 - Q1–Q6 (công thức sát thương, chí mạng, debuff, trạng thái, phạm vi slice, revive): xem bảng trong `docs/DEVELOPMENT_LOG.md` mục M0-2.

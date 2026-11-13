@@ -27,7 +27,7 @@ static func default_data() -> Dictionary:
 		},
 		"currencies": {"gold": 0, "gems": 0},
 		"account": {"level": 1, "exp": 0},   # cấp đội trưởng: giới hạn cấp nhân vật
-		"gacha": {"pity": {}, "guarantee": {}, "history": []},
+		"gacha": {"pity": {}, "guarantee": {}, "history": [], "starter_used": []},   # starter_used: id banner x10 miễn phí đã dùng
 		"progress": {"stages": {}},          # stage_id -> {cleared, best_time_sec}
 		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0, "fullscreen": false},
 		"stats": {"play_time_sec": 0.0},

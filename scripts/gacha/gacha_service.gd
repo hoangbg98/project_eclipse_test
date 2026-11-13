@@ -12,6 +12,7 @@ const REASON_OK := ""
 const REASON_INVALID := "invalid_banner"
 const REASON_NOT_ENOUGH := "not_enough_currency"
 const REASON_BAD_COUNT := "bad_count"
+const REASON_STARTER_USED := "starter_used"
 
 var profile: PlayerProfile
 var rng: RandomSource
@@ -65,6 +66,28 @@ func pull(banner: BannerDef, count: int) -> Dictionary:
 			satisfied = true
 		results.append(r)
 	return {"reason": REASON_OK, "results": results}
+
+
+## Lượt x10 miễn phí đầu tiên (banner `starter_free_multi`): miễn phí, dùng một lần cho mỗi banner, đúng 1 lượt
+## ra bậc đầu (vị trí ngẫu nhiên trong gói), các lượt khác ra bậc cuối. Pity nằm trong nhóm riêng của banner.
+func pull_starter(banner: BannerDef) -> Dictionary:
+	if banner == null or not banner.starter_free_multi or not banner.validate().is_empty() or banner.tiers.size() < 2:
+		return {"reason": REASON_INVALID, "results": []}
+	if not starter_available(banner):
+		return {"reason": REASON_STARTER_USED, "results": []}
+	var used: Array = profile.data["gacha"]["starter_used"]
+	used.append(banner.id)
+	var first := banner.tiers[0].key()
+	var rest := banner.tiers[banner.tiers.size() - 1].key()
+	var at := rng.randi_range(0, banner.multi_count - 1)
+	var results: Array = []
+	for i in banner.multi_count:
+		results.append(_pull_one(banner, first if i == at else rest))
+	return {"reason": REASON_OK, "results": results}
+
+
+func starter_available(banner: BannerDef) -> bool:
+	return banner != null and banner.starter_free_multi and banner.id not in profile.data["gacha"]["starter_used"]
 
 
 ## Một lượt. `force_tier`: khóa bậc bắt buộc (bảo đảm khi quay gói) — vẫn tăng / reset pity như lượt thường.

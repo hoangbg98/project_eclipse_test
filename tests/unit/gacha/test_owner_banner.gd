@@ -2,7 +2,7 @@ extends GdUnitTestSuite
 ## Test banner nhân vật theo câu trả lời của owner (2026-11-12): tỉ lệ S / A / B, pity cứng 100, pity mềm +10% từ lượt 80,
 ## 10 lượt chắc chắn ≥ 1 nhân vật A, pity chuyển sang banner kế tiếp, giá 280 / 2520, trùng nhân vật → mảnh.
 
-const PATH := "res://data/banners/banner_char_kael.tres"
+const PATH := "res://data/banners/banner_char_aether.tres"
 
 var _data: Dictionary
 var _profile: PlayerProfile
@@ -42,6 +42,11 @@ func test_config_matches_owner_answers() -> void:
 	assert_array(Array(b.multi_guarantee_tiers)).is_equal(["S", "A"])
 	assert_array(Array(b.multi_guarantee_pick)).is_equal(["A"])
 	assert_str(b.group()).is_equal("char")
+	# Hạng tạm của owner (2026-11-13): S = Aether, Terra; B = Kael, Lyra.
+	assert_array(Array(s.featured)).is_equal(["char:char_fire_01"])
+	assert_array(Array(b.tier("B").pool)).contains(["char:char_lightning_01", "char:char_wind_01"])
+	for id in ["char_fire_01", "char_earth_01"]:
+		assert_str((load("res://data/characters/%s.tres" % id) as CharacterDef).rank).is_equal("S")
 
 
 func test_soft_pity_is_flat_plus_ten_percent() -> void:
@@ -119,14 +124,14 @@ func test_cost_and_duplicate_fragments() -> void:
 	assert_int(_profile.inventory.currency("gems")).is_equal(before - 280)
 	s.pull(_banner(), 10)
 	assert_int(_profile.inventory.currency("gems")).is_equal(before - 280 - 2520)
-	# Kael (S, đã sở hữu từ đầu) ra lần nữa → 25 mảnh.
+	# Aether (S đề cử, đã sở hữu từ đầu) ra lần nữa → 25 mảnh.
 	var b := _banner()
 	b.tier("S").base_rate = 1.0
 	b.tier("A").base_rate = 0.0
 	b.tier("B").base_rate = 0.0
 	var r: Dictionary = s.pull(b, 1)["results"][0]
 	assert_bool(r["duplicate"]).is_true()
-	assert_int(_profile.progression.fragments_of("char_lightning_01")).is_equal(25)
+	assert_int(_profile.progression.fragments_of("char_fire_01")).is_equal(25)
 
 
 func test_new_character_unlocked_and_gold_reward() -> void:

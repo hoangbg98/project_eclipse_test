@@ -25,6 +25,11 @@ extends Resource
 @export var multi_guarantee_tiers: PackedStringArray = PackedStringArray()
 @export var multi_guarantee_pick: PackedStringArray = PackedStringArray()
 
+@export_group("Lượt miễn phí hướng dẫn")
+## Banner dùng một lần cho người mới (owner 2026-11-13): quay gói `multi_count` không tốn tiền, đúng 1 lượt ra bậc
+## đầu tiên (vd Kael), các lượt còn lại ra bậc cuối (nguyên liệu). Không xuất hiện ở tab Chiêu mộ.
+@export var starter_free_multi := false
+
 
 func tier(key: String) -> GachaTierDef:
 	for t in tiers:

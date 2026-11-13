@@ -490,7 +490,7 @@ msgid "WEAPON_TYPE_GREATSWORD"
 msgstr "Greatsword"
 
 msgid "REASON_LEVEL_CAP"
-msgstr "Captain level limit reached."
+msgstr "Player level limit reached."
 
 msgid "REASON_WRONG_WEAPON"
 msgstr "This character cannot use this weapon type."
@@ -517,7 +517,7 @@ msgid "BANNER_CHAR_KAEL"
 msgstr "Recruitment: Kael"
 
 msgid "CAPTAIN_LEVEL"
-msgstr "Captain Lv.%d"
+msgstr "Player level %d"
 
 msgid "CHAR_TAB_LEVEL"
 msgstr "Level up"
@@ -908,3 +908,40 @@ msgstr "Earthsplitter"
 
 msgid "SKILL_EARTH_01_ULTIMATE"
 msgstr "Mountain Collapse"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_STIGMA_TOP_BLAZE"
+msgstr "Blaze Sovereign Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_BLAZE"
+msgstr "Blaze Sovereign Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_BLAZE"
+msgstr "Blaze Sovereign Sigil (Bottom)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_SANDAL"
+msgstr "Straw Sandal Sigil (Bottom)"
+
+msgid "BANNER_CHAR_AETHER"
+msgstr "Recruitment: Aether"
+
+msgid "BANNER_EQUIP_AETHER"
+msgstr "Supply: Aether's weapon & stigmata"
+
+msgid "BANNER_STARTER"
+msgstr "First recruitment (free)"
+
+msgid "GACHA_TIER_WEAPON_4"
+msgstr "4★ weapon"
+
+msgid "GACHA_TIER_STIGMA_4"
+msgstr "4★ stigma"
+
+msgid "GACHA_TIER_WEAPON_3"
+msgstr "3★ weapon"
+
+msgid "GACHA_TIER_STIGMA_3"
+msgstr "3★ stigma"
+
+msgid "REASON_STARTER_USED"
+msgstr "Free pull already used"

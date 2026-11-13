@@ -119,10 +119,13 @@ func test_recruit_closed_without_banner_data() -> void:
 
 func test_recruit_loads_shipped_character_banner() -> void:
 	var p := _add(HubRecruitPanel.new()) as HubRecruitPanel
-	assert_int(p.banners.size()).is_equal(1)
+	assert_int(p.banners.size()).is_equal(2)                          # nhân vật + tiếp tế
 	var lines := "\n".join(p.rate_lines(p.banners[0]))
 	assert_bool(lines.contains("1.500%") and lines.contains("16.300%") and lines.contains("10.874%")).is_true()
 	assert_bool(lines.contains(tr("RECRUIT_MULTI_GUARANTEE") % 10)).is_true()
+	var eq := "\n".join(p.rate_lines(p.banners[1]))
+	assert_bool(eq.contains("2.870%") and eq.contains("14.430%") and eq.contains("58.000%")).is_true()
+	assert_bool(eq.contains(tr("GACHA_TIER_STIGMA_4"))).is_true()
 
 
 func _test_banner() -> BannerDef:

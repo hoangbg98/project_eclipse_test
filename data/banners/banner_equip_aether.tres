@@ -1,0 +1,99 @@
+[gd_resource type="Resource" script_class="BannerDef" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/gacha/banner_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/gacha/gacha_tier_def.gd" id="2"]
+
+[sub_resource type="Resource" id="t_w4"]
+script = ExtResource("2")
+rarity = 4
+tier_id = "W4"
+label_key = "GACHA_TIER_WEAPON_4"
+base_rate = 0.0287
+hard_pity = 60
+soft_pity_start = 0
+soft_pity_step = 0.0
+soft_pity_mode = "step"
+pool = PackedStringArray("equip:eq_weapon_flame")
+featured = PackedStringArray("equip:eq_weapon_flame")
+featured_rate = 1.0
+guarantee_after_miss = false
+duplicate_fragments = 0
+
+[sub_resource type="Resource" id="t_s4"]
+script = ExtResource("2")
+rarity = 4
+tier_id = "S4"
+label_key = "GACHA_TIER_STIGMA_4"
+base_rate = 0.14
+hard_pity = 0
+soft_pity_start = 0
+soft_pity_step = 0.0
+soft_pity_mode = "step"
+pool = PackedStringArray("equip:eq_stigma_bot_blaze", "equip:eq_stigma_bot_hourglass", "equip:eq_stigma_mid_blaze", "equip:eq_stigma_mid_guardian", "equip:eq_stigma_top_blaze")
+featured = PackedStringArray("equip:eq_stigma_top_blaze", "equip:eq_stigma_mid_blaze", "equip:eq_stigma_bot_blaze")
+featured_rate = 0.5
+guarantee_after_miss = false
+duplicate_fragments = 0
+
+[sub_resource type="Resource" id="t_w3"]
+script = ExtResource("2")
+rarity = 3
+tier_id = "W3"
+label_key = "GACHA_TIER_WEAPON_3"
+base_rate = 0.107
+hard_pity = 0
+soft_pity_start = 0
+soft_pity_step = 0.0
+soft_pity_mode = "step"
+pool = PackedStringArray("equip:eq_weapon_blades_spark", "equip:eq_weapon_bow_gale", "equip:eq_weapon_iron")
+featured = PackedStringArray()
+featured_rate = 0.0
+guarantee_after_miss = false
+duplicate_fragments = 0
+
+[sub_resource type="Resource" id="t_s3"]
+script = ExtResource("2")
+rarity = 3
+tier_id = "S3"
+label_key = "GACHA_TIER_STIGMA_3"
+base_rate = 0.1443
+hard_pity = 0
+soft_pity_start = 0
+soft_pity_step = 0.0
+soft_pity_mode = "step"
+pool = PackedStringArray("equip:eq_stigma_bot_sandal", "equip:eq_stigma_mid_hide", "equip:eq_stigma_top_elite")
+featured = PackedStringArray()
+featured_rate = 0.0
+guarantee_after_miss = false
+duplicate_fragments = 0
+
+[sub_resource type="Resource" id="t_m"]
+script = ExtResource("2")
+rarity = 1
+tier_id = "MAT"
+label_key = "GACHA_TIER_MATERIALS"
+base_rate = 0.0
+hard_pity = 0
+soft_pity_start = 0
+soft_pity_step = 0.0
+soft_pity_mode = "step"
+pool = PackedStringArray("item:mat_exp_small", "item:mat_exp_medium", "item:mat_exp_large", "item:mat_enhance_ore", "item:mat_enhance_crystal", "gold:2000")
+featured = PackedStringArray()
+featured_rate = 0.0
+guarantee_after_miss = false
+duplicate_fragments = 0
+
+[resource]
+script = ExtResource("1")
+id = "banner_equip_aether"
+name_key = "BANNER_EQUIP_AETHER"
+tiers = Array[ExtResource("2")]([SubResource("t_w4"), SubResource("t_s4"), SubResource("t_w3"), SubResource("t_s3"), SubResource("t_m")])
+cost_currency = "gems"
+cost_single = 280
+multi_count = 10
+cost_multi = 2520
+pity_group = "equip"
+multi_guarantee_tiers = PackedStringArray("W4", "S4")
+multi_guarantee_pick = PackedStringArray("S4")
+starter_free_multi = false
+metadata/source = "Owner 2026-11-12/13: vũ khí 4★ 2.87%%, vết thánh 4★ 14%%, vũ khí 3★ 10.7%%, vết thánh 3★ 14.43%%, nguyên liệu 58%%; pity cứng vũ khí 4★ 60; 10 lượt chắc chắn 4★ (ưu tiên vết thánh); giá 280 / 2520."

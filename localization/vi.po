@@ -490,7 +490,7 @@ msgid "WEAPON_TYPE_GREATSWORD"
 msgstr "Đại kiếm"
 
 msgid "REASON_LEVEL_CAP"
-msgstr "Đã chạm giới hạn cấp đội trưởng."
+msgstr "Đã chạm giới hạn cấp người chơi."
 
 msgid "REASON_WRONG_WEAPON"
 msgstr "Nhân vật không dùng được loại vũ khí này."
@@ -517,7 +517,7 @@ msgid "BANNER_CHAR_KAEL"
 msgstr "Chiêu mộ: Kael"
 
 msgid "CAPTAIN_LEVEL"
-msgstr "Cấp đội trưởng %d"
+msgstr "Cấp người chơi %d"
 
 msgid "CHAR_TAB_LEVEL"
 msgstr "Tăng cấp"
@@ -908,3 +908,40 @@ msgstr "Đại Địa Trảm"
 
 msgid "SKILL_EARTH_01_ULTIMATE"
 msgstr "Sơn Băng Địa Liệt"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_STIGMA_TOP_BLAZE"
+msgstr "Ấn Viêm Hoàng (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_BLAZE"
+msgstr "Ấn Viêm Hoàng (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_BLAZE"
+msgstr "Ấn Viêm Hoàng (Chân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_SANDAL"
+msgstr "Ấn Dép Cỏ (Chân)"
+
+msgid "BANNER_CHAR_AETHER"
+msgstr "Chiêu mộ: Aether"
+
+msgid "BANNER_EQUIP_AETHER"
+msgstr "Tiếp tế: vũ khí & vết thánh của Aether"
+
+msgid "BANNER_STARTER"
+msgstr "Chiêu mộ đầu tiên (miễn phí)"
+
+msgid "GACHA_TIER_WEAPON_4"
+msgstr "Vũ khí 4★"
+
+msgid "GACHA_TIER_STIGMA_4"
+msgstr "Vết thánh 4★"
+
+msgid "GACHA_TIER_WEAPON_3"
+msgstr "Vũ khí 3★"
+
+msgid "GACHA_TIER_STIGMA_3"
+msgstr "Vết thánh 3★"
+
+msgid "REASON_STARTER_USED"
+msgstr "Đã dùng lượt miễn phí này"

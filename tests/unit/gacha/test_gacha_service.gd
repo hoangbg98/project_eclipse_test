@@ -67,11 +67,13 @@ func test_banner_validation() -> void:
 	assert_bool(b.validate().size() > 0).is_true()
 
 
-func test_shipped_banners_are_valid_and_weapon_banner_waits_for_owner() -> void:
+func test_shipped_banners_are_valid() -> void:
 	var files := ResourceLoader.list_directory("res://data/banners")
-	assert_array(Array(files)).is_equal(["banner_char_kael.tres"])   # tiếp tế vũ khí chưa sinh: tỉ lệ chờ owner
-	var b: BannerDef = load("res://data/banners/banner_char_kael.tres")
-	assert_array(b.validate()).is_empty()
+	assert_array(Array(files)).is_equal(["banner_char_aether.tres", "banner_equip_aether.tres"])
+	for f in files:
+		var b: BannerDef = load("res://data/banners/" + f)
+		assert_array(b.validate()).is_empty()
+		assert_bool(b.starter_free_multi).is_false()
 
 
 func test_rates_table_sums_to_one_and_matches_config() -> void:

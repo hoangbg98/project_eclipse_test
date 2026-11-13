@@ -31,7 +31,7 @@ func test_data_is_valid() -> void:
 	assert_array(PlayerProfile.item_defs().errors).is_empty()
 	assert_array(PlayerProfile.equipment_defs().errors).is_empty()
 	assert_int(PlayerProfile.item_defs().defs.size()).is_equal(5)
-	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(8)
+	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(12)
 	var slots := {}
 	for id in PlayerProfile.equipment_defs().ids():
 		var d: EquipmentDef = PlayerProfile.equipment_defs().get_def(id)

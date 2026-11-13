@@ -81,7 +81,7 @@ KEYS = [
     ("REASON_INVALID_BANNER", "Banner không hợp lệ.", "Invalid banner."),
     ("REASON_BAD_COUNT", "Số lượt không hợp lệ.", "Invalid pull count."),
     # Chiêu mộ, tiến trình (owner 2026-11-12)
-    ("REASON_LEVEL_CAP", "Đã chạm giới hạn cấp đội trưởng.", "Captain level limit reached."),
+    ("REASON_LEVEL_CAP", "Đã chạm giới hạn cấp người chơi.", "Player level limit reached."),
     ("REASON_WRONG_WEAPON", "Nhân vật không dùng được loại vũ khí này.", "This character cannot use this weapon type."),
     ("RECRUIT_SOFT_PITY_FLAT", "từ lượt %d: +%.1f%%", "from pull %d: +%.1f%%"),
     ("RECRUIT_MULTI_GUARANTEE", "quay %d lượt chắc chắn có ít nhất 1 bậc này", "a %d-pull always includes at least one of this tier"),
@@ -90,7 +90,7 @@ KEYS = [
     ("GACHA_TIER_CHAR_B", "Nhân vật B", "B-rank character"),
     ("GACHA_TIER_MATERIALS", "Nguyên liệu, vàng", "Materials, gold"),
     ("BANNER_CHAR_KAEL", "Chiêu mộ: Kael", "Recruitment: Kael"),
-    ("CAPTAIN_LEVEL", "Cấp đội trưởng %d", "Captain Lv.%d"),
+    ("CAPTAIN_LEVEL", "Cấp người chơi %d", "Player level %d"),
     # Màn Nhân vật (6 ảnh tham chiếu owner 2026-11-12)
     ("CHAR_TAB_LEVEL", "Tăng cấp", "Level up"),
     ("CHAR_TAB_WEAPON", "Vũ khí", "Weapon"),
@@ -222,6 +222,15 @@ KEYS = [
     ("SKILL_DARK_01_ULTIMATE", "Đêm Vĩnh Hằng", "Eternal Night"),
     ("SKILL_EARTH_01_NORMAL", "Đại Địa Trảm", "Earthsplitter"),
     ("SKILL_EARTH_01_ULTIMATE", "Sơn Băng Địa Liệt", "Mountain Collapse"),
+    # Banner theo owner 2026-11-13
+    ("BANNER_CHAR_AETHER", "Chiêu mộ: Aether", "Recruitment: Aether"),
+    ("BANNER_EQUIP_AETHER", "Tiếp tế: vũ khí & vết thánh của Aether", "Supply: Aether's weapon & stigmata"),
+    ("BANNER_STARTER", "Chiêu mộ đầu tiên (miễn phí)", "First recruitment (free)"),
+    ("GACHA_TIER_WEAPON_4", "Vũ khí 4★", "4★ weapon"),
+    ("GACHA_TIER_STIGMA_4", "Vết thánh 4★", "4★ stigma"),
+    ("GACHA_TIER_WEAPON_3", "Vũ khí 3★", "3★ weapon"),
+    ("GACHA_TIER_STIGMA_3", "Vết thánh 3★", "3★ stigma"),
+    ("REASON_STARTER_USED", "Đã dùng lượt miễn phí này", "Free pull already used"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):
