@@ -1,0 +1,82 @@
+[gd_resource type="Resource" script_class="BannerDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/gacha/banner_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/gacha/gacha_tier_def.gd" id="2"]
+
+[sub_resource type="Resource" id="t_s"]
+script = ExtResource("2")
+rarity = 5
+tier_id = "S"
+label_key = "GACHA_TIER_CHAR_S"
+base_rate = 0.015
+hard_pity = 100
+soft_pity_start = 80
+soft_pity_step = 0.1
+soft_pity_mode = "flat"
+pool = PackedStringArray("char:char_lightning_01")
+featured = PackedStringArray("char:char_lightning_01")
+featured_rate = 1.0
+guarantee_after_miss = false
+duplicate_fragments = 25
+
+[sub_resource type="Resource" id="t_a"]
+script = ExtResource("2")
+rarity = 4
+tier_id = "A"
+label_key = "GACHA_TIER_CHAR_A"
+base_rate = 0.163
+hard_pity = 0
+soft_pity_start = 0
+soft_pity_step = 0.0
+soft_pity_mode = "step"
+pool = PackedStringArray("char:char_dark_01", "char:char_light_01")
+featured = PackedStringArray()
+featured_rate = 0.0
+guarantee_after_miss = false
+duplicate_fragments = 10
+
+[sub_resource type="Resource" id="t_b"]
+script = ExtResource("2")
+rarity = 3
+tier_id = "B"
+label_key = "GACHA_TIER_CHAR_B"
+base_rate = 0.10874
+hard_pity = 0
+soft_pity_start = 0
+soft_pity_step = 0.0
+soft_pity_mode = "step"
+pool = PackedStringArray("char:char_earth_01")
+featured = PackedStringArray()
+featured_rate = 0.0
+guarantee_after_miss = false
+duplicate_fragments = 5
+
+[sub_resource type="Resource" id="t_m"]
+script = ExtResource("2")
+rarity = 1
+tier_id = "MAT"
+label_key = "GACHA_TIER_MATERIALS"
+base_rate = 0.0
+hard_pity = 0
+soft_pity_start = 0
+soft_pity_step = 0.0
+soft_pity_mode = "step"
+pool = PackedStringArray("item:mat_exp_small", "item:mat_exp_medium", "item:mat_exp_large", "item:mat_enhance_ore", "item:mat_enhance_crystal", "gold:2000")
+featured = PackedStringArray()
+featured_rate = 0.0
+guarantee_after_miss = false
+duplicate_fragments = 0
+
+[resource]
+script = ExtResource("1")
+id = "banner_char_kael"
+name_key = "BANNER_CHAR_KAEL"
+tiers = Array[ExtResource("2")]([SubResource("t_s"), SubResource("t_a"), SubResource("t_b"), SubResource("t_m")])
+cost_currency = "gems"
+cost_single = 280
+multi_count = 10
+cost_multi = 2520
+pity_group = "char"
+multi_guarantee_tiers = PackedStringArray("S", "A")
+multi_guarantee_pick = PackedStringArray("A")
+metadata/source = "Owner 2026-11-12: S 1.5%, A 16.3%, B 10.874%, nguyên liệu phần còn lại; pity cứng S 100, từ lượt 80 +10%; 10 lượt chắc chắn A; giá 280 / 2520. Đề cử char_lightning_01."

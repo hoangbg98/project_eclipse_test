@@ -4,18 +4,19 @@
 
 [resource]
 script = ExtResource("1")
-id = "eq_acc_hourglass"
-name_key = "EQUIP_EQ_ACC_HOURGLASS"
-slot = "accessory"
+id = "eq_weapon_blades_spark"
+name_key = "EQUIP_EQ_WEAPON_BLADES_SPARK"
+slot = "weapon"
 rarity = 3
+weapon_type = "dual_blades"
 max_level = 10
-atk = 0.0
-max_hp = 400.0
+atk = 78.0
+max_hp = 0.0
 def = 0.0
 crit_rate = 0.0
 crit_damage = 0.0
-cdr = 0.08
+cdr = 0.0
 growth_per_level = 0.1
-enhance_gold_base = 600
-enhance_points_base = 300
+enhance_gold_base = 200
+enhance_points_base = 100
 metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

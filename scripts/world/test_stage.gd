@@ -17,6 +17,8 @@ const ENEMY_SCENE := preload("res://scenes/enemies/enemy_slime.tscn")
 @export var spawn_enemies := true
 ## (character_id) -> CombatStats theo cấp + trang bị (PlayerProfile.stats_of). Rỗng = chỉ số gốc cấp 1.
 var stats_provider: Callable
+## (character_id) -> {SkillDef.key: cấp} (PlayerProfile.skill_levels_of). Rỗng = mọi kỹ năng cấp 1.
+var skill_levels_provider: Callable
 
 var map: StageMap
 var tiles: TileMapLayer
@@ -58,6 +60,7 @@ func _ready() -> void:
 	party.name = "Party"
 	add_child(party)
 	party.stats_provider = stats_provider
+	party.skill_levels_provider = skill_levels_provider
 	party.setup(party_ids, self, map.spawn_position())
 	party.party_defeated.connect(func() -> void: _revive_timer = player_revive_sec)
 	party.member_down.connect(_on_member_down)

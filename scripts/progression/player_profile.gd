@@ -49,6 +49,11 @@ func stats_of(character_id: String) -> CombatStats:
 	return progression.stats_for(load(path) as CharacterDef)
 
 
+## Cấp kỹ năng theo SkillDef.key của một nhân vật (cho PartyManager.skill_levels_provider).
+func skill_levels_of(character_id: String) -> Dictionary:
+	return progression.skill_levels_by_key(character_id)
+
+
 ## Đặt đội (1–3 nhân vật đang sở hữu, không trùng). Trả về false và giữ nguyên nếu không hợp lệ.
 func set_party(ids: Array) -> bool:
 	if ids.is_empty() or ids.size() > 3:
@@ -65,7 +70,10 @@ func set_party(ids: Array) -> bool:
 ## Nhận thưởng: {"gold": n, "gems": n, "materials": {id: n}, "equipment": [def_id], "exp": {char_id: n} | n cho cả đội}.
 ## Trả về bản tóm tắt những gì đã nhận thật (để màn kết quả hiển thị).
 func grant(reward: Dictionary) -> Dictionary:
-	var got := {"gold": 0, "gems": 0, "materials": {}, "equipment": [], "levels": {}}
+	var got := {"gold": 0, "gems": 0, "materials": {}, "equipment": [], "levels": {}, "captain_levels": 0}
+	# EXP đội trưởng trước: cấp đội trưởng là giới hạn cấp nhân vật.
+	if int(reward.get("captain_exp", 0)) > 0:
+		got["captain_levels"] = progression.add_captain_exp(int(reward["captain_exp"]))
 	for cur in ["gold", "gems"]:
 		var n := int(reward.get(cur, 0))
 		if n > 0 and inventory.add_currency(cur, n):

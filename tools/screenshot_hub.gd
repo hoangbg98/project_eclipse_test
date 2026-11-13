@@ -27,7 +27,7 @@ func _prepare() -> void:
 		p.inventory.add_material("mat_exp_medium", 2)
 		p.inventory.add_material("mat_enhance_ore", 9)
 		p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_weapon_flame"))
-		p.inventory.add_equipment("eq_armor_leather")
+		p.inventory.add_equipment("eq_stigma_mid_hide")
 		p.progression.add_exp("char_fire_01", 1500)
 		save.data["progress"]["stages"]["stage_01"] = {"cleared": true, "best_time_sec": 214.0}
 	_hub = (load("res://scenes/main/hub.tscn") as PackedScene).instantiate()

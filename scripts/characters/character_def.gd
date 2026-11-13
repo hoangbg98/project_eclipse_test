@@ -6,6 +6,10 @@ extends Resource
 ## Khóa dịch tên hiển thị (tên tạm, đổi trước khi công khai).
 @export var name_key := ""
 @export var element := ""
+## Hạng nhân vật trong chiêu mộ: "S", "A" hoặc "B" (owner gán; rỗng = chưa gán, UI hiện "?").
+@export var rank := ""
+## Loại vũ khí dùng được ("sword", "bow", "dual_blades", "staff", "scythe", "greatsword"); khớp EquipmentDef.weapon_type.
+@export var weapon_type := ""
 @export var stats: CombatStats
 @export var movement: MovementConfig
 ## Thư mục chứa SkillDef của nhân vật.

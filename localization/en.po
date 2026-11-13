@@ -441,3 +441,80 @@ msgstr "Invalid banner."
 
 msgid "REASON_BAD_COUNT"
 msgstr "Invalid pull count."
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_STIGMA_TOP_ELITE"
+msgstr "Elite Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_HIDE"
+msgstr "Hide Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_MID_GUARDIAN"
+msgstr "Guardian Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_HOURGLASS"
+msgstr "Hourglass Sigil (Bottom)"
+
+msgid "SLOT_STIGMA_TOP"
+msgstr "Stigma (Top)"
+
+msgid "SLOT_STIGMA_MID"
+msgstr "Stigma (Middle)"
+
+msgid "SLOT_STIGMA_BOT"
+msgstr "Stigma (Bottom)"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_BOW_GALE"
+msgstr "Gale Bow"
+
+msgid "EQUIP_EQ_WEAPON_BLADES_SPARK"
+msgstr "Spark Blades"
+
+msgid "WEAPON_TYPE_SWORD"
+msgstr "Sword"
+
+msgid "WEAPON_TYPE_BOW"
+msgstr "Bow"
+
+msgid "WEAPON_TYPE_DUAL_BLADES"
+msgstr "Dual Blades"
+
+msgid "WEAPON_TYPE_STAFF"
+msgstr "Staff"
+
+msgid "WEAPON_TYPE_SCYTHE"
+msgstr "Scythe"
+
+msgid "WEAPON_TYPE_GREATSWORD"
+msgstr "Greatsword"
+
+msgid "REASON_LEVEL_CAP"
+msgstr "Captain level limit reached."
+
+msgid "REASON_WRONG_WEAPON"
+msgstr "This character cannot use this weapon type."
+
+msgid "RECRUIT_SOFT_PITY_FLAT"
+msgstr "from pull %d: +%.1f%%"
+
+msgid "RECRUIT_MULTI_GUARANTEE"
+msgstr "a %d-pull always includes at least one of this tier"
+
+msgid "GACHA_TIER_CHAR_S"
+msgstr "S-rank character"
+
+msgid "GACHA_TIER_CHAR_A"
+msgstr "A-rank character"
+
+msgid "GACHA_TIER_CHAR_B"
+msgstr "B-rank character"
+
+msgid "GACHA_TIER_MATERIALS"
+msgstr "Materials, gold"
+
+msgid "BANNER_CHAR_KAEL"
+msgstr "Recruitment: Kael"
+
+msgid "CAPTAIN_LEVEL"
+msgstr "Captain Lv.%d"

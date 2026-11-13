@@ -29,6 +29,7 @@ const WALL_THICKNESS := 64.0
 ## Để test tự đặt đội / chỉ số; rỗng thì lấy từ SaveService (hoặc đội khởi đầu).
 var party_ids := PackedStringArray()
 var stats_provider: Callable
+var skill_levels_provider: Callable
 ## true: lấy màn từ GameConfig.selected_stage_id (màn chọn màn đặt trước khi mở scene).
 var use_selected_stage := true
 ## false: không đọc / ghi SaveService (test).
@@ -81,6 +82,8 @@ func _ready() -> void:
 			party_ids = profile.party_ids()
 		if not stats_provider.is_valid():
 			stats_provider = profile.stats_of
+		if not skill_levels_provider.is_valid():
+			skill_levels_provider = profile.skill_levels_of
 	if party_ids.is_empty():
 		party_ids = PackedStringArray(SaveSchema.STARTER_CHARACTERS)
 
@@ -88,6 +91,7 @@ func _ready() -> void:
 	party.name = "Party"
 	add_child(party)
 	party.stats_provider = stats_provider
+	party.skill_levels_provider = skill_levels_provider
 	party.setup(party_ids, self, respawn_point)
 	party.party_defeated.connect(_on_party_defeated)
 	party.switched.connect(func(_f: CharacterRuntime, _t: CharacterRuntime, _m: String) -> void: _bind_player())

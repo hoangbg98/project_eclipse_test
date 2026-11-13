@@ -20,6 +20,8 @@ var hurtbox: Hurtbox
 var skills: Dictionary = {}  # key -> SkillDef
 ## Hàm trả % tăng sát thương riêng cho một kỹ năng sắp chạy (nội tại, buff). (SkillDef) -> Dictionary
 var bonus_provider: Callable
+## Hàm trả cấp kỹ năng (≥ 1) của kỹ năng sắp chạy. (SkillDef) -> int. Không gán = cấp 1.
+var level_provider: Callable
 
 var current: SkillDef
 var current_key := ""
@@ -219,8 +221,10 @@ func run(key: String, p_facing: int = 0) -> bool:
 		actor.facing = facing
 	_attached.scale.x = facing
 	var bonus: Dictionary = bonus_provider.call(s) if bonus_provider.is_valid() else {}
+	_current_level = maxi(int(level_provider.call(s)), 1) if level_provider.is_valid() else 1
 	for hb: Hitbox in _hitboxes.get(key, []):
 		hb.damage_bonus = bonus
+		hb.skill_level = _current_level
 	_current_bonus = bonus
 	if s.key == "normal":
 		_combo_next = s.next_skill
@@ -233,6 +237,7 @@ func run(key: String, p_facing: int = 0) -> bool:
 
 
 var _current_bonus: Dictionary = {}
+var _current_level := 1
 ## Quãng lướt của lần chạy hiện tại (move_px, hoặc tính theo mục tiêu khi approach_target).
 var _move_px := 0.0
 ## Kỹ năng `teleport` không nhắm mục tiêu: dịch chuyển một lần `move_px` tại `move_from_ms` (né Kael).
@@ -367,6 +372,7 @@ func _spawn_detached(key: String, index: int) -> void:
 	if h.at_target:
 		# Không có mục tiêu: đặt trước mặt (200 px).
 		origin = target_position if has_target else actor.global_position + Vector2(200.0 * facing, 0.0)
-	DetachedHit.spawn(actor.get_parent(), h, actor,
+	var d := DetachedHit.spawn(actor.get_parent(), h, actor,
 			combatant.team if combatant else PhysicsLayers.Team.PLAYER, facing,
 			origin, _current_bonus, s.hit_kind, s.id, s.extra_en_on_hit)
+	d.hitbox.skill_level = _current_level

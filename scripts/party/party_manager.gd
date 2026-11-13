@@ -43,6 +43,8 @@ var members: Array[CharacterRuntime] = []
 ## (character_id) -> CombatStats: chỉ số theo cấp + trang bị của người chơi (PlayerProfile.stats_of).
 ## Không gán thì dùng chỉ số gốc cấp 1 trong CharacterDef.
 var stats_provider: Callable
+## (character_id) -> {SkillDef.key: cấp} (PlayerProfile.skill_levels_of). Không gán thì mọi kỹ năng cấp 1.
+var skill_levels_provider: Callable
 var active_index := 0
 var rules: CombatRules
 var links: LinkTracker
@@ -70,6 +72,8 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 		p.character_id = character_ids[i]
 		if stats_provider.is_valid():
 			p.stats_override = stats_provider.call(character_ids[i])
+		if skill_levels_provider.is_valid():
+			p.skill_levels = skill_levels_provider.call(character_ids[i])
 		p.position = spawn
 		parent.add_child(p)
 		var m := CharacterRuntime.new(character_ids[i], p, i)

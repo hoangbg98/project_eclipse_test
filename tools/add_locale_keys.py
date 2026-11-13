@@ -80,6 +80,17 @@ KEYS = [
     ("REASON_NOT_ENOUGH_CURRENCY", "Không đủ ngọc.", "Not enough gems."),
     ("REASON_INVALID_BANNER", "Banner không hợp lệ.", "Invalid banner."),
     ("REASON_BAD_COUNT", "Số lượt không hợp lệ.", "Invalid pull count."),
+    # Chiêu mộ, tiến trình (owner 2026-11-12)
+    ("REASON_LEVEL_CAP", "Đã chạm giới hạn cấp đội trưởng.", "Captain level limit reached."),
+    ("REASON_WRONG_WEAPON", "Nhân vật không dùng được loại vũ khí này.", "This character cannot use this weapon type."),
+    ("RECRUIT_SOFT_PITY_FLAT", "từ lượt %d: +%.1f%%", "from pull %d: +%.1f%%"),
+    ("RECRUIT_MULTI_GUARANTEE", "quay %d lượt chắc chắn có ít nhất 1 bậc này", "a %d-pull always includes at least one of this tier"),
+    ("GACHA_TIER_CHAR_S", "Nhân vật S", "S-rank character"),
+    ("GACHA_TIER_CHAR_A", "Nhân vật A", "A-rank character"),
+    ("GACHA_TIER_CHAR_B", "Nhân vật B", "B-rank character"),
+    ("GACHA_TIER_MATERIALS", "Nguyên liệu, vàng", "Materials, gold"),
+    ("BANNER_CHAR_KAEL", "Chiêu mộ: Kael", "Recruitment: Kael"),
+    ("CAPTAIN_LEVEL", "Cấp đội trưởng %d", "Captain Lv.%d"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

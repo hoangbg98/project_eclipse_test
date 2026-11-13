@@ -441,3 +441,80 @@ msgstr "Banner không hợp lệ."
 
 msgid "REASON_BAD_COUNT"
 msgstr "Số lượt không hợp lệ."
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_STIGMA_TOP_ELITE"
+msgstr "Ấn Tinh Anh (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_HIDE"
+msgstr "Ấn Da Thú (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_MID_GUARDIAN"
+msgstr "Ấn Hộ Vệ (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_HOURGLASS"
+msgstr "Ấn Đồng Hồ Cát (Chân)"
+
+msgid "SLOT_STIGMA_TOP"
+msgstr "Vết thánh Đầu"
+
+msgid "SLOT_STIGMA_MID"
+msgstr "Vết thánh Thân"
+
+msgid "SLOT_STIGMA_BOT"
+msgstr "Vết thánh Chân"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_BOW_GALE"
+msgstr "Cung gió lốc"
+
+msgid "EQUIP_EQ_WEAPON_BLADES_SPARK"
+msgstr "Song đao tia lửa"
+
+msgid "WEAPON_TYPE_SWORD"
+msgstr "Kiếm"
+
+msgid "WEAPON_TYPE_BOW"
+msgstr "Cung"
+
+msgid "WEAPON_TYPE_DUAL_BLADES"
+msgstr "Song đao"
+
+msgid "WEAPON_TYPE_STAFF"
+msgstr "Trượng"
+
+msgid "WEAPON_TYPE_SCYTHE"
+msgstr "Lưỡi hái"
+
+msgid "WEAPON_TYPE_GREATSWORD"
+msgstr "Đại kiếm"
+
+msgid "REASON_LEVEL_CAP"
+msgstr "Đã chạm giới hạn cấp đội trưởng."
+
+msgid "REASON_WRONG_WEAPON"
+msgstr "Nhân vật không dùng được loại vũ khí này."
+
+msgid "RECRUIT_SOFT_PITY_FLAT"
+msgstr "từ lượt %d: +%.1f%%"
+
+msgid "RECRUIT_MULTI_GUARANTEE"
+msgstr "quay %d lượt chắc chắn có ít nhất 1 bậc này"
+
+msgid "GACHA_TIER_CHAR_S"
+msgstr "Nhân vật S"
+
+msgid "GACHA_TIER_CHAR_A"
+msgstr "Nhân vật A"
+
+msgid "GACHA_TIER_CHAR_B"
+msgstr "Nhân vật B"
+
+msgid "GACHA_TIER_MATERIALS"
+msgstr "Nguyên liệu, vàng"
+
+msgid "BANNER_CHAR_KAEL"
+msgstr "Chiêu mộ: Kael"
+
+msgid "CAPTAIN_LEVEL"
+msgstr "Cấp đội trưởng %d"

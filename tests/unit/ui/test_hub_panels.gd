@@ -18,6 +18,7 @@ func before_test() -> void:
 	_save.store = SaveStore.new(SAVE_DIR)
 	_save.store.delete_all()
 	_save.data = SaveSchema.default_data()
+	_save.data["account"]["level"] = 50
 
 
 func after_test() -> void:
@@ -142,7 +143,7 @@ func test_equip_swap_enhance_unequip() -> void:
 	assert_float(p.profile.stats_of(A).atk).is_equal(1080.0)
 	assert_bool(p.equip_next("weapon")).is_true()                     # xoay sang món kia
 	assert_str(inv.equipped_uid(A, "weapon")).is_equal(w2)
-	assert_bool(p.equip_next("armor")).is_false()                     # không có giáp trong kho
+	assert_bool(p.equip_next("stigma_mid")).is_false()                     # không có giáp trong kho
 	assert_bool(p.enhance_slot("weapon")).is_true()
 	assert_int(inv.equipment_level(w2)).is_equal(1)
 	assert_bool(_texts(p).contains("+1")).is_true()
@@ -162,9 +163,19 @@ func test_select_other_character() -> void:
 # ---------- Chiêu mộ ----------
 
 func test_recruit_closed_without_banner_data() -> void:
-	var p := _add(HubRecruitPanel.new()) as HubRecruitPanel
+	var p := HubRecruitPanel.new()
+	p.banners_injected = true                                       # không có banner nào
+	_add(p)
 	assert_int(p.banners.size()).is_equal(0)
 	assert_bool(_texts(p).contains(tr("RECRUIT_CLOSED"))).is_true()
+
+
+func test_recruit_loads_shipped_character_banner() -> void:
+	var p := _add(HubRecruitPanel.new()) as HubRecruitPanel
+	assert_int(p.banners.size()).is_equal(1)
+	var lines := "\n".join(p.rate_lines(p.banners[0]))
+	assert_bool(lines.contains("1.500%") and lines.contains("16.300%") and lines.contains("10.874%")).is_true()
+	assert_bool(lines.contains(tr("RECRUIT_MULTI_GUARANTEE") % 10)).is_true()
 
 
 func _test_banner() -> BannerDef:
@@ -192,7 +203,7 @@ func test_recruit_rates_come_from_config_and_pull_works() -> void:
 	_add(p)
 	p.service.rng = RandomSource.new(42)
 	var lines := "\n".join(p.rate_lines(p.banners[0]))
-	assert_bool(lines.contains("5★  25.00%") and lines.contains("3★  75.00%")).is_true()   # đúng số trong config
+	assert_bool(lines.contains("5★  25.000%") and lines.contains("3★  75.000%")).is_true()   # đúng số trong config
 	assert_bool(lines.contains("Noctis")).is_true()
 	assert_bool(p.pull(1)).is_false()                                 # chưa có ngọc
 	assert_str(p.last_reason).is_equal(GachaService.REASON_NOT_ENOUGH)

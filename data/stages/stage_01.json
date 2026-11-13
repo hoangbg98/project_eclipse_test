@@ -99,6 +99,7 @@
 	},
 	"rewards": {
 		"gold": 1200,
+		"captain_exp": 400,
 		"exp": 600,
 		"materials": {
 			"mat_exp_small": 4,

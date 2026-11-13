@@ -13,6 +13,7 @@ var _rules: ProgressionRules
 
 func before_test() -> void:
 	_data = SaveSchema.default_data()
+	_data["account"]["level"] = 50                                 # test cũ: không vướng giới hạn cấp đội trưởng
 	_p = PlayerProfile.new(_data)
 	_inv = _p.inventory
 	_prog = _p.progression
@@ -30,13 +31,13 @@ func test_data_is_valid() -> void:
 	assert_array(PlayerProfile.item_defs().errors).is_empty()
 	assert_array(PlayerProfile.equipment_defs().errors).is_empty()
 	assert_int(PlayerProfile.item_defs().defs.size()).is_equal(5)
-	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(6)
+	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(8)
 	var slots := {}
 	for id in PlayerProfile.equipment_defs().ids():
 		var d: EquipmentDef = PlayerProfile.equipment_defs().get_def(id)
 		slots[d.slot] = true
 		assert_str(tr(d.name_key)).is_not_equal(d.name_key)
-	assert_int(slots.size()).is_equal(3)                              # đủ 3 ô
+	assert_int(slots.size()).is_equal(4)                              # đủ 3 ô
 	for id in PlayerProfile.item_defs().ids():
 		assert_str(tr((PlayerProfile.item_defs().get_def(id) as ItemDef).name_key)).is_not_equal("")
 
@@ -129,20 +130,23 @@ func test_equip_swap_and_move_between_characters() -> void:
 	assert_str(_inv.equip(A, w2)).is_equal("")                        # thay món cùng ô
 	assert_str(_inv.equipped_uid(A, "weapon")).is_equal(w2)
 	assert_str(_inv.equipped_by(w1)).is_equal("")
-	assert_str(_inv.equip("char_wind_01", w2)).is_equal("")           # chuyển sang nhân vật khác
-	assert_str(_inv.equipped_uid(A, "weapon")).is_equal("")
-	assert_str(_inv.equipped_by(w2)).is_equal("char_wind_01")
+	assert_str(_inv.equip("char_wind_01", w2)).is_equal(Inventory.REASON_WRONG_WEAPON)   # Lyra dùng cung
+	var s := _inv.add_equipment("eq_stigma_top_elite")
+	_inv.equip(A, s)
+	assert_str(_inv.equip("char_wind_01", s)).is_equal("")            # vết thánh: chuyển sang nhân vật khác
+	assert_str(_inv.equipped_uid(A, "stigma_top")).is_equal("")
+	assert_str(_inv.equipped_by(s)).is_equal("char_wind_01")
 	assert_str(_inv.equip(A, "999")).is_equal(Inventory.REASON_NOT_OWNED)
 	assert_str(_inv.equip("char_nobody", w1)).is_equal(Inventory.REASON_UNKNOWN_CHARACTER)
-	assert_bool(_inv.unequip("char_wind_01", "weapon")).is_true()
-	assert_bool(_inv.unequip("char_wind_01", "weapon")).is_false()
+	assert_bool(_inv.unequip("char_wind_01", "stigma_top")).is_true()
+	assert_bool(_inv.unequip("char_wind_01", "stigma_top")).is_false()
 
 
 func test_remove_equipped_item_unequips() -> void:
-	var a := _inv.add_equipment("eq_armor_leather")
+	var a := _inv.add_equipment("eq_stigma_mid_hide")
 	_inv.equip(A, a)
 	assert_bool(_inv.remove_equipment(a)).is_true()
-	assert_str(_inv.equipped_uid(A, "armor")).is_equal("")
+	assert_str(_inv.equipped_uid(A, "stigma_mid")).is_equal("")
 	assert_bool(_inv.owns(a)).is_false()
 
 
@@ -177,8 +181,8 @@ func test_stats_at_level_1_no_gear_equal_base() -> void:
 func test_stats_scale_with_level_and_gear() -> void:
 	_data["characters"][A]["level"] = 11                             # +10 cấp: HP/ATK ×1.6, DEF ×1.5
 	var w := _inv.add_equipment("eq_weapon_flame")                    # ATK +160, chí mạng +5%
-	var r := _inv.add_equipment("eq_acc_ring")                        # ATK +30, chí mạng +4%, sát thương chí mạng +10%
-	var h := _inv.add_equipment("eq_armor_guardian")                  # HP +1800, DEF +90
+	var r := _inv.add_equipment("eq_stigma_top_elite")                        # ATK +30, chí mạng +4%, sát thương chí mạng +10%
+	var h := _inv.add_equipment("eq_stigma_mid_guardian")                  # HP +1800, DEF +90
 	_data["inventory"]["equipment"][w]["level"] = 5                   # ×1.5 phần cộng thẳng
 	for uid in [w, r, h]:
 		_inv.equip(A, uid)
@@ -222,7 +226,7 @@ func test_set_party_validates() -> void:
 
 func test_grant_reward_summary() -> void:
 	var got := _p.grant({"gold": 500, "gems": 20, "materials": {"mat_exp_small": 3, "mat_fake": 9},
-			"equipment": ["eq_acc_ring", "eq_fake"], "exp": 150})
+			"equipment": ["eq_stigma_top_elite", "eq_fake"], "exp": 150})
 	assert_int(_inv.currency("gold")).is_equal(500)
 	assert_int(_inv.currency("gems")).is_equal(20)
 	assert_int(_inv.material_count("mat_exp_small")).is_equal(3)
@@ -250,7 +254,7 @@ func test_changes_persist_through_save_and_load() -> void:
 	assert_str(p2.inventory.equipped_uid(A, "weapon")).is_equal(w)
 	assert_int(p2.inventory.equipment_level(w)).is_equal(1)
 	assert_float(p2.stats_of(A).atk).is_equal(round(1000.0 * 1.18 + 80.0 * 1.1))
-	var w2 := p2.inventory.add_equipment("eq_armor_leather")          # uid không trùng sau khi đọc lại
+	var w2 := p2.inventory.add_equipment("eq_stigma_mid_hide")          # uid không trùng sau khi đọc lại
 	assert_bool(w2 != w).is_true()
 	store.delete_all()
 	DirAccess.remove_absolute("user://test_saves_m5_2")

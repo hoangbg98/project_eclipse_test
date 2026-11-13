@@ -18,6 +18,20 @@ extends Resource
 ## Các banner cùng nhóm dùng chung bộ đếm pity và bảo hiểm (rỗng = riêng theo id banner).
 @export var pity_group := ""
 
+@export_group("Bảo đảm khi quay gói")
+## Quay đúng gói `multi_count` mà không ra bậc nào trong danh sách này (khóa bậc) thì lượt cuối được đổi
+## thành bậc đầu tiên của `multi_guarantee_pick` (owner: 10 lượt chắc chắn 1 nhân vật A trở lên;
+## tiếp tế: 1 vũ khí / vết thánh 4★, ưu tiên vết thánh). Rỗng = không bảo đảm.
+@export var multi_guarantee_tiers: PackedStringArray = PackedStringArray()
+@export var multi_guarantee_pick: PackedStringArray = PackedStringArray()
+
+
+func tier(key: String) -> GachaTierDef:
+	for t in tiers:
+		if t and t.key() == key:
+			return t
+	return null
+
 
 func group() -> String:
 	return pity_group if pity_group != "" else id
@@ -36,23 +50,25 @@ func validate() -> PackedStringArray:
 		e.append("%s: giá và số lượt phải > 0" % id)
 	var sum := 0.0
 	var prev_rarity := 1 << 30
+	var keys := {}
 	var seen := {}
 	for i in tiers.size():
 		var t := tiers[i]
 		if t == null:
 			e.append("%s: bậc %d rỗng" % [id, i])
 			continue
-		if t.rarity >= prev_rarity:
+		if t.rarity > prev_rarity:
 			e.append("%s: bậc phải sắp từ hiếm xuống thường" % id)
 		prev_rarity = t.rarity
-		if seen.has(t.rarity):
-			e.append("%s: trùng bậc %d" % [id, t.rarity])
+		if keys.has(t.key()):
+			e.append("%s: trùng khóa bậc %s" % [id, t.key()])
+		keys[t.key()] = true
 		seen[t.rarity] = true
 		if t.pool.is_empty():
 			e.append("%s: bậc %d không có phần thưởng" % [id, t.rarity])
 		for entry in t.pool:
 			var kind := entry.get_slice(":", 0)
-			if entry.get_slice_count(":") != 2 or kind not in ["char", "equip", "item"]:
+			if entry.get_slice_count(":") != 2 or kind not in ["char", "equip", "item", "gold"]:
 				e.append("%s: phần thưởng sai dạng '%s'" % [id, entry])
 		for f in t.featured:
 			if f not in t.pool:
@@ -65,6 +81,14 @@ func validate() -> PackedStringArray:
 			e.append("%s: bậc %d pity mềm phải bắt đầu trước pity cứng" % [id, t.rarity])
 		if i < tiers.size() - 1:
 			sum += t.base_rate
+	for k in multi_guarantee_tiers:
+		if not keys.has(k):
+			e.append("%s: multi_guarantee_tiers có khóa lạ '%s'" % [id, k])
+	for k in multi_guarantee_pick:
+		if not keys.has(k):
+			e.append("%s: multi_guarantee_pick có khóa lạ '%s'" % [id, k])
+	if multi_guarantee_tiers.is_empty() != multi_guarantee_pick.is_empty():
+		e.append("%s: multi_guarantee_tiers và multi_guarantee_pick phải cùng có hoặc cùng không" % id)
 	if sum > 1.0 + 0.000001:
 		e.append("%s: tổng tỉ lệ các bậc trên vượt 100%%" % id)
 	return e

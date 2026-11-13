@@ -13,6 +13,8 @@ const REASON_NOT_OWNED := "not_owned"
 const REASON_UNKNOWN_CHARACTER := "unknown_character"
 const REASON_MAX_LEVEL := "max_level"
 const REASON_INVALID := "invalid"
+const REASON_LEVEL_CAP := "level_cap"
+const REASON_WRONG_WEAPON := "wrong_weapon"
 
 var data: Dictionary
 var items: DefLibrary        # ItemDef
@@ -130,6 +132,10 @@ func equip(character_id: String, uid: String) -> String:
 	var def := equipment_def_of(uid)
 	if def == null:
 		return REASON_NOT_OWNED
+	if def.slot == "weapon" and def.weapon_type != "":
+		var cdef := load(PlayerProfile.CHARACTER_DATA % character_id) as CharacterDef if ResourceLoader.exists(PlayerProfile.CHARACTER_DATA % character_id) else null
+		if cdef and cdef.weapon_type != "" and cdef.weapon_type != def.weapon_type:
+			return REASON_WRONG_WEAPON
 	var prev := equipped_by(uid)
 	if prev != "":
 		data["characters"][prev]["equipment"].erase(def.slot)

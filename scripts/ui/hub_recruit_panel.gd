@@ -60,14 +60,18 @@ static func load_banners() -> Array[BannerDef]:
 func rate_lines(b: BannerDef) -> PackedStringArray:
 	var out := PackedStringArray()
 	for row: Dictionary in GachaService.rates_table(b):
-		var line := "%d★  %.2f%%" % [row["rarity"], row["rate"] * 100.0]
+		var label := tr(str(row["label_key"])) if str(row["label_key"]) != "" else "%d★" % row["rarity"]
+		var line := "%s  %.3f%%" % [label, row["rate"] * 100.0]
 		if int(row["hard_pity"]) > 0:
-			line += "  ·  " + tr("RECRUIT_HARD_PITY") % [row["hard_pity"], service.pity_count(b, row["rarity"])]
+			line += "  ·  " + tr("RECRUIT_HARD_PITY") % [row["hard_pity"], service.pity_count(b, row["tier"])]
 		if int(row["soft_pity_start"]) > 0:
-			line += "  ·  " + tr("RECRUIT_SOFT_PITY") % [row["soft_pity_start"], row["soft_pity_step"] * 100.0]
+			var key := "RECRUIT_SOFT_PITY_FLAT" if str(row["soft_pity_mode"]) == "flat" else "RECRUIT_SOFT_PITY"
+			line += "  ·  " + tr(key) % [row["soft_pity_start"], row["soft_pity_step"] * 100.0]
 		if bool(row["guarantee_after_miss"]):
 			line += "  ·  " + tr("RECRUIT_GUARANTEE")
 		out.append(line)
+		if str(row["tier"]) in b.multi_guarantee_pick:
+			out.append("      " + tr("RECRUIT_MULTI_GUARANTEE") % b.multi_count)
 		for it: Dictionary in row["items"]:
 			out.append("      %s%s  %.3f%%" % ["▲ " if it["featured"] else "", reward_name(it["item"]), it["rate"] * 100.0])
 	return out
@@ -76,6 +80,8 @@ func rate_lines(b: BannerDef) -> PackedStringArray:
 func reward_name(item: String) -> String:
 	var id := item.get_slice(":", 1)
 	match item.get_slice(":", 0):
+		"gold":
+			return "%s ×%s" % [tr("CURRENCY_GOLD"), id]
 		"char":
 			return char_name(id)
 		"equip":
@@ -85,7 +91,10 @@ func reward_name(item: String) -> String:
 
 
 func result_line(r: Dictionary) -> String:
-	return "%d★  %s%s" % [r["rarity"], reward_name(r["item"]), "  (%s)" % tr("RECRUIT_DUPLICATE") if r["duplicate"] else ""]
+	var b := banners[selected] if selected < banners.size() else null
+	var t := b.tier(str(r.get("tier", ""))) if b else null
+	var label := tr(t.label_key) if t and t.label_key != "" else "%d★" % r["rarity"]
+	return "%s  %s%s" % [label, reward_name(r["item"]), "  (%s)" % tr("RECRUIT_DUPLICATE") if r["duplicate"] else ""]
 
 
 func pull(count: int) -> bool:

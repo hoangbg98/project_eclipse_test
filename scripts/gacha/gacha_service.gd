@@ -54,25 +54,37 @@ func pull(banner: BannerDef, count: int) -> Dictionary:
 		return {"reason": reason, "results": []}
 	profile.inventory.spend_currency(banner.cost_currency, cost_of(banner, count))
 	var results: Array = []
+	var satisfied := false
+	var guarantee := count == banner.multi_count and count > 1 and not banner.multi_guarantee_tiers.is_empty()
 	for i in count:
-		results.append(_pull_one(banner))
+		var force := ""
+		if guarantee and i == count - 1 and not satisfied:
+			force = banner.multi_guarantee_pick[0]
+		var r := _pull_one(banner, force)
+		if r["tier"] in banner.multi_guarantee_tiers:
+			satisfied = true
+		results.append(r)
 	return {"reason": REASON_OK, "results": results}
 
 
-func _pull_one(banner: BannerDef) -> Dictionary:
+## Một lượt. `force_tier`: khóa bậc bắt buộc (bảo đảm khi quay gói) — vẫn tăng / reset pity như lượt thường.
+func _pull_one(banner: BannerDef, force_tier := "") -> Dictionary:
 	var group := banner.group()
 	var pity := _pity_table(group)
 	# Mỗi lượt: mọi bộ đếm +1 (đây là lượt thứ n kể từ lần ra bậc đó).
 	for t in banner.tiers:
-		pity[str(t.rarity)] = int(pity.get(str(t.rarity), 0)) + 1
-	var tier := _roll_tier(banner, pity)
-	var pity_at := int(pity[str(tier.rarity)])
-	pity[str(tier.rarity)] = 0
+		pity[t.key()] = int(pity.get(t.key(), 0)) + 1
+	var tier: GachaTierDef = banner.tier(force_tier) if force_tier != "" else null
+	if tier == null:
+		tier = _roll_tier(banner, pity)
+	var pity_at := int(pity[tier.key()])
+	pity[tier.key()] = 0
 	var picked := _pick_reward(tier, group)
 	var item: String = picked["item"]
 	var dup := _grant(item, tier)
-	var entry := {"banner": banner.id, "item": item, "rarity": tier.rarity, "featured": picked["featured"],
-			"duplicate": dup, "pity": pity_at, "time": Time.get_datetime_string_from_system(true)}
+	var entry := {"banner": banner.id, "item": item, "rarity": tier.rarity, "tier": tier.key(),
+			"featured": picked["featured"], "duplicate": dup, "pity": pity_at, "forced": force_tier != "",
+			"time": Time.get_datetime_string_from_system(true)}
 	var hist: Array = profile.data["gacha"]["history"]
 	hist.append(entry)
 	while hist.size() > SaveSchema.HISTORY_LIMIT:
@@ -86,7 +98,10 @@ static func tier_rate(t: GachaTierDef, pulls_since: int) -> float:
 		return 1.0
 	var r := t.base_rate
 	if t.soft_pity_start > 0 and pulls_since >= t.soft_pity_start:
-		r += t.soft_pity_step * float(pulls_since - t.soft_pity_start + 1)
+		if t.soft_pity_mode == "flat":
+			r += t.soft_pity_step
+		else:
+			r += t.soft_pity_step * float(pulls_since - t.soft_pity_start + 1)
 	return clampf(r, 0.0, 1.0)
 
 
@@ -95,13 +110,13 @@ func _roll_tier(banner: BannerDef, pity: Dictionary) -> GachaTierDef:
 	# Pity cứng: bậc hiếm nhất đang chạm ngưỡng được ưu tiên.
 	for i in last:
 		var t := banner.tiers[i]
-		if t.hard_pity > 0 and int(pity[str(t.rarity)]) >= t.hard_pity:
+		if t.hard_pity > 0 and int(pity[t.key()]) >= t.hard_pity:
 			return t
 	var roll := rng.randf()
 	var acc := 0.0
 	for i in last:
 		var t := banner.tiers[i]
-		acc += tier_rate(t, int(pity[str(t.rarity)]))
+		acc += tier_rate(t, int(pity[t.key()]))
 		if roll < acc:
 			return t
 	return banner.tiers[last]
@@ -111,7 +126,7 @@ func _pick_reward(tier: GachaTierDef, group: String) -> Dictionary:
 	if tier.featured.is_empty():
 		return {"item": tier.pool[rng.randi_range(0, tier.pool.size() - 1)], "featured": false}
 	var g := _guarantee_table(group)
-	var key := str(tier.rarity)
+	var key := tier.key()
 	var others := PackedStringArray()
 	for p in tier.pool:
 		if p not in tier.featured:
@@ -133,9 +148,13 @@ func _grant(item: String, tier: GachaTierDef) -> bool:
 		"char":
 			if profile.progression.unlock(id):
 				return false
+			if tier.duplicate_fragments > 0:
+				profile.progression.add_fragments(id, tier.duplicate_fragments)
 			if tier.duplicate_item != "" and tier.duplicate_count > 0:
 				profile.inventory.add_material(tier.duplicate_item, tier.duplicate_count)
 			return true
+		"gold":
+			profile.inventory.add_currency("gold", int(id))
 		"equip":
 			profile.inventory.add_equipment(id)
 		"item":
@@ -160,12 +179,13 @@ func _guarantee_table(group: String) -> Dictionary:
 
 
 ## Số lượt kể từ lần ra bậc `rarity` gần nhất (để UI hiện "còn N lượt nữa chắc chắn ra").
-func pity_count(banner: BannerDef, rarity: int) -> int:
-	return int(_pity_table(banner.group()).get(str(rarity), 0))
+## Số lượt kể từ lần ra bậc `tier_key` gần nhất (khóa bậc, hoặc số sao khi bậc không đặt tier_id).
+func pity_count(banner: BannerDef, tier_key: Variant) -> int:
+	return int(_pity_table(banner.group()).get(str(tier_key), 0))
 
 
-func is_guaranteed(banner: BannerDef, rarity: int) -> bool:
-	return bool(_guarantee_table(banner.group()).get(str(rarity), false))
+func is_guaranteed(banner: BannerDef, tier_key: Variant) -> bool:
+	return bool(_guarantee_table(banner.group()).get(str(tier_key), false))
 
 
 func history() -> Array:
@@ -195,6 +215,7 @@ static func rates_table(banner: BannerDef) -> Array:
 				var f_rate := 1.0 if n_other == 0 else t.featured_rate
 				share = f_rate / n_feat if is_f else (1.0 - f_rate) / n_other
 			items.append({"item": p, "rate": rate * share, "featured": is_f})
-		out.append({"rarity": t.rarity, "rate": rate, "hard_pity": t.hard_pity, "soft_pity_start": t.soft_pity_start,
+		out.append({"rarity": t.rarity, "tier": t.key(), "label_key": t.label_key, "soft_pity_mode": t.soft_pity_mode,
+				"rate": rate, "hard_pity": t.hard_pity, "soft_pity_start": t.soft_pity_start,
 				"soft_pity_step": t.soft_pity_step, "guarantee_after_miss": t.guarantee_after_miss, "items": items})
 	return out

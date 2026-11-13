@@ -4,18 +4,19 @@
 
 [resource]
 script = ExtResource("1")
-id = "eq_armor_leather"
-name_key = "EQUIP_EQ_ARMOR_LEATHER"
-slot = "armor"
-rarity = 1
+id = "eq_stigma_mid_guardian"
+name_key = "EQUIP_EQ_STIGMA_MID_GUARDIAN"
+slot = "stigma_mid"
+rarity = 4
+weapon_type = ""
 max_level = 10
 atk = 0.0
-max_hp = 900.0
-def = 40.0
+max_hp = 1800.0
+def = 90.0
 crit_rate = 0.0
 crit_damage = 0.0
 cdr = 0.0
 growth_per_level = 0.1
-enhance_gold_base = 200
-enhance_points_base = 100
+enhance_gold_base = 600
+enhance_points_base = 300
 metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

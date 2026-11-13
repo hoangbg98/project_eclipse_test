@@ -5,7 +5,7 @@ extends RefCounted
 ##
 ## Khi đổi cấu trúc: tăng VERSION, thêm một hàm vào MIGRATIONS (v cũ → v cũ + 1) và sửa `default_data()`.
 
-const VERSION := 2
+const VERSION := 3
 
 ## Nhân vật có sẵn khi bắt đầu game mới (slice Q5).
 const STARTER_CHARACTERS: Array[String] = ["char_fire_01", "char_lightning_01", "char_wind_01"]
@@ -26,6 +26,7 @@ static func default_data() -> Dictionary:
 			"materials": {},                 # id -> số lượng
 		},
 		"currencies": {"gold": 0, "gems": 0},
+		"account": {"level": 1, "exp": 0},   # cấp đội trưởng: giới hạn cấp nhân vật
 		"gacha": {"pity": {}, "guarantee": {}, "history": []},
 		"progress": {"stages": {}},          # stage_id -> {cleared, best_time_sec}
 		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0, "fullscreen": false},
@@ -34,7 +35,7 @@ static func default_data() -> Dictionary:
 
 
 static func default_character() -> Dictionary:
-	return {"level": 1, "exp": 0, "equipment": {}}
+	return {"level": 1, "exp": 0, "equipment": {}, "skills": {}, "fragments": 0, "promotion": 0}
 
 
 # ---------- Migration ----------
@@ -52,9 +53,57 @@ static func _migrate_1_to_2(d: Dictionary) -> Dictionary:
 	return d
 
 
+## v2 → v3 (2026-11-12): trang bị đổi từ vũ khí / giáp / phụ kiện sang 1 vũ khí + 3 vết thánh.
+## Món cũ được đổi sang món tương ứng (giữ cấp cường hóa); món đang mặc chuyển sang ô mới. Thêm `skills`, `fragments`,
+## `promotion` cho nhân vật và `account` (cấp đội trưởng = cấp cao nhất của nhân vật hiện có, để không bị khóa cấp).
+const V3_DEF_RENAME := {
+	"eq_acc_ring": "eq_stigma_top_elite", "eq_armor_leather": "eq_stigma_mid_hide",
+	"eq_armor_guardian": "eq_stigma_mid_guardian", "eq_acc_hourglass": "eq_stigma_bot_hourglass",
+}
+const V3_SLOT_OF := {
+	"eq_stigma_top_elite": "stigma_top", "eq_stigma_mid_hide": "stigma_mid",
+	"eq_stigma_mid_guardian": "stigma_mid", "eq_stigma_bot_hourglass": "stigma_bot",
+}
+
+
+static func _migrate_2_to_3(d: Dictionary) -> Dictionary:
+	var owned: Dictionary = {}
+	if d.get("inventory") is Dictionary and d["inventory"].get("equipment") is Dictionary:
+		owned = d["inventory"]["equipment"]
+	for uid in owned:
+		var e: Variant = owned[uid]
+		if e is Dictionary and V3_DEF_RENAME.has(str(e.get("def_id", ""))):
+			e["def_id"] = V3_DEF_RENAME[str(e["def_id"])]
+	if d.get("characters") is Dictionary:
+		for cid in d["characters"]:
+			var c: Variant = d["characters"][cid]
+			if not (c is Dictionary):
+				continue
+			var old: Dictionary = c["equipment"] if c.get("equipment") is Dictionary else {}
+			var now := {}
+			for slot in old:
+				var uid := str(old[slot])
+				if slot == "weapon":
+					now["weapon"] = uid
+				elif owned.get(uid) is Dictionary and V3_SLOT_OF.has(str(owned[uid].get("def_id", ""))):
+					now[V3_SLOT_OF[str(owned[uid]["def_id"])]] = uid
+			c["equipment"] = now
+			if not (c.get("skills") is Dictionary):
+				c["skills"] = {}
+	if not (d.get("account") is Dictionary):
+		var top := 1
+		if d.get("characters") is Dictionary:
+			for cid in d["characters"]:
+				var c: Variant = d["characters"][cid]
+				if c is Dictionary:
+					top = maxi(top, _int(c.get("level"), 1))
+		d["account"] = {"level": top, "exp": 0}
+	return d
+
+
 ## Chỉ số i = migration từ version i + 1 lên i + 2.
 static func migrations() -> Array[Callable]:
-	return [_migrate_1_to_2]
+	return [_migrate_1_to_2, _migrate_2_to_3]
 
 
 ## Nâng `data` từ `from_version` lên VERSION. Trả về null nếu version không hợp lệ hoặc mới hơn bản game.
@@ -88,6 +137,11 @@ static func sanitize(data: Variant) -> Dictionary:
 			base["exp"] = maxi(_int(c.get("exp"), 0), 0)
 			if c.get("equipment") is Dictionary:
 				base["equipment"] = c["equipment"]
+			if c.get("skills") is Dictionary:
+				for k in c["skills"]:
+					base["skills"][str(k)] = maxi(_int(c["skills"][k], 1), 1)
+			base["fragments"] = maxi(_int(c.get("fragments"), 0), 0)
+			base["promotion"] = maxi(_int(c.get("promotion"), 0), 0)
 		chars[str(id)] = base
 	out["characters"] = chars
 	# Đội: chỉ gồm nhân vật đang sở hữu, không trùng, tối đa 3; rỗng thì lấy theo thứ tự sở hữu.
@@ -108,6 +162,8 @@ static func sanitize(data: Variant) -> Dictionary:
 		hist = hist.slice(hist.size() - HISTORY_LIMIT)
 	out["gacha"]["history"] = hist
 	out["inventory"]["next_uid"] = maxi(_int(out["inventory"]["next_uid"], 1), 1)
+	out["account"]["level"] = maxi(_int(out["account"]["level"], 1), 1)
+	out["account"]["exp"] = maxi(_int(out["account"]["exp"], 0), 0)
 	return out
 
 

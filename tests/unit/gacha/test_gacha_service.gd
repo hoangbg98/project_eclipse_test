@@ -36,7 +36,7 @@ func _banner() -> BannerDef:
 			"hard_pity": 50, "soft_pity_start": 40, "soft_pity_step": 0.10,
 			"featured": PackedStringArray(["char:char_dark_01"]), "featured_rate": 0.5, "guarantee_after_miss": true,
 			"duplicate_item": "mat_enhance_crystal", "duplicate_count": 5}),
-		_tier(4, 0.10, ["equip:eq_weapon_flame", "equip:eq_armor_guardian"], {"hard_pity": 10}),
+		_tier(4, 0.10, ["equip:eq_weapon_flame", "equip:eq_stigma_mid_guardian"], {"hard_pity": 10}),
 		_tier(3, 0.0, ["item:mat_exp_small", "item:mat_enhance_ore"]),
 	]
 	return b
@@ -67,9 +67,11 @@ func test_banner_validation() -> void:
 	assert_bool(b.validate().size() > 0).is_true()
 
 
-func test_no_banner_ships_until_owner_gives_rates() -> void:
-	var files := ResourceLoader.list_directory("res://data/banners") if DirAccess.dir_exists_absolute("res://data/banners") else PackedStringArray()
-	assert_int(files.size()).is_equal(0)
+func test_shipped_banners_are_valid_and_weapon_banner_waits_for_owner() -> void:
+	var files := ResourceLoader.list_directory("res://data/banners")
+	assert_array(Array(files)).is_equal(["banner_char_kael.tres"])   # tiếp tế vũ khí chưa sinh: tỉ lệ chờ owner
+	var b: BannerDef = load("res://data/banners/banner_char_kael.tres")
+	assert_array(b.validate()).is_empty()
 
 
 func test_rates_table_sums_to_one_and_matches_config() -> void:

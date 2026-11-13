@@ -81,7 +81,7 @@ stage = {
                      {"id": "enemy_slime_01", "col": 137}]},
     ],
     "boss": {"id": "boss_golem_01", "trigger_col": 156, "lock_cols": [150, 190], "col": 178},
-    "rewards": {"gold": 1200, "exp": 600, "materials": {"mat_exp_small": 4, "mat_enhance_ore": 3}},
+    "rewards": {"gold": 1200, "captain_exp": 400, "exp": 600, "materials": {"mat_exp_small": 4, "mat_enhance_ore": 3}},
     "first_clear_rewards": {"gems": 300, "equipment": ["eq_weapon_iron"], "materials": {"mat_exp_medium": 2}},
     "rows": ["".join(r) for r in rows],
 }

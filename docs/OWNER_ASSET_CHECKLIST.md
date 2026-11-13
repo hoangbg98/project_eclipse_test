@@ -10,7 +10,9 @@
 
 | | Việc | Cần trước | Ghi chú |
 |---|---|---|---|
-| [ ] | **Tỉ lệ gacha** | M5-4 (**đang BLOCKED**) | Trả lời các câu ở mục A1 |
+| [x] | **Tỉ lệ gacha** — banner nhân vật | M5-4 | Owner trả lời 2026-11-12 (mục A1), đã vào `data/banners/banner_char_kael.tres` |
+| [ ] | **Tỉ lệ tiếp tế vũ khí / vết thánh**: các số cộng lại khác 100% | Banner tiếp tế | Xem câu hỏi ở mục A2 |
+| [ ] | **Hạng S / A / B của từng nhân vật** và nhân vật đề cử của banner | Banner nhân vật | Đang tạm: S = Aether, Kael, Lyra; A = Seraphine, Noctis; B = Terra; banner đầu đề cử Kael |
 | [ ] | Tên thật thay Aether (`char_fire_01`) và Noctis (`char_dark_01`) | Trước khi công khai | Trùng tên nhân vật nổi tiếng; chỉ đổi data |
 | [ ] | Tên gói Android thật (thay `com.projecteclipse.dev`) | Khi làm lại Android | Đổi sau khi đã cài lên máy = app khác |
 | [ ] | **Khai báo nội dung AI tạo** trên trang store (Steam: mục "AI Generated Content Disclosure" khi nộp bản build) | Trước khi nộp lên store | Owner cho phép ảnh AI vào bản phát hành (2026-11-12); danh sách file ở `docs/ASSET_LICENSES.md` mục 2.1. Kiểm tra điều khoản thương mại của dịch vụ tạo ảnh với tài khoản đang dùng |
@@ -24,6 +26,20 @@
 4. Rate-up: nhân vật rate-up chiếm bao nhiêu % khi ra bậc cao nhất? Lần sau trượt có bảo hiểm 100% không?
 5. Pity có chuyển giữa các banner không?
 6. Giá một lượt / mười lượt bằng tiền tệ trong game (không phải tiền thật ở bản đầu).
+
+### A2. Câu trả lời gacha của owner (2026-11-12) và chỗ còn hỏi
+
+Banner nhân vật (đã làm): S 1.5% (chỉ 1 nhân vật đề cử), A 16.3%, B 10.874%, phần còn lại (71.326%) là nguyên liệu tăng
+cấp nhân vật, nguyên liệu nâng bậc vũ khí, vàng. Pity cứng S 100 lượt; từ lượt 80 tỉ lệ S +10% (Claude hiểu là cộng
+một lần, thành 11.5%). Quay 10 lượt chắc chắn ≥ 1 nhân vật A. Pity chuyển sang banner nhân vật kế tiếp. Giá 280 / 2520
+Ngọc. Nhân vật trùng đổi thành mảnh (Claude đặt: S 25, A 10, B 5) để tiến cấp S → S1 → S2 → S3.
+
+Tiếp tế vũ khí + vết thánh (CHƯA làm): vũ khí 4★ 2.87%, vết thánh 4★ "mỗi cái 14%", vũ khí 3★ 10.7%, vết thánh 3★
+"mỗi cái 13%", nguyên liệu 58%; pity cứng vũ khí 60; 10 lượt chắc chắn 1 món 4★, ưu tiên vết thánh. Các số này cộng lại
+khác 100%: nếu "mỗi cái" là cho từng ô Đầu / Thân / Chân thì tổng 152.57%; nếu là tổng cả 3 ô thì 98.57%. Cần owner sửa.
+
+"Không vượt quá cấp người chơi" được làm thành **cấp đội trưởng**: nhân vật không lên cấp quá cấp đội trưởng; đội trưởng
+lên cấp bằng EXP đội trưởng khi qua màn.
 
 ## B. Hình nhân vật (frame-by-frame)
 

@@ -3,12 +3,19 @@ extends Resource
 ## Định nghĩa một món trang bị (data/equipment/{id}.tres). Món người chơi sở hữu nằm trong save
 ## (inventory.equipment: uid → {def_id, level}); cấp cường hóa bắt đầu từ 0.
 
-const SLOTS: Array[String] = ["weapon", "armor", "accessory"]
+## Mỗi nhân vật: 1 vũ khí + 3 vết thánh theo thứ tự Đầu / Thân / Chân (owner, 2026-11-12).
+## Vết thánh chỉ cộng chỉ số và có ảnh minh họa; không đổi ngoại hình / giáp của nhân vật.
+const SLOTS: Array[String] = ["weapon", "stigma_top", "stigma_mid", "stigma_bot"]
+const STIGMA_SLOTS: Array[String] = ["stigma_top", "stigma_mid", "stigma_bot"]
 
 @export var id := ""
 @export var name_key := ""
-@export_enum("weapon", "armor", "accessory") var slot := "weapon"
+@export_enum("weapon", "stigma_top", "stigma_mid", "stigma_bot") var slot := "weapon"
 @export_range(1, 5) var rarity := 1
+## Chỉ vũ khí: loại (khớp CharacterDef.weapon_type). Rỗng = nhân vật nào cũng dùng được.
+@export var weapon_type := ""
+## Ảnh minh họa (vũ khí, vết thánh). Rỗng = ảnh placeholder. Không đổi ngoại hình nhân vật khi mặc.
+@export_file("*.png", "*.webp", "*.jpg") var art := ""
 @export var max_level := 10
 
 @export_group("Chỉ số cộng ở cấp 0")

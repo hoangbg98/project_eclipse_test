@@ -49,6 +49,8 @@ var air_attacks_used := 0
 var kit: Node
 ## Chỉ số thay cho chỉ số gốc của CharacterDef (cấp + trang bị, do PartyManager gán trước khi vào cây).
 var stats_override: CombatStats
+## Cấp kỹ năng theo SkillDef.key (từ hồ sơ người chơi); thiếu key = cấp 1.
+var skill_levels: Dictionary = {}
 
 var _perfect_dodge_icd := 0.0
 var _knock_v := 0.0
@@ -73,6 +75,7 @@ func _ready() -> void:
 	combatant.setup()
 	runner.setup(self, combatant, character.load_skills() if character else {}, hurtbox)
 	runner.skill_started.connect(_on_skill_started)
+	runner.level_provider = func(s: SkillDef) -> int: return int(skill_levels.get(s.key, 1))
 	var hold: SkillDef = runner.skills.get("hold_1")
 	if hold and hold.charge_start_ms > 0.0:
 		intent.hold_threshold = hold.charge_start_ms / 1000.0

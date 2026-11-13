@@ -4,18 +4,19 @@
 
 [resource]
 script = ExtResource("1")
-id = "eq_armor_guardian"
-name_key = "EQUIP_EQ_ARMOR_GUARDIAN"
-slot = "armor"
+id = "eq_weapon_bow_gale"
+name_key = "EQUIP_EQ_WEAPON_BOW_GALE"
+slot = "weapon"
 rarity = 3
+weapon_type = "bow"
 max_level = 10
-atk = 0.0
-max_hp = 1800.0
-def = 90.0
+atk = 75.0
+max_hp = 0.0
+def = 0.0
 crit_rate = 0.0
 crit_damage = 0.0
 cdr = 0.0
 growth_per_level = 0.1
-enhance_gold_base = 600
-enhance_points_base = 300
+enhance_gold_base = 200
+enhance_points_base = 100
 metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."
