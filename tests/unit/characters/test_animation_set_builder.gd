@@ -71,19 +71,21 @@ func test_undelivered_animations_use_placeholder() -> void:
 	var result := Builder.build_for_character("char_fire_01")
 	var placeholder: Texture2D = load(Builder.PLACEHOLDER_PATH)
 	assert_object(placeholder).is_not_null()
-	# Enkiba: idle, run và jump_up đã được owner duyệt; các animation còn lại dùng placeholder.
+	# Enkiba: idle, run, jump_up và fall đã được owner duyệt; các animation còn lại dùng placeholder.
 	var delivered := 0
 	for n: String in result.manifest["animations"]:
 		if int(result.manifest["animations"][n]["frames"]) > 0:
 			delivered += 1
-	assert_int(delivered).is_equal(3)
-	assert_int(result.placeholder_animations.size()).is_equal(result.manifest["animations"].size() - 3)
+	assert_int(delivered).is_equal(4)
+	assert_int(result.placeholder_animations.size()).is_equal(result.manifest["animations"].size() - 4)
 	assert_bool(result.placeholder_animations.has("idle")).is_false()
 	assert_bool(result.placeholder_animations.has("run")).is_false()
 	assert_bool(result.placeholder_animations.has("jump_up")).is_false()
+	assert_bool(result.placeholder_animations.has("fall")).is_false()
 	assert_int(result.sprite_frames.get_frame_count(&"idle")).is_equal(6)
 	assert_int(result.sprite_frames.get_frame_count(&"run")).is_equal(8)
 	assert_int(result.sprite_frames.get_frame_count(&"jump_up")).is_equal(3)
+	assert_int(result.sprite_frames.get_frame_count(&"fall")).is_equal(3)
 	assert_object(result.sprite_frames.get_frame_texture(&"run", 0)).is_not_same(placeholder)
 
 

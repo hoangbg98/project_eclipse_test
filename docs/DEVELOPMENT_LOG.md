@@ -963,3 +963,14 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `approve_frames.py` duyệt và chép 3 frame; GdUnit4 446 test, 0 lỗi / 0 thất bại; 5 smoke check đạt; tổng mã thoát 0.
 - **Quyết định Codex chọn:** mở rộng kiểm tra asset đã giao từ idle + run thành idle (6 frame), run (8 frame) và jump_up (3 frame); animation còn lại tiếp tục placeholder.
 - **Hạn chế đã biết:** model imagegen không được expose; frame 001 giữ một chân chạm đất trong pha đẩy lên như phiếu mô tả (owner đã duyệt preview).
+
+
+## 2026-11-13 — Art: Enkiba fall frames (AI)
+- **Milestone / task:** art pipeline — duyệt và tích hợp animation `fall` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt fall"; giữ 3 frame, 12 fps, không lặp.
+- **File tạo/sửa:** 3 frame `assets/characters/char_fire_01/frames/fall/char_fire_01_fall_000..002.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (fall: 3 frame, 12 fps, không lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật animation đã giao từ 3 lên 4 và kiểm tra fall.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 fall`; `python -I tools/frames/approve_frames.py char_fire_01 fall`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (chạy lại ngoài sandbox).
+- **Kết quả thật:** checker ĐẠT, 3 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; lệnh test mã thoát 0.
+- **Quyết định Codex chọn:** giữ cấu hình trong phiếu, ghi model là "not exposed by the imagegen tool" theo metadata.
+- **Hạn chế đã biết:** owner đã duyệt preview; model imagegen không được expose.
