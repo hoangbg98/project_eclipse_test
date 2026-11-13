@@ -123,6 +123,50 @@ func test_overview_art_uses_portrait_or_placeholder() -> void:
 	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()   # Raikiba chưa có ảnh
 
 
+# ---------- Splash art 2D (owner 2026-11-13) ----------
+
+const SPLASH_DIR := "res://assets/characters/char_fire_01/splash/char_fire_01_splash_%s.png"
+
+
+func _tex(s: CharacterScreen, node_name: String) -> Texture2D:
+	return (_node(s, node_name) as PlaceholderArt).texture
+
+
+func test_enkiba_uses_splash_art_on_every_view() -> void:
+	var s := _screen()
+	assert_object(_tex(s, "CharacterArt")).is_same(load(SPLASH_DIR % "overview"))
+	s.open_tab("level")
+	assert_object(_tex(s, "CharacterArt")).is_same(load(SPLASH_DIR % "level"))
+	s.open_tab("weapon")
+	assert_object(_tex(s, "CharacterArt")).is_same(load(SPLASH_DIR % "weapon"))
+	s.open_tab("skill")
+	assert_object(_tex(s, "CharacterArt")).is_same(load(SPLASH_DIR % "skill"))
+	s.open_tab("stigma")
+	assert_object(_tex(s, "BackArt")).is_same(load(SPLASH_DIR % "stigma"))          # ảnh lưng cho tab Vết Thánh
+	assert_bool((_node(s, "BackArt") as PlaceholderArt).is_placeholder()).is_false()
+	# Roster vẫn dùng chân dung chibi (cắt phần đầu), không dùng splash.
+	assert_object(s.portrait(A)).is_not_same(load(SPLASH_DIR % "overview"))
+
+
+func test_splash_file_per_view_is_configurable_in_layout() -> void:
+	var s := _screen()
+	s.layout.data["art"]["level"] = "skill"                                         # đổi ảnh tab Tăng cấp bằng cấu hình
+	s.open_tab("level")
+	assert_object(_tex(s, "CharacterArt")).is_same(load(SPLASH_DIR % "skill"))
+
+
+func test_splash_falls_back_to_chibi_or_placeholder() -> void:
+	var s := _screen()
+	s.layout.data["art"]["weapon"] = "khong_co_file"
+	assert_object(s.splash(A, "weapon")).is_same(s.portrait(A))                      # thiếu file: dùng chibi
+	assert_object(s.splash(A, "weapon", false)).is_null()                            # ảnh lưng không thay bằng chibi
+	_save.data["characters"]["char_lightning_01"] = SaveSchema.default_character()
+	s.select("char_lightning_01")                                                    # nhân vật chưa có splash lẫn chibi
+	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()
+	s.open_tab("stigma")
+	assert_bool((_node(s, "BackArt") as PlaceholderArt).is_placeholder()).is_true()
+
+
 func test_selected_from_game_config() -> void:
 	_save.data["characters"][L] = SaveSchema.default_character()
 	var gc := get_tree().root.get_node("GameConfig")

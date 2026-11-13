@@ -9,6 +9,7 @@ signal changed
 
 const LAYOUT_PATH := "res://data/ui/character_screen_layout.json"
 const PORTRAIT_PATH := "res://assets/characters/%s/portrait/%s_portrait_full.png"
+const SPLASH_PATH := "res://assets/characters/{id}/splash/{id}_splash_{name}.png"
 const CHARACTER_PATH := "res://data/characters/%s.tres"
 const COMBAT_RULES_PATH := "res://data/config/combat_rules.tres"
 ## Nút Back / Esc được hỏi trước SceneRouter (giống PauseMenu).
@@ -130,6 +131,17 @@ func suit_name(id: String) -> String:
 func portrait(id: String) -> Texture2D:
 	var p := PORTRAIT_PATH % [id, id]
 	return load(p) as Texture2D if ResourceLoader.exists(p) else null
+
+
+## Splash art 2D (không chibi) cho từng màn / tab (owner 2026-11-13): "overview", "level", "weapon", "stigma", "skill".
+## Tên file của từng màn đặt ở mục "art" trong file bố cục (đổi ảnh cho từng tab không cần sửa code); đường dẫn mẫu
+## "art.path" có {id} và {name}. Thiếu file thì dùng ảnh chân dung chibi (`fallback_portrait`), hoặc null (vẽ placeholder).
+func splash(id: String, view_key: String, fallback_portrait := true) -> Texture2D:
+	var name_ := layout.text("art." + view_key, view_key)
+	var p := layout.text("art.path", SPLASH_PATH).replace("{id}", id).replace("{name}", name_)
+	if ResourceLoader.exists(p):
+		return load(p) as Texture2D
+	return portrait(id) if fallback_portrait else null
 
 
 func skills_of(id: String) -> Dictionary:
@@ -380,7 +392,7 @@ func _build_common() -> void:
 func _build_overview() -> void:
 	var o := "overview."
 	var def := char_def(selected)
-	_art(layout.rect(o + "character_art"), portrait(selected), layout.text(o + "character_art.placeholder_label", ""),
+	_art(layout.rect(o + "character_art"), splash(selected, "overview"), layout.text(o + "character_art.placeholder_label", ""),
 			Rect2(0, 0, 1, 1), "CharacterArt")
 	_button(layout.rect(o + "info_button"), layout.label(o + "info_button", "!"), 40, Callable())
 	_label(layout.rect(o + "title"), char_name(selected), layout.font(o + "title", 64), Color.WHITE)
@@ -555,7 +567,7 @@ func _build_detail() -> void:
 	if tab == "stigma":
 		_build_stigma_art()
 	else:
-		_art(layout.rect("detail.character_art"), portrait(selected), layout.text("detail.character_art.placeholder_label", ""),
+		_art(layout.rect("detail.character_art"), splash(selected, tab), layout.text("detail.character_art.placeholder_label", ""),
 				Rect2(0, 0, 1, 1), "CharacterArt")
 	match tab:
 		"level":
@@ -760,12 +772,14 @@ func enhance(slot: String) -> void:
 # Ảnh 3: vết thánh.
 func _build_stigma_art() -> void:
 	var p := "stigma_tab."
-	_art(layout.rect(p + "back_art"), null, layout.text(p + "back_art.placeholder_label", ""), Rect2(0, 0, 1, 1), "BackArt")
+	# Ảnh lưng: chỉ nhận splash "stigma" (không dùng chibi nhìn trước thay thế); chưa có thì vẽ placeholder.
+	_art(layout.rect(p + "back_art"), splash(selected, "stigma", false), layout.text(p + "back_art.placeholder_label", ""),
+			Rect2(0, 0, 1, 1), "BackArt")
 	for i in EquipmentDef.STIGMA_SLOTS.size():
 		var slot := EquipmentDef.STIGMA_SLOTS[i]
 		var r := layout.rect_in(p + "slot_icons.rects", i)
 		var uid := profile.inventory.equipped_uid(selected, slot)
-		var b := _button(r, tr("SLOT_SHORT_" + slot.to_upper()), 44, open_picker.bind(slot), uid != "", "StigmaSlot%d" % i)
+		var b := _button(r, tr("SLOT_SHORT_" + slot.to_upper()), int(r.size.x * 0.3), open_picker.bind(slot), uid != "", "StigmaSlot%d" % i)
 		b.add_theme_stylebox_override("normal", _style(Color(0.55, 0.45, 0.85, 0.75) if uid != "" else Color(0.2, 0.2, 0.3, 0.6),
 				Color.WHITE, int(r.size.x * 0.2)))
 

@@ -4,9 +4,14 @@
 		"Tọa độ theo khung thiết kế 1920×1080. rect = [x, y, rộng, cao] tính từ góc trên-trái của khung thiết kế.",
 		"anchor: 'left' (mặc định) giữ khoảng cách mép trái; 'right' dời theo phần màn hình rộng thêm (màn > 16:9); 'center' dời một nửa.",
 		"font = cỡ chữ (px). color = mã màu '#RRGGBB' hoặc '#RRGGBBAA'. Thiếu mục nào thì màn dùng giá trị mặc định trong code, không lỗi.",
-		"Vùng chưa có ảnh vẽ hình người placeholder kèm tên vùng (placeholder_label) để phân biệt."
+		"Vùng chưa có ảnh vẽ hình người placeholder kèm tên vùng (placeholder_label) để phân biệt.",
+		"Mục 'art': ảnh splash 2D của nhân vật theo màn / tab. Giá trị là tên file (chỗ {name} trong 'path'), ví dụ đổi 'level': 'skill' để tab Tăng cấp dùng ảnh skill. Nhân vật chưa có ảnh thì dùng ảnh chibi (riêng tab Vết Thánh cần ảnh lưng, chưa có thì hiện placeholder)."
 	],
 	"design_size": [1920, 1080],
+	"art": {
+		"path": "res://assets/characters/{id}/splash/{id}_splash_{name}.png",
+		"overview": "overview", "level": "level", "weapon": "weapon", "stigma": "stigma", "skill": "skill"
+	},
 	"colors": {
 		"background": "#1B1E2B",
 		"panel": "#14161FE0",
@@ -38,7 +43,7 @@
 		"strategy_button": {"rect": [1622, 28, 268, 62], "anchor": "right", "font": 30, "text_key": "CHAR_UI_STRATEGY"}
 	},
 	"overview": {
-		"character_art": {"rect": [610, 90, 700, 760], "anchor": "center", "placeholder_label": "ẢNH NHÂN VẬT (toàn thân)"},
+		"character_art": {"rect": [610, 50, 800, 990], "anchor": "center", "placeholder_label": "ẢNH NHÂN VẬT (toàn thân)"},
 		"info_button": {"rect": [30, 145, 72, 72], "text": "!"},
 		"title": {"rect": [120, 136, 900, 90], "font": 64},
 		"rank_badge": {"rect": [175, 248, 70, 64], "font": 40},
@@ -61,7 +66,7 @@
 		"roster_grid": {"rect": [30, 968, 68, 60], "font": 18, "text_key": "CHAR_UI_GRID"}
 	},
 	"detail": {
-		"character_art": {"rect": [0, 0, 900, 1080], "placeholder_label": "ẢNH NHÂN VẬT"},
+		"character_art": {"rect": [60, 0, 880, 1080], "placeholder_label": "ẢNH NHÂN VẬT"},
 		"tab_bar": {"rect": [915, 952, 975, 80], "anchor": "right", "font": 34,
 			"tabs": ["level", "weapon", "stigma", "skill"],
 			"tab_keys": ["CHAR_TAB_LEVEL", "SLOT_WEAPON", "CHAR_TAB_STIGMA", "CHAR_TAB_SKILL"]}
@@ -110,8 +115,8 @@
 		"change_button": {"rect": [1630, 838, 255, 66], "anchor": "right", "font": 32, "text_key": "CHAR_UI_CHANGE"}
 	},
 	"stigma_tab": {
-		"back_art": {"rect": [0, 0, 900, 1080], "placeholder_label": "ẢNH NHÂN VẬT (lưng)"},
-		"slot_icons": {"rects": [[390, 245, 130, 130], [390, 392, 130, 130], [390, 543, 130, 130]]},
+		"back_art": {"rect": [60, 0, 880, 1080], "placeholder_label": "ẢNH NHÂN VẬT (lưng)"},
+		"slot_icons": {"rects": [[802, 70, 100, 100], [802, 300, 100, 100], [802, 640, 100, 100]]},
 		"set_text": {"rect": [30, 815, 865, 215], "font": 28},
 		"cards": {"anchor": "right", "font": 34, "rects": [[918, 120, 312, 815], [1247, 120, 312, 815], [1576, 120, 312, 815]],
 			"art_height": 570, "change_height": 66}

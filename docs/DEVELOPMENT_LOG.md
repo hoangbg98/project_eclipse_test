@@ -1046,3 +1046,20 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** phê duyệt và chép 22 frame thành công; GdUnit4 458/458, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** dùng dải đã owner xem và duyệt; test builder xác nhận 9 animation Enkiba có frame thật.
 - **Hạn chế đã biết:** model imagegen không được expose; giữ tỉ lệ tham chiếu 0.80× idle để pose trên không nằm gọn trong canvas 384×384.
+
+## 2026-11-13 — Splash art 2D của Enkiba vào màn Nhân vật (thay chibi ở 5 chỗ)
+
+- **Milestone / task:** art + M7-2 (màn Nhân vật) — owner đưa 5 splash art 2D (không chibi) của Enkiba, yêu cầu xóa nền, phóng to hợp lý và thay vào ảnh chibi ở: nhân vật, tăng cấp, vũ khí, vết thánh, kỹ năng
+- **Trạng thái:** TESTED (headless + ảnh chụp 5 tab); chưa VERIFIED (owner chưa xem trong Godot)
+- **File tạo/sửa:**
+  - `tools/cut_splash.py`: xóa nền trắng + cắt sát, chỉ Pillow + numpy. Nền nối mép (>= 235); lỗ kín (vùng sáng không nối mép, >= 100 px, trắng thuần: khoảng hở giữa tay – kiếm – đầu, khe giữa tay và thân); khử viền sáng trong dải 2 px sát mép; co viền 1 px + làm mượt nhẹ; cắt sát + lề 8 px.
+  - `assets/characters/char_fire_01/splash/char_fire_01_splash_{overview,skill,level,stigma,weapon}.png` (PNG alpha, 581–968 px rộng, ~1500 px cao).
+  - `CharacterScreen.splash(id, view_key, fallback_portrait)` và mục `art` trong `data/ui/character_screen_layout.json` (đường dẫn mẫu `{id}` / `{name}`, tên file theo màn / tab: **đổi ảnh từng tab bằng cấu hình**); thiếu file thì dùng chibi, riêng ảnh lưng của tab Vết Thánh thiếu thì hiện placeholder (không thay bằng chibi nhìn trước).
+  - Layout: vùng ảnh tổng quan [610, 50, 800, 990] (cao hơn); vùng ảnh các tab [60, 0, 880, 1080] (dời phải 60 px để tóc không chạm nút Home); 3 ô Đầu / Thân / Chân chuyển sang cột bên phải ảnh lưng, đúng độ cao đầu / thân / chân; cỡ chữ ô theo cỡ ô.
+  - Test: `test_character_screen` thêm 3 (splash đúng ảnh ở 5 chỗ, đổi ảnh bằng cấu hình, dự phòng chibi / placeholder); `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng), `docs/OWNER_ASSET_CHECKLIST.md`.
+- **Ánh xạ ảnh → màn (Claude chọn, đổi trong layout JSON):** ảnh 1 (đứng thẳng, kiếm cầm tay) → tổng quan; ảnh 2 (tư thế chiến đấu) → Skill; ảnh 3 (vác kiếm, đưa tay) → Tăng cấp; ảnh 4 (nhìn từ phía sau) → Vết Thánh; ảnh 5 (chống kiếm) → Vũ khí.
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh); `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_character.gd`.
+- **Kết quả thật:** GdUnit4 461/461, 5 test khói đạt, mã thoát 0. Xóa nền: 72–76% điểm ảnh là nền; đã soi viền ở độ phóng to 2× trên nền tối: không còn quầng trắng, lỗ chắn kiếm và khe tay – thân trong suốt.
+- **Lỗi tìm thấy và sửa:** trong Pillow 10.2, `ImageDraw.floodfill` trên ảnh tạo từ mảng numpy không làm gì (phải `.copy()` trước) nên bước "nền nối mép" lúc đầu không chạy, tool chỉ xóa được nền nhờ nhánh tìm lỗ kín; sửa và đổi sang quy tắc theo diện tích + độ trắng, kiểm tra trên cả 5 ảnh (thành phần sáng kín lớn nhất đều là nền thật).
+- **Quyết định Claude chọn:** ảnh chibi vẫn dùng cho thẻ nhân vật ở danh sách bên dưới và biểu tượng mảnh nhân vật (cắt phần đầu); ảnh splash giữ độ phân giải gốc (không thu nhỏ); ô vết thánh đặt ngoài thân nhân vật để không che ảnh; bảng chỉ số vết thánh vẫn phủ lên phần ủng (nền đen trong suốt 60%).
+- **Hạn chế đã biết:** mới Enkiba có splash, 5 nhân vật còn lại vẫn chibi / placeholder; công cụ tạo splash chưa rõ nên ghi giấy phép "không rõ" (cần owner xác nhận để khai báo AI khi phát hành); nút Home chạm nhẹ tóc ở vài pose; ảnh splash ~0.5–0.8 MB mỗi file (tổng 3.5 MB), chấp nhận cho bản đầu.
