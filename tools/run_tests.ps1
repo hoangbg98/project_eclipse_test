@@ -29,7 +29,7 @@ function Run-Step($name, [string[]]$godotArgs) {
 # Nạp lại cache class (cần sau khi thêm script mới)
 & $Godot --headless --path . --import *> $null
 
-Run-Step "GdUnit4 tests/unit" @("--headless", "--path", ".", "-s", "-d", "--remote-debug", "tcp://127.0.0.1:0",
+Run-Step "GdUnit4 tests/unit" @("--headless", "--path", ".", "-s",
     "res://addons/gdUnit4/bin/GdUnitCmdTool.gd", "-a", "res://tests/unit", "--ignoreHeadlessMode", "-rd", "reports")
 
 foreach ($t in Get-ChildItem "tests\smoke\*.gd") {

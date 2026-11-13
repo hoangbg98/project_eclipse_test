@@ -115,8 +115,8 @@
       "skill_key": "weapon"
     },
     "ultimate": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 22,
+      "fps": 8,
       "loop": false,
       "skill_key": "ultimate"
     },

@@ -1035,3 +1035,14 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** GdUnit4 458/458, 5 test khói đạt, mã thoát 0. Đã xem 5 ảnh chụp và sửa: ô cam tràn chữ, nhãn trên ảnh tạm đè chữ của màn, nhãn ảnh nhỏ bị cắt, "UP!" xa tên, tên dài ("Đại kiếm Dung Nham") xuống dòng đè hàng sao (giờ thu nhỏ chữ cho vừa một dòng), nhãn loại tràn khỏi thẻ, chú thích banner vũ khí nói nhầm về "nhân vật S".
 - **Quyết định Claude chọn:** màn riêng (như màn Nhân vật) thay vì panel trong Hub; nút ×1 / ×10 luôn bấm được, thiếu ngọc thì hiện lý do thay vì làm mờ nút; nút Cửa hàng và "+" cạnh ngọc là placeholder ("chưa có trong bản thử"); tiêu đề banner nhân vật tạm "Nham Thạch Thức Tỉnh", banner vũ khí "Vũ Khí & Ấn Nham Thạch" (chữ tạm, owner đổi trong localization); thời gian còn lại ghi "Không giới hạn" vì chưa có lịch banner (đặt `end_unix` trong `.tres` để hiện đếm ngược); ảnh banner lớn 1301×839 theo khung trong ảnh tham chiếu, ảnh nhỏ 390×226 (gấp đôi ô 195×113).
 - **Hạn chế đã biết:** banner hết hạn (`end_unix` đã qua) mới chỉ ghi "Đã kết thúc", chưa khóa quay; nút Cửa hàng chưa có; lượt miễn phí đầu tiên (starter) vẫn chưa gắn vào UI; chưa thử trên điện thoại (màn rộng hơn 16:9 chỉ dịch phần giữa, đã test dựng ở 2560×1080 và 1280×720); ảnh tham chiếu là Genshin Impact: chỉ học bố cục, không dùng chữ, biểu tượng hay hình của bên thứ ba.
+
+
+## 2026-11-13 — Art: Enkiba ultimate frames (AI)
+- **Milestone / task:** art pipeline — owner duyệt và tích hợp animation `ultimate` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; kiểm tra frame và toàn bộ test đạt).
+- **Owner duyệt:** "Tất cả đều ổn. Chép nó vào dự án luôn nhé"; tích hợp 22 frame, 8 fps, không lặp.
+- **File tạo/sửa:** 22 frame `assets/characters/char_fire_01/frames/ultimate/char_fire_01_ultimate_000..021.png` và sidecar `.import`; manifest cập nhật `ultimate`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `ultimate`; runner bỏ cấu hình remote debugger cổng `0` không hợp lệ.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 ultimate` (thực thi bằng Python 3.12 cài sẵn vì `python` không có trong PATH); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** phê duyệt và chép 22 frame thành công; GdUnit4 458/458, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** dùng dải đã owner xem và duyệt; test builder xác nhận 9 animation Enkiba có frame thật.
+- **Hạn chế đã biết:** model imagegen không được expose; giữ tỉ lệ tham chiếu 0.80× idle để pose trên không nằm gọn trong canvas 384×384.

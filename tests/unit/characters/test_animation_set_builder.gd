@@ -71,13 +71,13 @@ func test_undelivered_animations_use_placeholder() -> void:
 	var result := Builder.build_for_character("char_fire_01")
 	var placeholder: Texture2D = load(Builder.PLACEHOLDER_PATH)
 	assert_object(placeholder).is_not_null()
-	# Enkiba: idle, run, jump_up, fall, attack_1, attack_2, attack_3 và attack_4 đã được owner duyệt; các animation còn lại dùng placeholder.
+	# Enkiba: các animation đã duyệt có frame thật; phần còn lại dùng placeholder.
 	var delivered := 0
 	for n: String in result.manifest["animations"]:
 		if int(result.manifest["animations"][n]["frames"]) > 0:
 			delivered += 1
-	assert_int(delivered).is_equal(8)
-	assert_int(result.placeholder_animations.size()).is_equal(result.manifest["animations"].size() - 8)
+	assert_int(delivered).is_equal(9)
+	assert_int(result.placeholder_animations.size()).is_equal(result.manifest["animations"].size() - 9)
 	assert_bool(result.placeholder_animations.has("idle")).is_false()
 	assert_bool(result.placeholder_animations.has("run")).is_false()
 	assert_bool(result.placeholder_animations.has("jump_up")).is_false()
@@ -86,6 +86,7 @@ func test_undelivered_animations_use_placeholder() -> void:
 	assert_bool(result.placeholder_animations.has("attack_2")).is_false()
 	assert_bool(result.placeholder_animations.has("attack_3")).is_false()
 	assert_bool(result.placeholder_animations.has("attack_4")).is_false()
+	assert_bool(result.placeholder_animations.has("ultimate")).is_false()
 	assert_int(result.sprite_frames.get_frame_count(&"idle")).is_equal(6)
 	assert_int(result.sprite_frames.get_frame_count(&"run")).is_equal(8)
 	assert_int(result.sprite_frames.get_frame_count(&"jump_up")).is_equal(3)
@@ -94,6 +95,7 @@ func test_undelivered_animations_use_placeholder() -> void:
 	assert_int(result.sprite_frames.get_frame_count(&"attack_2")).is_equal(6)
 	assert_int(result.sprite_frames.get_frame_count(&"attack_3")).is_equal(6)
 	assert_int(result.sprite_frames.get_frame_count(&"attack_4")).is_equal(7)
+	assert_int(result.sprite_frames.get_frame_count(&"ultimate")).is_equal(22)
 	assert_object(result.sprite_frames.get_frame_texture(&"run", 0)).is_not_same(placeholder)
 
 
