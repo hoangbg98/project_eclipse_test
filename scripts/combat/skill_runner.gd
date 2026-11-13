@@ -353,6 +353,16 @@ func velocity_x() -> float:
 	return _move_px / (span / 1000.0) * facing
 
 
+## Vận tốc dọc khi đang tắt trọng lực (px/s, âm = lên trên): bay lên `rise_px` trong cửa sổ rise.
+func velocity_y() -> float:
+	if current == null or current.rise_px == 0.0:
+		return 0.0
+	var span := current.rise_to_ms - current.rise_from_ms
+	if span <= 0.0 or elapsed_ms < current.rise_from_ms or elapsed_ms >= current.rise_to_ms:
+		return 0.0
+	return -current.rise_px / (span / 1000.0)
+
+
 func suspends_gravity() -> bool:
 	return current != null and current.gravity_off_at(elapsed_ms)
 

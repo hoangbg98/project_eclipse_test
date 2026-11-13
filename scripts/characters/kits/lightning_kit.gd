@@ -7,6 +7,7 @@ extends Node
 
 const MARK := "lightning_mark"
 const BURST_ID_SUFFIX := ".burst"
+const OVERLOAD := "overload"
 
 var player: PlayerController
 var config: LightningKitConfig
@@ -23,6 +24,7 @@ func attach(p: PlayerController, cfg: Resource) -> void:
 	combatant = p.combatant
 	p.runner.skill_started.connect(_on_skill_started)
 	p.perfect_dodged.connect(_on_perfect_dodge)
+	combatant.hit_dealt.connect(_on_hit_dealt)
 	var bus := p.get_tree().root.get_node_or_null("EventBus") if p.is_inside_tree() else null
 	if bus:
 		bus.status_max_stacks.connect(_on_status_max_stacks)
@@ -63,6 +65,18 @@ func _on_status_max_stacks(target: Object, status_id: String, source: Object) ->
 	combatant.cooldowns.reduce(&"skill", config.skill_cd_per_burst_sec, config.skill_cd_max_per_cycle_sec)
 	if config.ug_per_burst > 0.0:
 		combatant.resources.add_ug(config.ug_per_burst)
+
+
+## Quá Tải (sau Tuyệt kỹ, 8 s): mọi đòn thường áp Dấu Sét (đòn đã có Dấu Sét thì không áp thêm).
+func _on_hit_dealt(target: Combatant, _result: DamageCalculator.Result, hit: HitInfo) -> void:
+	if target == null or hit.hit_kind != ResourceComponent.HitKind.NORMAL:
+		return
+	if not combatant.statuses.has(OVERLOAD):
+		return
+	for s in hit.statuses:
+		if s.status_id == MARK:
+			return
+	target.statuses.apply(MARK, -1.0, -1.0, combatant)
 
 
 func _on_perfect_dodge(_hit: HitInfo) -> void:

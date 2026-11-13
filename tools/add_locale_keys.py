@@ -276,6 +276,11 @@ KEYS = [
     ("DEBUG_GIFT_LINE_CAPTAIN_EXP", "EXP người chơi +%d", "Player EXP +%d"),
     # Kazeyumi tuyệt kỹ
     ("STATUS_STORM_BLESSING", "Bão Tiễn", "Arrow Storm"),
+    ("STATUS_FAIR_WIND", "Gió Thuận (EN)", "Fair Wind (EN)"),
+    ("STATUS_FAIR_WIND_HASTE", "Gió Thuận", "Fair Wind"),
+    ("STATUS_WIND_DOMAIN", "Trong Phong Vực", "In Wind Domain"),
+    ("STATUS_WIND_DOMAIN_HASTE", "Phong Vực", "Wind Domain"),
+    ("STATUS_OVERLOAD", "Quá Tải", "Overload"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

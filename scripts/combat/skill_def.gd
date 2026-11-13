@@ -49,6 +49,11 @@ extends Resource
 ## Hoặc chỉ trong cửa sổ [gravity_off_from_ms, gravity_off_to_ms) (vd treo 150 ms sau đòn trên không 2).
 @export var gravity_off_from_ms := -1.0
 @export var gravity_off_to_ms := -1.0
+## Bay lên (px, dương = lên trên) trong [rise_from_ms, rise_to_ms); chỉ có tác dụng khi đang tắt trọng lực
+## (suspend_gravity) — tuyệt kỹ Kazeyumi bay lên 300 px.
+@export var rise_px := 0.0
+@export var rise_from_ms := 0.0
+@export var rise_to_ms := 0.0
 ## Giữ vận tốc ngang đang có (đòn trên không) thay vì đứng lại.
 @export var keep_momentum := false
 

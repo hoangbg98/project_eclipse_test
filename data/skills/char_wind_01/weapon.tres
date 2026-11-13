@@ -22,6 +22,8 @@ travel_px = 800.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = 0.0
+bonus_vs_status = "wind_domain"
+bonus_vs_status_ratio = 0.25
 statuses = Array[ExtResource("3")]([])
 
 [sub_resource type="Resource" id="hit_1"]
@@ -42,6 +44,8 @@ travel_px = 800.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = -8.0
+bonus_vs_status = "wind_domain"
+bonus_vs_status_ratio = 0.25
 statuses = Array[ExtResource("3")]([])
 
 [sub_resource type="Resource" id="hit_2"]
@@ -62,6 +66,8 @@ travel_px = 800.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = 8.0
+bonus_vs_status = "wind_domain"
+bonus_vs_status_ratio = 0.25
 statuses = Array[ExtResource("3")]([])
 
 [sub_resource type="Resource" id="hit_3"]
@@ -82,6 +88,8 @@ travel_px = 800.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = -4.0
+bonus_vs_status = "wind_domain"
+bonus_vs_status_ratio = 0.25
 statuses = Array[ExtResource("3")]([])
 
 [sub_resource type="Resource" id="hit_4"]
@@ -102,6 +110,8 @@ travel_px = 800.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = 4.0
+bonus_vs_status = "wind_domain"
+bonus_vs_status_ratio = 0.25
 statuses = Array[ExtResource("3")]([])
 
 [sub_resource type="Resource" id="st_5_0"]
@@ -128,6 +138,8 @@ travel_px = 800.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = 0.0
+bonus_vs_status = "wind_domain"
+bonus_vs_status_ratio = 0.25
 statuses = Array[ExtResource("3")]([SubResource("st_5_0")])
 
 [resource]
@@ -145,4 +157,4 @@ move_px = -150.0
 move_from_ms = 0.0
 move_to_ms = 200.0
 hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3"), SubResource("hit_4"), SubResource("hit_5")])
-metadata/source = "Mục 2 Liên Châu Phong Tiễn: 35 EN, CD 13s, lùi 150 px, 6 tên 60% trong 900 ms tầm 800 quạt ±8°, tên cuối đẩy 100 px + Chậm 30% 2s; 200/900/300"
+metadata/source = "Mục 2 Liên Châu Phong Tiễn: 35 EN, CD 13s, lùi 150 px, 6 tên 60% trong 900 ms tầm 800 quạt ±8°, tên cuối đẩy 100 px + Chậm 30% 2s, +25% nếu mục tiêu trong Phong Vực; 200/900/300"

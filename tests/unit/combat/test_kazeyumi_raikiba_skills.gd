@@ -117,11 +117,60 @@ func test_kazeyumi_skill_zone_ticks_slows_and_buffs() -> void:
 	_press(PlayerIntent.SKILL)
 	await _frames(3)
 	assert_array(_started).contains(["skill"])
+	await _wait_done()
+	# Đứng ngoài vùng (tâm cách 400 px, bán kính 300): chưa có buff.
+	assert_float(_p.combatant.statuses.attack_speed_up()).is_equal(0.0)
+	_p.global_position.x = 900.0                                                    # bước vào vùng
+	await _frames(3)
 	assert_float(_p.combatant.statuses.attack_speed_up()).is_equal(0.15)
 	assert_float(_p.combatant.statuses.move_speed_up()).is_equal(0.10)
-	await _frames(80)
+	assert_bool(_p.kit.in_zone()).is_true()
+	await _frames(60)
 	assert_int(hits.count("char_wind_01.skill")).is_greater_equal(2)                 # vùng gây sát thương nhiều nhịp
 	assert_bool(_dummy(0).combatant.statuses.has("slow")).is_true()
+	assert_bool(_dummy(0).combatant.statuses.has("wind_domain")).is_true()          # dấu cho Liên Châu +25%
+	_p.global_position.x = 100.0                                                    # rời vùng: buff hết sau ~0.3 s
+	await _frames(30)
+	assert_float(_p.combatant.statuses.attack_speed_up()).is_equal(0.0)
+
+
+func test_kazeyumi_normal_ug_bonus_in_zone() -> void:
+	await _setup("char_wind_01", 520.0)
+	_p.kit.zone_center = _p.global_position
+	_p.kit.zone_left = 6.0
+	var hit := HitInfo.new()
+	hit.hit_kind = ResourceComponent.HitKind.NORMAL
+	hit.hit_id = 987654
+	var ug0 := _p.combatant.resources.ug
+	_p.combatant.hit_dealt.emit(_dummy(0).combatant, DamageCalculator.Result.new(), hit)
+	var rules := _p.combatant.rules
+	assert_float(_p.combatant.resources.ug - ug0).is_equal_approx(rules.ug_per_normal_hit * 0.2, 0.0001)
+
+
+func test_kazeyumi_fair_wind_three_targets_buffs_team() -> void:
+	await _setup("char_wind_01")
+	var hit := HitInfo.new()
+	hit.hit_kind = ResourceComponent.HitKind.NORMAL
+	var other: Combatant = auto_free(Combatant.new())
+	for t: Combatant in [_dummy(0).combatant, _dummy(1).combatant, other]:
+		_p.combatant.hit_dealt.emit(t, DamageCalculator.Result.new(), hit)
+	assert_int(_p.kit.fair_wind_triggers).is_equal(1)
+	assert_float(_p.combatant.statuses.move_speed_up()).is_equal(0.10)
+	assert_float(_p.combatant.statuses.en_regen_up()).is_equal(0.08)
+	_p.combatant.resources.en = 0.0
+	_p.combatant.tick(1.0)
+	assert_float(_p.combatant.resources.en).is_equal_approx(_p.combatant.rules.en_regen_per_sec * 1.08, 0.0001)
+	# ICD 10 s: trúng thêm 3 mục tiêu ngay không kích hoạt lại.
+	for t: Combatant in [_dummy(0).combatant, _dummy(1).combatant, other]:
+		_p.combatant.hit_dealt.emit(t, DamageCalculator.Result.new(), hit)
+	assert_int(_p.kit.fair_wind_triggers).is_equal(1)
+
+
+func test_kazeyumi_weapon_bonus_vs_wind_domain() -> void:
+	var w: SkillDef = _skills("char_wind_01")["weapon"]
+	for h: HitDef in w.hits:
+		assert_str(h.bonus_vs_status).is_equal("wind_domain")
+		assert_float(h.bonus_vs_status_ratio).is_equal(0.25)
 
 
 func test_kazeyumi_weapon_hops_back_and_fires_six() -> void:
@@ -176,8 +225,10 @@ func test_kazeyumi_ultimate_storm_hits_and_switch_allowed() -> void:
 	assert_array(_started).contains(["ultimate"])
 	assert_bool(_p.is_switch_locked()).is_false()
 	assert_float(_p.combatant.statuses.move_speed_up()).is_equal(0.20)
-	await _frames(90)
-	assert_int(hits.count("char_wind_01.ultimate")).is_greater_equal(3)
+	await _frames(42)                                                               # 700 ms: bay lên 300 px
+	assert_float(896.0 - _p.global_position.y).is_equal_approx(300.0, 20.0)
+	await _frames(48)
+	assert_int(hits.count("char_wind_01.ultimate")).is_greater_equal(3)             # bão ở mặt đất vẫn trúng hình nộm
 
 
 # ---------- Raikiba ----------
@@ -264,6 +315,24 @@ func test_raikiba_ultimate_teleports_and_locks_switch() -> void:
 	assert_bool(_p.is_switch_locked()).is_true()
 	assert_float(absf(_p.global_position.x - _dummy(0).global_position.x)).is_less(120.0)
 	assert_float(_p.combatant.statuses.attack_speed_up()).is_equal(0.25)
+	assert_bool(_p.combatant.statuses.has("overload")).is_true()
 	await _wait_done()
 	await _frames(5)
 	assert_int(hits.count("char_lightning_01.ultimate")).is_greater_equal(8)
+
+
+func test_raikiba_overload_normals_apply_mark() -> void:
+	await _setup("char_lightning_01", 840.0)
+	var d := _dummy(0).combatant
+	_p.intent.tap_attack(_buf())                                                    # đòn 1 không có Dấu Sét
+	await _wait_done()
+	assert_int(d.statuses.stacks("lightning_mark")).is_equal(0)
+	_p.combatant.statuses.apply("overload", 8.0, 0.25, _p.combatant)
+	_p.intent.tap_attack(_buf())
+	await _wait_done()
+	assert_int(d.statuses.stacks("lightning_mark")).is_equal(1)                     # Quá Tải: đòn 1 cũng áp dấu
+
+
+func test_raikiba_hold_gives_one_en_per_tick() -> void:
+	var h: SkillDef = _skills("char_lightning_01")["hold_1"]
+	assert_float(h.extra_en_on_hit).is_equal(-2.0)                                  # 3 theo loại − 2 = +1

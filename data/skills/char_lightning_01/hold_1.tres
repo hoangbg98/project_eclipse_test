@@ -196,5 +196,6 @@ approach_stop_px = 40.0
 move_from_ms = 0.0
 move_to_ms = 150.0
 super_armor = true
+extra_en_on_hit = -2.0
 hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3"), SubResource("hit_4"), SubResource("hit_5"), SubResource("hit_6"), SubResource("hit_7")])
 metadata/source = "Mục 3 Lôi Quang Loạn Vũ: giữ 350 ms tự kích hoạt, lao tới mục tiêu trong 300 px, 30% mỗi 150 ms x8 (240%), Dấu Sét mỗi 2 nhịp, thả nút dừng sớm, kháng khựng, CD 3s sau khi kết thúc; 150/1200/220"

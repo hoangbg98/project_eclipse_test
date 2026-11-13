@@ -1133,3 +1133,18 @@ msgstr "EXP người chơi +%d"
 
 msgid "STATUS_STORM_BLESSING"
 msgstr "Bão Tiễn"
+
+msgid "STATUS_FAIR_WIND"
+msgstr "Gió Thuận (EN)"
+
+msgid "STATUS_FAIR_WIND_HASTE"
+msgstr "Gió Thuận"
+
+msgid "STATUS_WIND_DOMAIN"
+msgstr "Trong Phong Vực"
+
+msgid "STATUS_WIND_DOMAIN_HASTE"
+msgstr "Phong Vực"
+
+msgid "STATUS_OVERLOAD"
+msgstr "Quá Tải"

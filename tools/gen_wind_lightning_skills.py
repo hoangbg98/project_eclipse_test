@@ -27,9 +27,10 @@ WD = os.path.join(ROOT, "data", "skills", W)
 ARROW_SPEED = 1800.0  # px/s, như Phong Tiễn
 
 
-def arrow(at, ratio, travel, max_targets=1, angle=0.0, statuses=(), knock=0, rect=(70, 24), offset=(50, -150)):
+def arrow(at, ratio, travel, max_targets=1, angle=0.0, statuses=(), knock=0, rect=(70, 24), offset=(50, -150), **extra):
     return hit(at, round(travel / ARROW_SPEED * 1000), ratio, shape=RECT, rect=rect, offset=offset, detached=True,
-               travel=travel, statuses=statuses, knock=knock, max_targets=max_targets, travel_angle_deg=float(angle))
+               travel=travel, statuses=statuses, knock=knock, max_targets=max_targets, travel_angle_deg=float(angle),
+               **extra)
 
 
 # --- Nhấn giữ TC — Xuyên Phong Tiễn: giữ >= 500 ms nạp (chậm 50%); Cấp 1 tại 900 ms xuyên 900 px 180%;
@@ -66,13 +67,12 @@ write_skill("landing", base(W, "landing", "landing", "landing_attack", LANDING, 
             "rơi 500 px/s (thả dù, Claude chọn); 70/80/220", WD)
 
 # --- Kĩ năng thường — Phong Vực: 20 EN / 10 s; vùng bán kính 300 cách 400 px phía trước, 6 s, 20% mỗi 0.5 s;
-#     kẻ địch Chậm 20%, kéo nhẹ về tâm; người dùng +15% tốc độ tấn công, +10% tốc độ di chuyển (6 s); 150/60/220 ---
+#     kẻ địch Chậm 20%, kéo nhẹ về tâm; người đứng trong vùng +15% tốc độ tấn công, +10% tốc độ di chuyển (WindKit) ---
 write_skill("skill", base(W, "skill", "skill", "skill_1", SKILL, 150, 60, 220, en_cost=20.0, cooldown_sec=10.0),
             [hit(150, 6000, 0.20, shape=CIRCLE, radius=300, offset=(400, -60), detached=True, tick=500, knock=20,
-                 pull_to_origin=True, statuses=[("slow", 0.6, 0.20)])],
-            "Mục 2 Phong Vực: 20 EN, CD 10s, vùng bán kính 300 cách 400 px, 6s, 20% mỗi 0.5s (240%), Chậm 20%, kéo về tâm; "
-            "buff +15% tốc độ tấn công +10% tốc độ di chuyển áp cho người dùng 6s (chưa xét đứng trong vùng); 150/60/220",
-            WD, self_statuses=[("attack_speed_up", 6.0, 0.15), ("wind_step", 6.0, 0.10)])
+                 pull_to_origin=True, statuses=[("slow", 0.6, 0.20), ("wind_domain", 0.6, -1.0)])],
+            "Mục 2 Phong Vực: 20 EN, CD 10s, vùng bán kính 300 cách 400 px, 6s, 20% mỗi 0.5s (240%), Chậm 20%, kéo về tâm, "
+            "đánh dấu kẻ địch trong vùng (wind_domain); buff người trong vùng do WindKit áp; 150/60/220", WD)
 
 # --- Kĩ năng vũ khí — Liên Châu Phong Tiễn: 35 EN / 13 s; nhảy lùi 150 px rồi 6 tên trong 900 ms, tầm 800, quạt ±8°,
 #     60% x6; tên cuối đẩy 100 px, Chậm 30% 2s; 200/900/300 ---
@@ -81,9 +81,10 @@ write_skill("weapon", base(W, "weapon", "weapon", "skill_2", WEAPON, 200, 900, 3
             move_px=-150.0, move_from_ms=0.0, move_to_ms=200.0),
             [arrow(200 + i * 150, 0.60, 800, angle=angles[i],
                    knock=100 if i == 5 else 0, rect=(100, 36) if i == 5 else (70, 24),
-                   statuses=[("slow", 2.0, 0.30)] if i == 5 else []) for i in range(6)],
+                   statuses=[("slow", 2.0, 0.30)] if i == 5 else [],
+                   bonus_vs_status="wind_domain", bonus_vs_status_ratio=0.25) for i in range(6)],
             "Mục 2 Liên Châu Phong Tiễn: 35 EN, CD 13s, lùi 150 px, 6 tên 60% trong 900 ms tầm 800 quạt ±8°, "
-            "tên cuối đẩy 100 px + Chậm 30% 2s; 200/900/300", WD)
+            "tên cuối đẩy 100 px + Chậm 30% 2s, +25% nếu mục tiêu trong Phong Vực; 200/900/300", WD)
 
 # --- Tuyệt kỹ — Bão Tiễn Thiên Không: 100 UG, khóa 2 s; bão bán kính 450 quanh Kazeyumi 5 s, 35% mỗi 0.25 s (20 nhịp),
 #     kéo vào tâm 150 px/s (37.5 px mỗi nhịp), Chậm 30%; nổ cuối 300%; người dùng +15% sát thương, +20% tốc độ 8 s;
@@ -92,13 +93,15 @@ ULT_W = 700
 write_skill("ultimate", base(W, "ultimate", "ultimate", "ultimate", ULTIMATE, ULT_W, 1000, 400, ug_cost=100.0,
             cooldown_sec=2.0, cooldown_uses_cdr=False, cooldown_starts_on_end=True,
             name_key="SKILL_WIND_01_ULTIMATE", time_stop_ms=500.0, suspend_gravity=True, super_armor=True,
+            rise_px=300.0, rise_from_ms=0.0, rise_to_ms=float(ULT_W),
             invuln_from_ms=0.0, invuln_to_ms=float(ULT_W)),
-            [hit(ULT_W, 5000, 0.35, shape=CIRCLE, radius=450, offset=(0, -150), detached=True, tick=250, knock=37.5,
-                 pull_to_origin=True, statuses=[("slow", 0.5, 0.30)]),
-             hit(ULT_W, 120, 3.00, shape=CIRCLE, radius=450, offset=(0, -150), detached=True, delay_ms=5000.0)],
+            # Đặt lúc 0 ms (còn ở mặt đất) để tâm bão ở mặt đất dưới chỗ Kazeyumi bay lên; bật sau khởi động.
+            [hit(0, 5000, 0.35, shape=CIRCLE, radius=450, offset=(0, -150), detached=True, tick=250, knock=37.5,
+                 pull_to_origin=True, statuses=[("slow", 0.5, 0.30)], delay_ms=float(ULT_W)),
+             hit(0, 120, 3.00, shape=CIRCLE, radius=450, offset=(0, -150), detached=True, delay_ms=float(ULT_W + 5000))],
             "Mục 2 Bão Tiễn Thiên Không: 100 UG, khóa 2s, bão bán kính 450 5s 35% mỗi 0.25s (700%) kéo 150 px/s, "
             "Chậm 30%, nổ cuối 300%; +15% sát thương +20% tốc độ 8s; cut-in 500 / 700 / 5000 (bão) / 400; "
-            "thân nhân vật 700/1000/400", WD,
+            "bay lên 300 px trong 700 ms; thân nhân vật 700/1000/400", WD,
             self_statuses=[("storm_blessing", 8.0, 0.15), ("wind_step", 8.0, 0.20)])
 
 # Trạng thái Bão Tiễn (buff sát thương của tuyệt kỹ Kazeyumi).
@@ -130,6 +133,32 @@ metadata/source = "Mục 2 Kazeyumi Tuyệt kỹ: trong bão 8s +15% sát thươ
 with io.open(os.path.join(ROOT, "data", "statuses", "storm_blessing.tres"), "w", encoding="utf-8", newline="\n") as f:
     f.write(STATUS)
 
+
+def write_status(sid, name_key, kind, duration, magnitude, meaning, source):
+    """kind: 0 = bất lợi, 1 = có lợi (StatusDef.Kind)."""
+    body = STATUS.replace('id = "storm_blessing"', 'id = "%s"' % sid)
+    body = body.replace('name_key = "STATUS_STORM_BLESSING"', 'name_key = "%s"' % name_key)
+    body = body.replace("kind = 1", "kind = %d" % kind)
+    body = body.replace("default_duration = 8.0", "default_duration = %s" % float(duration))
+    body = body.replace("default_magnitude = 0.15", "default_magnitude = %s" % float(magnitude))
+    body = body.replace('magnitude_meaning = "damage_dealt_up"', 'magnitude_meaning = "%s"' % meaning)
+    body = body.replace('metadata/source = "Mục 2 Kazeyumi Tuyệt kỹ: trong bão 8s +15% sát thương"',
+                        'metadata/source = "%s"' % source)
+    with io.open(os.path.join(ROOT, "data", "statuses", sid + ".tres"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(body)
+
+
+write_status("fair_wind", "STATUS_FAIR_WIND", 1, 5.0, 0.08, "en_regen_up",
+             "Mục 2 Gió Thuận: +8% tốc độ nạp EN 5s")
+write_status("fair_wind_haste", "STATUS_FAIR_WIND_HASTE", 1, 5.0, 0.10, "move_speed_up",
+             "Mục 2 Gió Thuận: +10% tốc độ di chuyển 5s (tách khỏi wind_step để không gộp mức với né hoàn hảo)")
+write_status("wind_domain", "STATUS_WIND_DOMAIN", 0, 0.6, 0.0, "",
+             "Mục 2 Phong Vực: dấu kẻ địch đang trong vùng (Liên Châu +25%); làm mới mỗi nhịp 0.5s")
+write_status("wind_domain_haste", "STATUS_WIND_DOMAIN_HASTE", 1, 0.3, 0.10, "move_speed_up",
+             "Mục 2 Phong Vực: người đứng trong vùng +10% tốc độ di chuyển (WindKit làm mới mỗi tick)")
+write_status("overload", "STATUS_OVERLOAD", 1, 8.0, 0.25, "attack_speed_up",
+             "Mục 3 Lôi Thần Quyết — Quá Tải 8s: +25% tốc độ tấn công, đòn thường áp Dấu Sét (LightningKit)")
+
 # ======================= Raikiba — Lôi · Song đao =======================
 K = "char_lightning_01"
 KD = os.path.join(ROOT, "data", "skills", K)
@@ -142,7 +171,7 @@ write_skill("hold_1", base(K, "hold_1", "hold", "hold_release", HOLD, 150, 1200,
             charge_start_ms=350.0, charge_level_ms=350.0, fire_on_charge=True, release_ends=True,
             cooldown_sec=3.0, cooldown_uses_cdr=False, cooldown_group="hold", cooldown_starts_on_end=True,
             target_range_px=300.0, approach_target=True, approach_max_px=300.0, approach_stop_px=40.0,
-            move_from_ms=0.0, move_to_ms=150.0, super_armor=True),
+            move_from_ms=0.0, move_to_ms=150.0, super_armor=True, extra_en_on_hit=-2.0),
             [hit(150 + i * 150, 60, 0.30, shape=CIRCLE, radius=130, offset=(40, -110),
                  statuses=[MARK] if i % 2 == 1 else []) for i in range(8)],
             "Mục 3 Lôi Quang Loạn Vũ: giữ 350 ms tự kích hoạt, lao tới mục tiêu trong 300 px, 30% mỗi 150 ms x8 (240%), "
@@ -213,5 +242,5 @@ write_skill("ultimate", base(K, "ultimate", "ultimate", "ultimate", ULTIMATE, UL
             slashes + [hit(ULT_K + 1100, 120, 4.50, shape=CIRCLE, radius=300, detached=True, at_target=True)],
             "Mục 3 Lôi Thần Quyết: 100 UG, khóa 2s, dịch chuyển tới mục tiêu trong 600 px, 8 nhát 80% + sét 450% bán kính 300, "
             "nhát đầu +150% nếu mục tiêu có Dấu Sét; Quá Tải 8s +25% tốc độ tấn công; cut-in 500/300/1500/400", KD,
-            self_statuses=[("attack_speed_up", 8.0, 0.25)])
+            self_statuses=[("overload", 8.0, 0.25)])
 print("ok")

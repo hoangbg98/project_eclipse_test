@@ -51,6 +51,8 @@ var kit: Node
 var stats_override: CombatStats
 ## Cấp kỹ năng theo SkillDef.key (từ hồ sơ người chơi); thiếu key = cấp 1.
 var skill_levels: Dictionary = {}
+## Combatant của cả đội (PartyManager gán sau khi tạo đủ thành viên); rỗng = chỉ mình nhân vật này.
+var team_combatants: Array[Combatant] = []
 ## Còn bấy nhiêu giây không dùng được đòn thường (SkillDef.blocks_normal_ms, vd Raikiba ném đao).
 var normal_lock_sec := 0.0
 
@@ -134,7 +136,7 @@ func step(delta: float) -> void:
 		velocity = velocity_override
 		move_and_slide()
 	elif runner.suspends_gravity():
-		velocity.y = 0.0
+		velocity.y = runner.velocity_y()
 		move_and_slide()
 	else:
 		# Chia trọng lực hai nửa quanh bước di chuyển (tích phân điểm giữa): đỉnh nhảy đúng

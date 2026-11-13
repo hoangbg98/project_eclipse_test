@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SkillDef" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="SkillDef" load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
@@ -9,6 +9,12 @@ script = ExtResource("3")
 status_id = "slow"
 duration = 0.6
 magnitude = 0.2
+
+[sub_resource type="Resource" id="st_0_1"]
+script = ExtResource("3")
+status_id = "wind_domain"
+duration = 0.6
+magnitude = -1.0
 
 [sub_resource type="Resource" id="hit_0"]
 script = ExtResource("2")
@@ -27,19 +33,7 @@ detached = true
 travel_px = 0.0
 tick_interval_ms = 500.0
 pull_to_origin = true
-statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
-
-[sub_resource type="Resource" id="self_0"]
-script = ExtResource("3")
-status_id = "attack_speed_up"
-duration = 6.0
-magnitude = 0.15
-
-[sub_resource type="Resource" id="self_1"]
-script = ExtResource("3")
-status_id = "wind_step"
-duration = 6.0
-magnitude = 0.1
+statuses = Array[ExtResource("3")]([SubResource("st_0_0"), SubResource("st_0_1")])
 
 [resource]
 script = ExtResource("1")
@@ -53,5 +47,4 @@ recovery_ms = 220.0
 en_cost = 20.0
 cooldown_sec = 10.0
 hits = Array[ExtResource("2")]([SubResource("hit_0")])
-self_statuses = Array[ExtResource("3")]([SubResource("self_0"), SubResource("self_1")])
-metadata/source = "Mục 2 Phong Vực: 20 EN, CD 10s, vùng bán kính 300 cách 400 px, 6s, 20% mỗi 0.5s (240%), Chậm 20%, kéo về tâm; buff +15% tốc độ tấn công +10% tốc độ di chuyển áp cho người dùng 6s (chưa xét đứng trong vùng); 150/60/220"
+metadata/source = "Mục 2 Phong Vực: 20 EN, CD 10s, vùng bán kính 300 cách 400 px, 6s, 20% mỗi 0.5s (240%), Chậm 20%, kéo về tâm, đánh dấu kẻ địch trong vùng (wind_domain); buff người trong vùng do WindKit áp; 150/60/220"

@@ -149,6 +149,11 @@ func attack_speed_up() -> float:
 	return _max_of(StatusDef.MAGNITUDE_ATTACK_SPEED_UP)
 
 
+## % tăng tốc độ nạp EN theo giây (lấy mức cao nhất).
+func en_regen_up() -> float:
+	return _max_of(StatusDef.MAGNITUDE_EN_REGEN_UP)
+
+
 func _max_of(meaning: String) -> float:
 	var m := 0.0
 	for v in modifiers(meaning).values():

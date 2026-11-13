@@ -84,6 +84,11 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 		p.runner.skill_started.connect(_on_skill_started.bind(m))
 		p.combatant.hit_dealt.connect(_on_member_hit_dealt.bind(m))
 		p.runner.skill_finished.connect(_on_skill_finished.bind(m))
+	var team: Array[Combatant] = []
+	for m in members:
+		team.append(m.controller.combatant)
+	for m in members:
+		m.controller.team_combatants = team
 	active_index = 0
 	for m in members:
 		if m.party_index != active_index:

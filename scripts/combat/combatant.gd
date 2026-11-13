@@ -78,6 +78,7 @@ func setup(seed_value := 0) -> void:
 
 
 func tick(delta: float) -> void:
+	resources.en_regen_multiplier = 1.0 + statuses.en_regen_up()
 	resources.tick(delta)
 	cooldowns.tick(delta)
 	statuses.tick(delta)
@@ -149,7 +150,7 @@ func _on_hit_dealt(target: Combatant, result: DamageCalculator.Result, hit: HitI
 			_registered_hits.clear()
 			_registered_hits[hit.hit_id] = true
 		resources.register_hit(hit.hit_kind)
-		if hit.extra_en > 0.0:
+		if hit.extra_en != 0.0:  # âm = bớt EN so với mức theo loại đòn (Raikiba giữ TC: +1 = 3 − 2)
 			resources.add_en(hit.extra_en)
 	hit_dealt.emit(target, result, hit)
 

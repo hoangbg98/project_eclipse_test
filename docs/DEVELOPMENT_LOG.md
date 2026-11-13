@@ -1148,3 +1148,22 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Kazeyumi Hạ Phong Trận: rơi 500 px/s (thả dù), vùng gió đặt ở chỗ tiếp đất. Phong Vực / Bão Tiễn: buff đồng đội áp cho người dùng lúc cast (chỉ một nhân vật trên sân), không xét đứng trong vùng. Bão kéo 37.5 px mỗi nhịp (= 150 px/s). Thiên Phong Loạt Tiễn lần 1 nối sang lần 2 bằng cửa sổ 200 ms như Enkiba.
   - Raikiba Song Lôi Phi Nhận: thân nhân vật chỉ giữ 140 + 180 ms để vẫn di chuyển được, đao bay độc lập, khóa đòn thường 800 ms. Lôi Trụy Thuấn: vệt điện Chậm 20% gộp vào vụ nổ. Lôi Thần Quyết: nhát đầu +150% ATK nếu mục tiêu có Dấu Sét (bonus_vs_status 1.875 × 80%).
 - **Hạn chế đã biết:** chưa làm: nội tại Gió Thuận (buff cả đội), Liên Châu +25% trong Phong Vực, nạp UG +20% trong Phong Vực, Kazeyumi bay lên 300 px khi tuyệt kỹ, Quá Tải của Raikiba làm đòn thường áp Dấu Sét, đòn giữ Raikiba +1 EN mỗi nhịp (đang +3 theo loại đòn giữ). Animation của các chiêu mới còn placeholder (Codex chưa vẽ).
+
+## 2026-11-14 — Kazeyumi, Raikiba: Gió Thuận, Phong Vực theo vùng, Bão Tiễn bay lên, Quá Tải
+
+- **Milestone / task:** combat — owner: làm nốt các phần còn thiếu ở mục trước
+- **Trạng thái:** TESTED (chưa thử bằng mắt trong Godot)
+- **File tạo/sửa:**
+  - `scripts/characters/kits/wind_kit.gd`, `wind_kit_config.gd`: nội tại Gió Thuận (trúng 3 kẻ địch khác nhau trong 4 s → cả đội +10% tốc độ di chuyển, +8% nạp EN 5 s, ICD 10 s); Phong Vực: người trên sân đứng trong vùng (bán kính 300, tâm cách 400 px, 6 s) +15% tốc độ tấn công +10% tốc độ di chuyển, Kazeyumi trong vùng: UG từ đòn thường +20%
+  - `scripts/characters/kits/lightning_kit.gd`: Quá Tải — đòn thường áp Dấu Sét (đòn đã có dấu thì không áp thêm)
+  - `scripts/combat/skill_def.gd` + `skill_runner.gd` + `player_controller.gd`: `rise_px` / `rise_from_ms` / `rise_to_ms` (bay lên khi tắt trọng lực); `team_combatants` (PartyManager gán) để kit buff cả đội
+  - `scripts/combat/status_def.gd`, `status_controller.gd`, `resource_component.gd`, `combatant.gd`: loại chỉ số mới `en_regen_up`; `extra_en` âm được (Raikiba giữ TC +1 EN mỗi nhịp = 3 − 2)
+  - `tools/gen_wind_lightning_skills.py` sinh lại kỹ năng + 5 trạng thái mới: `fair_wind`, `fair_wind_haste`, `wind_domain` (dấu kẻ địch trong Phong Vực → Liên Châu +25%), `wind_domain_haste`, `overload`; khóa dịch STATUS_* tương ứng
+  - Test: `test_kazeyumi_raikiba_skills.gd` (17 test), `test_combat_data.gd`
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`; `python -X utf8 tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 501/501, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tuyệt kỹ Kazeyumi đo được bay lên ~300 px sau 700 ms, bão (đặt ở mặt đất) vẫn trúng hình nộm.
+- **Quyết định Claude chọn:**
+  - Buff tốc độ di chuyển của Gió Thuận / Phong Vực dùng trạng thái riêng (không dùng `wind_step`) vì áp trạng thái trùng tên gộp mức cao nhất và thời gian dài nhất, sẽ kéo dài +25% của né hoàn hảo.
+  - Buff trong vùng làm mới mỗi tick, hết sau 0.3 s khi rời vùng; áp cho người đang trên sân (đồng đội vào sân sau cũng nhận).
+  - Bão Tiễn đặt lúc 0 ms tại mặt đất rồi bật sau 700 ms, để tâm bão ở dưới chỗ Kazeyumi bay lên. Kazeyumi chỉ treo trên không hết thời lượng kỹ năng (2.1 s) rồi rơi; bão vẫn chạy đủ 5 s.
+- **Hạn chế đã biết:** buff "đồng đội trong bão" của tuyệt kỹ Kazeyumi vẫn áp cho bản thân lúc cast (chỉ một người trên sân).

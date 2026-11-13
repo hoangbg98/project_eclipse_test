@@ -29,6 +29,8 @@ var dodge_charges := 0
 var cdr := 0.0
 ## true: đang trên sân (EN +2/s); false: dự bị (EN +1/s).
 var on_field := true
+## Hệ số nạp EN theo giây (1 + % từ trạng thái en_regen_up; Combatant cập nhật mỗi tick).
+var en_regen_multiplier := 1.0
 ## Lượng sát thương khiên còn hấp thụ được (trạng thái "shield": % HP tối đa).
 var shield := 0.0
 
@@ -49,7 +51,7 @@ func is_dead() -> bool:
 func tick(delta: float) -> void:
 	if is_dead():
 		return
-	add_en((rules.en_regen_per_sec if on_field else rules.reserve_en_regen_per_sec) * delta)
+	add_en((rules.en_regen_per_sec if on_field else rules.reserve_en_regen_per_sec) * en_regen_multiplier * delta)
 	_tick_dodge(delta)
 
 

@@ -1133,3 +1133,18 @@ msgstr "Player EXP +%d"
 
 msgid "STATUS_STORM_BLESSING"
 msgstr "Arrow Storm"
+
+msgid "STATUS_FAIR_WIND"
+msgstr "Fair Wind (EN)"
+
+msgid "STATUS_FAIR_WIND_HASTE"
+msgstr "Fair Wind"
+
+msgid "STATUS_WIND_DOMAIN"
+msgstr "In Wind Domain"
+
+msgid "STATUS_WIND_DOMAIN_HASTE"
+msgstr "Wind Domain"
+
+msgid "STATUS_OVERLOAD"
+msgstr "Overload"
