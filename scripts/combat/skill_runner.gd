@@ -80,6 +80,14 @@ func _build_animation(key: String, s: SkillDef) -> Animation:
 			anim.track_set_path(t, ^".")
 			anim.track_insert_key(t, h.at_ms / 1000.0, {"method": &"_spawn_detached", "args": [key, i]})
 			continue
+	for i in s.heals.size():
+		var t := anim.add_track(Animation.TYPE_METHOD)
+		anim.track_set_path(t, ^".")
+		anim.track_insert_key(t, s.heals[i].at_ms / 1000.0, {"method": &"_spawn_heal", "args": [key, i]})
+	for i in s.hits.size():
+		var h: HitDef = s.hits[i]
+		if h.detached:
+			continue
 		var hb := make_hitbox(h, combatant.team if combatant else PhysicsLayers.Team.PLAYER, s.id, s.hit_kind)
 		hb.name = "%s_%d" % [key, i]
 		hb.attacker = actor
@@ -201,6 +209,7 @@ func run(key: String, p_facing: int = 0) -> bool:
 	current = s
 	current_key = key
 	elapsed_ms = 0.0
+	en_ran_out = false
 	_queued_key = ""
 	if p_facing != 0:
 		facing = p_facing
@@ -238,6 +247,8 @@ func run(key: String, p_facing: int = 0) -> bool:
 	return true
 
 
+## Kỹ năng duy trì vừa hết EN (state Attack xử lý như nhả nút).
+var en_ran_out := false
 var _current_bonus: Dictionary = {}
 var _current_level := 1
 ## Quãng lướt của lần chạy hiện tại (move_px, hoặc tính theo mục tiêu khi approach_target).
@@ -265,6 +276,13 @@ func advance(delta: float) -> void:
 				_combo_next = ""
 		return
 	elapsed_ms += delta * 1000.0
+	# Đòn giữ kéo dài tiêu EN theo giây; hết EN thì dừng (như nhả nút).
+	if current.en_per_sec > 0.0 and combatant and elapsed_ms > current.startup_ms:
+		var cost := current.en_per_sec * delta
+		if combatant.resources.en < cost:
+			en_ran_out = true
+			return
+		combatant.resources.add_en(-cost)
 	if _blink_pending and elapsed_ms >= current.move_from_ms:
 		_blink_pending = false
 		_blink(_move_px * facing)
@@ -300,6 +318,10 @@ func _stop_current() -> void:
 	for hb: Hitbox in _hitboxes.get(current_key, []):
 		hb.deactivate()
 	_player.stop()
+	for z in _follow_heals:
+		if is_instance_valid(z):
+			z.queue_free()
+	_follow_heals.clear()
 	current = null
 	current_key = ""
 	_queued_key = ""
@@ -358,9 +380,13 @@ func velocity_y() -> float:
 	if current == null or current.rise_px == 0.0:
 		return 0.0
 	var span := current.rise_to_ms - current.rise_from_ms
-	if span <= 0.0 or elapsed_ms < current.rise_from_ms or elapsed_ms >= current.rise_to_ms:
+	if span <= 0.0 or elapsed_ms < current.rise_from_ms:
 		return 0.0
-	return -current.rise_px / (span / 1000.0)
+	if elapsed_ms < current.rise_to_ms:
+		return -current.rise_px / (span / 1000.0)
+	if current.fall_ms > 0.0 and elapsed_ms < current.rise_to_ms + current.fall_ms:
+		return current.rise_px / (current.fall_ms / 1000.0)
+	return 0.0
 
 
 func suspends_gravity() -> bool:
@@ -373,6 +399,29 @@ func keeps_momentum() -> bool:
 
 func has_super_armor() -> bool:
 	return current != null and current.super_armor
+
+
+## Vùng hồi đi theo người hồi của kỹ năng đang chạy (xoá khi kỹ năng dừng).
+var _follow_heals: Array[HealZone] = []
+
+
+func _spawn_heal(key: String, index: int) -> void:
+	var s: SkillDef = skills.get(key)
+	if s == null or actor == null or combatant == null or not actor.is_inside_tree():
+		return
+	var h: HealDef = s.heals[index]
+	var team: Array[Combatant] = []
+	if "team_combatants" in actor:
+		team = actor.team_combatants
+	var pos := actor.global_position + Vector2(h.offset.x * facing, h.offset.y)
+	if h.at_target:
+		pos = target_position if has_target else actor.global_position + Vector2(200.0 * facing, 0.0)
+	var parent: Node = actor if h.follow_caster else actor.get_parent()
+	if parent == null:
+		return
+	var z := HealZone.spawn(parent, h, combatant, team, pos)
+	if h.follow_caster and is_instance_valid(z):
+		_follow_heals.append(z)
 
 
 func _spawn_detached(key: String, index: int) -> void:

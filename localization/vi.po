@@ -1148,3 +1148,24 @@ msgstr "Phong Vực"
 
 msgid "STATUS_OVERLOAD"
 msgstr "Quá Tải"
+
+msgid "STATUS_SANCTUARY"
+msgstr "Thánh Vực"
+
+msgid "STATUS_NIGHT_KING"
+msgstr "Dạ Vương"
+
+msgid "STATUS_STONE_BONE"
+msgstr "Cốt Đá"
+
+msgid "STATUS_GUARD"
+msgstr "Thủ Thế"
+
+msgid "STATUS_HARD_ARMOR"
+msgstr "Giáp Cứng"
+
+msgid "STATUS_ARMOR_BREAK"
+msgstr "Phá Giáp"
+
+msgid "STATUS_STONE_GOD"
+msgstr "Thạch Thần"

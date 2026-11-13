@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/combat/heal_def.gd" id="4"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 200.0
+duration_ms = 60.0
+atk_ratio = 0.95
+sc_multiplier = 1.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(450.0, 44.0)
+offset = Vector2(225.0, -150.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+max_targets = 2
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="heal_0"]
+script = ExtResource("4")
+at_ms = 200.0
+atk_ratio = 0.4
+max_hp_ratio = 0.0
+target = "lowest"
+ticks = 1
+interval_ms = 0.0
+ally_statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_light_01.normal_3"
+key = "normal"
+animation = "attack_3"
+hit_kind = 0
+startup_ms = 200.0
+active_ms = 60.0
+recovery_ms = 280.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+heals = Array[ExtResource("4")]([SubResource("heal_0")])
+metadata/source = "Mục 4 Quang Châm Đ3: tia sáng xuyên 450 px (2 mục tiêu) 95%, hồi 40% ATK người % HP thấp nhất; 200/60/280"

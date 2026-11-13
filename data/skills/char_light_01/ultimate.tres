@@ -1,0 +1,76 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/combat/heal_def.gd" id="4"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "judgment"
+duration = 1.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 8000.0
+atk_ratio = 0.25
+sc_multiplier = 1.0
+shape = 1
+radius_px = 500.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -100.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 500.0
+delay_ms = 700.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[sub_resource type="Resource" id="hst_0_0"]
+script = ExtResource("3")
+status_id = "sanctuary"
+duration = 1.1
+magnitude = 0.25
+
+[sub_resource type="Resource" id="heal_0"]
+script = ExtResource("4")
+at_ms = 0.0
+atk_ratio = 0.0
+max_hp_ratio = 0.04
+target = "area"
+ticks = 8
+interval_ms = 1000.0
+radius_px = 500.0
+delay_ms = 700.0
+revive_hp_ratio = 0.4
+ally_statuses = Array[ExtResource("3")]([SubResource("hst_0_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_light_01.ultimate"
+key = "ultimate"
+animation = "ultimate"
+hit_kind = 6
+startup_ms = 700.0
+active_ms = 300.0
+recovery_ms = 400.0
+ug_cost = 100.0
+cooldown_sec = 2.0
+cooldown_uses_cdr = false
+cooldown_starts_on_end = true
+name_key = "SKILL_LIGHT_01_ULTIMATE"
+time_stop_ms = 500.0
+suspend_gravity = true
+super_armor = true
+rise_px = 200.0
+rise_from_ms = 0.0
+rise_to_ms = 700.0
+invuln_from_ms = 0.0
+invuln_to_ms = 700.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+heals = Array[ExtResource("4")]([SubResource("heal_0")])
+metadata/source = "Mục 4 Thiên Sứ Giáng Lâm: 100 UG, khóa 2s, vùng 500 8s, hồi 4% HP/s, -25% sát thương nhận, kẻ địch 25%/0.5s (400%) + Phán quyết, bay lên 200 px, hồi sinh 40% (revive_enabled); cut-in 500/700/8000/400"

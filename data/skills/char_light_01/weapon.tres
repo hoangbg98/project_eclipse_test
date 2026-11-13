@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/combat/heal_def.gd" id="4"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "judgment"
+duration = 6.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 250.0
+duration_ms = 120.0
+atk_ratio = 2.8
+sc_multiplier = 1.0
+shape = 1
+radius_px = 200.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -80.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+at_target = true
+delay_ms = 600.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[sub_resource type="Resource" id="heal_0"]
+script = ExtResource("4")
+at_ms = 250.0
+atk_ratio = 0.6
+max_hp_ratio = 0.0
+target = "area"
+ticks = 1
+interval_ms = 0.0
+radius_px = 200.0
+at_target = true
+delay_ms = 600.0
+ally_statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_light_01.weapon"
+key = "weapon"
+animation = "skill_2"
+hit_kind = 5
+startup_ms = 250.0
+active_ms = 0.0
+recovery_ms = 300.0
+en_cost = 35.0
+cooldown_sec = 12.0
+target_range_px = 600.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+heals = Array[ExtResource("4")]([SubResource("heal_0")])
+metadata/source = "Mục 4 Thái Dương Phán Xét: 35 EN, CD 12s, mục tiêu trong 600 px, rơi trễ 600 ms, bán kính 200 280%, Phán quyết 6s, hồi 60% ATK trong vùng; 250/600/300"

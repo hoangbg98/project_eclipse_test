@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="self_0"]
+script = ExtResource("3")
+status_id = "guard"
+duration = 2.7
+magnitude = -1.0
+
+[resource]
+script = ExtResource("1")
+id = "char_earth_01.hold_1"
+key = "hold"
+animation = "hold_charge"
+hit_kind = 1
+startup_ms = 120.0
+active_ms = 2500.0
+recovery_ms = 0.0
+charge_start_ms = 300.0
+charge_level_ms = 300.0
+fire_on_charge = true
+release_ends = true
+en_per_sec = 6.0
+move_while_active = 0.4
+super_armor = true
+cooldown_sec = 1.5
+cooldown_uses_cdr = false
+cooldown_group = "hold"
+cooldown_starts_on_end = true
+hits = Array[ExtResource("2")]([])
+self_statuses = Array[ExtResource("3")]([SubResource("self_0")])
+metadata/source = "Mục 6 Thủ Thế Đại Địa: giữ 300 ms, 6 EN/s tối đa 2.5s, -70% sát thương nhận, kháng khựng, chậm 60%, CD 1.5s; dựng 120 / chắn 2500"

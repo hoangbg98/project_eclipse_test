@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 120.0
+duration_ms = 375.0
+atk_ratio = 0.5
+sc_multiplier = 1.0
+shape = 1
+radius_px = 34.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(50.0, -150.0)
+knockback_px = 0.0
+detached = true
+travel_px = 450.0
+tick_interval_ms = 0.0
+max_targets = 1
+travel_angle_deg = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_light_01.normal_2"
+key = "normal"
+animation = "attack_2"
+hit_kind = 0
+startup_ms = 120.0
+active_ms = 40.0
+recovery_ms = 160.0
+chain_window_ms = 200.0
+next_skill = "normal_3"
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 4 Quang Châm Đ2: cầu sáng 50% bay 450 px, 120/40/160"

@@ -1,0 +1,133 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "stun"
+duration = 3.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="st_0_1"]
+script = ExtResource("3")
+status_id = "taunt"
+duration = 4.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 650.0
+duration_ms = 120.0
+atk_ratio = 6.5
+sc_multiplier = 1.0
+shape = 1
+radius_px = 500.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -60.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0"), SubResource("st_0_1")])
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 650.0
+duration_ms = 120.0
+atk_ratio = 1.5
+sc_multiplier = 1.0
+shape = 1
+radius_px = 500.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -60.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+delay_ms = 300.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_2"]
+script = ExtResource("2")
+at_ms = 650.0
+duration_ms = 120.0
+atk_ratio = 1.5
+sc_multiplier = 1.0
+shape = 1
+radius_px = 500.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -60.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+delay_ms = 600.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_3"]
+script = ExtResource("2")
+at_ms = 650.0
+duration_ms = 120.0
+atk_ratio = 1.5
+sc_multiplier = 1.0
+shape = 1
+radius_px = 500.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -60.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+delay_ms = 900.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="self_0"]
+script = ExtResource("3")
+status_id = "stone_god"
+duration = 8.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="self_1"]
+script = ExtResource("3")
+status_id = "shield"
+duration = 6.0
+magnitude = 0.1
+
+[resource]
+script = ExtResource("1")
+id = "char_earth_01.ultimate"
+key = "ultimate"
+animation = "ultimate"
+hit_kind = 6
+startup_ms = 650.0
+active_ms = 1200.0
+recovery_ms = 500.0
+ug_cost = 100.0
+cooldown_sec = 2.0
+cooldown_uses_cdr = false
+cooldown_starts_on_end = true
+name_key = "SKILL_EARTH_01_ULTIMATE"
+time_stop_ms = 500.0
+gravity_off_from_ms = 0.0
+gravity_off_to_ms = 650.0
+rise_px = 400.0
+rise_from_ms = 0.0
+rise_to_ms = 400.0
+fall_ms = 250.0
+super_armor = true
+locks_switch = true
+invuln_from_ms = 0.0
+invuln_to_ms = 1850.0
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3")])
+self_statuses = Array[ExtResource("3")]([SubResource("self_0"), SubResource("self_1")])
+metadata/source = "Mục 6 Sơn Băng Địa Liệt: 100 UG, khóa 2s, nhảy 400 px rơi 250 ms, bán kính 500 650% + 3 sóng 150%, Choáng 3s, khiêu khích 4s, Thạch Thần 8s, khiên 10%; cut-in 500/400/250/1200/500"

@@ -1,0 +1,149 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/combat/heal_def.gd" id="4"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 150.0
+duration_ms = 60.0
+atk_ratio = 0.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 250.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -100.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_1"]
+script = ExtResource("2")
+at_ms = 650.0
+duration_ms = 60.0
+atk_ratio = 0.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 250.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -100.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_2"]
+script = ExtResource("2")
+at_ms = 1150.0
+duration_ms = 60.0
+atk_ratio = 0.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 250.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -100.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_3"]
+script = ExtResource("2")
+at_ms = 1650.0
+duration_ms = 60.0
+atk_ratio = 0.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 250.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -100.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_4"]
+script = ExtResource("2")
+at_ms = 2150.0
+duration_ms = 60.0
+atk_ratio = 0.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 250.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -100.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="hit_5"]
+script = ExtResource("2")
+at_ms = 2650.0
+duration_ms = 60.0
+atk_ratio = 0.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 250.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -100.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="heal_0"]
+script = ExtResource("4")
+at_ms = 150.0
+atk_ratio = 0.25
+max_hp_ratio = 0.01
+target = "area"
+ticks = 6
+interval_ms = 500.0
+radius_px = 250.0
+follow_caster = true
+ally_statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_light_01.hold_1"
+key = "hold"
+animation = "hold_charge"
+hit_kind = 1
+startup_ms = 150.0
+active_ms = 3000.0
+recovery_ms = 220.0
+charge_start_ms = 400.0
+charge_level_ms = 400.0
+fire_on_charge = true
+release_ends = true
+en_per_sec = 8.0
+move_while_active = 0.3
+cooldown_sec = 2.0
+cooldown_uses_cdr = false
+cooldown_group = "hold"
+cooldown_starts_on_end = true
+hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3"), SubResource("hit_4"), SubResource("hit_5")])
+heals = Array[ExtResource("4")]([SubResource("heal_0")])
+metadata/source = "Mục 4 Thánh Quang Cầu Nguyện: giữ 400 ms, 8 EN/s tối đa 3s, vòng 250, mỗi 0.5s hồi 25% ATK + 1% HP, kẻ địch 20%; chậm 70%; CD 2s sau khi kết thúc; 150/3000/220"

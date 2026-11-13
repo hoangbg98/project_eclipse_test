@@ -11,6 +11,12 @@ const REDUCE_STUNNED_HIT := "stunned_target_hit"
 const REDUCE_PERFECT_DODGE := "perfect_dodge"
 ## Bùng nổ Sét (Dấu Sét đủ tầng do mình gây) trong cửa sổ sau khi vào sân (Kael).
 const REDUCE_LIGHTNING_BURST := "lightning_burst"
+## Hồi máu cho nhân vật dưới 50% HP trong cửa sổ sau khi vào sân (Hikarine; LightKit phát kit_event).
+const REDUCE_HEAL_LOW := "heal_low_hp"
+## Hạ gục kẻ địch mang Nguyền trong cửa sổ sau khi vào sân (Yomigari; DarkKit).
+const REDUCE_CURSED_KILL := "cursed_kill"
+## Chặn hoàn hảo trong cửa sổ sau khi vào sân (Iwagane; EarthKit).
+const REDUCE_PERFECT_BLOCK := "perfect_block"
 
 ## Trạng thái áp lên bản thân khi vào sân (on_self không cần; luôn áp cho người vào sân).
 @export var self_statuses_normal: Array[StatusApplication] = []

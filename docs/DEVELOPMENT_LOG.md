@@ -1167,3 +1167,36 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Buff trong vùng làm mới mỗi tick, hết sau 0.3 s khi rời vùng; áp cho người đang trên sân (đồng đội vào sân sau cũng nhận).
   - Bão Tiễn đặt lúc 0 ms tại mặt đất rồi bật sau 700 ms, để tâm bão ở dưới chỗ Kazeyumi bay lên. Kazeyumi chỉ treo trên không hết thời lượng kỹ năng (2.1 s) rồi rơi; bão vẫn chạy đủ 5 s.
 - **Hạn chế đã biết:** buff "đồng đội trong bão" của tuyệt kỹ Kazeyumi vẫn áp cho bản thân lúc cast (chỉ một người trên sân).
+
+
+## 2026-11-14 — Kazeyumi: duyệt frame `knockback` đến `ultimate`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt các animation từ phiếu 11 đến 21 của `char_wind_01`; gồm `knockback`, `down`, `hold_charge`, `hold_release`, `air_1`, `landing_attack`, `skill_1`, `skill_2`, `switch_in`, `switch_out`, `ultimate`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** frame trong `assets/characters/char_wind_01/frames/{knockback,down,hold_charge,hold_release,air_1,landing_attack,skill_1,skill_2,switch_in,switch_out,ultimate}/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 <animation>` cho cả 11 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Cả 11 animation được approve thành công. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Quyết định Codex chọn:** dùng phạm vi phiếu 11–21 (từ `knockback` tới `ultimate`) theo thứ tự số phiếu.
+- **Hạn chế đã biết:** cùng lỗi Godot/test runner đã ghi ở mục trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+## 2026-11-14 — Hikarine, Yomigari, Iwagane: đủ bộ kỹ năng + kit nội tại + Kĩ năng vào sân
+
+- **Milestone / task:** combat — owner: làm tiếp các nhân vật còn lại (trước đây ba nhân vật này chỉ có hồ sơ, chưa có kỹ năng)
+- **Trạng thái:** TESTED (chưa thử bằng mắt trong Godot)
+- **File tạo/sửa:**
+  - `tools/gen_light_dark_earth_skills.py` (mới) sinh `data/skills/char_{light,dark,earth}_01/*` (đòn thường, né, giữ + đòn kết, trên không, đáp đất, Kĩ năng thường, vũ khí, tuyệt kỹ, vào sân Thường / Liên kết), 7 trạng thái mới (`sanctuary`, `night_king`, `stone_bone`, `guard`, `hard_armor`, `armor_break`, `stone_god`), config kit `data/characters/char_*_kit.tres`, ghi lại `data/characters/char_{light,dark,earth}_01.tres` (giữ chỉ số cũ, thêm skills_dir, kit, SwitchInDef)
+  - Hồi máu: `scripts/combat/heal_def.gd`, `heal_zone.gd` (cả đội / thấp nhất / bản thân / vùng, nhiều nhịp, trễ, đi theo người hồi, xóa hiệu ứng xấu, trạng thái cho người trong vùng, hồi sinh theo `revive_enabled`); `Combatant.heal_target` + signal `heal_done`; `StatusController.cleanse`, `set_magnitude`
+  - `SkillDef`: `heals`, `en_per_sec`, `move_while_active`, `release_skill`, `fall_ms`; `SkillRunner`: vùng hồi, tiêu EN theo giây, rơi sau khi bay lên; state Attack: nhả / hết EN / hết giờ → đòn kết (`PlayerController.release_skill_for`, kit quyết định được); di chuyển chậm trong đòn giữ kéo dài
+  - `Combatant.receive_hit`: đòn atk_ratio 0 chỉ áp trạng thái (khiêu khích 400 px); `bonus_vs_status = "boss"` (+25% lên boss)
+  - Kit: `light_kit.gd` (hồi thừa → khiên, rút CD, UG +30%, Hào Quang, rút CD vũ khí), `dark_kit.gd` (hút máu, Thu hoạch, Dạ Vương, hạ gục mục tiêu Nguyền, Phân Thân Bóng), `earth_kit.gd` (Cốt Đá, chặn / chặn hoàn hảo, nổ Cốt Đá, Thạch Thần, Phản Chấn)
+  - `PlayerController.kit_event` → `PartyManager` giảm SI-CD; `SwitchInDef.REDUCE_HEAL_LOW / CURSED_KILL / PERFECT_BLOCK`
+  - Test: `tests/unit/combat/test_light_dark_earth_skills.gd` (17 test); `test_combat_data.gd` (danh sách trạng thái); `test_reactions.gd` (mở Liên kết Lyra bằng LinkTracker thay cho né hoàn hảo của Hikarine, vì Hào Quang giờ hồi 3% HP cả đội)
+- **Đã chạy:** `python -X utf8 tools/gen_light_dark_earth_skills.py`; `python -X utf8 tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 518/518, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tổng % ATK khớp tài liệu (Hikarine thường 195, Thánh Ân hồi 170% ATK + 4% HP; Yomigari giữ 258, tuyệt kỹ 1150; Iwagane thường 390, đáp đất 310, tuyệt kỹ 1100).
+- **Quyết định Claude chọn:**
+  - Quả cầu sáng 1200 px/s; Iwagane đòn 3 = kiếm 130% + sóng đá 50%; sóng đá Thạch Phá là một vùng 500×120 đứng yên.
+  - Đòn kết của đòn giữ dùng khóa `hold_end` (không phải `hold`) để không bị chọn nhầm khi nhả sớm.
+  - Thủ Thế Đại Địa giảm 70% mọi hướng (chưa xét hướng); chặn hoàn hảo = đòn tới trong 200 ms đầu khi đã dựng xong.
+  - Hikarine "nạp UG +30% từ việc hồi máu cho đồng đội dưới 50% HP": hồi cho người dưới 50% thì nạp UG ×1.3 trong 5 s.
+  - Đêm Vĩnh Hằng: lực kéo 500 px gộp vào nhát 1 (đòn không sát thương không đẩy / kéo được).
+  - Lăn Giáp, Thạch Phá: Giáp cứng là trạng thái `hard_armor` (−50%); Khiên Đá 6 s; khiên Liên kết Iwagane 6 s; cửa sổ giảm SI-CD sau khi vào sân 6 s cho cả ba.
+- **Hạn chế đã biết:** AI quái chưa đọc trạng thái khiêu khích (Iwagane áp `taunt` nhưng chưa có tác dụng; ảo ảnh khiêu khích của Quang Bộ chưa làm). Đòn thường của Hikarine bay thẳng, chưa tự dẫn. Thiên Trụy Trảm chưa rơi nhanh hơn 30%. Bị Choáng chưa ngắt đòn giữ kéo dài. Hồi sinh tắt theo Q6 (`revive_enabled = false`). Animation còn placeholder.

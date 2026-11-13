@@ -1,8 +1,12 @@
-[gd_resource type="Resource" script_class="CharacterDef" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="CharacterDef" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/character_def.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/characters/combat_stats.gd" id="2"]
 [ext_resource type="Resource" path="res://data/config/movement_default.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/party/switch_in_def.gd" id="si_def"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="si_st"]
+[ext_resource type="Script" path="res://scripts/characters/kits/dark_kit.gd" id="kit_s"]
+[ext_resource type="Resource" path="res://data/characters/char_dark_01_kit.tres" id="kit_c"]
 
 [sub_resource type="Resource" id="stats"]
 script = ExtResource("2")
@@ -13,6 +17,17 @@ crit_rate = 0.05
 crit_damage = 0.5
 cdr = 0.0
 metadata/source = "Số tạm do Claude đặt (README chưa có chỉ số gốc); owner chỉnh."
+
+[sub_resource type="Resource" id="switch_in"]
+script = ExtResource("si_def")
+self_statuses_normal = Array[ExtResource("si_st")]([])
+self_statuses_linked = Array[ExtResource("si_st")]([])
+reduce_on = "cursed_kill"
+reduce_sec = 2.0
+reduce_max_per_cycle_sec = 4.0
+reduce_window_sec = 6.0
+reduce_icd_sec = 0.0
+metadata/source = "Mục 8.9: hạ gục kẻ địch mang Nguyền trong 6s sau khi vào sân -2.0s (tối đa -4.0s)"
 
 [resource]
 script = ExtResource("1")
@@ -27,4 +42,8 @@ stats = SubResource("stats")
 movement = ExtResource("3")
 link_condition = "enemy_defeated"
 switch_in_cd_sec = 11.0
-metadata/source = "M4-3: hồ sơ tạm (điều kiện Liên kết, SI-CD mục 8.3) để test Liên kết; ngoài phạm vi slice Q5, chưa có kỹ năng."
+switch_in = SubResource("switch_in")
+skills_dir = "res://data/skills/char_dark_01"
+kit_script = ExtResource("kit_s")
+kit_config = ExtResource("kit_c")
+metadata/source = "Mục 4-6, 8.8-8.10: đủ kỹ năng (tools/gen_light_dark_earth_skills.py)"

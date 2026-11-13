@@ -281,6 +281,14 @@ KEYS = [
     ("STATUS_WIND_DOMAIN", "Trong Phong Vực", "In Wind Domain"),
     ("STATUS_WIND_DOMAIN_HASTE", "Phong Vực", "Wind Domain"),
     ("STATUS_OVERLOAD", "Quá Tải", "Overload"),
+    # Hikarine, Yomigari, Iwagane
+    ("STATUS_SANCTUARY", "Thánh Vực", "Sanctuary"),
+    ("STATUS_NIGHT_KING", "Dạ Vương", "Night King"),
+    ("STATUS_STONE_BONE", "Cốt Đá", "Stone Bone"),
+    ("STATUS_GUARD", "Thủ Thế", "Guard"),
+    ("STATUS_HARD_ARMOR", "Giáp Cứng", "Hard Armor"),
+    ("STATUS_ARMOR_BREAK", "Phá Giáp", "Armor Break"),
+    ("STATUS_STONE_GOD", "Thạch Thần", "Stone God"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

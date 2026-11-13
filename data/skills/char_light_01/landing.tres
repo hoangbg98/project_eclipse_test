@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/combat/heal_def.gd" id="4"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 100.0
+atk_ratio = 1.1
+sc_multiplier = 1.0
+shape = 1
+radius_px = 160.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -60.0)
+knockback_px = 40.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="heal_0"]
+script = ExtResource("4")
+at_ms = 0.0
+atk_ratio = 0.2
+max_hp_ratio = 0.0
+target = "area"
+ticks = 1
+interval_ms = 0.0
+radius_px = 160.0
+ally_statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_light_01.landing"
+key = "landing"
+animation = "landing_attack"
+hit_kind = 3
+startup_ms = 0.0
+active_ms = 100.0
+recovery_ms = 260.0
+dive_speed_px = 1400.0
+min_height_px = 200.0
+pre_dive_ms = 70.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+heals = Array[ExtResource("4")]([SubResource("heal_0")])
+metadata/source = "Mục 4 Giáng Quang Trụ: cột sáng bán kính 160, 110%, khựng, hồi 20% ATK trong 160 px; 70/100/260"

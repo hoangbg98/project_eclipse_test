@@ -54,6 +54,8 @@ extends Resource
 @export var rise_px := 0.0
 @export var rise_from_ms := 0.0
 @export var rise_to_ms := 0.0
+## Sau khi bay lên: rơi lại đúng quãng đó trong bấy nhiêu ms (tuyệt kỹ Iwagane: nhảy 400 rồi rơi 250 ms).
+@export var fall_ms := 0.0
 ## Giữ vận tốc ngang đang có (đòn trên không) thay vì đứng lại.
 @export var keep_momentum := false
 
@@ -88,6 +90,18 @@ extends Resource
 @export var pre_dive_ms := 0.0
 ## Góc lao so với phương thẳng đứng (độ), nghiêng về hướng mặt; 0 = lao thẳng xuống (Raikiba: 45).
 @export var dive_angle_deg := 0.0
+
+@export_group("Hồi máu")
+## Các lần hồi máu (Hikarine), chạy theo at_ms như vùng gây sát thương.
+@export var heals: Array[HealDef] = []
+
+@export_group("Duy trì (đòn giữ kéo dài)")
+## Tiêu EN mỗi giây khi kỹ năng chạy; hết EN thì kỹ năng dừng (Thánh Quang Cầu Nguyện 8/s, Thủ Thế Đại Địa 6/s).
+@export var en_per_sec := 0.0
+## Được di chuyển trong lúc kỹ năng chạy, tốc độ = hệ số × tốc độ chạy (0 = đứng yên; Cầu Nguyện 0.3).
+@export var move_while_active := 0.0
+## Khi nhả nút (release_ends) hoặc hết thời gian thì chạy kỹ năng này (chém bổ cuối); rỗng = chỉ dừng.
+@export var release_skill := ""
 
 @export_group("Bản thân")
 ## Trạng thái áp lên chính người dùng khi kỹ năng bắt đầu (buff của vùng, tuyệt kỹ).

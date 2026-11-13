@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "armor_break"
+duration = 5.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 300.0
+duration_ms = 500.0
+atk_ratio = 3.0
+sc_multiplier = 2.0
+shape = 2
+radius_px = 140.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(500.0, 120.0)
+offset = Vector2(250.0, -60.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[sub_resource type="Resource" id="self_0"]
+script = ExtResource("3")
+status_id = "hard_armor"
+duration = 0.8
+magnitude = -1.0
+
+[resource]
+script = ExtResource("1")
+id = "char_earth_01.weapon"
+key = "weapon"
+animation = "skill_2"
+hit_kind = 5
+startup_ms = 300.0
+active_ms = 500.0
+recovery_ms = 420.0
+en_cost = 40.0
+cooldown_sec = 14.0
+super_armor = true
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+self_statuses = Array[ExtResource("3")]([SubResource("self_0")])
+metadata/source = "Mục 6 Thạch Phá Thiên Kích: 40 EN, CD 14s, sóng đá 500x120 xuyên 300%, Phá Giáp -15% DEF 5s, SC x2, Giáp cứng; 300/500/420"

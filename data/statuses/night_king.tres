@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="StatusDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/status_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "night_king"
+name_key = "STATUS_NIGHT_KING"
+kind = 1
+stacking = 0
+max_stacks = 1
+default_duration = 8.0
+boss_duration_multiplier = 1.0
+resist_after_sec = 0.0
+tick_interval_sec = 0.0
+tick_atk_ratio = 0.0
+default_magnitude = 0.0
+magnitude_meaning = ""
+blocks_movement = false
+blocks_actions = false
+stagger_immune = false
+counts_as_elemental = false
+on_max_stacks_event = ""
+metadata/source = "Mục 5 Đêm Vĩnh Hằng — Dạ Vương 8s: +8% hút máu, +15% sát thương đòn thường (DarkKit)"

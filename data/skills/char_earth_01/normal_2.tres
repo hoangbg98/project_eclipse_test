@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 180.0
+duration_ms = 90.0
+atk_ratio = 1.1
+sc_multiplier = 1.5
+shape = 0
+radius_px = 220.0
+arc_deg = 130.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_earth_01.normal_2"
+key = "normal"
+animation = "attack_2"
+hit_kind = 0
+startup_ms = 180.0
+active_ms = 90.0
+recovery_ms = 260.0
+move_px = 30.0
+move_from_ms = 0.0
+move_to_ms = 180.0
+super_armor = true
+chain_window_ms = 200.0
+next_skill = "normal_3"
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 6 Đại Địa Trảm Đ2: 110%, SC x1.5, 180/90/260"

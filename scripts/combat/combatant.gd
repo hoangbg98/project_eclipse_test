@@ -9,6 +9,9 @@ signal damaged(result: DamageCalculator.Result, hit: HitInfo)
 signal dot_damaged(amount: int, status_id: String)
 ## Người đánh: đòn của mình trúng một mục tiêu.
 signal hit_dealt(target: Combatant, result: DamageCalculator.Result, hit: HitInfo)
+## Người hồi: vừa hồi cho `target` lượng `healed` (thực), `overflow` = phần vượt HP tối đa,
+## `ratio_before` = % HP của mục tiêu trước khi hồi.
+signal heal_done(target: Combatant, healed: float, overflow: float, ratio_before: float)
 
 @export var team := PhysicsLayers.Team.PLAYER
 @export var stats: CombatStats
@@ -110,12 +113,36 @@ func target_snapshot() -> DamageCalculator.Target:
 	return t
 
 
+## Hồi máu cho `target` (người hồi là combatant này). Trả về lượng hồi thực; phát heal_done.
+func heal_target(target: Combatant, amount: float) -> float:
+	if target == null or target.resources == null or target.resources.is_dead() or amount <= 0.0:
+		return 0.0
+	var before := target.resources.hp_ratio()
+	var missing := target.resources.max_hp - target.resources.hp
+	var healed := target.resources.heal(amount)
+	heal_done.emit(target, healed, maxf(amount - missing, 0.0), before)
+	return healed
+
+
+## Khóa đặc biệt của HitDef.bonus_vs_status: mục tiêu là boss (Đêm Vĩnh Hằng: boss +25% thay cho xử tử).
+const BONUS_VS_BOSS := "boss"
+
+
 ## Hurtbox gọi khi trúng thật. Tính sát thương bằng chỉ số người đánh, trừ máu, áp trạng thái.
 func receive_hit(hit: HitInfo) -> DamageCalculator.Result:
 	var src := Combatant.of(hit.attacker)
+	if hit.atk_ratio <= 0.0:
+		# Vùng chỉ áp trạng thái (khiêu khích trong 400 px): không trừ máu, không tính là trúng đòn.
+		for s in hit.statuses:
+			if not s.on_self:
+				statuses.apply(s.status_id, _boss_scaled(s, hit), s.magnitude, src)
+		return DamageCalculator.Result.new()
 	var a: DamageCalculator.Attacker
 	var bonus := hit.damage_bonus
-	if hit.bonus_vs_status != "" and statuses.has(hit.bonus_vs_status):
+	if hit.bonus_vs_status == BONUS_VS_BOSS and is_boss:
+		bonus = bonus.duplicate()
+		bonus["vs_boss"] = hit.bonus_vs_status_ratio
+	elif hit.bonus_vs_status != "" and statuses.has(hit.bonus_vs_status):
 		bonus = bonus.duplicate()
 		bonus["vs_" + hit.bonus_vs_status] = hit.bonus_vs_status_ratio
 	if src:

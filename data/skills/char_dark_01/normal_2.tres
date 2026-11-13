@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 120.0
+duration_ms = 70.0
+atk_ratio = 0.7
+sc_multiplier = 1.0
+shape = 0
+radius_px = 200.0
+arc_deg = 130.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_dark_01.normal_2"
+key = "normal"
+animation = "attack_2"
+hit_kind = 0
+startup_ms = 120.0
+active_ms = 70.0
+recovery_ms = 200.0
+chain_window_ms = 200.0
+next_skill = "normal_3"
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 5 Ảnh Liêm Đ2: 70%, 120/70/200"

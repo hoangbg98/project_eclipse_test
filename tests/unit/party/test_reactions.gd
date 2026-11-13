@@ -188,7 +188,8 @@ func test_self_reaction_fires_immediately_without_enemy() -> void:
 	for m in _party.members:
 		m.resources().take_damage(m.resources().max_hp * 0.5)
 	_party.active().combatant().statuses.apply("curse", 5.0, -1.0, null)
-	_party.active_controller().perfect_dodged.emit(HitInfo.new())      # mở Liên kết Lyra
+	# Mở Liên kết Lyra (báo thẳng điều kiện: né hoàn hảo thật của Hikarine còn hồi 3% HP cả đội, làm lệch phép đo).
+	_party.links.notify(LinkTracker.COND_PERFECT_DODGE)
 	_party.request_switch(1)
 	assert_array(events).is_equal(["reaction.wind_light"])             # Thanh Phong
 	for m in _party.members:                                           # hồi cả đội 8% HP tối đa, kể cả dự bị

@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/combat/heal_def.gd" id="4"]
+
+[sub_resource type="Resource" id="heal_0"]
+script = ExtResource("4")
+at_ms = 200.0
+atk_ratio = 0.9
+max_hp_ratio = 0.04
+target = "team"
+ticks = 1
+interval_ms = 0.0
+lowest_multiplier = 1.3
+cleanse = 1
+ally_statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="heal_1"]
+script = ExtResource("4")
+at_ms = 200.0
+atk_ratio = 0.2
+max_hp_ratio = 0.0
+target = "team"
+ticks = 4
+interval_ms = 1000.0
+delay_ms = 1000.0
+lowest_multiplier = 1.3
+ally_statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+id = "char_light_01.skill"
+key = "skill"
+animation = "skill_1"
+hit_kind = 4
+startup_ms = 200.0
+active_ms = 300.0
+recovery_ms = 260.0
+en_cost = 25.0
+cooldown_sec = 9.0
+hits = Array[ExtResource("2")]([])
+heals = Array[ExtResource("4")]([SubResource("heal_0"), SubResource("heal_1")])
+metadata/source = "Mục 4 Thánh Ân Chữa Lành: 25 EN, CD 9s, cả đội 90% ATK + 4% HP rồi 20% ATK/s x4, thấp nhất x1.3, xóa 1 hiệu ứng xấu; 200/300/260"

@@ -84,6 +84,7 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 		p.runner.skill_started.connect(_on_skill_started.bind(m))
 		p.combatant.hit_dealt.connect(_on_member_hit_dealt.bind(m))
 		p.runner.skill_finished.connect(_on_skill_finished.bind(m))
+		p.kit_event.connect(func(trigger: String) -> void: _try_reduce_si_cd(m, trigger))
 	var team: Array[Combatant] = []
 	for m in members:
 		team.append(m.controller.combatant)

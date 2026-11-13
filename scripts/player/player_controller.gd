@@ -11,6 +11,8 @@ signal landed
 signal perfect_dodged(hit: HitInfo)
 ## HP về 0.
 signal player_died
+## Kit báo sự kiện riêng của nhân vật cho PartyManager (giảm SI-CD, SwitchInDef.REDUCE_*).
+signal kit_event(trigger: String)
 
 const DEFAULT_CONFIG := preload("res://data/config/movement_default.tres")
 const CHARACTER_DATA := "res://data/characters/%s.tres"
@@ -240,6 +242,13 @@ func height_above_ground() -> float:
 	return 100000.0 if hit.is_empty() else (hit["position"] as Vector2).y - global_position.y
 
 
+## Đòn kết khi nhả đòn giữ kéo dài: kit quyết định nếu có (Iwagane: đã chặn đòn hay chưa), không thì release_skill.
+func release_skill_for(s: SkillDef) -> String:
+	if kit and kit.has_method("release_skill_for"):
+		return kit.release_skill_for(s)
+	return s.release_skill
+
+
 ## Đòn giữ `fire_on_charge` đã đủ thời gian nạp khi vẫn đang giữ (ms); không có = "".
 func auto_hold_skill_for(held_ms: float) -> String:
 	for k: String in runner.skills:
@@ -294,7 +303,11 @@ func _apply_horizontal(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0.0, config.ground_decel * delta)
 		return
 	if runner.is_running():
-		if not runner.keeps_momentum():
+		var mult := runner.current.move_while_active
+		if mult > 0.0 and not combatant.statuses.blocks_movement():
+			# Đòn giữ kéo dài cho đi chậm (cầu nguyện, xoay hái, chắn).
+			velocity.x = move_toward(velocity.x, intent.move_x * config.run_speed * mult, config.ground_accel * delta)
+		elif not runner.keeps_momentum():
 			velocity.x = runner.velocity_x()
 		return
 	var st := combatant.statuses

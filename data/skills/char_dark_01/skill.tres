@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "slow"
+duration = 0.6
+magnitude = 0.35
+
+[sub_resource type="Resource" id="st_0_1"]
+script = ExtResource("3")
+status_id = "curse"
+duration = 1.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 180.0
+duration_ms = 4000.0
+atk_ratio = 0.25
+sc_multiplier = 1.0
+shape = 1
+radius_px = 280.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -60.0)
+knockback_px = 20.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 500.0
+at_target = true
+pull_to_origin = true
+statuses = Array[ExtResource("3")]([SubResource("st_0_0"), SubResource("st_0_1")])
+
+[resource]
+script = ExtResource("1")
+id = "char_dark_01.skill"
+key = "skill"
+animation = "skill_1"
+hit_kind = 4
+startup_ms = 180.0
+active_ms = 60.0
+recovery_ms = 240.0
+en_cost = 25.0
+cooldown_sec = 8.0
+target_range_px = 450.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 5 Vực Bóng Nguyền Rủa: 25 EN, CD 8s, tại mục tiêu trong 450 px, vùng 280 4s 25%/0.5s (200%), Chậm 35%, Nguyền liên tục, kéo nhẹ; 180/4000/240"

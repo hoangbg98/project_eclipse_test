@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="EarthKitConfig" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/kits/earth_kit_config.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="bone_burst"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 120.0
+atk_ratio = 1.3
+sc_multiplier = 1.0
+shape = 1
+radius_px = 200.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(500.0, -60.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+delay_ms = 800.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="block_reflect"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 100.0
+atk_ratio = 1.2
+sc_multiplier = 1.0
+shape = 1
+radius_px = 180.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -80.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[sub_resource type="Resource" id="counter_wave"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 120.0
+atk_ratio = 1.0
+sc_multiplier = 1.0
+shape = 1
+radius_px = 160.0
+arc_deg = 120.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -40.0)
+knockback_px = 0.0
+detached = true
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([])
+
+[resource]
+script = ExtResource("1")
+bone_burst = SubResource("bone_burst")
+block_reflect = SubResource("block_reflect")
+counter_wave = SubResource("counter_wave")
+metadata/source = "Mục 6: Cốt Đá, chặn hoàn hảo (phản 120% bán kính 180), nổ Cốt Đá 130% bán kính 200, Phản Chấn 100% bán kính 160"

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="self_0"]
+script = ExtResource("3")
+status_id = "hard_armor"
+duration = 0.34
+magnitude = -1.0
+
+[resource]
+script = ExtResource("1")
+id = "char_earth_01.dodge"
+key = "dodge"
+animation = "dodge"
+hit_kind = 8
+startup_ms = 50.0
+active_ms = 290.0
+recovery_ms = 160.0
+move_px = 180.0
+move_from_ms = 50.0
+move_to_ms = 200.0
+invuln_from_ms = 50.0
+invuln_to_ms = 140.0
+super_armor = true
+hits = Array[ExtResource("2")]([])
+self_statuses = Array[ExtResource("3")]([SubResource("self_0")])
+metadata/source = "Mục 6 Lăn Giáp: lao 180 px, bất tử 50-140 ms, Giáp cứng tới 340 ms; 50/290/160"

@@ -70,6 +70,25 @@ func has(status_id: String) -> bool:
 	return _active.has(status_id)
 
 
+## Xoá tối đa `count` hiệu ứng xấu (Kind.DEBUFF: Cháy, Chậm, Nguyền...), theo thứ tự tên. Trả về số đã xoá.
+func cleanse(count: int) -> int:
+	var n := 0
+	for id in active_ids():
+		if n >= count:
+			break
+		var def: StatusDef = _active[id]["def"]
+		if def.kind == StatusDef.Kind.DEBUFF:
+			remove(id)
+			n += 1
+	return n
+
+
+## Đặt độ lớn của trạng thái đang có (vd Cốt Đá: 3% × số tầng). Không có thì bỏ qua.
+func set_magnitude(status_id: String, value: float) -> void:
+	if _active.has(status_id):
+		_active[status_id]["magnitude"] = value
+
+
 func stacks(status_id: String) -> int:
 	return int(_active[status_id]["stacks"]) if _active.has(status_id) else 0
 

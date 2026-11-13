@@ -1148,3 +1148,24 @@ msgstr "Wind Domain"
 
 msgid "STATUS_OVERLOAD"
 msgstr "Overload"
+
+msgid "STATUS_SANCTUARY"
+msgstr "Sanctuary"
+
+msgid "STATUS_NIGHT_KING"
+msgstr "Night King"
+
+msgid "STATUS_STONE_BONE"
+msgstr "Stone Bone"
+
+msgid "STATUS_GUARD"
+msgstr "Guard"
+
+msgid "STATUS_HARD_ARMOR"
+msgstr "Hard Armor"
+
+msgid "STATUS_ARMOR_BREAK"
+msgstr "Armor Break"
+
+msgid "STATUS_STONE_GOD"
+msgstr "Stone God"

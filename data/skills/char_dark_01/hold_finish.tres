@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "curse"
+duration = 4.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 0.0
+duration_ms = 100.0
+atk_ratio = 0.9
+sc_multiplier = 1.0
+shape = 0
+radius_px = 240.0
+arc_deg = 150.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_dark_01.hold_finish"
+key = "hold_end"
+animation = "hold_release"
+hit_kind = 1
+startup_ms = 0.0
+active_ms = 100.0
+recovery_ms = 320.0
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 5 Ám Liêm Triệu Hồi — chém bổ cuối 90% + Nguyền 4s; 0/100/320"

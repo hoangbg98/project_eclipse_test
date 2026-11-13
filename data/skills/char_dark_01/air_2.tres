@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SkillDef" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/skill_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hit_def.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="3"]
+
+[sub_resource type="Resource" id="st_0_0"]
+script = ExtResource("3")
+status_id = "curse"
+duration = 3.0
+magnitude = -1.0
+
+[sub_resource type="Resource" id="hit_0"]
+script = ExtResource("2")
+at_ms = 120.0
+duration_ms = 80.0
+atk_ratio = 1.0
+sc_multiplier = 1.0
+shape = 0
+radius_px = 240.0
+arc_deg = 90.0
+arc_tilt_deg = 0.0
+rect_size = Vector2(100.0, 100.0)
+offset = Vector2(0.0, -120.0)
+knockback_px = 0.0
+detached = false
+travel_px = 0.0
+tick_interval_ms = 0.0
+statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
+
+[resource]
+script = ExtResource("1")
+id = "char_dark_01.air_2"
+key = "air"
+animation = "air_2"
+hit_kind = 2
+startup_ms = 120.0
+active_ms = 80.0
+recovery_ms = 200.0
+keep_momentum = true
+hits = Array[ExtResource("2")]([SubResource("hit_0")])
+metadata/source = "Mục 5 Huyết Nguyệt Liêm Đ2: 100%, 240 px cung 90°, Nguyền 3s, 120/80/200"

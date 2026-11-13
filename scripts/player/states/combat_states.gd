@@ -121,9 +121,13 @@ class Attack:
 
 	func physics_update(_delta: float) -> StringName:
 		var r := player.runner
-		# Đòn giữ chém liên tục: nhả nút thì dừng sớm.
-		if r.current and r.current.release_ends and not player.intent.attack_held:
+		# Đòn giữ kéo dài: nhả nút, hết EN hoặc hết giờ thì dừng, có thể nối đòn kết (release_skill).
+		if r.current and r.current.release_ends and (not player.intent.attack_held or r.en_ran_out
+				or r.elapsed_ms >= r.current.total_ms() - 20.0):
+			var nxt := player.release_skill_for(r.current)
 			r.cancel()
+			if nxt != "" and r.run(nxt, r.facing):
+				return &""
 			return player.idle_or_air_state()
 		# Bấm đánh trong cửa sổ nối đòn: đòn kế tiếp chạy ngay khi đòn này hết.
 		if player.intent.has(PlayerIntent.ATTACK) and r.can_queue_chain():
