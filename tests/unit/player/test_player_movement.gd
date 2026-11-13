@@ -82,8 +82,9 @@ func test_animation_follows_state_and_placeholder_is_tinted() -> void:
 	assert_str(String(_player.sprite.animation)).is_equal("idle")
 	assert_bool(_player.sprite.is_playing()).is_true()
 	assert_vector(_player.sprite.offset).is_equal(Vector2(0, -144))
-	# Aether chưa có hình: placeholder tô màu lửa.
-	assert_object(_player.sprite.modulate).is_equal(PlayerController.PLACEHOLDER_TINT["fire"])
+	# Enkiba: idle đã có hình thật (owner 2026-11-13) nên không tô màu placeholder.
+	assert_int(_player.sprite.sprite_frames.get_frame_count(&"idle")).is_equal(6)
+	assert_object(_player.sprite.modulate).is_equal(Color(1, 1, 1))
 
 
 # ---------- Chạy ----------

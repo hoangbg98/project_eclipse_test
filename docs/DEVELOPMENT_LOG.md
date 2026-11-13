@@ -890,3 +890,14 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 23 phiếu sinh ra; idle / jump_up ĐẠT kiểm tra, sheet đúng đường chân 336 và tâm 192, jump_up nâng dần theo độ cao gốc; approve ghi đúng manifest (6 frame, 8 fps, lặp) và dòng ASSET_LICENSES; animation chưa có thư mục báo CHƯA ĐẠT, mã thoát 1. Test dự án: GdUnit4 446/446, 5 test khói đạt, mã thoát 0.
 - **Quyết định Claude chọn:** fps chọn trong 8/10/12/15/18/20/24 sao cho số frame gần ước lượng của CHARACTER_SKILLS mà vẫn khớp thời lượng đòn; tối đa 6 pose mỗi lần gọi tạo ảnh; chiều cao đứng 280 px; tâm ngang lấy trọng tâm phần chân (35% dưới) để kiếm vươn ra không kéo lệch nhân vật; walk / guard / victory / death trong prompt của owner chưa có trạng thái trong game nên chưa có phiếu.
 - **Hạn chế đã biết:** chưa thử với ảnh thật của Codex (tách pose phụ thuộc khoảng trống giữa các pose); dải nhiều lần gọi không so được độ cao giữa các dải với animation trên không; Codex có đính kèm được ảnh từ ổ đĩa hay không tùy phiên bản — phiếu ghi rõ owner kéo ảnh vào.
+
+## 2026-11-13 — Enkiba: đưa frame idle (6 pose) vào game
+
+- **Milestone / task:** art (B trong OWNER_ASSET_CHECKLIST), animation `idle` của char_fire_01
+- **Trạng thái:** VERIFIED (kiểm tra tự động + owner yêu cầu thay vào; owner chưa xem trong Godot)
+- **Owner quyết định:** thay frame idle bằng dải 6 pose owner cung cấp (ảnh nền trong suốt, sẵn 6 pose đứng).
+- **File tạo/sửa:** `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000..005.png` (mới); `frames_manifest.json` (idle: 6 frame, 8 fps, lặp; `frames_delivered: true`); `docs/ASSET_LICENSES.md` mục 2.1 (một dòng, nguồn ghi "owner cung cấp"); `tests/unit/characters/test_animation_set_builder.gd` và `tests/unit/player/test_player_movement.gd` (cập nhật từ "chưa giao frame nào" sang "idle đã giao, các animation khác vẫn placeholder").
+- **Đã chạy:** `slice_strip.py char_fire_01 idle` (dải 2172×724, nền trong suốt, hệ số phóng 0.4538); `check_frames.py char_fire_01 idle` → ĐẠT; `approve_frames.py char_fire_01 idle`; `tools/run_tests.ps1`.
+- **Kết quả thật:** check ĐẠT (chân ở y = 336, tâm chân trong ngưỡng, không cắt mép); GdUnit4 446/446, 5 test khói đạt, mã thoát 0. Test đầu tiên hỏng vì giả định chưa có frame nào; đã sửa test theo trạng thái mới.
+- **Quyết định Claude chọn:** nguồn ảnh ghi là "owner cung cấp (công cụ không rõ)" vì dải không kèm prompt hay model; hệ số phóng lấy từ frame 0 cao 280 px.
+- **Hạn chế đã biết:** kiếm đang đeo sau vai, còn ảnh đứng gốc (portrait, bộ phận 16) cầm kiếm ở tay trái. Chờ owner xác nhận đây là thiết kế đúng hay cần làm lại. Nguồn công cụ tạo ảnh chưa rõ, cần owner xác nhận để ghi đúng vào giấy phép ảnh AI (ASSET_LICENSES 2.1) và khai báo khi phát hành.
