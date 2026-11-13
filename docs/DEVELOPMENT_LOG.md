@@ -930,3 +930,14 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** GdUnit4 446/446, 5 test khói đạt, mã thoát 0.
 - **Quyết định Claude chọn:** hạ kiếm xuống bên người ở cuối `skill_2` thay cho "tra kiếm nửa chừng" của CHARACTER_SKILLS (không sửa tài liệu thiết kế); cách cầm lấy từ ảnh gốc (tay gần camera, mũi kiếm hạ xuống trước).
 - **Hạn chế đã biết:** ảnh gốc là 3/4 nên cách cầm kiếm ở góc nhìn ngang do Codex suy ra; kiếm cầm tay che một phần chân / thân ở nhiều pose, cần soát thứ tự lớp khi duyệt; idle trong game tạm thời vẫn là bản kiếm đeo lưng.
+
+## 2026-11-13 — Art: Enkiba idle frames (AI)
+
+- **Milestone / task:** art pipeline — tạo và duyệt animation `idle` cho `char_fire_01`, chỉ một animation.
+- **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
+- **Owner duyệt:** "ok rồi thêm vào dự án nhé" sau khi xem `sheet.png`, `anim.gif` và `anim_flip.gif`.
+- **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000..005.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (6 frame, 8 fps, loop); `docs/ASSET_LICENSES.md` mục 2.1; `art_review/char_fire_01/idle/meta.json` (ngày duyệt); bản idle cũ được giữ tại `art_review/char_fire_01/_replaced/idle_20261113_183648/`.
+- **Đã chạy:** `check_frames.py char_fire_01 idle` → ĐẠT; `approve_frames.py char_fire_01 idle --replace`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (chạy lại ngoài sandbox sau khi Godot crash ở lần chạy sandbox).
+- **Kết quả thật:** Đưa vào game 6 frame; GdUnit4 446/446, 5 smoke checks đều đạt, tổng mã thoát 0. Bản idle cũ được chuyển sang `_replaced/` thay vì xóa.
+- **Quyết định Codex chọn:** dùng một dải sáu pose duy nhất, giữ kiếm rút trên tay ở cả sáu frame; metadata và giấy phép ghi model là "not exposed by the imagegen tool" vì công cụ không cung cấp tên model.
+- **Hạn chế đã biết:** owner duyệt bản preview, chưa xác nhận trực tiếp trong Godot; tên model tạo ảnh không được công cụ imagegen expose.

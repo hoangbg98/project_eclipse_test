@@ -39,7 +39,7 @@ tạo ảnh với tài khoản owner. Phải khai báo nội dung AI khi phát h
 
 | File | Công cụ / model | Prompt (rút gọn) | Ảnh tham chiếu | Người tạo | Ngày |
 |---|---|---|---|---|---|
-| `assets/characters/char_fire_01/frames/idle/` (6 frame) — Enkiba | Owner cung cấp (công cụ tạo ảnh không rõ) / không rõ | Owner cung cấp dải 6 pose idle; không kèm prompt. Ảnh chưa qua Codex. | `char_fire_01_portrait_full.png` | Owner cung cấp | 2026-11-13 |
+| `assets/characters/char_fire_01/frames/idle/` (6 frame) — Enkiba | Codex imagegen / not exposed by the imagegen tool | One horizontal row of six seamless idle poses for owner-provided Enkiba; preserve original design and palette, facing right, drawn flame sword held low in the near hand in every pose, transparent background, no effects. | `char_fire_01_portrait_full.png`, `char_fire_01_part_44_weapon_kiem_lua.png`, `char_fire_01_idle_000.png`, `char_fire_01_idle_003.png` | Codex | 2026-11-13 |
 
 ## 3. Placeholder (không bao giờ ship)
 
