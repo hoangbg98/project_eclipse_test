@@ -1391,3 +1391,12 @@ un_tests.ps1`
 - **Kết quả thật:** GdUnit4 543 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
 - **Quyết định Claude chọn:** phần trái giữ nguyên nội dung cũ, chỉ dời xuống dưới thẻ người chơi; ảnh giữa là nhân vật đầu đội; Xuất kích là lục giác lớn nhất; vũ khí / vết thánh trong Bộ sưu tập tính theo loại (định nghĩa trong data/equipment); Túi đồ xếp đồ đang dùng trước rồi theo độ hiếm; tên người chơi tối đa 16 ký tự; tab Chiêu mộ trên thanh tab giữ lại (trùng Tiếp tế → Tiếp tế) chờ owner quyết; thanh tab Trang chủ / Chiến đấu / Chiêu mộ / Cài đặt giữ nguyên.
 - **Hạn chế đã biết:** Shop, Ải nguyên liệu, tab Đề cử / Khiêu chiến / Event, Rèn trang bị: chỉ hiện "Sắp có / Sắp ra mắt". Người cộng tác chưa có gameplay (chờ owner quyết các điểm trong HUB_FEATURES.md). Nạp tiền chỉ là thông báo (bản offline). Icon và nền là tạm; chưa có ảnh vũ khí / vết thánh (thẻ dùng icon tạm). Chưa thử chạm trên máy cảm ứng thật.
+
+
+## 2026-11-14 — Raikiba: duyệt frame `idle`
+- **Milestone / task:** Tạo và duyệt animation `idle` cho `char_lightning_01` (6 frame, 8 fps, lặp).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_lightning_01/frames/idle/` (6 PNG + import metadata); `assets/characters/char_lightning_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_lightning_01 idle` (ĐẠT); `python -I tools/frames/approve_frames.py char_lightning_01 idle`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Owner duyệt `idle`; approve thành công với 6 frame, 8 fps. GdUnit4: 543 test, 0 lỗi; 5 smoke test ĐẠT; toàn bộ lệnh test thoát mã 0.
+- **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.

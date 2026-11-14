@@ -2,7 +2,7 @@
   "character_id": "char_lightning_01",
   "working_name": "Raikiba",
   "element": "lightning",
-  "frames_delivered": false,
+  "frames_delivered": true,
   "canvas": {
     "width": 384,
     "height": 384,
@@ -13,8 +13,8 @@
   "file_pattern": "{id}_{animation}_{NNN}.png",
   "animations": {
     "idle": {
-      "frames": 0,
-      "fps": 12,
+      "frames": 6,
+      "fps": 8,
       "loop": true,
       "skill_key": null
     },
