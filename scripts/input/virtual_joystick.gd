@@ -64,9 +64,33 @@ func _notification(what: int) -> void:
 		_reset()
 
 
+## Ảnh đế / phím (HudTheme.JOYSTICK_*); thiếu file thì vẽ hình tròn tạm.
+static var _base_tex: Texture2D
+static var _knob_tex: Texture2D
+
+
+static func _tex(path: String) -> Texture2D:
+	return load(path) as Texture2D if ResourceLoader.exists(path) else null
+
+
 func _draw() -> void:
 	var center := size * 0.5
 	var radius := minf(size.x, size.y) * 0.5
+	if _base_tex == null:
+		_base_tex = _tex(HudTheme.JOYSTICK_BASE)
+		_knob_tex = _tex(HudTheme.JOYSTICK_KNOB)
+	var tint := Color(1, 1, 1, HudTheme.JOYSTICK_ALPHA_ACTIVE if is_active() else HudTheme.JOYSTICK_ALPHA_IDLE)
+	var knob_center := center + _vector * radius * HudTheme.JOYSTICK_TRAVEL
+	if _base_tex and _knob_tex:
+		draw_texture_rect(_base_tex, Rect2(center - Vector2.ONE * radius, Vector2.ONE * radius * 2.0), false, tint)
+		var kr := radius * HudTheme.JOYSTICK_KNOB_RATIO
+		draw_texture_rect(_knob_tex, Rect2(knob_center - Vector2.ONE * kr, Vector2.ONE * kr * 2.0), false, tint)
+		return
 	draw_circle(center, radius, Color(1, 1, 1, 0.2))
 	draw_arc(center, radius, 0.0, TAU, 64, Color(1, 1, 1, 0.6), 4.0)
-	draw_circle(center + _vector * radius * 0.6, radius * 0.35, Color(1, 1, 1, 0.55 if is_active() else 0.35))
+	draw_circle(knob_center, radius * 0.35, Color(1, 1, 1, 0.55 if is_active() else 0.35))
+
+
+## Vị trí tâm phím (toạ độ cục bộ), để test.
+func knob_center() -> Vector2:
+	return size * 0.5 + _vector * minf(size.x, size.y) * 0.5 * HudTheme.JOYSTICK_TRAVEL
