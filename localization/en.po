@@ -1531,7 +1531,7 @@ msgid "RECRUIT_UI_STARTER_FREE"
 msgstr "Free"
 
 msgid "RECRUIT_UI_STARTER_TICKET"
-msgstr "Use %s (have %d)"
+msgstr "Free · uses 1 ticket (have %d)"
 
 msgid "RECRUIT_STARTER_RULE"
 msgstr "Free ×%d recruitment, once only: 1 guaranteed %s, the other %d pulls are level-up materials:"
@@ -1571,3 +1571,6 @@ msgstr "Raikiba joined: your team of 3 is complete! Tap Confirm to finish the tu
 
 msgid "REASON_NO_TICKET"
 msgstr "Needs a First Recruitment Ticket (from clearing stage 1-1)"
+
+msgid "RECRUIT_UI_NOTE_STARTER"
+msgstr "A recruitment for new Managers using the First Recruitment Ticket, once only. See Details for rewards."

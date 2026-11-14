@@ -1531,7 +1531,7 @@ msgid "RECRUIT_UI_STARTER_FREE"
 msgstr "Miễn phí"
 
 msgid "RECRUIT_UI_STARTER_TICKET"
-msgstr "Dùng %s (có %d)"
+msgstr "Miễn phí · dùng 1 vé (có %d)"
 
 msgid "RECRUIT_STARTER_RULE"
 msgstr "Chiêu mộ ×%d miễn phí, dùng một lần: chắc chắn 1 %s, %d lượt còn lại là nguyên liệu tăng cấp:"
@@ -1571,3 +1571,6 @@ msgstr "Raikiba đã vào đội, đội đủ 3 người! Bấm Xác nhận đ�
 
 msgid "REASON_NO_TICKET"
 msgstr "Cần Vé chiêu mộ đầu tiên (nhận khi qua ải 1-1)"
+
+msgid "RECRUIT_UI_NOTE_STARTER"
+msgstr "Lượt chiêu mộ dành cho Quản lý mới, dùng Vé chiêu mộ đầu tiên, chỉ một lần. Xem Chi tiết để biết phần thưởng."

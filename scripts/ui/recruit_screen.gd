@@ -386,7 +386,8 @@ func _build_banner(b: BannerDef) -> void:
 		_panel(box, layout.color("orange_box", Color.ORANGE_RED))
 		_label(box.grow(-14), guarantee_text(b), layout.font("panel.orange_box", 30), Color.WHITE).name = "OrangeBox"
 	var f := featured(b)
-	_label(_pr("note"), tr("RECRUIT_UI_NOTE_EQUIP" if f.get("kind", "") == "equip" else "RECRUIT_UI_NOTE"), layout.font("panel.note", 26),
+	var note_key := "RECRUIT_UI_NOTE_STARTER" if is_starter(b) else ("RECRUIT_UI_NOTE_EQUIP" if f.get("kind", "") == "equip" else "RECRUIT_UI_NOTE")
+	_label(_pr("note"), tr(note_key), layout.font("panel.note", 26),
 			layout.color("text_dim", Color.GRAY)).name = "Note"
 	if not f.is_empty():
 		if f["element"] != "":
@@ -403,7 +404,10 @@ func _build_banner(b: BannerDef) -> void:
 		var name_w := get_theme_default_font().get_string_size(str(f["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, nfont).x
 		var ur := _pr("up_tag")
 		ur.position = Vector2(minf(nr.position.x + name_w + 14.0, nr.end.x), nr.position.y + 4.0)
-		_label(ur, tr("RECRUIT_UI_SURE" if is_starter(b) else "RECRUIT_UI_UP"), layout.font("panel.up_tag", 30), layout.color("accent", Color.ORANGE)).name = "UpTag"
+		var up := _label(ur, tr("RECRUIT_UI_SURE" if is_starter(b) else "RECRUIT_UI_UP"), layout.font("panel.up_tag", 30),
+				layout.color("accent", Color.ORANGE))
+		up.name = "UpTag"
+		up.autowrap_mode = TextServer.AUTOWRAP_OFF
 		_label(_pr("stars"), "★".repeat(int(f["stars"])), layout.font("panel.stars", 40), layout.color("star", Color.GOLD)).name = "Stars"
 		if f["sub"] != "":
 			var sr := _pr("featured_sub")
@@ -429,7 +433,7 @@ func _build_bottom(b: BannerDef) -> void:
 		var ticket := PlayerProfile.item_defs().get_def(b.ticket_item) as ItemDef if b.ticket_item != "" else null
 		var cost_line := tr("RECRUIT_UI_STARTER_FREE")
 		if ticket:
-			cost_line = tr("RECRUIT_UI_STARTER_TICKET") % [tr(ticket.name_key), profile.inventory.material_count(b.ticket_item)]
+			cost_line = tr("RECRUIT_UI_STARTER_TICKET") % profile.inventory.material_count(b.ticket_item)
 		var sb := _button(sr, "%s\n%s" % [tr("RECRUIT_UI_WISH") % b.multi_count, cost_line], layout.font(p + "wish_10", 34),
 				pull_starter, false, "Wish_starter")
 		sb.disabled = not service.starter_available(b)

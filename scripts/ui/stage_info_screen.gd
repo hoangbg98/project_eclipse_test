@@ -111,8 +111,12 @@ func _build_body() -> void:
 	# ----- Có thể rơi -----
 	y = _header(Rect2(loc.position.x, y + 12, loc.size.x, 56), tr("STAGE_INFO_DROPS"), "")
 	var card := layout.num("stage_info.drop_size", 150.0)
+	var list := drops()
+	# Nhiều món thì thu nhỏ ô cho vừa bề ngang khung (không tràn khỏi màn).
+	if not list.is_empty():
+		card = minf(card, (loc.size.x - 18.0 * (list.size() - 1)) / list.size())
 	var x := loc.position.x
-	for d in drops():
+	for d in list:
 		_drop_card(Rect2(x, y, card, card + 40), d)
 		x += card + 18
 

@@ -202,7 +202,10 @@ func _run() -> void:
 	_check(int(save.data["currencies"]["gems"]) == gems_before, "không tốn ngọc")
 	_check(guide.is_active() and guide.target.name == "ResultClose", "hướng dẫn: sáng nút Xác nhận kết quả")
 	guide.press_target()
-	await _frames(3)
+	for i in 60:                                   # lớp hướng dẫn kết thúc ở khung _process kế tiếp
+		await process_frame
+		if bool(save.data["tutorial"]["done"]):
+			break
 	_check(bool(save.data["tutorial"]["done"]) and not guide.is_active(), "hướng dẫn xong, không còn khóa")
 	root.get_node("SceneRouter").replace(gc.SCENE_HUB)
 	_check(await _wait_for_scene(gc.SCENE_HUB, 4.0), "về Hub")

@@ -168,7 +168,7 @@ func test_recruit_starter_with_ticket_pulls_raikiba_and_disappears() -> void:
 	assert_object(btn).is_not_null()
 	assert_bool(btn.disabled).is_false()
 	assert_object(s.find_child("Wish_1", true, false)).is_null()           # không có quay ×1
-	assert_str(btn.text).contains(tr("ITEM_TICKET_STARTER_X10"))
+	assert_str(btn.text).contains(tr("RECRUIT_UI_STARTER_TICKET") % 1)
 	var gems := s.profile.inventory.currency("gems")
 	btn.pressed.emit()
 	assert_bool(s.profile.progression.owns("char_lightning_01")).is_true()
