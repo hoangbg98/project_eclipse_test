@@ -1155,7 +1155,7 @@ Claude uses the default until the owner answers.
 | OD-2 | Chibi or standard anime proportions? | Owner decides through art; no code impact |
 | OD-3 | Use a stamina/energy system to gate stages? | Off (config flag) |
 | OD-4 | Which mechanics or timestamps from the gameplay video should be matched in spirit? | None until the owner lists them |
-| OD-5 | Weapons: fixed per character, or equippable by any character? | Fixed per character (Section 4) |
+| OD-5 | Weapons: fixed per character, or equippable by any character? | Fixed per character (Section 4). **Owner 2026-11-14:** a weapon is locked to the character's weapon type (`weapon_type`); stigmata can be worn by any character. See `docs/design/EQUIPMENT_5STAR.md` section 5.1 |
 | OD-6 | Position of the reserve icons | Top-right (owner decision); Settings option to move them if testing shows they are hard to reach |
 
 ------------------------------------------------------------------------

@@ -160,3 +160,4 @@ font Arial của Windows chỉ để ghi nhãn). Thay bằng ảnh thật cùng 
 | Aether (`char_fire_01`) | Trùng tên nhân vật nổi tiếng của bên thứ ba | Đổi trước khi phát hành công khai |
 | Noctis (`char_dark_01`) | Trùng tên nhân vật nổi tiếng của bên thứ ba | Đổi trước khi phát hành công khai |
 | Tên dự án "PROJECT ECLIPSE" | Tên làm việc | Kiểm tra nhãn hiệu trước khi phát hành |
+| Bộ vết thánh 5★: Antoine Lavoisier, Leonardo da Vinci, Benjamin Franklin, Florence Nightingale, Edgar Allan Poe, Charles Darwin | Nhân vật nữ anime lấy cảm hứng từ người thật đã mất từ lâu; tên 3 món là tác phẩm / phát minh của họ (`docs/design/EQUIPMENT_5STAR.md` mục 2) | Vẽ theo phong cách riêng, không chân dung thật. Owner 2026-11-14 bỏ Nobel và Tesla (thương hiệu đang hoạt động), thay bằng Lavoisier và Franklin. Không dùng nhân vật tiểu thuyết còn bản quyền |

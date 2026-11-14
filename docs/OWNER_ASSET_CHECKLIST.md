@@ -19,6 +19,7 @@
 | [ ] | Tên gói Android thật (thay `com.projecteclipse.dev`) | Khi làm lại Android | Đổi sau khi đã cài lên máy = app khác |
 | [ ] | **Khai báo nội dung AI tạo** trên trang store (Steam: mục "AI Generated Content Disclosure" khi nộp bản build) | Trước khi nộp lên store | Owner cho phép ảnh AI vào bản phát hành (2026-11-12); danh sách file ở `docs/ASSET_LICENSES.md` mục 2.1. Kiểm tra điều khoản thương mại của dịch vụ tạo ảnh với tài khoản đang dùng |
 | [ ] | OD-1 đến OD-6 (README 15.8) | Không gấp | Đang dùng mặc định: side-scroll; vũ khí cố định; không stamina; icon dự bị góc trên-phải |
+| [ ] | **Phân giải trang bị** (owner 2026-11-14: món 5★ trùng không quy đổi; hỏi riêng sau, EQUIPMENT_5STAR mục 5.5 Q11) | Trước khi làm banner 5★ | Claude hỏi khi tới task |
 
 ### A1. Câu hỏi gacha
 
@@ -61,6 +62,13 @@ Owner 2026-11-13: banner đầu tiên đề cử **Iwagane — Thần Kiếm Nha
 | `char_light_01` | Hikarine (Seraphine) | Ánh Sáng Thiên Giới | A |
 | `char_dark_01` | Yomigari (Noctis) | Lưỡi Hái Hắc Ám | A |
 | `char_earth_01` | Iwagane (Terra) | Thần Kiếm Nham Thạch | S |
+
+**Banner 5★ vũ khí + vết thánh (owner 2026-11-14,** chi tiết ở `docs/design/EQUIPMENT_5STAR.md` mục 5.6**):** một banner
+chung, mỗi kỳ 1 bộ đề cử 5★ (1 vũ khí + 3 vết thánh của một nhân vật). Mỗi món 1.5%; món đã có không ra lại cho tới khi
+đủ bộ (thiếu 4 / 3 / 2 / 1 món: tổng 6 / 4.5 / 3 / 1.5%), đủ bộ thì về 6% và có thể ra trùng. Pity cứng 50 lượt mỗi món,
+chỉ chắc chắn ra món chưa có. Pity mềm từ lượt 30: tổng tỉ lệ 5★ +10% một lần. Pity về 0 khi sang banner mới, kể cả
+banner chạy lại. Các bậc 4★ / 3★ giữ như tiếp tế, phần 5★ lấy từ nguyên liệu (58% − tỉ lệ 5★). Giá 280 / 2520 Ngọc.
+Món trùng không quy đổi. **Chưa làm** (chưa có code).
 
 ## B. Hình nhân vật (frame-by-frame)
 
