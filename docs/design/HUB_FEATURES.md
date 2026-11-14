@@ -47,6 +47,20 @@ Luồng: Xuất kích → Cốt truyện chính → **Thông tin màn** → Chu�
   ra, không bỏ người cuối, tối đa 3, không hai giáp cùng nhân vật.
 - Bố cục: mục `stage_info`, `party_prep`, `party_select` trong `data/ui/hub_screens_layout.json`.
 
+## Hướng dẫn người mới (owner 2026-11-14)
+
+- Game mới chỉ có **Enkiba** (`SaveSchema.STARTER_CHARACTERS`). Qua **ải 1-1** (`stage_01`, `code` "1-1") lần đầu nhận
+  **Kazeyumi** (vào đội luôn) và **Vé chiêu mộ đầu tiên** (`ticket_starter_x10`), cùng thưởng cũ.
+- Vé mở lượt x10 miễn phí `data/tutorial/starter_pull.tres` (chắc chắn 1 Raikiba + 9 sách EXP). Banner này chỉ hiện ở
+  đầu danh sách màn Chiêu mộ khi có vé và chưa dùng; quay xong trừ vé, Raikiba vào đội nếu còn chỗ, banner biến mất.
+- Hướng dẫn khóa màn (`TutorialGuide`, luật ở `TutorialFlow`): làm tối toàn màn, chừa ô sáng nhấp nháy quanh nút cần
+  bấm + dòng gợi ý; chuột / chạm ngoài ô bị chặn, phím và tay cầm bị chặn (Enter / A bấm đúng nút được chỉ), Back bị chặn.
+  - Chưa qua 1-1: Sảnh **Xuất kích** → **Chương cốt truyện chính** → **Chuẩn bị** → **Khai chiến**. Trong trận không
+    khóa; thua thì chỉ cho **Chơi lại**.
+  - Đã qua 1-1, còn vé: màn kết quả **Về Hub** → (Menu nếu đang ở màn khác) → **Tiếp tế** → **Đi chiêu mộ** →
+    **Chiêu mộ ×10 (dùng vé)** → **Xác nhận** → xong (`tutorial.done`).
+  - Bước suy từ save, nên thoát game giữa chừng vẫn tiếp tục đúng chỗ. Save cũ (v5) coi như đã xong hướng dẫn.
+
 ## Người cộng tác (tinh linh) — kế hoạch, CHƯA làm
 
 Owner 2026-11-14: tính năng riêng của game.

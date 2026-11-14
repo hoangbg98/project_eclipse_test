@@ -10,7 +10,7 @@ func after_test() -> void:
 
 func _screen(path: String, p: PlayerProfile = null) -> HubScreen:
 	var s := (load(path) as PackedScene).instantiate() as HubScreen
-	s.profile = p if p else PlayerProfile.new(SaveSchema.default_data())
+	s.profile = p if p else PlayerProfile.new(TestTeam.three())
 	s.save_enabled = false
 	s.navigate_enabled = false
 	add_child(auto_free(s))
@@ -19,7 +19,7 @@ func _screen(path: String, p: PlayerProfile = null) -> HubScreen:
 
 func test_stage_info_shows_objectives_drops_and_prepare() -> void:
 	GameConfig.selected_stage_id = "stage_01"
-	var p := PlayerProfile.new(SaveSchema.default_data())
+	var p := PlayerProfile.new(TestTeam.three())
 	p.data["progress"]["stages"]["stage_01"] = {"cleared": true, "best_time_sec": 100.0, "objectives": ["hits"]}
 	var s := _screen(GameConfig.SCENE_STAGE_INFO, p) as StageInfoScreen
 	assert_str(s.stage_id).is_equal("stage_01")
@@ -46,7 +46,7 @@ func test_party_prep_slots_and_launch() -> void:
 
 func test_party_prep_edit_only_has_confirm() -> void:
 	GameConfig.prep_launch_stage = false
-	var p := PlayerProfile.new(SaveSchema.default_data())
+	var p := PlayerProfile.new(TestTeam.three())
 	p.set_party(["char_fire_01"])
 	var s := _screen(GameConfig.SCENE_PARTY_PREP, p) as PartyPrepScreen
 	assert_bool(s.launch_stage).is_false()
@@ -55,7 +55,7 @@ func test_party_prep_edit_only_has_confirm() -> void:
 
 
 func test_party_select_toggle_keeps_old_rules() -> void:
-	var p := PlayerProfile.new(SaveSchema.default_data())
+	var p := PlayerProfile.new(TestTeam.three())
 	var s := _screen(GameConfig.SCENE_PARTY_SELECT, p) as PartySelectScreen
 	var owned := s.owned_ids()
 	assert_int(s.suit_buttons.size()).is_equal(owned.size())
@@ -77,7 +77,7 @@ func test_party_select_toggle_keeps_old_rules() -> void:
 
 
 func test_profile_toggle_party_rejects_full_same_person_unowned() -> void:
-	var p := PlayerProfile.new(SaveSchema.default_data())
+	var p := PlayerProfile.new(TestTeam.three())
 	p.person_cache = {"char_fire_01": "a", "char_fire_02": "a", "char_wind_01": "b", "char_lightning_01": "c"}
 	assert_str(p.toggle_party("char_light_01")).is_equal(PlayerProfile.PARTY_NOT_OWNED)
 	p.progression.data["characters"]["char_fire_02"] = SaveSchema.default_character()

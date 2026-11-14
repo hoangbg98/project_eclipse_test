@@ -45,7 +45,9 @@ func _ready() -> void:
 	row.add_theme_constant_override("separation", 40)
 	box.add_child(row)
 	_retry = _button(row, "RESULT_RETRY")
+	_retry.name = "RetryButton"
 	_hub = _button(row, "RESULT_TO_HUB")
+	_hub.name = "HubButton"
 	_retry.pressed.connect(_on_retry)
 	_hub.pressed.connect(_on_hub)
 
@@ -115,9 +117,14 @@ func _reward_lines(header: String, got: Dictionary) -> PackedStringArray:
 	var eq: Array = got.get("equipment", [])
 	if not eq.is_empty():
 		parts.append(tr("RESULT_EQUIPMENT") % eq.size())
-	if parts.is_empty():
-		return PackedStringArray()
-	return PackedStringArray([header, "  " + " · ".join(parts)])
+	var out := PackedStringArray()
+	if not parts.is_empty():
+		out.append_array([header, "  " + " · ".join(parts)])
+	for id in got.get("characters", []):
+		if out.is_empty():
+			out.append(header)
+		out.append("  " + tr("RESULT_NEW_CHARACTER") % _char_name(str(id)))
+	return out
 
 
 func _char_name(id: String) -> String:

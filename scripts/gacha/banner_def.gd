@@ -39,8 +39,11 @@ extends Resource
 
 @export_group("Lượt miễn phí hướng dẫn")
 ## Banner dùng một lần cho người mới (owner 2026-11-13): quay gói `multi_count` không tốn tiền, đúng 1 lượt ra bậc
-## đầu tiên (vd Kael), các lượt còn lại ra bậc cuối (nguyên liệu). Không xuất hiện ở tab Chiêu mộ.
+## đầu tiên (vd Raikiba), các lượt còn lại ra bậc cuối (nguyên liệu). Chỉ hiện ở màn Chiêu mộ khi còn dùng được.
 @export var starter_free_multi := false
+## Vé cần có (id vật phẩm trong data/items) để dùng lượt miễn phí; quay xong trừ 1 vé. Rỗng = không cần vé.
+## Owner 2026-11-14: vé `ticket_starter_x10` nhận khi qua ải 1-1.
+@export var ticket_item := ""
 
 
 func tier(key: String) -> GachaTierDef:

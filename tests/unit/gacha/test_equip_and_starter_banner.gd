@@ -102,8 +102,11 @@ func test_starter_pull_is_free_once_with_exactly_one_kael() -> void:
 	var b: BannerDef = load(STARTER_PATH)
 	assert_array(b.validate()).is_empty()
 	assert_bool(b.starter_free_multi).is_true()
-	_data["characters"].erase("char_lightning_01")                     # người mới chưa có Raikiba
+	assert_str(b.ticket_item).is_equal("ticket_starter_x10")
 	var s := _svc(21)
+	assert_bool(s.starter_available(b)).is_false()                     # chưa có vé (nhận ở ải 1-1)
+	assert_str(s.pull_starter(b)["reason"]).is_equal(GachaService.REASON_NO_TICKET)
+	_profile.inventory.add_material("ticket_starter_x10", 1)
 	assert_bool(s.starter_available(b)).is_true()
 	var gems := _profile.inventory.currency("gems")
 	var out := s.pull_starter(b)
@@ -118,7 +121,10 @@ func test_starter_pull_is_free_once_with_exactly_one_kael() -> void:
 	assert_int(out["results"].size()).is_equal(10)
 	assert_int(kael).is_equal(1)
 	assert_bool(_profile.progression.owns("char_lightning_01")).is_true()
-	assert_bool(s.starter_available(b)).is_false()
+	assert_array(Array(_profile.party_ids())).is_equal(["char_fire_01", "char_lightning_01"])   # vào đội luôn
+	assert_int(_profile.inventory.material_count("ticket_starter_x10")).is_equal(0)            # trừ vé
+	_profile.inventory.add_material("ticket_starter_x10", 1)
+	assert_bool(s.starter_available(b)).is_false()                     # có vé nhưng đã dùng
 	assert_str(s.pull_starter(b)["reason"]).is_equal(GachaService.REASON_STARTER_USED)
 	assert_array(SaveSchema.sanitize(_data)["gacha"]["starter_used"]).is_equal(["starter_pull"])
 
@@ -127,6 +133,7 @@ func test_starter_kael_position_varies_and_normal_banner_refused() -> void:
 	var seen := {}
 	for seed_value in 12:
 		before_test()
+		_profile.inventory.add_material("ticket_starter_x10", 1)
 		var out := _svc(seed_value).pull_starter(load(STARTER_PATH))
 		for i in out["results"].size():
 			if out["results"][i]["item"] == "char:char_lightning_01":

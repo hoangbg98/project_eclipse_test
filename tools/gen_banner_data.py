@@ -42,6 +42,8 @@ STIGMA_FEATURED_RATE = 0.5
 
 # --- Owner 2026-11-13: lượt x10 miễn phí đầu tiên (hướng dẫn) BẮT BUỘC có 1 Raikiba, còn lại nguyên liệu tăng cấp ---
 STARTER_CHARACTER = "char_lightning_01"
+# Owner 2026-11-14: lượt x10 miễn phí cần vé, nhận khi qua ải 1-1 (data/stages/stage_01.json).
+STARTER_TICKET = "ticket_starter_x10"
 STARTER_MATERIALS = ["item:mat_exp_small", "item:mat_exp_medium", "item:mat_exp_large"]
 
 
@@ -114,8 +116,10 @@ def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_p
               "multi_guarantee_tiers = %s" % arr(guarantee_tiers), "multi_guarantee_pick = %s" % arr(guarantee_pick),
               'kind_key = "%s"' % DISPLAY.get(file_id, ("", ""))[0], 'title_key = "%s"' % DISPLAY.get(file_id, ("", ""))[1],
               "end_unix = 0",
-              "starter_free_multi = %s" % ("true" if starter else "false"),
-              'metadata/source = "%s"' % source]
+              "starter_free_multi = %s" % ("true" if starter else "false")]
+    if starter:
+        lines.append('ticket_item = "%s"' % STARTER_TICKET)
+    lines.append('metadata/source = "%s"' % source)
     os.makedirs(out_dir, exist_ok=True)
     with io.open(os.path.join(out_dir, file_id + ".tres"), "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines) + "\n")
@@ -165,6 +169,7 @@ starter_tiers = [
     ("t_m", tier("t_m", "MAT", 1, 0.0, STARTER_MATERIALS, "GACHA_TIER_MATERIALS")),
 ]
 write_banner(OUT_TUTORIAL, "starter_pull", "BANNER_STARTER", starter_tiers, [], [], "starter",
-             "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Raikiba, 9 lượt còn lại là nguyên liệu tăng cấp.",
+             "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Raikiba, 9 lượt còn lại là nguyên liệu tăng cấp. "
+             "Owner 2026-11-14: cần vé ticket_starter_x10 (thưởng lần đầu ải 1-1).",
              starter=True)
 print("viết starter_pull")

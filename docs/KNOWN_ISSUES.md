@@ -8,7 +8,7 @@
 | # | Việc | Chặn gì | Ghi chú |
 |---|---|---|---|
 | A1 | **Chơi thử bằng tay** Màn 1 và boss trong Godot (F5) | Xác nhận cảm giác đòn, độ khó, thời lượng 3–5 phút | Chưa ai chơi hết màn; mọi thứ mới qua test tự động và 6 ảnh chụp. Mốc thử: M3-7, M4-4/M4-7, M6, M7 |
-| A2 | **Chiêu mộ**: đã có banner nhân vật + tiếp tế theo số owner; còn chờ owner xác nhận nhân vật đề cử (đang là Aether) và làm hướng dẫn dùng lượt x10 miễn phí (Kael) | Tab Chiêu mộ, hướng dẫn | `data/banners/`, `data/tutorial/starter_pull.tres` |
+| A2 | **Chiêu mộ**: đã có banner nhân vật + tiếp tế theo số owner; nhân vật đề cử là Iwagane; lượt x10 miễn phí (Raikiba) đã có hướng dẫn, dùng vé nhận ở ải 1-1 (2026-11-14) | Tab Chiêu mộ, hướng dẫn | `data/banners/`, `data/tutorial/starter_pull.tres` |
 | A3 | **Hình nhân vật**: frame animation Aether (rồi Kael, Lyra) | Game vẫn dùng viên nang placeholder | Đã có 64 bộ phận Aether trong `assets/characters/char_fire_01/rig_parts/`; prompt cho Codex ở `docs/prompts/CODEX_AETHER_FRAMES.md` |
 | A4 | **Âm thanh**: 3 bài nhạc + 13 SFX | Game im lặng | Tên file chờ sẵn ở OWNER_ASSET_CHECKLIST D1 |
 | A5 | **Font** có đủ dấu tiếng Việt + giấy phép; art UI, nền màn, tile, VFX | Giao diện dùng mặc định của Godot | |

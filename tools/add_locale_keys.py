@@ -289,6 +289,8 @@ KEYS = [
     ("STATUS_HARD_ARMOR", "Giáp Cứng", "Hard Armor"),
     ("STATUS_ARMOR_BREAK", "Phá Giáp", "Armor Break"),
     ("STATUS_STONE_GOD", "Thạch Thần", "Stone God"),
+    # Kazeyumi tuyệt kỹ
+    ("STATUS_STORM_BLESSING", "Bão Tiễn", "Arrow Storm"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

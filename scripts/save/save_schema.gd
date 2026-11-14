@@ -5,13 +5,14 @@ extends RefCounted
 ##
 ## Khi đổi cấu trúc: tăng VERSION, thêm một hàm vào MIGRATIONS (v cũ → v cũ + 1) và sửa `default_data()`.
 
-const VERSION := 5
+const VERSION := 6
 
 ## Độ dài tối đa của tên người chơi (ký tự).
 const NAME_MAX := 16
 
-## Nhân vật có sẵn khi bắt đầu game mới (slice Q5).
-const STARTER_CHARACTERS: Array[String] = ["char_fire_01", "char_lightning_01", "char_wind_01"]
+## Nhân vật có sẵn khi bắt đầu game mới (owner 2026-11-14: chỉ Enkiba; Kazeyumi nhận khi qua ải 1-1,
+## Raikiba từ lượt x10 miễn phí đầu tiên — vé nhận khi qua ải 1-1).
+const STARTER_CHARACTERS: Array[String] = ["char_fire_01"]
 const HISTORY_LIMIT := 200
 
 
@@ -33,6 +34,7 @@ static func default_data() -> Dictionary:
 		"cosmetics": {"backgrounds": [], "hub_background": ""},   # nền sảnh đã có (ngoài nền starter), nền đang dùng
 		"gacha": {"pity": {}, "guarantee": {}, "history": [], "starter_used": []},   # starter_used: id banner x10 miễn phí đã dùng
 		"progress": {"stages": {}},          # stage_id -> {cleared, best_time_sec}
+		"tutorial": {"done": false},         # hướng dẫn người mới (TutorialFlow): xong thì không khóa màn nữa
 		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0, "fullscreen": false},
 		"stats": {"play_time_sec": 0.0},
 	}
@@ -118,7 +120,15 @@ static func _migrate_2_to_3(d: Dictionary) -> Dictionary:
 
 ## Chỉ số i = migration từ version i + 1 lên i + 2.
 static func migrations() -> Array[Callable]:
-	return [_migrate_1_to_2, _migrate_2_to_3, _migrate_3_to_4, _migrate_4_to_5]
+	return [_migrate_1_to_2, _migrate_2_to_3, _migrate_3_to_4, _migrate_4_to_5, _migrate_5_to_6]
+
+
+## v5 → v6 (2026-11-14): hướng dẫn người mới. Save cũ đã chơi trước khi có hướng dẫn → coi như đã xong
+## (không khóa màn của người chơi cũ; họ vẫn giữ đội 3 người cũ).
+static func _migrate_5_to_6(d: Dictionary) -> Dictionary:
+	if not (d.get("tutorial") is Dictionary):
+		d["tutorial"] = {"done": true}
+	return d
 
 
 ## v4 → v5 (2026-11-14): nền sảnh chính (`cosmetics`): danh sách nền đã có + nền đang dùng (rỗng = nền starter đầu tiên).

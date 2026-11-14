@@ -2,6 +2,8 @@
 	"id": "stage_01",
 	"name": "Màn 1 — Thung lũng tro tàn",
 	"name_key": "STAGE_01_NAME",
+	"code": "1-1",
+	"chapter": 1,
 	"description": "Màn đầu: 3 đợt quái, 3 checkpoint, boss 2 pha. Ký hiệu như test_stage + C = checkpoint.",
 	"desc_key": "STAGE_01_DESC",
 	"recommended_level": 5,
@@ -115,11 +117,15 @@
 	},
 	"first_clear_rewards": {
 		"gems": 300,
+		"characters": [
+			"char_wind_01"
+		],
 		"equipment": [
 			"eq_weapon_iron"
 		],
 		"materials": {
-			"mat_exp_medium": 2
+			"mat_exp_medium": 2,
+			"ticket_starter_x10": 1
 		}
 	},
 	"rows": [

@@ -16,7 +16,7 @@ func before_test() -> void:
 	_old_data = _save.data
 	_save.store = SaveStore.new(SAVE_DIR)
 	_save.store.delete_all()
-	_save.data = SaveSchema.default_data()
+	_save.data = TestTeam.three()
 	_save.data["account"]["level"] = 50
 
 

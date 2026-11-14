@@ -62,9 +62,7 @@ func _build_body() -> void:
 func _stage_title(id: String) -> String:
 	var path := "res://data/stages/%s.json" % id
 	if ResourceLoader.exists(path) or FileAccess.file_exists(path):
-		var m := StageMap.load_from(path)
-		if m.data.has("name_key"):
-			return tr(str(m.data["name_key"]))
+		return StageInfoScreen.title_of(StageMap.load_from(path).data, id)
 	return id
 
 

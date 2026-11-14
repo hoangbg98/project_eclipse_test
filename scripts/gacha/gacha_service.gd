@@ -13,6 +13,7 @@ const REASON_INVALID := "invalid_banner"
 const REASON_NOT_ENOUGH := "not_enough_currency"
 const REASON_BAD_COUNT := "bad_count"
 const REASON_STARTER_USED := "starter_used"
+const REASON_NO_TICKET := "no_ticket"
 
 var profile: PlayerProfile
 var rng: RandomSource
@@ -74,7 +75,10 @@ func pull_starter(banner: BannerDef) -> Dictionary:
 	if banner == null or not banner.starter_free_multi or not banner.validate().is_empty() or banner.tiers.size() < 2:
 		return {"reason": REASON_INVALID, "results": []}
 	if not starter_available(banner):
-		return {"reason": REASON_STARTER_USED, "results": []}
+		var used: bool = banner.id in profile.data["gacha"]["starter_used"]
+		return {"reason": REASON_STARTER_USED if used else REASON_NO_TICKET, "results": []}
+	if banner.ticket_item != "":
+		profile.inventory.consume_material(banner.ticket_item, 1)
 	var used: Array = profile.data["gacha"]["starter_used"]
 	used.append(banner.id)
 	var first := banner.tiers[0].key()
@@ -82,12 +86,19 @@ func pull_starter(banner: BannerDef) -> Dictionary:
 	var at := rng.randi_range(0, banner.multi_count - 1)
 	var results: Array = []
 	for i in banner.multi_count:
-		results.append(_pull_one(banner, first if i == at else rest))
+		var r := _pull_one(banner, first if i == at else rest)
+		results.append(r)
+		# Nhân vật mới từ lượt hướng dẫn vào đội luôn nếu còn chỗ (người mới có đội 3 người sau hướng dẫn).
+		if str(r["item"]).begins_with("char:") and not r["duplicate"]:
+			profile.join_party_if_room(str(r["item"]).get_slice(":", 1))
 	return {"reason": REASON_OK, "results": results}
 
 
+## Còn dùng được lượt miễn phí: banner có cờ starter, chưa dùng, và có vé nếu banner cần vé.
 func starter_available(banner: BannerDef) -> bool:
-	return banner != null and banner.starter_free_multi and banner.id not in profile.data["gacha"]["starter_used"]
+	if banner == null or not banner.starter_free_multi or banner.id in profile.data["gacha"]["starter_used"]:
+		return false
+	return banner.ticket_item == "" or profile.inventory.material_count(banner.ticket_item) > 0
 
 
 ## Một lượt. `force_tier`: khóa bậc bắt buộc (bảo đảm khi quay gói) — vẫn tăng / reset pity như lượt thường.

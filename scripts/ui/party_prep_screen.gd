@@ -45,7 +45,7 @@ func _build_body() -> void:
 		var data: Dictionary = {}
 		if FileAccess.file_exists(StageInfoScreen.STAGE_DATA % sid):
 			data = StageMap.load_from(StageInfoScreen.STAGE_DATA % sid).data
-		var title := tr(str(data["name_key"])) if data.has("name_key") else sid
+		var title := StageInfoScreen.title_of(data, sid)
 		var objs := BattleObjectives.list_of(data)
 		_label(Rect2(info.position, Vector2(info.size.x, 60)), tr("PARTY_PREP_STAGE") % title, 34,
 				layout.color("accent_blue", Color.SKY_BLUE))

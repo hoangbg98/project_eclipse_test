@@ -12,7 +12,7 @@ var _rules: ProgressionRules
 
 
 func before_test() -> void:
-	_data = SaveSchema.default_data()
+	_data = TestTeam.three()
 	_data["account"]["level"] = 50                                 # test cũ: không vướng giới hạn cấp đội trưởng
 	_p = PlayerProfile.new(_data)
 	_inv = _p.inventory
@@ -30,7 +30,7 @@ func test_data_is_valid() -> void:
 	assert_array(_rules.validate()).is_empty()
 	assert_array(PlayerProfile.item_defs().errors).is_empty()
 	assert_array(PlayerProfile.equipment_defs().errors).is_empty()
-	assert_int(PlayerProfile.item_defs().defs.size()).is_equal(5)
+	assert_int(PlayerProfile.item_defs().defs.size()).is_equal(6)
 	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(16)
 	var slots := {}
 	for id in PlayerProfile.equipment_defs().ids():

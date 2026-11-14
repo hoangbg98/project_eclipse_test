@@ -132,7 +132,7 @@ func test_tile_hit_test_is_parallelogram() -> void:
 # ---------- Nền sảnh (save v5) ----------
 
 func test_backgrounds_starter_buy_unlock_select() -> void:
-	assert_int(SaveSchema.VERSION).is_equal(5)
+	assert_int(SaveSchema.VERSION).is_greater_equal(5)
 	var old := SaveSchema.default_data()
 	old.erase("cosmetics")
 	var m: Dictionary = SaveSchema.migrate(old, 4)
@@ -257,7 +257,7 @@ func test_player_rename_and_collection() -> void:
 	var owned := weapons.filter(func(e: Dictionary) -> bool: return e["owned"]).size()
 	assert_int(owned).is_equal(2)
 	assert_int(weapons.size()).is_greater(owned)                                        # còn vũ khí chưa sở hữu
-	assert_str(s.count_text("character")).is_equal("3/%d" % PlayerScreen.all_character_ids().size())
+	assert_str(s.count_text("character")).is_equal("1/%d" % PlayerScreen.all_character_ids().size())
 	s.open_collection("stigma")
 	assert_object(s.find_child("CollectionBox", true, false)).is_not_null()
 	assert_bool(s.intercept_back()).is_true()                                           # Back đóng bảng trước

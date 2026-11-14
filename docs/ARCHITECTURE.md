@@ -45,6 +45,7 @@
 | `SceneRouter` | Chuyển scene, màn hình loading, chuyển cảnh 150–250 ms, nút Back | Biết nội dung scene |
 | `InputRouter` | Gộp bàn phím/chuột/tay cầm/cảm ứng thành *action* chung, bộ đệm input 100–150 ms | Biết nhân vật nào đang chơi |
 | `SaveService` | Đọc/ghi save có version, migration, backup, checksum | Giữ định nghĩa tĩnh |
+| `TutorialGuide` | Hướng dẫn người mới: làm tối màn, chừa ô sáng quanh nút cần bấm, chặn input khác (bước do `TutorialFlow` suy từ save) | Chứa luật gameplay |
 | `AudioRouter` | Phát SFX/nhạc theo bus, nghe EventBus | Quyết định gameplay |
 
 ## 4. Dữ liệu (Godot Resource)

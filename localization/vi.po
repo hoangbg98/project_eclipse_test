@@ -1517,3 +1517,57 @@ msgstr "Nhân vật này đã có giáp khác trong đội."
 
 msgid "PARTY_ERR_NOT_OWNED"
 msgstr "Chưa sở hữu giáp này."
+
+msgid "ITEM_TICKET_STARTER_X10"
+msgstr "Vé chiêu mộ đầu tiên"
+
+msgid "RESULT_NEW_CHARACTER"
+msgstr "Nhân vật mới: %s"
+
+msgid "RECRUIT_UI_SURE"
+msgstr "Chắc chắn!"
+
+msgid "RECRUIT_UI_STARTER_FREE"
+msgstr "Miễn phí"
+
+msgid "RECRUIT_UI_STARTER_TICKET"
+msgstr "Dùng %s (có %d)"
+
+msgid "RECRUIT_STARTER_RULE"
+msgstr "Chiêu mộ ×%d miễn phí, dùng một lần: chắc chắn 1 %s, %d lượt còn lại là nguyên liệu tăng cấp:"
+
+msgid "TUTORIAL_HUB_SORTIE"
+msgstr "Chào Quản lý! Bấm Xuất kích để bắt đầu cốt truyện."
+
+msgid "TUTORIAL_SORTIE_STORY"
+msgstr "Chọn Chương cốt truyện chính: ải 1-1 đang chờ."
+
+msgid "TUTORIAL_STAGE_PREPARE"
+msgstr "Qua ải 1-1 lần đầu nhận Kazeyumi và Vé chiêu mộ đầu tiên. Bấm Chuẩn bị."
+
+msgid "TUTORIAL_PARTY_GO"
+msgstr "Enkiba đã sẵn sàng. Bấm Khai chiến!"
+
+msgid "TUTORIAL_RETRY"
+msgstr "Chưa qua được, thử lại nhé! Bấm Chơi lại."
+
+msgid "TUTORIAL_RESULT_HUB"
+msgstr "Kazeyumi đã vào đội và bạn nhận được Vé chiêu mộ đầu tiên. Bấm Về Hub để dùng vé."
+
+msgid "TUTORIAL_MENU"
+msgstr "Bấm Menu để về sảnh."
+
+msgid "TUTORIAL_HUB_SUPPLY"
+msgstr "Bấm Tiếp tế để dùng Vé chiêu mộ đầu tiên."
+
+msgid "TUTORIAL_SUPPLY_GACHA"
+msgstr "Bấm Đi chiêu mộ."
+
+msgid "TUTORIAL_RECRUIT_STARTER"
+msgstr "Dùng vé: chiêu mộ ×10 miễn phí, chắc chắn có Raikiba."
+
+msgid "TUTORIAL_RECRUIT_DONE"
+msgstr "Raikiba đã vào đội, đội đủ 3 người! Bấm Xác nhận để kết thúc hướng dẫn."
+
+msgid "REASON_NO_TICKET"
+msgstr "Cần Vé chiêu mộ đầu tiên (nhận khi qua ải 1-1)"

@@ -8,6 +8,8 @@ extends LayoutScreen
 
 const LAYOUT_PATH := "res://data/ui/recruit_screen_layout.json"
 const BANNERS_DIR := "res://data/banners"
+## Lượt x10 miễn phí đầu tiên (cần vé nhận ở ải 1-1): chỉ hiện, ở đầu danh sách, khi còn dùng được.
+const STARTER_PATH := "res://data/tutorial/starter_pull.tres"
 const ART_DIR := "res://assets/ui/recruit"
 const HISTORY_SHOWN := 50
 
@@ -35,7 +37,21 @@ func _ready() -> void:
 		banners = load_banners()
 	if service == null:
 		service = GachaService.new(profile)
+	if not banners_injected:
+		add_starter(load(STARTER_PATH) as BannerDef if ResourceLoader.exists(STARTER_PATH) else null)
 	refresh()
+
+
+## Đặt banner lượt miễn phí lên đầu danh sách và chọn nó nếu người chơi còn dùng được (đã có vé, chưa dùng).
+func add_starter(b: BannerDef) -> void:
+	if b == null or not b.validate().is_empty() or not service.starter_available(b) or b in banners:
+		return
+	banners.insert(0, b)
+	selected = 0
+
+
+func is_starter(b: BannerDef) -> bool:
+	return b != null and b.starter_free_multi
 
 
 static func load_banners() -> Array[BannerDef]:
@@ -91,6 +107,11 @@ func art_texture(b: BannerDef, kind: String) -> Texture2D:
 
 ## Nhân vật / vật phẩm đề cử của banner: {name, stars, element, sub}; rỗng nếu banner không có rate-up.
 func featured(b: BannerDef) -> Dictionary:
+	if is_starter(b) and not b.tiers.is_empty() and not b.tiers[0].pool.is_empty() and b.tiers[0].pool[0].begins_with("char:"):
+		var sid := b.tiers[0].pool[0].get_slice(":", 1)
+		var sd := char_def(sid)
+		return {"kind": "char", "name": char_name(sid), "stars": b.tiers[0].rarity, "element": sd.element if sd else "",
+				"sub": tr(sd.suit_key) if sd and sd.suit_key != "" else ""}
 	var extra := 0
 	var first := {}
 	for t in b.tiers:
@@ -148,6 +169,12 @@ func pity_text(b: BannerDef) -> String:
 ## Bảng tỉ lệ hiển thị trong Chi tiết, lấy từ GachaService.rates_table (cùng config với logic quay).
 func rate_lines(b: BannerDef) -> PackedStringArray:
 	var out := PackedStringArray()
+	if is_starter(b):
+		var f := featured(b)
+		out.append(tr("RECRUIT_STARTER_RULE") % [b.multi_count, str(f.get("name", "")), b.multi_count - 1])
+		for it in b.tiers[b.tiers.size() - 1].pool:
+			out.append("      " + reward_name(it))
+		return out
 	for row: Dictionary in GachaService.rates_table(b):
 		var label := tr(str(row["label_key"])) if str(row["label_key"]) != "" else "%d★" % row["rarity"]
 		var line := "%s  %.3f%%" % [label, row["rate"] * 100.0]
@@ -241,6 +268,25 @@ func pull(count: int) -> bool:
 	return true
 
 
+## Dùng lượt x10 miễn phí của banner đang chọn (banner starter). Thành công: lưu và hiện bảng kết quả.
+func pull_starter() -> bool:
+	var b := current()
+	if not is_starter(b):
+		return false
+	var res := service.pull_starter(b)
+	last_reason = res["reason"]
+	last_results = res["results"]
+	if last_reason != "":
+		notice = tr("REASON_" + last_reason.to_upper())
+		overlay = Overlay.NONE
+		refresh()
+		return false
+	notice = ""
+	overlay = Overlay.RESULTS
+	commit()
+	return true
+
+
 func open_overlay(o: Overlay) -> void:
 	overlay = o
 	notice = ""
@@ -250,6 +296,11 @@ func open_overlay(o: Overlay) -> void:
 func intercept_back() -> bool:
 	if overlay != Overlay.NONE:
 		overlay = Overlay.NONE
+		# Lượt miễn phí đã dùng xong: bỏ banner đó khỏi danh sách.
+		var b := current()
+		if is_starter(b) and not service.starter_available(b):
+			banners.erase(b)
+			selected = 0
 		refresh()
 		return true
 	return false
@@ -352,7 +403,7 @@ func _build_banner(b: BannerDef) -> void:
 		var name_w := get_theme_default_font().get_string_size(str(f["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, nfont).x
 		var ur := _pr("up_tag")
 		ur.position = Vector2(minf(nr.position.x + name_w + 14.0, nr.end.x), nr.position.y + 4.0)
-		_label(ur, tr("RECRUIT_UI_UP"), layout.font("panel.up_tag", 30), layout.color("accent", Color.ORANGE)).name = "UpTag"
+		_label(ur, tr("RECRUIT_UI_SURE" if is_starter(b) else "RECRUIT_UI_UP"), layout.font("panel.up_tag", 30), layout.color("accent", Color.ORANGE)).name = "UpTag"
 		_label(_pr("stars"), "★".repeat(int(f["stars"])), layout.font("panel.stars", 40), layout.color("star", Color.GOLD)).name = "Stars"
 		if f["sub"] != "":
 			var sr := _pr("featured_sub")
@@ -373,6 +424,16 @@ func _build_bottom(b: BannerDef) -> void:
 			open_overlay.bind(Overlay.DETAILS), false, "DetailsButton")
 	_button(layout.rect(p + "history_button"), layout.label(p + "history_button"), layout.font(p + "history_button", 28),
 			open_overlay.bind(Overlay.HISTORY), false, "HistoryButton")
+	if is_starter(b):
+		var sr := layout.rect(p + "wish_10")
+		var ticket := PlayerProfile.item_defs().get_def(b.ticket_item) as ItemDef if b.ticket_item != "" else null
+		var cost_line := tr("RECRUIT_UI_STARTER_FREE")
+		if ticket:
+			cost_line = tr("RECRUIT_UI_STARTER_TICKET") % [tr(ticket.name_key), profile.inventory.material_count(b.ticket_item)]
+		var sb := _button(sr, "%s\n%s" % [tr("RECRUIT_UI_WISH") % b.multi_count, cost_line], layout.font(p + "wish_10", 34),
+				pull_starter, false, "Wish_starter")
+		sb.disabled = not service.starter_available(b)
+		return
 	for count: int in [1, b.multi_count]:
 		var key := p + ("wish_1" if count == 1 else "wish_10")
 		var r := layout.rect(key)

@@ -222,10 +222,27 @@ func toggle_party(id: String) -> String:
 	return PARTY_OK if set_party(party) else PARTY_NOT_OWNED
 
 
-## Nhận thưởng: {"gold": n, "gems": n, "materials": {id: n}, "equipment": [def_id], "exp": {char_id: n} | n cho cả đội}.
+## Thêm giáp vừa nhận vào cuối đội nếu đội còn chỗ và chưa có giáp nào của cùng nhân vật. Trả về true nếu đã thêm.
+func join_party_if_room(id: String) -> bool:
+	var party := Array(party_ids())
+	if id in party or party.size() >= 3 or not progression.owns(id):
+		return false
+	for other: String in party:
+		if person_of(other) == person_of(id):
+			return false
+	party.append(id)
+	return set_party(party)
+
+
+## Nhận thưởng: {"gold": n, "gems": n, "materials": {id: n}, "equipment": [def_id], "characters": [char_id],
+## "exp": {char_id: n} | n cho cả đội}. Nhân vật mới vào đội luôn nếu còn chỗ.
 ## Trả về bản tóm tắt những gì đã nhận thật (để màn kết quả hiển thị).
 func grant(reward: Dictionary) -> Dictionary:
-	var got := {"gold": 0, "gems": 0, "materials": {}, "equipment": [], "levels": {}, "captain_levels": 0}
+	var got := {"gold": 0, "gems": 0, "materials": {}, "equipment": [], "characters": [], "levels": {}, "captain_levels": 0}
+	for id in reward.get("characters", []):
+		if progression.unlock(str(id)):
+			got["characters"].append(str(id))
+			join_party_if_room(str(id))
 	# EXP đội trưởng trước: cấp đội trưởng là giới hạn cấp nhân vật.
 	if int(reward.get("captain_exp", 0)) > 0:
 		got["captain_levels"] = progression.add_captain_exp(int(reward["captain_exp"]))

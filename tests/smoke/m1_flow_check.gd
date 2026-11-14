@@ -54,6 +54,9 @@ func _run() -> void:
 	new_game.pressed.emit()
 	_check(await _wait_for_scene(gc.SCENE_HUB, 3.0), "Game mới -> Hub")
 	_check(router.can_go_back(), "có lịch sử để Back")
+	# Test này kiểm điều hướng sảnh: bỏ qua hướng dẫn người mới (hướng dẫn khóa Esc / nút khác, test riêng ở m8).
+	if save:
+		save.data["tutorial"]["done"] = true
 
 	# Hub (sảnh không còn thanh tab, owner 2026-11-14): nút Màn thử nghiệm chỉ hiện ở bảng nổi Đội hình (Battle).
 	var stage_btn: Button = current_scene.get_node("%TestStageButton")

@@ -2,7 +2,7 @@ extends SceneTree
 ## Kiểm tra khói M8 — chơi xuyên suốt theo checklist README 16 (headless, không cần GdUnit4):
 ## Title → Game mới → Hub → chọn đội → Màn 1 → đánh thật bằng input → 3 đợt quái → boss 2 pha → kết quả + thưởng
 ## → lưu → "thoát" (đọc lại save từ đĩa) → Tiếp tục với tiến trình còn nguyên.
-## Chiêu mộ không nằm trong luồng vì chưa có banner (tỉ lệ chờ owner).
+## Người mới chỉ có Enkiba; qua ải 1-1 nhận Kazeyumi + vé, hướng dẫn dẫn tới chiêu mộ x10 miễn phí (owner 2026-11-14).
 ## Chạy: godot --headless --path . --script res://tests/smoke/m8_playthrough_check.gd
 ##
 ## Để giữ test ngắn và ổn định, phần lớn quái bị hạ bằng sát thương trực tiếp sau khi đã xác nhận
@@ -64,18 +64,25 @@ func _run() -> void:
 	(current_scene.get_node("%NewGameButton") as Button).pressed.emit()
 	_check(await _wait_for_scene(gc.SCENE_HUB, 3.0), "Game mới → Hub")
 	var hub := current_scene
+	var guide := root.get_node_or_null("TutorialGuide")
+	_check(guide != null, "autoload TutorialGuide tồn tại")
 
-	# --- Chọn đội: đưa Kael lên đầu (bỏ rồi thêm lại hai người kia) ---
+	# --- Người mới: chỉ có Enkiba; hướng dẫn khóa sảnh, chỉ sáng ô Xuất kích ---
+	_check(Array(save.data["party"]) == ["char_fire_01"] and save.data["characters"].size() == 1, "game mới: đội chỉ có Enkiba")
+	await _frames(2)
+	_check(guide != null and guide.is_active() and guide.target.name == "Tile_sortie", "hướng dẫn: sáng ô Xuất kích")
+
+	# --- Giả lập đã có thêm Yomigari để thử đổi người trong trận; đổi thứ tự đội ---
+	PlayerProfile.new(save.data).progression.unlock("char_dark_01")
 	hub.show_tab("BattleTab")
 	var battle = hub.panel
+	battle.toggle_party("char_dark_01")
 	battle.toggle_party("char_fire_01")
 	battle.toggle_party("char_fire_01")
-	_check(Array(save.data["party"]) == ["char_lightning_01", "char_wind_01", "char_fire_01"], "chọn đội: thứ tự mới được lưu")
-	battle.toggle_party("char_lightning_01")
-	battle.toggle_party("char_wind_01")
-	battle.toggle_party("char_lightning_01")
-	battle.toggle_party("char_wind_01")
-	_check(Array(save.data["party"]) == ["char_fire_01", "char_lightning_01", "char_wind_01"], "chọn đội: về Aether / Kael / Lyra")
+	_check(Array(save.data["party"]) == ["char_dark_01", "char_fire_01"], "chọn đội: thứ tự mới được lưu")
+	battle.toggle_party("char_dark_01")
+	battle.toggle_party("char_dark_01")
+	_check(Array(save.data["party"]) == ["char_fire_01", "char_dark_01"], "chọn đội: về Enkiba / Yomigari")
 
 	# --- Chọn màn → vào Màn 1 ---
 	(hub.get_node("%Stage01Button") as Button).pressed.emit()
@@ -129,7 +136,7 @@ func _run() -> void:
 	stage.party.tick(1.1)
 	await _tap("switch_1")
 	await _frames(6)
-	_check(stage.party.active().id == "char_lightning_01", "đổi sang Kael bằng input")
+	_check(stage.party.active().id == "char_dark_01", "đổi sang Yomigari bằng input")
 	await _frames(40)
 	await _kill_all(stage)
 	_check(stage.phase == 0 and stage.waves_cleared == 1 and not stage.is_locked(), "hạ hết đợt 1: sân mở")
@@ -167,8 +174,38 @@ func _run() -> void:
 	_check(stage.last_summary.get("objectives", []).size() == 3, "chấm 3 mục tiêu chiến đấu (thưởng thêm %d vàng)" % bonus)
 	_check(int(save.data["currencies"]["gold"]) == 1200 + bonus and int(save.data["currencies"]["gems"]) == 300, "nhận 1200 vàng + 300 ngọc (thưởng lần đầu)")
 	_check(int(save.data["characters"]["char_fire_01"]["level"]) > 1, "cả đội lên cấp")
-	result._on_hub()
+	# Qua ải 1-1 lần đầu: nhận Kazeyumi (vào đội) và vé chiêu mộ x10 đầu tiên.
+	_check(save.data["characters"].has("char_wind_01") and "char_wind_01" in save.data["party"], "nhận Kazeyumi, vào đội")
+	_check(int(save.data["inventory"]["materials"].get("ticket_starter_x10", 0)) == 1, "nhận 1 vé chiêu mộ đầu tiên")
+	await _frames(2)
+	_check(guide.is_active() and guide.target.name == "HubButton", "hướng dẫn: chỉ sáng nút Về Hub")
+	_check(guide.intercept_back(), "hướng dẫn chặn Back")
+	guide.press_target()
 	_check(await _wait_for_scene(gc.SCENE_HUB, 4.0), "Về Hub từ màn kết quả")
+
+	# --- Hướng dẫn: Tiếp tế → Chiêu mộ → x10 miễn phí bằng vé (chắc chắn Raikiba) ---
+	await _frames(2)
+	_check(guide.is_active() and guide.target.name == "Tile_supply", "hướng dẫn: sáng ô Tiếp tế")
+	guide.press_target()
+	_check(await _wait_for_scene(gc.SCENE_SUPPLY, 4.0), "vào Tiếp tế")
+	await _frames(2)
+	_check(guide.is_active() and guide.target.name == "Go_gacha", "hướng dẫn: sáng nút Đi chiêu mộ")
+	guide.press_target()
+	_check(await _wait_for_scene(gc.SCENE_RECRUIT, 4.0), "vào Chiêu mộ")
+	await _frames(2)
+	_check(guide.is_active() and guide.target.name == "Wish_starter", "hướng dẫn: sáng nút chiêu mộ x10 miễn phí")
+	var gems_before := int(save.data["currencies"]["gems"])
+	guide.press_target()
+	await _frames(2)
+	_check(save.data["characters"].has("char_lightning_01"), "chiêu mộ miễn phí: nhận Raikiba")
+	_check(int(save.data["inventory"]["materials"].get("ticket_starter_x10", 0)) == 0, "đã dùng vé")
+	_check(int(save.data["currencies"]["gems"]) == gems_before, "không tốn ngọc")
+	_check(guide.is_active() and guide.target.name == "ResultClose", "hướng dẫn: sáng nút Xác nhận kết quả")
+	guide.press_target()
+	await _frames(3)
+	_check(bool(save.data["tutorial"]["done"]) and not guide.is_active(), "hướng dẫn xong, không còn khóa")
+	root.get_node("SceneRouter").replace(gc.SCENE_HUB)
+	_check(await _wait_for_scene(gc.SCENE_HUB, 4.0), "về Hub")
 
 	# --- "Thoát rồi mở lại": bỏ dữ liệu trong bộ nhớ, đọc lại từ đĩa ---
 	save.data = {}
@@ -177,6 +214,7 @@ func _run() -> void:
 	_check(bool(save.data["progress"]["stages"]["stage_01"]["cleared"]), "tiến độ Màn 1 còn nguyên")
 	_check(int(save.data["currencies"]["gold"]) == 1200 + bonus, "vàng còn nguyên")
 	_check(save.data["inventory"]["equipment"].size() == 1, "trang bị thưởng còn nguyên")
+	_check(save.data["characters"].size() == 4 and bool(save.data["tutorial"]["done"]), "nhân vật mới và hướng dẫn đã xong còn nguyên")
 	root.get_node("SceneRouter").replace(gc.SCENE_TITLE)
 	_check(await _wait_for_scene(gc.SCENE_TITLE, 4.0), "về Title")
 	_check(not (current_scene.get_node("%ContinueButton") as Button).disabled, "nút Tiếp tục bật")

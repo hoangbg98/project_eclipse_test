@@ -1443,6 +1443,17 @@ un_tests.ps1`
 - **Quyết định Claude chọn:** mục tiêu Màn 1: qua màn trong 5:00 (+300), chịu ≤ 25 đòn (+300), không ai gục (+400); thưởng vàng **mỗi lần** đạt (theo lời owner), ghi thêm "Đã đạt" khi từng đạt; đòn 0 sát thương không tính; Thông tin màn chỉ cho Cốt truyện, Thử đội hình vẫn vào thẳng; màn Đội hình mở từ thẻ Đội hình có nút Xác nhận thay cho Khai chiến; bảng Chiến đấu cũ ở sảnh giữ lại (dùng chung `toggle_party`) cho test khói và đường dự phòng; không làm thể lực, buff đội, skill đội trưởng (game chưa có).
 - **Hạn chế đã biết:** chưa có ảnh xem trước màn (hiện icon); chỉ Enkiba có splash, Kazeyumi dùng chân dung chibi, Raikiba dùng frame idle; nhân vật chưa có frame idle hiện chân dung; chưa thử chạm trên máy thật.
 
+## 2026-11-14 — Đề xuất cốt truyện tổng thể và kịch bản Chương 1
+- **Milestone / task:** Nội dung (ngoài lộ trình M) — owner yêu cầu đề xuất cốt truyện, story bible, tuyến 7 chương và kịch bản đầy đủ Chương 1 (clip chibi mở / kết chương, thoại trong trận) khớp gameplay hiện có.
+- **Trạng thái:** IMPLEMENTED (tài liệu đề xuất; chưa phải canon, chờ owner duyệt các mục ở E3)
+- **File tạo/sửa:** `docs/design/STORY_PROPOSAL.md` (mới), `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** chỉ đọc tài liệu và data (`README.md`, `CHARACTER_SKILLS.md`, `KNOWN_ISSUES.md`, `HUB_FEATURES.md`, `data/stages/stage_01.json`, `data/enemies/boss_golem_01.tres`, `data/characters/*.tres`, `localization/vi.po`, `scripts/save/save_schema.gd`). Không đổi code, không chạy test (không có thay đổi code).
+- **Kết quả thật:** kịch bản Chương 1 bám đúng Màn 1 hiện có (3 đợt slime, 3 checkpoint, hố, Golem Đá Cổ 2 pha, mục tiêu 5:00 / 25 đòn / không gục) và đội khởi đầu Enkiba, Raikiba, Kazeyumi. Không đổi kỹ năng, phản ứng, số liệu hay luật boss.
+- **Quyết định Claude chọn:** 7 chương + phần kết (đề xuất); luật "kênh Neo" giải thích một người trên sân, Liên kết và phản ứng; checkpoint gọi là "điểm neo"; clip phát lần đầu bấm Chương 1, trước Thông tin màn; thoại trong trận không dừng trận, chỉ hiện câu của người có trong đội; xưng hô trung tính vì giới tính / tuổi nhân vật chưa chốt.
+- **Phát hiện lệch tài liệu (chưa sửa):** KNOWN_ISSUES B2 / B3 lỗi thời so với nhật ký (cả sáu nhân vật đã đủ kỹ năng); KNOWN_ISSUES A2 còn ghi đề cử Aether (đã đổi sang Iwagane); AGENTS 6 còn tên Kael; lượt x10 miễn phí chắc chắn Raikiba trùng với đội khởi đầu.
+- **Hạn chế đã biết:** chưa có trình phát clip, băng thoại trong trận, cờ cốt truyện trong save, chữ mục tiêu theo màn (liệt kê ở STORY_PROPOSAL D10); chưa có art chibi đủ biểu cảm, nền và đạo cụ của clip.
+
+
 ## 2026-11-14 — Raikiba: duyệt frame `attack_1`
 - **Milestone / task:** Tạo và duyệt animation `attack_1` cho `char_lightning_01` (4 frame, 18 fps, không lặp).
 - **Trạng thái:** TESTED

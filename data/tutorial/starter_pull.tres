@@ -51,4 +51,5 @@ kind_key = ""
 title_key = ""
 end_unix = 0
 starter_free_multi = true
-metadata/source = "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Raikiba, 9 lượt còn lại là nguyên liệu tăng cấp."
+ticket_item = "ticket_starter_x10"
+metadata/source = "Owner 2026-11-13: lượt x10 miễn phí đầu tiên chắc chắn 1 Raikiba, 9 lượt còn lại là nguyên liệu tăng cấp. Owner 2026-11-14: cần vé ticket_starter_x10 (thưởng lần đầu ải 1-1)."

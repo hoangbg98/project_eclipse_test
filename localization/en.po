@@ -1517,3 +1517,57 @@ msgstr "This character already has a suit in the team."
 
 msgid "PARTY_ERR_NOT_OWNED"
 msgstr "You do not own this suit."
+
+msgid "ITEM_TICKET_STARTER_X10"
+msgstr "First Recruitment Ticket"
+
+msgid "RESULT_NEW_CHARACTER"
+msgstr "New character: %s"
+
+msgid "RECRUIT_UI_SURE"
+msgstr "Guaranteed!"
+
+msgid "RECRUIT_UI_STARTER_FREE"
+msgstr "Free"
+
+msgid "RECRUIT_UI_STARTER_TICKET"
+msgstr "Use %s (have %d)"
+
+msgid "RECRUIT_STARTER_RULE"
+msgstr "Free ×%d recruitment, once only: 1 guaranteed %s, the other %d pulls are level-up materials:"
+
+msgid "TUTORIAL_HUB_SORTIE"
+msgstr "Welcome, Manager! Tap Sortie to start the story."
+
+msgid "TUTORIAL_SORTIE_STORY"
+msgstr "Choose the main story chapter: stage 1-1 awaits."
+
+msgid "TUTORIAL_STAGE_PREPARE"
+msgstr "First clear of stage 1-1 gives Kazeyumi and a First Recruitment Ticket. Tap Prepare."
+
+msgid "TUTORIAL_PARTY_GO"
+msgstr "Enkiba is ready. Tap Deploy!"
+
+msgid "TUTORIAL_RETRY"
+msgstr "Not cleared yet. Tap Retry and try again!"
+
+msgid "TUTORIAL_RESULT_HUB"
+msgstr "Kazeyumi joined the team and you got a First Recruitment Ticket. Tap Back to Hub to use it."
+
+msgid "TUTORIAL_MENU"
+msgstr "Tap Menu to return to the lobby."
+
+msgid "TUTORIAL_HUB_SUPPLY"
+msgstr "Tap Supply to use your First Recruitment Ticket."
+
+msgid "TUTORIAL_SUPPLY_GACHA"
+msgstr "Tap Go recruit."
+
+msgid "TUTORIAL_RECRUIT_STARTER"
+msgstr "Use the ticket: a free ×10 recruitment with a guaranteed Raikiba."
+
+msgid "TUTORIAL_RECRUIT_DONE"
+msgstr "Raikiba joined: your team of 3 is complete! Tap Confirm to finish the tutorial."
+
+msgid "REASON_NO_TICKET"
+msgstr "Needs a First Recruitment Ticket (from clearing stage 1-1)"

@@ -28,7 +28,13 @@ func _ready() -> void:
 
 
 func stage_title() -> String:
-	return tr(str(stage_data["name_key"])) if stage_data.has("name_key") else stage_id
+	return title_of(stage_data, stage_id)
+
+
+## Tên màn hiển thị: "1-1 · Thung lũng tro tàn" khi data có `code` (số ải trong chương), không thì chỉ tên.
+static func title_of(data: Dictionary, fallback: String) -> String:
+	var title: String = str(TranslationServer.translate(str(data["name_key"]))) if data.has("name_key") else fallback
+	return "%s · %s" % [str(data["code"]), title] if str(data.get("code", "")) != "" else title
 
 
 func achieved_ids() -> Array:
@@ -141,6 +147,12 @@ func drops() -> Array[Dictionary]:
 				seen[id] = true
 				var d := PlayerProfile.item_defs().get_def(str(id)) as ItemDef
 				out.append({"kind": "material", "id": str(id), "rarity": d.rarity if d else 1})
+		for id in (r.get("characters", []) as Array):
+			if not seen.has(id):
+				seen[id] = true
+				var c := PlayerProfile.CHARACTER_DATA % str(id)
+				var cd := load(c) as CharacterDef if ResourceLoader.exists(c) else null
+				out.append({"kind": "character", "id": str(id), "rarity": {"S": 5, "A": 4}.get(cd.rank, 3) if cd else 3})
 		for id in (r.get("equipment", []) as Array):
 			if not seen.has(id):
 				seen[id] = true
@@ -153,7 +165,8 @@ func _drop_card(r: Rect2, d: Dictionary) -> void:
 	var rar := clampi(int(d["rarity"]), 1, 5)
 	var p := _panel(r, Color(0, 0, 0, 0), "Drop_" + str(d["id"]))
 	p.add_theme_stylebox_override("panel", _style(layout.color("rarity_%d" % rar, Color.STEEL_BLUE), Color.WHITE, 10))
-	var icon: String = {"gold": "supply", "gems": "gacha", "material": "material", "equipment": "bag"}[str(d["kind"])]
+	var icon: String = {"gold": "supply", "gems": "gacha", "material": "material", "equipment": "bag",
+			"character": "character"}[str(d["kind"])]
 	_icon(Rect2(r.position + Vector2(r.size.x * 0.18, 10), Vector2(r.size.x * 0.64, r.size.x * 0.64)), icon)
 	_label(Rect2(r.position + Vector2(6, r.size.x * 0.68), Vector2(r.size.x - 12, 40)), _drop_name(d), 20, Color.WHITE,
 			HORIZONTAL_ALIGNMENT_CENTER)
@@ -173,6 +186,9 @@ func _drop_name(d: Dictionary) -> String:
 		"equipment":
 			var e := PlayerProfile.equipment_defs().get_def(str(d["id"])) as EquipmentDef
 			return tr(e.name_key) if e else str(d["id"])
+		"character":
+			var c := PlayerProfile.CHARACTER_DATA % str(d["id"])
+			return tr((load(c) as CharacterDef).name_key) if ResourceLoader.exists(c) else str(d["id"])
 	return str(d["id"])
 
 

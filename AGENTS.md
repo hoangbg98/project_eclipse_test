@@ -41,7 +41,7 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
 - Logic gameplay tách khỏi UI; UI chỉ đọc state và nghe signal (`EventBus`).
 - **Mọi số cân bằng nằm trong data** (`.tres` trong `data/`), không viết cứng trong script.
 - Nhân vật dùng **Data ID** (`char_fire_01`…), không dùng tên hiển thị trong code/data. Mỗi Data ID là một **giáp** (owner 2026-11-13); `CharacterDef.person_id` nối các giáp cùng nhân vật, `suit_key` là tên giáp. Đội không có hai giáp cùng nhân vật. Tên hiện tại: Enkiba (fire), Kazeyumi (wind), Raikiba (lightning), Hikarine (light), Yomigari (dark), Iwagane (earth) — tên cũ Aether / Lyra / Kael / Seraphine / Noctis / Terra không dùng cho chữ hiển thị nữa.
-- Autoload hiện có: `GameConfig`, `EventBus`, `InputRouter`, `SceneRouter`, `AudioRouter`, `SaveService` (thứ tự trong `project.godot`). Không thêm luật gameplay vào autoload.
+- Autoload hiện có: `GameConfig`, `EventBus`, `InputRouter`, `SceneRouter`, `AudioRouter`, `SaveService`, `TutorialGuide` (thứ tự trong `project.godot`). Không thêm luật gameplay vào autoload. `TutorialGuide` là lớp hướng dẫn người mới (chỉ vẽ ô sáng và chặn input; luật bước ở `TutorialFlow`).
 - Công cụ thử nghiệm: gửi quà thẳng vào save bằng `DebugGift` (bảng "Quà thử nghiệm" ở tab Cài đặt của Hub, chỉ bản debug) hoặc `tools\give_gift.ps1` (game đã đóng); gói quà mẫu ở `data/debug/gift_presets.json`, hướng dẫn ở `docs/DEBUG_GIFT.md`. Không dùng cho luật gameplay.
 - Input: dùng action của `InputRouter` (`move_left/right`, `jump`, `attack`, `dodge`, `skill`, `weapon`, `ultimate`, `switch_1/2`, `pause`, `ui_back`) và `InputRouter.consume_buffered()`; không đọc phím trực tiếp.
 - Chữ hiển thị: khóa `UPPER_SNAKE` qua `tr()`, thêm vào **cả** `localization/vi.po` và `en.po`.
@@ -101,9 +101,10 @@ Sau mỗi task, thêm mục vào cuối `docs/DEVELOPMENT_LOG.md`:
 
 - **Android hoãn** (owner, 2026-11-11): build/thử trên Windows. Vẫn giữ code đa nền tảng (cảm ứng, phím Back, ETC2/ASTC). Nhắc owner làm lại Android trước M2-4, chậm nhất trước M7.
 - **Nhắc owner thử trong Godot** trước các task ở bảng "Mốc owner nên mở Godot để thử" cuối `docs/IMPLEMENTATION_ROADMAP.md` (M2-3, M3-5/M3-7, M4-4/M4-7, M6, M7).
-- Gacha: banner nhân vật, tiếp tế vũ khí / vết thánh và lượt x10 miễn phí đầu tiên (chắc chắn Kael) theo số của owner (2026-11-12/13) sinh bằng `tools/gen_banner_data.py`; không tự đặt tỉ lệ (OWNER_ASSET_CHECKLIST A2). Trang bị: 1 vũ khí (theo loại vũ khí của nhân vật) + 3 vết thánh Đầu / Thân / Chân. Cấp nhân vật ≤ **cấp người chơi** (người quản lý, không có hình; lên cấp qua nhiệm vụ, phó bản; code gọi `account` / `captain_*`).
+- Gacha: banner nhân vật, tiếp tế vũ khí / vết thánh và lượt x10 miễn phí đầu tiên (chắc chắn Raikiba, cần vé `ticket_starter_x10` nhận khi qua ải 1-1) theo số của owner (2026-11-12/13) sinh bằng `tools/gen_banner_data.py`; không tự đặt tỉ lệ (OWNER_ASSET_CHECKLIST A2). Trang bị: 1 vũ khí (theo loại vũ khí của nhân vật) + 3 vết thánh Đầu / Thân / Chân. Cấp nhân vật ≤ **cấp người chơi** (người quản lý, không có hình; lên cấp qua nhiệm vụ, phó bản; code gọi `account` / `captain_*`).
 - Script UI nằm trong scene màn chơi (ResultScreen, PauseMenu, SettingsPanel...) lấy autoload qua `UiKit.autoload("Tên")`, vì scene đó còn được nạp bằng `--script`.
 - Sửa file có tiếng Việt bằng script Python: ghi script ra file rồi chạy `python -X utf8 file.py`; **không** dán qua heredoc stdin (hỏng dấu, đã làm mất dữ liệu một lần).
+- **Người mới** (owner 2026-11-14): game mới chỉ có Enkiba; qua ải 1-1 lần đầu nhận Kazeyumi + vé x10 đầu tiên; hướng dẫn (`TutorialFlow`, `TutorialGuide`) khóa màn, chỉ sáng nút cần bấm tới khi dùng xong vé. Save cũ (v5) coi như đã xong hướng dẫn. Test đi qua sảnh với save mới phải đặt `tutorial.done = true` hoặc đi đúng các bước.
 - Q1–Q6 (công thức sát thương, chí mạng, debuff, trạng thái, phạm vi slice, revive): xem bảng trong `docs/DEVELOPMENT_LOG.md` mục M0-2.
 
 ## 7. Làm việc chung giữa nhiều agent

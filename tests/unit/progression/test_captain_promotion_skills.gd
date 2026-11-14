@@ -10,7 +10,7 @@ var _p: PlayerProfile
 
 
 func before_test() -> void:
-	_data = SaveSchema.default_data()
+	_data = TestTeam.three()
 	_p = PlayerProfile.new(_data)
 
 
