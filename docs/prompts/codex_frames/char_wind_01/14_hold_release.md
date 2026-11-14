@@ -10,7 +10,7 @@
 | Thư mục chờ duyệt | `art_review/char_wind_01/hold_release/` |
 | Số frame | **5** (tạo trong 1 lần, mỗi lần frame 000–004) |
 | fps / lặp | 12 fps, không lặp |
-| Thời lượng | 450 ms — khởi động / hiệu lực / hồi phục 100/50/300 ms (theo CHARACTER_SKILLS.md, chưa có SkillDef) |
+| Thời lượng | 450 ms — khởi động / hiệu lực / hồi phục 100/50/300 ms |
 | Frame trúng đòn | 001 |
 | Cung | **giương cung bắn**: tay trước cầm cung chĩa về mục tiêu (bên phải), tay sau kéo dây tới má rồi thả; sau khi thả không vẽ mũi tên bay |
 | Đứng đất | có: chân ở y = 336 mọi frame |

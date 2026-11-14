@@ -1,4 +1,4 @@
-# Phiếu 21 — Kazeyumi / `ultimate`
+# Phiếu 23 — Kazeyumi / `ultimate`
 
 > Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/char_wind_01.json` và `data/skills/`.
 > Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.
@@ -10,7 +10,7 @@
 | Thư mục chờ duyệt | `art_review/char_wind_01/ultimate/` |
 | Số frame | **17** (tạo trong 3 lần, mỗi lần frame 000–005, frame 006–011, frame 012–016) |
 | fps / lặp | 8 fps, không lặp |
-| Thời lượng | 2100 ms — khởi động / hiệu lực / hồi phục 700/1000/400 ms (theo CHARACTER_SKILLS.md, chưa có SkillDef) |
+| Thời lượng | 2100 ms — khởi động / hiệu lực / hồi phục 700/1000/400 ms |
 | Frame trúng đòn | 005, 006, 007, 008, 009, 010, 011, 012, 013 |
 | Cung | **giương cung bắn**: tay trước cầm cung chĩa về mục tiêu (bên phải), tay sau kéo dây tới má rồi thả; sau khi thả không vẽ mũi tên bay |
 | Đứng đất | không: frame thấp nhất chạm y = 336, frame khác giữ độ cao tương đối |
@@ -54,7 +54,7 @@
 ```text
 Việc: tạo frame animation `ultimate` cho Kazeyumi (char_wind_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
 docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/char_wind_01/00_PHAN_TICH.md rồi phiếu
-docs/prompts/codex_frames/char_wind_01/21_ultimate.md. Giữ đúng ngoại hình model gốc, cung theo mục Cung của phiếu.
+docs/prompts/codex_frames/char_wind_01/23_ultimate.md. Giữ đúng ngoại hình model gốc, cung theo mục Cung của phiếu.
 
 1. Tạo ảnh bằng skill imagegen, 3 lần gọi (6 pose, 6 pose, 5 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
    dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;

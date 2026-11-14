@@ -1,4 +1,4 @@
-# Phiếu 17 — Kazeyumi / `skill_1`
+# Phiếu 21 — Kazeyumi / `switch_in`
 
 > Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/char_wind_01.json` và `data/skills/`.
 > Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.
@@ -7,15 +7,15 @@
 
 | Mục | Giá trị |
 |---|---|
-| Thư mục chờ duyệt | `art_review/char_wind_01/skill_1/` |
-| Số frame | **8** (tạo trong 2 lần, mỗi lần frame 000–003, frame 004–007) |
-| fps / lặp | 18 fps, không lặp |
-| Thời lượng | 430 ms — khởi động / hiệu lực / hồi phục 150/60/220 ms (theo CHARACTER_SKILLS.md, chưa có SkillDef) |
-| Frame trúng đòn | 002, 003 |
+| Thư mục chờ duyệt | `art_review/char_wind_01/switch_in/` |
+| Số frame | **6** (tạo trong 1 lần, mỗi lần frame 000–005) |
+| fps / lặp | 10 fps, không lặp |
+| Thời lượng | 600 ms — khởi động / hiệu lực / hồi phục 180/200/220 ms |
+| Frame trúng đòn | 001, 002, 003 |
 | Cung | **giương cung bắn**: tay trước cầm cung chĩa về mục tiêu (bên phải), tay sau kéo dây tới má rồi thả; sau khi thả không vẽ mũi tên bay |
-| Đứng đất | có: chân ở y = 336 mọi frame |
+| Đứng đất | không: frame thấp nhất chạm y = 336, frame khác giữ độ cao tương đối |
 
-**Động tác:** Phong Vực: đứng thẳng, giương cung chếch lên trời, bắn một tên vọt lên rơi xuống như sao băng phía trước. Vòng gió và lá bay là VFX riêng.
+**Động tác:** Vào sân — Phong Dực Giáng Tiễn (mục 8.6): lao xuống từ trên cao, xoay ngược giữa trời bắn ba tên hình quạt, váy và áo choàng tung, tiếp đất bằng một chân (ánh sáng xanh và gió xoáy là VFX).
 
 ## Ảnh đính kèm cho Codex
 
@@ -24,43 +24,42 @@
 | `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png` | Ảnh đứng toàn thân của owner: khóa thiết kế, màu, tỉ lệ chibi, cung, ống tên |
 | `assets/characters/char_wind_01/rig_parts/source/refs/char_wind_01_ref_57_pose_keo_cung.png` | Pose mẫu kéo cung nhìn ngang quay phải: chuẩn góc nhìn và cách cầm cung |
 | `assets/characters/char_wind_01/rig_parts/source/refs/char_wind_01_ref_39_cung.png` | Cây cung (số 39): giữ đúng hình cung |
+| `assets/characters/char_wind_01/rig_parts/source/refs/char_wind_01_ref_58_pose_nhay_ban.png` | Pose mẫu nhảy bắn (số 58) |
 
 ## Giai đoạn từng frame
 
 | Frame | Giai đoạn |
 |---|---|
 | 000 | Khởi động (lấy đà) |
-| 001 | Khởi động (lấy đà) |
+| 001 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
 | 002 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
 | 003 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
 | 004 | Hồi phục (thu về) |
 | 005 | Hồi phục (thu về) |
-| 006 | Hồi phục (thu về) |
-| 007 | Hồi phục (thu về) |
 
 ## Prompt dán cho Codex
 
 ```text
-Việc: tạo frame animation `skill_1` cho Kazeyumi (char_wind_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
+Việc: tạo frame animation `switch_in` cho Kazeyumi (char_wind_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
 docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/char_wind_01/00_PHAN_TICH.md rồi phiếu
-docs/prompts/codex_frames/char_wind_01/17_skill_1.md. Giữ đúng ngoại hình model gốc, cung theo mục Cung của phiếu.
+docs/prompts/codex_frames/char_wind_01/21_switch_in.md. Giữ đúng ngoại hình model gốc, cung theo mục Cung của phiếu.
 
-1. Tạo ảnh bằng skill imagegen, 2 lần gọi (4 pose, 4 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
+1. Tạo ảnh bằng skill imagegen, 1 lần gọi (6 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
    dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;
    từ lần gọi thứ 2, đính kèm thêm dải vừa tạo để giữ liền mạch. Nếu không ra nền trong suốt: nền #FF00FF.
-2. Chép các dải đã chọn vào art_review/char_wind_01/skill_1/_strips/ rồi cắt:
-   python -I tools/frames/slice_strip.py char_wind_01 skill_1 <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
-   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame 0, cao 1.00× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
-3. Ghi art_review/char_wind_01/skill_1/meta.json: {"tool": "Codex imagegen", "model": "<model>",
+2. Chép các dải đã chọn vào art_review/char_wind_01/switch_in/_strips/ rồi cắt:
+   python -I tools/frames/slice_strip.py char_wind_01 switch_in <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
+   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame -1, cao 1.00× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
+3. Ghi art_review/char_wind_01/switch_in/meta.json: {"tool": "Codex imagegen", "model": "<model>",
    "prompt": "<prompt rút gọn>", "refs": [<ảnh tham chiếu đã đính kèm>], "date": "YYYY-MM-DD"}
    (giữ các khóa scale/strips mà slice_strip.py đã ghi).
-4. Kiểm tra: python -I tools/frames/check_frames.py char_wind_01 skill_1 — phải ĐẠT; lỗi thì tạo lại đúng frame lỗi.
+4. Kiểm tra: python -I tools/frames/check_frames.py char_wind_01 switch_in — phải ĐẠT; lỗi thì tạo lại đúng frame lỗi.
 5. Tự soát theo danh sách trong phiếu (mục Tự kiểm tra). Sửa frame sai lệch ngoại hình dựa trên ảnh gốc.
-6. DỪNG: gửi tôi art_review/char_wind_01/skill_1/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
-   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt skill_1".
-7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_wind_01 skill_1, chạy
+6. DỪNG: gửi tôi art_review/char_wind_01/switch_in/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
+   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt switch_in".
+7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_wind_01 switch_in, chạy
    powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1 (mã thoát 0), ghi docs/DEVELOPMENT_LOG.md,
-   commit "Art: Kazeyumi skill_1 frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
+   commit "Art: Kazeyumi switch_in frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
 ```
 
 ## Prompt ảnh (tiếng Anh, mỗi lần gọi)
@@ -71,15 +70,14 @@ Keep the exact design, proportions (chibi, big head, short limbs), colors, dark 
 The side-view drawing pose reference (facing right, bow in the front hand) is the ground truth for the side view; the full-body reference is the ground truth for design and colors.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and bow; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
-One single horizontal row of exactly {n} poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
+One single horizontal row of exactly 6 poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
 Background: fully transparent. No ground line, no shadow, no text, no numbers, no frame borders.
 No visual effects (no wind trails, glowing arrows, flying leaves, sparks, speed lines): character and bow only.
 
-Animation: Skill: stand tall, aim the bow high into the sky at a steep angle, draw and release one arrow upward, follow-through looking up and forward, recover to ready.
-This call: poses {a}–{b} of 8 (describe only this part of the motion; continue exactly from the attached previous strip).
+Animation: Entrance: dive down from above, flip backward in mid-air and shoot three arrows in a fan toward the right, skirt and cape flaring, land on one foot in a ready pose (last frame on the ground).
 Bow: the bow is held in the FRONT hand pointing toward the target on the right, the back hand draws the string to the cheek with a nocked arrow, then releases; after the release draw NO flying arrow (the game spawns the projectile); keep the exact bow design.
-Phase map (poses counted from 1): wind-up 1-2, impact 3-4 (clear extended pose, readable silhouette, brief hold), recovery 5-8.
-Impact poses (string just released, bow arm fully extended toward the target): poses 3, 4 of 8, counting from 1.
+Phase map (poses counted from 1): wind-up 1-1, impact 2-4 (clear extended pose, readable silhouette, brief hold), recovery 5-6.
+Impact poses (string just released, bow arm fully extended toward the target): poses 2, 3, 4 of 6, counting from 1.
 ```
 
 ## Tự kiểm tra trước khi gửi owner

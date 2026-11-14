@@ -502,5 +502,22 @@ func _on_state_changed(from: StringName, to: StringName) -> void:
 
 
 func _play(anim: StringName) -> void:
-	if sprite and sprite.sprite_frames and sprite.sprite_frames.has_animation(anim):
-		sprite.play(anim)
+	if not (sprite and sprite.sprite_frames):
+		return
+	var name := animation_or_fallback(sprite.sprite_frames, anim)
+	if name != &"":
+		sprite.play(name)
+
+
+## Animation biến thể chưa có hình thì dùng bản gốc: "air_2" → "air_1", "hold_release_2" → "hold_release".
+static func animation_or_fallback(frames: SpriteFrames, anim: StringName) -> StringName:
+	if frames.has_animation(anim):
+		return anim
+	var s := String(anim)
+	var cut := s.rfind("_")
+	if cut > 0 and s.substr(cut + 1).is_valid_int():
+		var base := s.substr(0, cut)
+		for alt in [base + "_1", base]:
+			if alt != s and frames.has_animation(StringName(alt)):
+				return StringName(alt)
+	return &""

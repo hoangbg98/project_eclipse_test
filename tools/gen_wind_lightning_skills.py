@@ -40,16 +40,17 @@ HOLD_W = dict(cooldown_sec=1.2, cooldown_uses_cdr=False, cooldown_group="hold", 
 write_skill("hold_1", base(W, "hold_1", "hold", "hold_release", HOLD, 100, 50, 300, charge_level_ms=900.0, **HOLD_W),
             [arrow(100, 1.80, 900, max_targets=0, rect=(90, 28))],
             "Mục 2 Xuyên Phong Tiễn Cấp 1: tên xuyên 900 px 180%, 100/50/300", WD)
-write_skill("hold_2", base(W, "hold_2", "hold", "hold_release", HOLD, 100, 50, 300, charge_level_ms=1600.0, **HOLD_W),
+write_skill("hold_2", base(W, "hold_2", "hold", "hold_release_2", HOLD, 100, 50, 300, charge_level_ms=1600.0, **HOLD_W),
             [arrow(100, 3.00, 1200, max_targets=0, rect=(120, 40), knock=120, statuses=[("slow", 3.0, 0.30)])],
             "Mục 2 Xuyên Phong Tiễn Cấp 2: xuyên mọi mục tiêu 1200 px 300%, đẩy lùi 120 px, Chậm 30% 3s, 100/50/300", WD)
 
 # --- TC trên không — Thiên Phong Loạt Tiễn: quạt 3 tên chếch xuống 30° (±12°), tầm 600, 45% x3;
-#     bật lùi 80 px, lơ lửng 200 ms; tối đa 2 lần mỗi lần nhảy (air_1, air_2 giống nhau) ---
+#     bật lùi 80 px, lơ lửng 200 ms; tối đa 2 lần mỗi lần nhảy (air_1, air_2 cùng số liệu;
+#     animation riêng "air_2", chưa có hình thì game dùng "air_1") ---
 for n in (1, 2):
     # Lần 1 nối sang lần 2 nếu bấm trong 200 ms cuối (như Enkiba), không thì lúc rơi bấm TC sẽ ra đáp đất.
     chain = dict(chain_window_ms=200.0, next_skill="air_2") if n == 1 else {}
-    write_skill("air_%d" % n, base(W, "air_%d" % n, "air", "air_1", AIR, 90, 90, 160,
+    write_skill("air_%d" % n, base(W, "air_%d" % n, "air", "air_%d" % n, AIR, 90, 90, 160,
                 move_px=-80.0, move_from_ms=90.0, move_to_ms=180.0, gravity_off_from_ms=90.0, gravity_off_to_ms=290.0,
                 **chain),
                 [arrow(90, 0.45, 600, angle=30 + d, offset=(40, -140)) for d in (-12, 0, 12)],

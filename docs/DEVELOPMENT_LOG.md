@@ -1210,3 +1210,19 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 42 vùng phía trên tách sạch. Hàng dưới (5 mặt nhỏ, 5 pose) chồng lên nhau và dính hiệu ứng sét → bỏ các khung gộp, đặt 10 khung bằng tay (5 mặt + 5 pose), thêm 2 khung bằng tay cho dây đai có khóa và băng cổ tay bị dính vào pose.
 - **Lỗi tìm thấy và sửa:** máy không có scipy nên không tách theo alpha trực tiếp được; dùng ảnh "đặc" (bỏ pixel bán trong suốt) làm đầu vào cho công cụ tách có sẵn.
 - **Hạn chế đã biết:** khung mặt nhỏ hàng dưới đè một phần lên pose 48; `tools/sprite_parts/cut_parts.py` vẫn ghi cứng `char_fire_01`, cần sửa trước khi cắt Kazeyumi / Raikiba.
+
+## 2026-11-14 — Art: phiếu prompt Codex cho Raikiba, bổ sung phiếu Kazeyumi
+
+- **Milestone / task:** art (frame nhân vật) — owner yêu cầu phiếu tạo chuyển động cho Raikiba và gửi các động tác Kazeyumi còn thiếu
+- **Trạng thái:** IMPLEMENTED (chờ owner chạy Codex từng phiếu)
+- **File tạo/sửa:**
+  - Raikiba: `tools/frames/jobs/char_lightning_01.json` (25 animation), `docs/prompts/codex_frames/char_lightning_01/` (00_PHAN_TICH, README, 25 phiếu), 13 ảnh tham chiếu `assets/characters/char_lightning_01/rig_parts/source/refs/` cắt từ tờ bộ phận theo tên owner đã điền (nền trong suốt, xóa mảnh mặt nhỏ / khóa đè lên pose), `frames_manifest.json` working_name = Raikiba.
+  - Kazeyumi: phiếu mới `hold_release_2` (Xuyên Phong Tiễn cấp 2) và `air_2` (phát thứ hai trên không); `hold_release`, `air_1`, `skill_1`, `skill_2`, `ultimate` đổi sang lấy thời gian từ SkillDef (số frame không đổi so với bản đã duyệt); `00_PHAN_TICH.md` cập nhật. Thêm 2 phiếu nên số thứ tự phiếu từ 15 trở đi dịch xuống.
+  - `tools/gen_wind_lightning_skills.py` → `data/skills/char_wind_01/air_2.tres` animation `air_2`, `hold_2.tres` animation `hold_release_2`.
+  - `scripts/player/player_controller.gd`: `animation_or_fallback()` — animation biến thể chưa có hình thì mượn bản gốc (`air_2` → `air_1`, `hold_release_2` → `hold_release`).
+  - `tools/frames/frame_jobs.py`: phiếu có `skill` vẫn cho `hits_ms` ghi đè frame trúng đòn.
+  - `tests/unit/player/test_animation_fallback.gd` (4 test).
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`, `python -I tools/frames/gen_prompts.py char_wind_01`, `... char_lightning_01`, `--import`, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 522 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** Raikiba `hold_release` là vòng chém lặp 6 frame 15 fps (game giữ tới 1,2 s, thả nút thì dừng) thay vì tính theo thời lượng kỹ năng; `skill_2` chỉ vẽ động tác ném, từ frame ném tay không; ultimate 22 frame ở 8 fps (2,7 s theo SkillDef); `landing_attack` của Kazeyumi giữ 70/80/220 ms như bản đã duyệt (SkillDef hiện 0/80/220).
+- **Hạn chế đã biết:** Raikiba chưa có animation bắt đao (`skill_2`) và nhát kết của Lôi Quang Loạn Vũ (chưa có trạng thái trong game). Ở thời điểm này 9 animation Kazeyumi (run, attack_1–3, dodge, jump_up, fall, land, hurt) còn nằm ở `art_review/` chờ owner trả lời "duyệt"; các frame / manifest / ASSET_LICENSES Codex đã sửa chưa commit, không nằm trong commit này.

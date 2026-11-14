@@ -55,8 +55,9 @@ Biểu cảm mặc định: dịu, tự tin, miệng hơi mỉm. Mặt có sẵn
 - Pivot = giữa hai bàn chân, đường chân y = 336. Animation trên không giữ độ cao tương đối giữa các frame, không kéo chân về 336.
 - Điểm dễ sai khi lật: cung ở tay trước (gần camera), áo choàng vắt **một** vai, kẹp lông vũ một bên đầu. Soát bằng `anim_flip.gif`.
 
-## Kỹ năng chưa có SkillDef
+## Thời gian kỹ năng và phiếu bổ sung
 
-Dữ liệu `data/skills/char_wind_01/` mới có `normal_1..3`, `dodge`, `switch_in`. Các phiếu `hold_release`, `air_1`,
-`landing_attack`, `skill_1`, `skill_2`, `ultimate` lấy thời gian theo `docs/design/CHARACTER_SKILLS.md` (ghi trong
-`tools/frames/jobs/char_wind_01.json` → `timing_ms`). Khi thêm SkillDef, đổi phiếu sang `skill` rồi chạy lại `gen_prompts.py`.
+- Đã có đủ SkillDef trong `data/skills/char_wind_01/`; phiếu lấy số frame / fps từ đó (riêng `landing_attack` giữ 70/80/220 ms
+  như bản đã duyệt, `skill_2` ghi `hits_ms` theo 6 phát tên).
+- Phiếu bổ sung 2026-11-14: `hold_release_2` (Xuyên Phong Tiễn cấp 2, nạp đủ 1,6 s) và `air_2` (phát thứ hai trên không).
+  Khi chưa có hình, game mượn `hold_release` / `air_1` (`PlayerController.animation_or_fallback`).

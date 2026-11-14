@@ -1,4 +1,4 @@
-# Phiếu 19 — Kazeyumi / `switch_in`
+# Phiếu 18 — Kazeyumi / `landing_attack`
 
 > Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/char_wind_01.json` và `data/skills/`.
 > Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.
@@ -7,15 +7,15 @@
 
 | Mục | Giá trị |
 |---|---|
-| Thư mục chờ duyệt | `art_review/char_wind_01/switch_in/` |
+| Thư mục chờ duyệt | `art_review/char_wind_01/landing_attack/` |
 | Số frame | **6** (tạo trong 1 lần, mỗi lần frame 000–005) |
-| fps / lặp | 10 fps, không lặp |
-| Thời lượng | 600 ms — khởi động / hiệu lực / hồi phục 180/200/220 ms |
-| Frame trúng đòn | 001, 002, 003 |
+| fps / lặp | 15 fps, không lặp |
+| Thời lượng | 370 ms — khởi động / hiệu lực / hồi phục 70/80/220 ms (theo CHARACTER_SKILLS.md, chưa có SkillDef) |
+| Frame trúng đòn | 001, 002 |
 | Cung | **giương cung bắn**: tay trước cầm cung chĩa về mục tiêu (bên phải), tay sau kéo dây tới má rồi thả; sau khi thả không vẽ mũi tên bay |
 | Đứng đất | không: frame thấp nhất chạm y = 336, frame khác giữ độ cao tương đối |
 
-**Động tác:** Vào sân — Phong Dực Giáng Tiễn (mục 8.6): lao xuống từ trên cao, xoay ngược giữa trời bắn ba tên hình quạt, váy và áo choàng tung, tiếp đất bằng một chân (ánh sáng xanh và gió xoáy là VFX).
+**Động tác:** Hạ Phong Trận: đang rơi, giương cung chĩa thẳng xuống đất bắn một mũi tên dài, áo choàng phồng lên, rơi chậm như thả dù rồi tiếp đất nhẹ. Vùng gió xoáy là VFX riêng. (Giữ 70/80/220 ms như bản đã duyệt: trong game đoạn lao xuống tính riêng, SkillDef `landing` chỉ còn 0/80/220.)
 
 ## Ảnh đính kèm cho Codex
 
@@ -24,7 +24,6 @@
 | `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png` | Ảnh đứng toàn thân của owner: khóa thiết kế, màu, tỉ lệ chibi, cung, ống tên |
 | `assets/characters/char_wind_01/rig_parts/source/refs/char_wind_01_ref_57_pose_keo_cung.png` | Pose mẫu kéo cung nhìn ngang quay phải: chuẩn góc nhìn và cách cầm cung |
 | `assets/characters/char_wind_01/rig_parts/source/refs/char_wind_01_ref_39_cung.png` | Cây cung (số 39): giữ đúng hình cung |
-| `assets/characters/char_wind_01/rig_parts/source/refs/char_wind_01_ref_58_pose_nhay_ban.png` | Pose mẫu nhảy bắn (số 58) |
 
 ## Giai đoạn từng frame
 
@@ -33,33 +32,33 @@
 | 000 | Khởi động (lấy đà) |
 | 001 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
 | 002 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
-| 003 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
+| 003 | Hồi phục (thu về) |
 | 004 | Hồi phục (thu về) |
 | 005 | Hồi phục (thu về) |
 
 ## Prompt dán cho Codex
 
 ```text
-Việc: tạo frame animation `switch_in` cho Kazeyumi (char_wind_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
+Việc: tạo frame animation `landing_attack` cho Kazeyumi (char_wind_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
 docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/char_wind_01/00_PHAN_TICH.md rồi phiếu
-docs/prompts/codex_frames/char_wind_01/19_switch_in.md. Giữ đúng ngoại hình model gốc, cung theo mục Cung của phiếu.
+docs/prompts/codex_frames/char_wind_01/18_landing_attack.md. Giữ đúng ngoại hình model gốc, cung theo mục Cung của phiếu.
 
 1. Tạo ảnh bằng skill imagegen, 1 lần gọi (6 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
    dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;
    từ lần gọi thứ 2, đính kèm thêm dải vừa tạo để giữ liền mạch. Nếu không ra nền trong suốt: nền #FF00FF.
-2. Chép các dải đã chọn vào art_review/char_wind_01/switch_in/_strips/ rồi cắt:
-   python -I tools/frames/slice_strip.py char_wind_01 switch_in <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
+2. Chép các dải đã chọn vào art_review/char_wind_01/landing_attack/_strips/ rồi cắt:
+   python -I tools/frames/slice_strip.py char_wind_01 landing_attack <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
    (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame -1, cao 1.00× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
-3. Ghi art_review/char_wind_01/switch_in/meta.json: {"tool": "Codex imagegen", "model": "<model>",
+3. Ghi art_review/char_wind_01/landing_attack/meta.json: {"tool": "Codex imagegen", "model": "<model>",
    "prompt": "<prompt rút gọn>", "refs": [<ảnh tham chiếu đã đính kèm>], "date": "YYYY-MM-DD"}
    (giữ các khóa scale/strips mà slice_strip.py đã ghi).
-4. Kiểm tra: python -I tools/frames/check_frames.py char_wind_01 switch_in — phải ĐẠT; lỗi thì tạo lại đúng frame lỗi.
+4. Kiểm tra: python -I tools/frames/check_frames.py char_wind_01 landing_attack — phải ĐẠT; lỗi thì tạo lại đúng frame lỗi.
 5. Tự soát theo danh sách trong phiếu (mục Tự kiểm tra). Sửa frame sai lệch ngoại hình dựa trên ảnh gốc.
-6. DỪNG: gửi tôi art_review/char_wind_01/switch_in/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
-   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt switch_in".
-7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_wind_01 switch_in, chạy
+6. DỪNG: gửi tôi art_review/char_wind_01/landing_attack/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
+   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt landing_attack".
+7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_wind_01 landing_attack, chạy
    powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1 (mã thoát 0), ghi docs/DEVELOPMENT_LOG.md,
-   commit "Art: Kazeyumi switch_in frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
+   commit "Art: Kazeyumi landing_attack frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
 ```
 
 ## Prompt ảnh (tiếng Anh, mỗi lần gọi)
@@ -74,10 +73,10 @@ One single horizontal row of exactly 6 poses, left to right in time order, with 
 Background: fully transparent. No ground line, no shadow, no text, no numbers, no frame borders.
 No visual effects (no wind trails, glowing arrows, flying leaves, sparks, speed lines): character and bow only.
 
-Animation: Entrance: dive down from above, flip backward in mid-air and shoot three arrows in a fan toward the right, skirt and cape flaring, land on one foot in a ready pose (last frame on the ground).
+Animation: Plunge shot: while falling, point the bow straight down and release one long arrow toward the ground, cape billowing like a parachute, descend slowly and land softly on her feet (last frame on the ground).
 Bow: the bow is held in the FRONT hand pointing toward the target on the right, the back hand draws the string to the cheek with a nocked arrow, then releases; after the release draw NO flying arrow (the game spawns the projectile); keep the exact bow design.
-Phase map (poses counted from 1): wind-up 1-1, impact 2-4 (clear extended pose, readable silhouette, brief hold), recovery 5-6.
-Impact poses (string just released, bow arm fully extended toward the target): poses 2, 3, 4 of 6, counting from 1.
+Phase map (poses counted from 1): wind-up 1-1, impact 2-3 (clear extended pose, readable silhouette, brief hold), recovery 4-6.
+Impact poses (string just released, bow arm fully extended toward the target): poses 2, 3 of 6, counting from 1.
 ```
 
 ## Tự kiểm tra trước khi gửi owner

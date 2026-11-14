@@ -1,4 +1,4 @@
-# Phiếu 18 — Kazeyumi / `skill_2`
+# Phiếu 20 — Kazeyumi / `skill_2`
 
 > Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/char_wind_01.json` và `data/skills/`.
 > Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.
@@ -10,7 +10,7 @@
 | Thư mục chờ duyệt | `art_review/char_wind_01/skill_2/` |
 | Số frame | **11** (tạo trong 2 lần, mỗi lần frame 000–005, frame 006–010) |
 | fps / lặp | 8 fps, không lặp |
-| Thời lượng | 1400 ms — khởi động / hiệu lực / hồi phục 200/900/300 ms (theo CHARACTER_SKILLS.md, chưa có SkillDef) |
+| Thời lượng | 1400 ms — khởi động / hiệu lực / hồi phục 200/900/300 ms |
 | Frame trúng đòn | 001, 002, 003, 004, 005, 006, 007, 008 |
 | Cung | **giương cung bắn**: tay trước cầm cung chĩa về mục tiêu (bên phải), tay sau kéo dây tới má rồi thả; sau khi thả không vẽ mũi tên bay |
 | Đứng đất | có: chân ở y = 336 mọi frame |
@@ -47,7 +47,7 @@
 ```text
 Việc: tạo frame animation `skill_2` cho Kazeyumi (char_wind_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
 docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/char_wind_01/00_PHAN_TICH.md rồi phiếu
-docs/prompts/codex_frames/char_wind_01/18_skill_2.md. Giữ đúng ngoại hình model gốc, cung theo mục Cung của phiếu.
+docs/prompts/codex_frames/char_wind_01/20_skill_2.md. Giữ đúng ngoại hình model gốc, cung theo mục Cung của phiếu.
 
 1. Tạo ảnh bằng skill imagegen, 2 lần gọi (6 pose, 5 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
    dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;

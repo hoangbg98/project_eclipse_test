@@ -92,7 +92,8 @@ def plan(character_id, anim, base=None):
         best = min(FPS_CHOICES, key=lambda f: (abs(total * f / 1000.0 - target), -f))
         frames = max(1, int(round(total * best / 1000.0)))
         active = set()
-        for at, dur in sk["hits"]:
+        # "hits_ms" trong phiếu ghi đè (vd đòn bắn nhiều tên bay đi: pose thả dây theo từng phát).
+        for at, dur in [tuple(h) for h in job.get("hits_ms", [])] or sk["hits"]:
             first = int(math.floor(at * best / 1000.0))
             last = int(math.ceil((at + dur) * best / 1000.0)) - 1
             for i in range(first, min(last, frames - 1) + 1):
