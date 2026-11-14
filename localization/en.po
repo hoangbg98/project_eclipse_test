@@ -1537,40 +1537,163 @@ msgid "RECRUIT_STARTER_RULE"
 msgstr "Free ×%d recruitment, once only: 1 guaranteed %s, the other %d pulls are level-up materials:"
 
 msgid "TUTORIAL_HUB_SORTIE"
-msgstr "Welcome, Manager! Tap Sortie to start the story."
+msgstr "Tap Sortie. I've marked it for you."
 
 msgid "TUTORIAL_SORTIE_STORY"
-msgstr "Choose the main story chapter: stage 1-1 awaits."
+msgstr "Tap the main story chapter to see the stage."
 
 msgid "TUTORIAL_STAGE_PREPARE"
-msgstr "First clear of stage 1-1 gives Kazeyumi and a First Recruitment Ticket. Tap Prepare."
+msgstr "Tap Prepare to set up the team."
 
 msgid "TUTORIAL_PARTY_GO"
-msgstr "Enkiba is ready. Tap Deploy!"
+msgstr "Tap Deploy. Good luck, Manager!"
 
 msgid "TUTORIAL_RETRY"
-msgstr "Not cleared yet. Tap Retry and try again!"
+msgstr "Tap Retry. We've got this."
 
 msgid "TUTORIAL_RESULT_HUB"
-msgstr "Kazeyumi joined the team and you got a First Recruitment Ticket. Tap Back to Hub to use it."
+msgstr "Back to the lobby first, I'll show you. Tap Back to Hub."
 
 msgid "TUTORIAL_MENU"
-msgstr "Tap Menu to return to the lobby."
+msgstr "Looks like we took a detour. Tap Menu to return to the lobby."
 
 msgid "TUTORIAL_HUB_SUPPLY"
-msgstr "Tap Supply to use your First Recruitment Ticket."
+msgstr "Tap Supply."
 
 msgid "TUTORIAL_SUPPLY_GACHA"
-msgstr "Tap Go recruit."
+msgstr "Recruitment is here. Tap Go recruit."
 
 msgid "TUTORIAL_RECRUIT_STARTER"
-msgstr "Use the ticket: a free ×10 recruitment with a guaranteed Raikiba."
+msgstr "Tap Recruit ×10 to use the ticket."
 
 msgid "TUTORIAL_RECRUIT_DONE"
-msgstr "Raikiba joined: your team of 3 is complete! Tap Confirm to finish the tutorial."
+msgstr "That's the end of my walkthrough. Tap Confirm, and I'm here whenever you need me."
 
 msgid "REASON_NO_TICKET"
 msgstr "Needs a First Recruitment Ticket (from clearing stage 1-1)"
 
 msgid "RECRUIT_UI_NOTE_STARTER"
 msgstr "A recruitment for new Managers using the First Recruitment Ticket, once only. See Details for rewards."
+
+msgid "TUTORIAL_AI_NAME"
+msgstr "NEO"
+
+msgid "TUTORIAL_AI_TITLE"
+msgstr "AI Assistant"
+
+msgid "TUTORIAL_PLAYER_NAME"
+msgstr "Manager"
+
+msgid "TUTORIAL_SKIP_TALK"
+msgstr "Skip dialogue ›"
+
+msgid "TUTORIAL_TAP_NEXT"
+msgstr "Tap to continue"
+
+msgid "TUTORIAL_HUB_SORTIE_1"
+msgstr "Link... stable. Hello, Manager! I'm NEO, the station's AI assistant."
+
+msgid "TUTORIAL_HUB_SORTIE_1_R"
+msgstr "Hi, NEO."
+
+msgid "TUTORIAL_HUB_SORTIE_2"
+msgstr "I'll walk you through the first steps. Don't worry, I'll keep it short."
+
+msgid "TUTORIAL_HUB_SORTIE_2_R"
+msgstr "Sounds good."
+
+msgid "TUTORIAL_HUB_SORTIE_3"
+msgstr "Enkiba is here and ready. Your first mission is waiting under Sortie."
+
+msgid "TUTORIAL_HUB_SORTIE_3_R"
+msgstr "Lead the way."
+
+msgid "TUTORIAL_SORTIE_STORY_1"
+msgstr "This is the mission board. The main story is the road ahead of us."
+
+msgid "TUTORIAL_SORTIE_STORY_1_R"
+msgstr "What's the first stage?"
+
+msgid "TUTORIAL_SORTIE_STORY_2"
+msgstr "Stage 1-1: the Ashen Valley. My sensors picked up an ancient stone golem waking up there."
+
+msgid "TUTORIAL_SORTIE_STORY_2_R"
+msgstr "That doesn't sound good."
+
+msgid "TUTORIAL_STAGE_PREPARE_1"
+msgstr "Each stage has three bonus objectives that pay extra gold. For now, just focus on clearing it."
+
+msgid "TUTORIAL_STAGE_PREPARE_1_R"
+msgstr "Got it."
+
+msgid "TUTORIAL_STAGE_PREPARE_2"
+msgstr "Good news: clear it once and Kazeyumi joins the team. Plus a First Recruitment Ticket."
+
+msgid "TUTORIAL_STAGE_PREPARE_2_R"
+msgstr "Worth a shot!"
+
+msgid "TUTORIAL_PARTY_GO_1"
+msgstr "Right now the team is just Enkiba. One fighter, but a tough one."
+
+msgid "TUTORIAL_PARTY_GO_1_R"
+msgstr "Is one enough?"
+
+msgid "TUTORIAL_PARTY_GO_2"
+msgstr "Enough, I ran the numbers. The golem always winds up before a slam, so dodge when you see it."
+
+msgid "TUTORIAL_PARTY_GO_2_R"
+msgstr "Noted."
+
+msgid "TUTORIAL_RETRY_1"
+msgstr "It's okay, everyone stumbles the first time. I've saved the data from that fight."
+
+msgid "TUTORIAL_RETRY_1_R"
+msgstr "Let's try again."
+
+msgid "TUTORIAL_RESULT_HUB_1"
+msgstr "Victory! The golem has stopped. Logging your performance, Manager: very impressive."
+
+msgid "TUTORIAL_RESULT_HUB_1_R"
+msgstr "Thanks, NEO."
+
+msgid "TUTORIAL_RESULT_HUB_2"
+msgstr "Kazeyumi has joined the team, and there's a First Recruitment Ticket in your bag."
+
+msgid "TUTORIAL_RESULT_HUB_2_R"
+msgstr "How do I use it?"
+
+msgid "TUTORIAL_HUB_SUPPLY_1"
+msgstr "Welcome back to the lobby. Recruitment tickets are used in the Supply area."
+
+msgid "TUTORIAL_HUB_SUPPLY_1_R"
+msgstr "Let's go."
+
+msgid "TUTORIAL_SUPPLY_GACHA_1"
+msgstr "This is the station's supply bay: shop, recruitment and top-up are all here."
+
+msgid "TUTORIAL_SUPPLY_GACHA_1_R"
+msgstr "Understood."
+
+msgid "TUTORIAL_RECRUIT_STARTER_1"
+msgstr "The First Recruitment banner is only for new Managers. Ten pulls, not a single gem spent."
+
+msgid "TUTORIAL_RECRUIT_STARTER_1_R"
+msgstr "What's special about it?"
+
+msgid "TUTORIAL_RECRUIT_STARTER_2"
+msgstr "Raikiba is guaranteed in those ten. Raikiba's speed will round out the team nicely."
+
+msgid "TUTORIAL_RECRUIT_STARTER_2_R"
+msgstr "Let's pull!"
+
+msgid "TUTORIAL_RECRUIT_DONE_1"
+msgstr "Raikiba has joined! The team is complete: Enkiba, Kazeyumi, Raikiba."
+
+msgid "TUTORIAL_RECRUIT_DONE_1_R"
+msgstr "Awesome!"
+
+msgid "TUTORIAL_RECRUIT_DONE_2"
+msgstr "Quick tip: in battle, when a reserve portrait glows, switch to them to trigger an elemental reaction."
+
+msgid "TUTORIAL_RECRUIT_DONE_2_R"
+msgstr "I'll remember."

@@ -1,0 +1,100 @@
+{
+	"_comment": "Hội thoại hướng dẫn người mới (owner 2026-11-14): NEO (trợ lý AI) nói, Quản lý (người chơi) đáp. Mỗi bước: các câu ở đây rồi câu chỉ dẫn TUTORIAL_<ID>. Chữ thật nằm trong localization/*.po. Sinh bằng script; sửa câu chữ trong .po.",
+	"speaker_key": "TUTORIAL_AI_NAME",
+	"speaker_title_key": "TUTORIAL_AI_TITLE",
+	"player_key": "TUTORIAL_PLAYER_NAME",
+	"steps": {
+		"hub_sortie": [
+			{
+				"text": "TUTORIAL_HUB_SORTIE_1",
+				"reply": "TUTORIAL_HUB_SORTIE_1_R"
+			},
+			{
+				"text": "TUTORIAL_HUB_SORTIE_2",
+				"reply": "TUTORIAL_HUB_SORTIE_2_R"
+			},
+			{
+				"text": "TUTORIAL_HUB_SORTIE_3",
+				"reply": "TUTORIAL_HUB_SORTIE_3_R"
+			}
+		],
+		"sortie_story": [
+			{
+				"text": "TUTORIAL_SORTIE_STORY_1",
+				"reply": "TUTORIAL_SORTIE_STORY_1_R"
+			},
+			{
+				"text": "TUTORIAL_SORTIE_STORY_2",
+				"reply": "TUTORIAL_SORTIE_STORY_2_R"
+			}
+		],
+		"stage_prepare": [
+			{
+				"text": "TUTORIAL_STAGE_PREPARE_1",
+				"reply": "TUTORIAL_STAGE_PREPARE_1_R"
+			},
+			{
+				"text": "TUTORIAL_STAGE_PREPARE_2",
+				"reply": "TUTORIAL_STAGE_PREPARE_2_R"
+			}
+		],
+		"party_go": [
+			{
+				"text": "TUTORIAL_PARTY_GO_1",
+				"reply": "TUTORIAL_PARTY_GO_1_R"
+			},
+			{
+				"text": "TUTORIAL_PARTY_GO_2",
+				"reply": "TUTORIAL_PARTY_GO_2_R"
+			}
+		],
+		"retry": [
+			{
+				"text": "TUTORIAL_RETRY_1",
+				"reply": "TUTORIAL_RETRY_1_R"
+			}
+		],
+		"result_hub": [
+			{
+				"text": "TUTORIAL_RESULT_HUB_1",
+				"reply": "TUTORIAL_RESULT_HUB_1_R"
+			},
+			{
+				"text": "TUTORIAL_RESULT_HUB_2",
+				"reply": "TUTORIAL_RESULT_HUB_2_R"
+			}
+		],
+		"hub_supply": [
+			{
+				"text": "TUTORIAL_HUB_SUPPLY_1",
+				"reply": "TUTORIAL_HUB_SUPPLY_1_R"
+			}
+		],
+		"supply_gacha": [
+			{
+				"text": "TUTORIAL_SUPPLY_GACHA_1",
+				"reply": "TUTORIAL_SUPPLY_GACHA_1_R"
+			}
+		],
+		"recruit_starter": [
+			{
+				"text": "TUTORIAL_RECRUIT_STARTER_1",
+				"reply": "TUTORIAL_RECRUIT_STARTER_1_R"
+			},
+			{
+				"text": "TUTORIAL_RECRUIT_STARTER_2",
+				"reply": "TUTORIAL_RECRUIT_STARTER_2_R"
+			}
+		],
+		"recruit_done": [
+			{
+				"text": "TUTORIAL_RECRUIT_DONE_1",
+				"reply": "TUTORIAL_RECRUIT_DONE_1_R"
+			},
+			{
+				"text": "TUTORIAL_RECRUIT_DONE_2",
+				"reply": "TUTORIAL_RECRUIT_DONE_2_R"
+			}
+		]
+	}
+}

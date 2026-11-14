@@ -9,13 +9,16 @@ extends RefCounted
 ##    Chiêu mộ → Chiêu mộ ×10 miễn phí.
 ## 3. FINISH — đã dùng lượt miễn phí: đóng bảng kết quả quay → hướng dẫn xong (`tutorial.done = true`).
 ##
-## Mỗi bước trả về tên node cần bấm (theo thứ tự ưu tiên, lấy node đầu tiên đang hiện) và khóa chữ gợi ý.
+## Mỗi bước trả về tên node cần bấm (theo thứ tự ưu tiên, lấy node đầu tiên đang hiện), khóa chữ của câu chỉ dẫn
+## cuối và `id` bước. Trước câu chỉ dẫn, trợ lý AI NEO trò chuyện với Quản lý theo data/tutorial/tutorial_dialogue.json
+## (mỗi câu có một câu đáp của Quản lý); đoạn trò chuyện của một bước chỉ phát một lần (`tutorial.seen`).
 
 const GC := preload("res://scripts/core/game_config.gd")
 
 const STORY_STAGE := "stage_01"
 const STARTER_BANNER := "starter_pull"
 const TICKET := "ticket_starter_x10"
+const DIALOGUE_PATH := "res://data/tutorial/tutorial_dialogue.json"
 
 const PHASE_DONE := "done"
 const PHASE_STORY := "story"
@@ -45,7 +48,7 @@ static func phase(data: Dictionary) -> String:
 	return PHASE_FINISH
 
 
-## Bước cho scene đang mở: {"targets": [tên node], "hint": khóa chữ} | {"finish": true} | {} (không khóa gì).
+## Bước cho scene đang mở: {"id", "targets": [tên node], "hint": khóa chữ} | {"finish": true} | {} (không khóa gì).
 static func step(data: Dictionary, scene_path: String) -> Dictionary:
 	match phase(data):
 		PHASE_STORY:
@@ -72,7 +75,9 @@ static func step(data: Dictionary, scene_path: String) -> Dictionary:
 					return _s(["Wish_starter"], "TUTORIAL_RECRUIT_STARTER")
 		PHASE_FINISH:
 			if scene_path == GC.SCENE_RECRUIT:
-				return {"targets": ["ResultClose"], "hint": "TUTORIAL_RECRUIT_DONE", "finish_if_missing": true}
+				var f := _s(["ResultClose"], "TUTORIAL_RECRUIT_DONE")
+				f["finish_if_missing"] = true
+				return f
 			if scene_path == GC.SCENE_HUB or scene_path in MENU_SCENES:
 				return {"finish": true}
 			return {}
@@ -84,7 +89,49 @@ static func step(data: Dictionary, scene_path: String) -> Dictionary:
 
 
 static func _s(targets: Array, hint: String) -> Dictionary:
-	return {"targets": targets, "hint": hint}
+	return {"id": hint.trim_prefix("TUTORIAL_").to_lower(), "targets": targets, "hint": hint}
+
+
+# ---------- Hội thoại với trợ lý AI ----------
+
+static var _dialogue: Dictionary = {}
+
+
+## Toàn bộ file hội thoại {"speaker_key", "player_key", "steps": {id: [{"text", "reply"}]}} (đọc một lần).
+static func dialogue() -> Dictionary:
+	if _dialogue.is_empty() and FileAccess.file_exists(DIALOGUE_PATH):
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DIALOGUE_PATH))
+		if parsed is Dictionary:
+			_dialogue = parsed
+	return _dialogue
+
+
+## Các câu của một bước: đoạn trò chuyện (nếu chưa xem) rồi câu chỉ dẫn cuối {"text": hint, "reply": ""}.
+## Mỗi câu: {"text": khóa chữ của NEO, "reply": khóa câu đáp của Quản lý ("" = không có, là câu chỉ dẫn)}.
+static func lines_for(data: Dictionary, step_: Dictionary) -> Array:
+	var out: Array = []
+	var id := str(step_.get("id", ""))
+	if id != "" and not has_seen(data, id):
+		var steps: Dictionary = dialogue().get("steps", {})
+		for l: Variant in steps.get(id, []):
+			if l is Dictionary and str(l.get("text", "")) != "":
+				out.append({"text": str(l["text"]), "reply": str(l.get("reply", ""))})
+	out.append({"text": str(step_.get("hint", "")), "reply": ""})
+	return out
+
+
+static func has_seen(data: Dictionary, id: String) -> bool:
+	var t: Variant = data.get("tutorial")
+	return t is Dictionary and t.get("seen") is Array and id in t["seen"]
+
+
+static func mark_seen(data: Dictionary, id: String) -> void:
+	if not (data.get("tutorial") is Dictionary):
+		data["tutorial"] = {"done": false, "seen": []}
+	if not (data["tutorial"].get("seen") is Array):
+		data["tutorial"]["seen"] = []
+	if id not in data["tutorial"]["seen"]:
+		data["tutorial"]["seen"].append(id)
 
 
 static func finish(data: Dictionary) -> void:

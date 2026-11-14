@@ -60,6 +60,14 @@ Luồng: Xuất kích → Cốt truyện chính → **Thông tin màn** → Chu�
   - Đã qua 1-1, còn vé: màn kết quả **Về Hub** → (Menu nếu đang ở màn khác) → **Tiếp tế** → **Đi chiêu mộ** →
     **Chiêu mộ ×10 (dùng vé)** → **Xác nhận** → xong (`tutorial.done`).
   - Bước suy từ save, nên thoát game giữa chừng vẫn tiếp tục đúng chỗ. Save cũ (v5) coi như đã xong hướng dẫn.
+- **Trợ lý AI NEO** (owner 2026-11-14): mỗi bước mở đầu bằng đoạn trò chuyện giữa NEO (trợ lý AI của Trạm) và
+  Quản lý (người chơi). Khung hội thoại kiểu viễn tưởng: lõi AI phát sáng vẽ bằng code (chưa có art), tên "NEO · Trợ
+  lý AI", chữ hiện dần (48 ký tự/giây), nút đáp của Quản lý; chạm bất kỳ đâu / Enter / A để hiện hết câu rồi sang câu
+  kế; "Bỏ qua thoại" nhảy tới câu chỉ dẫn. Lúc trò chuyện cả màn bị che; câu chỉ dẫn cuối mới chừa ô sáng quanh nút.
+  - Kịch bản: `data/tutorial/tutorial_dialogue.json` (id bước → danh sách khóa câu NEO + khóa câu đáp); chữ thật trong
+    `localization/*.po` (`TUTORIAL_<ID>_<n>`, `..._R`). Đổi tên trợ lý: khóa `TUTORIAL_AI_NAME`.
+  - Mỗi đoạn trò chuyện chỉ phát một lần (`tutorial.seen`); quay lại bước đó (vd thua lần hai) chỉ còn câu chỉ dẫn.
+  - NEO lấy theo đề xuất cốt truyện (`docs/design/STORY_PROPOSAL.md`, chưa phải canon): thiết bị / trợ lý của Quản lý.
 
 ## Người cộng tác (tinh linh) — kế hoạch, CHƯA làm
 

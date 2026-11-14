@@ -224,6 +224,13 @@ func test_guide_highlights_target_and_blocks_rest() -> void:
 	assert_bool(g.is_active()).is_true()
 	assert_str(g.target.name).is_equal("Tile_sortie")
 	assert_str(g.hint_key).is_equal("TUTORIAL_HUB_SORTIE")
+	# Lần đầu: NEO trò chuyện trước, cả màn bị che (kể cả nút của bước).
+	assert_bool(g.is_talking()).is_true()
+	assert_vector((g.get_node("Dim0") as ColorRect).size).is_equal(g.get_viewport().get_visible_rect().size)
+	g.skip_talk()
+	g.refresh()
+	assert_bool(g.is_talking()).is_false()
+	assert_bool(TutorialFlow.has_seen(_save.data, "hub_sortie")).is_true()
 	var hole: Rect2 = g.hole_rect()
 	assert_bool(hole.encloses(Rect2(1200, 300, 400, 200))).is_true()
 	# Bốn ô tối chặn chuột, phủ nút khác, không phủ ô sáng.
@@ -260,6 +267,7 @@ func test_guide_finishes_after_results_closed() -> void:
 	_clear_stage(_save.data)
 	_save.data["gacha"]["starter_used"].append("starter_pull")
 	_save.data["inventory"]["materials"].erase("ticket_starter_x10")
+	TutorialFlow.mark_seen(_save.data, "recruit_done")
 	var scene := _fake_scene(GC.SCENE_RECRUIT, "ResultClose")
 	var g := _guide(scene)
 	g.refresh()
@@ -277,3 +285,50 @@ func test_tutorial_texts_translated() -> void:
 			"TUTORIAL_RECRUIT_STARTER", "TUTORIAL_RECRUIT_DONE", "ITEM_TICKET_STARTER_X10", "RESULT_NEW_CHARACTER",
 			"REASON_NO_TICKET"]:
 		assert_str(tr(k)).is_not_equal(k)
+
+
+# ---------- Hội thoại với trợ lý AI ----------
+
+func test_conversation_lines_reply_and_seen_once() -> void:
+	var scene := _fake_scene(GC.SCENE_HUB, "Tile_sortie")
+	var g := _guide(scene)
+	g.refresh()
+	var n: int = g.lines.size()
+	assert_int(n).is_greater(1)
+	assert_str(g.lines[n - 1]["text"]).is_equal("TUTORIAL_HUB_SORTIE")     # câu cuối là câu chỉ dẫn
+	assert_str(g.lines[n - 1]["reply"]).is_equal("")
+	# Chữ hiện dần: lần chạm đầu hiện hết câu, nút đáp của Quản lý hiện khi đã hết chữ.
+	assert_bool(g.line_done()).is_false()
+	g.advance()
+	assert_bool(g.line_done()).is_true()
+	assert_int(g.line_index).is_equal(0)
+	g.refresh()
+	var reply := g.find_child("Reply", true, false) as Button
+	assert_bool(reply.visible).is_true()
+	assert_str(reply.text).contains(tr("TUTORIAL_PLAYER_NAME"))
+	assert_str(reply.text).contains(tr("TUTORIAL_HUB_SORTIE_1_R"))
+	assert_str((g.find_child("Speaker", true, false) as Label).text).contains(tr("TUTORIAL_AI_NAME"))
+	reply.pressed.emit()
+	assert_int(g.line_index).is_equal(1)
+	for i in n * 2:
+		g.advance()
+	assert_int(g.line_index).is_equal(n - 1)
+	assert_bool(TutorialFlow.has_seen(_save.data, "hub_sortie")).is_true()
+	# Đã nghe rồi: lần sau chỉ còn câu chỉ dẫn.
+	assert_int(TutorialFlow.lines_for(_save.data, TutorialFlow.step(_save.data, GC.SCENE_HUB)).size()).is_equal(1)
+
+
+func test_dialogue_file_covers_steps_and_is_translated() -> void:
+	var dlg := TutorialFlow.dialogue()
+	var steps: Dictionary = dlg["steps"]
+	for id in ["hub_sortie", "sortie_story", "stage_prepare", "party_go", "retry", "result_hub", "hub_supply",
+			"supply_gacha", "recruit_starter", "recruit_done"]:
+		assert_bool(steps.has(id)).override_failure_message("thiếu thoại bước " + id).is_true()
+		for l: Dictionary in steps[id]:
+			assert_str(tr(str(l["text"]))).is_not_equal(str(l["text"]))
+			assert_str(tr(str(l["reply"]))).is_not_equal(str(l["reply"]))
+	for k in [dlg["speaker_key"], dlg["speaker_title_key"], dlg["player_key"], "TUTORIAL_SKIP_TALK", "TUTORIAL_TAP_NEXT"]:
+		assert_str(tr(str(k))).is_not_equal(str(k))
+	# Mỗi id bước của TutorialFlow có câu chỉ dẫn đã dịch.
+	var d := SaveSchema.default_data()
+	assert_str(str(TutorialFlow.step(d, GC.SCENE_HUB)["id"])).is_equal("hub_sortie")

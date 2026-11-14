@@ -1537,40 +1537,163 @@ msgid "RECRUIT_STARTER_RULE"
 msgstr "Chiêu mộ ×%d miễn phí, dùng một lần: chắc chắn 1 %s, %d lượt còn lại là nguyên liệu tăng cấp:"
 
 msgid "TUTORIAL_HUB_SORTIE"
-msgstr "Chào Quản lý! Bấm Xuất kích để bắt đầu cốt truyện."
+msgstr "Chạm vào Xuất kích nhé. Tôi đánh dấu sẵn rồi."
 
 msgid "TUTORIAL_SORTIE_STORY"
-msgstr "Chọn Chương cốt truyện chính: ải 1-1 đang chờ."
+msgstr "Chạm Chương cốt truyện chính để xem chi tiết ải."
 
 msgid "TUTORIAL_STAGE_PREPARE"
-msgstr "Qua ải 1-1 lần đầu nhận Kazeyumi và Vé chiêu mộ đầu tiên. Bấm Chuẩn bị."
+msgstr "Chạm Chuẩn bị để xếp đội."
 
 msgid "TUTORIAL_PARTY_GO"
-msgstr "Enkiba đã sẵn sàng. Bấm Khai chiến!"
+msgstr "Chạm Khai chiến. Chúc Quản lý may mắn!"
 
 msgid "TUTORIAL_RETRY"
-msgstr "Chưa qua được, thử lại nhé! Bấm Chơi lại."
+msgstr "Chạm Chơi lại. Lần này mình sẽ làm được."
 
 msgid "TUTORIAL_RESULT_HUB"
-msgstr "Kazeyumi đã vào đội và bạn nhận được Vé chiêu mộ đầu tiên. Bấm Về Hub để dùng vé."
+msgstr "Về sảnh trước đã, tôi chỉ cho. Chạm Về Hub."
 
 msgid "TUTORIAL_MENU"
-msgstr "Bấm Menu để về sảnh."
+msgstr "Hình như mình đi lạc một chút. Chạm Menu để về sảnh nhé."
 
 msgid "TUTORIAL_HUB_SUPPLY"
-msgstr "Bấm Tiếp tế để dùng Vé chiêu mộ đầu tiên."
+msgstr "Chạm Tiếp tế."
 
 msgid "TUTORIAL_SUPPLY_GACHA"
-msgstr "Bấm Đi chiêu mộ."
+msgstr "Chiêu mộ ở đây. Chạm Đi chiêu mộ."
 
 msgid "TUTORIAL_RECRUIT_STARTER"
-msgstr "Dùng vé: chiêu mộ ×10 miễn phí, chắc chắn có Raikiba."
+msgstr "Chạm Chiêu mộ ×10 để dùng vé."
 
 msgid "TUTORIAL_RECRUIT_DONE"
-msgstr "Raikiba đã vào đội, đội đủ 3 người! Bấm Xác nhận để kết thúc hướng dẫn."
+msgstr "Phần hướng dẫn của tôi đến đây là xong. Chạm Xác nhận nhé, tôi vẫn ở đây khi Quản lý cần."
 
 msgid "REASON_NO_TICKET"
 msgstr "Cần Vé chiêu mộ đầu tiên (nhận khi qua ải 1-1)"
 
 msgid "RECRUIT_UI_NOTE_STARTER"
 msgstr "Lượt chiêu mộ dành cho Quản lý mới, dùng Vé chiêu mộ đầu tiên, chỉ một lần. Xem Chi tiết để biết phần thưởng."
+
+msgid "TUTORIAL_AI_NAME"
+msgstr "NEO"
+
+msgid "TUTORIAL_AI_TITLE"
+msgstr "Trợ lý AI"
+
+msgid "TUTORIAL_PLAYER_NAME"
+msgstr "Quản lý"
+
+msgid "TUTORIAL_SKIP_TALK"
+msgstr "Bỏ qua thoại ›"
+
+msgid "TUTORIAL_TAP_NEXT"
+msgstr "Chạm để tiếp tục"
+
+msgid "TUTORIAL_HUB_SORTIE_1"
+msgstr "Kết nối... ổn định. Xin chào, Quản lý! Tôi là NEO, trợ lý AI của Trạm."
+
+msgid "TUTORIAL_HUB_SORTIE_1_R"
+msgstr "Chào NEO."
+
+msgid "TUTORIAL_HUB_SORTIE_2"
+msgstr "Mấy bước đầu tôi sẽ đi cùng Quản lý. Yên tâm, tôi nói ngắn thôi."
+
+msgid "TUTORIAL_HUB_SORTIE_2_R"
+msgstr "Vậy thì tốt quá."
+
+msgid "TUTORIAL_HUB_SORTIE_3"
+msgstr "Enkiba đã có mặt và sẵn sàng. Nhiệm vụ đầu tiên đang chờ ở mục Xuất kích."
+
+msgid "TUTORIAL_HUB_SORTIE_3_R"
+msgstr "Dẫn đường đi."
+
+msgid "TUTORIAL_SORTIE_STORY_1"
+msgstr "Đây là bảng nhiệm vụ. Cốt truyện chính là con đường chúng ta sẽ đi."
+
+msgid "TUTORIAL_SORTIE_STORY_1_R"
+msgstr "Ải đầu tiên là gì?"
+
+msgid "TUTORIAL_SORTIE_STORY_2"
+msgstr "Ải 1-1: Thung lũng tro tàn. Cảm biến của tôi báo một golem đá cổ vừa thức giấc ở đó."
+
+msgid "TUTORIAL_SORTIE_STORY_2_R"
+msgstr "Nghe không ổn lắm."
+
+msgid "TUTORIAL_STAGE_PREPARE_1"
+msgstr "Mỗi ải có ba mục tiêu phụ, đạt được thì có thêm vàng. Lần đầu cứ tập trung qua ải là được."
+
+msgid "TUTORIAL_STAGE_PREPARE_1_R"
+msgstr "Hiểu rồi."
+
+msgid "TUTORIAL_STAGE_PREPARE_2"
+msgstr "Tin vui đây: qua ải lần đầu, Kazeyumi sẽ gia nhập đội. Kèm thêm một Vé chiêu mộ đầu tiên."
+
+msgid "TUTORIAL_STAGE_PREPARE_2_R"
+msgstr "Đáng để thử!"
+
+msgid "TUTORIAL_PARTY_GO_1"
+msgstr "Đội hiện chỉ có Enkiba. Một người thôi, nhưng là một người rất cứng."
+
+msgid "TUTORIAL_PARTY_GO_1_R"
+msgstr "Một mình có đủ không?"
+
+msgid "TUTORIAL_PARTY_GO_2"
+msgstr "Đủ, tôi đã tính rồi. Golem đập đất thì luôn gồng lên trước, thấy vậy là né ngay nhé."
+
+msgid "TUTORIAL_PARTY_GO_2_R"
+msgstr "Ghi nhớ."
+
+msgid "TUTORIAL_RETRY_1"
+msgstr "Không sao đâu, lần đầu ai cũng vậy. Tôi đã lưu lại dữ liệu trận vừa rồi."
+
+msgid "TUTORIAL_RETRY_1_R"
+msgstr "Thử lại thôi."
+
+msgid "TUTORIAL_RESULT_HUB_1"
+msgstr "Thắng rồi! Golem đã dừng lại. Tôi ghi nhận hiệu suất của Quản lý: rất ấn tượng."
+
+msgid "TUTORIAL_RESULT_HUB_1_R"
+msgstr "Cảm ơn NEO."
+
+msgid "TUTORIAL_RESULT_HUB_2"
+msgstr "Kazeyumi đã gia nhập đội. Trong túi đồ còn có thêm một Vé chiêu mộ đầu tiên."
+
+msgid "TUTORIAL_RESULT_HUB_2_R"
+msgstr "Vé đó dùng thế nào?"
+
+msgid "TUTORIAL_HUB_SUPPLY_1"
+msgstr "Chào mừng trở lại sảnh. Vé chiêu mộ được dùng ở khu Tiếp tế."
+
+msgid "TUTORIAL_HUB_SUPPLY_1_R"
+msgstr "Đi thôi."
+
+msgid "TUTORIAL_SUPPLY_GACHA_1"
+msgstr "Đây là kho tiếp tế của Trạm: cửa hàng, chiêu mộ, nạp đều ở đây cả."
+
+msgid "TUTORIAL_SUPPLY_GACHA_1_R"
+msgstr "Rõ."
+
+msgid "TUTORIAL_RECRUIT_STARTER_1"
+msgstr "Banner Chiêu mộ đầu tiên chỉ dành cho Quản lý mới. Mười lượt, không tốn một viên ngọc nào."
+
+msgid "TUTORIAL_RECRUIT_STARTER_1_R"
+msgstr "Có gì đặc biệt?"
+
+msgid "TUTORIAL_RECRUIT_STARTER_2"
+msgstr "Chắc chắn có Raikiba trong mười lượt đó. Tốc độ của Raikiba sẽ bổ sung rất tốt cho đội."
+
+msgid "TUTORIAL_RECRUIT_STARTER_2_R"
+msgstr "Quay thôi!"
+
+msgid "TUTORIAL_RECRUIT_DONE_1"
+msgstr "Raikiba đã gia nhập! Đội đã đủ ba người: Enkiba, Kazeyumi, Raikiba."
+
+msgid "TUTORIAL_RECRUIT_DONE_1_R"
+msgstr "Tuyệt!"
+
+msgid "TUTORIAL_RECRUIT_DONE_2"
+msgstr "Mẹo nhỏ: trong trận, khi chân dung người dự bị phát sáng, đổi sang người đó sẽ kích hoạt phản ứng nguyên tố."
+
+msgid "TUTORIAL_RECRUIT_DONE_2_R"
+msgstr "Nhớ rồi."

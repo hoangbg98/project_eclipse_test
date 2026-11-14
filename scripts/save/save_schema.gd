@@ -34,7 +34,7 @@ static func default_data() -> Dictionary:
 		"cosmetics": {"backgrounds": [], "hub_background": ""},   # nền sảnh đã có (ngoài nền starter), nền đang dùng
 		"gacha": {"pity": {}, "guarantee": {}, "history": [], "starter_used": []},   # starter_used: id banner x10 miễn phí đã dùng
 		"progress": {"stages": {}},          # stage_id -> {cleared, best_time_sec}
-		"tutorial": {"done": false},         # hướng dẫn người mới (TutorialFlow): xong thì không khóa màn nữa
+		"tutorial": {"done": false, "seen": []},   # hướng dẫn người mới (TutorialFlow); seen: id bước đã nghe NEO nói
 		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0, "fullscreen": false},
 		"stats": {"play_time_sec": 0.0},
 	}
