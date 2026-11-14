@@ -286,3 +286,60 @@ func test_every_state_builds_at_other_sizes() -> void:
 			s.pull(10)
 			s.intercept_back()
 	assert_object(_node(s, "CloseButton")).is_not_null()
+
+
+# ---------- Thẻ kết quả (owner 2026-11-15) ----------
+
+func test_result_cards_sorted_and_colored_by_rarity() -> void:
+	var s := _screen()
+	s.select(0)
+	s.last_results = [
+		{"item": "item:mat_exp_small", "rarity": 1, "tier": "MAT", "duplicate": false},
+		{"item": "char:char_dark_01", "rarity": 4, "tier": "A", "duplicate": true},
+		{"item": "equip:eq_weapon_unyielding_peak", "rarity": 5, "tier": "X5", "duplicate": false},
+		{"item": "char:char_fire_01", "rarity": 5, "tier": "S", "duplicate": false},
+		{"item": "item:mat_enhance_crystal", "rarity": 1, "tier": "MAT", "duplicate": false},
+	]
+	s.open_overlay(RecruitScreen.Overlay.RESULTS)
+	assert_array(s.result_order()).is_equal([3, 2, 1, 4, 0])          # S nhân vật, 5★ đồ, A, rồi vật phẩm theo sao
+	var gold := s.layout.color("rank_s", Color.GOLD)
+	var purple := s.layout.color("rank_a", Color.MEDIUM_PURPLE)
+	var blue := s.layout.color("rank_b", Color.DEEP_SKY_BLUE)
+	var border := func(i: int) -> Color:
+		return ((_node(s, "ResultCard_%d" % i) as Panel).get_theme_stylebox("panel") as StyleBoxFlat).border_color
+	assert_that(border.call(3)).is_equal(gold)
+	assert_that(border.call(2)).is_equal(gold)
+	assert_that(border.call(1)).is_equal(purple)
+	assert_that(border.call(0)).is_equal(blue)                         # còn lại xanh dương
+	# Enkiba có splash → ảnh thật phủ thẻ; Yomigari chưa có ảnh → hình người placeholder.
+	assert_bool((_node(s, "ResultArt_3") as PlaceholderArt).is_placeholder()).is_false()
+	assert_bool(s.result_art("char:char_fire_01")["cover"]).is_true()
+	assert_object(_node(s, "ResultNew_3")).is_not_null()               # nhân vật mới
+	assert_str(_text(s, "ResultDup_1")).is_equal(tr("RECRUIT_FRAGMENTS") % 10)   # trùng A → mảnh
+	assert_str(_text(s, "ResultStars_2")).is_equal("★★★★★")
+	assert_str(_text(s, "ResultStars_4")).is_equal("★★★")              # tinh thể cường hóa 3★
+
+
+func test_results_reveal_left_to_right_and_skip() -> void:
+	var s := _screen()
+	s.profile.inventory.add_currency("gems", 3000)
+	assert_bool(s.pull(10)).is_true()
+	assert_float(s.reveal_total()).is_between(10.0, 15.0)              # owner: 10–15 s cho ×10
+	assert_int(s.revealed_count()).is_equal(0)
+	assert_float(_node(s, "ResultSlot_0").modulate.a).is_less(0.2)
+	s._process(1.2 * 3 + 0.6)                                         # 4 thẻ đầu đã hiện rõ
+	assert_int(s.revealed_count()).is_equal(4)
+	assert_float(_node(s, "ResultSlot_3").modulate.a).is_equal_approx(1.0, 0.001)
+	assert_float(_node(s, "ResultSlot_0").position.x).is_equal_approx(0.0, 0.001)
+	assert_float(_node(s, "ResultSlot_5").modulate.a).is_equal(0.0)   # thẻ bên phải chưa hiện
+	assert_bool(_node(s, "ResultSkip").visible).is_true()
+	(_node(s, "ResultSkip") as Button).pressed.emit()
+	assert_int(s.revealed_count()).is_equal(10)
+	assert_bool(s.is_revealing()).is_false()
+	assert_bool(_node(s, "ResultSkip").visible).is_false()
+	s.refresh()                                                       # dựng lại màn: vẫn hiện hết
+	assert_float(_node(s, "ResultSlot_9").modulate.a).is_equal_approx(1.0, 0.001)
+	assert_bool(s.intercept_back()).is_true()
+	s.pull(1)                                                         # lượt mới: chạy lại từ đầu
+	assert_float(s.reveal_total()).is_equal_approx(0.6, 0.001)
+	assert_bool(s.is_revealing()).is_true()

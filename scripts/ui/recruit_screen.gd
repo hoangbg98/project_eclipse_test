@@ -12,6 +12,9 @@ const BANNERS_DIR := "res://data/banners"
 const STARTER_PATH := "res://data/tutorial/starter_pull.tres"
 const ART_DIR := "res://assets/ui/recruit"
 const HISTORY_SHOWN := 50
+## Thẻ kết quả rỗng và icon tạm (tools/gen_recruit_card_placeholders.py). Bản Release không có: thẻ vẽ màu nền.
+const RESULT_CARD := "res://assets/placeholders/placeholder_recruit_card.png"
+const RESULT_ICON := "res://assets/placeholders/placeholder_recruit_icon_%s.png"
 
 enum Overlay { NONE, DETAILS, HISTORY, RESULTS }
 
@@ -25,6 +28,10 @@ var last_reason := ""
 var banners_injected := false
 ## Test gán giờ giả (giây Unix); -1 = giờ thật.
 var now_unix := -1
+## Hiệu ứng hiện thẻ kết quả lần lượt từ trái sang (owner 2026-11-15): số giây đã chạy. ≥ reveal_total() = đã hiện hết.
+## Tính theo thời gian (không dùng Tween) để dựng lại màn giữa chừng vẫn tiếp tục đúng chỗ.
+var reveal_time := 0.0
+var _reveal_slots: Array[Control] = []
 
 
 func _layout_path() -> String:
@@ -242,9 +249,7 @@ func _rarity_color(rarity: int) -> Color:
 		return layout.color("rank_s", Color.GOLD)
 	if rarity == 4:
 		return layout.color("rank_a", Color.MEDIUM_PURPLE)
-	if rarity == 3:
-		return layout.color("rank_b", Color.DEEP_SKY_BLUE)
-	return layout.color("text_dim", Color.GRAY)
+	return layout.color("rank_b", Color.DEEP_SKY_BLUE)   # còn lại xanh dương (owner 2026-11-15)
 
 
 # ---------- Thao tác ----------
@@ -264,6 +269,7 @@ func pull(count: int) -> bool:
 		return false
 	notice = ""
 	overlay = Overlay.RESULTS
+	reveal_time = 0.0
 	commit()
 	return true
 
@@ -283,11 +289,14 @@ func pull_starter() -> bool:
 		return false
 	notice = ""
 	overlay = Overlay.RESULTS
+	reveal_time = 0.0
 	commit()
 	return true
 
 
 func open_overlay(o: Overlay) -> void:
+	if o == Overlay.RESULTS:
+		reveal_time = 0.0
 	overlay = o
 	notice = ""
 	refresh()
@@ -474,34 +483,222 @@ func _build_text_overlay(title: String, body: String, text_name: String, panel_n
 	_place(scroll, Rect2(r.position + Vector2(30, 90), Vector2(r.size.x - 60, r.size.y - 110)))
 
 
+## Thứ tự hiện kết quả (owner 2026-11-15): nhiều sao / bậc cao trước; cùng độ hiếm thì nhân vật, trang bị, vật phẩm, vàng.
+func result_order() -> Array:
+	var kinds := ["char", "equip", "item", "gold"]
+	var idx := range(last_results.size())
+	idx.sort_custom(func(a: int, b: int) -> bool:
+		var ra := result_stars(last_results[a]) * 10 + int(last_results[a]["rarity"])
+		var rb := result_stars(last_results[b]) * 10 + int(last_results[b]["rarity"])
+		if ra != rb:
+			return ra > rb
+		var ka := kinds.find(str(last_results[a]["item"]).get_slice(":", 0))
+		var kb := kinds.find(str(last_results[b]["item"]).get_slice(":", 0))
+		return ka < kb if ka != kb else a < b)
+	return idx
+
+
+## Ảnh trong thẻ kết quả: nhân vật → splash (có thì dùng), không thì chibi, không thì placeholder nhân vật;
+## trang bị → ảnh món (EquipmentDef.art), không thì icon tạm theo ô; vật phẩm / vàng → icon tạm.
+## Trả về {texture, cover}: cover = true thì ảnh phủ kín thẻ (cắt phần trên cho thấy mặt).
+func result_art(item: String) -> Dictionary:
+	var id := item.get_slice(":", 1)
+	match item.get_slice(":", 0):
+		"char":
+			var sp := CharacterArt.SPLASH_PATH % [id, id]
+			if ResourceLoader.exists(sp):
+				return {"texture": load(sp), "cover": true}
+			return {"texture": CharacterArt.figure(id), "cover": false}   # null → PlaceholderArt vẽ hình người + tên
+		"equip":
+			var d := PlayerProfile.equipment_defs().get_def(id) as EquipmentDef
+			if d and d.art != "" and ResourceLoader.exists(d.art):
+				return {"texture": load(d.art), "cover": false}
+			return {"texture": _tex(RESULT_ICON % ("weapon" if d and d.slot == "weapon" else "stigma")), "cover": false}
+		"gold":
+			return {"texture": _tex(RESULT_ICON % "gold"), "cover": false}
+	return {"texture": _tex(RESULT_ICON % "material"), "cover": false}
+
+
+## Số sao của thẻ: trang bị / nhân vật theo bậc (S = 5, A = 4, B = 3); vật phẩm theo ItemDef.
+func result_stars(r: Dictionary) -> int:
+	var item := str(r["item"])
+	if item.begins_with("item:"):
+		var it := PlayerProfile.item_defs().get_def(item.get_slice(":", 1)) as ItemDef
+		if it:
+			return it.rarity
+	return clampi(int(r["rarity"]), 1, 5)
+
+
+static func _tex(path: String) -> Texture2D:
+	return load(path) as Texture2D if ResourceLoader.exists(path) else null
+
+
+## Kết quả quay (owner 2026-11-15, theo ảnh gợi ý): một hàng thẻ dọc, viền phát sáng theo độ hiếm (S / 5★ vàng,
+## A / 4★ tím, còn lại xanh dương). Thẻ là placeholder rỗng; nhân vật dùng splash, vật phẩm dùng ảnh / icon tạm.
+# ---------- Hiệu ứng hiện thẻ ----------
+
+## Giây giữa hai thẻ, thời gian hiện một thẻ, quãng trượt (px). Mặc định ×10 ≈ 9 × 1.2 + 0.6 ≈ 11.4 s.
+func _reveal_interval() -> float:
+	return layout.num("overlay.result_reveal_interval", 1.2)
+
+
+func _reveal_fade() -> float:
+	return layout.num("overlay.result_reveal_fade", 0.6)
+
+
+## Tổng thời gian hiện hết các thẻ.
+func reveal_total() -> float:
+	return maxf(last_results.size() - 1, 0) * _reveal_interval() + _reveal_fade()
+
+
+func is_revealing() -> bool:
+	return overlay == Overlay.RESULTS and reveal_time < reveal_total()
+
+
+## Hiện ngay tất cả thẻ (nút Bỏ qua, chạm màn hình).
+func skip_reveal() -> void:
+	reveal_time = reveal_total()
+	_apply_reveal()
+
+
+## Số thẻ đã hiện (đủ rõ) lúc này.
+func revealed_count() -> int:
+	var n := 0
+	for k in _reveal_slots.size():
+		if reveal_time >= k * _reveal_interval() + _reveal_fade():
+			n += 1
+	return n
+
+
+func _process(delta: float) -> void:
+	if is_revealing():
+		reveal_time += delta
+		_apply_reveal()
+
+
+func _apply_reveal() -> void:
+	var slide := layout.num("overlay.result_reveal_slide", 90) if layout else 90.0
+	for k in _reveal_slots.size():
+		var slot := _reveal_slots[k]
+		if not is_instance_valid(slot):
+			continue
+		var p := clampf((reveal_time - k * _reveal_interval()) / maxf(_reveal_fade(), 0.01), 0.0, 1.0)
+		var e := 1.0 - pow(1.0 - p, 3.0)
+		slot.modulate.a = e
+		slot.position.x = -(1.0 - e) * slide
+	var skip := _root.find_child("ResultSkip", true, false) as Control if _root else null
+	if skip:
+		skip.visible = is_revealing()
+
+
 func _build_results(b: BannerDef) -> void:
 	_dim_background()
-	var r := _overlay_rect()
-	var bg := layout.color("panel_light", Color(0.16, 0.18, 0.24))
-	bg.a = 1.0
-	_panel(r, bg, "Results")
-	_label(Rect2(r.position + Vector2(30, 14), Vector2(r.size.x - 60, 60)), tr("RECRUIT_UI_RESULT_TITLE"), 38, Color.WHITE)
-	var card_v: Variant = layout.get_value("overlay.result_card", [224, 168])
+	var bg := _panel(Rect2(Vector2.ZERO, layout.view_size), Color(0.03, 0.04, 0.08, 0.94), "ResultBackdrop")
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(func(ev: InputEvent) -> void:
+		if (ev is InputEventMouseButton or ev is InputEventScreenTouch) and ev.is_pressed() and is_revealing():
+			skip_reveal())
+	_reveal_slots.clear()
+	var view := layout.view_size
+	_label(Rect2(60, 40, 900, 60), tr("RECRUIT_UI_RESULT_TITLE"), 40, Color.WHITE).name = "ResultTitle"
+	var card_v: Variant = layout.get_value("overlay.result_card", [168, 620])
 	var card := Vector2(float(card_v[0]), float(card_v[1]))
-	var cols := maxi(int(layout.num("overlay.result_columns", 5)), 1)
-	var gap := layout.num("overlay.result_gap", 18)
-	var n := last_results.size()
-	var used_cols := mini(n, cols)
-	var rows := ceili(float(n) / cols)
-	var origin := Vector2(r.position.x + (r.size.x - (used_cols * card.x + (used_cols - 1) * gap)) * 0.5,
-			r.position.y + 110 + maxf(0.0, (r.size.y - 260 - rows * (card.y + gap)) * 0.5))
-	for i in n:
+	var gap := layout.num("overlay.result_gap", 14)
+	var order := result_order()
+	var n := order.size()
+	var total_w := n * card.x + maxi(n - 1, 0) * gap
+	var origin := Vector2((view.x - total_w) * 0.5, (view.y - card.y) * 0.5 - 10)
+	var frame := _tex(RESULT_CARD)
+	for slot in n:
+		var first_child := _root.get_child_count()
+		var i: int = order[slot]
 		var res: Dictionary = last_results[i]
-		var c := Rect2(origin + Vector2((i % cols) * (card.x + gap), floori(float(i) / cols) * (card.y + gap)), card)
+		var c := Rect2(origin + Vector2(slot * (card.x + gap), 0), card)
 		var col := _rarity_color(int(res["rarity"]))
-		var p := _panel(c, Color(0.08, 0.09, 0.14, 0.95), "ResultCard_%d" % i)
-		p.add_theme_stylebox_override("panel", _style(Color(0.08, 0.09, 0.14, 0.95), col, 8))
-		_label(Rect2(c.position + Vector2(8, 8), Vector2(c.size.x - 16, 36)), tier_label(b, str(res.get("tier", "")), int(res["rarity"])),
-				24, col, HORIZONTAL_ALIGNMENT_CENTER)
-		_label(Rect2(c.position + Vector2(8, 48), Vector2(c.size.x - 16, 80)), reward_name(str(res["item"])), 26, Color.WHITE,
-				HORIZONTAL_ALIGNMENT_CENTER)
-		if res["duplicate"]:
-			_label(Rect2(c.position + Vector2(8, c.size.y - 40), Vector2(c.size.x - 16, 32)), tr("RECRUIT_DUPLICATE"), 22,
-					layout.color("text_dim", Color.GRAY), HORIZONTAL_ALIGNMENT_CENTER)
-	_button(Rect2(r.position + Vector2(r.size.x * 0.5 - 150, r.size.y - 100), Vector2(300, 70)), tr("RECRUIT_UI_CONFIRM"), 32,
-			intercept_back, false, "ResultClose")
+		# Viền + quầng sáng theo độ hiếm.
+		var glow := StyleBoxFlat.new()
+		glow.bg_color = Color(0.1, 0.12, 0.18, 1.0)
+		glow.set_corner_radius_all(14)
+		glow.border_color = col
+		glow.set_border_width_all(3)
+		glow.shadow_color = Color(col, 0.75)
+		glow.shadow_size = 20
+		var p := _panel(c, Color.BLACK, "ResultCard_%d" % i)
+		p.add_theme_stylebox_override("panel", glow)
+		if frame:
+			var fr := TextureRect.new()
+			fr.texture = frame
+			fr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			fr.stretch_mode = TextureRect.STRETCH_SCALE
+			fr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			_place(fr, c.grow(-3))
+		# Ánh màu độ hiếm phía trên thẻ.
+		var grad := Gradient.new()
+		grad.set_color(0, Color(col, 0.32))
+		grad.set_color(1, Color(col, 0.0))
+		var gt := GradientTexture2D.new()
+		gt.gradient = grad
+		gt.fill_from = Vector2(0.5, 0.0)
+		gt.fill_to = Vector2(0.5, 1.0)
+		var tint := TextureRect.new()
+		tint.texture = gt
+		tint.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tint.stretch_mode = TextureRect.STRETCH_SCALE
+		tint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_place(tint, Rect2(c.position + Vector2(3, 3), Vector2(c.size.x - 6, c.size.y * 0.45)))
+		var art := result_art(str(res["item"]))
+		var tex := art["texture"] as Texture2D
+		if bool(art["cover"]) and tex:
+			var a := _art(c.grow(-3), tex, "", _top_crop(tex, card.x / card.y), "ResultArt_%d" % i)
+			a.fill_color = Color(0, 0, 0, 0)
+			a.border_color = Color(0, 0, 0, 0)
+		else:
+			var box := Rect2(c.position + Vector2(10, card.y * 0.2), Vector2(card.x - 20, card.x - 20))
+			var a := _art(box, tex, reward_name(str(res["item"])), Rect2(0, 0, 1, 1), "ResultArt_%d" % i)
+			a.fill_color = Color(0, 0, 0, 0)
+			a.border_color = Color(0, 0, 0, 0)
+		var name_y := card.y - 150.0
+		_label(Rect2(c.position + Vector2(6, name_y), Vector2(card.x - 12, 80)), reward_name(str(res["item"])), 22,
+				Color.WHITE, HORIZONTAL_ALIGNMENT_CENTER).name = "ResultName_%d" % i
+		var stars := _label(Rect2(c.position + Vector2(4, card.y - 64), Vector2(card.x - 8, 40)),
+				"★".repeat(result_stars(res)), 26, layout.color("rank_s", Color.GOLD), HORIZONTAL_ALIGNMENT_CENTER)
+		stars.name = "ResultStars_%d" % i
+		if str(res["item"]).begins_with("char:"):
+			if res["duplicate"]:
+				var t := b.tier(str(res.get("tier", ""))) if b else null
+				var frag := t.duplicate_fragments if t else 0
+				var txt := tr("RECRUIT_FRAGMENTS") % frag if frag > 0 else tr("RECRUIT_DUPLICATE")
+				_label(Rect2(c.position + Vector2(6, name_y - 50), Vector2(card.x - 12, 44)), txt, 20,
+						layout.color("text_dim", Color.GRAY), HORIZONTAL_ALIGNMENT_CENTER).name = "ResultDup_%d" % i
+			else:
+				var badge := _panel(Rect2(c.position + Vector2(card.x - 70, 10), Vector2(60, 32)), col, "ResultNew_%d" % i)
+				badge.add_theme_stylebox_override("panel", _style(col, Color(0, 0, 0, 0), 8))
+				_label(badge.get_rect(), tr("RECRUIT_NEW"), 20, Color.BLACK, HORIZONTAL_ALIGNMENT_CENTER)
+		# Gom các node của thẻ vào một lớp để hiệu ứng mờ + trượt chung.
+		var holder := Control.new()
+		holder.name = "ResultSlot_%d" % slot
+		holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_place(holder, Rect2(Vector2.ZERO, view))
+		var parts: Array[Node] = []
+		for k in range(first_child, _root.get_child_count()):
+			if _root.get_child(k) != holder:
+				parts.append(_root.get_child(k))
+		for part in parts:
+			part.reparent(holder, true)
+		_reveal_slots.append(holder)
+	# Xác nhận luôn đóng ngay (cả khi đang hiện, để hướng dẫn người mới bấm một lần là xong); Bỏ qua hiện hết thẻ.
+	_button(Rect2(view.x - 340, view.y - 120, 280, 70), tr("RECRUIT_UI_CONFIRM"), 32, intercept_back, false, "ResultClose")
+	_button(Rect2(view.x - 640, view.y - 120, 280, 70), tr("RECRUIT_UI_SKIP"), 32, skip_reveal, false, "ResultSkip")
+	_apply_reveal()
+
+
+## Khung cắt phần trên của ảnh để vừa tỉ lệ rộng / cao `aspect` (ảnh toàn thân → thấy mặt và thân trên).
+static func _top_crop(tex: Texture2D, aspect: float) -> Rect2:
+	var w := float(tex.get_width())
+	var h := float(tex.get_height())
+	if w <= 0.0 or h <= 0.0 or aspect <= 0.0:
+		return Rect2(0, 0, 1, 1)
+	if w / h > aspect:
+		var fw := (h * aspect) / w
+		return Rect2((1.0 - fw) * 0.5, 0, fw, 1)
+	return Rect2(0, 0, 1, (w / aspect) / h)

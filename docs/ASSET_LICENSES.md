@@ -121,6 +121,8 @@ Sinh bằng `tools/gen_recruit_placeholders.py` (Pillow, hình người xám + n
 | `assets/ui/recruit/placeholder_banner_char_terra_thumb.png` (390×226) | Ảnh nhỏ trong danh sách | 2026-11-13 |
 | `assets/ui/recruit/placeholder_banner_equip_terra_banner.png` (1301×839) | Ảnh banner lớn của banner tiếp tế | 2026-11-13 |
 | `assets/ui/recruit/placeholder_banner_equip_terra_thumb.png` (390×226) | Ảnh nhỏ trong danh sách | 2026-11-13 |
+| `assets/placeholders/placeholder_recruit_card.png` (336×1240) | Thẻ kết quả rỗng (khung, hoa văn chấm thoi). Sinh bằng `tools/gen_recruit_card_placeholders.py` (Pillow, thiết kế riêng) | 2026-11-15 |
+| `assets/placeholders/placeholder_recruit_icon_{weapon,stigma,material,gold}.png` (512×512) | Icon tạm vũ khí / vết thánh / nguyên liệu / vàng trên thẻ kết quả. Cùng công cụ | 2026-11-15 |
 
 ### 3.2 Ảnh tạm truyện tranh Chương 1 (owner 2026-11-14)
 

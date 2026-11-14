@@ -65,6 +65,7 @@
 	},
 	"overlay": {
 		"rect": [300, 110, 1320, 860], "anchor": "center", "font": 26,
-		"result_card": [224, 168], "result_columns": 5, "result_gap": 18
+		"result_card": [168, 620], "result_gap": 14,
+		"result_reveal_interval": 1.2, "result_reveal_fade": 0.6, "result_reveal_slide": 90
 	}
 }
