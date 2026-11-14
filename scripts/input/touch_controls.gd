@@ -28,8 +28,9 @@ func _ready() -> void:
 
 	var touch := force_visible or DisplayServer.is_touchscreen_available()
 	joystick = VirtualJoystick.new()
-	joystick.custom_minimum_size = Vector2(360, 360)
-	_place(joystick, Vector2(360, 360), Vector2(0.0, 1.0), Vector2(MARGIN, -MARGIN - 360))
+	var js := HudTheme.JOYSTICK_SIZE
+	joystick.custom_minimum_size = Vector2(js, js)
+	_place(joystick, Vector2(js, js), Vector2(0.0, 1.0), Vector2(MARGIN, -MARGIN - js))
 	joystick.visible = touch
 	root.add_child(joystick)
 

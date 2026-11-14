@@ -66,6 +66,8 @@ const COLOR_COOLDOWN_EDGE := Color(1, 1, 1, 0.55)
 # --- Joystick (góc dưới-trái, chỉ máy cảm ứng): ảnh owner 2026-11-14, tách nền + cắt bằng tools/ui/split_joystick.py ---
 const JOYSTICK_BASE := "res://assets/ui/hud/joystick/joystick_base.png"
 const JOYSTICK_KNOB := "res://assets/ui/hud/joystick/joystick_knob.png"
+## Cạnh vùng joystick (px ở nền 1920×1080). 360 → 240 (owner 2026-11-14: to quá, che nhân vật).
+const JOYSTICK_SIZE := 240.0
 ## Bán kính phím / bán kính đế (ảnh phím 314 px trên ảnh đế 816 px).
 const JOYSTICK_KNOB_RATIO := 314.0 / 816.0
 ## Phím lệch tối đa bấy nhiêu phần bán kính đế (vẫn nằm trong vành kính).

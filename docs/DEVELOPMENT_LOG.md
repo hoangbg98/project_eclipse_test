@@ -1363,3 +1363,13 @@ un_tests.ps1`
 - **Kỹ thuật / phát hiện:** nền caro của ảnh là ô 11.30 px, có chỗ lệch nhịp (ảnh AI) → phân loại sáng/tối từng ô. Đĩa kính ở giữa là kính MÀU (mỗi kênh R/G/B cho nền lọt qua một mức khác nhau, R ~37%, G ~17%, B ~13%) nên không tách được bằng một độ đục chuẩn; dùng biên độ ô caro đo theo ô + sửa ô lệch + lọc giữ cạnh. Quầng ngoài dùng hồi quy bậc hai từng pixel. Các mảng xanh đậm trong đĩa là bóng đổ ĐỤC có sẵn trong ảnh gốc (không có ô caro ở đó), giữ nguyên. Hình mờ xám hai bên và dấu lấp lánh ở góc dưới-phải nằm ngoài vòng nên đã bỏ.
 - **Quyết định Claude chọn:** phím trung tâm = toàn bộ phần bên trong các cung trắng (gồm vòng trắng nhỏ ở tâm và các vòng xanh nhạt), cắt ở khe kính tối r = 152 px; phím lệch tối đa 0.42 bán kính đế; đế lấp giữa bằng màu kính trung vị.
 - **Hạn chế đã biết:** kính trong đĩa có vài mảng loang nhẹ khi đặt trên nền rất sáng (trên nền tối của màn chơi không thấy); mép quầng ở vài chỗ còn bậc rất mờ ở cỡ ảnh gốc (thu nhỏ còn ~44% trong game). Owner chưa nói ảnh tạo bằng công cụ gì (nếu là AI cần ghi mục 2.1).
+
+## 2026-11-14 — Joystick thu nhỏ 360 → 240 px
+
+- **Milestone / task:** UI cảm ứng — owner: phím joystick to quá, che nhân vật
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/hud_theme.gd` (`JOYSTICK_SIZE` = 240), `scripts/input/touch_controls.gd` (dùng hằng này thay cho 360 viết cứng)
+- **Đã chạy:** chụp màn thử nghiệm có cảm ứng (Godot có cửa sổ 1920×1080), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 533 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh chụp: joystick chiếm góc dưới-trái, phím ~92 px, không còn che thân nhân vật ở vị trí xuất phát.
+- **Quyết định Claude chọn:** 240 px (2/3 cỡ cũ), lề 64 px giữ nguyên; tỉ lệ phím / đế và quãng lệch giữ nguyên.
+- **Hạn chế đã biết:** chưa thử ngón tay trên máy thật; nếu vùng chạm nhỏ quá có thể tăng lại trong HudTheme.
