@@ -42,8 +42,8 @@ Biểu cảm mặc định: nghiêm, lạnh. Mặt có sẵn (`rig_parts/source/
 ## Luôn cầm hai đao
 
 - Raikiba **cầm mỗi tay một đao ở mọi frame** (idle, chạy, nhảy, bị đánh, ngã), cầm xuôi, lưỡi hướng ra trước. Không cất đao, không đổi tay.
-- Ngoại lệ duy nhất: `skill_2` (Song Lôi Phi Nhận) — từ frame ném trở đi **tay không**; đao bay vòng cung và quay về là vật thể
-  của game (bắt đao do game xử lý, chưa có animation riêng).
+- Ngoại lệ: `skill_2` (Song Lôi Phi Nhận) — từ frame ném trở đi **tay không**; đao bay vòng cung và quay về là vật thể của game.
+  `weapon_catch`: frame 000 tay không, từ frame 001 đao đã về tay. Game phát nó khi đao về (~940 ms) nếu nhân vật đang đứng yên.
 - Ảnh tham chiếu có ánh sét vàng quanh đao và người: **không vẽ ánh sét / tia điện / bóng mờ** vào frame; game thêm VFX riêng.
 
 ## Góc nhìn và pivot
@@ -57,6 +57,7 @@ Biểu cảm mặc định: nghiêm, lạnh. Mặt có sẵn (`rig_parts/source/
 
 - Số frame / fps / frame trúng đòn tính từ `data/skills/char_lightning_01/` (đã có đủ SkillDef).
 - `hold_release` (Lôi Quang Loạn Vũ) là **vòng chém lặp** 6 frame: game giữ tối đa 1,2 s và dừng khi thả nút, nên không tính
-  theo thời lượng kỹ năng. Đoạn lao tới mục tiêu là chuyển động của game; nhát chém kết thúc chưa có trạng thái riêng.
+  theo thời lượng kỹ năng. Đoạn lao tới mục tiêu là chuyển động của game. Nhả nút hoặc hết 8 nhịp → `hold_end`
+  (SkillDef `hold_finish`, 0/90/220 ms): nhát chém chéo xuống kết thúc, không thêm sát thương.
 - `skill_2` ghi `hits_ms` = khoảnh khắc ném (đao bay là vật thể, không quyết định pose).
 - `ultimate` dài 2,7 s (800 / 1 500 / 400 ms) → 22 frame ở 8 fps, tạo trong 4 lần gọi; dịch chuyển, cột sét, cut-in là VFX.

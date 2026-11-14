@@ -15,7 +15,7 @@
 | Song đao | **mỗi tay một đao**, cầm xuôi, lưỡi hướng ra trước; không cất đao, không đổi tay |
 | Đứng đất | có: chân ở y = 336 mọi frame |
 
-**Động tác:** Lôi Quang Loạn Vũ (lặp): đứng tại chỗ xoay người liên tục, hai đao thay nhau chém chéo lên – chéo xuống quanh người như cối xay. Game giữ vòng này tối đa 1,2 s (8 nhịp chém), thả nút thì dừng; đoạn lao tới và chùm tia chéo vàng là chuyển động / VFX của game. Lặp liền.
+**Động tác:** Lôi Quang Loạn Vũ (lặp): đứng tại chỗ xoay người liên tục, hai đao thay nhau chém chéo lên – chéo xuống quanh người như cối xay. Game giữ vòng này tối đa 1,2 s (8 nhịp chém), nhả nút hoặc hết nhịp thì chuyển sang `hold_end` (nhát kết); đoạn lao tới và chùm tia chéo vàng là chuyển động / VFX của game. Lặp liền.
 
 ## Ảnh đính kèm cho Codex
 

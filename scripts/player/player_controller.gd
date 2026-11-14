@@ -57,6 +57,12 @@ var skill_levels: Dictionary = {}
 var team_combatants: Array[Combatant] = []
 ## Còn bấy nhiêu giây không dùng được đòn thường (SkillDef.blocks_normal_ms, vd Raikiba ném đao).
 var normal_lock_sec := 0.0
+## Phát animation bắt vũ khí (SkillDef.catch_animation) sau bấy nhiêu giây; < 0 = không chờ.
+var catch_left_sec := -1.0
+
+var _catch_anim := &""
+## Animation chen ngang state hiện tại (bắt đao); hết thì quay lại animation của state.
+var _overlay_anim := &""
 
 var _perfect_dodge_icd := 0.0
 var _knock_v := 0.0
@@ -78,6 +84,7 @@ func _ready() -> void:
 	if config == null:
 		config = DEFAULT_CONFIG
 	_setup_sprite()
+	sprite.animation_finished.connect(_on_sprite_animation_finished)
 	combatant.setup()
 	runner.setup(self, combatant, character.load_skills() if character else {}, hurtbox)
 	runner.skill_started.connect(_on_skill_started)
@@ -131,6 +138,7 @@ func step(delta: float) -> void:
 		kit.tick(delta)
 	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
 	normal_lock_sec = maxf(normal_lock_sec - delta, 0.0)
+	_tick_catch(delta)
 	fsm.physics_update(delta)
 	runner.advance(delta * attack_speed_factor())
 	_apply_horizontal(delta)
@@ -412,6 +420,8 @@ func leave_field() -> void:
 	charging = false
 	plunging = false
 	normal_lock_sec = 0.0
+	catch_left_sec = -1.0
+	_overlay_anim = &""
 	velocity_override_active = false
 	velocity = Vector2.ZERO
 	_knock_t = 0.0
@@ -481,6 +491,9 @@ func _on_skill_started(_key: String, s: SkillDef) -> void:
 	_play(StringName(s.animation))
 	if s.blocks_normal_ms > 0.0:
 		normal_lock_sec = s.blocks_normal_ms / 1000.0
+	if s.catch_animation != "":
+		_catch_anim = StringName(s.catch_animation)
+		catch_left_sec = s.catch_at_ms / 1000.0
 	if s.key == "air":
 		air_attacks_used += 1
 	if s.key == "ultimate":
@@ -489,7 +502,26 @@ func _on_skill_started(_key: String, s: SkillDef) -> void:
 			bus.ultimate_started.emit(self, s)
 
 
+## Vũ khí bay về (Raikiba bắt đao): đang đứng yên thì phát animation bắt, không khóa điều khiển.
+func _tick_catch(delta: float) -> void:
+	if catch_left_sec < 0.0:
+		return
+	catch_left_sec -= delta
+	if catch_left_sec > 0.0:
+		return
+	catch_left_sec = -1.0
+	if fsm.current_name == MovementStates.IDLE and not runner.is_running():
+		_overlay_anim = _play(_catch_anim)
+
+
+func _on_sprite_animation_finished() -> void:
+	if _overlay_anim != &"" and sprite.animation == _overlay_anim:
+		_overlay_anim = &""
+		_play(fsm.current_name)
+
+
 func _on_state_changed(from: StringName, to: StringName) -> void:
+	_overlay_anim = &""
 	if to == CombatStates.CHARGE:
 		_play(&"hold_charge")
 	elif to == CombatStates.PLUNGE:
@@ -501,12 +533,14 @@ func _on_state_changed(from: StringName, to: StringName) -> void:
 	state_changed.emit(from, to)
 
 
-func _play(anim: StringName) -> void:
+## Phát animation (hoặc bản gốc nếu biến thể chưa có hình); trả về tên đã phát, rỗng nếu không có.
+func _play(anim: StringName) -> StringName:
 	if not (sprite and sprite.sprite_frames):
-		return
+		return &""
 	var name := animation_or_fallback(sprite.sprite_frames, anim)
 	if name != &"":
 		sprite.play(name)
+	return name
 
 
 ## Animation biến thể chưa có hình thì dùng bản gốc: "air_2" → "air_1", "hold_release_2" → "hold_release".

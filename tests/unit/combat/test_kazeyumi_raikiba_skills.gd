@@ -93,7 +93,7 @@ func test_kazeyumi_data_matches_spec() -> void:
 
 func test_raikiba_data_matches_spec() -> void:
 	var s := _skills("char_lightning_01")
-	for k in ["hold_1", "air_1", "air_2", "air_3", "landing", "skill", "weapon", "ultimate"]:
+	for k in ["hold_1", "hold_finish", "air_1", "air_2", "air_3", "landing", "skill", "weapon", "ultimate"]:
 		assert_bool(s.has(k)).override_failure_message("thiếu " + k).is_true()
 		assert_array(s[k].validate()).is_empty()
 	assert_float(s["hold_1"].total_atk_ratio()).is_equal_approx(2.40, 0.0001)        # 30% x8
@@ -243,10 +243,57 @@ func test_raikiba_hold_fires_while_held_and_release_stops() -> void:
 	await _frames(20)
 	_p.intent.attack_up(_buf())
 	await _frames(2)
-	assert_bool(_p.runner.is_running()).is_false()                                  # nhả: dừng sớm
+	assert_str(_p.runner.current_key).is_equal("hold_finish")                      # nhả: dừng sớm, chém kết
+	assert_str(String(_p.sprite.animation)).is_equal("hold_end")
 	var n := hits.count("char_lightning_01.hold_1")
 	assert_int(n).is_between(1, 7)
 	assert_str(_p.runner.check("hold_1")).is_equal("cooldown")
+	await _wait_done()
+	assert_int(hits.count("char_lightning_01.hold_1")).is_equal(n)                 # nhát kết không thêm sát thương
+
+
+func test_raikiba_hold_full_duration_ends_with_finisher() -> void:
+	await _setup("char_lightning_01", 700.0)
+	_p.intent.attack_down()
+	for f in 150:
+		await get_tree().physics_frame
+		if _started.has("hold_finish"):
+			break
+	assert_array(_started).contains(["hold_1", "hold_finish"])                     # hết 8 nhịp: tự chém kết
+	_p.intent.attack_up(_buf())
+	await _wait_done()
+
+
+func test_raikiba_weapon_catch_plays_when_idle() -> void:
+	await _setup("char_lightning_01", 700.0)
+	_p.combatant.resources.en = 100.0
+	_press(PlayerIntent.WEAPON)
+	await _wait_done()
+	var seen := false
+	for f in 50:                                                                    # đao về tay ~940 ms
+		await get_tree().physics_frame
+		if _p.sprite.animation == &"weapon_catch":
+			seen = true
+			break
+	assert_bool(seen).is_true()
+	assert_str(String(_p.current_state())).is_equal("idle")                         # không khóa điều khiển
+	for f in 60:
+		await get_tree().physics_frame
+		if _p.sprite.animation != &"weapon_catch":
+			break
+	assert_str(String(_p.sprite.animation)).is_equal("idle")                        # bắt xong quay lại idle
+
+
+func test_raikiba_weapon_catch_skipped_when_busy() -> void:
+	await _setup("char_lightning_01", 700.0)
+	_p.combatant.resources.en = 100.0
+	_press(PlayerIntent.WEAPON)
+	await _wait_done()
+	_p.intent.move_x = 1.0                                                          # đang chạy lúc đao về
+	for f in 50:
+		await get_tree().physics_frame
+		assert_str(String(_p.sprite.animation)).is_not_equal("weapon_catch")
+	_p.intent.move_x = 0.0
 
 
 func test_raikiba_three_air_attacks() -> void:

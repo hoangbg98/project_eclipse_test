@@ -90,6 +90,12 @@
       "loop": false,
       "skill_key": "hold"
     },
+    "hold_end": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": "hold_end"
+    },
     "air_1": {
       "frames": 0,
       "fps": 24,
@@ -125,6 +131,12 @@
       "fps": 24,
       "loop": false,
       "skill_key": "weapon"
+    },
+    "weapon_catch": {
+      "frames": 0,
+      "fps": 12,
+      "loop": false,
+      "skill_key": null
     },
     "ultimate": {
       "frames": 0,

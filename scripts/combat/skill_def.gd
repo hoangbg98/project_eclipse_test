@@ -108,6 +108,10 @@ extends Resource
 @export var self_statuses: Array[StatusApplication] = []
 ## Không dùng được đòn thường trong bấy nhiêu ms kể từ khi bắt đầu (vẫn di chuyển, né, dùng kỹ năng).
 @export var blocks_normal_ms := 0.0
+## Animation bắt vũ khí bay về (Raikiba bắt đao), phát sau `catch_at_ms` kể từ lúc bắt đầu, chỉ khi nhân vật
+## đang đứng yên (không khóa điều khiển; đang làm việc khác thì bỏ qua). Rỗng = không có.
+@export var catch_animation := ""
+@export var catch_at_ms := 0.0
 
 @export_group("Phòng thủ")
 ## Bất tử trong [invuln_from_ms, invuln_to_ms); âm = không.

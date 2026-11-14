@@ -167,16 +167,21 @@ MARK = ("lightning_mark", -1.0, -1.0)
 
 # --- Nhấn giữ TC — Lôi Quang Loạn Vũ: giữ >= 350 ms: lao tới kẻ địch gần nhất trong 300 px, chém 30% mỗi 150 ms,
 #     tối đa 8 nhịp (1.2 s); 1 Dấu Sét mỗi 2 nhịp; thả nút dừng sớm; kháng khựng; CD 3 s sau khi kết thúc;
-#     150 (lao) / 1200 / 220 ---
-write_skill("hold_1", base(K, "hold_1", "hold", "hold_release", HOLD, 150, 1200, 220,
+#     150 (lao) / 1200 / 220. Pha hồi phục 220 ms là nhát chém chéo xuống kết thúc (hold_finish), chạy khi nhả nút
+#     hoặc hết 8 nhịp; nhát kết không cộng sát thương (tổng vẫn 240% như tài liệu: Claude chọn) ---
+write_skill("hold_1", base(K, "hold_1", "hold", "hold_release", HOLD, 150, 1200, 0,
             charge_start_ms=350.0, charge_level_ms=350.0, fire_on_charge=True, release_ends=True,
-            cooldown_sec=3.0, cooldown_uses_cdr=False, cooldown_group="hold", cooldown_starts_on_end=True,
+            release_skill="hold_finish", cooldown_sec=3.0, cooldown_uses_cdr=False, cooldown_group="hold", cooldown_starts_on_end=True,
             target_range_px=300.0, approach_target=True, approach_max_px=300.0, approach_stop_px=40.0,
             move_from_ms=0.0, move_to_ms=150.0, super_armor=True, extra_en_on_hit=-2.0),
             [hit(150 + i * 150, 60, 0.30, shape=CIRCLE, radius=130, offset=(40, -110),
                  statuses=[MARK] if i % 2 == 1 else []) for i in range(8)],
             "Mục 3 Lôi Quang Loạn Vũ: giữ 350 ms tự kích hoạt, lao tới mục tiêu trong 300 px, 30% mỗi 150 ms x8 (240%), "
             "Dấu Sét mỗi 2 nhịp, thả nút dừng sớm, kháng khựng, CD 3s sau khi kết thúc; 150/1200/220", KD)
+
+write_skill("hold_finish", base(K, "hold_finish", "hold_end", "hold_end", HOLD, 0, 90, 220, super_armor=True),
+            [],
+            "Mục 3 Lôi Quang Loạn Vũ — nhát chém chéo xuống kết thúc (thân nhân vật, không thêm sát thương); 0/90/220", KD)
 
 # --- TC trên không — Phi Lôi Tam Kích (3 đòn): 120 px, cung 180°; 40/40/70%; mỗi đòn lơ lửng 100 ms; Đ3 Dấu Sét ---
 for n, (s, a, r, ratio) in enumerate([(60, 50, 100, 0.40), (60, 50, 100, 0.40), (90, 70, 140, 0.70)], start=1):
@@ -207,7 +212,8 @@ write_skill("skill", base(K, "skill", "skill", "skill_1", SKILL, 100, 350, 200, 
 
 # --- Kĩ năng vũ khí — Song Lôi Phi Nhận: 30 EN / 11 s; hai đao bay vòng hai bên rộng 450 px: đi 400 ms, về 400 ms,
 #     mỗi đao mỗi lượt 50% + 1 Dấu Sét; 800 ms không dùng được đòn thường (vẫn di chuyển, né, kỹ năng).
-#     Thân nhân vật chỉ giữ tư thế ném 140 + 180 ms để di chuyển được (Claude chọn) ---
+#     Thân nhân vật chỉ giữ tư thế ném 140 + 180 ms để di chuyển được (Claude chọn). Đao về tay lúc 940 ms:
+#     đứng yên thì phát animation "weapon_catch" từ 880 ms (không khóa điều khiển) ---
 BLADE_Y = -100.0
 SPREAD = 10.0  # độ lệch lên / xuống của hai đao
 blades = []
@@ -220,7 +226,7 @@ for sgn in (-1, 1):
     blades.append(hit(140, 400, 0.50, shape=RECT, rect=(110, 110), offset=(round(end[0], 1), round(end[1], 1)),
                       detached=True, travel=-450, travel_angle_deg=a, statuses=[MARK], delay_ms=400.0))
 write_skill("weapon", base(K, "weapon", "weapon", "skill_2", WEAPON, 140, 0, 180, en_cost=30.0, cooldown_sec=11.0,
-            blocks_normal_ms=800.0),
+            blocks_normal_ms=800.0, catch_animation="weapon_catch", catch_at_ms=880.0),
             blades,
             "Mục 3 Song Lôi Phi Nhận: 30 EN, CD 11s, hai đao bay 450 px đi 400 ms về 400 ms, 50% mỗi đao mỗi lượt "
             "(200%), 1 Dấu Sét mỗi lượt, khóa đòn thường 800 ms; thân 140/0/180 (đao bay độc lập)", KD)

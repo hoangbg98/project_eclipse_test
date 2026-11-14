@@ -1,4 +1,4 @@
-# Phiếu 21 — Raikiba / `skill_1`
+# Phiếu 26 — Raikiba / `switch_out`
 
 > Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/char_lightning_01.json` và `data/skills/`.
 > Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.
@@ -7,15 +7,15 @@
 
 | Mục | Giá trị |
 |---|---|
-| Thư mục chờ duyệt | `art_review/char_lightning_01/skill_1/` |
-| Số frame | **8** (tạo trong 2 lần, mỗi lần frame 000–003, frame 004–007) |
+| Thư mục chờ duyệt | `art_review/char_lightning_01/switch_out/` |
+| Số frame | **3** (tạo trong 1 lần, mỗi lần frame 000–002) |
 | fps / lặp | 12 fps, không lặp |
-| Thời lượng | 650 ms — khởi động / hiệu lực / hồi phục 100/350/200 ms |
-| Frame trúng đòn | 001, 002, 003, 004, 005 |
+| Thời lượng | 250 ms |
+| Frame trúng đòn | — |
 | Song đao | **mỗi tay một đao**, cầm xuôi, lưỡi hướng ra trước; không cất đao, không đổi tay |
 | Đứng đất | có: chân ở y = 336 mọi frame |
 
-**Động tác:** Chớp Giật Liên Hoàn: gập người, hai đao vung ra sau, vụt lao thẳng về trước 350 px chém ba nhát nhanh (phải – trái – phải) lúc lướt qua, rồi trượt chân phanh lại, đứng dậy. Ba vệt vàng song song là VFX.
+**Động tác:** Rời sân: quay người, nhún lùi về sau (tia sét biến mất là VFX, không vẽ).
 
 ## Ảnh đính kèm cho Codex
 
@@ -24,45 +24,30 @@
 | `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png` | Ảnh đứng toàn thân của owner (số 1): khóa thiết kế, màu, tỉ lệ chibi, hai đao |
 | `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_48_pose_dung_song_dao.png` | Pose mẫu đứng cầm song đao (số 48): chuẩn góc nhìn ngang và cách cầm đao |
 | `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_33_dao_1.png` | Đao sét (số 33): giữ đúng hình lưỡi, chuôi, vòng chuôi |
-| `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_51_pose_luot.png` | Pose mẫu lướt (số 51) |
-| `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_50_pose_lao_chem.png` | Pose mẫu lao chém (số 50) |
-
-## Giai đoạn từng frame
-
-| Frame | Giai đoạn |
-|---|---|
-| 000 | Khởi động (lấy đà) |
-| 001 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
-| 002 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
-| 003 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
-| 004 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
-| 005 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
-| 006 | Hồi phục (thu về) |
-| 007 | Hồi phục (thu về) |
 
 ## Prompt dán cho Codex
 
 ```text
-Việc: tạo frame animation `skill_1` cho Raikiba (char_lightning_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
+Việc: tạo frame animation `switch_out` cho Raikiba (char_lightning_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
 docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/char_lightning_01/00_PHAN_TICH.md rồi phiếu
-docs/prompts/codex_frames/char_lightning_01/21_skill_1.md. Giữ đúng ngoại hình model gốc, song đao theo mục Song đao của phiếu.
+docs/prompts/codex_frames/char_lightning_01/26_switch_out.md. Giữ đúng ngoại hình model gốc, song đao theo mục Song đao của phiếu.
 
-1. Tạo ảnh bằng skill imagegen, 2 lần gọi (4 pose, 4 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
+1. Tạo ảnh bằng skill imagegen, 1 lần gọi (3 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
    dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;
    từ lần gọi thứ 2, đính kèm thêm dải vừa tạo để giữ liền mạch. Nếu không ra nền trong suốt: nền #FF00FF.
-2. Chép các dải đã chọn vào art_review/char_lightning_01/skill_1/_strips/ rồi cắt:
-   python -I tools/frames/slice_strip.py char_lightning_01 skill_1 <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
-   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame 0, cao 0.80× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
-3. Ghi art_review/char_lightning_01/skill_1/meta.json: {"tool": "Codex imagegen", "model": "<model>",
+2. Chép các dải đã chọn vào art_review/char_lightning_01/switch_out/_strips/ rồi cắt:
+   python -I tools/frames/slice_strip.py char_lightning_01 switch_out <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
+   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame 0, cao 1.00× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
+3. Ghi art_review/char_lightning_01/switch_out/meta.json: {"tool": "Codex imagegen", "model": "<model>",
    "prompt": "<prompt rút gọn>", "refs": [<ảnh tham chiếu đã đính kèm>], "date": "YYYY-MM-DD"}
    (giữ các khóa scale/strips mà slice_strip.py đã ghi).
-4. Kiểm tra: python -I tools/frames/check_frames.py char_lightning_01 skill_1 — phải ĐẠT; lỗi thì tạo lại đúng frame lỗi.
+4. Kiểm tra: python -I tools/frames/check_frames.py char_lightning_01 switch_out — phải ĐẠT; lỗi thì tạo lại đúng frame lỗi.
 5. Tự soát theo danh sách trong phiếu (mục Tự kiểm tra). Sửa frame sai lệch ngoại hình dựa trên ảnh gốc.
-6. DỪNG: gửi tôi art_review/char_lightning_01/skill_1/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
-   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt skill_1".
-7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_lightning_01 skill_1, chạy
+6. DỪNG: gửi tôi art_review/char_lightning_01/switch_out/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
+   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt switch_out".
+7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_lightning_01 switch_out, chạy
    powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1 (mã thoát 0), ghi docs/DEVELOPMENT_LOG.md,
-   commit "Art: Raikiba skill_1 frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
+   commit "Art: Raikiba switch_out frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
 ```
 
 ## Prompt ảnh (tiếng Anh, mỗi lần gọi)
@@ -73,15 +58,12 @@ Keep the exact design, proportions (chibi, big head, short limbs), colors, dark 
 The standing dual-dagger pose reference (number 48) is the ground truth for the side view; the full-body reference is the ground truth for design and colors. The references contain yellow lightning glow: do NOT copy the glow, draw the character and daggers only.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and two daggers; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
-One single horizontal row of exactly {n} poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
+One single horizontal row of exactly 3 poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
 Background: fully transparent. No ground line, no shadow, no text, no numbers, no frame borders.
 No visual effects (no lightning bolts, electric sparks, yellow glow, slash arcs, afterimages, speed lines): character and two daggers only.
 
-Animation: Dash skill: bend low with both daggers swept back, then a straight high-speed dash forward delivering three quick slashes (near, far, near hand) while passing through, then skid to a stop on one foot and stand up. No blur, sharp poses.
-This call: poses {a}–{b} of 8 (describe only this part of the motion; continue exactly from the attached previous strip).
+Animation: Exit: turn away and hop back out of the fight, daggers in hand (no dissolve effect drawn).
 Two daggers: one dagger in EACH hand at all times (forward grip, blades pointing forward), never sheathed, never swapped between hands; keep the exact dagger design.
-Phase map (poses counted from 1): wind-up 1-1, impact 2-6 (clear extended pose, readable silhouette, brief hold), recovery 7-8.
-Impact poses (blades fully swung through the target, arms extended): poses 2, 3, 4, 5, 6 of 8, counting from 1.
 ```
 
 ## Tự kiểm tra trước khi gửi owner

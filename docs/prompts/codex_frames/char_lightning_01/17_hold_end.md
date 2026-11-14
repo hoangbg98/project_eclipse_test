@@ -1,4 +1,4 @@
-# Phiếu 19 — Raikiba / `air_3`
+# Phiếu 17 — Raikiba / `hold_end`
 
 > Sinh tự động bởi `tools/frames/gen_prompts.py` từ `tools/frames/jobs/char_lightning_01.json` và `data/skills/`.
 > Sửa phiếu ở file JSON rồi chạy lại, không sửa tay file này.
@@ -7,15 +7,15 @@
 
 | Mục | Giá trị |
 |---|---|
-| Thư mục chờ duyệt | `art_review/char_lightning_01/air_3/` |
-| Số frame | **5** (tạo trong 1 lần, mỗi lần frame 000–004) |
-| fps / lặp | 18 fps, không lặp |
-| Thời lượng | 300 ms — khởi động / hiệu lực / hồi phục 90/70/140 ms |
-| Frame trúng đòn | 001, 002 |
+| Thư mục chờ duyệt | `art_review/char_lightning_01/hold_end/` |
+| Số frame | **4** (tạo trong 1 lần, mỗi lần frame 000–003) |
+| fps / lặp | 12 fps, không lặp |
+| Thời lượng | 310 ms — khởi động / hiệu lực / hồi phục 0/90/220 ms |
+| Frame trúng đòn | 000, 001 |
 | Song đao | **mỗi tay một đao**, cầm xuôi, lưỡi hướng ra trước; không cất đao, không đổi tay |
-| Đứng đất | không: frame thấp nhất chạm y = 336, frame khác giữ độ cao tương đối |
+| Đứng đất | có: chân ở y = 336 mọi frame |
 
-**Động tác:** Phi Lôi đòn 3 (trên không): xoay ngang cả người một vòng, hai đao dang ra chém tròn.
+**Động tác:** Lôi Quang Loạn Vũ — nhát kết: nối tiếp vòng xoay của `hold_release`, hai đao giơ chéo cao rồi bổ một nhát chéo xuống thật mạnh, giữ pose một nhịp, thu đao về thủ thế. Chạy khi nhả nút hoặc hết 8 nhịp. Không thêm sát thương (chỉ là pha hồi phục 220 ms).
 
 ## Ảnh đính kèm cho Codex
 
@@ -24,40 +24,40 @@
 | `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png` | Ảnh đứng toàn thân của owner (số 1): khóa thiết kế, màu, tỉ lệ chibi, hai đao |
 | `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_48_pose_dung_song_dao.png` | Pose mẫu đứng cầm song đao (số 48): chuẩn góc nhìn ngang và cách cầm đao |
 | `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_33_dao_1.png` | Đao sét (số 33): giữ đúng hình lưỡi, chuôi, vòng chuôi |
+| `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_50_pose_lao_chem.png` | Pose mẫu lao chém (số 50) |
 
 ## Giai đoạn từng frame
 
 | Frame | Giai đoạn |
 |---|---|
-| 000 | Khởi động (lấy đà) |
+| 000 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
 | 001 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
-| 002 | Hiệu lực (đánh trúng — pose đọc rõ, giữ một nhịp) |
+| 002 | Hồi phục (thu về) |
 | 003 | Hồi phục (thu về) |
-| 004 | Hồi phục (thu về) |
 
 ## Prompt dán cho Codex
 
 ```text
-Việc: tạo frame animation `air_3` cho Raikiba (char_lightning_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
+Việc: tạo frame animation `hold_end` cho Raikiba (char_lightning_01), MỘT animation này thôi. Đọc theo thứ tự: AGENTS.md (mục Ảnh do AI tạo),
 docs/prompts/codex_frames/PROMPT_GOC.md, docs/prompts/codex_frames/char_lightning_01/00_PHAN_TICH.md rồi phiếu
-docs/prompts/codex_frames/char_lightning_01/19_air_3.md. Giữ đúng ngoại hình model gốc, song đao theo mục Song đao của phiếu.
+docs/prompts/codex_frames/char_lightning_01/17_hold_end.md. Giữ đúng ngoại hình model gốc, song đao theo mục Song đao của phiếu.
 
-1. Tạo ảnh bằng skill imagegen, 1 lần gọi (5 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
+1. Tạo ảnh bằng skill imagegen, 1 lần gọi (4 pose). Mỗi lần: một hàng ngang đúng số pose của lần đó,
    dùng prompt ảnh tiếng Anh bên dưới (nhiều lần gọi: thay {n}, {a}, {b} theo từng lần). Đính kèm các ảnh tham chiếu trong phiếu;
    từ lần gọi thứ 2, đính kèm thêm dải vừa tạo để giữ liền mạch. Nếu không ra nền trong suốt: nền #FF00FF.
-2. Chép các dải đã chọn vào art_review/char_lightning_01/air_3/_strips/ rồi cắt:
-   python -I tools/frames/slice_strip.py char_lightning_01 air_3 <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
-   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame 0, cao 0.85× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
-3. Ghi art_review/char_lightning_01/air_3/meta.json: {"tool": "Codex imagegen", "model": "<model>",
+2. Chép các dải đã chọn vào art_review/char_lightning_01/hold_end/_strips/ rồi cắt:
+   python -I tools/frames/slice_strip.py char_lightning_01 hold_end <dải 1> [<dải 2> ...] --like idle [--chroma FF00FF]
+   (--like idle: cùng tỉ lệ với idle đã duyệt; canh theo frame -1, cao 1.00× lúc đứng; sai thì thêm --ref-frame / --ref-ratio)
+3. Ghi art_review/char_lightning_01/hold_end/meta.json: {"tool": "Codex imagegen", "model": "<model>",
    "prompt": "<prompt rút gọn>", "refs": [<ảnh tham chiếu đã đính kèm>], "date": "YYYY-MM-DD"}
    (giữ các khóa scale/strips mà slice_strip.py đã ghi).
-4. Kiểm tra: python -I tools/frames/check_frames.py char_lightning_01 air_3 — phải ĐẠT; lỗi thì tạo lại đúng frame lỗi.
+4. Kiểm tra: python -I tools/frames/check_frames.py char_lightning_01 hold_end — phải ĐẠT; lỗi thì tạo lại đúng frame lỗi.
 5. Tự soát theo danh sách trong phiếu (mục Tự kiểm tra). Sửa frame sai lệch ngoại hình dựa trên ảnh gốc.
-6. DỪNG: gửi tôi art_review/char_lightning_01/air_3/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
-   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt air_3".
-7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_lightning_01 air_3, chạy
+6. DỪNG: gửi tôi art_review/char_lightning_01/hold_end/_preview/sheet.png và anim.gif, liệt kê frame còn nghi ngờ.
+   KHÔNG chép vào assets/, KHÔNG sửa frames_manifest.json, KHÔNG commit. Chờ tôi trả lời "duyệt hold_end".
+7. Khi tôi duyệt: python -I tools/frames/approve_frames.py char_lightning_01 hold_end, chạy
    powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1 (mã thoát 0), ghi docs/DEVELOPMENT_LOG.md,
-   commit "Art: Raikiba air_3 frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
+   commit "Art: Raikiba hold_end frames (AI)". Khi tôi yêu cầu sửa: chỉ tạo lại các frame tôi chỉ ra.
 ```
 
 ## Prompt ảnh (tiếng Anh, mỗi lần gọi)
@@ -68,14 +68,14 @@ Keep the exact design, proportions (chibi, big head, short limbs), colors, dark 
 The standing dual-dagger pose reference (number 48) is the ground truth for the side view; the full-body reference is the ground truth for design and colors. The references contain yellow lightning glow: do NOT copy the glow, draw the character and daggers only.
 Do NOT redesign: same hair, face, eyes, outfit, armor, accessories and two daggers; no added or removed details.
 The character faces RIGHT in every frame, full body visible, same scale in every frame.
-One single horizontal row of exactly 5 poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
+One single horizontal row of exactly 4 poses, left to right in time order, with wide empty gaps between poses (no overlap, no touching).
 Background: fully transparent. No ground line, no shadow, no text, no numbers, no frame borders.
 No visual effects (no lightning bolts, electric sparks, yellow glow, slash arcs, afterimages, speed lines): character and two daggers only.
 
-Animation: Air strike 3: mid-air full horizontal body spin with both daggers extended, a wide circular double slash, end facing right.
+Animation: Flurry finisher (follows the spinning blade flurry): raise both daggers crossed high, then one powerful diagonal downward slash with both blades, brief hold on the extended pose, then pull the daggers back to the ready stance.
 Two daggers: one dagger in EACH hand at all times (forward grip, blades pointing forward), never sheathed, never swapped between hands; keep the exact dagger design.
-Phase map (poses counted from 1): wind-up 1-1, impact 2-3 (clear extended pose, readable silhouette, brief hold), recovery 4-5.
-Impact poses (blades fully swung through the target, arms extended): poses 2, 3 of 5, counting from 1.
+Phase map (poses counted from 1): wind-up none, impact 1-2 (clear extended pose, readable silhouette, brief hold), recovery 3-4.
+Impact poses (blades fully swung through the target, arms extended): poses 1, 2 of 4, counting from 1.
 ```
 
 ## Tự kiểm tra trước khi gửi owner

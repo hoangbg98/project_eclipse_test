@@ -118,5 +118,7 @@ recovery_ms = 180.0
 en_cost = 30.0
 cooldown_sec = 11.0
 blocks_normal_ms = 800.0
+catch_animation = "weapon_catch"
+catch_at_ms = 880.0
 hits = Array[ExtResource("2")]([SubResource("hit_0"), SubResource("hit_1"), SubResource("hit_2"), SubResource("hit_3")])
 metadata/source = "Mục 3 Song Lôi Phi Nhận: 30 EN, CD 11s, hai đao bay 450 px đi 400 ms về 400 ms, 50% mỗi đao mỗi lượt (200%), 1 Dấu Sét mỗi lượt, khóa đòn thường 800 ms; thân 140/0/180 (đao bay độc lập)"

@@ -1226,3 +1226,47 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** GdUnit4 522 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
 - **Quyết định Claude chọn:** Raikiba `hold_release` là vòng chém lặp 6 frame 15 fps (game giữ tới 1,2 s, thả nút thì dừng) thay vì tính theo thời lượng kỹ năng; `skill_2` chỉ vẽ động tác ném, từ frame ném tay không; ultimate 22 frame ở 8 fps (2,7 s theo SkillDef); `landing_attack` của Kazeyumi giữ 70/80/220 ms như bản đã duyệt (SkillDef hiện 0/80/220).
 - **Hạn chế đã biết:** Raikiba chưa có animation bắt đao (`skill_2`) và nhát kết của Lôi Quang Loạn Vũ (chưa có trạng thái trong game). Ở thời điểm này 9 animation Kazeyumi (run, attack_1–3, dodge, jump_up, fall, land, hurt) còn nằm ở `art_review/` chờ owner trả lời "duyệt"; các frame / manifest / ASSET_LICENSES Codex đã sửa chưa commit, không nằm trong commit này.
+
+
+## 2026-11-14 — Kazeyumi: duyệt frame `run`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `run` của `char_wind_01`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** `assets/characters/char_wind_01/frames/run/` (8 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 run`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Approve thành công: 8 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Hạn chế đã biết:** lỗi Godot/test runner giống lần chạy trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+
+## 2026-11-14 — Kazeyumi: duyệt bảy animation còn lại
+- **Milestone / task:** art (frame nhân vật) — owner duyệt `jump_up`, `fall`, `land`, `attack_1`, `attack_2`, `attack_3`, `dodge` của `char_wind_01`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** frame trong `assets/characters/char_wind_01/frames/{jump_up,fall,land,attack_1,attack_2,attack_3,dodge}/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 <animation>` cho cả bảy animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Cả bảy animation được approve thành công. Bộ test thoát mã 1; GdUnit4 và 5 smoke test crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Quyết định Codex chọn:** vì danh sách trước đó còn tám mục ngoài `run` trong khi owner yêu cầu bảy, để `hurt` chờ duyệt riêng.
+- **Hạn chế đã biết:** lỗi Godot/test runner đã tái hiện ở các lần chạy trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+
+## 2026-11-14 — Kazeyumi: duyệt frame `hurt`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `hurt` của `char_wind_01`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** `assets/characters/char_wind_01/frames/hurt/` (4 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 hurt`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Approve thành công: 4 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Hạn chế đã biết:** lỗi Godot/test runner vẫn tái hiện; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+## 2026-11-14 — Raikiba: nhát kết Lôi Quang Loạn Vũ và bắt đao quay về (game + phiếu Codex)
+
+- **Milestone / task:** combat + art — owner yêu cầu đưa vào game động tác bắt đao (Song Lôi Phi Nhận) và nhát chém kết thúc (Lôi Quang Loạn Vũ), rồi cập nhật phiếu
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `scripts/combat/skill_def.gd`: `catch_animation`, `catch_at_ms`.
+  - `scripts/player/player_controller.gd`: hẹn giờ bắt vũ khí (`catch_left_sec`); tới giờ mà đang đứng yên (state idle, không chạy kỹ năng) thì phát animation bắt, xong quay lại idle; đang chạy / nhảy / đánh thì bỏ qua. Không khóa điều khiển. `_play()` trả về tên animation đã phát.
+  - `tools/gen_wind_lightning_skills.py` → `data/skills/char_lightning_01/hold_1.tres` (hồi phục 0, `release_skill = "hold_finish"`), `hold_finish.tres` mới (key `hold_end`, animation `hold_end`, 0/90/220, kháng khựng, không có vùng sát thương), `weapon.tres` (`catch_animation = "weapon_catch"`, `catch_at_ms = 880`).
+  - `assets/characters/char_lightning_01/frames_manifest.json` + thư mục `frames/hold_end/`, `frames/weapon_catch/` (.gitkeep).
+  - Phiếu: `tools/frames/jobs/char_lightning_01.json`, `docs/prompts/codex_frames/char_lightning_01/` thêm `17_hold_end`, `24_weapon_catch` (các phiếu sau dịch số), sửa `hold_release`, `skill_2`, `00_PHAN_TICH.md`.
+  - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd`: đòn giữ nhả nút → `hold_finish`, hết 8 nhịp → `hold_finish`, bắt đao khi đứng yên / bỏ qua khi đang chạy.
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`, `python -I tools/frames/gen_prompts.py char_lightning_01`, `--import`, GdUnit4 riêng bộ Kazeyumi/Raikiba (21/21), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** lần đầu 1 lỗi (`test_real_frame_counts_match_folders`: thiếu thư mục frame `hold_end`, `weapon_catch`) → tạo thư mục; lần hai GdUnit4 525 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** nhát kết dùng đúng 220 ms hồi phục của tài liệu và không cộng sát thương (tổng Lôi Quang Loạn Vũ vẫn 240%); chạy cả khi nhả nút sớm lẫn khi hết 8 nhịp. Đao về tay ở 940 ms (ném 140 + đi 400 + về 400); animation bắt bắt đầu ở 880 ms để frame 001 (đao vào tay) rơi vào ~940 ms. Bắt đao chỉ phát khi đứng yên vì đây là động tác đứng, không khóa điều khiển.
+- **Hạn chế đã biết:** đang chạy / nhảy lúc đao về thì không có hình bắt đao (đao lặng lẽ về tay); thời điểm bắt không co giãn theo tốc độ tấn công (Song Lôi Phi Nhận là kỹ năng vũ khí, không chịu tốc độ tấn công). Chưa thử bằng mắt trong Godot.
