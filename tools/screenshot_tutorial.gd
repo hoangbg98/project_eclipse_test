@@ -10,6 +10,9 @@ const SHOTS := [
 	["1_hub_talk", GC.SCENE_HUB, false, "talk"],
 	["2_hub_act", GC.SCENE_HUB, false, "act"],
 	["3_sortie_talk", GC.SCENE_SORTIE, false, "talk"],
+	["3b_chapters_act", GC.SCENE_CHAPTERS, false, "act"],
+	["3c_map_talk", GC.SCENE_CHAPTER_MAP, false, "talk"],
+	["3d_map_act", GC.SCENE_CHAPTER_MAP, false, "act"],
 	["4_stage_info_act", GC.SCENE_STAGE_INFO, false, "act"],
 	["5_party_go_act", GC.SCENE_PARTY_PREP, false, "act"],
 	["6_hub_supply_talk", GC.SCENE_HUB, true, "talk"],
@@ -41,7 +44,7 @@ func _process(_delta: float) -> bool:
 			p.grant(StageMap.load_from("res://data/stages/stage_01.json").data["first_clear_rewards"])
 			save.data["progress"]["stages"]["stage_01"] = {"cleared": true, "best_time_sec": 214.0}
 		if shot[3] == "act":
-			for id in ["hub_sortie", "sortie_story", "stage_prepare", "party_go", "hub_supply", "supply_gacha",
+			for id in ["hub_sortie", "sortie_story", "chapter_card", "map_stage", "stage_prepare", "party_go", "hub_supply", "supply_gacha",
 					"recruit_starter"]:
 				TutorialFlow.mark_seen(save.data, id)
 		if guide:

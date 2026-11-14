@@ -95,6 +95,22 @@
 				"text": "TUTORIAL_RECRUIT_DONE_2",
 				"reply": "TUTORIAL_RECRUIT_DONE_2_R"
 			}
+		],
+		"chapter_card": [
+			{
+				"text": "TUTORIAL_CHAPTER_CARD_1",
+				"reply": "TUTORIAL_CHAPTER_CARD_1_R"
+			}
+		],
+		"map_stage": [
+			{
+				"text": "TUTORIAL_MAP_STAGE_1",
+				"reply": "TUTORIAL_MAP_STAGE_1_R"
+			},
+			{
+				"text": "TUTORIAL_MAP_STAGE_2",
+				"reply": "TUTORIAL_MAP_STAGE_2_R"
+			}
 		]
 	}
 }

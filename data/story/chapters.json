@@ -1,0 +1,1440 @@
+{
+	"_comment": "Sinh bởi tools/story/gen_chapters.py — sửa ở đó rồi chạy lại.",
+	"map_height": 1080,
+	"art_dir": "res://assets/story/chapters",
+	"placeholder_dir": "res://assets/placeholders/story",
+	"part_reward": {
+		"gems": 300,
+		"materials": {
+			"mat_exp_medium": 3,
+			"mat_enhance_ore": 5
+		}
+	},
+	"arcs": [
+		{
+			"id": "arc_01",
+			"title": "ARC_ARC_01",
+			"chapters": [
+				1,
+				2
+			]
+		},
+		{
+			"id": "arc_02",
+			"title": "ARC_ARC_02",
+			"chapters": [
+				3,
+				4
+			]
+		},
+		{
+			"id": "arc_03",
+			"title": "ARC_ARC_03",
+			"chapters": [
+				5,
+				6
+			]
+		},
+		{
+			"id": "arc_04",
+			"title": "ARC_ARC_04",
+			"chapters": [
+				7
+			]
+		}
+	],
+	"chapters": [
+		{
+			"num": 1,
+			"title": "CHAPTER_01_TITLE",
+			"map_image": "map_ch01",
+			"card_image": "card_ch01",
+			"map_width": 3240,
+			"parts": [
+				{
+					"id": "ch01_p1",
+					"title": "PART_01_1_TITLE",
+					"x": 280,
+					"stages": [
+						{
+							"code": "1-1",
+							"stage_id": "stage_01",
+							"pos": [
+								360,
+								560
+							],
+							"boss": false,
+							"clip": true
+						},
+						{
+							"code": "1-2",
+							"stage_id": "",
+							"pos": [
+								640,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "1-3",
+							"stage_id": "",
+							"pos": [
+								920,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "1-4",
+							"stage_id": "",
+							"pos": [
+								1200,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "1-5",
+							"stage_id": "",
+							"pos": [
+								1480,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "1-6",
+							"stage_id": "",
+							"pos": [
+								1760,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "1-7",
+							"stage_id": "",
+							"pos": [
+								2040,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "1-8",
+							"stage_id": "",
+							"pos": [
+								2320,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "1-9",
+							"stage_id": "",
+							"pos": [
+								2600,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "1-10",
+							"stage_id": "",
+							"pos": [
+								2880,
+								640
+							],
+							"boss": true,
+							"clip": true
+						}
+					],
+					"chest_x": 3060.0
+				}
+			]
+		},
+		{
+			"num": 2,
+			"title": "CHAPTER_02_TITLE",
+			"map_image": "map_ch02",
+			"card_image": "card_ch02",
+			"map_width": 3800,
+			"parts": [
+				{
+					"id": "ch02_p1",
+					"title": "PART_02_1_TITLE",
+					"x": 280,
+					"stages": [
+						{
+							"code": "2-1",
+							"stage_id": "",
+							"pos": [
+								360,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "2-2",
+							"stage_id": "",
+							"pos": [
+								640,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "2-3",
+							"stage_id": "",
+							"pos": [
+								920,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "2-4",
+							"stage_id": "",
+							"pos": [
+								1200,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "2-5",
+							"stage_id": "",
+							"pos": [
+								1480,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "2-6",
+							"stage_id": "",
+							"pos": [
+								1760,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "2-7",
+							"stage_id": "",
+							"pos": [
+								2040,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "2-8",
+							"stage_id": "",
+							"pos": [
+								2320,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "2-9",
+							"stage_id": "",
+							"pos": [
+								2600,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "2-10",
+							"stage_id": "",
+							"pos": [
+								2880,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "2-11",
+							"stage_id": "",
+							"pos": [
+								3160,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "2-12",
+							"stage_id": "",
+							"pos": [
+								3440,
+								420
+							],
+							"boss": true,
+							"clip": true
+						}
+					],
+					"chest_x": 3620.0
+				}
+			]
+		},
+		{
+			"num": 3,
+			"title": "CHAPTER_03_TITLE",
+			"map_image": "map_ch03",
+			"card_image": "card_ch03",
+			"map_width": 4640,
+			"parts": [
+				{
+					"id": "ch03_p1",
+					"title": "PART_03_1_TITLE",
+					"x": 280,
+					"stages": [
+						{
+							"code": "3-1",
+							"stage_id": "",
+							"pos": [
+								360,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "3-2",
+							"stage_id": "",
+							"pos": [
+								640,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "3-3",
+							"stage_id": "",
+							"pos": [
+								920,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "3-4",
+							"stage_id": "",
+							"pos": [
+								1200,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "3-5",
+							"stage_id": "",
+							"pos": [
+								1480,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "3-6",
+							"stage_id": "",
+							"pos": [
+								1760,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "3-7",
+							"stage_id": "",
+							"pos": [
+								2040,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "3-8",
+							"stage_id": "",
+							"pos": [
+								2320,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "3-9",
+							"stage_id": "",
+							"pos": [
+								2600,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "3-10",
+							"stage_id": "",
+							"pos": [
+								2880,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "3-11",
+							"stage_id": "",
+							"pos": [
+								3160,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "3-12",
+							"stage_id": "",
+							"pos": [
+								3440,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "3-13",
+							"stage_id": "",
+							"pos": [
+								3720,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "3-14",
+							"stage_id": "",
+							"pos": [
+								4000,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "3-15",
+							"stage_id": "",
+							"pos": [
+								4280,
+								640
+							],
+							"boss": true,
+							"clip": true
+						}
+					],
+					"chest_x": 4460.0
+				}
+			]
+		},
+		{
+			"num": 4,
+			"title": "CHAPTER_04_TITLE",
+			"map_image": "map_ch04",
+			"card_image": "card_ch04",
+			"map_width": 6400,
+			"parts": [
+				{
+					"id": "ch04_p1",
+					"title": "PART_04_1_TITLE",
+					"x": 280,
+					"stages": [
+						{
+							"code": "4-1",
+							"stage_id": "",
+							"pos": [
+								360,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "4-2",
+							"stage_id": "",
+							"pos": [
+								640,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "4-3",
+							"stage_id": "",
+							"pos": [
+								920,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "4-4",
+							"stage_id": "",
+							"pos": [
+								1200,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "4-5",
+							"stage_id": "",
+							"pos": [
+								1480,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "4-6",
+							"stage_id": "",
+							"pos": [
+								1760,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "4-7",
+							"stage_id": "",
+							"pos": [
+								2040,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "4-8",
+							"stage_id": "",
+							"pos": [
+								2320,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "4-9",
+							"stage_id": "",
+							"pos": [
+								2600,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "4-10",
+							"stage_id": "",
+							"pos": [
+								2880,
+								640
+							],
+							"boss": true
+						}
+					],
+					"chest_x": 3060.0
+				},
+				{
+					"id": "ch04_p2",
+					"title": "PART_04_2_TITLE",
+					"x": 3160,
+					"stages": [
+						{
+							"code": "4-11",
+							"stage_id": "",
+							"pos": [
+								3240,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "4-12",
+							"stage_id": "",
+							"pos": [
+								3520,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "4-13",
+							"stage_id": "",
+							"pos": [
+								3800,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "4-14",
+							"stage_id": "",
+							"pos": [
+								4080,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "4-15",
+							"stage_id": "",
+							"pos": [
+								4360,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "4-16",
+							"stage_id": "",
+							"pos": [
+								4640,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "4-17",
+							"stage_id": "",
+							"pos": [
+								4920,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "4-18",
+							"stage_id": "",
+							"pos": [
+								5200,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "4-19",
+							"stage_id": "",
+							"pos": [
+								5480,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "4-20",
+							"stage_id": "",
+							"pos": [
+								5760,
+								640
+							],
+							"boss": true,
+							"clip": true
+						}
+					],
+					"chest_x": 5940.0
+				}
+			]
+		},
+		{
+			"num": 5,
+			"title": "CHAPTER_05_TITLE",
+			"map_image": "map_ch05",
+			"card_image": "card_ch05",
+			"map_width": 7520,
+			"parts": [
+				{
+					"id": "ch05_p1",
+					"title": "PART_05_1_TITLE",
+					"x": 280,
+					"stages": [
+						{
+							"code": "5-1",
+							"stage_id": "",
+							"pos": [
+								360,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "5-2",
+							"stage_id": "",
+							"pos": [
+								640,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "5-3",
+							"stage_id": "",
+							"pos": [
+								920,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "5-4",
+							"stage_id": "",
+							"pos": [
+								1200,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "5-5",
+							"stage_id": "",
+							"pos": [
+								1480,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "5-6",
+							"stage_id": "",
+							"pos": [
+								1760,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "5-7",
+							"stage_id": "",
+							"pos": [
+								2040,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "5-8",
+							"stage_id": "",
+							"pos": [
+								2320,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "5-9",
+							"stage_id": "",
+							"pos": [
+								2600,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "5-10",
+							"stage_id": "",
+							"pos": [
+								2880,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "5-11",
+							"stage_id": "",
+							"pos": [
+								3160,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "5-12",
+							"stage_id": "",
+							"pos": [
+								3440,
+								420
+							],
+							"boss": true
+						}
+					],
+					"chest_x": 3620.0
+				},
+				{
+					"id": "ch05_p2",
+					"title": "PART_05_2_TITLE",
+					"x": 3720,
+					"stages": [
+						{
+							"code": "5-13",
+							"stage_id": "",
+							"pos": [
+								3800,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "5-14",
+							"stage_id": "",
+							"pos": [
+								4080,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "5-15",
+							"stage_id": "",
+							"pos": [
+								4360,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "5-16",
+							"stage_id": "",
+							"pos": [
+								4640,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "5-17",
+							"stage_id": "",
+							"pos": [
+								4920,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "5-18",
+							"stage_id": "",
+							"pos": [
+								5200,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "5-19",
+							"stage_id": "",
+							"pos": [
+								5480,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "5-20",
+							"stage_id": "",
+							"pos": [
+								5760,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "5-21",
+							"stage_id": "",
+							"pos": [
+								6040,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "5-22",
+							"stage_id": "",
+							"pos": [
+								6320,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "5-23",
+							"stage_id": "",
+							"pos": [
+								6600,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "5-24",
+							"stage_id": "",
+							"pos": [
+								6880,
+								480
+							],
+							"boss": true,
+							"clip": true
+						}
+					],
+					"chest_x": 7060.0
+				}
+			]
+		},
+		{
+			"num": 6,
+			"title": "CHAPTER_06_TITLE",
+			"map_image": "map_ch06",
+			"card_image": "card_ch06",
+			"map_width": 8080,
+			"parts": [
+				{
+					"id": "ch06_p1",
+					"title": "PART_06_1_TITLE",
+					"x": 280,
+					"stages": [
+						{
+							"code": "6-1",
+							"stage_id": "",
+							"pos": [
+								360,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "6-2",
+							"stage_id": "",
+							"pos": [
+								640,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "6-3",
+							"stage_id": "",
+							"pos": [
+								920,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "6-4",
+							"stage_id": "",
+							"pos": [
+								1200,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "6-5",
+							"stage_id": "",
+							"pos": [
+								1480,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "6-6",
+							"stage_id": "",
+							"pos": [
+								1760,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "6-7",
+							"stage_id": "",
+							"pos": [
+								2040,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "6-8",
+							"stage_id": "",
+							"pos": [
+								2320,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "6-9",
+							"stage_id": "",
+							"pos": [
+								2600,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "6-10",
+							"stage_id": "",
+							"pos": [
+								2880,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "6-11",
+							"stage_id": "",
+							"pos": [
+								3160,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "6-12",
+							"stage_id": "",
+							"pos": [
+								3440,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "6-13",
+							"stage_id": "",
+							"pos": [
+								3720,
+								700
+							],
+							"boss": true
+						}
+					],
+					"chest_x": 3900.0
+				},
+				{
+					"id": "ch06_p2",
+					"title": "PART_06_2_TITLE",
+					"x": 4000,
+					"stages": [
+						{
+							"code": "6-14",
+							"stage_id": "",
+							"pos": [
+								4080,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "6-15",
+							"stage_id": "",
+							"pos": [
+								4360,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "6-16",
+							"stage_id": "",
+							"pos": [
+								4640,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "6-17",
+							"stage_id": "",
+							"pos": [
+								4920,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "6-18",
+							"stage_id": "",
+							"pos": [
+								5200,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "6-19",
+							"stage_id": "",
+							"pos": [
+								5480,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "6-20",
+							"stage_id": "",
+							"pos": [
+								5760,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "6-21",
+							"stage_id": "",
+							"pos": [
+								6040,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "6-22",
+							"stage_id": "",
+							"pos": [
+								6320,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "6-23",
+							"stage_id": "",
+							"pos": [
+								6600,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "6-24",
+							"stage_id": "",
+							"pos": [
+								6880,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "6-25",
+							"stage_id": "",
+							"pos": [
+								7160,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "6-26",
+							"stage_id": "",
+							"pos": [
+								7440,
+								560
+							],
+							"boss": true,
+							"clip": true
+						}
+					],
+					"chest_x": 7620.0
+				}
+			]
+		},
+		{
+			"num": 7,
+			"title": "CHAPTER_07_TITLE",
+			"map_image": "map_ch07",
+			"card_image": "card_ch07",
+			"map_width": 9200,
+			"parts": [
+				{
+					"id": "ch07_p1",
+					"title": "PART_07_1_TITLE",
+					"x": 280,
+					"stages": [
+						{
+							"code": "7-1",
+							"stage_id": "",
+							"pos": [
+								360,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "7-2",
+							"stage_id": "",
+							"pos": [
+								640,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "7-3",
+							"stage_id": "",
+							"pos": [
+								920,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "7-4",
+							"stage_id": "",
+							"pos": [
+								1200,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "7-5",
+							"stage_id": "",
+							"pos": [
+								1480,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "7-6",
+							"stage_id": "",
+							"pos": [
+								1760,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "7-7",
+							"stage_id": "",
+							"pos": [
+								2040,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "7-8",
+							"stage_id": "",
+							"pos": [
+								2320,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "7-9",
+							"stage_id": "",
+							"pos": [
+								2600,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "7-10",
+							"stage_id": "",
+							"pos": [
+								2880,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "7-11",
+							"stage_id": "",
+							"pos": [
+								3160,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "7-12",
+							"stage_id": "",
+							"pos": [
+								3440,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "7-13",
+							"stage_id": "",
+							"pos": [
+								3720,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "7-14",
+							"stage_id": "",
+							"pos": [
+								4000,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "7-15",
+							"stage_id": "",
+							"pos": [
+								4280,
+								640
+							],
+							"boss": true
+						}
+					],
+					"chest_x": 4460.0
+				},
+				{
+					"id": "ch07_p2",
+					"title": "PART_07_2_TITLE",
+					"x": 4560,
+					"stages": [
+						{
+							"code": "7-16",
+							"stage_id": "",
+							"pos": [
+								4640,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "7-17",
+							"stage_id": "",
+							"pos": [
+								4920,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "7-18",
+							"stage_id": "",
+							"pos": [
+								5200,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "7-19",
+							"stage_id": "",
+							"pos": [
+								5480,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "7-20",
+							"stage_id": "",
+							"pos": [
+								5760,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "7-21",
+							"stage_id": "",
+							"pos": [
+								6040,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "7-22",
+							"stage_id": "",
+							"pos": [
+								6320,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "7-23",
+							"stage_id": "",
+							"pos": [
+								6600,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "7-24",
+							"stage_id": "",
+							"pos": [
+								6880,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "7-25",
+							"stage_id": "",
+							"pos": [
+								7160,
+								640
+							],
+							"boss": false
+						},
+						{
+							"code": "7-26",
+							"stage_id": "",
+							"pos": [
+								7440,
+								560
+							],
+							"boss": false
+						},
+						{
+							"code": "7-27",
+							"stage_id": "",
+							"pos": [
+								7720,
+								420
+							],
+							"boss": false
+						},
+						{
+							"code": "7-28",
+							"stage_id": "",
+							"pos": [
+								8000,
+								700
+							],
+							"boss": false
+						},
+						{
+							"code": "7-29",
+							"stage_id": "",
+							"pos": [
+								8280,
+								480
+							],
+							"boss": false
+						},
+						{
+							"code": "7-30",
+							"stage_id": "",
+							"pos": [
+								8560,
+								640
+							],
+							"boss": true,
+							"clip": true
+						}
+					],
+					"chest_x": 8740.0
+				}
+			]
+		}
+	]
+}

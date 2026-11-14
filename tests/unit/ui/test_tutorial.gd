@@ -113,6 +113,8 @@ func test_story_phase_steps() -> void:
 	var d := SaveSchema.default_data()
 	assert_array(_targets(d, GC.SCENE_HUB)).is_equal(["Tile_sortie"])
 	assert_array(_targets(d, GC.SCENE_SORTIE)).is_equal(["Card_story"])
+	assert_array(_targets(d, GC.SCENE_CHAPTERS)).is_equal(["ChapterCard_1"])
+	assert_array(_targets(d, GC.SCENE_CHAPTER_MAP)).is_equal(["Stage_1-1"])
 	assert_array(_targets(d, GC.SCENE_STAGE_INFO)).is_equal(["PrepareButton"])
 	assert_array(_targets(d, GC.SCENE_PARTY_PREP)).is_equal(["GoButton"])
 	assert_array(_targets(d, GC.SCENE_STAGE)).is_equal(["RetryButton"])
@@ -321,7 +323,7 @@ func test_conversation_lines_reply_and_seen_once() -> void:
 func test_dialogue_file_covers_steps_and_is_translated() -> void:
 	var dlg := TutorialFlow.dialogue()
 	var steps: Dictionary = dlg["steps"]
-	for id in ["hub_sortie", "sortie_story", "stage_prepare", "party_go", "retry", "result_hub", "hub_supply",
+	for id in ["hub_sortie", "sortie_story", "chapter_card", "map_stage", "stage_prepare", "party_go", "retry", "result_hub", "hub_supply",
 			"supply_gacha", "recruit_starter", "recruit_done"]:
 		assert_bool(steps.has(id)).override_failure_message("thiếu thoại bước " + id).is_true()
 		for l: Dictionary in steps[id]:

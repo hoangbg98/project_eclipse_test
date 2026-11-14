@@ -33,7 +33,7 @@ static func default_data() -> Dictionary:
 		"account": {"level": 1, "exp": 0, "name": ""},   # cấp đội trưởng (giới hạn cấp nhân vật), tên người chơi
 		"cosmetics": {"backgrounds": [], "hub_background": ""},   # nền sảnh đã có (ngoài nền starter), nền đang dùng
 		"gacha": {"pity": {}, "guarantee": {}, "history": [], "starter_used": []},   # starter_used: id banner x10 miễn phí đã dùng
-		"progress": {"stages": {}},          # stage_id -> {cleared, best_time_sec}
+		"progress": {"stages": {}, "parts_claimed": []},   # stage_id -> {cleared, best_time_sec}; id phần đã nhận quà
 		"tutorial": {"done": false, "seen": []},   # hướng dẫn người mới (TutorialFlow); seen: id bước đã nghe NEO nói
 		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0, "fullscreen": false},
 		"stats": {"play_time_sec": 0.0},

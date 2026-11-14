@@ -23,6 +23,9 @@ const SCENE_PARTY_PREP := "res://scenes/main/party_prep_screen.tscn"
 const SCENE_PARTY_SELECT := "res://scenes/main/party_select_screen.tscn"
 ## Clip dẫn truyện dạng truyện tranh (owner 2026-11-14): phát `story_clip_id`, xong thì sang `story_clip_next`.
 const SCENE_STORY_CLIP := "res://scenes/main/story_clip.tscn"
+## Cốt truyện chính (owner 2026-11-14): chọn chương (nhóm chương + thẻ) → map chương cuộn ngang.
+const SCENE_CHAPTERS := "res://scenes/main/chapter_select_screen.tscn"
+const SCENE_CHAPTER_MAP := "res://scenes/main/chapter_map_screen.tscn"
 
 ## Màn sẽ chơi khi mở SCENE_STAGE (data/stages/{id}.json).
 var selected_stage_id := "stage_01"
@@ -35,6 +38,9 @@ var prep_launch_stage := false
 ## Clip truyện sẽ phát khi mở SCENE_STORY_CLIP (data/story/{id}.json) và scene mở khi clip xong.
 var story_clip_id := ""
 var story_clip_next := ""
+## Map chương sẽ mở và phần cuộn tới (0 = ải đang tới).
+var selected_chapter := 1
+var selected_part := 0
 
 ## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
 const TRANSITION_TIME := 0.2

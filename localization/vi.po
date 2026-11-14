@@ -1970,3 +1970,144 @@ msgstr "Tiếp tục"
 
 msgid "STAGE_INFO_REPLAY"
 msgstr "Xem lại mở đầu"
+
+msgid "ARC_ARC_01"
+msgstr "Tro Tàn Và Đá Ngủ"
+
+msgid "ARC_ARC_02"
+msgstr "Sét Câm, Ngọn Đèn Cuối"
+
+msgid "ARC_ARC_03"
+msgstr "Rừng Không Bóng, Đỉnh Gió Lặng"
+
+msgid "ARC_ARC_04"
+msgstr "Nhật Thực"
+
+msgid "CHAPTER_01_TITLE"
+msgstr "Thung Lũng Tro Tàn"
+
+msgid "PART_01_1_TITLE"
+msgstr "Thung Lũng Tro Tàn"
+
+msgid "CHAPTER_02_TITLE"
+msgstr "Xưởng Đá Ngủ"
+
+msgid "PART_02_1_TITLE"
+msgstr "Cao Nguyên Thủ Vệ"
+
+msgid "CHAPTER_03_TITLE"
+msgstr "Thành Tháp Sét Câm"
+
+msgid "PART_03_1_TITLE"
+msgstr "Thành Tháp Sét Câm"
+
+msgid "CHAPTER_04_TITLE"
+msgstr "Thánh Đường Ngọn Đèn Cuối"
+
+msgid "PART_04_1_TITLE"
+msgstr "Đường Tới Thánh Đường"
+
+msgid "PART_04_2_TITLE"
+msgstr "Ngọn Đèn Cuối"
+
+msgid "CHAPTER_05_TITLE"
+msgstr "Rừng Không Bóng"
+
+msgid "PART_05_1_TITLE"
+msgstr "Bìa Rừng Không Bóng"
+
+msgid "PART_05_2_TITLE"
+msgstr "Tàn Tích Trụ Thứ Bảy"
+
+msgid "CHAPTER_06_TITLE"
+msgstr "Đỉnh Gió Lặng"
+
+msgid "PART_06_1_TITLE"
+msgstr "Chân Núi Gió"
+
+msgid "PART_06_2_TITLE"
+msgstr "Đỉnh Gió Lặng"
+
+msgid "CHAPTER_07_TITLE"
+msgstr "Nhật Thực"
+
+msgid "PART_07_1_TITLE"
+msgstr "Vào Lòng Nhật Thực"
+
+msgid "PART_07_2_TITLE"
+msgstr "Vành Sáng"
+
+msgid "TUTORIAL_CHAPTER_CARD_1"
+msgstr "Đây là sổ hành trình. Mỗi nhóm bên trái gom các chương liền mạch, thẻ bên phải là từng chương."
+
+msgid "TUTORIAL_CHAPTER_CARD_1_R"
+msgstr "Mình bắt đầu từ đâu?"
+
+msgid "TUTORIAL_CHAPTER_CARD"
+msgstr "Chạm thẻ Chương 1 nhé."
+
+msgid "TUTORIAL_MAP_STAGE_1"
+msgstr "Đây là bản đồ chương. Kéo ngang để xem cả chặng đường phía trước."
+
+msgid "TUTORIAL_MAP_STAGE_1_R"
+msgstr "Nhiều ải thật."
+
+msgid "TUTORIAL_MAP_STAGE_2"
+msgstr "Mỗi ải có 3 huy chương cho 3 mục tiêu. Gom đủ huy chương của một phần sẽ mở được rương quà."
+
+msgid "TUTORIAL_MAP_STAGE_2_R"
+msgstr "Hiểu rồi."
+
+msgid "TUTORIAL_MAP_STAGE"
+msgstr "Chạm ải 1-1 để bắt đầu."
+
+msgid "CHAPTER_LATEST"
+msgstr "Hành Trình Mới Nhất"
+
+msgid "CHAPTER_RANGE"
+msgstr "Chương %d~%d"
+
+msgid "CHAPTER_RANGE_PARTS"
+msgstr "Chương %d · %d phần"
+
+msgid "CHAPTER_NUM"
+msgstr "Chương %d"
+
+msgid "CHAPTER_NUM_PART"
+msgstr "Chương %d · Phần %d"
+
+msgid "CHAPTER_PROGRESS"
+msgstr "Tiến độ hiện tại %d %%"
+
+msgid "CHAPTER_NEW"
+msgstr "Mới!"
+
+msgid "CHAPTER_SOON"
+msgstr "Sắp ra mắt"
+
+msgid "MAP_TITLE"
+msgstr "Chương %d: %s"
+
+msgid "MAP_BREADCRUMB"
+msgstr "Vị trí hiện tại  Kịch bản chính > %s"
+
+msgid "MAP_CHEST"
+msgstr "Quà khiêu chiến"
+
+msgid "MAP_CHEST_DONE"
+msgstr "Đã nhận"
+
+msgid "MAP_CHEST_GOT"
+msgstr "Đã nhận quà phần: %s"
+
+msgid "MAP_CHEST_ALREADY"
+msgstr "Đã nhận quà của phần này."
+
+msgid "MAP_CHEST_NOT_READY"
+msgstr "Đạt đủ 100%% huy chương của phần để nhận quà."
+
+msgid "MAP_STAGE_SOON"
+msgstr "Ải %s sắp ra mắt."
+
+msgid "MAP_STAGE_LOCKED"
+msgstr "Hoàn thành ải trước để mở ải %s."

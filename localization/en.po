@@ -1970,3 +1970,144 @@ msgstr "Continue"
 
 msgid "STAGE_INFO_REPLAY"
 msgstr "Replay opening"
+
+msgid "ARC_ARC_01"
+msgstr "Ash and Sleeping Stone"
+
+msgid "ARC_ARC_02"
+msgstr "Silent Thunder, Last Lamp"
+
+msgid "ARC_ARC_03"
+msgstr "Shadowless Forest, Windless Peak"
+
+msgid "ARC_ARC_04"
+msgstr "Eclipse"
+
+msgid "CHAPTER_01_TITLE"
+msgstr "The Ashen Valley"
+
+msgid "PART_01_1_TITLE"
+msgstr "The Ashen Valley"
+
+msgid "CHAPTER_02_TITLE"
+msgstr "The Sleeping Stone Workshop"
+
+msgid "PART_02_1_TITLE"
+msgstr "Guardian Highlands"
+
+msgid "CHAPTER_03_TITLE"
+msgstr "City of Silent Towers"
+
+msgid "PART_03_1_TITLE"
+msgstr "City of Silent Towers"
+
+msgid "CHAPTER_04_TITLE"
+msgstr "Sanctuary of the Last Lamp"
+
+msgid "PART_04_1_TITLE"
+msgstr "Road to the Sanctuary"
+
+msgid "PART_04_2_TITLE"
+msgstr "The Last Lamp"
+
+msgid "CHAPTER_05_TITLE"
+msgstr "The Shadowless Forest"
+
+msgid "PART_05_1_TITLE"
+msgstr "Edge of the Shadowless Forest"
+
+msgid "PART_05_2_TITLE"
+msgstr "Ruins of the Seventh Pillar"
+
+msgid "CHAPTER_06_TITLE"
+msgstr "The Windless Peak"
+
+msgid "PART_06_1_TITLE"
+msgstr "Foot of the Wind Mountain"
+
+msgid "PART_06_2_TITLE"
+msgstr "The Windless Peak"
+
+msgid "CHAPTER_07_TITLE"
+msgstr "Eclipse"
+
+msgid "PART_07_1_TITLE"
+msgstr "Into the Eclipse"
+
+msgid "PART_07_2_TITLE"
+msgstr "The Bright Ring"
+
+msgid "TUTORIAL_CHAPTER_CARD_1"
+msgstr "This is the journey log. Each group on the left gathers linked chapters; the cards on the right are the chapters."
+
+msgid "TUTORIAL_CHAPTER_CARD_1_R"
+msgstr "Where do we start?"
+
+msgid "TUTORIAL_CHAPTER_CARD"
+msgstr "Tap the Chapter 1 card."
+
+msgid "TUTORIAL_MAP_STAGE_1"
+msgstr "This is the chapter map. Drag sideways to see the whole road ahead."
+
+msgid "TUTORIAL_MAP_STAGE_1_R"
+msgstr "That's a lot of stages."
+
+msgid "TUTORIAL_MAP_STAGE_2"
+msgstr "Each stage has 3 medals for 3 objectives. Collect every medal in a part to open its reward chest."
+
+msgid "TUTORIAL_MAP_STAGE_2_R"
+msgstr "Got it."
+
+msgid "TUTORIAL_MAP_STAGE"
+msgstr "Tap stage 1-1 to begin."
+
+msgid "CHAPTER_LATEST"
+msgstr "Latest Journey"
+
+msgid "CHAPTER_RANGE"
+msgstr "Chapters %d~%d"
+
+msgid "CHAPTER_RANGE_PARTS"
+msgstr "Chapter %d · %d parts"
+
+msgid "CHAPTER_NUM"
+msgstr "Chapter %d"
+
+msgid "CHAPTER_NUM_PART"
+msgstr "Chapter %d · Part %d"
+
+msgid "CHAPTER_PROGRESS"
+msgstr "Current progress %d %%"
+
+msgid "CHAPTER_NEW"
+msgstr "New!"
+
+msgid "CHAPTER_SOON"
+msgstr "Coming soon"
+
+msgid "MAP_TITLE"
+msgstr "Chapter %d: %s"
+
+msgid "MAP_BREADCRUMB"
+msgstr "You are here  Main story > %s"
+
+msgid "MAP_CHEST"
+msgstr "Challenge reward"
+
+msgid "MAP_CHEST_DONE"
+msgstr "Claimed"
+
+msgid "MAP_CHEST_GOT"
+msgstr "Part reward claimed: %s"
+
+msgid "MAP_CHEST_ALREADY"
+msgstr "This part's reward was already claimed."
+
+msgid "MAP_CHEST_NOT_READY"
+msgstr "Earn 100%% of the part's medals to claim it."
+
+msgid "MAP_STAGE_SOON"
+msgstr "Stage %s is coming soon."
+
+msgid "MAP_STAGE_LOCKED"
+msgstr "Clear the previous stage to unlock %s."

@@ -134,6 +134,17 @@ chéo là phần bị cắt. Thay bằng ảnh thật cùng tên (không tiền 
 | `assets/placeholders/story/placeholder_ch01_open_01.png` … `_15.png` (15 ảnh, 720×760 đến 1840×760) | 15 ô truyện clip mở Chương 1 (`data/story/ch01_open.json`) | 2026-11-14 |
 | `assets/placeholders/story/placeholder_ch01_end_01.png` … `_14.png` (14 ảnh, 720×760 đến 1840×760) | 14 ô truyện clip kết Chương 1 (`data/story/ch01_end.json`) | 2026-11-14 |
 
+### 3.3 Ảnh tạm chọn chương / map chương (owner 2026-11-14)
+
+Sinh bằng `tools/story/gen_chapters.py` (Pillow: dải màu, mặt trời khuyết, núi / kiến trúc silhouette, làm mờ Gaussian;
+font Arial của Windows chỉ để ghi nhãn). Thay bằng ảnh thật cùng tên (không tiền tố) ở `assets/story/chapters/` theo
+`docs/prompts/story/CHAPTER_ART.md`; ảnh AI dùng thật phải ghi từng file vào mục 2.1.
+
+| File | Thay cho | Ngày |
+|---|---|---|
+| `assets/placeholders/story/placeholder_map_ch01.png` … `ch07.png` (7 ảnh, cao 1080, rộng 3240–9200) | Tranh nền map chương kéo ngang | 2026-11-14 |
+| `assets/placeholders/story/placeholder_card_ch01.png` … `ch07.png` (7 ảnh 380×600) | Ảnh thẻ chương ở màn chọn chương | 2026-11-14 |
+
 ## 4. Tài liệu tham khảo (không phải asset game)
 
 | File | Nội dung | Ghi chú |

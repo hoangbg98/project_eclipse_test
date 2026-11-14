@@ -3,7 +3,8 @@ extends RefCounted
 ## Luật của hướng dẫn người mới (owner 2026-11-14), tách khỏi phần vẽ (TutorialGuide) để test không cần UI.
 ## Bước hiện tại suy ra từ save, không lưu số bước riêng, nên thoát game giữa chừng vẫn tiếp tục đúng chỗ:
 ##
-## 1. STORY — chưa qua ải 1-1: Sảnh → Xuất kích → Cốt truyện chính → Chuẩn bị → Khai chiến.
+## 1. STORY — chưa qua ải 1-1: Sảnh → Xuất kích → Cốt truyện chính → thẻ Chương 1 → ải 1-1 trên map → (clip)
+##    → Chuẩn bị → Khai chiến.
 ##    Trong trận không khóa gì; thua thì chỉ cho Chơi lại.
 ## 2. PULL — đã qua 1-1, còn vé x10 và chưa dùng lượt miễn phí: màn kết quả → Về Hub → (Menu) → Tiếp tế →
 ##    Chiêu mộ → Chiêu mộ ×10 miễn phí.
@@ -26,7 +27,7 @@ const PHASE_PULL := "pull"
 const PHASE_FINISH := "finish"
 
 ## Màn mở từ sảnh có nút Menu (về sảnh) — dùng khi người chơi lạc sang màn không thuộc bước hiện tại.
-const MENU_SCENES: Array[String] = [GC.SCENE_SORTIE, GC.SCENE_STAGE_INFO, GC.SCENE_PARTY_PREP, GC.SCENE_PARTY_SELECT,
+const MENU_SCENES: Array[String] = [GC.SCENE_SORTIE, GC.SCENE_CHAPTERS, GC.SCENE_CHAPTER_MAP, GC.SCENE_STAGE_INFO, GC.SCENE_PARTY_PREP, GC.SCENE_PARTY_SELECT,
 		GC.SCENE_SUPPLY, GC.SCENE_BAG, GC.SCENE_COMPANION, GC.SCENE_PLAYER]
 
 
@@ -57,6 +58,10 @@ static func step(data: Dictionary, scene_path: String) -> Dictionary:
 					return _s(["Tile_sortie"], "TUTORIAL_HUB_SORTIE")
 				GC.SCENE_SORTIE:
 					return _s(["Card_story"], "TUTORIAL_SORTIE_STORY")
+				GC.SCENE_CHAPTERS:
+					return _s(["ChapterCard_1"], "TUTORIAL_CHAPTER_CARD")
+				GC.SCENE_CHAPTER_MAP:
+					return _s(["Stage_1-1"], "TUTORIAL_MAP_STAGE")
 				GC.SCENE_STAGE_INFO:
 					return _s(["PrepareButton"], "TUTORIAL_STAGE_PREPARE")
 				GC.SCENE_PARTY_PREP:

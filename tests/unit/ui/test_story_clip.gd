@@ -185,18 +185,20 @@ func test_speakers_and_portraits() -> void:
 
 # ---------- Nối vào game ----------
 
-func test_sortie_story_plays_open_clip_first_time() -> void:
-	var s := (load(GameConfig.SCENE_SORTIE) as PackedScene).instantiate() as SortieScreen
+func test_map_stage_plays_open_clip_first_time() -> void:
+	GameConfig.selected_chapter = 1
+	GameConfig.selected_part = 0
+	var s := (load(GameConfig.SCENE_CHAPTER_MAP) as PackedScene).instantiate() as ChapterMapScreen
 	s.profile = PlayerProfile.new(_save.data)
 	s.save_enabled = false
 	s.navigate_enabled = false
 	add_child(auto_free(s))
-	s.activate("story")
+	s.press_stage("1-1")
 	assert_str(s.last_target).is_equal(GameConfig.SCENE_STORY_CLIP)
 	assert_str(GameConfig.story_clip_id).is_equal("ch01_open")
 	assert_str(GameConfig.story_clip_next).is_equal(GameConfig.SCENE_STAGE_INFO)
 	TutorialFlow.mark_seen(_save.data, "clip:ch01_open")
-	s.activate("story")
+	s.press_stage("1-1")
 	assert_str(s.last_target).is_equal(GameConfig.SCENE_STAGE_INFO)
 
 

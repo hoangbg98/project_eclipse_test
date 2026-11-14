@@ -28,6 +28,10 @@
 | 14 | Nút clip | Tự động, Bỏ qua (xác nhận + tóm tắt), Lịch sử, Ẩn | — |
 | 15 | Clip kết Chương 1 | Phát **sau màn kết quả** (bấm Về Hub, lần qua ải đầu tiên) rồi về sảnh | — |
 | 16 | Placeholder ô truyện | Mỗi ô (mỗi nút truyện) có placeholder ghi **diễn biến** của đoạn đó, để đọc được truyện trong game trước khi có art | Ô không có cả ảnh lẫn placeholder (bản Release loại `placeholder_*`) thì game tự vẽ ô xám kèm diễn biến |
+| 17 | Chọn chương / map chương | Màn chọn chương như ảnh tham chiếu (nhóm chương bên trái, thẻ chương bên phải); **mọi chương** (cả Chương 1) có map cuộn ngang trên một tranh dài, mờ | `data/story/chapters.json` (sinh bằng `tools/story/gen_chapters.py`), prompt tranh ở `docs/prompts/story/CHAPTER_ART.md` |
+| 18 | Số ải | Tăng dần: Ch.1 10 · Ch.2 12 · Ch.3 15 · Ch.4 20 (10+10) · Ch.5 24 (12+12) · Ch.6 26 (13+13) · Ch.7 30 (15+15) = 137 ải; part 10–15 ải | Nhóm chương (đề xuất, đổi được): Ch.1–2 "Tro Tàn Và Đá Ngủ", Ch.3–4 "Sét Câm, Ngọn Đèn Cuối", Ch.5–6 "Rừng Không Bóng, Đỉnh Gió Lặng", Ch.7 "Nhật Thực" (2 phần, mỗi phần một thẻ) |
+| 19 | Ải chưa có màn chơi | Hiện trên map nhưng khóa **"Sắp ra mắt"** | Thêm màn: đặt `stage_id` cho ải trong `gen_chapters.py` (bảng `built`) và tạo `data/stages/<id>.json` |
+| 20 | Quà khiêu chiến | Mỗi phần một rương: % huy chương (3 / ải = 3 mục tiêu chiến đấu); đủ 100% nhận **một lần** | Số thưởng tạm `PART_REWARD` (300 ngọc + nguyên liệu) trong `gen_chapters.py` |
 
 ---
 

@@ -32,7 +32,7 @@ Cài đặt, Đổi nền.
 
 ## Vào màn: mục tiêu chiến đấu, đội hình, chọn giáp (owner 2026-11-14)
 
-Luồng: Xuất kích → Cốt truyện chính → **Thông tin màn** → Chuẩn bị → **Đội hình** → Khai chiến. Chạm ảnh ở Đội hình →
+Luồng: Xuất kích → Cốt truyện chính → **Chọn chương** (nhóm chương + thẻ) → **Map chương** (kéo ngang, chạm ải) → (clip mở chương lần đầu) → **Thông tin màn** → Chuẩn bị → **Đội hình** → Khai chiến. Chạm ảnh ở Đội hình →
 **Chọn giáp** → Xác nhận đội ngũ (quay lại Đội hình). Thẻ Đội hình ở Xuất kích mở màn Đội hình không có nút Khai chiến.
 
 - Thông tin màn (`stage_info_screen.tscn`): tên, ảnh xem trước (trường `preview` trong data màn; chưa có thì icon),
