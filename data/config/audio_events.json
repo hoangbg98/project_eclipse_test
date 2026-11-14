@@ -12,7 +12,8 @@
 		"reaction": "sfx_reaction",
 		"ultimate": "sfx_ultimate",
 		"stage_clear": "sfx_stage_clear",
-		"stage_fail": "sfx_stage_fail"
+		"stage_fail": "sfx_stage_fail",
+		"gacha_5star": "sfx_gacha_5star"
 	},
 	"music": {
 		"title": "music_menu",

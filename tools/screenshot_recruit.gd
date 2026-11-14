@@ -73,7 +73,7 @@ func _process(_delta: float) -> bool:
 			"revealing":
 				_screen.last_results = MIXED.duplicate(true)
 				_screen.open_overlay(RecruitScreen.Overlay.RESULTS)
-				_screen.reveal_time = 4.0   # giữa chừng: 3 thẻ đã hiện, thẻ thứ 4 đang trượt vào
+				_screen.reveal_time = 0.25  # thẻ 5★ đầu tiên vừa hiện xong: quầng, cột sáng, hạt bung
 	if _frames % 12 == 10:
 		var out := "res://build/screenshots/recruit_%s.png" % str(SHOTS[_index][0])
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out.get_base_dir()))

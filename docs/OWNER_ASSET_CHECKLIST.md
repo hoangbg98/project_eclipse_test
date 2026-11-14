@@ -160,6 +160,7 @@ Muốn đổi tên hoặc gán lại: sửa `data/config/audio_events.json` (kh�
 | | `sfx_reaction` | Phản ứng nguyên tố nổ |
 | | `sfx_ultimate` | Bắt đầu tuyệt kỹ |
 | | `sfx_stage_clear`, `sfx_stage_fail` | Qua màn / thất bại |
+| | `sfx_gacha_5star` | Thẻ 5★ hiện ở màn kết quả Chiêu mộ (đang dùng tiếng tạm `placeholder_sfx_gacha_5star.wav`) |
 
 Nhạc cần lặp thì bật Loop trong tab Import của Godot cho file đó.
 

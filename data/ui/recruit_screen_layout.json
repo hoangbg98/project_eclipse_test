@@ -66,6 +66,7 @@
 	"overlay": {
 		"rect": [300, 110, 1320, 860], "anchor": "center", "font": 26,
 		"result_card": [168, 620], "result_gap": 14,
-		"result_reveal_interval": 1.2, "result_reveal_fade": 0.6, "result_reveal_slide": 90
+		"result_reveal_interval": 0.8, "result_reveal_fade": 0.4, "result_reveal_slide": 90,
+		"result_shake_px": 14, "result_shake_sec": 0.45
 	}
 }

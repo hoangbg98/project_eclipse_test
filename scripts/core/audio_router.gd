@@ -6,7 +6,10 @@ extends Node
 const BUS_MUSIC := &"Music"
 const BUS_SFX := &"SFX"
 const MUSIC_PATHS := ["res://assets/audio/music/%s.ogg", "res://assets/audio/music/%s.mp3"]
-const SFX_PATHS := ["res://assets/audio/sfx/%s.wav", "res://assets/audio/sfx/%s.ogg"]
+## File của owner trước; chưa có thì âm thanh tạm `assets/placeholders/placeholder_{id}.wav` (tools/gen_placeholder_sfx.py,
+## bản Release loại placeholder nên vẫn im lặng tới khi có file thật).
+const SFX_PATHS := ["res://assets/audio/sfx/%s.wav", "res://assets/audio/sfx/%s.ogg",
+		"res://assets/placeholders/placeholder_%s.wav"]
 const SFX_VOICES := 8
 const EVENTS_PATH := "res://data/config/audio_events.json"
 ## Cùng một hiệu ứng không phát lại trong khoảng này (đòn trúng nhiều mục tiêu cùng lúc).

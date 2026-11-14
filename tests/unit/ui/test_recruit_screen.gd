@@ -324,10 +324,10 @@ func test_results_reveal_left_to_right_and_skip() -> void:
 	var s := _screen()
 	s.profile.inventory.add_currency("gems", 3000)
 	assert_bool(s.pull(10)).is_true()
-	assert_float(s.reveal_total()).is_between(10.0, 15.0)              # owner: 10–15 s cho ×10
+	assert_float(s.reveal_total()).is_equal_approx(7.6, 0.001)         # owner: ×1.5 so với 11.4 s
 	assert_int(s.revealed_count()).is_equal(0)
 	assert_float(_node(s, "ResultSlot_0").modulate.a).is_less(0.2)
-	s._process(1.2 * 3 + 0.6)                                         # 4 thẻ đầu đã hiện rõ
+	s._process(0.8 * 3 + 0.4)                                         # 4 thẻ đầu đã hiện rõ
 	assert_int(s.revealed_count()).is_equal(4)
 	assert_float(_node(s, "ResultSlot_3").modulate.a).is_equal_approx(1.0, 0.001)
 	assert_float(_node(s, "ResultSlot_0").position.x).is_equal_approx(0.0, 0.001)
@@ -341,5 +341,45 @@ func test_results_reveal_left_to_right_and_skip() -> void:
 	assert_float(_node(s, "ResultSlot_9").modulate.a).is_equal_approx(1.0, 0.001)
 	assert_bool(s.intercept_back()).is_true()
 	s.pull(1)                                                         # lượt mới: chạy lại từ đầu
-	assert_float(s.reveal_total()).is_equal_approx(0.6, 0.001)
+	assert_float(s.reveal_total()).is_equal_approx(0.4, 0.001)
 	assert_bool(s.is_revealing()).is_true()
+
+
+func test_five_star_card_has_light_effect() -> void:
+	var s := _screen()
+	s.select(0)
+	s.last_results = [
+		{"item": "char:char_fire_01", "rarity": 5, "tier": "S", "duplicate": false},
+		{"item": "item:mat_exp_small", "rarity": 1, "tier": "MAT", "duplicate": false},
+	]
+	s.open_overlay(RecruitScreen.Overlay.RESULTS)
+	assert_object(_node(s, "ResultGlow_0")).is_not_null()            # 5★ có quầng, cột sáng, chớp
+	assert_object(_node(s, "ResultBeam_0")).is_not_null()
+	assert_object(_node(s, "ResultFlash_0")).is_not_null()
+	assert_object(_node(s, "ResultGlow_1")).is_null()                # thẻ thường không có
+	var spark := s.find_child("ResultSpark_0", true, false) as CPUParticles2D
+	var drift := s.find_child("ResultDrift_0", true, false) as CPUParticles2D
+	assert_object(spark).is_not_null()                               # hạt lấp lánh
+	assert_object(s.find_child("ResultSpark_1", true, false)).is_null()
+	assert_bool(drift.emitting).is_true()                            # thẻ đầu bắt đầu hiện ngay ở giây 0
+	assert_float(_node(s, "ResultGlow_0").modulate.a).is_equal(0.0)   # chưa tới lượt thẻ
+	s._process(0.15)
+	assert_float(_node(s, "ResultFlash_0").modulate.a).is_greater(0.3)   # chớp sáng lúc thẻ hiện
+	assert_float(s.shake_offset().length()).is_greater(0.0)               # đang rung
+	assert_bool(spark.emitting).is_true()                                 # hạt bung lúc thẻ hiện
+	assert_bool(drift.emitting).is_true()
+	assert_float(s.shake_offset().length()).is_less_equal(14.0 * 1.25)
+	s._process(0.6)
+	assert_float(_node(s, "ResultFlash_0").modulate.a).is_equal(0.0)
+	assert_that(s.shake_offset()).is_equal(Vector2.ZERO)                  # hết rung sau 0.45 s
+	assert_float(_node(s, "ResultSlot_0").position.y).is_equal(0.0)
+	assert_float(_node(s, "ResultGlow_0").modulate.a).is_greater(0.3)    # quầng còn sáng, nhấp nháy
+	s.skip_reveal()
+	assert_float(_node(s, "ResultBeam_0").modulate.a).is_greater(0.2)
+	var audio := get_tree().root.get_node_or_null("AudioRouter")
+	if audio:
+		var n := (audio.requested as Array).count("sfx_gacha_5star")
+		assert_int(n).is_greater_equal(1)                              # đã phát khi thẻ 5★ hiện
+		s.refresh()
+		s._process(0.1)
+		assert_int((audio.requested as Array).count("sfx_gacha_5star")).is_equal(n)   # dựng lại không phát lại

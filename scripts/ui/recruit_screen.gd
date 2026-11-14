@@ -32,6 +32,15 @@ var now_unix := -1
 ## Tính theo thời gian (không dùng Tween) để dựng lại màn giữa chừng vẫn tiếp tục đúng chỗ.
 var reveal_time := 0.0
 var _reveal_slots: Array[Control] = []
+## Ánh sáng thẻ 5★: chỉ số ô hiển thị → {glow, beam, flash}. `_fx_time` chạy liên tục để quầng sáng nhấp nháy.
+var _reveal_fx: Dictionary = {}
+var _fx_time := 0.0
+## Ô 5★ đã phát âm thanh trong lượt kết quả hiện tại (dựng lại màn không phát lại).
+var _fx_sounded: Dictionary = {}
+## Ô 5★ đã bung hạt trong lượt kết quả hiện tại (dựng lại màn chỉ giữ hạt trôi, không bung lại).
+var _fx_sparked: Dictionary = {}
+## Sự kiện âm thanh khi thẻ 5★ hiện (data/config/audio_events.json → sfx_gacha_5star).
+const SFX_FIVE_STAR := "gacha_5star"
 
 
 func _layout_path() -> String:
@@ -270,6 +279,8 @@ func pull(count: int) -> bool:
 	notice = ""
 	overlay = Overlay.RESULTS
 	reveal_time = 0.0
+	_fx_sounded.clear()
+	_fx_sparked.clear()
 	commit()
 	return true
 
@@ -290,6 +301,8 @@ func pull_starter() -> bool:
 	notice = ""
 	overlay = Overlay.RESULTS
 	reveal_time = 0.0
+	_fx_sounded.clear()
+	_fx_sparked.clear()
 	commit()
 	return true
 
@@ -297,6 +310,8 @@ func pull_starter() -> bool:
 func open_overlay(o: Overlay) -> void:
 	if o == Overlay.RESULTS:
 		reveal_time = 0.0
+		_fx_sounded.clear()
+		_fx_sparked.clear()
 	overlay = o
 	notice = ""
 	refresh()
@@ -537,13 +552,14 @@ static func _tex(path: String) -> Texture2D:
 ## A / 4★ tím, còn lại xanh dương). Thẻ là placeholder rỗng; nhân vật dùng splash, vật phẩm dùng ảnh / icon tạm.
 # ---------- Hiệu ứng hiện thẻ ----------
 
-## Giây giữa hai thẻ, thời gian hiện một thẻ, quãng trượt (px). Mặc định ×10 ≈ 9 × 1.2 + 0.6 ≈ 11.4 s.
+## Giây giữa hai thẻ, thời gian hiện một thẻ, quãng trượt (px). Owner 2026-11-15: nhanh ×1.5 so với bản đầu
+## (1.2 / 0.6 → 0.8 / 0.4), ×10 ≈ 9 × 0.8 + 0.4 ≈ 7.6 s.
 func _reveal_interval() -> float:
-	return layout.num("overlay.result_reveal_interval", 1.2)
+	return layout.num("overlay.result_reveal_interval", 0.8)
 
 
 func _reveal_fade() -> float:
-	return layout.num("overlay.result_reveal_fade", 0.6)
+	return layout.num("overlay.result_reveal_fade", 0.4)
 
 
 ## Tổng thời gian hiện hết các thẻ.
@@ -571,13 +587,31 @@ func revealed_count() -> int:
 
 
 func _process(delta: float) -> void:
+	if overlay != Overlay.RESULTS:
+		return
+	_fx_time += delta
 	if is_revealing():
 		reveal_time += delta
-		_apply_reveal()
+	_apply_reveal()
+
+
+## Độ lệch rung lúc này: mỗi thẻ 5★ vừa hiện góp biên độ giảm dần tuyến tính về 0 trong `result_shake_sec`.
+func shake_offset() -> Vector2:
+	var px := layout.num("overlay.result_shake_px", 14) if layout else 14.0
+	var sec := maxf(layout.num("overlay.result_shake_sec", 0.45) if layout else 0.45, 0.01)
+	var amp := 0.0
+	for k in _reveal_fx:
+		var lt := reveal_time - int(k) * _reveal_interval()
+		if lt >= 0.0 and lt < sec:
+			amp = maxf(amp, px * (1.0 - lt / sec))
+	if amp <= 0.0:
+		return Vector2.ZERO
+	return Vector2(sin(_fx_time * 61.0), cos(_fx_time * 47.0) * 0.7) * amp
 
 
 func _apply_reveal() -> void:
 	var slide := layout.num("overlay.result_reveal_slide", 90) if layout else 90.0
+	var shake := shake_offset()   # rung hàng thẻ, nền đứng yên (không lộ mép màn)
 	for k in _reveal_slots.size():
 		var slot := _reveal_slots[k]
 		if not is_instance_valid(slot):
@@ -585,10 +619,153 @@ func _apply_reveal() -> void:
 		var p := clampf((reveal_time - k * _reveal_interval()) / maxf(_reveal_fade(), 0.01), 0.0, 1.0)
 		var e := 1.0 - pow(1.0 - p, 3.0)
 		slot.modulate.a = e
-		slot.position.x = -(1.0 - e) * slide
+		slot.position = Vector2(-(1.0 - e) * slide, 0.0) + shake
+		if _reveal_fx.has(k):
+			var lt := reveal_time - k * _reveal_interval()
+			_apply_fx(_reveal_fx[k], lt)
+			var fx: Dictionary = _reveal_fx[k]
+			(fx["drift"] as CPUParticles2D).emitting = lt >= 0.0
+			if lt >= 0.0 and not _fx_sparked.has(k):
+				_fx_sparked[k] = true
+				(fx["burst"] as CPUParticles2D).restart()
+			if lt >= 0.0 and not _fx_sounded.has(k):
+				_fx_sounded[k] = true
+				_play_sfx(SFX_FIVE_STAR)   # nhiều thẻ 5★ cùng lúc (Bỏ qua): AudioRouter chặn phát trùng trong 40 ms
 	var skip := _root.find_child("ResultSkip", true, false) as Control if _root else null
 	if skip:
 		skip.visible = is_revealing()
+
+
+func _play_sfx(event: String) -> void:
+	var audio := UiKit.autoload("AudioRouter")
+	if audio:
+		audio.play_event(event)
+
+
+## Ánh sáng 5★ theo thời gian kể từ lúc thẻ bắt đầu hiện (`t`): chớp trắng trên thẻ (tắt sau ~0.45 s), quầng vàng
+## phía sau phóng to rồi thu về, cột sáng dọc bùng lên rồi giữ mức nhẹ; sau đó quầng và cột nhấp nháy chậm.
+func _apply_fx(fx: Dictionary, t: float) -> void:
+	var flash := fx["flash"] as Control
+	var glow := fx["glow"] as Control
+	var beam := fx["beam"] as Control
+	if t <= 0.0:
+		flash.modulate.a = 0.0
+		glow.modulate.a = 0.0
+		beam.modulate.a = 0.0
+		return
+	var burst := clampf(t / 0.25, 0.0, 1.0) * clampf(1.0 - (t - 0.25) / 0.9, 0.0, 1.0)   # 0 → 1 → 0 trong ~1.15 s
+	var pulse := 0.5 + 0.5 * sin(_fx_time * 3.0)
+	flash.modulate.a = clampf(1.0 - t / 0.45, 0.0, 1.0) * 0.85
+	glow.modulate.a = clampf(t / 0.2, 0.0, 1.0) * (0.55 + 0.25 * pulse) + 0.4 * burst
+	var sc := 1.0 + 0.45 * burst
+	glow.scale = Vector2(sc, sc)
+	beam.modulate.a = clampf(t / 0.2, 0.0, 1.0) * (0.35 + 0.15 * pulse) + 0.6 * burst
+	beam.scale = Vector2(1.0 + 0.6 * burst, 1.0)
+
+
+## Ba lớp ánh sáng của thẻ 5★ (tạo TRƯỚC các node của thẻ để nằm phía sau, trừ chớp trắng nằm trên cùng).
+func _make_fx_back(c: Rect2, col: Color, i: int) -> Dictionary:
+	var g := Gradient.new()
+	g.set_color(0, Color(col.lightened(0.35), 0.95))
+	g.set_color(1, Color(col, 0.0))
+	var radial := GradientTexture2D.new()
+	radial.gradient = g
+	radial.fill = GradientTexture2D.FILL_RADIAL
+	radial.fill_from = Vector2(0.5, 0.5)
+	radial.fill_to = Vector2(0.5, 0.0)
+	var glow := TextureRect.new()
+	glow.name = "ResultGlow_%d" % i
+	glow.texture = radial
+	glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	glow.stretch_mode = TextureRect.STRETCH_SCALE
+	glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var gr := Rect2(c.get_center() - Vector2(c.size.x * 1.6, c.size.y * 0.75), Vector2(c.size.x * 3.2, c.size.y * 1.5))
+	_place(glow, gr)
+	glow.pivot_offset = gr.size * 0.5
+	var bg := Gradient.new()
+	bg.offsets = PackedFloat32Array([0.0, 0.5, 1.0])
+	bg.colors = PackedColorArray([Color(col, 0.0), Color(col.lightened(0.5), 0.9), Color(col, 0.0)])
+	var col_tex := GradientTexture2D.new()
+	col_tex.gradient = bg
+	col_tex.fill_from = Vector2(0.0, 0.5)
+	col_tex.fill_to = Vector2(1.0, 0.5)
+	var beam := TextureRect.new()
+	beam.name = "ResultBeam_%d" % i
+	beam.texture = col_tex
+	beam.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	beam.stretch_mode = TextureRect.STRETCH_SCALE
+	beam.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var br := Rect2(Vector2(c.get_center().x - c.size.x * 0.45, 0), Vector2(c.size.x * 0.9, layout.view_size.y))
+	_place(beam, br)
+	beam.pivot_offset = br.size * 0.5
+	return {"glow": glow, "beam": beam}
+
+
+## Hạt lấp lánh của thẻ 5★: `burst` bung một lần lúc thẻ hiện, `drift` trôi lên chậm sau đó.
+func _make_fx_sparkles(c: Rect2, col: Color, i: int) -> Dictionary:
+	var g := Gradient.new()
+	g.set_color(0, Color(1, 1, 1, 1))
+	g.set_color(1, Color(1, 1, 1, 0))
+	var dot := GradientTexture2D.new()
+	dot.gradient = g
+	dot.width = 24
+	dot.height = 24
+	dot.fill = GradientTexture2D.FILL_RADIAL
+	dot.fill_from = Vector2(0.5, 0.5)
+	dot.fill_to = Vector2(0.5, 0.0)
+	var ramp := Gradient.new()
+	ramp.offsets = PackedFloat32Array([0.0, 0.25, 1.0])
+	ramp.colors = PackedColorArray([Color(1, 1, 0.9, 1), Color(col.lightened(0.3), 1), Color(col, 0)])
+	var burst := CPUParticles2D.new()
+	burst.name = "ResultSpark_%d" % i
+	burst.texture = dot
+	burst.local_coords = true   # hạt đi theo thẻ khi thẻ trượt / rung
+	burst.emitting = false
+	burst.one_shot = true
+	burst.amount = 60
+	burst.lifetime = 1.2
+	burst.explosiveness = 1.0
+	burst.direction = Vector2.UP
+	burst.spread = 180.0
+	burst.initial_velocity_min = 160.0
+	burst.initial_velocity_max = 420.0
+	burst.gravity = Vector2(0, 260)
+	burst.damping_min = 40.0
+	burst.damping_max = 90.0
+	burst.scale_amount_min = 0.3
+	burst.scale_amount_max = 1.1
+	burst.color_ramp = ramp
+	burst.position = c.get_center() - Vector2(0, c.size.y * 0.15)
+	_root.add_child(burst)
+	var drift := CPUParticles2D.new()
+	drift.name = "ResultDrift_%d" % i
+	drift.texture = dot
+	drift.local_coords = true   # hạt đi theo thẻ khi thẻ trượt / rung
+	drift.emitting = false
+	drift.amount = 16
+	drift.lifetime = 2.4
+	drift.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	drift.emission_rect_extents = c.size * 0.5
+	drift.direction = Vector2.UP
+	drift.spread = 25.0
+	drift.initial_velocity_min = 20.0
+	drift.initial_velocity_max = 60.0
+	drift.gravity = Vector2(0, -15)
+	drift.scale_amount_min = 0.2
+	drift.scale_amount_max = 0.6
+	drift.color_ramp = ramp
+	drift.position = c.get_center()
+	_root.add_child(drift)
+	return {"burst": burst, "drift": drift}
+
+
+func _make_fx_flash(c: Rect2, i: int) -> Control:
+	var flash := ColorRect.new()
+	flash.name = "ResultFlash_%d" % i
+	flash.color = Color(1, 1, 1, 1)
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_place(flash, c)
+	return flash
 
 
 func _build_results(b: BannerDef) -> void:
@@ -599,6 +776,7 @@ func _build_results(b: BannerDef) -> void:
 		if (ev is InputEventMouseButton or ev is InputEventScreenTouch) and ev.is_pressed() and is_revealing():
 			skip_reveal())
 	_reveal_slots.clear()
+	_reveal_fx.clear()
 	var view := layout.view_size
 	_label(Rect2(60, 40, 900, 60), tr("RECRUIT_UI_RESULT_TITLE"), 40, Color.WHITE).name = "ResultTitle"
 	var card_v: Variant = layout.get_value("overlay.result_card", [168, 620])
@@ -615,6 +793,7 @@ func _build_results(b: BannerDef) -> void:
 		var res: Dictionary = last_results[i]
 		var c := Rect2(origin + Vector2(slot * (card.x + gap), 0), card)
 		var col := _rarity_color(int(res["rarity"]))
+		var fx := _make_fx_back(c, col, i) if int(res["rarity"]) >= 5 else {}
 		# Viền + quầng sáng theo độ hiếm.
 		var glow := StyleBoxFlat.new()
 		glow.bg_color = Color(0.1, 0.12, 0.18, 1.0)
@@ -674,6 +853,10 @@ func _build_results(b: BannerDef) -> void:
 				var badge := _panel(Rect2(c.position + Vector2(card.x - 70, 10), Vector2(60, 32)), col, "ResultNew_%d" % i)
 				badge.add_theme_stylebox_override("panel", _style(col, Color(0, 0, 0, 0), 8))
 				_label(badge.get_rect(), tr("RECRUIT_NEW"), 20, Color.BLACK, HORIZONTAL_ALIGNMENT_CENTER)
+		if not fx.is_empty():
+			fx["flash"] = _make_fx_flash(c, i)
+			fx.merge(_make_fx_sparkles(c, col, i))
+			_reveal_fx[slot] = fx
 		# Gom các node của thẻ vào một lớp để hiệu ứng mờ + trượt chung.
 		var holder := Control.new()
 		holder.name = "ResultSlot_%d" % slot
