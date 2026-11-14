@@ -21,19 +21,38 @@ note = "Kẻ địch đang Cháy chịu +5% ST Hỏa từ người đeo"
 
 [sub_resource type="Resource" id="Effect_2"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+status_id = "heat"
+trigger = "skill_hit"
+icd = 3.0
+action = "self_status"
 note = "Kĩ năng thường trúng mục tiêu: +1 tầng Nhiệt ngay (ICD 3s)"
 
 [sub_resource type="Resource" id="Effect_3"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+team = true
+status_id = "eqb_lavoisier_ult"
+value = 8.0
+magnitude = 0.08
+trigger = "ultimate_used"
+action = "buff"
 note = "Khi người đeo dùng Tuyệt kỹ: toàn đội +8% tất cả ST trong 8s"
 
 [sub_resource type="Resource" id="Effect_4"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+team = true
+status_id = "eqb_lavoisier_heat"
+value = 6.0
+magnitude = 0.1
+trigger = "self_max_stacks"
+trigger_arg = "heat"
+icd = 8.0
+action = "buff"
+target_element = "fire"
 note = "Đạt 5 Nhiệt: toàn đội +10% ST Hỏa 6s (làm mới, ICD 8s)"
 
 [sub_resource type="Resource" id="Effect_5"]

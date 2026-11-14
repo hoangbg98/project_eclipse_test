@@ -100,16 +100,27 @@ func attacker_snapshot(extra_bonus: Dictionary = {}) -> DamageCalculator.Attacke
 	a.crit_rate = stats.crit_rate
 	a.crit_damage = stats.crit_damage
 	a.damage_bonus = damage_bonus.duplicate()
-	a.damage_bonus.merge(statuses.modifiers(StatusDef.MAGNITUDE_DAMAGE_DEALT_UP), true)
+	a.damage_bonus.merge(statuses.modifiers(StatusDef.MAGNITUDE_DAMAGE_DEALT_UP, false), true)
 	a.damage_bonus.merge(extra_bonus, true)
-	if equip and not a.damage_bonus.has(EQUIP_KEY):
-		a.damage_bonus[EQUIP_KEY] = equip.damage_bonus()
+	if not a.damage_bonus.has(EQUIP_KEY):
+		var eq := equip_damage([], PackedStringArray())
+		if eq > 0.0:
+			a.damage_bonus[EQUIP_KEY] = eq
 	a.damage_dealt_down = statuses.modifiers(StatusDef.MAGNITUDE_DAMAGE_DEALT_DOWN)
 	return a
 
 
 ## Khóa nguồn của phần cộng từ trang bị trong các bảng % (sát thương, giảm sát thương nhận).
 const EQUIP_KEY := "equip"
+
+
+## % sát thương từ trang bị (chỉ số, theo điều kiện mục tiêu, buff trang bị đang có) lên một mục tiêu, chặn trần ×2.0.
+## `met` = điều kiện mục tiêu (equip_conditions), `target_ids` = trạng thái mục tiêu (cho buff có vs_status).
+func equip_damage(met: Array, target_ids: PackedStringArray) -> float:
+	var from_buffs := statuses.equipment_damage_up(target_ids) if statuses else 0.0
+	if equip:
+		return equip.damage_bonus(met, from_buffs)
+	return clampf(from_buffs, 0.0, EquipmentResolver.default_rules().equip_damage_cap)
 
 
 ## Phần cộng thêm của trang bị vào thời gian / độ mạnh trạng thái do mình gây ra (StatusController gọi).
@@ -134,7 +145,7 @@ func equip_conditions(statuses_before: PackedStringArray) -> Array:
 
 func target_snapshot() -> DamageCalculator.Target:
 	var t := DamageCalculator.Target.new()
-	t.def = stats.def
+	t.def = stats.def * (1.0 + _sum(statuses.modifiers(StatusDef.MAGNITUDE_DEF_UP)))
 	t.def_reduction = statuses.modifiers(StatusDef.MAGNITUDE_DEF_REDUCTION)
 	t.damage_taken_up = statuses.modifiers(StatusDef.MAGNITUDE_DAMAGE_TAKEN_UP)
 	t.damage_taken_down = statuses.modifiers(StatusDef.MAGNITUDE_DAMAGE_TAKEN_DOWN)
@@ -177,9 +188,10 @@ func receive_hit(hit: HitInfo) -> DamageCalculator.Result:
 	elif hit.bonus_vs_status != "" and statuses.has(hit.bonus_vs_status):
 		bonus = bonus.duplicate()
 		bonus["vs_" + hit.bonus_vs_status] = hit.bonus_vs_status_ratio
-	if src and src.equip:
+	if src:
+		var eq := src.equip_damage(equip_conditions(statuses.active_ids()), statuses.active_ids())
 		bonus = bonus.duplicate()
-		bonus[EQUIP_KEY] = src.equip.damage_bonus(equip_conditions(statuses.active_ids()))
+		bonus[EQUIP_KEY] = eq
 	if src:
 		a = src.attacker_snapshot(bonus)
 	else:
@@ -221,7 +233,7 @@ func _on_hit_dealt(target: Combatant, result: DamageCalculator.Result, hit: HitI
 
 ## Hút máu từ trang bị và trạng thái áp khi Kĩ năng vũ khí trúng (EquipEffect ON_WEAPON_HIT).
 func _apply_equip_on_hit(target: Combatant, result: DamageCalculator.Result, hit: HitInfo) -> void:
-	var rate := equip.lifesteal()
+	var rate := equip.lifesteal(0.0, "curse" in hit.target_statuses_before)
 	if rate > 0.0 and result.amount > 0:
 		heal_target(self, float(result.amount) * rate)
 	if target == null or target.resources == null or target.resources.is_dead():

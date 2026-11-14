@@ -68,7 +68,7 @@ func test_pending_effects_are_documented() -> void:
 		for e in s.bonus_2 + s.bonus_3:
 			if e.kind == EquipEffect.Kind.PENDING:
 				pending += 1
-	assert_int(pending).is_greater(0)
+	assert_int(pending).is_equal(0)                                   # Khiên Đá = khiên của Giáp Địa (owner 2026-11-15)
 
 
 # ---------- Chủ sở hữu, nguyên tố, bộ ----------

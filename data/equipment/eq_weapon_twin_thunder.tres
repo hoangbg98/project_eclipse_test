@@ -38,18 +38,30 @@ kind = 3
 requires_element = "lightning"
 status_id = "lightning_mark"
 value = 6.0
-magnitude = -1.0
 note = "Kĩ năng vũ khí thêm 1 Dấu Sét lên mục tiêu trúng"
 
 [sub_resource type="Resource" id="Effect_5"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+status_id = "eqb_thunder_en"
+value = 4.0
+magnitude = 0.06
+trigger = "elemental_applied"
+icd = 4.0
+action = "buff"
 note = "Gây hiệu ứng nguyên tố: người đeo +6% tốc độ nạp EN trong 4s (ICD 4s)"
 
 [sub_resource type="Resource" id="Effect_6"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+team = true
+status_id = "eqb_thunder_aspd_team"
+value = 6.0
+magnitude = 0.08
+trigger = "lightning_burst"
+icd = 4.0
+action = "buff"
 note = "Sau mỗi Bùng nổ Sét: toàn đội +8% tốc độ tấn công 6s (làm mới, ICD 4s)"
 
 [sub_resource type="Resource" id="Effect_7"]
@@ -70,9 +82,11 @@ note = "CD Kĩ năng vũ khí 11.0s → 9.0s"
 
 [sub_resource type="Resource" id="Effect_9"]
 script = ExtResource("2")
-kind = 4
+kind = 3
 exclusive = true
-note = "Kĩ năng vũ khí áp 2 Dấu Sét mỗi lượt đao thay vì 1"
+status_id = "lightning_mark"
+value = 6.0
+note = "Kĩ năng vũ khí áp 2 Dấu Sét mỗi lượt đao thay vì 1 (thêm 1 Dấu Sét)"
 
 [sub_resource type="Resource" id="Effect_10"]
 script = ExtResource("2")
@@ -84,8 +98,12 @@ note = "Khóa đòn thường sau Kĩ năng vũ khí 800 ms → 500 ms"
 
 [sub_resource type="Resource" id="Effect_11"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+value = 8.0
+trigger = "lightning_burst"
+icd = 4.0
+action = "en"
 note = "Mỗi Bùng nổ Sét hồi 8 EN cho Raikiba (ICD 4s)"
 
 [resource]

@@ -20,6 +20,8 @@ var is_boss := false
 ## id -> {def, remaining, stacks, magnitude, source, tick_timer}
 var _active: Dictionary = {}
 var _resist: Dictionary = {}  # id -> giây kháng còn lại
+## Hệ số thời gian trạng thái NHẬN vào: id -> phần thay đổi (−0.3 = ngắn hơn 30%). Trang bị của người mang gán.
+var incoming_duration_scale: Dictionary = {}
 
 
 func _init(lib: StatusLibrary, boss := false) -> void:
@@ -44,6 +46,10 @@ func apply(status_id: String, duration := -1.0, magnitude := -1.0, source: Objec
 	if source != null and source.has_method("status_bonus"):
 		dur += float(source.status_bonus("status_dur:" + status_id))
 		mag += float(source.status_bonus("status_mag:" + status_id))
+	if incoming_duration_scale.has(status_id):
+		dur *= maxf(1.0 + float(incoming_duration_scale[status_id]), 0.0)
+		if dur <= 0.0:
+			return false
 	if _active.has(status_id):
 		var e: Dictionary = _active[status_id]
 		e["remaining"] = maxf(float(e["remaining"]), dur)
@@ -63,6 +69,17 @@ func apply(status_id: String, duration := -1.0, magnitude := -1.0, source: Objec
 	applied.emit(status_id, int(_active[status_id]["stacks"]))
 	applied_from.emit(status_id, source)
 	return true
+
+
+## Bớt `count` tầng (hết tầng thì xoá trạng thái). Vd tiêu 3 Nhiệt thay vì tiêu hết.
+func remove_stacks(status_id: String, count: int) -> void:
+	if not _active.has(status_id) or count <= 0:
+		return
+	var left := int(_active[status_id]["stacks"]) - count
+	if left <= 0:
+		remove(status_id)
+	else:
+		_active[status_id]["stacks"] = left
 
 
 func remove(status_id: String) -> void:
@@ -146,13 +163,32 @@ func tick(delta: float) -> void:
 # ---------- Chỉ số gộp cho DamageCalculator / di chuyển ----------
 
 ## Tổng theo một loại độ mạnh, khóa theo tên trạng thái (Q3: cùng tên chỉ một mục).
-func modifiers(meaning: String) -> Dictionary:
+## Buff sinh từ trang bị có `vs_status` (chỉ tính theo mục tiêu) không nằm ở đây; `include_equipment` = false bỏ cả
+## buff trang bị (sát thương của chúng gộp vào nhóm trang bị, xem equipment_damage_up).
+func modifiers(meaning: String, include_equipment := true) -> Dictionary:
 	var out := {}
 	for id in _active:
 		var def: StatusDef = _active[id]["def"]
-		if def.magnitude_meaning == meaning:
-			out[id] = float(_active[id]["magnitude"])
+		if def.magnitude_meaning != meaning or not def.vs_status.is_empty():
+			continue
+		if def.equipment and not include_equipment:
+			continue
+		out[id] = float(_active[id]["magnitude"])
 	return out
+
+
+## Tổng % sát thương từ buff trang bị đang có, lên mục tiêu có các trạng thái `target_ids` (rỗng = mục tiêu bất kỳ,
+## khi đó buff có vs_status không tính).
+func equipment_damage_up(target_ids: PackedStringArray = PackedStringArray()) -> float:
+	var total := 0.0
+	for id in _active:
+		var def: StatusDef = _active[id]["def"]
+		if not def.equipment or def.magnitude_meaning != StatusDef.MAGNITUDE_DAMAGE_DEALT_UP:
+			continue
+		if not def.vs_status.is_empty() and def.vs_status not in target_ids:
+			continue
+		total += float(_active[id]["magnitude"])
+	return total
 
 
 func move_slow() -> float:

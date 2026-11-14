@@ -27,7 +27,11 @@ note = "Người đeo +4% hút máu"
 
 [sub_resource type="Resource" id="Effect_3"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+value = 0.02
+trigger = "kill"
+icd = 2.0
+action = "heal_self"
 note = "Hạ gục kẻ địch: người đeo hồi 2% HP tối đa (ICD 2s)"
 
 [sub_resource type="Resource" id="Effect_4"]
@@ -35,7 +39,6 @@ script = ExtResource("2")
 kind = 3
 status_id = "root"
 value = 0.8
-magnitude = -1.0
 note = "Kĩ năng vũ khí Trói 0.8s (boss 0.3s)"
 
 [sub_resource type="Resource" id="Effect_5"]
@@ -47,14 +50,23 @@ note = "Kẻ địch dưới 30% HP chịu +8% ST từ người đeo"
 
 [sub_resource type="Resource" id="Effect_6"]
 script = ExtResource("2")
-kind = 4
+kind = 0
 exclusive = true
+team = true
+effect_id = "dark_wpn_team_curse_ls"
+stat = "lifesteal_curse"
+value = 0.06
 note = "Toàn đội +6% hút máu khi đánh kẻ địch đang Nguyền"
 
 [sub_resource type="Resource" id="Effect_7"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+value = 1.5
+trigger = "kill"
+icd = 1.0
+action = "cd"
+cd_keys = PackedStringArray("skill", "weapon")
 note = "Hạ gục kẻ địch giảm 1.5s CD Kĩ năng thường và Kĩ năng vũ khí (ICD 1.0s)"
 
 [sub_resource type="Resource" id="Effect_8"]
@@ -83,8 +95,14 @@ note = "Hút máu Kĩ năng vũ khí 6% → 10%"
 
 [sub_resource type="Resource" id="Effect_11"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+team = true
+status_id = "eqb_crescent_curse_team"
+value = 6.0
+magnitude = 0.08
+trigger = "kill_cursed"
+action = "buff"
 note = "Hạ gục kẻ địch đang Nguyền: toàn đội +8% ST lên mục tiêu Nguyền trong 6s"
 
 [resource]

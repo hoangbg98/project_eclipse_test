@@ -44,13 +44,14 @@ class Loadout:
 	## condition → % sát thương thêm.
 	var vs_target: Dictionary = {}
 	var on_weapon_hit: Array[EquipEffect] = []
+	var triggers: Array[EquipEffect] = []
 	var pending: Array[EquipEffect] = []
 	## set_id → số món đang mặc.
 	var set_counts: Dictionary = {}
 
 	func is_empty() -> bool:
 		return stats.is_empty() and team_out.is_empty() and team_in.is_empty() and params.is_empty() \
-				and vs_target.is_empty() and on_weapon_hit.is_empty()
+				and vs_target.is_empty() and on_weapon_hit.is_empty() and triggers.is_empty()
 
 	## Chỉ số tổng (riêng + toàn đội) trước trần.
 	func stat(name: String) -> float:
@@ -68,11 +69,11 @@ class Loadout:
 
 	## % sát thương từ trang bị lên một mục tiêu (dòng 8: tổng không quá equip_damage_cap).
 	## `met` = các điều kiện mục tiêu đang thỏa (tên trạng thái, "elemental", "def_down", "low_hp", "boss").
-	func damage_bonus(met: Array = []) -> float:
-		var total := stat("all_dmg") + stat("elem_dmg")
-		for c in vs_target:
-			if c in met:
-				total += float(vs_target[c])
+	## `extra` = phần từ buff trang bị đang có (StatusController.equipment_damage_up), cùng chịu trần.
+	func damage_bonus(met: Array = [], extra := 0.0) -> float:
+		var total := stat("all_dmg") + stat("elem_dmg") + extra
+		for c in met:
+			total += float(vs_target.get(c, 0.0)) + float(team_in.get("vs:" + str(c), 0.0))
 		return clampf(total, 0.0, rules.equip_damage_cap if rules else 1.0)
 
 	## Tổng tốc độ tấn công (phần từ trạng thái + trang bị), chặn trần dòng 3.
@@ -80,9 +81,11 @@ class Loadout:
 		return minf(status_part + stat("atk_speed"), rules.atk_speed_cap if rules else 0.6)
 
 	## Hút máu từ trang bị, còn chỗ trong trần sau phần `kit_part` của kit (dòng 5).
-	func lifesteal(kit_part := 0.0) -> float:
+	## `vs_curse`: mục tiêu đang Nguyền (thêm "lifesteal_curse", vd toàn đội +6% hút máu từ vũ khí Yomigari).
+	func lifesteal(kit_part := 0.0, vs_curse := false) -> float:
 		var cap := rules.lifesteal_cap if rules else 0.3
-		return clampf(stat("lifesteal"), 0.0, maxf(cap - kit_part, 0.0))
+		var v := stat("lifesteal") + (stat("lifesteal_curse") if vs_curse else 0.0)
+		return clampf(v, 0.0, maxf(cap - kit_part, 0.0))
 
 	## Trần hút máu cho phần của kit (kit + trang bị ≤ trần).
 	func kit_lifesteal(kit_part: float) -> float:
@@ -142,68 +145,93 @@ static func _add(out: Loadout, e: EquipEffect) -> void:
 		EquipEffect.Kind.PARAM:
 			out.params[e.param] = float(out.params.get(e.param, 0.0)) + e.value
 		EquipEffect.Kind.VS_TARGET:
-			out.vs_target[e.condition] = float(out.vs_target.get(e.condition, 0.0)) + e.value
+			if e.team and not e.effect_id.is_empty():
+				var prev_v: Dictionary = out.team_out.get(e.effect_id, {})
+				if prev_v.is_empty() or float(prev_v["value"]) < e.value:
+					out.team_out[e.effect_id] = {"stat": "vs:" + e.condition, "value": e.value}
+			else:
+				out.vs_target[e.condition] = float(out.vs_target.get(e.condition, 0.0)) + e.value
 		EquipEffect.Kind.ON_WEAPON_HIT:
 			out.on_weapon_hit.append(e)
+		EquipEffect.Kind.TRIGGER:
+			out.triggers.append(e)
 		EquipEffect.Kind.PENDING:
 			out.pending.append(e)
 
 
-## Bản sao các SkillDef có tham số "skill:<key>:<thuộc tính>" (cộng phần tăng). Không sửa resource gốc.
+## Bản sao các SkillDef có tham số "skill:<key>:<đường dẫn>" (cộng phần tăng). Không sửa resource gốc.
 static func apply_to_skills(skills: Dictionary, lo: Loadout) -> Dictionary:
 	var out := skills.duplicate()
 	for param: String in lo.params:
 		if param.get_slice(":", 0) != "skill" or param.get_slice_count(":") != 3:
 			continue
 		var key := param.get_slice(":", 1)
-		var prop := param.get_slice(":", 2)
+		var path := param.get_slice(":", 2)
 		for id in out:
 			var s := out[id] as SkillDef
-			if s == null or s.key != key:
-				continue
-			if not (prop in s):
-				push_warning("EquipmentResolver: SkillDef không có '%s'" % prop)
-				continue
-			var copy := s.duplicate() as SkillDef
-			copy.set(prop, maxf(lo.param_value(param, float(s.get(prop))), 0.0))
-			out[id] = copy
+			if s and s.key == key:
+				out[id] = _apply_path(s, path.split("."), 0, param, lo)
 	return out
 
 
-## Bản sao cấu hình kit có tham số "kit:<thuộc tính>" hoặc "kit:<thuộc tính dạng Dictionary>.<khóa>".
+## Bản sao cấu hình kit có tham số "kit:<đường dẫn>" (vd kit:heat_icd_sec, kit:burst.atk_ratio,
+## kit:skill_lifesteal.weapon). Không sửa resource gốc.
 static func apply_to_kit_config(cfg: Resource, lo: Loadout) -> Resource:
 	if cfg == null or lo == null:
 		return cfg
-	var copy: Resource = null
+	var out := cfg
 	for param: String in lo.params:
-		if param.get_slice(":", 0) != "kit":
-			continue
-		var path := param.get_slice(":", 1)
-		var prop := path.get_slice(".", 0)
-		if not (prop in cfg):
-			push_warning("EquipmentResolver: cấu hình kit không có '%s'" % prop)
-			continue
-		if copy == null:
-			copy = cfg.duplicate()
-		if path.contains("."):
-			var k := path.get_slice(".", 1)
-			var sub: Variant = copy.get(prop)
-			if sub is Dictionary:
-				var d: Dictionary = (sub as Dictionary).duplicate()
-				d[k] = lo.param_value(param, float(d.get(k, 0.0)))
-				copy.set(prop, d)
-			elif sub is Resource and k in sub:
-				# Vd "kit:burst.atk_ratio": HitDef con của cấu hình kit.
-				var r := (sub as Resource).duplicate()
-				r.set(k, lo.param_value(param, float(r.get(k))))
-				copy.set(prop, r)
-			else:
-				push_warning("EquipmentResolver: không sửa được '%s'" % param)
-		else:
-			var base: Variant = copy.get(prop)
-			var v := lo.param_value(param, float(base))
-			copy.set(prop, int(round(v)) if base is int else v)
-	return copy if copy else cfg
+		if param.get_slice(":", 0) == "kit":
+			out = _apply_path(out, param.get_slice(":", 1).split("."), 0, param, lo)
+	return out
+
+
+## Bản sao `obj` với giá trị ở đường dẫn `segs[i..]` đã cộng phần tăng của `param`.
+## Đoạn đường dẫn: "ten" | "ten[n]" (phần tử thứ n của mảng) | "ten@id" (phần tử có status_id = id).
+## Mảng không chỉ số: áp cho mọi phần tử. Dictionary: đoạn cuối là khóa.
+static func _apply_path(obj: Resource, segs: PackedStringArray, i: int, param: String, lo: Loadout) -> Resource:
+	var seg := segs[i]
+	var name := seg
+	var index := -1
+	var filter := ""
+	if seg.contains("["):
+		name = seg.get_slice("[", 0)
+		index = int(seg.get_slice("[", 1).trim_suffix("]"))
+	elif seg.contains("@"):
+		name = seg.get_slice("@", 0)
+		filter = seg.get_slice("@", 1)
+	if obj == null or not (name in obj):
+		push_warning("EquipmentResolver: không có '%s' trong '%s'" % [name, param])
+		return obj
+	var copy := obj.duplicate()
+	var v: Variant = copy.get(name)
+	if i == segs.size() - 1:
+		copy.set(name, _add_value(v, param, lo))
+		return copy
+	if v is Dictionary and i == segs.size() - 2:
+		var d: Dictionary = (v as Dictionary).duplicate()
+		d[segs[i + 1]] = _add_value(d.get(segs[i + 1], 0.0), param, lo)
+		copy.set(name, d)
+	elif v is Array:
+		var arr: Array = (v as Array).duplicate()
+		for j in arr.size():
+			var el := arr[j] as Resource
+			if el == null or (index >= 0 and j != index):
+				continue
+			if not filter.is_empty() and str(el.get("status_id")) != filter:
+				continue
+			arr[j] = _apply_path(el, segs, i + 1, param, lo)
+		copy.set(name, arr)
+	elif v is Resource:
+		copy.set(name, _apply_path(v, segs, i + 1, param, lo))
+	else:
+		push_warning("EquipmentResolver: không sửa được '%s'" % param)
+	return copy
+
+
+static func _add_value(base: Variant, param: String, lo: Loadout) -> Variant:
+	var v := maxf(lo.param_value(param, float(base)), 0.0)   # tham số kit / kỹ năng không âm
+	return int(round(v)) if base is int else v
 
 
 ## Gom buff toàn đội của cả đội: cùng effect_id lấy mức cao nhất (không cộng dồn), khác id cộng lại.

@@ -56,8 +56,11 @@ func _bonus_for(skill: SkillDef) -> Dictionary:
 	var bonus := {}
 	if skill.key in ["skill", "weapon"] and heat() >= heat_max():
 		bonus["heat_full"] = config.heat_full_bonus
-		combatant.statuses.remove("heat")  # tiêu hết tầng
-		combatant.atk_bonus["heat"] = 0.0
+		if config.heat_full_consume > 0:
+			combatant.statuses.remove_stacks("heat", config.heat_full_consume)   # vũ khí 5★: chỉ tiêu 3, giữ lại 2
+		else:
+			combatant.statuses.remove("heat")  # tiêu hết tầng
+		combatant.atk_bonus["heat"] = config.heat_atk_per_stack * heat()
 	if skill.key == "normal" and combatant.statuses.has("hot_breath"):
 		bonus["hot_breath"] = combatant.statuses.magnitude("hot_breath")
 		combatant.statuses.remove("hot_breath")

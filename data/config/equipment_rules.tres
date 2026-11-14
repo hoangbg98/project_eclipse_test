@@ -12,7 +12,11 @@ overflow_shield_cap = 0.12
 stone_shield_cap = 0.25
 equip_damage_cap = 1.0
 low_hp_ratio = 0.3
+heal_low_ratio = 0.5
+hp_threshold_buffer = 0.05
+spread_radius_px = 600.0
 param_caps = {
-"kit:shield_max_ratio": 0.12
+"kit:shield_max_ratio": 0.12,
+"skill:skill:self_statuses@shield.magnitude": 0.25
 }
 metadata/source = "EQUIPMENT_5STAR mục 3.4, owner xác nhận 2026-11-14 (mục 5.4). Chỉnh sau playtest."

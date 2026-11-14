@@ -72,7 +72,12 @@ func test_rules_validate_catches_bad_values() -> void:
 
 func test_all_statuses_load_without_errors() -> void:
 	assert_array(_lib.errors).is_empty()
-	assert_array(Array(_lib.ids())).contains_exactly(EXPECTED_STATUSES)
+	# Buff của hiệu ứng trang bị (eqb_*, sinh bằng tools/gen_equipment_5star.py) kiểm ở test_equipment_effects.gd.
+	var core := Array(_lib.ids()).filter(func(id: String) -> bool: return not id.begins_with("eqb_"))
+	assert_array(core).contains_exactly(EXPECTED_STATUSES)
+	for id in _lib.ids():
+		if id.begins_with("eqb_"):
+			assert_bool(_lib.get_status(id).equipment).is_true()
 
 
 func test_every_status_has_translated_name() -> void:

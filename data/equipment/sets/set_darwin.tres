@@ -13,18 +13,32 @@ note = "Người đeo +10% ST Địa"
 
 [sub_resource type="Resource" id="Effect_1"]
 script = ExtResource("2")
-kind = 4
-note = "Dưới 50% HP: giảm thêm 8% ST nhận"
+kind = 5
+status_id = "eqb_darwin_low_hp"
+magnitude = 0.08
+trigger = "while_self_hp_below"
+trigger_value = 0.5
+action = "buff"
+note = "Dưới 50% HP: giảm thêm 8% ST nhận (đệm 5% HP khi tắt)"
 
 [sub_resource type="Resource" id="Effect_2"]
 script = ExtResource("2")
-kind = 4
+kind = 1
 exclusive = true
-note = "Khiên Đá hấp thụ tối đa 20% → 25% HP tối đa"
+param = "skill:skill:self_statuses@shield.magnitude"
+value = 0.05
+note = "Khiên Đá (khiên của Giáp Địa, Kĩ năng thường) hấp thụ tối đa 20% → 25% HP tối đa"
 
 [sub_resource type="Resource" id="Effect_3"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+team = true
+status_id = "eqb_darwin_team_guard"
+value = 6.0
+magnitude = 0.06
+trigger = "weapon_or_ultimate_used"
+icd = 10.0
+action = "buff"
 note = "Dùng Kĩ năng vũ khí hoặc Tuyệt kỹ: toàn đội giảm 6% ST nhận 6s (ICD 10s)"
 
 [sub_resource type="Resource" id="Effect_4"]

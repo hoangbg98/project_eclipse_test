@@ -29,6 +29,8 @@ extends Resource
 ## Buff cho người trên sân đứng trong vùng (làm mới mỗi tick, hết sau bấy nhiêu giây khi rời vùng).
 @export var zone_attack_speed := 0.15
 @export var zone_move_speed := 0.10
+## Đồng đội đứng trong Phong Vực +% sát thương (0 = không). Vũ khí 5★ của Kazeyumi: +10% (EQUIPMENT_5STAR 1.2).
+@export var zone_ally_damage := 0.0
 @export var zone_buff_refresh_sec := 0.3
 ## UG từ đòn thường khi Kazeyumi đứng trong vùng (+20% của mức mỗi đòn).
 @export var zone_normal_ug_bonus := 0.2

@@ -32,12 +32,16 @@ kind = 3
 requires_element = "fire"
 status_id = "burn"
 value = 3.0
-magnitude = -1.0
 note = "Kĩ năng vũ khí áp Cháy 3s lên mục tiêu trúng"
 
 [sub_resource type="Resource" id="Effect_4"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+status_id = "eqb_dusk_ult"
+value = 6.0
+magnitude = 0.06
+trigger = "ultimate_used"
+action = "buff"
 note = "Dùng Tuyệt kỹ: người đeo +6% tất cả ST trong 6s"
 
 [sub_resource type="Resource" id="Effect_5"]
@@ -52,8 +56,15 @@ note = "Toàn đội +8% tất cả ST"
 
 [sub_resource type="Resource" id="Effect_6"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+team = true
+status_id = "eqb_dusk_heat_team"
+magnitude = 0.08
+trigger = "while_self_stacks"
+trigger_arg = "heat"
+trigger_value = 3.0
+action = "buff"
 note = "+8% tất cả ST nữa (toàn đội) khi Enkiba có ≥ 3 Nhiệt"
 
 [sub_resource type="Resource" id="Effect_7"]
@@ -82,14 +93,24 @@ note = "Nung chảy −10% → −15% DEF"
 
 [sub_resource type="Resource" id="Effect_10"]
 script = ExtResource("2")
-kind = 4
+kind = 1
 exclusive = true
+param = "kit:heat_full_consume"
+value = 3.0
 note = "Bonus +25% của Kĩ năng vũ khí vẫn cần 5 Nhiệt, chỉ tiêu 3 tầng (giữ lại 2)"
 
 [sub_resource type="Resource" id="Effect_11"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+team = true
+status_id = "eqb_dusk_fire_team"
+value = 8.0
+magnitude = 0.1
+trigger = "weapon_hit"
+icd = 10.0
+action = "buff"
+target_element = "fire"
 note = "Kĩ năng vũ khí trúng: toàn đội +10% ST Hỏa 8s (ICD 10s, làm mới)"
 
 [sub_resource type="Resource" id="Effect_12"]

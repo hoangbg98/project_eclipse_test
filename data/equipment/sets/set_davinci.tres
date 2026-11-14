@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StigmaSetDef" load_steps=10 format=3]
+[gd_resource type="Resource" script_class="StigmaSetDef" load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/progression/stigma_set_def.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
@@ -13,7 +13,12 @@ note = "Người đeo +10% ST Phong"
 
 [sub_resource type="Resource" id="Effect_1"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+status_id = "eqb_davinci_dodge"
+value = 4.0
+magnitude = 0.1
+trigger = "perfect_dodge"
+action = "buff"
 note = "Né hoàn hảo: +10% tất cả ST 4s"
 
 [sub_resource type="Resource" id="Effect_2"]
@@ -26,22 +31,43 @@ note = "Phong Vực kéo dài +1.5s"
 
 [sub_resource type="Resource" id="Effect_3"]
 script = ExtResource("2")
-kind = 4
+kind = 1
 exclusive = true
+param = "skill:skill:hits.statuses@slow.magnitude"
+value = 0.05
 note = "Chậm trong Phong Vực 20% → 25%"
 
 [sub_resource type="Resource" id="Effect_4"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+team = true
+status_id = "eqb_davinci_multi"
+value = 6.0
+magnitude = 0.08
+trigger = "distinct_targets"
+trigger_value = 3.0
+trigger_window = 4.0
+icd = 10.0
+action = "buff"
 note = "Bắn trúng ≥ 3 kẻ địch khác nhau trong 4s: toàn đội +8% ST nguyên tố 6s (ICD 10s)"
 
 [sub_resource type="Resource" id="Effect_5"]
 script = ExtResource("2")
-kind = 4
+kind = 1
 exclusive = true
+param = "skill:ultimate:hits[0].duration_ms"
+value = 2000.0
 note = "Tuyệt kỹ: bão kéo dài +2s"
 
 [sub_resource type="Resource" id="Effect_6"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "status_dur:storm_blessing"
+value = 2.0
+note = "Tuyệt kỹ: buff trong bão kéo dài theo bão (+2s)"
+
+[sub_resource type="Resource" id="Effect_7"]
 script = ExtResource("2")
 kind = 1
 exclusive = true
@@ -57,5 +83,5 @@ rarity = 5
 owner_id = "char_wind_01"
 element = "wind"
 bonus_2 = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2"), SubResource("Effect_3")])
-bonus_3 = Array[ExtResource("2")]([SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6")])
+bonus_3 = Array[ExtResource("2")]([SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6"), SubResource("Effect_7")])
 metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

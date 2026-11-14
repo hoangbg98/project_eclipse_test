@@ -382,8 +382,16 @@ Sinh lại dữ liệu: `python -X utf8 tools/gen_equipment_5star.py` (đồ, b�
 ### 6.2 Cách chạy
 
 - Mỗi dòng hiệu ứng là một `EquipEffect` (`scripts/progression/equip_effect.gd`): `STAT`, `PARAM` ("A → B", cộng phần
-  tăng), `VS_TARGET` (% ST lên mục tiêu thỏa điều kiện), `ON_WEAPON_HIT` (Kĩ năng vũ khí trúng thì áp trạng thái),
-  `PENDING` (chưa cài, chỉ giữ mô tả).
+  tăng; đường dẫn lồng như `skill:weapon:heals.atk_ratio`, `skill:ultimate:hits[0].duration_ms`,
+  `skill:skill:hits.statuses@slow.magnitude`), `VS_TARGET` (% ST lên mục tiêu thỏa điều kiện, có bản toàn đội),
+  `ON_WEAPON_HIT` (Kĩ năng vũ khí trúng thì áp trạng thái), `TRIGGER` (sự kiện → hành động, chạy ở
+  `scripts/combat/equip_triggers.gd`), `PENDING` (chưa có cơ chế trong game).
+- `TRIGGER`: sự kiện dùng Tuyệt kỹ / Kĩ năng vũ khí, trúng, hạ gục (thường / đang Nguyền), né hoàn hảo, hồi cho đồng đội
+  dưới 50% HP, gây hiệu ứng nguyên tố, Bùng nổ Sét, đủ tầng, trúng N kẻ địch khác nhau trong cửa sổ, nhận sát thương,
+  liên tục khi đủ tầng / khi HP dưới ngưỡng (đệm 5%, mục 3.4 dòng 9), trong lúc dùng kỹ năng. Hành động: buff (bản thân /
+  toàn đội / chỉ người cùng hệ), rút CD, rút SI-CD, hồi máu, nạp EN, cộng tầng, lan trạng thái sang kẻ địch gần nhất.
+  Mỗi dòng có ICD riêng. Buff là trạng thái `data/statuses/eqb_*.tres` (REFRESH: cùng hiệu ứng không cộng dồn); phần
+  sát thương của buff trang bị cộng vào nhóm trang bị và chịu trần ×2.0.
 - `EquipmentResolver` gom hiệu ứng (chủ sở hữu theo giáp, khóa hệ, đếm món cùng bộ) và chặn trần ở một chỗ; trần ở
   `data/config/equipment_rules.tres`. Giảm ST nhận dùng trần sẵn có `CombatRules.damage_taken_reduction_cap` (0.80).
 - Vào trận: `PlayerProfile.loadout_of` → `PartyManager.loadout_provider` → `PlayerController` (bản sao SkillDef và cấu
@@ -391,13 +399,21 @@ Sinh lại dữ liệu: `python -X utf8 tools/gen_equipment_5star.py` (đồ, b�
   thời gian / độ mạnh trạng thái do người đeo gây ra). HP %, DEF %, chí mạng vào `Progression.stats_for`.
 - Buff toàn đội tĩnh (vd vũ khí Enkiba: toàn đội +8% tất cả ST): cùng `effect_id` lấy mức cao nhất, cả 3 người nhận.
 
-### 6.3 Chưa cài (PENDING, 46 / 154 dòng)
+### 6.3 Chưa cài (PENDING): không còn
 
-Các dòng theo sự kiện có thời hạn (buff khi dùng Tuyệt kỹ, khi hạ gục, khi né hoàn hảo, buff toàn đội có ICD), dòng đổi
-cơ chế kit (tiêu 3 Nhiệt, 2 Dấu Sét mỗi lượt đao, lan Dấu Sét / Nguyền, gỡ 2 hiệu ứng xấu...) và dòng cần vùng (Phong Vực,
-vùng hồi của Hikarine). Danh sách đầy đủ: các hiệu ứng `kind = 4` trong `data/equipment/`; test
-`tests/unit/progression/test_equipment_effects.gd` đếm chúng. Khi cài một dòng, đổi `PENDING` trong
-`tools/gen_equipment_5star.py` sang loại đúng rồi sinh lại.
+- Khiên Đá (bộ Darwin 2 món) = khiên của Giáp Địa, tức khiên 20% HP tối đa mà Kĩ năng thường của Iwagane tự áp
+  (owner 2026-11-15). Cài bằng `skill:skill:self_statuses@shield.magnitude` +0.05, trần 25% (`param_caps`).
+  Trạng thái Giáp Địa (−35% ST nhận) giữ nguyên.
+
+### 6.4 Cách hiểu Claude chọn khi cài (owner kiểm tra)
+
+- Vũ khí Raikiba: dòng chung "+1 Dấu Sét" và dòng độc quyền "2 Dấu Sét thay vì 1" cộng theo Q3 → chủ sở hữu được
+  thêm 2 Dấu Sét mỗi lượt đao ngoài dấu gốc của kỹ năng (dễ đủ 3 dấu ngay). Nếu quá mạnh, đổi dòng độc quyền.
+- Vũ khí Hikarine "Đồng đội trong vùng +10% ST": áp cho cả đội khi dùng Kĩ năng vũ khí (chỉ một người trên sân nên
+  thực tế là người trên sân), không kiểm tra vị trí trong vùng.
+- Bão Tuyệt kỹ Kazeyumi +2s: kéo dài vùng bão (đòn đầu) và buff Gió Bão (`storm_blessing`) +2s.
+- Tốc độ tấn công / di chuyển / nạp EN từ buff vẫn lấy mức cao nhất như cơ chế cũ (không cộng hai buff khác tên).
+- "Hồi cho đồng đội dưới 50% HP" tính cả khi hồi cho chính mình.
 
 Chưa làm khác: mô tả hiệu ứng trên màn Trang bị / Nhân vật (đang chỉ có tên món và chỉ số), ảnh vũ khí / vết thánh,
 dòng 9 (ngưỡng HP có đệm), 11, 12, 13, 14 của mục 3.4 (chạy theo cơ chế kit sẵn có, chưa có test riêng).

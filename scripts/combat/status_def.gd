@@ -49,6 +49,12 @@ enum Stacking { REFRESH, STACKS }
 ## Kích hoạt sự kiện khi đạt đủ tầng (vd Dấu Sét 3 tầng → "lightning_burst").
 @export var on_max_stacks_event := ""
 
+@export_group("Trang bị (EQUIPMENT_5STAR)")
+## Buff sinh từ hiệu ứng trang bị: phần sát thương của nó cộng vào nhóm trang bị và chịu trần ×2.0 (mục 3.4 dòng 8).
+@export var equipment := false
+## Khác rỗng: % sát thương (damage_dealt_up) chỉ tính khi mục tiêu đang có trạng thái này (vd "curse").
+@export var vs_status := ""
+
 const MAGNITUDE_MOVE_SLOW := "move_slow"          ## giảm % tốc độ di chuyển
 const MAGNITUDE_DEF_REDUCTION := "def_reduction"  ## giảm % DEF (cộng dồn khác tên, trần CombatRules)
 const MAGNITUDE_DAMAGE_TAKEN_UP := "damage_taken_up"      ## nhận thêm % sát thương
@@ -60,9 +66,10 @@ const MAGNITUDE_MOVE_SPEED_UP := "move_speed_up"      ## tăng % tốc độ di 
 const MAGNITUDE_ATTACK_SPEED_UP := "attack_speed_up"  ## tăng % tốc độ tấn công (đòn cơ bản chạy nhanh hơn)
 const MAGNITUDE_TICK_BONUS := "tick_bonus"  ## tăng % sát thương mỗi nhịp (Thiêu Hồn: Cháy tick gấp đôi = 1.0)
 const MAGNITUDE_EN_REGEN_UP := "en_regen_up"  ## tăng % tốc độ nạp EN theo giây (Gió Thuận)
+const MAGNITUDE_DEF_UP := "def_up"  ## tăng % DEF (trang bị: nhận sát thương → +DEF)
 const MAGNITUDES: Array[String] = ["", MAGNITUDE_MOVE_SLOW, MAGNITUDE_DEF_REDUCTION, MAGNITUDE_DAMAGE_TAKEN_UP,
 		MAGNITUDE_DAMAGE_TAKEN_DOWN, MAGNITUDE_DAMAGE_DEALT_DOWN, MAGNITUDE_SHIELD_MAX_HP, MAGNITUDE_DAMAGE_DEALT_UP,
-		MAGNITUDE_MOVE_SPEED_UP, MAGNITUDE_ATTACK_SPEED_UP, MAGNITUDE_TICK_BONUS, MAGNITUDE_EN_REGEN_UP]
+		MAGNITUDE_MOVE_SPEED_UP, MAGNITUDE_ATTACK_SPEED_UP, MAGNITUDE_TICK_BONUS, MAGNITUDE_EN_REGEN_UP, MAGNITUDE_DEF_UP]
 
 
 ## Số nhịp sát thương trong thời gian mặc định (Cháy: 4s / 0.5s = 8).

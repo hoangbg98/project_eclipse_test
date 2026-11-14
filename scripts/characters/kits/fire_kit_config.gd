@@ -9,6 +9,8 @@ extends Resource
 @export var heat_atk_per_stack := 0.04
 ## Ở đủ tầng: Kĩ năng thường / vũ khí kế tiếp +% sát thương và tiêu hết tầng.
 @export var heat_full_bonus := 0.25
+## Số tầng Nhiệt bị tiêu khi dùng bonus đủ tầng (0 = tiêu hết). Vũ khí 5★ của Enkiba: 3 (EQUIPMENT_5STAR Q2).
+@export var heat_full_consume := 0
 ## Đạt đủ tầng: rút CD Kĩ năng thường (ICD riêng).
 @export var heat_full_skill_cd_reduce_sec := 1.0
 @export var heat_full_skill_cd_icd_sec := 6.0

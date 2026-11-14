@@ -12,8 +12,10 @@ note = "HP tối đa +8%"
 
 [sub_resource type="Resource" id="Effect_1"]
 script = ExtResource("2")
-kind = 4
+kind = 1
 requires_element = "fire"
+param = "self_status_dur_pct:burn"
+value = -0.3
 note = "Thời gian bị Cháy −30% (chỉ hệ Hỏa)"
 
 [sub_resource type="Resource" id="Effect_2"]

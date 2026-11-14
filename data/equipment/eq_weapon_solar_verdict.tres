@@ -28,12 +28,21 @@ note = "Kẻ địch có Phán quyết chịu +6% ST từ người đeo"
 
 [sub_resource type="Resource" id="Effect_3"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+value = 0.03
+trigger = "weapon_hit"
+action = "heal_team"
 note = "Kĩ năng vũ khí hồi cho toàn đội 3% HP tối đa nếu trúng ít nhất 1 kẻ địch"
 
 [sub_resource type="Resource" id="Effect_4"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+status_id = "eqb_verdict_heal"
+value = 5.0
+magnitude = 0.06
+trigger = "heal_low"
+icd = 8.0
+action = "buff"
 note = "Hồi máu cho đồng đội dưới 50% HP: người đeo +6% ST 5s (ICD 8s)"
 
 [sub_resource type="Resource" id="Effect_5"]
@@ -64,15 +73,23 @@ note = "CD Kĩ năng vũ khí 12.0s → 10.0s"
 
 [sub_resource type="Resource" id="Effect_8"]
 script = ExtResource("2")
-kind = 4
+kind = 1
 exclusive = true
+param = "skill:weapon:heals.atk_ratio"
+value = 0.3
 note = "Hồi đồng đội trong vùng 60% → 90% ATK"
 
 [sub_resource type="Resource" id="Effect_9"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
-note = "Đồng đội trong vùng +10% tất cả ST trong 6s (làm mới)"
+team = true
+status_id = "eqb_verdict_zone_team"
+value = 6.0
+magnitude = 0.1
+trigger = "weapon_used"
+action = "buff"
+note = "Đồng đội trong vùng +10% tất cả ST trong 6s (làm mới). Cách làm: người trên sân"
 
 [sub_resource type="Resource" id="Effect_10"]
 script = ExtResource("2")

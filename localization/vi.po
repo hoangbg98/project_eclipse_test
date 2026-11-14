@@ -2221,3 +2221,80 @@ msgstr "Cốt Sơn Bất Khuất & Charles Darwin"
 
 msgid "GACHA_TIER_STAR5"
 msgstr "Trang bị 5★ (mỗi món)"
+
+# Trang bị 5★, bộ vết thánh
+msgid "STATUS_EQB_CRESCENT_CURSE_TEAM"
+msgstr "Trăng Khuyết: +ST lên Nguyền"
+
+msgid "STATUS_EQB_DARWIN_LOW_HP"
+msgstr "Darwin: giảm ST nhận"
+
+msgid "STATUS_EQB_DARWIN_TEAM_GUARD"
+msgstr "Darwin: đội giảm ST nhận"
+
+msgid "STATUS_EQB_DAVINCI_DODGE"
+msgstr "da Vinci: +ST"
+
+msgid "STATUS_EQB_DAVINCI_MULTI"
+msgstr "da Vinci: đội +ST"
+
+msgid "STATUS_EQB_DUSK_FIRE_TEAM"
+msgstr "Hoàng Hôn: +ST Hỏa"
+
+msgid "STATUS_EQB_DUSK_HEAT_TEAM"
+msgstr "Hoàng Hôn: Nhiệt +ST"
+
+msgid "STATUS_EQB_DUSK_ULT"
+msgstr "Hoàng Hôn: +ST"
+
+msgid "STATUS_EQB_FRANKLIN_ASPD"
+msgstr "Franklin: +tốc độ tấn công"
+
+msgid "STATUS_EQB_FRANKLIN_BURST"
+msgstr "Franklin: +ST Lôi"
+
+msgid "STATUS_EQB_GALE_MOVE"
+msgstr "Mùa Gió: +tốc độ"
+
+msgid "STATUS_EQB_LAVOISIER_HEAT"
+msgstr "Lavoisier: +ST Hỏa"
+
+msgid "STATUS_EQB_LAVOISIER_ULT"
+msgstr "Lavoisier: đội +ST"
+
+msgid "STATUS_EQB_NIGHTINGALE_HEAL"
+msgstr "Nightingale: đội +ST"
+
+msgid "STATUS_EQB_PEAK_DEF"
+msgstr "Cốt Sơn: +DEF"
+
+msgid "STATUS_EQB_PEAK_GUARD"
+msgstr "Cốt Sơn: giảm ST nhận"
+
+msgid "STATUS_EQB_PEAK_TEAM_GUARD"
+msgstr "Cốt Sơn: đội giảm ST nhận"
+
+msgid "STATUS_EQB_THUNDER_ASPD_TEAM"
+msgstr "Hai Tiếng Sấm: +tốc độ tấn công"
+
+msgid "STATUS_EQB_THUNDER_EN"
+msgstr "Hai Tiếng Sấm: +nạp EN"
+
+msgid "STATUS_EQB_VERDICT_HEAL"
+msgstr "Nhật Miện: +ST"
+
+msgid "STATUS_EQB_VERDICT_ZONE_TEAM"
+msgstr "Nhật Miện: vùng +ST"
+
+msgid "STATUS_EQB_WIND_ZONE_DMG"
+msgstr "Phong Vực: +ST"
+
+# Kết quả chiêu mộ (owner 2026-11-15)
+msgid "RECRUIT_NEW"
+msgstr "Mới"
+
+msgid "RECRUIT_FRAGMENTS"
+msgstr "+%d mảnh"
+
+msgid "RECRUIT_UI_SKIP"
+msgstr "Bỏ qua"

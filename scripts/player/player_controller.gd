@@ -55,6 +55,8 @@ var stats_override: CombatStats
 var skill_levels: Dictionary = {}
 ## Hiệu ứng trang bị đã gom (PartyManager gán trước khi vào cây); null = không có.
 var loadout: EquipmentResolver.Loadout
+## Hiệu ứng trang bị theo sự kiện (null nếu không có loadout).
+var equip_triggers: EquipTriggers
 ## Combatant của cả đội (PartyManager gán sau khi tạo đủ thành viên); rỗng = chỉ mình nhân vật này.
 var team_combatants: Array[Combatant] = []
 ## Còn bấy nhiêu giây không dùng được đòn thường (SkillDef.blocks_normal_ms, vd Raikiba ném đao).
@@ -109,6 +111,12 @@ func _ready() -> void:
 		kit.name = "Kit"
 		add_child(kit)
 		kit.attach(self, EquipmentResolver.apply_to_kit_config(character.kit_config, loadout) if loadout else character.kit_config)
+	if loadout:
+		for param: String in loadout.params:
+			if param.begins_with("self_status_dur_pct:"):
+				combatant.statuses.incoming_duration_scale[param.get_slice(":", 1)] = float(loadout.params[param])
+		equip_triggers = EquipTriggers.new()
+		equip_triggers.attach(self, loadout)
 	MovementStates.register(fsm, self)
 	CombatStates.register(fsm, self)
 	fsm.state_changed.connect(_on_state_changed)
@@ -144,6 +152,8 @@ func step(delta: float) -> void:
 	combatant.tick(delta)
 	if kit:
 		kit.tick(delta)
+	if equip_triggers:
+		equip_triggers.tick(delta)
 	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
 	normal_lock_sec = maxf(normal_lock_sec - delta, 0.0)
 	_tick_catch(delta)
@@ -478,6 +488,8 @@ func tick_reserve(delta: float) -> void:
 	combatant.tick(delta)
 	if kit:
 		kit.tick(delta)
+	if equip_triggers:
+		equip_triggers.tick(delta)
 	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
 
 

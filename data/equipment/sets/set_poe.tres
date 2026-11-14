@@ -13,13 +13,21 @@ note = "Người đeo +10% ST Ám"
 
 [sub_resource type="Resource" id="Effect_1"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+value = 0.03
+trigger = "kill"
+icd = 2.0
+action = "heal_self"
 note = "Hạ gục kẻ địch: hồi 3% HP tối đa (ICD 2s)"
 
 [sub_resource type="Resource" id="Effect_2"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+value = 1.5
+trigger = "kill"
+action = "si_cd"
+cap = 3.0
 note = "Hạ gục kẻ địch: giảm 1.5s SI-CD, không vượt 3.0s mỗi chu kỳ"
 
 [sub_resource type="Resource" id="Effect_3"]
@@ -47,8 +55,11 @@ note = "Dạ Vương +15% → +20% ST đòn thường"
 
 [sub_resource type="Resource" id="Effect_6"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+status_id = "curse"
+trigger = "kill_cursed"
+action = "spread"
 note = "Hạ gục kẻ địch đang Nguyền: Nguyền lan sang 1 kẻ địch gần nhất, giữ thời gian còn lại"
 
 [resource]

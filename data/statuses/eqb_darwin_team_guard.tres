@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatusDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/status_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "eqb_darwin_team_guard"
+name_key = "STATUS_EQB_DARWIN_TEAM_GUARD"
+kind = 1
+stacking = 0
+max_stacks = 1
+default_duration = 1.0
+default_magnitude = 0.1
+magnitude_meaning = "damage_taken_down"
+equipment = true
+vs_status = ""
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

@@ -13,18 +13,33 @@ note = "Người đeo +10% ST Lôi"
 
 [sub_resource type="Resource" id="Effect_1"]
 script = ExtResource("2")
-kind = 4
+kind = 2
+team = true
+effect_id = "franklin_team_elemental"
+condition = "elemental"
+value = 0.06
 note = "Mục tiêu đang có hiệu ứng nguyên tố chịu +6% tất cả ST từ toàn đội"
 
 [sub_resource type="Resource" id="Effect_2"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+status_id = "lightning_mark"
+value = 6.0
+trigger = "lightning_burst"
+icd = 4.0
+action = "spread"
 note = "Bùng nổ Sét lan 1 Dấu Sét sang kẻ địch gần nhất (ICD 4s)"
 
 [sub_resource type="Resource" id="Effect_3"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+status_id = "eqb_franklin_aspd"
+value = 4.0
+magnitude = 0.06
+trigger = "elemental_applied"
+icd = 4.0
+action = "buff"
 note = "Gây hiệu ứng nguyên tố lên kẻ địch: người đeo +6% tốc độ tấn công 4s (ICD 4s)"
 
 [sub_resource type="Resource" id="Effect_4"]
@@ -37,8 +52,15 @@ note = "Quá Tải +25% → +30% tốc độ tấn công"
 
 [sub_resource type="Resource" id="Effect_5"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+team = true
+status_id = "eqb_franklin_burst"
+value = 6.0
+magnitude = 0.08
+trigger = "lightning_burst"
+action = "buff"
+target_element = "lightning"
 note = "Sau Bùng nổ Sét: toàn đội +8% ST Lôi 6s"
 
 [resource]

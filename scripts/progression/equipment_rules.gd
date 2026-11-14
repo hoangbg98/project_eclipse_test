@@ -14,15 +14,23 @@ extends Resource
 @export var heal_bonus_cap := 0.5
 ## Khiên từ hồi thừa (Hikarine) tối đa tỉ lệ HP tối đa (dòng 7).
 @export var overflow_shield_cap := 0.12
-## Khiên Đá (Iwagane) tối đa tỉ lệ HP tối đa (dòng 7). Chưa dùng: kit chưa có Khiên Đá.
+## Khiên Đá (khiên của Giáp Địa, Kĩ năng thường Iwagane; owner 2026-11-15) tối đa tỉ lệ HP tối đa (dòng 7).
+## Áp qua param_caps của "skill:skill:self_statuses@shield.magnitude".
 @export var stone_shield_cap := 0.25
 ## Tổng % sát thương từ trang bị (nhóm "tất cả ST" + "ST nguyên tố", kể cả theo điều kiện mục tiêu)
 ## tối đa: 1.0 = ×2.0 (dòng 8). Không tính % ATK và giảm DEF.
 @export var equip_damage_cap := 1.0
 ## Ngưỡng "kẻ địch dưới X% HP" của điều kiện VS_TARGET "low_hp".
 @export_range(0.0, 1.0) var low_hp_ratio := 0.3
+## Ngưỡng "hồi máu cho đồng đội dưới X% HP" của kích hoạt heal_low.
+@export_range(0.0, 1.0) var heal_low_ratio := 0.5
+## Đệm ngưỡng HP của hiệu ứng liên tục (bật khi < ngưỡng, tắt khi > ngưỡng + đệm), mục 3.4 dòng 9.
+@export_range(0.0, 0.5) var hp_threshold_buffer := 0.05
+## Bán kính tìm kẻ địch gần nhất khi lan trạng thái (Dấu Sét, Nguyền).
+@export var spread_radius_px := 600.0
 ## Tham số kit có trần riêng: "kit:<thuộc tính>" → giá trị tối đa sau khi cộng.
-@export var param_caps: Dictionary = {"kit:shield_max_ratio": 0.12}
+@export var param_caps: Dictionary = {"kit:shield_max_ratio": 0.12,
+		"skill:skill:self_statuses@shield.magnitude": 0.25}
 
 
 func validate() -> PackedStringArray:

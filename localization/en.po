@@ -2221,3 +2221,80 @@ msgstr "Unyielding Mountain Bone & Charles Darwin"
 
 msgid "GACHA_TIER_STAR5"
 msgstr "5★ gear (per item)"
+
+# Trang bị 5★, bộ vết thánh
+msgid "STATUS_EQB_CRESCENT_CURSE_TEAM"
+msgstr "Crescent: DMG vs Curse"
+
+msgid "STATUS_EQB_DARWIN_LOW_HP"
+msgstr "Darwin: guard"
+
+msgid "STATUS_EQB_DARWIN_TEAM_GUARD"
+msgstr "Darwin: team guard"
+
+msgid "STATUS_EQB_DAVINCI_DODGE"
+msgstr "da Vinci: DMG up"
+
+msgid "STATUS_EQB_DAVINCI_MULTI"
+msgstr "da Vinci: team DMG"
+
+msgid "STATUS_EQB_DUSK_FIRE_TEAM"
+msgstr "Dusk: Fire DMG up"
+
+msgid "STATUS_EQB_DUSK_HEAT_TEAM"
+msgstr "Dusk: Heat DMG up"
+
+msgid "STATUS_EQB_DUSK_ULT"
+msgstr "Dusk: DMG up"
+
+msgid "STATUS_EQB_FRANKLIN_ASPD"
+msgstr "Franklin: attack speed"
+
+msgid "STATUS_EQB_FRANKLIN_BURST"
+msgstr "Franklin: Lightning DMG"
+
+msgid "STATUS_EQB_GALE_MOVE"
+msgstr "Gale: move speed"
+
+msgid "STATUS_EQB_LAVOISIER_HEAT"
+msgstr "Lavoisier: Fire DMG"
+
+msgid "STATUS_EQB_LAVOISIER_ULT"
+msgstr "Lavoisier: team DMG"
+
+msgid "STATUS_EQB_NIGHTINGALE_HEAL"
+msgstr "Nightingale: team DMG"
+
+msgid "STATUS_EQB_PEAK_DEF"
+msgstr "Peak: DEF up"
+
+msgid "STATUS_EQB_PEAK_GUARD"
+msgstr "Peak: guard"
+
+msgid "STATUS_EQB_PEAK_TEAM_GUARD"
+msgstr "Peak: team guard"
+
+msgid "STATUS_EQB_THUNDER_ASPD_TEAM"
+msgstr "Thunder: attack speed"
+
+msgid "STATUS_EQB_THUNDER_EN"
+msgstr "Thunder: EN regen"
+
+msgid "STATUS_EQB_VERDICT_HEAL"
+msgstr "Verdict: DMG up"
+
+msgid "STATUS_EQB_VERDICT_ZONE_TEAM"
+msgstr "Verdict: zone DMG up"
+
+msgid "STATUS_EQB_WIND_ZONE_DMG"
+msgstr "Wind Domain: DMG up"
+
+# Kết quả chiêu mộ (owner 2026-11-15)
+msgid "RECRUIT_NEW"
+msgstr "New"
+
+msgid "RECRUIT_FRAGMENTS"
+msgstr "+%d fragments"
+
+msgid "RECRUIT_UI_SKIP"
+msgstr "Skip"

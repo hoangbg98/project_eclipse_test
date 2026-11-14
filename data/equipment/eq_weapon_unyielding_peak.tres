@@ -34,19 +34,37 @@ note = "Kẻ địch đang bị giảm DEF chịu +8% ST từ người đeo"
 
 [sub_resource type="Resource" id="Effect_4"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+status_id = "eqb_peak_guard"
+magnitude = 0.2
+trigger = "during_skill"
+trigger_arg = "weapon"
+action = "buff"
 note = "Kĩ năng vũ khí: giảm 20% ST nhận trong lúc dùng"
 
 [sub_resource type="Resource" id="Effect_5"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+status_id = "eqb_peak_def"
+value = 5.0
+magnitude = 0.04
+trigger = "damaged"
+icd = 2.0
+action = "buff"
 note = "Nhận ST: người đeo +4% DEF trong 5s (ICD 2s)"
 
 [sub_resource type="Resource" id="Effect_6"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
-note = "Toàn đội giảm 6% ST nhận trong 6s sau khi Iwagane dùng Kĩ năng vũ khí (làm mới, ICD 10s)"
+team = true
+status_id = "eqb_peak_team_guard"
+value = 6.0
+magnitude = 0.06
+trigger = "weapon_used"
+icd = 10.0
+action = "buff"
+note = "Toàn đội giảm 6% ST nhận trong 6s sau khi Iwagane dùng Kĩ năng vũ khí (ICD 10s)"
 
 [sub_resource type="Resource" id="Effect_7"]
 script = ExtResource("2")

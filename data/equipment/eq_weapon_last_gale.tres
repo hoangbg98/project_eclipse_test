@@ -42,7 +42,14 @@ note = "Kĩ năng vũ khí thêm Chậm 20% trong 2s"
 
 [sub_resource type="Resource" id="Effect_5"]
 script = ExtResource("2")
-kind = 4
+kind = 5
+status_id = "eqb_gale_move"
+value = 4.0
+magnitude = 0.08
+trigger = "distinct_targets"
+trigger_value = 2.0
+trigger_window = 4.0
+action = "buff"
 note = "Bắn trúng 2 kẻ địch khác nhau trong 4s: +8% tốc độ di chuyển 4s"
 
 [sub_resource type="Resource" id="Effect_6"]
@@ -57,8 +64,10 @@ note = "Toàn đội +6% tốc độ nạp EN"
 
 [sub_resource type="Resource" id="Effect_7"]
 script = ExtResource("2")
-kind = 4
+kind = 2
 exclusive = true
+condition = "wind_domain"
+value = 0.12
 note = "Kẻ địch trong Phong Vực chịu +12% ST từ Kazeyumi"
 
 [sub_resource type="Resource" id="Effect_8"]
@@ -71,20 +80,29 @@ note = "CD Kĩ năng vũ khí 13.0s → 11.0s"
 
 [sub_resource type="Resource" id="Effect_9"]
 script = ExtResource("2")
-kind = 4
+kind = 1
 exclusive = true
+param = "skill:weapon:hits.bonus_vs_status_ratio"
+value = 0.1
 note = "Bonus mục tiêu đứng trong Phong Vực +25% → +35%"
 
 [sub_resource type="Resource" id="Effect_10"]
 script = ExtResource("2")
-kind = 4
+kind = 5
 exclusive = true
+value = 3.0
+trigger = "perfect_dodge"
+icd = 8.0
+action = "cd"
+cd_keys = PackedStringArray("weapon")
 note = "Né hoàn hảo: Kĩ năng vũ khí giảm 3.0s CD (ICD 8s)"
 
 [sub_resource type="Resource" id="Effect_11"]
 script = ExtResource("2")
-kind = 4
+kind = 1
 exclusive = true
+param = "kit:zone_ally_damage"
+value = 0.1
 note = "Đồng đội trong Phong Vực +10% ST nguyên tố"
 
 [resource]

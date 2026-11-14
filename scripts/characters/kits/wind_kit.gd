@@ -11,6 +11,9 @@ extends Node
 const BASIC_KINDS := [ResourceComponent.HitKind.NORMAL, ResourceComponent.HitKind.HOLD,
 		ResourceComponent.HitKind.AIR, ResourceComponent.HitKind.LANDING]
 
+## Buff trang bị: đồng đội trong Phong Vực +% sát thương (data/statuses/eqb_wind_zone_dmg.tres).
+const ZONE_ALLY_DAMAGE := "eqb_wind_zone_dmg"
+
 var player: PlayerController
 var config: WindKitConfig
 var combatant: Combatant
@@ -49,6 +52,8 @@ func tick(delta: float) -> void:
 				# Thời gian ngắn, làm mới mỗi tick: rời vùng thì hết sau ~0.3 s.
 				c.statuses.apply("attack_speed_up", config.zone_buff_refresh_sec, config.zone_attack_speed, combatant)
 				c.statuses.apply("wind_domain_haste", config.zone_buff_refresh_sec, config.zone_move_speed, combatant)
+				if config.zone_ally_damage > 0.0:
+					c.statuses.apply(ZONE_ALLY_DAMAGE, config.zone_buff_refresh_sec, config.zone_ally_damage, combatant)
 
 
 ## Combatant `c` đang đứng trong Phong Vực.

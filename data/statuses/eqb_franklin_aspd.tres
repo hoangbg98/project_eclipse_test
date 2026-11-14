@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatusDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/status_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "eqb_franklin_aspd"
+name_key = "STATUS_EQB_FRANKLIN_ASPD"
+kind = 1
+stacking = 0
+max_stacks = 1
+default_duration = 1.0
+default_magnitude = 0.1
+magnitude_meaning = "attack_speed_up"
+equipment = true
+vs_status = ""
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

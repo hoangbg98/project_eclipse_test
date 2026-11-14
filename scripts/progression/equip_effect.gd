@@ -12,13 +12,16 @@ enum Kind {
 	VS_TARGET,
 	## Kĩ năng vũ khí (`weapon`) trúng: áp trạng thái `status_id` lên mục tiêu.
 	ON_WEAPON_HIT,
-	## Hiệu ứng theo sự kiện chưa cài đặt (buff toàn đội có thời hạn, thay đổi cơ chế kit...). Chỉ ghi data + mô tả.
+	## Hiệu ứng chưa có cơ chế trong game (vd Khiên Đá). Chỉ ghi data + mô tả.
 	PENDING,
+	## Sự kiện `trigger` → hành động `action` (buff có thời hạn, rút CD, hồi máu, nạp EN, lan trạng thái...).
+	## Chạy ở EquipTriggers (scripts/combat/equip_triggers.gd).
+	TRIGGER,
 }
 
 ## Khóa chỉ số của Kind.STAT. Tỉ lệ 0..1 (0.08 = 8%).
 const STATS := ["atk_pct", "all_dmg", "elem_dmg", "hp_pct", "def_pct", "dmg_taken_down", "crit_rate",
-		"en_regen", "atk_speed", "move_speed", "heal_bonus", "lifesteal"]
+		"en_regen", "atk_speed", "move_speed", "heal_bonus", "lifesteal", "lifesteal_curse"]
 ## Điều kiện đặc biệt của Kind.VS_TARGET (ngoài tên trạng thái).
 const CONDITIONS := ["elemental", "def_down", "low_hp", "boss"]
 ## Tiền tố tham số của Kind.PARAM:
@@ -26,7 +29,16 @@ const CONDITIONS := ["elemental", "def_down", "low_hp", "boss"]
 ##   skill:<SkillDef.key>:<thuộc tính>        vd skill:weapon:cooldown_sec
 ##   status_dur:<id trạng thái>               cộng giây vào thời gian trạng thái do người đeo gây ra
 ##   status_mag:<id trạng thái>               cộng vào độ mạnh trạng thái do người đeo gây ra
-const PARAM_PREFIXES := ["kit", "skill", "status_dur", "status_mag"]
+##   self_status_dur_pct:<id trạng thái>      thay đổi % thời gian trạng thái người đeo NHẬN (−0.3 = ngắn 30%)
+## Đường dẫn trong kit / skill: "a.b" (thuộc tính con, Dictionary), "hits.x" (mọi phần tử mảng), "hits[0].x"
+## (phần tử thứ 0), "hits.statuses@slow.magnitude" (phần tử có status_id = slow).
+const PARAM_PREFIXES := ["kit", "skill", "status_dur", "status_mag", "self_status_dur_pct"]
+## Sự kiện của Kind.TRIGGER.
+const TRIGGERS := ["ultimate_used", "weapon_used", "weapon_or_ultimate_used", "weapon_hit", "skill_hit", "kill",
+		"kill_cursed", "perfect_dodge", "heal_low", "elemental_applied", "lightning_burst", "self_max_stacks",
+		"distinct_targets", "damaged", "while_self_stacks", "while_self_hp_below", "during_skill"]
+## Hành động của Kind.TRIGGER.
+const ACTIONS := ["buff", "cd", "si_cd", "heal_self", "heal_team", "en", "self_status", "spread"]
 
 @export var kind := Kind.STAT
 ## true = chỉ chủ sở hữu (giáp `owner_id`, owner Q1) được nhận.
@@ -45,6 +57,24 @@ const PARAM_PREFIXES := ["kit", "skill", "status_dur", "status_mag"]
 @export var value := 0.0
 ## ON_WEAPON_HIT: độ mạnh trạng thái (âm = mặc định StatusDef).
 @export var magnitude := -1.0
+@export_group("Kích hoạt (Kind.TRIGGER)")
+@export var trigger := ""
+## Tham số sự kiện: id trạng thái (self_max_stacks, while_self_stacks), khóa kỹ năng (during_skill), tỉ lệ HP
+## (while_self_hp_below, dạng số trong `trigger_value`).
+@export var trigger_arg := ""
+## Số mục tiêu (distinct_targets), số tầng (while_self_stacks), tỉ lệ HP (while_self_hp_below).
+@export var trigger_value := 0.0
+## Cửa sổ thời gian (distinct_targets).
+@export var trigger_window := 0.0
+@export var icd := 0.0
+@export var action := ""
+## buff: chỉ người nhận có nguyên tố này (vd toàn đội +10% ST Hỏa → chỉ nhân vật hệ Hỏa). Rỗng = ai cũng nhận.
+@export var target_element := ""
+## cd: các khóa hồi chiêu bị rút (skill, weapon).
+@export var cd_keys: PackedStringArray = PackedStringArray()
+## cd / si_cd: tối đa mỗi chu kỳ (âm = không giới hạn).
+@export var cap := -1.0
+
 ## Mô tả thiết kế (tiếng Việt, theo tài liệu) để đối chiếu và hiện tạm; chữ hiển thị chính thức đi qua tr() sau.
 @export var note := ""
 
@@ -69,4 +99,13 @@ func validate(where: String) -> PackedStringArray:
 		Kind.PENDING:
 			if note.is_empty():
 				e.append("%s: PENDING cần note" % where)
+		Kind.TRIGGER:
+			if trigger not in TRIGGERS:
+				e.append("%s: trigger lạ '%s'" % [where, trigger])
+			if action not in ACTIONS:
+				e.append("%s: action lạ '%s'" % [where, action])
+			if action in ["buff", "self_status", "spread"] and status_id.is_empty():
+				e.append("%s: %s cần status_id" % [where, action])
+			if action == "cd" and cd_keys.is_empty():
+				e.append("%s: cd cần cd_keys" % where)
 	return e
