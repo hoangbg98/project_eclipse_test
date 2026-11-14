@@ -1,42 +1,51 @@
 {
 	"_huong_dan": [
-		"Bố cục tab Trang chủ của Hub (owner 2026-11-14, theo ảnh tham chiếu sảnh chính). Sửa file này rồi mở lại Hub; không cần sửa code.",
-		"Tọa độ theo khung thiết kế 1920×1080, tính từ góc trên-trái MÀN HÌNH (không phải vùng nội dung). rect = [x, y, rộng, cao].",
-		"hex: center = [x, y] tâm lục giác, radius = bán kính (tâm tới đỉnh). Icon ở assets/ui/hub/icons/{icon}.png (sinh bằng tools/ui/gen_hub_icons.py, owner vẽ đè).",
-		"Phần bên trái (dòng tóm tắt) giữ như cũ theo yêu cầu owner; owner chỉnh sau.",
+		"Bố cục sảnh chính (owner 2026-11-14, bản 2: kiểu ô ghép theo dự án cũ của owner). Sửa file này rồi mở lại Hub; không cần sửa code.",
+		"Tọa độ theo khung thiết kế 1920×1080, tính từ góc trên-trái màn hình. rect = [x, y, rộng, cao].",
+		"tiles: ô ghép nghiêng (bình hành). art = ảnh phủ kín ô (đường dẫn res://, rỗng = dùng icon), art_crop = [x, y, rộng, cao] tỉ lệ 0..1 của ảnh, icon ở assets/ui/hub/icons/{icon}.png, bar = màu dải chữ, skew = độ nghiêng (px).",
+		"splash: ảnh nhân vật đầu đội bên trái, đường dẫn có {id}; thiếu ảnh thì dùng ảnh chibi.",
+		"Nền phía sau lấy theo nền người chơi đang chọn (data/backgrounds/), đổi bằng nút khung tranh góc phải.",
 		"anchor: 'left' / 'right' / 'center' như các file bố cục khác."
 	],
 	"design_size": [1920, 1080],
 	"colors": {
-		"hex_fill": "#14203ACC",
-		"hex_fill_hover": "#1F3352DD",
-		"hex_rim": "#7FD4FF",
-		"hex_glow": "#7FD4FF59",
+		"fallback_background": "#1A2238",
+		"shade": "#00000040",
 		"text": "#FFFFFF",
-		"text_dim": "#B8BCCB",
+		"text_dim": "#D8DCEB",
 		"badge": "#FFD23F",
-		"card": "#14161FD9",
-		"card_border": "#7FD4FF",
+		"tile_fill": "#1A2036E6",
+		"card": "#14161FCC",
+		"card_border": "#FFFFFF80",
 		"exp_back": "#00000099",
 		"exp_fill": "#7FD4FF",
-		"pill": "#14161FD9",
+		"pill": "#14161FCC",
 		"gold": "#FFD23F",
 		"gems": "#7FD4FF",
-		"art_glow": "#7FD4FF26"
+		"icon_button": "#14161FB3"
 	},
-	"player_card": {"rect": [64, 196, 600, 124], "font": 34, "font_small": 24, "avatar": [76, 206, 104, 104]},
-	"summary": {"rect": [64, 340, 760, 400]},
-	"leader_art": {"rect": [780, 250, 520, 790], "anchor": "center"},
+	"splash": {"rect": [40, 130, 620, 950], "path": "res://assets/characters/{id}/splash/{id}_splash_overview.png"},
+	"player_card": {"rect": [40, 24, 520, 108], "font": 32, "font_small": 22, "avatar": [52, 32, 92, 92]},
 	"pills": {
-		"gold": {"rect": [1250, 196, 290, 60], "anchor": "right", "font": 30},
-		"gems": {"rect": [1560, 196, 290, 60], "anchor": "right", "font": 30}
+		"gold": {"rect": [1170, 30, 260, 60], "anchor": "right", "font": 28},
+		"gems": {"rect": [1446, 30, 240, 60], "anchor": "right", "font": 28}
 	},
-	"hex": {
-		"font": 30,
-		"equipment": {"center": [1710, 400], "radius": 112, "icon": "bag", "text_key": "HUB_HEX_EQUIPMENT", "anchor": "right"},
-		"companion": {"center": [1505, 505], "radius": 112, "icon": "companion", "text_key": "HUB_HEX_COMPANION", "anchor": "right", "badge_key": "HUB_BADGE_SOON", "font": 25},
-		"sortie": {"center": [1735, 668], "radius": 150, "icon": "sortie", "text_key": "HUB_HEX_SORTIE", "anchor": "right", "font": 40},
-		"character": {"center": [1490, 760], "radius": 112, "icon": "character", "text_key": "HUB_HEX_CHARACTER", "anchor": "right"},
-		"supply": {"center": [1700, 935], "radius": 112, "icon": "supply", "text_key": "HUB_HEX_SUPPLY", "anchor": "right"}
+	"icon_buttons": {
+		"background": {"rect": [1700, 18, 84, 84], "anchor": "right", "icon": "background"},
+		"settings": {"rect": [1800, 18, 84, 84], "anchor": "right", "icon": "settings"}
+	},
+	"tiles": {
+		"font": 40,
+		"skew": 34,
+		"character": {"rect": [796, 170, 430, 360], "anchor": "right", "text_key": "HUB_HEX_CHARACTER", "bar": "#C8324A",
+			"icon": "character", "art": "res://assets/characters/char_fire_01/splash/char_fire_01_splash_skill.png", "art_crop": [0.0, 0.0, 1.0, 0.45]},
+		"sortie": {"rect": [1238, 170, 640, 360], "anchor": "right", "text_key": "HUB_HEX_SORTIE", "bar": "#8E6FD8",
+			"icon": "sortie", "art": "", "font": 46},
+		"equipment": {"rect": [760, 548, 364, 300], "anchor": "right", "text_key": "HUB_HEX_EQUIPMENT", "bar": "#B8975A",
+			"icon": "bag", "art": "res://assets/characters/char_fire_01/splash/char_fire_01_splash_weapon.png", "art_crop": [0.0, 0.3, 1.0, 0.4]},
+		"supply": {"rect": [1136, 548, 364, 300], "anchor": "right", "text_key": "HUB_HEX_SUPPLY", "bar": "#1FB5B5",
+			"icon": "supply", "art": ""},
+		"companion": {"rect": [1512, 548, 364, 300], "anchor": "right", "text_key": "HUB_HEX_COMPANION", "bar": "#5F49B8",
+			"icon": "companion", "art": "", "badge_key": "HUB_BADGE_SOON", "font": 34}
 	}
 }

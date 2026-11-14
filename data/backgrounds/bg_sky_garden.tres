@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BackgroundDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/background_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "bg_sky_garden"
+name_key = "BG_SKY_GARDEN"
+image = "res://assets/placeholders/placeholder_hub_bg_sky_garden.png"
+source = 0
+price_gems = 0
+sort_order = 0
+metadata/note = "Nền khởi đầu TẠM (owner 2026-11-14): ảnh owner gửi, trùng nền sảnh của một game thương mại -> chỉ là placeholder, bản Release loại *placeholder_*; owner thay ảnh rồi sửa 'image'."

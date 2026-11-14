@@ -1400,3 +1400,20 @@ un_tests.ps1`
 - **Đã chạy:** `python -I tools/frames/check_frames.py char_lightning_01 idle` (ĐẠT); `python -I tools/frames/approve_frames.py char_lightning_01 idle`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** Owner duyệt `idle`; approve thành công với 6 frame, 8 fps. GdUnit4: 543 test, 0 lỗi; 5 smoke test ĐẠT; toàn bộ lệnh test thoát mã 0.
 - **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.
+
+## 2026-11-14 — Sảnh chính bản 2: ô ghép, splash bên trái, bỏ thanh tab, bánh răng Cài đặt, đổi nền
+
+- **Milestone / task:** UI Hub — owner thấy sảnh còn lộn xộn, gửi ảnh dự án cũ (kiểu ô ghép), ảnh splash Enkiba và ảnh nền tạm. Yêu cầu: giữ chức năng cũ, đổi vị trí / kích thước / cách xếp; bỏ thanh tab ô vuông phía trên; bỏ dòng PROJECT ECLIPSE / vàng / ngọc / đội hình / số màn bên trái, đặt splash nhân vật ở đó; thêm bánh răng Cài đặt góc phải; ô thứ 2 màn Tiếp tế đổi tên Chiêu mộ; thêm tính năng đổi nền (mua, phát trong sự kiện), nền khởi đầu tạm là ảnh thứ 3
+- **Trạng thái:** TESTED (đã chụp sảnh và từng bảng nổi; owner chưa xem)
+- **File tạo/sửa:**
+  - Sảnh: `scenes/main/hub.tscn` (bỏ TopBar / ContentLabel, nút Màn 1 / Màn thử nghiệm dời xuống đáy bảng nổi), `scripts/ui/hub.gd` (viết lại: sảnh + bảng nổi Chiến đấu / Cài đặt / Đổi nền, Back đóng bảng nổi trước), `scripts/ui/hub_home_panel.gd` (viết lại: nền, splash, thẻ người chơi, ô tiền, nút khung tranh + bánh răng, 5 ô ghép), `scripts/ui/tile_button.gd` (ô bình hành, ảnh phủ + dải chữ màu, bấm theo hình), `data/ui/hub_home_layout.json` (viết lại). Bỏ `scripts/ui/hex_button.gd`.
+  - Nền: `scripts/progression/background_def.gd`, `data/backgrounds/bg_sky_garden.tres`, `assets/placeholders/placeholder_hub_bg_sky_garden.png`, `scripts/ui/hub_background_panel.gd`; save v5 (`cosmetics.backgrounds`, `cosmetics.hub_background`, migration 4→5) trong `scripts/save/save_schema.gd`; `PlayerProfile` thêm `all_backgrounds`, `owns_background`, `hub_background`, `set_hub_background`, `unlock_background`, `buy_background`.
+  - Icon: `tools/ui/gen_hub_icons.py` thêm `settings` (bánh răng), `background` (khung tranh).
+  - Chữ: `SUPPLY_GACHA_TITLE` / `SUPPLY_GACHA_GO` → Chiêu mộ / Đi chiêu mộ (en Recruit / Go recruit); 14 khóa mới (nền, bánh răng).
+  - Tài liệu: `docs/design/HUB_FEATURES.md` (bản đồ màn bản 2, mục Nền sảnh), `docs/ASSET_LICENSES.md` (dòng ảnh nền tạm + số icon; chỉ commit phần này).
+  - Test: `tests/unit/ui/test_hub_home.gd` (sảnh ô ghép, bảng nổi, bình hành, nền), `tests/unit/ui/test_hub_panels.gd` (bỏ test dòng tóm tắt), `tests/smoke/m1_flow_check.gd` (mở bảng Chiến đấu bằng `show_tab`, Esc đóng bảng nổi), `tests/smoke/m1_i18n_check.gd` (đọc chữ ô ghép).
+- **Đã chạy:** `python -I tools/ui/gen_hub_icons.py`, `--import`, chụp sảnh + 3 bảng nổi + Tiếp tế, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** lần đầu 1 lỗi (test v4 cố định VERSION = 4) → nới thành ≥ 4; ảnh chụp đầu cho thấy bảng nổi bị lớp sảnh (top_level) đè → bỏ top_level, sảnh phủ kín theo anchor. Lần cuối GdUnit4 543 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** hàng trên Nhân vật + Xuất kích (lớn), hàng dưới Trang bị, Tiếp tế, Người cộng tác; ảnh ô Nhân vật / Trang bị lấy tạm splash skill / weapon của Enkiba, ô khác dùng icon; màu dải chữ theo ảnh tham chiếu; Cài đặt / Chiến đấu / Đổi nền là bảng nổi trong sảnh (không tạo màn mới); nút bánh răng / khung tranh 84 px (owner muốn icon nhỏ; nhỏ hơn mốc 128 px của README).
+- **Lưu ý giấy phép:** ảnh nền thứ 3 owner gửi trùng nền sảnh của một game thương mại → để ở `assets/placeholders/` tên `placeholder_*` (bản Release tự loại), ghi KHÔNG SHIP trong ASSET_LICENSES; owner cần thay trước khi phát hành. Ảnh dự án cũ chỉ dùng làm tham khảo bố cục, không chép vào dự án.
+- **Hạn chế đã biết:** chưa có Shop nên mua nền chỉ trong bảng Đổi nền; chưa có nền thứ hai để thử mua (đã thử bằng nền giả lập trong test); chưa có ảnh riêng cho ô Xuất kích / Tiếp tế / Người cộng tác; chưa thử chạm trên máy thật.

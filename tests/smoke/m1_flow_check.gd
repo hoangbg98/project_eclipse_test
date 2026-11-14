@@ -55,14 +55,15 @@ func _run() -> void:
 	_check(await _wait_for_scene(gc.SCENE_HUB, 3.0), "Game mới -> Hub")
 	_check(router.can_go_back(), "có lịch sử để Back")
 
-	# Hub: nút Màn thử nghiệm chỉ hiện ở tab Battle (M2-3), bấm vào được màn.
+	# Hub (sảnh không còn thanh tab, owner 2026-11-14): nút Màn thử nghiệm chỉ hiện ở bảng nổi Đội hình (Battle).
 	var stage_btn: Button = current_scene.get_node("%TestStageButton")
-	_check(not stage_btn.visible, "tab Home: nút Màn thử nghiệm ẩn")
-	(current_scene.get_node("TopBar/TabBar/BattleTab") as Button).pressed.emit()
-	_check(stage_btn.visible, "tab Battle: nút Màn thử nghiệm hiện")
-	(current_scene.get_node("TopBar/TabBar/HomeTab") as Button).pressed.emit()
-	_check(not stage_btn.visible, "về tab Home: nút ẩn lại")
-	(current_scene.get_node("TopBar/TabBar/BattleTab") as Button).pressed.emit()
+	_check(not stage_btn.visible, "sảnh: nút Màn thử nghiệm ẩn")
+	current_scene.show_tab("BattleTab")
+	_check(stage_btn.visible, "bảng Đội hình: nút Màn thử nghiệm hiện")
+	_send_back()
+	await process_frame
+	_check(not stage_btn.visible and current_scene.scene_file_path == gc.SCENE_HUB, "Esc đóng bảng nổi, vẫn ở Hub")
+	current_scene.show_tab("BattleTab")
 	stage_btn.pressed.emit()
 	_check(await _wait_for_scene(gc.SCENE_TEST_STAGE, 3.0), "Battle -> Màn thử nghiệm")
 	_send_back()

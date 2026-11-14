@@ -1261,13 +1261,13 @@ msgid "SUPPLY_SHOP_GO"
 msgstr "Go to Shop"
 
 msgid "SUPPLY_GACHA_TITLE"
-msgstr "Supply Drop"
+msgstr "Recruit"
 
 msgid "SUPPLY_GACHA_DESC"
 msgstr "Open supply crates: characters, weapons, stigmata."
 
 msgid "SUPPLY_GACHA_GO"
-msgstr "Open Supply"
+msgstr "Go recruit"
 
 msgid "SUPPLY_TOPUP_TITLE"
 msgstr "Top-up"
@@ -1385,3 +1385,45 @@ msgstr "Stigmata"
 
 msgid "PLAYER_COLL_HINT"
 msgstr "✓ owned  ·  — not owned (get from Supply, events, stage rewards)"
+
+msgid "HUB_TAB_BACKGROUND"
+msgstr "Background"
+
+msgid "HUB_ICON_BACKGROUND"
+msgstr "Change background"
+
+msgid "HUB_ICON_SETTINGS"
+msgstr "Settings"
+
+msgid "BG_SKY_GARDEN"
+msgstr "Sky Garden"
+
+msgid "BG_PANEL_HINT"
+msgstr "The backdrop behind your character in the lobby. Buy new ones with gems or get them from events."
+
+msgid "BG_IN_USE"
+msgstr "In use"
+
+msgid "BG_USE"
+msgstr "Use"
+
+msgid "BG_BUY"
+msgstr "Buy for %d gems"
+
+msgid "BG_FROM_EVENT"
+msgstr "Event reward"
+
+msgid "BG_ERR_BG_UNKNOWN"
+msgstr "Unknown background."
+
+msgid "BG_ERR_BG_NOT_OWNED"
+msgstr "You don't own this background."
+
+msgid "BG_ERR_BG_OWNED"
+msgstr "Already owned."
+
+msgid "BG_ERR_BG_NOT_FOR_SALE"
+msgstr "Not for sale."
+
+msgid "BG_ERR_BG_NO_GEMS"
+msgstr "Not enough gems."

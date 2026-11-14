@@ -6,6 +6,7 @@ extends RefCounted
 const RULES_PATH := "res://data/config/progression.tres"
 const ITEMS_DIR := "res://data/items"
 const EQUIPMENT_DIR := "res://data/equipment"
+const BACKGROUNDS_DIR := "res://data/backgrounds"
 const CHARACTER_DATA := "res://data/characters/%s.tres"
 
 var data: Dictionary
@@ -15,6 +16,7 @@ var progression: Progression
 
 static var _items: DefLibrary
 static var _equipment: DefLibrary
+static var _backgrounds: DefLibrary
 
 
 func _init(save_data: Dictionary) -> void:
@@ -34,6 +36,90 @@ static func equipment_defs() -> DefLibrary:
 	if _equipment == null:
 		_equipment = DefLibrary.load_dir(EQUIPMENT_DIR)
 	return _equipment
+
+
+# ---------- Nền sảnh chính (owner 2026-11-14) ----------
+
+const BG_OK := ""
+const BG_UNKNOWN := "bg_unknown"
+const BG_NOT_OWNED := "bg_not_owned"
+const BG_OWNED := "bg_owned"
+const BG_NOT_FOR_SALE := "bg_not_for_sale"
+const BG_NO_GEMS := "bg_no_gems"
+
+
+static func background_defs() -> DefLibrary:
+	if _backgrounds == null:
+		_backgrounds = DefLibrary.load_dir(BACKGROUNDS_DIR)
+	return _backgrounds
+
+
+func _cosmetics() -> Dictionary:
+	if not (data.get("cosmetics") is Dictionary):
+		data["cosmetics"] = {"backgrounds": [], "hub_background": ""}
+	return data["cosmetics"]
+
+
+## Mọi nền theo thứ tự hiển thị (sort_order rồi id).
+func all_backgrounds() -> Array[BackgroundDef]:
+	var out: Array[BackgroundDef] = []
+	for id in background_defs().ids():
+		var b := background_defs().get_def(id) as BackgroundDef
+		if b:
+			out.append(b)
+	out.sort_custom(func(a: BackgroundDef, b: BackgroundDef) -> bool:
+		return a.id < b.id if a.sort_order == b.sort_order else a.sort_order < b.sort_order)
+	return out
+
+
+func owns_background(id: String) -> bool:
+	var b := background_defs().get_def(id) as BackgroundDef
+	if b == null:
+		return false
+	return b.source == BackgroundDef.Source.STARTER or id in _cosmetics()["backgrounds"]
+
+
+## Nền đang dùng: nền đã chọn nếu còn sở hữu, không thì nền starter đầu tiên ("" nếu data không có nền nào).
+func hub_background() -> String:
+	var sel := str(_cosmetics().get("hub_background", ""))
+	if sel != "" and owns_background(sel):
+		return sel
+	for b in all_backgrounds():
+		if b.source == BackgroundDef.Source.STARTER:
+			return b.id
+	return ""
+
+
+func set_hub_background(id: String) -> String:
+	if background_defs().get_def(id) == null:
+		return BG_UNKNOWN
+	if not owns_background(id):
+		return BG_NOT_OWNED
+	_cosmetics()["hub_background"] = id
+	return BG_OK
+
+
+## Mở khóa nền (phần thưởng sự kiện, quà). Trả về false nếu không có nền đó hoặc đã có.
+func unlock_background(id: String) -> bool:
+	if background_defs().get_def(id) == null or owns_background(id):
+		return false
+	(_cosmetics()["backgrounds"] as Array).append(id)
+	return true
+
+
+## Mua nền bằng ngọc (giá trong BackgroundDef.price_gems). Thiếu ngọc thì không trừ gì.
+func buy_background(id: String) -> String:
+	var b := background_defs().get_def(id) as BackgroundDef
+	if b == null:
+		return BG_UNKNOWN
+	if owns_background(id):
+		return BG_OWNED
+	if b.price_gems <= 0:
+		return BG_NOT_FOR_SALE
+	if not inventory.spend_currency("gems", b.price_gems):
+		return BG_NO_GEMS
+	unlock_background(id)
+	return BG_OK
 
 
 const NAME_OK := ""

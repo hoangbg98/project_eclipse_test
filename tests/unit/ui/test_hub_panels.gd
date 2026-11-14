@@ -64,14 +64,6 @@ func test_hub_shows_a_panel_per_tab() -> void:
 	assert_bool((hub.get_node("%Stage01Button") as Button).visible).is_false()
 
 
-func test_home_summary() -> void:
-	_save.data["currencies"]["gold"] = 777
-	_save.data["progress"]["stages"]["stage_01"] = {"cleared": true, "best_time_sec": 190.0}
-	var p := _add(HubHomePanel.new()) as HubHomePanel
-	var t := "\n".join(p.summary_lines())
-	assert_bool(t.contains("777") and t.contains("Enkiba Lv.1") and t.contains(tr("HOME_STAGES_CLEARED") % 1)).is_true()
-
-
 # ---------- Chiến đấu ----------
 
 func test_party_selection_rules_and_persistence() -> void:

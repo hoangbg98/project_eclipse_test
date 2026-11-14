@@ -100,12 +100,14 @@ func _run() -> void:
 	var hub: Control = load("res://scenes/main/hub.tscn").instantiate()
 	root.add_child(hub)
 	await process_frame
-	# M7-2: nội dung tab là bảng dựng bằng code; gom chữ của mọi Label trong vùng nội dung.
+	# Sảnh dựng bằng code: gom chữ của Label và tên ô ghép (TileButton vẽ chữ trực tiếp).
 	var texts := PackedStringArray()
 	for l in hub.get_node("Content").find_children("*", "Label", true, false):
 		texts.append((l as Label).text)
+	for t in hub.get_node("Content").find_children("*", "TileButton", true, false):
+		texts.append(t.label_text)
 	var joined := " | ".join(texts)
-	_check(joined.contains("Party") and joined.contains("Gold") and joined.contains("Stages cleared"),
+	_check(joined.contains("Sortie") and joined.contains("Equipment") and joined.contains("Captain"),
 			"Hub (en) hiện chữ tiếng Anh: %s" % joined)
 	hub.queue_free()
 	game_config.set_language("vi")

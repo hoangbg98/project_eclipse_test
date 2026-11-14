@@ -1,24 +1,30 @@
 class_name HubHomePanel
 extends HubPanel
-## Tab Trang chủ (owner 2026-11-14, theo ảnh tham chiếu sảnh chính):
-## - góc trên-trái: thẻ người chơi (ảnh đội trưởng, LV đội trưởng, tên, thanh EXP) → màn Thông tin người chơi;
-## - bên trái: dòng tóm tắt cũ (giữ nguyên, owner chỉnh sau);
-## - giữa: ảnh nhân vật đầu đội;
-## - bên phải: ô vàng / ngọc và cụm nút lục giác Trang bị, Người cộng tác, Xuất kích, Nhân vật, Tiếp tế.
-## Vị trí, màu đọc từ data/ui/hub_home_layout.json. Bảng chỉ điều hướng, không chứa luật.
+## Sảnh chính (owner 2026-11-14, bản 2 — kiểu ô ghép theo dự án cũ của owner):
+## - nền phía sau: nền người chơi đang chọn (data/backgrounds/, đổi được);
+## - bên trái: ảnh splash nhân vật đầu đội; góc trên-trái: thẻ người chơi → Thông tin người chơi;
+## - góc trên-phải: ô vàng / ngọc, nút Đổi nền (khung tranh), nút Cài đặt (bánh răng);
+## - bên phải: ô ghép nghiêng Nhân vật, Xuất kích (hàng trên), Trang bị, Tiếp tế, Người cộng tác (hàng dưới).
+## Không còn thanh tab và dòng tóm tắt. Vị trí, màu, ảnh ô đọc từ data/ui/hub_home_layout.json.
+## Bảng chỉ điều hướng; Cài đặt / Đổi nền / Đội hình là bảng nổi của Hub (tín hiệu `request_tab`).
+
+signal request_tab(tab_name: String)
 
 const LAYOUT_PATH := "res://data/ui/hub_home_layout.json"
 const ICON_DIR := "res://assets/ui/hub/icons/%s.png"
 const PORTRAIT_PATH := "res://assets/characters/%s/portrait/%s_portrait_full.png"
-## Nút lục giác → hằng scene trong GameConfig.
-const HEX_TARGETS := {
-	"equipment": "SCENE_BAG", "companion": "SCENE_COMPANION", "sortie": "SCENE_SORTIE",
-	"character": "SCENE_CHARACTER", "supply": "SCENE_SUPPLY",
+## Ô ghép → hằng scene trong GameConfig.
+const TILE_TARGETS := {
+	"character": "SCENE_CHARACTER", "sortie": "SCENE_SORTIE", "equipment": "SCENE_BAG",
+	"supply": "SCENE_SUPPLY", "companion": "SCENE_COMPANION",
 }
+## Nút biểu tượng góc phải → bảng nổi của Hub.
+const ICON_TABS := {"background": "BackgroundTab", "settings": "SettingsTab"}
 
 var layout: UiLayout
-## Nút lục giác theo khóa (equipment, companion, sortie, character, supply) — để test.
-var hex_buttons: Dictionary = {}
+## Ô ghép theo khóa — để test.
+var tiles: Dictionary = {}
+var icon_buttons: Dictionary = {}
 var player_card: Button
 ## Scene vừa yêu cầu mở (để test).
 var last_target := ""
@@ -33,21 +39,24 @@ func build() -> void:
 		layout = UiLayout.load_from(LAYOUT_PATH)
 	var view := get_viewport_rect().size if is_inside_tree() else layout.design_size
 	layout.view_size = view
-	# Lớp phủ đặt theo tọa độ màn hình (top_level), phần tóm tắt vẫn nằm trong bảng như cũ.
+	# Lớp đặt theo tọa độ màn hình: Hub đặt bảng này phủ kín màn hình (vẽ theo thứ tự cây, bảng nổi của Hub đè lên).
 	_overlay = Control.new()
 	_overlay.name = "HomeOverlay"
-	_overlay.top_level = true
-	_overlay.position = Vector2.ZERO
-	_overlay.size = view
+	_overlay.custom_minimum_size = view
+	_overlay.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_overlay.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_overlay)
-	_build_leader_art()
+	_build_background(view)
+	_build_splash()
 	_build_player_card()
-	_build_summary()
 	_build_pills()
-	hex_buttons.clear()
-	for key: String in HEX_TARGETS:
-		_build_hex(key)
+	icon_buttons.clear()
+	for key: String in ICON_TABS:
+		_build_icon_button(key)
+	tiles.clear()
+	for key: String in TILE_TARGETS:
+		_build_tile(key)
 
 
 func _place(c: Control, r: Rect2) -> Control:
@@ -66,103 +75,120 @@ func _style(bg: Color, border := Color(0, 0, 0, 0), radius := 10) -> StyleBoxFla
 	return s
 
 
+static func _tex(path: String) -> Texture2D:
+	return load(path) as Texture2D if path != "" and ResourceLoader.exists(path) else null
+
+
 func leader_id() -> String:
 	var party := profile.party_ids()
 	return party[0] if party.size() > 0 else ""
 
 
 static func portrait(id: String) -> Texture2D:
-	var p := PORTRAIT_PATH % [id, id]
-	return load(p) as Texture2D if id != "" and ResourceLoader.exists(p) else null
+	return _tex(PORTRAIT_PATH % [id, id]) if id != "" else null
 
 
-## Tên hiển thị của người chơi (chưa đặt thì tên mặc định).
+## Ảnh nền đang dùng (null nếu nền thiếu ảnh, vd bản Release đã loại ảnh placeholder).
+func background_texture() -> Texture2D:
+	var b := PlayerProfile.background_defs().get_def(profile.hub_background()) as BackgroundDef
+	return _tex(b.image) if b else null
+
+
 func display_name() -> String:
 	var n := profile.player_name()
 	return n if n != "" else tr("PLAYER_DEFAULT_NAME")
 
 
-func _build_leader_art() -> void:
-	var r := layout.rect("leader_art", Rect2(780, 250, 520, 790))
-	var glow := Panel.new()
-	glow.add_theme_stylebox_override("panel", _style(layout.color("art_glow", Color(0.5, 0.83, 1, 0.15)), Color(0, 0, 0, 0), 260))
-	glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_place(glow, Rect2(r.position + Vector2(20, r.size.y * 0.25), Vector2(r.size.x - 40, r.size.y * 0.7)))
-	var art := PlaceholderArt.new()
-	art.name = "LeaderArt"
-	art.texture = portrait(leader_id())
-	art.label_text = char_name(leader_id()) if leader_id() != "" else ""
-	art.border_color = Color(0, 0, 0, 0)
-	art.fill_color = Color(0, 0, 0, 0) if art.texture else art.fill_color
-	_place(art, r)
+func _build_background(view: Vector2) -> void:
+	var col := ColorRect.new()
+	col.name = "BackgroundColor"
+	col.color = layout.color("fallback_background", Color("#1A2238"))
+	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_place(col, Rect2(Vector2.ZERO, view))
+	var tex := background_texture()
+	if tex:
+		var bg := TextureRect.new()
+		bg.name = "BackgroundArt"
+		bg.texture = tex
+		bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_place(bg, Rect2(Vector2.ZERO, view))
+	var shade := ColorRect.new()
+	shade.color = layout.color("shade", Color(0, 0, 0, 0.25))
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_place(shade, Rect2(Vector2.ZERO, view))
+
+
+func splash_texture() -> Texture2D:
+	var id := leader_id()
+	if id == "":
+		return null
+	var t := _tex(layout.text("splash.path", "").replace("{id}", id))
+	return t if t else portrait(id)
+
+
+func _build_splash() -> void:
+	var tex := splash_texture()
+	if tex == null:
+		return
+	var t := TextureRect.new()
+	t.name = "Splash"
+	t.texture = tex
+	t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_place(t, layout.rect("splash", Rect2(40, 40, 640, 1040)))
 
 
 func _build_player_card() -> void:
-	var r := layout.rect("player_card", Rect2(64, 196, 600, 124))
+	var r := layout.rect("player_card", Rect2(40, 24, 520, 108))
 	player_card = Button.new()
 	player_card.name = "PlayerCard"
 	player_card.focus_mode = Control.FOCUS_NONE
-	var bg := layout.color("card", Color(0.08, 0.09, 0.12, 0.85))
-	var border := layout.color("card_border", Color("#7FD4FF"))
-	player_card.add_theme_stylebox_override("normal", _style(bg, border))
-	player_card.add_theme_stylebox_override("hover", _style(bg.lightened(0.1), border))
-	player_card.add_theme_stylebox_override("pressed", _style(bg.darkened(0.2), border))
+	var bg := layout.color("card", Color(0.08, 0.09, 0.12, 0.8))
+	var border := layout.color("card_border", Color(1, 1, 1, 0.5))
+	player_card.add_theme_stylebox_override("normal", _style(bg, border, int(r.size.y * 0.5)))
+	player_card.add_theme_stylebox_override("hover", _style(bg.lightened(0.1), border, int(r.size.y * 0.5)))
+	player_card.add_theme_stylebox_override("pressed", _style(bg.darkened(0.2), border, int(r.size.y * 0.5)))
 	player_card.pressed.connect(open.bind("SCENE_PLAYER"))
 	_place(player_card, r)
-	var av := layout.get_value("player_card.avatar", [76, 206, 104, 104]) as Array
+	var av := layout.get_value("player_card.avatar", [52, 32, 92, 92]) as Array
 	var art := PlaceholderArt.new()
 	art.texture = portrait(leader_id())
 	art.crop = Rect2(0.2, 0.02, 0.6, 0.36)
-	art.label_text = ""
 	art.border_color = border
 	art.position = Vector2(float(av[0]), float(av[1])) - r.position
 	art.size = Vector2(float(av[2]), float(av[3]))
 	player_card.add_child(art)
-	var x := art.position.x + art.size.x + 22.0
-	var big := int(layout.num("player_card.font", 34))
-	var small := int(layout.num("player_card.font_small", 24))
+	var x := art.position.x + art.size.x + 18.0
+	var big := int(layout.num("player_card.font", 32))
+	var small := int(layout.num("player_card.font_small", 22))
 	var lv := UiKit.label("LV.%d  %s" % [profile.progression.captain_level(), display_name()], big)
 	lv.name = "NameLabel"
 	lv.autowrap_mode = TextServer.AUTOWRAP_OFF
 	lv.clip_text = true
-	lv.position = Vector2(x, 12)
-	lv.size = Vector2(r.size.x - x - 16, big * 1.4)
+	lv.position = Vector2(x, 10)
+	lv.size = Vector2(r.size.x - x - 30, big * 1.4)
 	lv.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	player_card.add_child(lv)
 	var need := profile.rules.captain_exp_to_next(profile.progression.captain_level())
 	var ratio := clampf(float(profile.progression.captain_exp()) / float(need), 0.0, 1.0) if need > 0 else 1.0
-	var bar_y := 12.0 + big * 1.5
-	var back := ColorRect.new()
-	back.color = layout.color("exp_back", Color(0, 0, 0, 0.6))
-	back.position = Vector2(x, bar_y)
-	back.size = Vector2(r.size.x - x - 24, 14)
-	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	player_card.add_child(back)
-	var fill_ := ColorRect.new()
-	fill_.name = "ExpFill"
-	fill_.color = layout.color("exp_fill", Color("#7FD4FF"))
-	fill_.position = back.position
-	fill_.size = Vector2(back.size.x * ratio, back.size.y)
-	fill_.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	player_card.add_child(fill_)
+	var bar_y := 10.0 + big * 1.45
+	for i in 2:
+		var c := ColorRect.new()
+		c.name = "ExpBack" if i == 0 else "ExpFill"
+		c.color = layout.color("exp_back" if i == 0 else "exp_fill", Color(0, 0, 0, 0.6) if i == 0 else Color("#7FD4FF"))
+		c.position = Vector2(x, bar_y)
+		c.size = Vector2((r.size.x - x - 40) * (1.0 if i == 0 else ratio), 12)
+		c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		player_card.add_child(c)
 	var hint := UiKit.label(tr("HUB_PLAYER_CARD_HINT"), small)
-	hint.add_theme_color_override("font_color", layout.color("text_dim", Color(0.72, 0.74, 0.8)))
-	hint.position = Vector2(x, bar_y + 20)
-	hint.size = Vector2(r.size.x - x - 16, small * 1.4)
+	hint.add_theme_color_override("font_color", layout.color("text_dim", Color(0.85, 0.86, 0.92)))
+	hint.position = Vector2(x, bar_y + 16)
+	hint.size = Vector2(r.size.x - x - 30, small * 1.4)
 	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	player_card.add_child(hint)
-
-
-## Phần bên trái giữ nguyên nội dung cũ (tiêu đề + dòng tóm tắt), chỉ dời xuống dưới thẻ người chơi.
-func _build_summary() -> void:
-	var r := layout.rect("summary", Rect2(64, 340, 760, 400))
-	var box := UiKit.vbox(14)
-	box.name = "Summary"
-	box.add_child(UiKit.label("PROJECT ECLIPSE", 64))
-	for line in summary_lines():
-		box.add_child(UiKit.label(line, 30))
-	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_place(box, r)
 
 
 func _build_pills() -> void:
@@ -172,8 +198,8 @@ func _build_pills() -> void:
 			continue
 		var p := Panel.new()
 		p.name = "Pill_" + cur
-		p.add_theme_stylebox_override("panel", _style(layout.color("pill", Color(0.08, 0.09, 0.12, 0.85)),
-				Color(1, 1, 1, 0.15), int(r.size.y * 0.5)))
+		p.add_theme_stylebox_override("panel", _style(layout.color("pill", Color(0.08, 0.09, 0.12, 0.8)),
+				Color(1, 1, 1, 0.2), int(r.size.y * 0.5)))
 		p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_place(p, r)
 		var dot := Panel.new()
@@ -182,8 +208,8 @@ func _build_pills() -> void:
 		dot.size = Vector2(r.size.y * 0.6, r.size.y * 0.6)
 		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		p.add_child(dot)
-		var l := UiKit.label("%s  %d" % [tr("CURRENCY_GOLD" if cur == "gold" else "CURRENCY_GEMS"),
-				profile.inventory.currency(cur)], int(layout.num("pills.%s.font" % cur, 30)), HORIZONTAL_ALIGNMENT_RIGHT)
+		var l := UiKit.label("%d" % profile.inventory.currency(cur), int(layout.num("pills.%s.font" % cur, 28)),
+				HORIZONTAL_ALIGNMENT_RIGHT)
 		l.name = "Amount"
 		l.autowrap_mode = TextServer.AUTOWRAP_OFF
 		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -193,27 +219,49 @@ func _build_pills() -> void:
 		p.add_child(l)
 
 
-func _build_hex(key: String) -> void:
-	var path := "hex." + key
-	var c := layout.point(path, "center", Vector2(1700, 500))
-	var rad := layout.num(path + ".radius", 112.0)
-	var b := HexButton.new()
-	b.name = "Hex_" + key
-	b.label_text = layout.label(path, key)
-	var icon_path := ICON_DIR % layout.text(path + ".icon", key)
-	b.icon = load(icon_path) as Texture2D if ResourceLoader.exists(icon_path) else null
+func _build_icon_button(key: String) -> void:
+	var path := "icon_buttons." + key
+	var r := layout.rect(path, Rect2())
+	if r.size == Vector2.ZERO:
+		return
+	var b := Button.new()
+	b.name = "Icon_" + key
+	b.focus_mode = Control.FOCUS_NONE
+	b.tooltip_text = tr("HUB_ICON_" + key.to_upper())
+	var bg := layout.color("icon_button", Color(0.08, 0.09, 0.12, 0.7))
+	b.add_theme_stylebox_override("normal", _style(bg, Color(1, 1, 1, 0.3), int(r.size.y * 0.5)))
+	b.add_theme_stylebox_override("hover", _style(bg.lightened(0.15), Color(1, 1, 1, 0.5), int(r.size.y * 0.5)))
+	b.add_theme_stylebox_override("pressed", _style(bg.darkened(0.2), Color(1, 1, 1, 0.5), int(r.size.y * 0.5)))
+	b.icon = _tex(ICON_DIR % layout.text(path + ".icon", key))
+	b.expand_icon = true
+	b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	b.add_theme_constant_override("icon_max_width", int(r.size.x * 0.62))
+	b.pressed.connect(func() -> void: request_tab.emit(ICON_TABS[key]))
+	_place(b, r)
+	icon_buttons[key] = b
+
+
+func _build_tile(key: String) -> void:
+	var path := "tiles." + key
+	var t := TileButton.new()
+	t.name = "Tile_" + key
+	t.label_text = layout.label(path, key)
+	t.art = _tex(layout.text(path + ".art", ""))
+	var crop := layout.get_value(path + ".art_crop", [0, 0, 1, 1]) as Array
+	if crop.size() == 4:
+		t.art_crop = Rect2(float(crop[0]), float(crop[1]), float(crop[2]), float(crop[3]))
+	t.icon = _tex(ICON_DIR % layout.text(path + ".icon", key))
 	var badge_key := layout.text(path + ".badge_key", "")
-	b.badge_text = tr(badge_key) if badge_key != "" else ""
-	b.font_size = int(layout.num(path + ".font", layout.num("hex.font", 30)))
-	b.fill = layout.color("hex_fill", b.fill)
-	b.fill_hover = layout.color("hex_fill_hover", b.fill_hover)
-	b.rim = layout.color("hex_rim", b.rim)
-	b.glow = layout.color("hex_glow", b.glow)
-	b.text_color = layout.color("text", b.text_color)
-	b.badge_color = layout.color("badge", b.badge_color)
-	b.pressed.connect(open.bind(HEX_TARGETS[key]))
-	_place(b, Rect2(c - Vector2(rad * sqrt(3.0) * 0.5, rad), Vector2(rad * sqrt(3.0), rad * 2.0)))
-	hex_buttons[key] = b
+	t.badge_text = tr(badge_key) if badge_key != "" else ""
+	t.bar_color = Color(layout.text(path + ".bar", "#C8324A"))
+	t.fill = layout.color("tile_fill", t.fill)
+	t.text_color = layout.color("text", t.text_color)
+	t.badge_color = layout.color("badge", t.badge_color)
+	t.font_size = int(layout.num(path + ".font", layout.num("tiles.font", 40)))
+	t.skew = layout.num("tiles.skew", 34.0)
+	t.pressed.connect(open.bind(TILE_TARGETS[key]))
+	_place(t, layout.rect(path, Rect2(800, 200, 400, 300)))
+	tiles[key] = t
 
 
 ## Mở màn theo tên hằng trong GameConfig (SCENE_*).
@@ -226,18 +274,3 @@ func open(scene_const: String) -> void:
 	var router := UiKit.autoload("SceneRouter")
 	if navigate_enabled and router and path != "":
 		router.push(path)
-
-
-func summary_lines() -> PackedStringArray:
-	var out := PackedStringArray([wallet_text()])
-	var names := PackedStringArray()
-	for id in profile.party_ids():
-		names.append("%s Lv.%d" % [char_name(id), profile.progression.level_of(id)])
-	out.append("%s: %s" % [tr("BATTLE_PARTY_TITLE"), " · ".join(names)])
-	var cleared := 0
-	for id in profile.data["progress"]["stages"]:
-		var st: Variant = profile.data["progress"]["stages"][id]
-		if st is Dictionary and bool(st.get("cleared", false)):
-			cleared += 1
-	out.append(tr("HOME_STAGES_CLEARED") % cleared)
-	return out

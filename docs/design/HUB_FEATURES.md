@@ -3,19 +3,32 @@
 > Owner đề xuất 2026-11-14 (5 ảnh tham chiếu: sảnh chính, kho vũ khí, Tiếp tế, Chỉ huy, Xuất kích). Bố cục chỉnh trong
 > `data/ui/hub_home_layout.json` (tab Trang chủ) và `data/ui/hub_screens_layout.json` (các màn con), không cần sửa code.
 
-## Bản đồ màn
+## Bản đồ màn (bản 2, owner 2026-11-14: kiểu ô ghép theo dự án cũ của owner)
 
-| Vị trí ở tab Trang chủ | Màn | Trạng thái |
+Không còn thanh tab ô vuông phía trên và dòng tóm tắt (PROJECT ECLIPSE, vàng / ngọc, đội hình, số màn).
+
+| Vị trí ở sảnh | Mở ra | Trạng thái |
 |---|---|---|
-| Thẻ người chơi (góc trên-trái) | Thông tin người chơi `scenes/main/player_screen.tscn` | Có: LV / EXP Chỉ huy, đổi tên, bộ sưu tập nhân vật / vũ khí / vết thánh (đã có / chưa sở hữu) |
-| Phần bên trái | Dòng tóm tắt cũ | Giữ nguyên, owner chỉnh sau |
-| Lục giác Trang bị | Túi đồ `bag_screen.tscn` | Có: Vũ khí, Vết thánh, Nguyên liệu, Mảnh; thẻ theo độ hiếm, Đang dùng, chi tiết chỉ số |
-| Lục giác Người cộng tác | `companion_screen.tscn` | Màn giới thiệu "Sắp có"; gameplay chưa làm (mục dưới) |
-| Lục giác Xuất kích | `sortie_screen.tscn` | Có: Cốt truyện chính (Màn 1), Thử đội hình (màn thử nghiệm), Đội hình (về tab Chiến đấu); Ải nguyên liệu "Sắp có"; tab Đề cử / Khiêu chiến / Event "Sắp ra mắt" |
-| Lục giác Nhân vật | Màn Nhân vật cũ | Thay tab Nhân vật trên thanh tab |
-| Lục giác Tiếp tế | `supply_screen.tscn` | Có: Tiếp tế → Chiêu mộ; Shop "Sắp có"; Nạp chỉ bản online (mục dưới) |
+| Nền phía sau | Nền người chơi đang chọn (`data/backgrounds/`) | Có: đổi nền, mua bằng ngọc, mở khóa từ sự kiện (save v5 `cosmetics`) |
+| Bên trái | Splash nhân vật đầu đội (`{id}_splash_overview.png`, thiếu thì ảnh chibi) | Có |
+| Thẻ người chơi (góc trên-trái) | Thông tin người chơi `scenes/main/player_screen.tscn` | Có: LV / EXP Chỉ huy, đổi tên, bộ sưu tập |
+| Góc trên-phải | Ô vàng / ngọc; nút khung tranh → bảng Đổi nền; bánh răng → bảng Cài đặt (+ Credits, quà thử nghiệm bản debug) | Có |
+| Ô Nhân vật | Màn Nhân vật | Có |
+| Ô Xuất kích (lớn) | `sortie_screen.tscn`: Cốt truyện chính, Thử đội hình, Đội hình (→ bảng Chiến đấu của sảnh), Ải nguyên liệu (Sắp có) | Có |
+| Ô Trang bị | Túi đồ `bag_screen.tscn` | Có |
+| Ô Tiếp tế | `supply_screen.tscn`: Shop (Sắp có), **Chiêu mộ** (→ màn Chiêu mộ), Nạp (chỉ bản online) | Có |
+| Ô Người cộng tác | `companion_screen.tscn` (giới thiệu, Sắp có) | Gameplay chưa làm |
 
-Tab Chiêu mộ trên thanh tab vẫn còn (trùng với Tiếp tế → Tiếp tế); owner quyết định có bỏ hay không.
+Bảng nổi của sảnh (đóng bằng ✕ hoặc Back / Esc): Chiến đấu (chọn đội, danh sách màn, nút Màn 1 / Màn thử nghiệm),
+Cài đặt, Đổi nền.
+
+## Nền sảnh
+
+- Định nghĩa: `data/backgrounds/{id}.tres` (`BackgroundDef`: ảnh, nguồn STARTER / SHOP / EVENT, `price_gems`,
+  `how_to_get_key`, `sort_order`). Thêm nền = thêm file .tres + ảnh, không sửa code.
+- Nền STARTER có sẵn; SHOP mua bằng ngọc trong bảng Đổi nền (sau này cả Shop); EVENT mở bằng
+  `PlayerProfile.unlock_background(id)` khi phát thưởng sự kiện.
+- Nền khởi đầu hiện là ảnh TẠM `assets/placeholders/placeholder_hub_bg_sky_garden.png` (không ship, xem ASSET_LICENSES).
 
 ## Người cộng tác (tinh linh) — kế hoạch, CHƯA làm
 

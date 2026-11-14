@@ -1,88 +1,149 @@
 extends Control
-## Hub (README 15): thanh tab Home / Chiến đấu / Chiêu mộ / Cài đặt và nút Back. Tab Nhân vật đã thay bằng nút
-## lục giác Nhân vật ở tab Trang chủ (owner 2026-11-14); các màn Trang bị / Xuất kích / Tiếp tế / Người cộng tác /
-## Thông tin người chơi cũng mở từ tab Trang chủ (HubHomePanel).
-## Nội dung mỗi tab là một bảng dựng bằng code (HubPanel, SettingsPanel, CreditsPanel) đặt vào vùng nội dung.
-## Hai nút vào màn (Màn 1, Màn thử nghiệm) nằm sẵn trong hub.tscn, chỉ hiện ở tab Chiến đấu.
+## Sảnh chính (README 15; owner 2026-11-14 bản 2): không còn thanh tab. Nội dung chính là HubHomePanel (nền, splash,
+## thẻ người chơi, ô ghép mở các màn). Ba bảng nổi đè lên sảnh, đóng bằng nút ✕ hoặc Back / Esc:
+## - "BattleTab": chọn đội + danh sách màn (HubBattlePanel) và hai nút vào màn (Màn 1, Màn thử nghiệm trong hub.tscn);
+##   mở từ thẻ Đội hình ở màn Xuất kích (GameConfig.hub_start_tab);
+## - "SettingsTab": Cài đặt + Credits (+ nút quà thử nghiệm bản debug), mở bằng nút bánh răng góc phải;
+## - "BackgroundTab": đổi nền sảnh (HubBackgroundPanel), mở bằng nút khung tranh góc phải.
+## Back / Esc khi không có bảng nổi: về Title như trước.
 
 const TABS := {
 	"HomeTab": "HUB_TAB_HOME",
 	"BattleTab": "HUB_TAB_BATTLE",
-	"RecruitTab": "HUB_TAB_RECRUIT",
 	"SettingsTab": "HUB_TAB_SETTINGS",
+	"BackgroundTab": "HUB_TAB_BACKGROUND",
 }
-
-const RECRUIT_TAB := "RecruitTab"
+const BACK_GROUP := &"back_interceptor"
+const POPUP_RECT := Rect2(140, 70, 1640, 940)
 
 var current_tab := ""
-## Bảng đang hiện (để test truy cập).
+## Bảng đang hiện: sảnh (HubHomePanel) hoặc bảng trong bảng nổi (để test truy cập).
 var panel: Control
+var home: HubHomePanel
 
-var _content: MarginContainer
+var _content: Control
+var _popup: Control
 
-@onready var _back: Button = %BackButton
-@onready var _tab_bar: HBoxContainer = %TabBar
-@onready var _content_label: Label = %ContentLabel
 @onready var _test_stage: Button = %TestStageButton
 @onready var _stage_01: Button = %Stage01Button
 
 
 func _ready() -> void:
-	_back.pressed.connect(func() -> void: SceneRouter.go_back())
+	add_to_group(BACK_GROUP)
 	_test_stage.pressed.connect(func() -> void: SceneRouter.push(GameConfig.SCENE_TEST_STAGE))
 	_stage_01.pressed.connect(func() -> void:
 		GameConfig.selected_stage_id = "stage_01"
 		SceneRouter.push(GameConfig.SCENE_STAGE))
-	_content_label.visible = false
-	_content = MarginContainer.new()
+	_content = Control.new()
 	_content.name = "Content"
 	_content.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_content.offset_top = 190.0
-	_content.offset_bottom = -40.0
-	for side in ["left", "right"]:
-		_content.add_theme_constant_override("margin_" + side, 64)
+	_content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_content)
-	move_child(_content, _content_label.get_index())
-	for tab_name: String in TABS:
-		var button: Button = _tab_bar.get_node(tab_name)
-		button.toggle_mode = true
-		if tab_name == RECRUIT_TAB:
-			button.pressed.connect(open_recruit)
-		else:
-			button.pressed.connect(show_tab.bind(tab_name))
+	move_child(_content, 1)
+	_build_home()
 	var start := GameConfig.hub_start_tab if TABS.has(GameConfig.hub_start_tab) else "HomeTab"
 	GameConfig.hub_start_tab = ""
 	show_tab(start)
-	(_tab_bar.get_node(start) as Button).grab_focus()
 
 
-## Tab Chiêu mộ mở màn riêng RecruitScreen (theo ảnh tham chiếu màn Wish của owner).
-func open_recruit() -> void:
-	(_tab_bar.get_node(RECRUIT_TAB) as Button).set_pressed_no_signal(current_tab == RECRUIT_TAB)
-	SceneRouter.push(GameConfig.SCENE_RECRUIT)
-
-
-func show_tab(tab_name: String) -> void:
-	current_tab = tab_name
-	# Tab đang mở giữ trạng thái nhấn để người chơi biết mình đang ở đâu.
-	for t: String in TABS:
-		(_tab_bar.get_node(t) as Button).set_pressed_no_signal(t == tab_name)
+func _build_home() -> void:
 	for c in _content.get_children():
 		_content.remove_child(c)
 		c.queue_free()
-	panel = _make_panel(tab_name)
-	_content.add_child(panel)
+	home = HubHomePanel.new()
+	home.request_tab.connect(show_tab)
+	_content.add_child(home)
+	home.set_anchors_preset(Control.PRESET_FULL_RECT)
+	home.add_theme_constant_override("separation", 0)
+
+
+## Mở bảng nổi theo tên ("HomeTab" = đóng bảng nổi, chỉ còn sảnh).
+func show_tab(tab_name: String) -> void:
+	current_tab = tab_name
+	_close_popup()
 	var battle := tab_name == "BattleTab"
 	_test_stage.visible = battle
 	_stage_01.visible = battle
-	# Chừa chỗ cho hai nút vào màn ở tab Chiến đấu.
-	_content.offset_bottom = -560.0 if battle else -40.0
+	if tab_name == "HomeTab" or not TABS.has(tab_name):
+		current_tab = "HomeTab"
+		panel = home
+		return
+	panel = _make_panel(tab_name)
+	_open_popup(tr(TABS[tab_name]), panel)
+	if battle:
+		# Nút vào màn nằm trên bảng nổi.
+		move_child(_stage_01, get_child_count() - 1)
+		move_child(_test_stage, get_child_count() - 1)
+
+
+func popup_open() -> bool:
+	return _popup != null
+
+
+## Back / Esc: đóng bảng nổi trước, rồi mới để SceneRouter quay lại Title.
+func intercept_back() -> bool:
+	if popup_open():
+		show_tab("HomeTab")
+		return true
+	return false
+
+
+func _open_popup(title: String, body: Control) -> void:
+	_popup = Control.new()
+	_popup.name = "Popup"
+	_popup.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(_popup)
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.6)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_popup.add_child(dim)
+	var frame := Panel.new()
+	frame.name = "Frame"
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.08, 0.1, 0.16, 0.96)
+	st.border_color = Color(0.5, 0.83, 1.0, 0.6)
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(14)
+	frame.add_theme_stylebox_override("panel", st)
+	frame.position = POPUP_RECT.position
+	frame.size = POPUP_RECT.size
+	_popup.add_child(frame)
+	var t := UiKit.label(title, 44)
+	t.position = POPUP_RECT.position + Vector2(40, 22)
+	t.size = Vector2(POPUP_RECT.size.x - 240, 64)
+	_popup.add_child(t)
+	var close := UiKit.button("✕", 128.0, 40)
+	close.name = "CloseButton"
+	close.custom_minimum_size = Vector2(128, 96)
+	close.position = POPUP_RECT.position + Vector2(POPUP_RECT.size.x - 152, 16)
+	close.size = Vector2(128, 96)
+	close.pressed.connect(show_tab.bind("HomeTab"))
+	_popup.add_child(close)
+	var margin := MarginContainer.new()
+	margin.name = "PopupBody"
+	margin.position = POPUP_RECT.position + Vector2(40, 124)
+	margin.size = POPUP_RECT.size - Vector2(80, 160)
+	_popup.add_child(margin)
+	margin.add_child(body)
+
+
+func _close_popup() -> void:
+	if _popup:
+		remove_child(_popup)
+		_popup.queue_free()
+		_popup = null
 
 
 func _make_panel(tab_name: String) -> Control:
 	match tab_name:
 		"BattleTab":
-			return HubBattlePanel.new()
+			var b := HubBattlePanel.new()
+			b.changed.connect(_build_home_deferred)
+			return b
+		"BackgroundTab":
+			var bgp := HubBackgroundPanel.new()
+			bgp.changed.connect(_build_home_deferred)
+			return bgp
 		"SettingsTab":
 			var box := UiKit.hbox(64)
 			var settings := SettingsPanel.new()
@@ -98,10 +159,21 @@ func _make_panel(tab_name: String) -> Control:
 				gift_button.pressed.connect(func() -> void: SceneRouter.push(GameConfig.SCENE_DEBUG_GIFT))
 				box.add_child(gift_button)
 			return box
-	return HubHomePanel.new()
+	return home
 
 
-## Đổi ngôn ngữ: cập nhật chữ trên thanh tab (nút trong .tscn dùng khóa dịch nên tự đổi; nhãn dựng bằng code thì không).
+## Đội / nền đổi: dựng lại sảnh phía sau (ảnh đầu đội, nền) mà không đóng bảng nổi.
+func _build_home_deferred() -> void:
+	_rebuild_home.call_deferred()
+
+
+func _rebuild_home() -> void:
+	if home and is_instance_valid(home):
+		home.refresh()
+
+
+## Đổi ngôn ngữ: dựng lại sảnh (chữ dựng bằng code) và bảng Cài đặt.
 func _on_language_maybe_changed() -> void:
+	_rebuild_home.call_deferred()
 	if current_tab == "SettingsTab":
 		show_tab.call_deferred("SettingsTab")

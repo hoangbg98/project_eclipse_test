@@ -5,7 +5,7 @@ extends RefCounted
 ##
 ## Khi đổi cấu trúc: tăng VERSION, thêm một hàm vào MIGRATIONS (v cũ → v cũ + 1) và sửa `default_data()`.
 
-const VERSION := 4
+const VERSION := 5
 
 ## Độ dài tối đa của tên người chơi (ký tự).
 const NAME_MAX := 16
@@ -30,6 +30,7 @@ static func default_data() -> Dictionary:
 		},
 		"currencies": {"gold": 0, "gems": 0},
 		"account": {"level": 1, "exp": 0, "name": ""},   # cấp đội trưởng (giới hạn cấp nhân vật), tên người chơi
+		"cosmetics": {"backgrounds": [], "hub_background": ""},   # nền sảnh đã có (ngoài nền starter), nền đang dùng
 		"gacha": {"pity": {}, "guarantee": {}, "history": [], "starter_used": []},   # starter_used: id banner x10 miễn phí đã dùng
 		"progress": {"stages": {}},          # stage_id -> {cleared, best_time_sec}
 		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0, "fullscreen": false},
@@ -117,7 +118,14 @@ static func _migrate_2_to_3(d: Dictionary) -> Dictionary:
 
 ## Chỉ số i = migration từ version i + 1 lên i + 2.
 static func migrations() -> Array[Callable]:
-	return [_migrate_1_to_2, _migrate_2_to_3, _migrate_3_to_4]
+	return [_migrate_1_to_2, _migrate_2_to_3, _migrate_3_to_4, _migrate_4_to_5]
+
+
+## v4 → v5 (2026-11-14): nền sảnh chính (`cosmetics`): danh sách nền đã có + nền đang dùng (rỗng = nền starter đầu tiên).
+static func _migrate_4_to_5(d: Dictionary) -> Dictionary:
+	if not (d.get("cosmetics") is Dictionary):
+		d["cosmetics"] = {"backgrounds": [], "hub_background": ""}
+	return d
 
 
 ## v3 → v4 (2026-11-14): tên người chơi (`account.name`, rỗng = dùng tên mặc định PLAYER_DEFAULT_NAME).
@@ -186,6 +194,11 @@ static func sanitize(data: Variant) -> Dictionary:
 	out["account"]["level"] = maxi(_int(out["account"]["level"], 1), 1)
 	out["account"]["exp"] = maxi(_int(out["account"]["exp"], 0), 0)
 	out["account"]["name"] = clean_name(str(out["account"]["name"]))
+	var bgs := PackedStringArray()
+	for b in out["cosmetics"]["backgrounds"]:
+		if b is String and not bgs.has(b):
+			bgs.append(b)
+	out["cosmetics"]["backgrounds"] = Array(bgs)
 	return out
 
 

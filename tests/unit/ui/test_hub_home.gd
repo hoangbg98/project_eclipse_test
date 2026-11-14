@@ -51,7 +51,7 @@ func _screen(scene: PackedScene, p: PlayerProfile = null) -> HubScreen:
 # ---------- Save v4: tên người chơi ----------
 
 func test_save_v4_player_name() -> void:
-	assert_int(SaveSchema.VERSION).is_equal(4)
+	assert_int(SaveSchema.VERSION).is_greater_equal(4)
 	var old := SaveSchema.default_data()
 	old["account"].erase("name")
 	var m: Dictionary = SaveSchema.migrate(old, 3)
@@ -73,43 +73,109 @@ func test_set_player_name_reasons() -> void:
 	assert_str(p.set_player_name("Hikaru")).is_equal(PlayerProfile.NAME_SAME)
 
 
-# ---------- Trang chủ ----------
+# ---------- Sảnh chính (bản 2: ô ghép, không thanh tab) ----------
 
-func test_home_has_hex_cluster_and_player_card() -> void:
+func test_lobby_tiles_icons_and_no_tab_bar() -> void:
 	var hub := HUB_SCENE.instantiate()
 	add_child(auto_free(hub))
 	await get_tree().process_frame
-	assert_bool(hub.get_node("TopBar/TabBar").has_node("CharactersTab")).is_false()      # thay bằng nút lục giác
+	assert_bool(hub.has_node("TopBar")).is_false()                                      # bỏ thanh tab ô vuông
 	var home := hub.panel as HubHomePanel
 	assert_object(home).is_not_null()
 	home.navigate_enabled = false
-	assert_array(home.hex_buttons.keys()).contains_exactly_in_any_order(
-			["equipment", "companion", "sortie", "character", "supply"])
-	var expected := {"equipment": GameConfig.SCENE_BAG, "companion": GameConfig.SCENE_COMPANION,
-			"sortie": GameConfig.SCENE_SORTIE, "character": GameConfig.SCENE_CHARACTER, "supply": GameConfig.SCENE_SUPPLY}
+	var texts := PackedStringArray()
+	for l in home.find_children("*", "Label", true, false):
+		texts.append((l as Label).text)
+	assert_bool("\n".join(texts).contains("PROJECT ECLIPSE")).is_false()               # bỏ dòng tóm tắt cũ
+	assert_object(home.find_child("Splash", true, false)).is_not_null()                # splash nhân vật bên trái
+	assert_object(home.find_child("BackgroundArt", true, false)).is_not_null()         # nền đang chọn
+	var expected := {"character": GameConfig.SCENE_CHARACTER, "sortie": GameConfig.SCENE_SORTIE,
+			"equipment": GameConfig.SCENE_BAG, "supply": GameConfig.SCENE_SUPPLY, "companion": GameConfig.SCENE_COMPANION}
+	assert_array(home.tiles.keys()).contains_exactly_in_any_order(expected.keys())
 	var rects: Array[Rect2] = []
 	for k: String in expected:
-		var b := home.hex_buttons[k] as HexButton
-		assert_object(b.icon).override_failure_message(k).is_not_null()
-		b.pressed.emit()
+		var t := home.tiles[k] as TileButton
+		assert_str(t.label_text).is_not_empty()
+		t.pressed.emit()
 		assert_str(home.last_target).is_equal(expected[k])
-		rects.append(b.get_global_rect())
-	assert_float((home.hex_buttons["sortie"] as HexButton).size.y).is_greater((home.hex_buttons["equipment"] as HexButton).size.y)
+		rects.append(t.get_global_rect())
+	for i in rects.size():
+		assert_float(rects[i].position.x).is_greater(700.0)                              # nửa phải, nhường chỗ splash
+		for j in range(i + 1, rects.size()):
+			assert_bool(rects[i].intersects(rects[j])).is_false()
 	home.player_card.pressed.emit()
 	assert_str(home.last_target).is_equal(GameConfig.SCENE_PLAYER)
-	assert_str(home.display_name()).is_equal(tr("PLAYER_DEFAULT_NAME"))
-	# Nút lục giác nằm nửa phải màn hình, không đè thẻ người chơi.
-	for r in rects:
-		assert_float(r.position.x).is_greater(960.0)
-		assert_bool(r.intersects(home.player_card.get_global_rect())).is_false()
+	# Bánh răng góc phải → bảng nổi Cài đặt; khung tranh → Đổi nền; Back đóng bảng nổi.
+	var gear := home.icon_buttons["settings"] as Button
+	assert_float(gear.get_global_rect().end.x).is_greater(1800.0)
+	gear.pressed.emit()
+	assert_str(hub.current_tab).is_equal("SettingsTab")
+	assert_bool(hub.popup_open()).is_true()
+	assert_bool(hub.intercept_back()).is_true()
+	assert_bool(hub.popup_open()).is_false()
+	(home.icon_buttons["background"] as Button).pressed.emit()
+	assert_bool(hub.panel is HubBackgroundPanel).is_true()
+	assert_bool(hub.intercept_back()).is_true()
+	assert_bool(hub.intercept_back()).is_false()                                       # không còn bảng: để về Title
 
 
-func test_hex_button_hit_test_is_hexagonal() -> void:
-	var b: HexButton = auto_free(HexButton.new())
-	b.size = Vector2(200.0 * sqrt(3.0), 400.0)
-	add_child(b)
-	assert_bool(b._has_point(b.size * 0.5)).is_true()
-	assert_bool(b._has_point(Vector2(2, 2))).is_false()                                 # góc khung, ngoài lục giác
+func test_tile_hit_test_is_parallelogram() -> void:
+	var t: TileButton = auto_free(TileButton.new())
+	t.size = Vector2(400, 300)
+	t.skew = 40.0
+	add_child(t)
+	assert_bool(t._has_point(Vector2(200, 150))).is_true()
+	assert_bool(t._has_point(Vector2(5, 5))).is_false()                                # góc trên-trái nằm ngoài (nghiêng)
+	assert_bool(t._has_point(Vector2(395, 295))).is_false()                            # góc dưới-phải nằm ngoài
+
+
+# ---------- Nền sảnh (save v5) ----------
+
+func test_backgrounds_starter_buy_unlock_select() -> void:
+	assert_int(SaveSchema.VERSION).is_equal(5)
+	var old := SaveSchema.default_data()
+	old.erase("cosmetics")
+	var m: Dictionary = SaveSchema.migrate(old, 4)
+	assert_bool(m["cosmetics"] is Dictionary).is_true()
+	var p := PlayerProfile.new(SaveSchema.default_data())
+	assert_str(p.hub_background()).is_equal("bg_sky_garden")                          # nền khởi đầu
+	assert_bool(p.owns_background("bg_sky_garden")).is_true()
+	assert_str(p.set_hub_background("bg_khong_co")).is_equal(PlayerProfile.BG_UNKNOWN)
+	assert_str(p.buy_background("bg_sky_garden")).is_equal(PlayerProfile.BG_OWNED)
+	assert_bool(p.unlock_background("bg_sky_garden")).is_false()
+	# Nền bán / nền sự kiện giả lập (thư viện nạp sẵn; không cần file trong data/).
+	var shop_bg := BackgroundDef.new()
+	shop_bg.id = "bg_test_shop"
+	shop_bg.name_key = "BG_SKY_GARDEN"
+	shop_bg.image = "res://x.png"
+	shop_bg.price_gems = 300
+	var event_bg := BackgroundDef.new()
+	event_bg.id = "bg_test_event"
+	event_bg.name_key = "BG_SKY_GARDEN"
+	event_bg.image = "res://x.png"
+	event_bg.source = BackgroundDef.Source.EVENT
+	var lib := PlayerProfile.background_defs()
+	lib.defs[shop_bg.id] = shop_bg
+	lib.defs[event_bg.id] = event_bg
+	assert_str(p.set_hub_background("bg_test_shop")).is_equal(PlayerProfile.BG_NOT_OWNED)
+	assert_str(p.buy_background("bg_test_shop")).is_equal(PlayerProfile.BG_NO_GEMS)
+	p.inventory.add_currency("gems", 500)
+	assert_str(p.buy_background("bg_test_shop")).is_equal(PlayerProfile.BG_OK)
+	assert_int(p.inventory.currency("gems")).is_equal(200)
+	assert_str(p.set_hub_background("bg_test_shop")).is_equal(PlayerProfile.BG_OK)
+	assert_str(p.hub_background()).is_equal("bg_test_shop")
+	assert_str(p.buy_background("bg_test_event")).is_equal(PlayerProfile.BG_NOT_FOR_SALE)
+	assert_bool(p.unlock_background("bg_test_event")).is_true()                         # phần thưởng sự kiện
+	assert_bool(p.owns_background("bg_test_event")).is_true()
+	# Bảng Đổi nền: nút theo trạng thái.
+	_save.data = p.data
+	var panel := HubBackgroundPanel.new()
+	add_child(auto_free(panel))
+	assert_bool((panel.action_buttons["bg_test_shop"] as Button).disabled).is_true()   # đang dùng
+	assert_str(panel.use("bg_sky_garden")).is_equal(PlayerProfile.BG_OK)
+	assert_str(p.data["cosmetics"]["hub_background"]).is_equal("bg_sky_garden")
+	lib.defs.erase(shop_bg.id)
+	lib.defs.erase(event_bg.id)
 
 
 func test_hub_opens_requested_start_tab() -> void:
@@ -145,6 +211,7 @@ func test_bag_lists_each_category() -> void:
 func test_supply_routes_gacha_and_blocks_topup_offline() -> void:
 	var s := _screen(load(GameConfig.SCENE_SUPPLY)) as SupplyScreen
 	assert_array(s.action_buttons.keys()).contains_exactly_in_any_order(["shop", "gacha", "topup"])
+	assert_str(tr("SUPPLY_GACHA_TITLE")).is_equal(tr("HUB_TAB_RECRUIT"))                # ô thứ 2 tên Chiêu mộ
 	s.activate("gacha")
 	assert_str(s.last_target).is_equal(GameConfig.SCENE_RECRUIT)
 	s.activate("topup")

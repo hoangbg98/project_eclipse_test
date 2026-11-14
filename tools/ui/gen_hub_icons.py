@@ -5,7 +5,8 @@
 
 Ghi PNG 256×256 nền trong suốt, hình trắng viền tối vào assets/ui/hub/icons/{tên}.png:
   bag (Trang bị / túi đồ), companion (Người cộng tác), character (Nhân vật), sortie (Xuất kích), supply (Tiếp tế),
-  shop, gacha, topup (3 thẻ màn Tiếp tế), story, trial, material (3 thẻ màn Xuất kích).
+  shop, gacha, topup (3 thẻ màn Tiếp tế), story, trial, material (3 thẻ màn Xuất kích),
+  settings (bánh răng, nút Cài đặt góc phải sảnh), background (khung tranh, nút Đổi nền).
 """
 import math
 import os
@@ -115,8 +116,30 @@ def material(m):
     d(m).line([(304, 360), (720, 360)], fill=0, width=24)
 
 
+def settings(m):
+    # Bánh răng: vành + 8 răng, lỗ giữa.
+    for i in range(8):
+        a = math.radians(i * 45)
+        c, sn = math.cos(a), math.sin(a)
+        pts = []
+        for dx, dy in ((-60, 250), (60, 250), (48, 360), (-48, 360)):
+            pts.append((512 + dx * -sn + dy * c, 512 + dx * c + dy * sn))
+        G.poly(m, pts)
+    d(m).ellipse([212, 212, 812, 812], fill=W)
+    d(m).ellipse([392, 392, 632, 632], fill=0)
+
+
+def background(m):
+    # Khung tranh: viền, núi, mặt trời.
+    d(m).rounded_rectangle([150, 220, 874, 804], 40, fill=W)
+    d(m).rounded_rectangle([210, 280, 814, 744], 20, fill=0)
+    G.poly(m, [(230, 724), (420, 470), (560, 640), (650, 540), (794, 724)])
+    d(m).ellipse([620, 330, 720, 430], fill=W)
+
+
 ICONS = {"bag": bag, "companion": companion, "character": character, "sortie": sortie, "supply": supply,
-         "shop": shop, "gacha": gacha, "topup": topup, "story": story, "trial": trial, "material": material}
+         "shop": shop, "gacha": gacha, "topup": topup, "story": story, "trial": trial, "material": material,
+         "settings": settings, "background": background}
 
 
 def main(argv):

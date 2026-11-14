@@ -1261,13 +1261,13 @@ msgid "SUPPLY_SHOP_GO"
 msgstr "Đi đến Shop"
 
 msgid "SUPPLY_GACHA_TITLE"
-msgstr "Tiếp tế"
+msgstr "Chiêu mộ"
 
 msgid "SUPPLY_GACHA_DESC"
 msgstr "Dùng thẻ tiếp tế mở rương: nhân vật, vũ khí, vết thánh."
 
 msgid "SUPPLY_GACHA_GO"
-msgstr "Đi tiếp tế"
+msgstr "Đi chiêu mộ"
 
 msgid "SUPPLY_TOPUP_TITLE"
 msgstr "Nạp"
@@ -1385,3 +1385,45 @@ msgstr "Kho vết thánh"
 
 msgid "PLAYER_COLL_HINT"
 msgstr "✓ đã sở hữu  ·  — chưa sở hữu (nhận từ Tiếp tế, sự kiện, phần thưởng màn)"
+
+msgid "HUB_TAB_BACKGROUND"
+msgstr "Đổi nền"
+
+msgid "HUB_ICON_BACKGROUND"
+msgstr "Đổi nền sảnh"
+
+msgid "HUB_ICON_SETTINGS"
+msgstr "Cài đặt"
+
+msgid "BG_SKY_GARDEN"
+msgstr "Vườn trên mây"
+
+msgid "BG_PANEL_HINT"
+msgstr "Nền phía sau nhân vật ở sảnh chính. Nền mới mua bằng ngọc hoặc nhận từ sự kiện."
+
+msgid "BG_IN_USE"
+msgstr "Đang dùng"
+
+msgid "BG_USE"
+msgstr "Dùng nền này"
+
+msgid "BG_BUY"
+msgstr "Mua %d ngọc"
+
+msgid "BG_FROM_EVENT"
+msgstr "Nhận từ sự kiện"
+
+msgid "BG_ERR_BG_UNKNOWN"
+msgstr "Không có nền này."
+
+msgid "BG_ERR_BG_NOT_OWNED"
+msgstr "Chưa sở hữu nền này."
+
+msgid "BG_ERR_BG_OWNED"
+msgstr "Đã có nền này."
+
+msgid "BG_ERR_BG_NOT_FOR_SALE"
+msgstr "Nền này không bán."
+
+msgid "BG_ERR_BG_NO_GEMS"
+msgstr "Không đủ ngọc."
