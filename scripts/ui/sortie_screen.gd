@@ -96,7 +96,13 @@ func activate(key: String) -> void:
 		"story":
 			if gc:
 				gc.selected_stage_id = story_stage()
-			open_scene("SCENE_STAGE_INFO")
+			var clip := str(StageInfoScreen.stage_data_of(story_stage()).get("open_clip", ""))
+			if gc and StoryClip.should_play(clip, profile.data):
+				gc.story_clip_id = clip
+				gc.story_clip_next = gc.SCENE_STAGE_INFO
+				open_scene("SCENE_STORY_CLIP")
+			else:
+				open_scene("SCENE_STAGE_INFO")
 		"trial":
 			open_scene("SCENE_TEST_STAGE")
 		"party":

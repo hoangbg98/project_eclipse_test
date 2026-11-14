@@ -32,6 +32,21 @@ func stage_title() -> String:
 
 
 ## Tên màn hiển thị: "1-1 · Thung lũng tro tàn" khi data có `code` (số ải trong chương), không thì chỉ tên.
+## Dữ liệu màn `id` (data/stages/{id}.json); rỗng nếu không có.
+static func stage_data_of(id: String) -> Dictionary:
+	return StageMap.load_from(STAGE_DATA % id).data if FileAccess.file_exists(STAGE_DATA % id) else {}
+
+
+## Xem lại clip mở chương (đã xem ít nhất một lần).
+func replay_clip() -> void:
+	var gc := UiKit.autoload("GameConfig")
+	if gc == null:
+		return
+	gc.story_clip_id = str(stage_data.get("open_clip", ""))
+	gc.story_clip_next = gc.SCENE_STAGE_INFO
+	open_scene("SCENE_STORY_CLIP")
+
+
 static func title_of(data: Dictionary, fallback: String) -> String:
 	var title: String = str(TranslationServer.translate(str(data["name_key"]))) if data.has("name_key") else fallback
 	return "%s · %s" % [str(data["code"]), title] if str(data.get("code", "")) != "" else title
@@ -123,6 +138,10 @@ func _build_body() -> void:
 	# ----- Nút Chuẩn bị -----
 	_yellow_button(layout.rect("stage_info.prepare", Rect2(1480, 950, 400, 100)), tr("STAGE_INFO_PREPARE"),
 			int(layout.num("stage_info.prepare.font", 40)), prepare, "PrepareButton")
+	var clip := str(stage_data.get("open_clip", ""))
+	if clip != "" and TutorialFlow.has_seen(profile.data, "clip:" + clip):
+		_button(layout.rect("stage_info.replay", Rect2(1040, 950, 400, 100)), tr("STAGE_INFO_REPLAY"),
+				int(layout.num("stage_info.replay.font", 32)), replay_clip, false, "ReplayButton")
 
 
 ## Dải tiêu đề mục (trái tiêu đề, phải chữ phụ). Trả về y bắt đầu nội dung bên dưới.

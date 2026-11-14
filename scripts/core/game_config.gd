@@ -21,6 +21,8 @@ const SCENE_PLAYER := "res://scenes/main/player_screen.tscn"
 const SCENE_STAGE_INFO := "res://scenes/main/stage_info_screen.tscn"
 const SCENE_PARTY_PREP := "res://scenes/main/party_prep_screen.tscn"
 const SCENE_PARTY_SELECT := "res://scenes/main/party_select_screen.tscn"
+## Clip dẫn truyện dạng truyện tranh (owner 2026-11-14): phát `story_clip_id`, xong thì sang `story_clip_next`.
+const SCENE_STORY_CLIP := "res://scenes/main/story_clip.tscn"
 
 ## Màn sẽ chơi khi mở SCENE_STAGE (data/stages/{id}.json).
 var selected_stage_id := "stage_01"
@@ -30,6 +32,9 @@ var selected_character_id := ""
 var hub_start_tab := ""
 ## Màn đội hình: true = có nút Khai chiến vào `selected_stage_id` (mở từ thông tin màn); false = chỉ sửa đội.
 var prep_launch_stage := false
+## Clip truyện sẽ phát khi mở SCENE_STORY_CLIP (data/story/{id}.json) và scene mở khi clip xong.
+var story_clip_id := ""
+var story_clip_next := ""
 
 ## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
 const TRANSITION_TIME := 0.2

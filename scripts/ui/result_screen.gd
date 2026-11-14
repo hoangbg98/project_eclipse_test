@@ -146,11 +146,26 @@ func _on_hub() -> void:
 	var gc := _autoload("GameConfig")
 	if router == null or gc == null:
 		return
+	# Qua màn lần đầu: phát clip kết chương rồi về sảnh (owner 2026-11-14).
+	var clip := end_clip()
+	var save := _autoload("SaveService")
+	if clip != "" and save and StoryClip.should_play(clip, save.data):
+		gc.story_clip_id = clip
+		gc.story_clip_next = gc.SCENE_HUB
+		router.replace(gc.SCENE_STORY_CLIP)
+		return
 	# go_back() là hàm bất đồng bộ: không dùng giá trị trả về, hỏi can_go_back() trước.
 	if router.can_go_back():
 		router.go_back()
 	else:
 		router.replace(gc.SCENE_HUB)
+
+
+## Clip kết chương của màn vừa thắng ("" nếu thua hoặc màn không có).
+func end_clip() -> String:
+	if not bool(summary.get("victory", false)):
+		return ""
+	return str(StageInfoScreen.stage_data_of(str(summary.get("stage_id", ""))).get("end_clip", ""))
 
 
 ## Lấy autoload qua đường dẫn (scene màn chơi còn được nạp bằng --script trong test khói).

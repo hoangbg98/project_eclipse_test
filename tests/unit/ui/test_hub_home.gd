@@ -226,7 +226,7 @@ func test_sortie_cards() -> void:
 	GameConfig.selected_stage_id = ""
 	s.activate("story")
 	assert_str(GameConfig.selected_stage_id).is_equal("stage_01")
-	assert_str(s.last_target).is_equal(GameConfig.SCENE_STAGE_INFO)
+	assert_str(s.last_target).is_equal(GameConfig.SCENE_STORY_CLIP)   # lần đầu: clip mở chương
 	s.activate("trial")
 	assert_str(s.last_target).is_equal(GameConfig.SCENE_TEST_STAGE)
 	GameConfig.prep_launch_stage = true

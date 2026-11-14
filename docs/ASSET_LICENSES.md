@@ -122,6 +122,18 @@ Sinh bằng `tools/gen_recruit_placeholders.py` (Pillow, hình người xám + n
 | `assets/ui/recruit/placeholder_banner_equip_terra_banner.png` (1301×839) | Ảnh banner lớn của banner tiếp tế | 2026-11-13 |
 | `assets/ui/recruit/placeholder_banner_equip_terra_thumb.png` (390×226) | Ảnh nhỏ trong danh sách | 2026-11-13 |
 
+### 3.2 Ảnh tạm truyện tranh Chương 1 (owner 2026-11-14)
+
+Sinh bằng `tools/story/gen_story_clips.py` (Pillow, font Arial của Windows chỉ để vẽ chữ lên ảnh tạm; không đóng gói font).
+Mỗi ảnh đúng kích thước khung bao của ô truyện, đánh số, ghi **diễn biến cảnh**, tên file, kích thước, hình ô; vùng gạch
+chéo là phần bị cắt. Thay bằng ảnh thật cùng tên (không tiền tố) ở `assets/story/ch01/`, theo prompt trong
+`docs/prompts/story/CH01_PANELS.md`; ảnh AI dùng thật phải ghi từng file vào mục 2.1.
+
+| File | Thay cho | Ngày |
+|---|---|---|
+| `assets/placeholders/story/placeholder_ch01_open_01.png` … `_15.png` (15 ảnh, 720×760 đến 1840×760) | 15 ô truyện clip mở Chương 1 (`data/story/ch01_open.json`) | 2026-11-14 |
+| `assets/placeholders/story/placeholder_ch01_end_01.png` … `_14.png` (14 ảnh, 720×760 đến 1840×760) | 14 ô truyện clip kết Chương 1 (`data/story/ch01_end.json`) | 2026-11-14 |
+
 ## 4. Tài liệu tham khảo (không phải asset game)
 
 | File | Nội dung | Ghi chú |

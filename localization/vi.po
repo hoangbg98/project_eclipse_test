@@ -1793,3 +1793,180 @@ msgstr "Chân dung dự bị đang sáng! Đổi người ngay để kích hoạ
 
 msgid "NEO_HINT_REACTION"
 msgstr "Phản ứng nguyên tố! Đổi người đúng lúc là vậy đó, Quản lý."
+
+msgid "STORY_CH01_OPEN_SUMMARY"
+msgstr "Golem Đá Cổ ở cuối Thung Lũng Tro Tàn đang nuốt lửa của Lò Mẹ. Xuyên qua thung lũng và dừng nó lại trước khi lửa tắt hẳn."
+
+msgid "STORY_CH01_OPEN_01_1"
+msgstr "Thung Lũng Tro Tàn."
+
+msgid "STORY_CH01_OPEN_02_1"
+msgstr "Tới rồi! …Ơ. Sao im thế này?"
+
+msgid "STORY_CH01_OPEN_03_1"
+msgstr "Không có gió. Tro rơi thẳng xuống như rơi trong nhà kín."
+
+msgid "STORY_CH01_OPEN_04_1"
+msgstr "Lò Mẹ ở cuối đường này."
+
+msgid "STORY_CH01_OPEN_05_1"
+msgstr "Đây là quê cậu à? Hồi ở Lò Nanh cậu kể suốt."
+
+msgid "STORY_CH01_OPEN_06_1"
+msgstr "Ừ. Lửa ở đây từng cao hơn mái nhà. Giờ thì… cậu nhìn đi."
+
+msgid "STORY_CH01_OPEN_07_1"
+msgstr "Phát hiện ranh giới Vùng Thực. Mật độ nguyên tố phía trước chỉ còn 12%."
+
+msgid "STORY_CH01_OPEN_08_1"
+msgstr "Đủ nuôi một bộ giáp. Không đủ cho ba."
+
+msgid "STORY_CH01_OPEN_08_2"
+msgstr "Vậy là đúng như bản hướng dẫn nói hả? Tớ… đọc lướt thôi."
+
+msgid "STORY_CH01_OPEN_09_1"
+msgstr "Một người ra sân, hai người chờ trong kênh của Neo. Quản lý quyết định ai ra."
+
+msgid "STORY_CH01_OPEN_09_2"
+msgstr "Khi kênh của ai đó cộng hưởng, tôi sẽ báo. Đổi đúng lúc ấy, hai nguyên tố sẽ chạm nhau."
+
+msgid "STORY_CH01_OPEN_09_3"
+msgstr "Rồi nổ chứ gì! Phần đó thì tớ nhớ."
+
+msgid "STORY_CH01_OPEN_10_1"
+msgstr "Tín hiệu lớn ở cuối thung lũng. Một thủ vệ đá… nó đang hút nguyên tố xung quanh."
+
+msgid "STORY_CH01_OPEN_10_2"
+msgstr "Golem Đá Cổ…? Nó canh Lò Mẹ cả trăm năm, chưa từng nhúc nhích."
+
+msgid "STORY_CH01_OPEN_11_1"
+msgstr "Lửa không tự tắt nhanh vậy đâu. Nó đang nuốt phần lửa còn lại."
+
+msgid "STORY_CH01_OPEN_12_1"
+msgstr "Còn mấy cục tro biết nhảy kia là gì?"
+
+msgid "STORY_CH01_OPEN_12_2"
+msgstr "Cặn. Nguyên tố thừa vón lại. Chúng bị golem kéo về, chắn hết đường."
+
+msgid "STORY_CH01_OPEN_13_1"
+msgstr "Quản lý. Lò Mẹ mà tắt hẳn thì Vùng Thực nuốt luôn làng tớ. Cho bọn tớ vào."
+
+msgid "STORY_CH01_OPEN_14_1"
+msgstr "Đã ghi mục tiêu. Chờ lệnh xuất kích của Quản lý."
+
+msgid "STORY_CH01_OPEN_15_1"
+msgstr "Cần chạy nhanh thì gọi tớ."
+
+msgid "STORY_CH01_OPEN_15_2"
+msgstr "Còn tớ nhắc trước: đừng để bị đánh trúng nhiều quá."
+
+msgid "STORY_CH01_OPEN_CARD_TITLE"
+msgstr "Chương 1 — Thung Lũng Tro Tàn"
+
+msgid "STORY_CH01_OPEN_CARD_SUB"
+msgstr "Mục tiêu: xuyên qua thung lũng, dừng Golem Đá Cổ trước khi Lò Mẹ tắt hẳn."
+
+msgid "STORY_CH01_END_SUMMARY"
+msgstr "Lò Mẹ cháy lại, làng an toàn. Trong lõi golem có mảnh ấn mã 00: còn một Neo khác, và người cầm nó đã đánh thức thủ vệ. Manh mối dẫn tới Cao nguyên Thủ Vệ."
+
+msgid "STORY_CH01_END_01_1"
+msgstr "Vùng Thực đã loãng. Mở kênh: mọi người ra được rồi."
+
+msgid "STORY_CH01_END_02_1"
+msgstr "Phù… Con đó to thật."
+
+msgid "STORY_CH01_END_03_1"
+msgstr "Nó không ác. Nó bị ép thức dậy rồi bị bắt canh một mình, không ai thay ca."
+
+msgid "STORY_CH01_END_04_1"
+msgstr "Lò Mẹ vẫn lạnh."
+
+msgid "STORY_CH01_END_04_2"
+msgstr "Thủ vệ đã ngừng hút. Mật độ nguyên tố: 12%… 19%… 31%."
+
+msgid "STORY_CH01_END_05_1"
+msgstr "Dậy đi. Tới lượt cậu rồi."
+
+msgid "STORY_CH01_END_06_1"
+msgstr "…Cháy rồi."
+
+msgid "STORY_CH01_END_06_2"
+msgstr "Cháy rồi! Cháy thật rồi!"
+
+msgid "STORY_CH01_END_07_1"
+msgstr "Gió cũng về rồi. Nghe này."
+
+msgid "STORY_CH01_END_07_2"
+msgstr "Ranh giới Vùng Thực đã lùi 2 km. Làng Lò Than an toàn rồi."
+
+msgid "STORY_CH01_END_08_1"
+msgstr "Cái gì đây? Trông giống vòng sáng của Neo ghê."
+
+msgid "STORY_CH01_END_09_1"
+msgstr "Mảnh ấn kênh… định dạng trùng với tôi. Mã thiết bị: 00."
+
+msgid "STORY_CH01_END_09_2"
+msgstr "Neo của chúng ta đâu phải số 00."
+
+msgid "STORY_CH01_END_10_1"
+msgstr "Vậy là còn một Neo khác. Và người cầm nó đã đánh thức thủ vệ của làng tớ."
+
+msgid "STORY_CH01_END_11_1"
+msgstr "Dấu này tớ từng thấy trên bản đồ. Xưởng làm thủ vệ trên cao nguyên đá."
+
+msgid "STORY_CH01_END_11_2"
+msgstr "Ai muốn đánh thức chúng thì chắc đã ghé đó trước."
+
+msgid "STORY_CH01_END_12_1"
+msgstr "Đi luôn hả? Chân tớ vẫn còn nóng."
+
+msgid "STORY_CH01_END_13_1"
+msgstr "Đi. Lò Mẹ cháy lại rồi. Tớ không để nơi nào khác tắt như vậy nữa."
+
+msgid "STORY_CH01_END_13_2"
+msgstr "Đã ghi tọa độ: Cao nguyên Thủ Vệ. Chờ lệnh của Quản lý."
+
+msgid "STORY_CH01_END_14_1"
+msgstr "Một ca canh bị bỏ dở. Không sao. Thủ vệ thì còn nhiều."
+
+msgid "STORY_CH01_END_CARD_TITLE"
+msgstr "Chương 1 — Hoàn thành"
+
+msgid "STORY_CH01_END_CARD_SUB"
+msgstr "Chương 2: Xưởng Đá Ngủ — sắp ra mắt"
+
+msgid "STORY_UI_AUTO"
+msgstr "Tự động"
+
+msgid "STORY_UI_HISTORY"
+msgstr "Lịch sử"
+
+msgid "STORY_UI_HIDE"
+msgstr "Ẩn"
+
+msgid "STORY_UI_SKIP"
+msgstr "Bỏ qua"
+
+msgid "STORY_UI_TAP"
+msgstr "Chạm để tiếp tục"
+
+msgid "STORY_UI_HISTORY_TITLE"
+msgstr "Lịch sử hội thoại"
+
+msgid "STORY_UI_CLOSE"
+msgstr "Đóng"
+
+msgid "STORY_UI_SKIP_CONFIRM"
+msgstr "Bỏ qua đoạn truyện này?"
+
+msgid "STORY_UI_YES"
+msgstr "Bỏ qua"
+
+msgid "STORY_UI_NO"
+msgstr "Xem tiếp"
+
+msgid "STORY_UI_CONTINUE"
+msgstr "Tiếp tục"
+
+msgid "STAGE_INFO_REPLAY"
+msgstr "Xem lại mở đầu"

@@ -1,0 +1,479 @@
+{
+	"_comment": "Sinh bởi tools/story/gen_story_clips.py — sửa ở đó rồi chạy lại.",
+	"id": "ch01_end",
+	"design_size": [
+		1920,
+		1080
+	],
+	"image_dir": "res://assets/story/ch01",
+	"placeholder_dir": "res://assets/placeholders/story",
+	"summary": "STORY_CH01_END_SUMMARY",
+	"pages": [
+		{
+			"layout": "F",
+			"panels": [
+				{
+					"image": "ch01_end_01",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							360
+						],
+						[
+							40,
+							460
+						]
+					],
+					"enter": "down",
+					"desc": "Trước cửa Lò Mẹ lạnh tối; đá vỡ của golem ngổn ngang; Enkiba đứng quay lưng.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_END_01_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_end_02",
+					"poly": [
+						[
+							40,
+							484
+						],
+						[
+							1880,
+							384
+						],
+						[
+							1880,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Raikiba và Kazeyumi hiện ra từ hạt sáng; Raikiba ngồi phịch xuống.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_END_02_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "C",
+			"panels": [
+				{
+					"image": "ch01_end_03",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1300,
+							40
+						],
+						[
+							900,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Kazeyumi quỳ một gối, đặt tay lên đầu đá của golem.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_END_03_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_end_04",
+					"poly": [
+						[
+							1324,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							800
+						],
+						[
+							924,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Enkiba nhìn cửa lò lạnh; NEO nhấp nháy các con số.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_END_04_1"
+						},
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_END_04_2"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "D",
+			"panels": [
+				{
+					"image": "ch01_end_05",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1160,
+							40
+						],
+						[
+							40,
+							660
+						]
+					],
+					"enter": "down",
+					"desc": "Kiếm bén lửa của Enkiba chạm vào miệng lò.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_END_05_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_end_06",
+					"poly": [
+						[
+							1200,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							140
+						],
+						[
+							720,
+							800
+						],
+						[
+							40,
+							800
+						],
+						[
+							40,
+							704
+						]
+					],
+					"enter": "left",
+					"desc": "Lò Mẹ bùng cháy rực rỡ, đốm lửa bay lên; Raikiba nhảy cẫng lên.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_END_06_1"
+						},
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_END_06_2"
+						}
+					]
+				},
+				{
+					"image": "ch01_end_07",
+					"poly": [
+						[
+							1880,
+							180
+						],
+						[
+							1880,
+							800
+						],
+						[
+							760,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Kazeyumi mỉm cười, đốm lửa bay ngang theo gió vừa trở lại.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_END_07_1"
+						},
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_END_07_2"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "B",
+			"panels": [
+				{
+					"image": "ch01_end_08",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							760,
+							40
+						],
+						[
+							700,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Raikiba nhặt từ đống đá một chiếc đĩa nhỏ phát sáng trắng đen.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_END_08_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_end_09",
+					"poly": [
+						[
+							784,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							380
+						],
+						[
+							754,
+							420
+						]
+					],
+					"enter": "down",
+					"desc": "Cận chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_END_09_1"
+						},
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_END_09_2"
+						}
+					]
+				},
+				{
+					"image": "ch01_end_10",
+					"poly": [
+						[
+							752,
+							444
+						],
+						[
+							1880,
+							404
+						],
+						[
+							1880,
+							800
+						],
+						[
+							724,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Enkiba nghiêm mặt, siết chuôi kiếm.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_END_10_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "A",
+			"panels": [
+				{
+					"image": "ch01_end_11",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							360
+						],
+						[
+							40,
+							420
+						]
+					],
+					"enter": "up",
+					"desc": "Tấm giáp lưng golem lật lên: dấu khắc ba vòng đá chồng nhau.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_END_11_1"
+						},
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_END_11_2"
+						}
+					]
+				},
+				{
+					"image": "ch01_end_12",
+					"poly": [
+						[
+							40,
+							444
+						],
+						[
+							1000,
+							413
+						],
+						[
+							940,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Raikiba nhét chiếc đĩa vào túi, cười.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_END_12_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_end_13",
+					"poly": [
+						[
+							1024,
+							412
+						],
+						[
+							1880,
+							384
+						],
+						[
+							1880,
+							800
+						],
+						[
+							964,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Enkiba nhìn lại Lò Mẹ đang cháy rồi quay đi.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_END_13_1"
+						},
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_END_13_2"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "E",
+			"panels": [
+				{
+					"image": "ch01_end_14",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Đêm, đỉnh vách đá trên thung lũng; Lò Mẹ cháy sáng phía dưới; một bóng người cầm vòng sáng trắng đen giống Neo.",
+					"lines": [
+						{
+							"speaker": "unknown",
+							"text": "STORY_CH01_END_14_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"card": {
+				"title": "STORY_CH01_END_CARD_TITLE",
+				"sub": "STORY_CH01_END_CARD_SUB"
+			}
+		}
+	]
+}

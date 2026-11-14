@@ -1,0 +1,503 @@
+{
+	"_comment": "Sinh bởi tools/story/gen_story_clips.py — sửa ở đó rồi chạy lại.",
+	"id": "ch01_open",
+	"design_size": [
+		1920,
+		1080
+	],
+	"image_dir": "res://assets/story/ch01",
+	"placeholder_dir": "res://assets/placeholders/story",
+	"summary": "STORY_CH01_OPEN_SUMMARY",
+	"pages": [
+		{
+			"layout": "A",
+			"panels": [
+				{
+					"image": "ch01_open_01",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							360
+						],
+						[
+							40,
+							420
+						]
+					],
+					"enter": "left",
+					"desc": "Toàn cảnh cửa thung lũng xám tro, đường dốc xuống, tro rơi thẳng đứng; Mặt Trời Khuyết trên trời; cuối thung lũng là vách đá có cửa lò khổng lồ tối om.",
+					"lines": [
+						{
+							"speaker": "narration",
+							"text": "STORY_CH01_OPEN_01_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_02",
+					"poly": [
+						[
+							40,
+							444
+						],
+						[
+							1000,
+							413
+						],
+						[
+							940,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Raikiba phanh trượt ngay trước vạch mờ tím, chồm người nhìn vào, ngạc nhiên.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_OPEN_02_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_03",
+					"poly": [
+						[
+							1024,
+							412
+						],
+						[
+							1880,
+							384
+						],
+						[
+							1880,
+							800
+						],
+						[
+							964,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Kazeyumi giơ một tay dò gió, nét mặt nghiêm; tro rơi thẳng quanh cô.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_OPEN_03_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "B",
+			"panels": [
+				{
+					"image": "ch01_open_04",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							760,
+							40
+						],
+						[
+							700,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Enkiba đứng cạnh biển gỗ cháy xém chỉ về làng; đốm than cuối cùng trên biển vừa tắt.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_OPEN_04_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_05",
+					"poly": [
+						[
+							784,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							380
+						],
+						[
+							754,
+							420
+						]
+					],
+					"enter": "left",
+					"desc": "Raikiba quay sang Enkiba, nhướng mày.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_OPEN_05_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_06",
+					"poly": [
+						[
+							752,
+							444
+						],
+						[
+							1880,
+							404
+						],
+						[
+							1880,
+							800
+						],
+						[
+							724,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Cận mặt Enkiba nhìn xa, lo lắng, ánh tro phản chiếu trong mắt.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_OPEN_06_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "D",
+			"panels": [
+				{
+					"image": "ch01_open_07",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1160,
+							40
+						],
+						[
+							40,
+							660
+						]
+					],
+					"enter": "right",
+					"desc": "NEO trồi lên lơ lửng phía trước, vòng sáng xoay; ba người nhìn vào nó.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_OPEN_07_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_08",
+					"poly": [
+						[
+							1200,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							140
+						],
+						[
+							720,
+							800
+						],
+						[
+							40,
+							800
+						],
+						[
+							40,
+							704
+						]
+					],
+					"enter": "down",
+					"desc": "Kazeyumi nghiêm mặt; Raikiba gãi đầu, giọt mồ hôi.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_OPEN_08_1"
+						},
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_OPEN_08_2"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_09",
+					"poly": [
+						[
+							1880,
+							180
+						],
+						[
+							1880,
+							800
+						],
+						[
+							760,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Kazeyumi quay ra phía người xem (Quản lý), NEO lơ lửng bên cạnh.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_OPEN_09_1"
+						},
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_OPEN_09_2"
+						},
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_OPEN_09_3"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "C",
+			"panels": [
+				{
+					"image": "ch01_open_10",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1300,
+							40
+						],
+						[
+							900,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Cuối thung lũng: trong bóng tối trước cửa Lò Mẹ, hai đốm mắt cam đỏ sáng lên trên một khối đá khổng lồ.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_OPEN_10_1"
+						},
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_OPEN_10_2"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_11",
+					"poly": [
+						[
+							1324,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							800
+						],
+						[
+							924,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Kazeyumi nheo mắt nhìn về cuối thung lũng.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_OPEN_11_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "G",
+			"panels": [
+				{
+					"image": "ch01_open_12",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							940,
+							40
+						],
+						[
+							925,
+							404
+						],
+						[
+							40,
+							424
+						]
+					],
+					"enter": "down",
+					"desc": "Những khối tro xám nhỏ trồi lên, nảy về phía cuối thung lũng; Raikiba chỉ tay.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_OPEN_12_1"
+						},
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_OPEN_12_2"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_13",
+					"poly": [
+						[
+							964,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							384
+						],
+						[
+							949,
+							403
+						]
+					],
+					"enter": "left",
+					"desc": "Enkiba bước tới vạch mờ, giơ kiếm, lưỡi kiếm bén lửa.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_OPEN_13_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_14",
+					"poly": [
+						[
+							40,
+							448
+						],
+						[
+							924,
+							428
+						],
+						[
+							904,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "NEO sáng cam đều, như gật đầu.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_OPEN_14_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_open_15",
+					"poly": [
+						[
+							948,
+							427
+						],
+						[
+							1880,
+							408
+						],
+						[
+							1880,
+							800
+						],
+						[
+							928,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Kazeyumi và Raikiba tan thành hạt sáng xanh ngọc và vàng, bay vào NEO.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_OPEN_15_1"
+						},
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_OPEN_15_2"
+						}
+					]
+				}
+			]
+		},
+		{
+			"card": {
+				"title": "STORY_CH01_OPEN_CARD_TITLE",
+				"sub": "STORY_CH01_OPEN_CARD_SUB"
+			}
+		}
+	]
+}

@@ -59,6 +59,11 @@ func replace(scene_path: String) -> void:
 	await _transition(scene_path)
 
 
+## Thay scene hiện tại nhưng giữ lịch sử (vd clip truyện xong → Thông tin màn: Back vẫn về màn trước clip).
+func swap(scene_path: String) -> void:
+	await _transition(scene_path)
+
+
 ## Quay lại scene trước. Trả về false nếu không còn gì để quay lại.
 func go_back() -> bool:
 	if _history.is_empty() or _busy:

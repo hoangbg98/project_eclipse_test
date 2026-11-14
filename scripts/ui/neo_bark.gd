@@ -267,6 +267,5 @@ func show_line(line: Dictionary) -> void:
 	_face.visible = not is_neo
 	if not is_neo:
 		var id := str(line["speaker"])
-		var path := ReserveIcon.PORTRAIT_PATH % [id, id]
-		_face.texture = load(path) as Texture2D if ResourceLoader.exists(path) else null
+		_face.texture = StoryClip.portrait_of(id)
 	_panel.reset_size()

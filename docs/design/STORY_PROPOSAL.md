@@ -24,6 +24,10 @@
 | 10 | Cảnh nhá "???" cuối Chương 1 | **Giữ** | — |
 | 11 | Chữ checkpoint | Đổi thành **"Đã cắm điểm neo"** | Việc code còn chờ (D10) |
 | 12 | Thoại trong trận | **NEO nói trong trận** (băng chữ 1 dòng, không dừng trận, cùng khung / chân dung NEO), **thêm gợi ý cách dùng chiêu** để hướng dẫn người chơi | Việc code còn chờ: các câu BK ở D4 do NEO nói khi người nói gốc không có trong đội; thêm câu gợi ý chiêu (mục D4b) |
+| 13 | Dạng clip dẫn truyện | **Truyện tranh** thay cho sân khấu chibi: ảnh tĩnh, mỗi trang 1–4 ô (vuông, thang, tam giác...) hiện dần, hết trang thì xóa sang trang mới; prompt ChatGPT cho từng ô, placeholder đánh số đúng kích thước để chỉnh bằng Photoshop | Mục D2 (quy ước chibi) và bảng nhịp D3 / D6 giờ là nguồn kịch bản; bản chạy thật ở `tools/story/gen_story_clips.py` → `data/story/ch01_*.json`, prompt ở `docs/prompts/story/CH01_PANELS.md` |
+| 14 | Nút clip | Tự động, Bỏ qua (xác nhận + tóm tắt), Lịch sử, Ẩn | — |
+| 15 | Clip kết Chương 1 | Phát **sau màn kết quả** (bấm Về Hub, lần qua ải đầu tiên) rồi về sảnh | — |
+| 16 | Placeholder ô truyện | Mỗi ô (mỗi nút truyện) có placeholder ghi **diễn biến** của đoạn đó, để đọc được truyện trong game trước khi có art | Ô không có cả ảnh lẫn placeholder (bản Release loại `placeholder_*`) thì game tự vẽ ô xám kèm diễn biến |
 
 ---
 

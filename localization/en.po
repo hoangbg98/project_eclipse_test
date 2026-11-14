@@ -1793,3 +1793,180 @@ msgstr "A reserve portrait is glowing! Switch now to trigger an elemental reacti
 
 msgid "NEO_HINT_REACTION"
 msgstr "Elemental reaction! That's perfect switch timing, Manager."
+
+msgid "STORY_CH01_OPEN_SUMMARY"
+msgstr "The Ancient Stone Golem at the end of the Ashen Valley is devouring the Mother Hearth's fire. Cross the valley and stop it before the fire dies out."
+
+msgid "STORY_CH01_OPEN_01_1"
+msgstr "The Ashen Valley."
+
+msgid "STORY_CH01_OPEN_02_1"
+msgstr "We're here! …Huh. Why is it so quiet?"
+
+msgid "STORY_CH01_OPEN_03_1"
+msgstr "No wind at all. The ash falls straight down, like inside a closed room."
+
+msgid "STORY_CH01_OPEN_04_1"
+msgstr "The Mother Hearth is at the end of this road."
+
+msgid "STORY_CH01_OPEN_05_1"
+msgstr "This is your hometown? You talked about it all the time back at the Fang Forge."
+
+msgid "STORY_CH01_OPEN_06_1"
+msgstr "Yeah. The fires here used to burn higher than the rooftops. Now… just look."
+
+msgid "STORY_CH01_OPEN_07_1"
+msgstr "Hollow Zone boundary detected. Elemental density ahead is down to 12%."
+
+msgid "STORY_CH01_OPEN_08_1"
+msgstr "Enough to sustain one suit. Not three."
+
+msgid "STORY_CH01_OPEN_08_2"
+msgstr "So it's like the manual said? I… only skimmed it."
+
+msgid "STORY_CH01_OPEN_09_1"
+msgstr "One of us takes the field, two wait in Neo's channel. The Manager decides who goes out."
+
+msgid "STORY_CH01_OPEN_09_2"
+msgstr "When someone's channel resonates, I'll signal. Switch right then and two elements collide."
+
+msgid "STORY_CH01_OPEN_09_3"
+msgstr "And then boom! That part I remember."
+
+msgid "STORY_CH01_OPEN_10_1"
+msgstr "Large signal at the end of the valley. A stone guardian… it's draining the elements around it."
+
+msgid "STORY_CH01_OPEN_10_2"
+msgstr "The Ancient Stone Golem…? It's guarded the Hearth for a hundred years and never moved."
+
+msgid "STORY_CH01_OPEN_11_1"
+msgstr "Fire doesn't die this fast on its own. It's swallowing what's left."
+
+msgid "STORY_CH01_OPEN_12_1"
+msgstr "And what are those hopping lumps of ash?"
+
+msgid "STORY_CH01_OPEN_12_2"
+msgstr "Dregs. Leftover elements clumped together. The golem pulls them in, and they block the road."
+
+msgid "STORY_CH01_OPEN_13_1"
+msgstr "Manager. If the Hearth goes out, the Hollow Zone swallows my village. Send us in."
+
+msgid "STORY_CH01_OPEN_14_1"
+msgstr "Objective logged. Awaiting the Manager's order to deploy."
+
+msgid "STORY_CH01_OPEN_15_1"
+msgstr "Call me when you need speed."
+
+msgid "STORY_CH01_OPEN_15_2"
+msgstr "And a reminder from me: don't take too many hits."
+
+msgid "STORY_CH01_OPEN_CARD_TITLE"
+msgstr "Chapter 1 — The Ashen Valley"
+
+msgid "STORY_CH01_OPEN_CARD_SUB"
+msgstr "Objective: cross the valley and stop the Ancient Stone Golem before the Hearth dies out."
+
+msgid "STORY_CH01_END_SUMMARY"
+msgstr "The Mother Hearth burns again and the village is safe. Inside the golem's core lies a channel seal coded 00: there is another Neo, and its holder woke the guardian. The trail leads to the Guardian Highlands."
+
+msgid "STORY_CH01_END_01_1"
+msgstr "The Hollow Zone has thinned. Opening the channel: everyone can come out."
+
+msgid "STORY_CH01_END_02_1"
+msgstr "Phew… That thing was huge."
+
+msgid "STORY_CH01_END_03_1"
+msgstr "It wasn't evil. It was forced awake and made to stand guard alone, with no one to relieve it."
+
+msgid "STORY_CH01_END_04_1"
+msgstr "The Hearth is still cold."
+
+msgid "STORY_CH01_END_04_2"
+msgstr "The guardian has stopped draining. Elemental density: 12%… 19%… 31%."
+
+msgid "STORY_CH01_END_05_1"
+msgstr "Wake up. It's your turn now."
+
+msgid "STORY_CH01_END_06_1"
+msgstr "…It's burning."
+
+msgid "STORY_CH01_END_06_2"
+msgstr "It's burning! It's really burning!"
+
+msgid "STORY_CH01_END_07_1"
+msgstr "The wind is back too. Listen."
+
+msgid "STORY_CH01_END_07_2"
+msgstr "The Hollow Zone boundary has receded 2 km. Coalhearth Village is safe."
+
+msgid "STORY_CH01_END_08_1"
+msgstr "What's this? It looks a lot like Neo's ring."
+
+msgid "STORY_CH01_END_09_1"
+msgstr "A channel seal fragment… same format as mine. Device code: 00."
+
+msgid "STORY_CH01_END_09_2"
+msgstr "Our Neo isn't number 00."
+
+msgid "STORY_CH01_END_10_1"
+msgstr "So there's another Neo. And whoever holds it woke my village's guardian."
+
+msgid "STORY_CH01_END_11_1"
+msgstr "I've seen this mark on maps. The guardian workshop up on the stone highlands."
+
+msgid "STORY_CH01_END_11_2"
+msgstr "Anyone who wanted to wake them must have gone there first."
+
+msgid "STORY_CH01_END_12_1"
+msgstr "Heading out right away? My legs are still warmed up."
+
+msgid "STORY_CH01_END_13_1"
+msgstr "Let's go. The Hearth burns again. I won't let anywhere else go dark like this."
+
+msgid "STORY_CH01_END_13_2"
+msgstr "Coordinates logged: the Guardian Highlands. Awaiting the Manager's orders."
+
+msgid "STORY_CH01_END_14_1"
+msgstr "One watch left unfinished. No matter. There are many more guardians."
+
+msgid "STORY_CH01_END_CARD_TITLE"
+msgstr "Chapter 1 — Complete"
+
+msgid "STORY_CH01_END_CARD_SUB"
+msgstr "Chapter 2: The Sleeping Stone Workshop — coming soon"
+
+msgid "STORY_UI_AUTO"
+msgstr "Auto"
+
+msgid "STORY_UI_HISTORY"
+msgstr "Log"
+
+msgid "STORY_UI_HIDE"
+msgstr "Hide"
+
+msgid "STORY_UI_SKIP"
+msgstr "Skip"
+
+msgid "STORY_UI_TAP"
+msgstr "Tap to continue"
+
+msgid "STORY_UI_HISTORY_TITLE"
+msgstr "Dialogue log"
+
+msgid "STORY_UI_CLOSE"
+msgstr "Close"
+
+msgid "STORY_UI_SKIP_CONFIRM"
+msgstr "Skip this story scene?"
+
+msgid "STORY_UI_YES"
+msgstr "Skip"
+
+msgid "STORY_UI_NO"
+msgstr "Keep watching"
+
+msgid "STORY_UI_CONTINUE"
+msgstr "Continue"
+
+msgid "STAGE_INFO_REPLAY"
+msgstr "Replay opening"
