@@ -2,7 +2,7 @@
   "character_id": "char_wind_01",
   "working_name": "Kazeyumi",
   "element": "wind",
-  "frames_delivered": false,
+  "frames_delivered": true,
   "canvas": {
     "width": 384,
     "height": 384,
@@ -137,6 +137,12 @@
       "fps": 12,
       "loop": false,
       "skill_key": null
+    },
+    "air_2": {
+      "skill_key": null,
+      "frames": 6,
+      "fps": 18,
+      "loop": false
     }
   }
 }
