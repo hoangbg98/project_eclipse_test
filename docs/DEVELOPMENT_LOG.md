@@ -1287,6 +1287,15 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Hạn chế đã biết:** chưa xem bằng mắt trong Godot; quầng sáng của mũi tên bị tối đi một chút do tách từ nền trắng của ảnh JPEG. Phong Vực (tên rơi như sao băng) và Hạ Phong Trận không có vùng tên bay nên chưa có hình mũi tên.
 
 
+## 2026-11-14 — Kazeyumi: duyệt frame `hold_release_2`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `hold_release_2` của `char_wind_01`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** `assets/characters/char_wind_01/frames/hold_release_2/` (5 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 hold_release_2`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Approve thành công: 5 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Hạn chế đã biết:** lỗi Godot/test runner vẫn tái hiện; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+
 ## 2026-11-14 — Kazeyumi: duyệt frame `air_2`
 - **Milestone / task:** art (frame nhân vật) — owner duyệt animation `air_2` của `char_wind_01`.
 - **Trạng thái:** TESTED
@@ -1294,3 +1303,21 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 air_2`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** Approve thành công: 6 frame, 18 fps. Toàn bộ test thoát mã 0: GdUnit4 và cả 5 smoke test ĐẠT.
 - **Hạn chế đã biết:** frame 003 có một chân duỗi thấp hơn các pose trên không còn lại; owner đã duyệt bộ frame.
+
+## 2026-11-14 — HUD trận đấu: cụm nút kỹ năng có hồi chiêu (góc dưới-phải), thanh nhân vật giữa-dưới, icon theo giáp
+
+- **Milestone / task:** UI chiến đấu (README 15.5) — owner đề xuất bố cục theo ảnh tham khảo: nút kỹ năng góc dưới-phải có hồi chiêu, thanh HP/EN ở dưới; icon vẽ tạm bằng code, xuất PNG để owner chỉnh; tùy chọn icon theo từng giáp
+- **Trạng thái:** TESTED (đã chụp màn thử nghiệm bằng Godot có cửa sổ để soát, owner chưa xem)
+- **File tạo/sửa:**
+  - `tools/ui/gen_hud_icons.py` → `assets/ui/hud/skill_icons/default/{attack,jump,dodge,skill,weapon,ultimate}.png` và `assets/ui/hud/skill_icons/char_*_01/{attack,skill,weapon,ultimate}.png` (icon đánh theo loại vũ khí; kỹ năng / tuyệt kỹ theo nguyên tố). Mặc định không ghi đè file đã có.
+  - `scripts/ui/hud_icons.gd` (`HudIcons`): tìm icon theo Data ID, thiếu thì dùng `default/`.
+  - `scripts/input/touch_controls.gd`: cụm nút luôn hiện (PC: chỉ hiển thị, có phím tắt dưới nút, bỏ qua chuột); joystick chỉ hiện trên máy cảm ứng; icon đổi theo người trên sân; lượt né thành huy hiệu số (`badge_text`). Bố cục chuyển vào `HudTheme.SKILL_BUTTONS`.
+  - `scripts/input/touch_button.gd`: vẽ đĩa tối trong mờ + icon, quạt hồi chiêu + số giây, vòng UG, tuyệt kỹ sẵn sàng nhấp nháy vàng, huy hiệu số tròn (kiểu ảnh "3" owner gửi), phím tắt.
+  - `scripts/ui/battle_hud.gd`, `scripts/ui/hud_theme.gd`: thẻ nhân vật góc trên-trái → thanh giữa-dưới (chân dung tạm, tên, HP chia 3 đoạn + khiên, EN + số); nút Tạm dừng lên góc trên-trái. `scripts/ui/debug_overlay.gd` sửa chú thích.
+  - `docs/ASSET_LICENSES.md` mục 2: thêm dòng icon (chỉ commit dòng này; phần Codex đang sửa dở để nguyên).
+  - Test: `tests/unit/ui/test_skill_dock.gd` (4 test), `tests/unit/ui/test_touch_audio.gd` (lượt né đọc `badge_text`).
+- **Đã chạy:** `python -I tools/ui/gen_hud_icons.py --force` (lần đầu), `--import`, chụp HUD bằng script SceneTree trong scratchpad (Godot có cửa sổ 1920×1080, bản PC và bản cảm ứng), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 531 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh chụp: cụm 6 nút góc dưới-phải không chồng nhau, số giây hồi trên nút U / I, vòng UG quanh O, huy hiệu lượt né trên L, thanh HP/EN giữa-dưới.
+- **Quyết định Claude chọn:** bỏ các nút trong ảnh tham khảo không có trong game (nút đặc biệt có thanh 90/150, nút gọi hỗ trợ); đổi nhân vật vẫn ở hai icon dự bị góc trên-phải (README 15.5) thay vì cột chân dung bên phải; UG chỉ hiện bằng vòng quanh nút tuyệt kỹ, lượt né bằng huy hiệu trên nút né; nút nhảy cũng có icon; đường kính nút đánh 200, tuyệt kỹ 176, kỹ năng / vũ khí 150, né 140, nhảy 132 (≥ 128 px); trên PC các nút không nhận chuột.
+- **Lệch tài liệu:** README 15.5 ghi thẻ nhân vật trên sân ở góc trên-trái; owner đề xuất đặt xuống dưới (2026-11-14) nên đã chuyển theo owner.
+- **Hạn chế đã biết:** chân dung trên thanh HP vẫn là vòng màu + chữ đầu tên (chưa có ảnh chân dung nhỏ); icon là hình trắng đơn giản, owner sẽ vẽ lại; chưa thử trên máy cảm ứng thật.

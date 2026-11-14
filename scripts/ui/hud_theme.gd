@@ -29,14 +29,39 @@ const RING_COLOR := {
 	"light": Color("#FFF2B8"), "dark": Color("#A855F7"), "earth": Color("#D99A3E"),
 }
 
-# --- Thẻ nhân vật trên sân (góc trên-trái) ---
+# --- Góc trên-trái: nút Tạm dừng (thẻ nhân vật đã chuyển xuống giữa-dưới, owner 2026-11-14) ---
 const ACTIVE_CARD_POS := Vector2(40.0, 36.0)
-const ACTIVE_CARD_SIZE := Vector2(520.0, 132.0)
-const BAR_WIDTH := 380.0
 ## Nút Tạm dừng (vùng chạm ≥ 128 px).
 const PAUSE_BUTTON_SIZE := 132.0
-const HP_BAR_HEIGHT := 22.0
+
+# --- Thanh nhân vật trên sân (giữa-dưới): chân dung, tên, HP, khiên, EN ---
+const VITALS_SIZE := Vector2(760.0, 112.0)
+## Tâm thanh lệch trái so với giữa màn hình để chừa chỗ cho cụm nút kỹ năng.
+const VITALS_CENTER_OFFSET_X := -110.0
+const VITALS_BOTTOM_MARGIN := 34.0
+const VITALS_PORTRAIT_RADIUS := 44.0
+const BAR_WIDTH := 620.0
+const HP_BAR_HEIGHT := 24.0
 const SMALL_BAR_HEIGHT := 12.0
+
+# --- Cụm nút kỹ năng (góc dưới-phải) ---
+## action → [đường kính, khoảng cách từ góc dưới-phải tới mép phải-dưới của nút]. Nút đánh lớn nhất (README 15.5).
+const SKILL_BUTTONS := {
+	&"attack": [200.0, Vector2(64.0, 64.0)],
+	&"skill": [150.0, Vector2(300.0, 70.0)],
+	&"jump": [132.0, Vector2(488.0, 80.0)],
+	&"ultimate": [176.0, Vector2(76.0, 300.0)],
+	&"weapon": [150.0, Vector2(290.0, 262.0)],
+	&"dodge": [140.0, Vector2(262.0, 460.0)],
+}
+const BUTTON_FILL := Color(0.06, 0.08, 0.13, 0.55)
+const BUTTON_FILL_HELD := Color(0.25, 0.3, 0.42, 0.7)
+const BUTTON_RIM := Color(1, 1, 1, 0.75)
+## Cạnh icon so với đường kính nút.
+const BUTTON_ICON_RATIO := 0.62
+const ULT_PULSE_SEC := 1.0
+const KEY_HINT_FONT_SIZE := 22
+const COLOR_COOLDOWN_EDGE := Color(1, 1, 1, 0.55)
 
 const COLOR_PANEL := Color(0.06, 0.07, 0.11, 0.72)
 const COLOR_HP := Color("#E5484D")

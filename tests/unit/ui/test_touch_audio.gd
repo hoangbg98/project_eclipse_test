@@ -74,11 +74,11 @@ func test_ultimate_button_shows_charge_ring() -> void:
 
 func test_dodge_button_shows_charges() -> void:
 	await _setup()
-	assert_str(_state(&"dodge")["overlay_text"]).is_equal("2")
+	assert_str(_state(&"dodge")["badge_text"]).is_equal("2")
 	_p.combatant.resources.try_dodge()
 	_p.combatant.resources.try_dodge()
 	var s := _state(&"dodge")
-	assert_str(s["overlay_text"]).is_equal("0")
+	assert_str(s["badge_text"]).is_equal("0")
 	assert_bool(s["dimmed"]).is_true()
 
 
@@ -101,7 +101,7 @@ func test_touch_controls_update_real_buttons() -> void:
 	var b := touch.buttons[&"weapon"] as TouchButton
 	assert_float(b.cooldown_ratio).is_equal_approx(1.0, 0.001)
 	assert_str(b.overlay_text).is_equal("12")
-	assert_str((touch.buttons[&"dodge"] as TouchButton).overlay_text).is_equal("2")
+	assert_str((touch.buttons[&"dodge"] as TouchButton).badge_text).is_equal("2")
 	assert_bool(TouchControls.button_state(&"skill", null).is_empty()).is_false()   # không có nhân vật: trạng thái mặc định
 
 
