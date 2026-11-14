@@ -30,7 +30,7 @@ func test_config_matches_owner_answers() -> void:
 	assert_int(b.multi_count).is_equal(10)
 	assert_str(b.cost_currency).is_equal("gems")
 	var s := b.tier("S")
-	assert_float(s.base_rate).is_equal(0.015)
+	assert_float(s.base_rate).is_equal(0.0015)                         # owner 2026-11-15: 1.5% → 0.15%
 	assert_int(s.hard_pity).is_equal(100)
 	assert_array([s.soft_pity_start, s.soft_pity_step, s.soft_pity_mode]).is_equal([80, 0.1, "flat"])
 	assert_int(s.pool.size()).is_equal(1)                              # chỉ 1 nhân vật S (rate-up)
@@ -38,7 +38,7 @@ func test_config_matches_owner_answers() -> void:
 	assert_float(b.tier("A").base_rate).is_equal(0.163)
 	assert_float(b.tier("B").base_rate).is_equal(0.10874)
 	var table := GachaService.rates_table(b)
-	assert_float(table[3]["rate"]).is_equal_approx(1.0 - 0.015 - 0.163 - 0.10874, 0.0000001)   # nguyên liệu, vàng
+	assert_float(table[3]["rate"]).is_equal_approx(1.0 - 0.0015 - 0.163 - 0.10874, 0.0000001)  # nguyên liệu, vàng
 	assert_array(Array(b.multi_guarantee_tiers)).is_equal(["S", "A"])
 	assert_array(Array(b.multi_guarantee_pick)).is_equal(["A"])
 	assert_str(b.group()).is_equal("char")
@@ -51,9 +51,9 @@ func test_config_matches_owner_answers() -> void:
 
 func test_soft_pity_is_flat_plus_ten_percent() -> void:
 	var s := _banner().tier("S")
-	assert_float(GachaService.tier_rate(s, 79)).is_equal(0.015)
-	assert_float(GachaService.tier_rate(s, 80)).is_equal_approx(0.115, 0.000001)
-	assert_float(GachaService.tier_rate(s, 99)).is_equal_approx(0.115, 0.000001)
+	assert_float(GachaService.tier_rate(s, 79)).is_equal(0.0015)                  # owner 2026-11-15: 0.15%
+	assert_float(GachaService.tier_rate(s, 80)).is_equal_approx(0.1015, 0.000001)
+	assert_float(GachaService.tier_rate(s, 99)).is_equal_approx(0.1015, 0.000001)
 	assert_float(GachaService.tier_rate(s, 100)).is_equal(1.0)
 
 
@@ -98,8 +98,8 @@ func test_rates_over_many_pulls() -> void:
 	var count := {"S": 0, "A": 0, "B": 0, "MAT": 0}
 	for i in n:
 		count[s.pull(_banner(), 1)["results"][0]["tier"]] += 1
-	# S cao hơn 1.5% một chút do pity (mềm + cứng); A, B, nguyên liệu theo config.
-	assert_float(float(count["S"]) / n).is_between(0.015, 0.03)
+	# Owner 2026-11-15: S gốc 0.15%; thực tế chủ yếu ra nhờ pity mềm (lượt 80, +10%) và cứng (100) ≈ 1 S / ~83 lượt.
+	assert_float(float(count["S"]) / n).is_between(0.008, 0.016)
 	assert_float(float(count["A"]) / n).is_equal_approx(0.163, 0.012)
 	assert_float(float(count["B"]) / n).is_equal_approx(0.10874, 0.01)
 

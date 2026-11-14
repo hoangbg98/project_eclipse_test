@@ -2298,3 +2298,28 @@ msgstr "+%d fragments"
 
 msgid "RECRUIT_UI_SKIP"
 msgstr "Skip"
+
+# Màn Chiêu mộ bố cục mới (owner 2026-11-15)
+msgid "RECRUIT_UI_BACK"
+msgstr "‹ Back"
+
+msgid "RECRUIT_UI_PITY_LEFT"
+msgstr "%d more pulls guarantee %s"
+
+msgid "RECRUIT_UI_FRAG_LEFT"
+msgstr "%d more fragments to reach %s"
+
+msgid "RECRUIT_UI_FRAG_NOT_OWNED"
+msgstr "Not owned yet — duplicates give promotion fragments"
+
+msgid "RECRUIT_UI_FRAG_MAX"
+msgstr "Fully promoted"
+
+msgid "RECRUIT_UI_GIFT"
+msgstr "Gift pack (coming soon)"
+
+msgid "RECRUIT_UI_TRIAL"
+msgstr "Trial"
+
+msgid "RECRUIT_TAB_STARTER"
+msgstr "First recruit"

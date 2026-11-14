@@ -1,5 +1,5 @@
 extends SceneTree
-## Chụp màn Chiêu mộ ở 7 trạng thái (cần cửa sổ, không chạy --headless):
+## Chụp màn Chiêu mộ ở 8 trạng thái (cần cửa sổ, không chạy --headless):
 ##   <godot> --path . -s tools/screenshot_recruit.gd
 ## Ảnh ra build/screenshots/recruit_<n>_<tên>.png. Dữ liệu tạm trong bộ nhớ; KHÔNG ghi save.
 
@@ -11,6 +11,7 @@ const SHOTS := [
 	["5_history", "history", 0],
 	["6_results_mixed", "mixed", 2],
 	["7_results_revealing", "revealing", 2],
+	["8_star5_banner", "main", 2],
 ]
 
 ## Kết quả giả cho cảnh 6: đủ các loại thẻ (nhân vật S mới có splash, A trùng, đồ 5★ / 4★, vật phẩm, vàng).
@@ -41,6 +42,7 @@ func _prepare() -> void:
 		save.data = data
 	_screen = (load("res://scenes/main/recruit_screen.tscn") as PackedScene).instantiate()
 	_screen.profile = PlayerProfile.new(data)
+	_screen.profile.inventory.add_equipment("eq_stigma_mid_darwin")   # banner 5★: một món đã có (sáng), còn lại tối
 	_screen.save_enabled = false
 	root.add_child(_screen)
 	_screen.service.rng = RandomSource.new(7)

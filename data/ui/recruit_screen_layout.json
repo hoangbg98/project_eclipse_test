@@ -1,13 +1,16 @@
 {
 	"_huong_dan": [
-		"Bố cục màn Chiêu mộ (owner 2026-11-13, theo ảnh tham chiếu màn Wish). Sửa file này rồi mở lại màn để thấy thay đổi; không cần sửa code.",
+		"Bố cục màn Chiêu mộ (owner 2026-11-15, theo 2 ảnh gợi ý: banner trang bị và banner nhân vật). Sửa file này rồi mở lại màn để thấy thay đổi; không cần sửa code.",
 		"Tọa độ theo khung thiết kế 1920×1080. rect = [x, y, rộng, cao] tính từ góc trên-trái của khung thiết kế.",
 		"anchor: 'left' (mặc định) giữ khoảng cách mép trái; 'right' dời theo phần màn hình rộng thêm (màn > 16:9); 'center' dời một nửa.",
 		"font = cỡ chữ (px). color = mã màu '#RRGGBB' hoặc '#RRGGBBAA'. Thiếu mục nào thì màn dùng giá trị mặc định trong code, không lỗi.",
 		"Ảnh banner: đặt vào assets/ui/recruit/ theo tên {id banner}_banner.png (lớn) và {id banner}_thumb.png (nhỏ), xem README.md trong thư mục đó.",
 		"Tỉ lệ chi tiết không nằm trên màn chính: bấm nút Chi tiết."
 	],
-	"design_size": [1920, 1080],
+	"design_size": [
+		1920,
+		1080
+	],
 	"colors": {
 		"background": "#1B1E2B",
 		"panel": "#14161FE0",
@@ -27,46 +30,234 @@
 		"star": "#FFD23F",
 		"placeholder_fill": "#3A3F55",
 		"placeholder_figure": "#5B6180",
-		"placeholder_text": "#D8DCEB"
+		"placeholder_text": "#D8DCEB",
+		"button_yellow": "#FFD84A",
+		"button_yellow_border": "#C99A12",
+		"tab": "#3D5FC4E6",
+		"tab_selected": "#F2F4FA",
+		"callout": "#FFD84A",
+		"tag": "#4A63D9",
+		"guarantee_text": "#D23B3B"
 	},
 	"top": {
-		"title": {"rect": [200, 36, 500, 64], "font": 40, "text_key": "RECRUIT_UI_TITLE"},
-		"close_button": {"rect": [1733, 24, 72, 72], "anchor": "right"},
-		"gold_pill": {"rect": [1090, 34, 230, 54], "anchor": "right", "font": 28},
-		"gems_pill": {"rect": [1340, 34, 250, 54], "anchor": "right", "font": 28},
-		"gems_plus": {"rect": [1604, 34, 54, 54], "anchor": "right", "font": 34}
+		"back_button": {
+			"rect": [
+				40,
+				22,
+				230,
+				68
+			],
+			"font": 30
+		},
+		"title": {
+			"rect": [
+				300,
+				28,
+				400,
+				56
+			],
+			"font": 34,
+			"text_key": "RECRUIT_UI_TITLE"
+		},
+		"gold_pill": {
+			"rect": [
+				1150,
+				28,
+				240,
+				58
+			],
+			"anchor": "right",
+			"font": 28
+		},
+		"gems_pill": {
+			"rect": [
+				1410,
+				28,
+				270,
+				58
+			],
+			"anchor": "right",
+			"font": 28
+		},
+		"gems_plus": {
+			"rect": [
+				1696,
+				28,
+				58,
+				58
+			],
+			"anchor": "right",
+			"font": 34
+		}
 	},
 	"list": {
-		"origin": [62, 119], "item": [176, 101], "active": [195, 113], "step": 129,
-		"font": 22
+		"origin": [
+			0,
+			116
+		],
+		"item": [
+			330,
+			104
+		],
+		"step": 112,
+		"font": 30
 	},
 	"panel": {
-		"rect": [370, 119, 1301, 839], "anchor": "center",
-		"kind_tag": {"rect": [365, 116, 293, 48], "font": 28},
-		"title": {"rect": [420, 166, 820, 210], "font": 64},
-		"tagline": {"rect": [418, 425, 600, 52], "font": 38},
-		"orange_box": {"rect": [418, 484, 468, 150], "font": 28},
-		"note": {"rect": [418, 646, 520, 130], "font": 26},
-		"element_icon": {"rect": [1040, 712, 68, 68], "font": 34},
-		"featured_name": {"rect": [1118, 684, 560, 84], "font": 70},
-		"up_tag": {"rect": [1590, 672, 90, 40], "font": 30},
-		"stars": {"rect": [1118, 772, 360, 44], "font": 40},
-		"featured_sub": {"rect": [1108, 820, 330, 46], "font": 28},
-		"time_label": {"rect": [420, 862, 420, 40], "font": 28, "text_key": "RECRUIT_UI_TIME_LEFT"},
-		"time_value": {"rect": [420, 904, 520, 46], "font": 32},
-		"pity": {"rect": [1080, 896, 708, 40], "font": 26}
+		"rect": [
+			330,
+			0,
+			1590,
+			1080
+		],
+		"anchor": "center",
+		"kind_tag": {
+			"rect": [
+				560,
+				110,
+				700,
+				40
+			],
+			"font": 26
+		},
+		"title": {
+			"rect": [
+				560,
+				150,
+				900,
+				120
+			],
+			"font": 76
+		},
+		"callout_1": {
+			"rect": [
+				580,
+				500,
+				470,
+				100
+			]
+		},
+		"callout_2": {
+			"rect": [
+				1240,
+				620,
+				470,
+				100
+			]
+		},
+		"callout": {
+			"font": 38
+		},
+		"pity_box": {
+			"rect": [
+				1330,
+				104,
+				560,
+				62
+			],
+			"anchor": "right",
+			"font": 30
+		},
+		"icons": {
+			"origin": [
+				1440,
+				180
+			],
+			"size": 104,
+			"step": 112
+		},
+		"time": {
+			"rect": [
+				1290,
+				296,
+				600,
+				44
+			],
+			"anchor": "right",
+			"font": 28
+		},
+		"gift_card": {
+			"rect": [
+				1530,
+				348,
+				360,
+				120
+			],
+			"anchor": "right",
+			"font": 26
+		},
+		"fragment_line": {
+			"rect": [
+				1150,
+				480,
+				740,
+				96
+			],
+			"anchor": "right",
+			"font": 30
+		}
 	},
 	"bottom": {
-		"shop_button": {"rect": [252, 981, 173, 54], "font": 28, "text_key": "RECRUIT_UI_SHOP"},
-		"details_button": {"rect": [444, 981, 173, 54], "font": 28, "text_key": "RECRUIT_UI_DETAILS"},
-		"history_button": {"rect": [636, 981, 173, 54], "font": 28, "text_key": "RECRUIT_UI_HISTORY"},
-		"wish_1": {"rect": [1072, 943, 341, 93], "anchor": "center", "font": 34},
-		"wish_10": {"rect": [1447, 943, 341, 93], "anchor": "center", "font": 34}
+		"side": {
+			"origin": [
+				400,
+				640
+			],
+			"item": [
+				330,
+				76
+			],
+			"step": 92,
+			"font": 30
+		},
+		"guarantee_note": {
+			"rect": [
+				1530,
+				780,
+				350,
+				108
+			],
+			"anchor": "right",
+			"font": 22
+		},
+		"wish_1": {
+			"rect": [
+				1150,
+				900,
+				350,
+				136
+			],
+			"anchor": "right",
+			"font": 34
+		},
+		"wish_10": {
+			"rect": [
+				1530,
+				900,
+				350,
+				136
+			],
+			"anchor": "right",
+			"font": 34
+		}
 	},
 	"overlay": {
-		"rect": [300, 110, 1320, 860], "anchor": "center", "font": 26,
-		"result_card": [168, 620], "result_gap": 14,
-		"result_reveal_interval": 0.8, "result_reveal_fade": 0.4, "result_reveal_slide": 90,
-		"result_shake_px": 14, "result_shake_sec": 0.45
+		"rect": [
+			300,
+			110,
+			1320,
+			860
+		],
+		"anchor": "center",
+		"font": 26,
+		"result_card": [
+			168,
+			620
+		],
+		"result_gap": 14,
+		"result_reveal_interval": 0.8,
+		"result_reveal_fade": 0.4,
+		"result_reveal_slide": 90,
+		"result_shake_px": 14,
+		"result_shake_sec": 0.45
 	}
 }

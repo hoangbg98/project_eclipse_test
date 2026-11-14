@@ -89,8 +89,8 @@ func _test_banner() -> BannerDef:
 func test_layout_file_is_valid_and_complete() -> void:
 	var l := UiLayout.load_from(RecruitScreen.LAYOUT_PATH)
 	assert_array(Array(l.errors)).is_empty()
-	for path in ["top.close_button", "top.gold_pill", "top.gems_pill", "panel", "panel.title", "panel.orange_box", "panel.featured_name",
-			"panel.stars", "panel.time_value", "bottom.shop_button", "bottom.details_button", "bottom.history_button", "bottom.wish_1",
+	for path in ["top.back_button", "top.gold_pill", "top.gems_pill", "panel", "panel.title", "panel.callout_1", "panel.callout_2",
+			"panel.pity_box", "panel.time", "panel.gift_card", "panel.fragment_line", "bottom.guarantee_note", "bottom.wish_1",
 			"bottom.wish_10", "overlay"]:
 		assert_bool(l.rect(path).size.x > 0.0).override_failure_message(path).is_true()
 	assert_int((l.get_value("list.item", []) as Array).size()).is_equal(2)
@@ -120,19 +120,29 @@ func test_shipped_banners_listed_in_order() -> void:
 # ---------- Màn chính (ảnh tham chiếu) ----------
 
 func test_character_banner_main_screen() -> void:
+	# Bố cục theo ảnh gợi ý 2 (owner 2026-11-15): pity S còn lại, mảnh tiến cấp, nút Chơi thử / Shop / Chi tiết / Lịch sử.
 	var s := _screen()
-	assert_str(_text(s, "KindTag")).is_equal(tr("BANNER_KIND_CHAR"))
+	assert_str(s.banner_layout(s.banners[0])).is_equal("char")
+	assert_str(_text(s, "Banner_0") if _node(s, "Banner_0") is Label else (_node(s, "Banner_0") as Button).text).is_equal(tr("BANNER_KIND_CHAR"))
 	assert_str(_text(s, "BannerTitle")).is_equal(tr("BANNER_TITLE_TERRA"))
 	assert_str(_text(s, "FeaturedName")).is_equal(tr("CHAR_EARTH_01"))   # Iwagane
 	assert_str(_text(s, "Stars")).is_equal("★★★★★")
 	assert_str(_text(s, "FeaturedSub")).is_equal(tr("SUIT_EARTH_01"))
-	assert_str(_text(s, "TimeValue")).is_equal(tr("RECRUIT_UI_PERMANENT"))
-	assert_str(_text(s, "Tagline")).is_equal(tr("RECRUIT_UI_TAGLINE"))
+	assert_str(_text(s, "TimeValue")).contains(tr("RECRUIT_UI_PERMANENT"))
 	assert_str(_text(s, "OrangeBox")).is_equal(tr("RECRUIT_UI_GUARANTEE_BOX") % [10, "%s / %s" % [tr("GACHA_TIER_CHAR_S"), tr("GACHA_TIER_CHAR_A")]])
-	assert_str(_text(s, "PityLine")).is_equal(tr("RECRUIT_UI_PITY") % [tr("GACHA_TIER_CHAR_S"), 0, 100])
-	assert_object(_node(s, "ElementIcon")).is_not_null()
+	assert_str(_text(s, "PityLine")).is_equal(tr("RECRUIT_UI_PITY_LEFT") % [100, tr("GACHA_TIER_CHAR_S")])
+	assert_str(_text(s, "FragmentLine")).is_equal(tr("RECRUIT_UI_FRAG_NOT_OWNED"))   # chưa có Iwagane
+	for n in ["TrialButton", "ShopButton", "DetailsButton", "HistoryButton", "GiftButton"]:
+		assert_object(_node(s, n)).override_failure_message(n).is_not_null()
+	assert_object(_node(s, "OwnedIcon_0")).is_null()                   # banner nhân vật không có dãy icon
 	assert_str(_node(s, "Wish_1").get("text")).contains("280")
 	assert_str(_node(s, "Wish_10").get("text")).contains("2520")
+	# Đã có Iwagane: hiện số mảnh còn thiếu để lên S1.
+	s.profile.progression.unlock("char_earth_01")
+	s.profile.progression.add_fragments("char_earth_01", 4)
+	s.refresh()
+	var need := s.profile.progression.fragments_to_promote("char_earth_01") - 4
+	assert_str(_text(s, "FragmentLine")).is_equal(tr("RECRUIT_UI_FRAG_LEFT") % [need, "S1"])
 
 
 func test_rates_are_not_on_main_screen_but_in_details() -> void:
@@ -142,7 +152,7 @@ func test_rates_are_not_on_main_screen_but_in_details() -> void:
 	(_node(s, "DetailsButton") as Button).pressed.emit()
 	assert_int(s.overlay).is_equal(RecruitScreen.Overlay.DETAILS)
 	var d := _text(s, "DetailsText")
-	assert_bool(d.contains("1.500%") and d.contains("16.300%") and d.contains("10.874%")).is_true()
+	assert_bool(d.contains("0.150%") and d.contains("16.300%") and d.contains("10.874%")).is_true()
 	assert_bool(d.contains(tr("RECRUIT_UI_GUARANTEE_BOX").substr(0, 4)) or d.contains(tr("RECRUIT_MULTI_GUARANTEE") % 10)).is_true()
 	assert_object(_node(s, "Details")).is_not_null()
 	assert_bool(s.intercept_back()).is_true()
@@ -151,27 +161,48 @@ func test_rates_are_not_on_main_screen_but_in_details() -> void:
 
 
 func test_equipment_banner_switch() -> void:
+	# Bố cục theo ảnh gợi ý 1 (owner 2026-11-15): chú thích món đề cử, dãy icon, không pity, giá 200 / 1800.
 	var s := _screen()
 	(_node(s, "Banner_1") as Button).pressed.emit()
 	assert_int(s.selected).is_equal(1)
+	assert_str(s.banner_layout(s.banners[1])).is_equal("equip")
 	var weapon := PlayerProfile.equipment_defs().get_def("eq_weapon_greatsword_magma") as EquipmentDef
-	assert_str(_text(s, "KindTag")).is_equal(tr("BANNER_KIND_EQUIP"))
 	assert_str(_text(s, "FeaturedName")).is_equal(tr(weapon.name_key))
 	assert_str(_text(s, "Stars")).is_equal("★★★★")
 	assert_str(_text(s, "FeaturedSub")).is_equal(tr("RECRUIT_UI_STIGMA_SET") % 3)
-	assert_str(_text(s, "PityLine")).contains("0/60")
-	assert_str(_text(s, "Note")).is_equal(tr("RECRUIT_UI_NOTE_EQUIP"))
-	# Tên dài vẫn nằm một dòng trong khung (thu nhỏ chữ), không xuống dòng đè lên hàng sao.
+	assert_object(_node(s, "PityLine")).is_null()                      # tiếp tế không còn pity
+	assert_object(_node(s, "OrangeBox")).is_null()                     # không còn bảo đảm 10 lượt
+	assert_object(_node(s, "FragmentLine")).is_null()
+	assert_object(_node(s, "TrialButton")).is_null()
+	assert_object(_node(s, "OwnedIcon_3")).is_not_null()               # 1 vũ khí + 3 vết thánh đề cử
+	assert_object(_node(s, "OwnedDim_0")).is_null()                    # tiếp tế không hiện đã có / chưa có
+	assert_str(_node(s, "Wish_1").get("text")).contains("200")
+	assert_str(_node(s, "Wish_10").get("text")).contains("1800")
+	# Tên dài vẫn nằm một dòng trong khung (thu nhỏ chữ).
 	var name_label := _node(s, "FeaturedName") as Label
 	assert_int(name_label.autowrap_mode).is_equal(TextServer.AUTOWRAP_OFF)
-	assert_bool(name_label.get_theme_font_size("font_size") <= 70).is_true()
 	var w := name_label.get_theme_default_font().get_string_size(name_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, name_label.get_theme_font_size("font_size")).x
 	assert_bool(w <= name_label.size.x).is_true()
-	assert_int((_node(s, "KindTag") as Label).autowrap_mode).is_equal(TextServer.AUTOWRAP_OFF)
-	assert_str(_text(s, "OrangeBox")).contains(tr("GACHA_TIER_STIGMA_4"))
 	(_node(s, "DetailsButton") as Button).pressed.emit()
 	var d := _text(s, "DetailsText")
 	assert_bool(d.contains("2.870%") and d.contains("14.430%") and d.contains("58.000%")).is_true()
+
+
+func test_star5_banner_owned_icons() -> void:
+	# Banner 5★: dãy icon cả bộ, món đã có sáng + dấu ✓, chưa có phủ lớp tối mờ (owner 2026-11-15).
+	var s := _screen()
+	s.profile.inventory.add_equipment("eq_stigma_mid_darwin")
+	(_node(s, "Banner_2") as Button).pressed.emit()
+	assert_str(s.banner_layout(s.banners[2])).is_equal("equip")
+	var items := s.icon_items(s.banners[2])
+	assert_int(items.size()).is_equal(4)
+	for i in 4:
+		var owned := str(items[i]["item"]) == "equip:eq_stigma_mid_darwin"
+		assert_bool(items[i]["owned"]).is_equal(owned)
+		assert_bool(_node(s, "OwnedCheck_%d" % i) != null).override_failure_message("check %d" % i).is_equal(owned)
+		assert_bool(_node(s, "OwnedDim_%d" % i) != null).override_failure_message("dim %d" % i).is_equal(not owned)
+	assert_str(_text(s, "PityLine")).is_equal(tr("RECRUIT_UI_PITY_LEFT") % [50, tr("GACHA_TIER_STAR5")])
+	assert_str(_node(s, "Wish_10").get("text")).contains("2520")
 
 
 func test_time_remaining_text() -> void:
@@ -191,7 +222,6 @@ func test_placeholder_art_resolution() -> void:
 	var s := _screen()
 	var b := s.banners[0]
 	assert_object(s.art_texture(b, "banner")).is_not_null()          # placeholder_{id}_banner.png
-	assert_object(s.art_texture(b, "thumb")).is_not_null()
 	assert_bool((_node(s, "BannerArt") as PlaceholderArt).is_placeholder()).is_false()
 	var nowhere := b.duplicate() as BannerDef
 	nowhere.id = "khong_co_anh"

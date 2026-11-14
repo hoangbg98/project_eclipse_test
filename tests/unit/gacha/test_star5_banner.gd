@@ -38,7 +38,7 @@ func test_config_matches_owner() -> void:
 	assert_array(b.validate()).is_empty()
 	assert_array([b.cost_single, b.cost_multi, b.multi_count]).is_equal([280, 2520, 10])
 	var t := b.tier("X5")
-	assert_float(t.base_rate).is_equal(0.015)
+	assert_float(t.base_rate).is_equal(0.0015)                          # owner 2026-11-15: 1.5% → 0.15% mỗi món
 	assert_bool(t.rate_per_item).is_true()
 	assert_bool(t.exclude_owned_until_complete).is_true()
 	assert_array(Array(t.pool)).is_equal(SET_ITEMS)
@@ -49,8 +49,8 @@ func test_config_matches_owner() -> void:
 	assert_float(b.tier("S3").base_rate).is_equal(0.1443)
 	assert_str(b.group()).is_not_equal("equip")                             # pity riêng kỳ này
 	var table := GachaService.rates_table(b)
-	assert_float(table[0]["rate"]).is_equal_approx(0.06, 0.0000001)          # thiếu 4 món
-	assert_float(table[table.size() - 1]["rate"]).is_equal_approx(0.52, 0.0000001)   # 58% − 6%
+	assert_float(table[0]["rate"]).is_equal_approx(0.006, 0.0000001)         # thiếu 4 món
+	assert_float(table[table.size() - 1]["rate"]).is_equal_approx(0.574, 0.0000001)  # 58% − 0.6%
 	assert_str(tr(b.name_key)).is_not_equal(b.name_key)
 	assert_str(tr(t.label_key)).is_not_equal(t.label_key)
 
@@ -58,11 +58,11 @@ func test_config_matches_owner() -> void:
 func test_rate_drops_with_owned_items_then_returns_when_complete() -> void:
 	var svc := _svc()
 	var t := _banner().tier("X5")
-	var expect := [0.06, 0.045, 0.03, 0.015]
+	var expect := [0.006, 0.0045, 0.003, 0.0015]
 	for i in SET_ITEMS.size():
 		assert_float(svc.base_rate_of(t)).is_equal_approx(expect[i], 0.0000001)
 		_profile.inventory.add_equipment(str(SET_ITEMS[i]).get_slice(":", 1))
-	assert_float(svc.base_rate_of(t)).is_equal_approx(0.06, 0.0000001)     # đủ bộ: 6%, có thể trùng
+	assert_float(svc.base_rate_of(t)).is_equal_approx(0.006, 0.0000001)    # đủ bộ: 0.6%, có thể trùng
 	assert_int(svc.eligible_pool(t).size()).is_equal(4)
 
 
@@ -127,4 +127,4 @@ func test_rates_over_many_pulls() -> void:
 			if r["tier"] == "X5":
 				n += 1
 	var rate := float(n) / 4000.0
-	assert_float(rate).is_between(0.05, 0.09)
+	assert_float(rate).is_between(0.015, 0.045)                       # gốc 0.6%, chủ yếu ra nhờ pity mềm 30 / cứng 50

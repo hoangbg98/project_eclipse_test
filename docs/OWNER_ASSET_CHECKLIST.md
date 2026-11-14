@@ -32,12 +32,12 @@
 
 ### A2. Câu trả lời gacha của owner (2026-11-12) và chỗ còn hỏi
 
-Banner nhân vật (đã làm): S 1.5% (chỉ 1 nhân vật đề cử), A 16.3%, B 10.874%, phần còn lại (71.326%) là nguyên liệu tăng
+Banner nhân vật (đã làm): S 1.5% → **0.15% (owner 2026-11-15)** (chỉ 1 nhân vật đề cử), A 16.3%, B 10.874%, phần còn lại (71.326%) là nguyên liệu tăng
 cấp nhân vật, nguyên liệu nâng bậc vũ khí, vàng. Pity cứng S 100 lượt; từ lượt 80 tỉ lệ S +10% (Claude hiểu là cộng
 một lần, thành 11.5%). Quay 10 lượt chắc chắn ≥ 1 nhân vật A. Pity chuyển sang banner nhân vật kế tiếp. Giá 280 / 2520
 Ngọc. Nhân vật trùng đổi thành mảnh (Claude đặt: S 25, A 10, B 5) để tiến cấp S → S1 → S2 → S3.
 
-Tiếp tế vũ khí + vết thánh (đã làm, owner 2026-11-13): vũ khí 4★ 2.87%, vết thánh 4★ 14%, vũ khí 3★ 10.7%,
+Tiếp tế vũ khí + vết thánh (đã làm, owner 2026-11-13; **2026-11-15: bỏ pity cứng 60 và bảo đảm 10 lượt, giá 200 / 1800**): vũ khí 4★ 2.87%, vết thánh 4★ 14%, vũ khí 3★ 10.7%,
 vết thánh 3★ **14.43%** (owner: tăng cho khớp 100%), nguyên liệu 58%; mỗi số là tổng cả nhóm. Pity cứng vũ khí 4★ 60;
 10 lượt chắc chắn 1 món 4★, ưu tiên vết thánh. Đề cử: vũ khí 4★ + bộ vết thánh 4★ của nhân vật đang đề cử.
 
@@ -63,7 +63,7 @@ Owner 2026-11-13: banner đầu tiên đề cử **Iwagane — Thần Kiếm Nha
 | `char_dark_01` | Yomigari (Noctis) | Lưỡi Hái Hắc Ám | A |
 | `char_earth_01` | Iwagane (Terra) | Thần Kiếm Nham Thạch | S |
 
-**Banner 5★ vũ khí + vết thánh (owner 2026-11-14,** chi tiết ở `docs/design/EQUIPMENT_5STAR.md` mục 5.6**):** một banner
+**Banner 5★ vũ khí + vết thánh (owner 2026-11-14; 2026-11-15: mỗi món 1.5% → 0.15%,** chi tiết ở `docs/design/EQUIPMENT_5STAR.md` mục 5.6**):** một banner
 chung, mỗi kỳ 1 bộ đề cử 5★ (1 vũ khí + 3 vết thánh của một nhân vật). Mỗi món 1.5%; món đã có không ra lại cho tới khi
 đủ bộ (thiếu 4 / 3 / 2 / 1 món: tổng 6 / 4.5 / 3 / 1.5%), đủ bộ thì về 6% và có thể ra trùng. Pity cứng 50 lượt mỗi món,
 chỉ chắc chắn ra món chưa có. Pity mềm từ lượt 30: tổng tỉ lệ 5★ +10% một lần. Pity về 0 khi sang banner mới, kể cả

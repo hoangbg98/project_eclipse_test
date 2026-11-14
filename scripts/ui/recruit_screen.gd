@@ -1,8 +1,8 @@
 class_name RecruitScreen
 extends LayoutScreen
-## Màn Chiêu mộ (owner 2026-11-13, theo ảnh tham chiếu màn Wish): danh sách banner bên trái, banner lớn ở giữa
-## (nhãn loại, tiêu đề, ô bảo đảm, nhân vật / vật phẩm đề cử, thời gian còn lại), nút Cửa hàng / Chi tiết / Lịch sử và
-## Chiêu mộ ×1 / ×10 phía dưới. Tỉ lệ đầy đủ nằm ở bảng Chi tiết, không trên màn chính.
+## Màn Chiêu mộ (bố cục owner 2026-11-15, theo ảnh gợi ý): thẻ chữ chọn banner bên trái, ảnh banner lớn phủ nền,
+## tiêu đề và chú thích món / nhân vật đề cử, cột phải (pity còn lại, dãy icon trang bị đã có / chưa có, thời gian,
+## túi quà), nút tròn Chơi thử / Shop / Chi tiết / Lịch sử, hai nút vàng Chiêu mộ ×1 / ×10. Tỉ lệ ở bảng Chi tiết.
 ## Vị trí, cỡ chữ, màu đọc từ data/ui/recruit_screen_layout.json. Ảnh banner theo quy ước trong assets/ui/recruit/.
 ## Màn chỉ gọi GachaService / PlayerProfile; không tự chứa luật quay.
 
@@ -173,15 +173,6 @@ func guarantee_text(b: BannerDef) -> String:
 	return tr("RECRUIT_UI_GUARANTEE_BOX") % [b.multi_count, " / ".join(labels)]
 
 
-## "Bảo đảm S: 23/100 lượt" cho bậc có pity cứng đầu tiên; rỗng nếu banner không có.
-func pity_text(b: BannerDef) -> String:
-	for t in b.tiers:
-		if t and t.hard_pity > 0:
-			var label := tr(t.label_key) if t.label_key != "" else "%d★" % t.rarity
-			return tr("RECRUIT_UI_PITY") % [label, service.pity_count(b, t.key()), t.hard_pity]
-	return ""
-
-
 ## Bảng tỉ lệ hiển thị trong Chi tiết, lấy từ GachaService.rates_table (cùng config với logic quay).
 func rate_lines(b: BannerDef) -> PackedStringArray:
 	var out := PackedStringArray()
@@ -340,9 +331,17 @@ func _pr(key: String) -> Rect2:
 
 
 func _build() -> void:
+	var b: BannerDef = null
+	if not banners.is_empty():
+		selected = clampi(selected, 0, banners.size() - 1)
+		b = banners[selected]
+		_build_banner(b)      # ảnh lớn nằm dưới cùng; thanh trên, danh sách, nút đè lên
 	var t := "top."
-	_label(layout.rect(t + "title"), tr("RECRUIT_UI_TITLE"), layout.font(t + "title", 40), Color.WHITE).name = "ScreenTitle"
-	_button(layout.rect(t + "close_button"), "✕", 40, on_back_button, false, "CloseButton")
+	# Thanh trên: nút Trở về + tên màn bên trái, tiền tệ bên phải (owner 2026-11-15, ảnh gợi ý 1 và 2).
+	var back := _button(layout.rect(t + "back_button"), tr("RECRUIT_UI_BACK"), layout.font(t + "back_button", 30),
+			on_back_button, false, "CloseButton")
+	_yellow(back)
+	_label(layout.rect(t + "title"), tr("RECRUIT_UI_TITLE"), layout.font(t + "title", 34), Color.WHITE).name = "ScreenTitle"
 	var gold_r := layout.rect(t + "gold_pill")
 	_panel(gold_r, Color(0, 0, 0, 0.55))
 	_label(gold_r, "%s %d" % [tr("CURRENCY_GOLD"), profile.inventory.currency("gold")], layout.font(t + "gold_pill", 28),
@@ -356,10 +355,7 @@ func _build() -> void:
 		_label(Rect2(layout.view_size.x * 0.5 - 500, 500, 1000, 80), tr("RECRUIT_CLOSED"), 40, Color.WHITE,
 				HORIZONTAL_ALIGNMENT_CENTER).name = "Closed"
 		return
-	selected = clampi(selected, 0, banners.size() - 1)
-	var b := banners[selected]
 	_build_list()
-	_build_banner(b)
 	_build_bottom(b)
 	match overlay:
 		Overlay.DETAILS:
@@ -372,86 +368,244 @@ func _build() -> void:
 			_build_results(b)
 
 
+## Nút vàng (nút chính: Trở về, Chiêu mộ ×1 / ×10): nền vàng, chữ tối.
+func _yellow(btn: Button) -> void:
+	var bg := layout.color("button_yellow", Color("#FFD84A"))
+	var border := layout.color("button_yellow_border", Color("#C99A12"))
+	btn.add_theme_stylebox_override("normal", _style(bg, border, 10))
+	btn.add_theme_stylebox_override("hover", _style(bg.lightened(0.1), border, 10))
+	btn.add_theme_stylebox_override("pressed", _style(bg.darkened(0.12), border, 10))
+	btn.add_theme_stylebox_override("disabled", _style(bg.darkened(0.4), border.darkened(0.3), 10))
+	var fg := layout.color("text_dark", Color("#1B1E2B"))
+	for k in ["font_color", "font_hover_color", "font_pressed_color"]:
+		btn.add_theme_color_override(k, fg)
+
+
+## Danh sách banner dạng thẻ chữ dọc bên trái; thẻ đang chọn nền sáng chữ tối.
 func _build_list() -> void:
-	var o := layout.point("list", "origin", Vector2(62, 119))
-	var item_v: Variant = layout.get_value("list.item", [176, 101])
-	var act_v: Variant = layout.get_value("list.active", [195, 113])
+	var o := layout.point("list", "origin", Vector2(0, 120))
+	var item_v: Variant = layout.get_value("list.item", [330, 104])
 	var item := Vector2(float(item_v[0]), float(item_v[1]))
-	var act := Vector2(float(act_v[0]), float(act_v[1]))
-	var step := layout.num("list.step", 129)
+	var step := layout.num("list.step", 112)
+	var col_on := layout.color("tab_selected", Color("#F2F4FA"))
+	var col_off := layout.color("tab", Color("#3D5FC4E6"))
 	for i in banners.size():
 		var b := banners[i]
 		var on := i == selected
 		var r := Rect2(Vector2(o.x, o.y + i * step), item)
-		if on:   # thẻ đang chọn to hơn, nở đều hai phía
-			r = Rect2(r.position - (act - item) * 0.5, act)
-		_art(r, art_texture(b, "thumb"), banner_title(b), Rect2(0, 0, 1, 1), "Thumb_%d" % i)
-		var btn := _button(r, "", 10, select.bind(i), false, "Banner_%d" % i)
-		btn.add_theme_stylebox_override("normal", _style(Color(0, 0, 0, 0), Color.WHITE if on else Color(1, 1, 1, 0.25), 6))
+		var btn := _button(r, tab_text(b), layout.font("list", 30), select.bind(i), on, "Banner_%d" % i)
+		var st := _style(col_on if on else col_off, Color(1, 1, 1, 0.35), 4)
+		st.content_margin_right = 28
+		st.content_margin_left = 16
+		btn.add_theme_stylebox_override("normal", st)
+		var hv := st.duplicate() as StyleBoxFlat
+		hv.bg_color = hv.bg_color.lightened(0.1)
+		btn.add_theme_stylebox_override("hover", hv)
+		btn.alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		btn.add_theme_constant_override("h_separation", 0)
+		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+
+## Chữ trên thẻ danh sách: nhãn loại banner (kind_key), thiếu thì tên banner.
+func tab_text(b: BannerDef) -> String:
+	if is_starter(b):
+		return tr("RECRUIT_TAB_STARTER")
+	return tr(b.kind_key) if b.kind_key != "" else tr(b.name_key)
+
+
+## Loại bố cục: "char" (ảnh gợi ý 2: banner nhân vật), "equip" (ảnh gợi ý 1: tiếp tế, trang bị 5★).
+func banner_layout(b: BannerDef) -> String:
+	for t in b.tiers:
+		for p in t.pool:
+			if p.begins_with("char:"):
+				return "char"
+	return "equip"
+
+
+## Bậc trang bị theo món của banner 5★ (exclude_owned_until_complete), null nếu không có.
+func set_tier(b: BannerDef) -> GachaTierDef:
+	for t in b.tiers:
+		if t and t.exclude_owned_until_complete:
+			return t
+	return null
+
+
+## Món hiện trong dãy icon góc phải: banner 5★ → cả bộ đề cử (có trạng thái đã có / chưa có);
+## banner khác → các món đề cử. [{item, owned (null = không hiện trạng thái)}]
+func icon_items(b: BannerDef) -> Array:
+	var out: Array = []
+	var st := set_tier(b)
+	if st:
+		for p in st.pool:
+			out.append({"item": p, "owned": profile.inventory.owns_def(p.get_slice(":", 1))})
+		return out
+	for t in b.tiers:
+		for p in t.featured:
+			if p.begins_with("equip:"):
+				out.append({"item": p, "owned": null})
+	return out
+
+
+## "Còn N lượt chắc chắn có <bậc>" cho bậc có pity cứng đầu tiên; rỗng nếu banner không có pity.
+func pity_text(b: BannerDef) -> String:
+	for t in b.tiers:
+		if t and t.hard_pity > 0:
+			var label := tr(t.label_key) if t.label_key != "" else "%d★" % t.rarity
+			return tr("RECRUIT_UI_PITY_LEFT") % [maxi(t.hard_pity - service.pity_count(b, t.key()), 1), label]
+	return ""
+
+
+## Banner nhân vật: còn bao nhiêu mảnh để tiến cấp nhân vật đề cử (ảnh gợi ý 2). Rỗng nếu không có nhân vật đề cử.
+func fragment_text(b: BannerDef) -> String:
+	var cid := ""
+	for t in b.tiers:
+		for p in t.featured:
+			if p.begins_with("char:") and cid == "":
+				cid = p.get_slice(":", 1)
+	if cid == "":
+		return ""
+	var prog := profile.progression
+	if not prog.owns(cid):
+		return tr("RECRUIT_UI_FRAG_NOT_OWNED")
+	var need := prog.fragments_to_promote(cid)
+	if need <= 0:
+		return tr("RECRUIT_UI_FRAG_MAX")
+	var d := char_def(cid)
+	var rank := d.rank if d and d.rank != "" else "?"
+	return tr("RECRUIT_UI_FRAG_LEFT") % [maxi(need - prog.fragments_of(cid), 0), "%s%d" % [rank, prog.promotion_of(cid) + 1]]
 
 
 func _build_banner(b: BannerDef) -> void:
+	var kind := banner_layout(b)
 	var pr := layout.rect("panel")
-	_art(pr, art_texture(b, "banner"), banner_title(b), Rect2(0, 0, 1, 1), "BannerArt")
-	# Làm tối dần về bên trái để chữ đọc được trên mọi ảnh.
-	var shade := _panel(Rect2(pr.position, Vector2(pr.size.x * 0.55, pr.size.y)), Color(0, 0, 0, 0.45))
-	shade.name = "Shade"
-	if b.kind_key != "":
-		var kr := _pr("kind_tag")
-		_panel(kr, layout.color("accent", Color.ORANGE_RED))
-		var kl := _label(kr, tr(b.kind_key), _fit_font(tr(b.kind_key), layout.font("panel.kind_tag", 28), kr.size.x - 20.0, 16),
-				Color.WHITE, HORIZONTAL_ALIGNMENT_CENTER)
-		kl.name = "KindTag"
-		kl.autowrap_mode = TextServer.AUTOWRAP_OFF
-	_label(_pr("title"), banner_title(b), layout.font("panel.title", 64), Color.WHITE).name = "BannerTitle"
-	if not b.multi_guarantee_tiers.is_empty():
-		_label(_pr("tagline"), tr("RECRUIT_UI_TAGLINE"), layout.font("panel.tagline", 38), layout.color("accent", Color.ORANGE)).name = "Tagline"
-		var box := _pr("orange_box")
-		_panel(box, layout.color("orange_box", Color.ORANGE_RED))
-		_label(box.grow(-14), guarantee_text(b), layout.font("panel.orange_box", 30), Color.WHITE).name = "OrangeBox"
+	var art := _art(pr, art_texture(b, "banner"), banner_title(b), Rect2(0, 0, 1, 1), "BannerArt")
+	art.border_color = Color(0, 0, 0, 0)
+	# Làm tối dần hai bên để chữ đọc được trên mọi ảnh.
+	for side in [Rect2(pr.position, Vector2(pr.size.x * 0.3, pr.size.y)),
+			Rect2(pr.position + Vector2(pr.size.x * 0.68, 0), Vector2(pr.size.x * 0.32, pr.size.y))]:
+		_panel(side, Color(0, 0, 0, 0.35)).name = "Shade"
+	var kt := _label(_pr("kind_tag"), tr(b.kind_key) if b.kind_key != "" else "", layout.font("panel.kind_tag", 26),
+			layout.color("accent_blue", Color.SKY_BLUE))
+	kt.name = "KindTag"
+	_label(_pr("title"), banner_title(b), layout.font("panel.title", 76), Color.WHITE).name = "BannerTitle"
+	# Chú thích tên món / nhân vật đề cử (đường kẻ + tên + nhãn sao), theo ảnh gợi ý 1.
 	var f := featured(b)
-	var note_key := "RECRUIT_UI_NOTE_STARTER" if is_starter(b) else ("RECRUIT_UI_NOTE_EQUIP" if f.get("kind", "") == "equip" else "RECRUIT_UI_NOTE")
-	_label(_pr("note"), tr(note_key), layout.font("panel.note", 26),
-			layout.color("text_dim", Color.GRAY)).name = "Note"
 	if not f.is_empty():
-		if f["element"] != "":
-			var er := _pr("element_icon")
-			_panel(er, Color(0, 0, 0, 0.55))
-			_label(er, tr("ELEMENT_" + str(f["element"]).to_upper()).substr(0, 1), layout.font("panel.element_icon", 34),
-					HudTheme.ring_color(str(f["element"])), HORIZONTAL_ALIGNMENT_CENTER).name = "ElementIcon"
-		var nr := _pr("featured_name")
-		var nfont := _fit_font(str(f["name"]), layout.font("panel.featured_name", 70), nr.size.x)
-		var nl := _label(nr, str(f["name"]), nfont, Color.WHITE)
-		nl.name = "FeaturedName"
-		nl.autowrap_mode = TextServer.AUTOWRAP_OFF
-		# "UP!" nằm ngay sau tên (đo độ rộng chữ), không cố định ở một tọa độ.
-		var name_w := get_theme_default_font().get_string_size(str(f["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, nfont).x
-		var ur := _pr("up_tag")
-		ur.position = Vector2(minf(nr.position.x + name_w + 14.0, nr.end.x), nr.position.y + 4.0)
-		var up := _label(ur, tr("RECRUIT_UI_SURE" if is_starter(b) else "RECRUIT_UI_UP"), layout.font("panel.up_tag", 30),
-				layout.color("accent", Color.ORANGE))
-		up.name = "UpTag"
-		up.autowrap_mode = TextServer.AUTOWRAP_OFF
-		_label(_pr("stars"), "★".repeat(int(f["stars"])), layout.font("panel.stars", 40), layout.color("star", Color.GOLD)).name = "Stars"
-		if f["sub"] != "":
-			var sr := _pr("featured_sub")
-			_panel(sr, Color(0.1, 0.12, 0.2, 0.85))
-			_label(sr, str(f["sub"]), layout.font("panel.featured_sub", 28), layout.color("accent_blue", Color.SKY_BLUE),
-					HORIZONTAL_ALIGNMENT_CENTER).name = "FeaturedSub"
-	_label(_pr("time_label"), tr("RECRUIT_UI_TIME_LEFT"), layout.font("panel.time_label", 28), layout.color("text_dim", Color.GRAY))
-	_label(_pr("time_value"), time_text(b), layout.font("panel.time_value", 32), Color.WHITE).name = "TimeValue"
+		var cr := _pr("callout_1")
+		_callout(cr, str(f["name"]), "★".repeat(int(f["stars"])), tr("RECRUIT_UI_SURE" if is_starter(b) else "RECRUIT_UI_UP"),
+				"FeaturedName", "Stars")
+		if str(f["sub"]) != "":
+			_callout(_pr("callout_2"), str(f["sub"]), "", tr("RECRUIT_UI_UP"), "FeaturedSub", "")
+	# Cột phải: pity, dãy icon (trang bị), thời gian, túi quà.
 	var pity := pity_text(b)
 	if pity != "":
-		_label(_pr("pity"), pity, layout.font("panel.pity", 26), layout.color("text_dim", Color.GRAY), HORIZONTAL_ALIGNMENT_RIGHT).name = "PityLine"
+		var pb := _pr("pity_box")
+		_panel(pb, Color(0, 0, 0, 0.6))
+		var pl := _label(pb.grow_individual(-16, 0, -16, 0), pity,
+				_fit_font(pity, layout.font("panel.pity_box", 30), pb.size.x - 32.0, 18), Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
+		pl.name = "PityLine"
+		pl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	if kind == "equip":
+		_build_icon_row(b)
+	_label(_pr("time"), "%s %s" % [tr("RECRUIT_UI_TIME_LEFT"), time_text(b)], layout.font("panel.time", 28), Color.WHITE,
+			HORIZONTAL_ALIGNMENT_RIGHT).name = "TimeValue"
+	var gift := _pr("gift_card")
+	var gb := _button(gift, tr("RECRUIT_UI_GIFT"), layout.font("panel.gift_card", 26), Callable(), false, "GiftButton")
+	gb.add_theme_stylebox_override("normal", _style(Color(1, 1, 1, 0.9), Color(1, 1, 1, 1), 6))
+	gb.add_theme_color_override("font_color", layout.color("text_dark", Color("#1B1E2B")))
+	if kind == "char":
+		var frag := fragment_text(b)
+		if frag != "":
+			_label(_pr("fragment_line"), frag, layout.font("panel.fragment_line", 30), Color.WHITE,
+					HORIZONTAL_ALIGNMENT_RIGHT).name = "FragmentLine"
+
+
+## Một chú thích: chấm tròn + đường kẻ ngang + tên (to) + dòng nhỏ (sao, nhãn UP).
+func _callout(r: Rect2, title: String, stars: String, tag: String, name_node: String, stars_node: String) -> void:
+	var dot := _panel(Rect2(r.position + Vector2(r.size.x - 18, 4), Vector2(18, 18)), layout.color("star", Color.GOLD))
+	dot.add_theme_stylebox_override("panel", _style(layout.color("star", Color.GOLD), Color.WHITE, 9))
+	_panel(Rect2(r.position + Vector2(0, 56), Vector2(r.size.x, 3)), Color(1, 1, 1, 0.85))
+	var nl := _label(Rect2(r.position, Vector2(r.size.x - 26, 54)), title,
+			_fit_font(title, layout.font("panel.callout", 38), r.size.x - 30, 22), layout.color("callout", Color("#FFD84A")))
+	nl.name = name_node
+	nl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	var tag_r := Rect2(r.position + Vector2(0, 64), Vector2(minf(150, r.size.x * 0.4), 34))
+	_panel(tag_r, layout.color("tag", Color("#4A63D9")))
+	_label(tag_r, tag, 22, Color.WHITE, HORIZONTAL_ALIGNMENT_CENTER)
+	if stars != "" and stars_node != "":
+		_label(Rect2(tag_r.end.x + 10, tag_r.position.y, r.size.x - tag_r.size.x - 10, 34), stars, 26,
+				layout.color("star", Color.GOLD)).name = stars_node
+
+
+## Dãy icon trang bị đề cử góc phải; banner 5★: món đã có sáng + dấu ✓, chưa có phủ lớp tối mờ.
+func _build_icon_row(b: BannerDef) -> void:
+	var items := icon_items(b)
+	var o := layout.point("panel.icons", "origin", Vector2(1430, 190))
+	var size := layout.num("panel.icons.size", 104)
+	var step := layout.num("panel.icons.step", 112)
+	var n := items.size()
+	for i in n:
+		var it: Dictionary = items[i]
+		var r := Rect2(Vector2(o.x + (4 - n + i) * step, o.y), Vector2(size, size))   # canh phải theo 4 ô
+		var rar := _item_rarity(str(it["item"]))
+		var box := _panel(r, Color(0.1, 0.12, 0.2, 0.95), "OwnedIcon_%d" % i)
+		box.add_theme_stylebox_override("panel", _style(Color(0.1, 0.12, 0.2, 0.95), _rarity_color(rar), 6))
+		var art := result_art(str(it["item"]))
+		var a := _art(r.grow(-6), art["texture"], reward_name(str(it["item"])), Rect2(0, 0, 1, 1), "OwnedArt_%d" % i)
+		a.fill_color = Color(0, 0, 0, 0)
+		a.border_color = Color(0, 0, 0, 0)
+		_label(Rect2(r.position + Vector2(0, r.size.y - 28), Vector2(r.size.x, 26)), "★".repeat(rar), 18,
+				layout.color("star", Color.GOLD), HORIZONTAL_ALIGNMENT_CENTER)
+		if it["owned"] == null:
+			continue
+		if bool(it["owned"]):
+			var ck := _label(Rect2(r.end - Vector2(34, 34), Vector2(30, 30)), "✓", 26, Color("#5BE37A"), HORIZONTAL_ALIGNMENT_CENTER)
+			ck.name = "OwnedCheck_%d" % i
+		else:
+			_panel(r, Color(0, 0, 0, 0.62), "OwnedDim_%d" % i)
+
+
+func _item_rarity(item: String) -> int:
+	var id := item.get_slice(":", 1)
+	if item.begins_with("equip:"):
+		var d := PlayerProfile.equipment_defs().get_def(id) as EquipmentDef
+		return d.rarity if d else 1
+	return 1
 
 
 func _build_bottom(b: BannerDef) -> void:
+	var kind := banner_layout(b)
+	# Nút tròn bên trái (ảnh gợi ý 1, 2): nhân vật có Chơi thử / Shop; mọi banner có Chi tiết, Lịch sử.
+	var side: Array = []
+	if kind == "char":
+		side.append(["TrialButton", "RECRUIT_UI_TRIAL", Callable()])
+		side.append(["ShopButton", "RECRUIT_UI_SHOP", Callable()])
+	side.append(["DetailsButton", "RECRUIT_UI_DETAILS", open_overlay.bind(Overlay.DETAILS)])
+	side.append(["HistoryButton", "RECRUIT_UI_HISTORY", open_overlay.bind(Overlay.HISTORY)])
+	var so := layout.point("bottom.side", "origin", Vector2(400, 640))
+	var sv: Variant = layout.get_value("bottom.side.item", [330, 76])
+	var ss := Vector2(float(sv[0]), float(sv[1]))
+	var sstep := layout.num("bottom.side.step", 92)
+	var y0 := so.y + (4 - side.size()) * sstep   # canh dưới
+	for i in side.size():
+		var s: Array = side[i]
+		var r := Rect2(Vector2(so.x, y0 + i * sstep), ss)
+		var btn := _button(r, tr(str(s[1])), layout.font("bottom.side", 30), s[2], false, str(s[0]))
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		for state in ["normal", "hover", "pressed"]:
+			var sb := _style(Color(1, 1, 1, 0.08 if state != "normal" else 0.0))
+			sb.content_margin_left = 78
+			btn.add_theme_stylebox_override(state, sb)
+		var ic := _panel(Rect2(r.position + Vector2(0, (ss.y - 60) * 0.5), Vector2(60, 60)), layout.color("accent_blue", Color.SKY_BLUE))
+		ic.add_theme_stylebox_override("panel", _style(Color(1, 1, 1, 0.92), Color(0, 0, 0, 0), 30))
+		_label(ic.get_rect(), str(tr(str(s[1]))).substr(0, 1), 28, layout.color("tag", Color("#4A63D9")), HORIZONTAL_ALIGNMENT_CENTER)
 	var p := "bottom."
-	_button(layout.rect(p + "shop_button"), layout.label(p + "shop_button"), layout.font(p + "shop_button", 28), Callable(), false, "ShopButton")
-	_button(layout.rect(p + "details_button"), layout.label(p + "details_button"), layout.font(p + "details_button", 28),
-			open_overlay.bind(Overlay.DETAILS), false, "DetailsButton")
-	_button(layout.rect(p + "history_button"), layout.label(p + "history_button"), layout.font(p + "history_button", 28),
-			open_overlay.bind(Overlay.HISTORY), false, "HistoryButton")
+	if not b.multi_guarantee_tiers.is_empty() and not is_starter(b):
+		var gr := layout.rect(p + "guarantee_note")
+		_panel(gr, Color(1, 1, 1, 0.88))
+		var gl := _label(gr.grow(-6), guarantee_text(b), layout.font(p + "guarantee_note", 24),
+				layout.color("guarantee_text", Color("#D23B3B")), HORIZONTAL_ALIGNMENT_CENTER)
+		gl.name = "OrangeBox"
 	if is_starter(b):
 		var sr := layout.rect(p + "wish_10")
 		var ticket := PlayerProfile.item_defs().get_def(b.ticket_item) as ItemDef if b.ticket_item != "" else null
@@ -460,13 +614,15 @@ func _build_bottom(b: BannerDef) -> void:
 			cost_line = tr("RECRUIT_UI_STARTER_TICKET") % profile.inventory.material_count(b.ticket_item)
 		var sb := _button(sr, "%s\n%s" % [tr("RECRUIT_UI_WISH") % b.multi_count, cost_line], layout.font(p + "wish_10", 34),
 				pull_starter, false, "Wish_starter")
+		_yellow(sb)
 		sb.disabled = not service.starter_available(b)
 		return
 	for count: int in [1, b.multi_count]:
 		var key := p + ("wish_1" if count == 1 else "wish_10")
 		var r := layout.rect(key)
-		_button(r, "%s\n%s %d" % [tr("RECRUIT_UI_WISH") % count, tr("CURRENCY_GEMS"), GachaService.cost_of(b, count)],
+		var wb := _button(r, "%s\n%s ×%d" % [tr("RECRUIT_UI_WISH") % count, tr("CURRENCY_GEMS"), GachaService.cost_of(b, count)],
 				layout.font(key, 34), pull.bind(count), false, "Wish_%d" % count)
+		_yellow(wb)
 
 
 func _dim_background() -> void:

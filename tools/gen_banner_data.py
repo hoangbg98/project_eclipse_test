@@ -19,7 +19,8 @@ COST_SINGLE, COST_MULTI, MULTI = 280, 2520, 10
 #   nguyên liệu nâng bậc vũ khí, vàng. Pity cứng S 100 lượt; từ lượt 80 tỉ lệ S +10% (một lần, owner xác nhận
 #   2026-11-13). 10 lượt chắc chắn ≥ 1 nhân vật A. Pity chuyển sang banner nhân vật kế tiếp (chung nhóm "char").
 #   Hạng (owner 2026-11-13, tạm): S = Enkiba, Iwagane; A = Hikarine, Yomigari; B = Raikiba, Kazeyumi (CharacterDef.rank).
-CHAR_RATES = {"S": 0.015, "A": 0.163, "B": 0.10874}
+# Owner 2026-11-15: S giảm 1.5% → 0.15% (phần chênh về nguyên liệu, bậc cuối nhận phần còn lại).
+CHAR_RATES = {"S": 0.0015, "A": 0.163, "B": 0.10874}
 # Owner 2026-11-13: banner đầu tiên đề cử Iwagane — Thần Kiếm Nham Thạch (char_earth_01).
 FEATURED = "char_earth_01"
 CHAR_BANNERS = [("banner_char_terra", "BANNER_CHAR_TERRA", FEATURED)]
@@ -37,6 +38,8 @@ EQUIP_RATES = {"W4": 0.0287, "S4": 0.14, "W3": 0.107, "S3": 0.1443}   # còn l�
 EQUIP_BANNERS = [("banner_equip_terra", "BANNER_EQUIP_TERRA",
                   ["equip:eq_weapon_greatsword_magma"],
                   ["equip:eq_stigma_top_bedrock", "equip:eq_stigma_mid_bedrock", "equip:eq_stigma_bot_bedrock"])]
+# Owner 2026-11-15: tiếp tế bỏ pity cứng vũ khí 4★ (60) và bỏ bảo đảm 10 lượt; giá 200 / 1800.
+EQUIP_COST = (200, 1800)
 # Claude chọn: khi ra vết thánh 4★, 50% là món trong bộ đề cử.
 STIGMA_FEATURED_RATE = 0.5
 
@@ -110,7 +113,8 @@ DISPLAY = {
 #   món, chỉ chắc chắn ra món chưa có. Pity mềm từ lượt 30: +10% một lần. Pity về 0 khi sang banner mới, kể cả chạy
 #   lại → mỗi kỳ (kể cả chạy lại) dùng pity_group riêng (đổi hậu tố "_r2"...). Bậc 4★ / 3★ giữ như tiếp tế, phần 5★
 #   lấy từ nguyên liệu (bậc cuối nhận phần còn lại). Giá 280 / 2520.
-STAR5_RATE_PER_ITEM = 0.015
+# Owner 2026-11-15: mỗi món 1.5% → 0.15% (thiếu 4 / 3 / 2 / 1 món: 0.6 / 0.45 / 0.3 / 0.15%).
+STAR5_RATE_PER_ITEM = 0.0015
 STAR5_BANNERS = [("banner_star5_earth", "BANNER_STAR5_EARTH", "banner_star5_earth_r1",
                   ["equip:eq_weapon_unyielding_peak", "equip:eq_stigma_top_darwin", "equip:eq_stigma_mid_darwin",
                    "equip:eq_stigma_bot_darwin"],
@@ -118,7 +122,8 @@ STAR5_BANNERS = [("banner_star5_earth", "BANNER_STAR5_EARTH", "banner_star5_eart
                   ["equip:eq_stigma_top_bedrock", "equip:eq_stigma_mid_bedrock", "equip:eq_stigma_bot_bedrock"])]
 
 
-def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_pick, group, source, starter=False):
+def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_pick, group, source, starter=False,
+                 cost=(COST_SINGLE, COST_MULTI)):
     subs = [t[1] for t in tiers]
     arr = lambda xs: "PackedStringArray(%s)" % ", ".join('"%s"' % x for x in xs)
     lines = ['[gd_resource type="Resource" script_class="BannerDef" load_steps=%d format=3]' % (len(subs) + 3), "",
@@ -127,8 +132,8 @@ def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_p
     lines += subs
     lines += ["[resource]", 'script = ExtResource("1")', 'id = "%s"' % file_id, 'name_key = "%s"' % name_key,
               'tiers = Array[ExtResource("2")]([%s])' % ", ".join('SubResource("%s")' % t[0] for t in tiers),
-              'cost_currency = "gems"', "cost_single = %d" % COST_SINGLE, "multi_count = %d" % MULTI,
-              "cost_multi = %d" % COST_MULTI, 'pity_group = "%s"' % group,
+              'cost_currency = "gems"', "cost_single = %d" % cost[0], "multi_count = %d" % MULTI,
+              "cost_multi = %d" % cost[1], 'pity_group = "%s"' % group,
               "multi_guarantee_tiers = %s" % arr(guarantee_tiers), "multi_guarantee_pick = %s" % arr(guarantee_pick),
               'kind_key = "%s"' % DISPLAY.get(file_id, ("", ""))[0], 'title_key = "%s"' % DISPLAY.get(file_id, ("", ""))[1],
               "end_unix = 0",
@@ -167,16 +172,16 @@ for file_id, name_key, weapons, stigmata in EQUIP_BANNERS:
     assert all(x in w4 for x in weapons) and all(x in s4 for x in stigmata), "món đề cử phải nằm trong bậc 4★"
     tiers = [
         ("t_w4", tier("t_w4", "W4", 4, EQUIP_RATES["W4"], w4, "GACHA_TIER_WEAPON_4", featured=weapons,
-                      featured_rate=1.0 if len(weapons) == len(w4) else 0.5, hard=60)),
+                      featured_rate=1.0 if len(weapons) == len(w4) else 0.5)),
         ("t_s4", tier("t_s4", "S4", 4, EQUIP_RATES["S4"], s4, "GACHA_TIER_STIGMA_4", featured=stigmata,
                       featured_rate=1.0 if len(stigmata) == len(s4) else STIGMA_FEATURED_RATE)),
         ("t_w3", tier("t_w3", "W3", 3, EQUIP_RATES["W3"], w3, "GACHA_TIER_WEAPON_3")),
         ("t_s3", tier("t_s3", "S3", 3, EQUIP_RATES["S3"], s3, "GACHA_TIER_STIGMA_3")),
         ("t_m", tier("t_m", "MAT", 1, 0.0, MATERIALS, "GACHA_TIER_MATERIALS")),
     ]
-    write_banner(OUT, file_id, name_key, tiers, ["W4", "S4"], ["S4"], "equip",
-                 "Owner 2026-11-12/13: vũ khí 4★ 2.87%%, vết thánh 4★ 14%%, vũ khí 3★ 10.7%%, vết thánh 3★ 14.43%%, "
-                 "nguyên liệu 58%%; pity cứng vũ khí 4★ 60; 10 lượt chắc chắn 4★ (ưu tiên vết thánh); giá 280 / 2520.")
+    write_banner(OUT, file_id, name_key, tiers, [], [], "equip",
+                 "Owner 2026-11-12/13: vũ khí 4★ 2.87%, vết thánh 4★ 14%, vũ khí 3★ 10.7%, vết thánh 3★ 14.43%, "
+                 "nguyên liệu 58%. Owner 2026-11-15: không pity, không bảo đảm 10 lượt; giá 200 / 1800.", cost=EQUIP_COST)
     print("viết", file_id, "W4:", w4, "S4:", s4, "W3:", w3, "S3:", s3)
 
 for file_id, name_key, group, set_items, weapons, stigmata in STAR5_BANNERS:

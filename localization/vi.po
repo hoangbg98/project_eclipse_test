@@ -2298,3 +2298,28 @@ msgstr "+%d mảnh"
 
 msgid "RECRUIT_UI_SKIP"
 msgstr "Bỏ qua"
+
+# Màn Chiêu mộ bố cục mới (owner 2026-11-15)
+msgid "RECRUIT_UI_BACK"
+msgstr "‹ Trở về"
+
+msgid "RECRUIT_UI_PITY_LEFT"
+msgstr "Còn %d lượt chắc chắn có %s"
+
+msgid "RECRUIT_UI_FRAG_LEFT"
+msgstr "Còn cần %d mảnh để lên %s"
+
+msgid "RECRUIT_UI_FRAG_NOT_OWNED"
+msgstr "Chưa sở hữu — ra trùng sẽ nhận mảnh tiến cấp"
+
+msgid "RECRUIT_UI_FRAG_MAX"
+msgstr "Đã tiến cấp tối đa"
+
+msgid "RECRUIT_UI_GIFT"
+msgstr "Túi quà (sắp có)"
+
+msgid "RECRUIT_UI_TRIAL"
+msgstr "Chơi thử"
+
+msgid "RECRUIT_TAB_STARTER"
+msgstr "Chiêu mộ đầu tiên"

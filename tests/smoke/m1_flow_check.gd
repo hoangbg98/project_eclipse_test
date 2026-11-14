@@ -68,7 +68,8 @@ func _run() -> void:
 	_check(not stage_btn.visible and current_scene.scene_file_path == gc.SCENE_HUB, "Esc đóng bảng nổi, vẫn ở Hub")
 	current_scene.show_tab("BattleTab")
 	stage_btn.pressed.emit()
-	_check(await _wait_for_scene(gc.SCENE_TEST_STAGE, 3.0), "Battle -> Màn thử nghiệm")
+	# 8 s: màn thử nghiệm nạp frame của cả đội 3 người (Raikiba thêm frame 2026-11-15: ~3.4 s trên máy dev).
+	_check(await _wait_for_scene(gc.SCENE_TEST_STAGE, 8.0), "Battle -> Màn thử nghiệm")
 	_send_back()
 	_check(await _wait_for_scene(gc.SCENE_HUB, 3.0), "Esc ở màn thử nghiệm -> Hub")
 

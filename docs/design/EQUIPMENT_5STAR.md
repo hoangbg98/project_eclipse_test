@@ -346,7 +346,7 @@ Tên mới thay cho tên bộ cũ (Lễ Phục Hỏa Hoàng, Áo Choàng Lữ Ph
 | # | Mục | Quyết định |
 | --- | --- | --- |
 | 1 | Cấu trúc | Một banner chung cho vũ khí và vết thánh. Mỗi kỳ chỉ có **1 bộ đề cử 5★** (1 vũ khí + 3 vết thánh của một nhân vật) |
-| 2 | Tỉ lệ 5★ | **Mỗi món 1.5%.** Món đã có thì không ra lại cho tới khi đủ bộ (4 món còn thiếu: 6%; 3 món: 4.5%; 2 món: 3%; 1 món: 1.5%) |
+| 2 | Tỉ lệ 5★ | **Mỗi món 0.15%** (owner 2026-11-15; trước đó 1.5%, các số % dưới dòng này chia 10). Món đã có thì không ra lại cho tới khi đủ bộ (4 món còn thiếu: 6%; 3 món: 4.5%; 2 món: 3%; 1 món: 1.5%) |
 | 3 | Đã đủ 4 món | Giữ nguyên tỉ lệ banner (mỗi món 1.5%, tổng 6%), có thể ra món trùng |
 | 4 | Pity cứng | Tối đa **50 lượt** cho mỗi món 5★. Ra 5★ thì pity về 0. Pity chỉ chắc chắn ra **món 5★ chưa có** (khi đã đủ bộ thì ra món bất kỳ trong bộ) |
 | 5 | Pity mềm | Từ lượt **30**, tỉ lệ 5★ **+10% một lần** (giống banner nhân vật), giữ tới khi ra 5★ hoặc chạm pity 50 |
@@ -355,7 +355,9 @@ Tên mới thay cho tên bộ cũ (Lễ Phục Hỏa Hoàng, Áo Choàng Lữ Ph
 | 8 | Giá | 280 / 2520 Ngọc (1 / 10 lượt) |
 | 9 | Món trùng | Không quy đổi. Phân giải trang bị thiết kế sau (Q11) |
 
-**Cách tính (owner xác nhận 2026-11-14):** tổng tỉ lệ 5★ theo số món còn thiếu: 4 món 6%, 3 món 4.5%, 2 món 3%, 1 món 1.5%; đủ bộ thì về 6% và có thể ra trùng. Nguyên liệu = 58% − tổng tỉ lệ 5★ (52–56.5%). Pity mềm "+10%" cộng vào **tổng** tỉ lệ 5★ của lượt đó, không phải mỗi món (ví dụ thiếu 4 món, từ lượt 30: 16%).
+**Owner 2026-11-15:** mỗi món 0.15% → thiếu 4 / 3 / 2 / 1 món: 0.6 / 0.45 / 0.3 / 0.15%; đủ bộ 0.6%; nguyên liệu 57.4–57.85%. Pity mềm vẫn +10% từ lượt 30, pity cứng 50.
+
+**Cách tính (owner xác nhận 2026-11-14, số cũ 1.5%):** tổng tỉ lệ 5★ theo số món còn thiếu: 4 món 6%, 3 món 4.5%, 2 món 3%, 1 món 1.5%; đủ bộ thì về 6% và có thể ra trùng. Nguyên liệu = 58% − tổng tỉ lệ 5★ (52–56.5%). Pity mềm "+10%" cộng vào **tổng** tỉ lệ 5★ của lượt đó, không phải mỗi món (ví dụ thiếu 4 món, từ lượt 30: 16%).
 
 ---
 

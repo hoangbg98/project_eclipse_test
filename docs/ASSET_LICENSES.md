@@ -121,6 +121,8 @@ Sinh bằng `tools/gen_recruit_placeholders.py` (Pillow, hình người xám + n
 | `assets/ui/recruit/placeholder_banner_char_terra_thumb.png` (390×226) | Ảnh nhỏ trong danh sách | 2026-11-13 |
 | `assets/ui/recruit/placeholder_banner_equip_terra_banner.png` (1301×839) | Ảnh banner lớn của banner tiếp tế | 2026-11-13 |
 | `assets/ui/recruit/placeholder_banner_equip_terra_thumb.png` (390×226) | Ảnh nhỏ trong danh sách | 2026-11-13 |
+| `assets/ui/recruit/placeholder_banner_star5_earth_banner.png` (1590×1080) | Ảnh banner 5★ (bố cục mới 2026-11-15; banner cũ vẫn 1301×839 tới khi owner thay) | 2026-11-15 |
+| `assets/ui/recruit/placeholder_banner_star5_earth_thumb.png` (390×226) | Ảnh nhỏ (bố cục mới không hiện) | 2026-11-15 |
 | `assets/placeholders/placeholder_recruit_card.png` (336×1240) | Thẻ kết quả rỗng (khung, hoa văn chấm thoi). Sinh bằng `tools/gen_recruit_card_placeholders.py` (Pillow, thiết kế riêng) | 2026-11-15 |
 | `assets/placeholders/placeholder_recruit_icon_{weapon,stigma,material,gold}.png` (512×512) | Icon tạm vũ khí / vết thánh / nguyên liệu / vàng trên thẻ kết quả. Cùng công cụ | 2026-11-15 |
 | `assets/placeholders/placeholder_sfx_gacha_5star.wav` (2.2 s, 44.1 kHz mono) | Âm thanh khi ra thẻ 5★ (chuông + lấp lánh). Tổng hợp bằng `tools/gen_placeholder_sfx.py` (thư viện chuẩn Python, không dùng mẫu âm ngoài). Thay bằng `assets/audio/sfx/sfx_gacha_5star` của owner | 2026-11-15 |

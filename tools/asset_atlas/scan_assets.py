@@ -335,15 +335,35 @@ single("placeholder-tiles-64", "Tile nền 64 (tạm)", "assets/placeholders/pla
        "Tileset", "Màn chiến đấu", "Placeholder xám", "todo", spec(128, 64, transparent=False, naming="tiles_64.png"),
        placeholder=True, pnote="Tile tạm 64×64 cho màn chơi.", requests=["Cần tileset thật cho các ải chương 1"],
        tags=["tile", "placeholder"], brief="Lưới tile 64×64.")
-for kind, w, h in (("banner", 1301, 839), ("thumb", 390, 226)):
-    for grp in ("char", "equip"):
-        p = f"assets/ui/recruit/placeholder_banner_{grp}_terra_{kind}.png"
-        single(slug(f"recruit-{grp}-terra-{kind}"), f"Chiêu mộ · banner_{grp}_terra · {kind}", p, "Banner",
-               "Chiêu mộ", "Placeholder xám", "todo", spec(w, h, transparent=False, naming=f"banner_{grp}_terra_{kind}.png"),
-               placeholder=True, pnote="Hình người xám kèm tên banner; thêm file đúng tên là màn tự nhận, không sửa code.",
-               requests=[f"Owner cung cấp ảnh {kind} {w}×{h}" + (" (nửa trái tối/thoáng để đặt chữ)" if kind == "banner" else "")],
-               tags=["gacha", "banner"],
-               brief=("Banner lớn, chữ và nút đè lên nửa trái." if kind == "banner" else "Ảnh nhỏ trong danh sách, hiển thị 195×113."))
+# Bố cục Chiêu mộ mới (owner 2026-11-15): ảnh banner phủ phần phải màn 1590×1080; danh sách bên trái là thẻ chữ
+# (ảnh thumb không còn hiện, giữ mục cũ trên site).
+for grp, bid in (("char", "banner_char_terra"), ("equip", "banner_equip_terra"), ("star5", "banner_star5_earth")):
+    p = f"assets/ui/recruit/placeholder_{bid}_banner.png"
+    aid = slug(f"recruit-{grp}-terra-banner") if grp != "star5" else "recruit-star5-earth-banner"
+    single(aid, f"Chiêu mộ · {bid} · banner", p, "Banner",
+           "Chiêu mộ", "Placeholder xám", "todo", spec(1590, 1080, transparent=False, naming=f"{bid}_banner.png"),
+           placeholder=True, pnote="Hình người xám kèm tên banner; thêm file đúng tên là màn tự nhận, không sửa code.",
+           requests=["Owner cung cấp ảnh banner 1590×1080 (bố cục 2026-11-15: tiêu đề + chú thích bên trái, cột thông tin "
+                     "bên phải, nút vàng góc phải dưới; nhân vật / vũ khí ở giữa)"],
+           tags=["gacha", "banner"],
+           brief="Ảnh banner phủ phần phải màn Chiêu mộ (x 330 → 1920). Hai mép trái / phải được làm tối nhẹ để đọc chữ.")
+for grp in ("char", "equip"):
+    p = f"assets/ui/recruit/placeholder_banner_{grp}_terra_thumb.png"
+    single(slug(f"recruit-{grp}-terra-thumb"), f"Chiêu mộ · banner_{grp}_terra · thumb", p, "Banner",
+           "Chiêu mộ", "Placeholder xám", "todo", spec(390, 226, transparent=False, naming=f"banner_{grp}_terra_thumb.png"),
+           placeholder=True, pnote="Bố cục 2026-11-15 không còn hiện ảnh nhỏ (danh sách là thẻ chữ).",
+           tags=["gacha", "banner"], brief="Không dùng ở bố cục hiện tại.")
+single("recruit-result-card", "Chiêu mộ · thẻ kết quả rỗng", "assets/placeholders/placeholder_recruit_card.png", "UI",
+       "Chiêu mộ", "Placeholder vẽ code", "todo", spec(336, 1240, naming="recruit_card.png"),
+       placeholder=True, pnote="Khung thẻ kết quả, hiển thị 168×620; viền / quầng sáng màu độ hiếm do code vẽ.",
+       requests=["Owner cung cấp khung thẻ kết quả 336×1240 (2× hiển thị), nền trong suốt ngoài khung"],
+       tags=["gacha", "kết quả"], brief="Thẻ dọc rỗng dưới ảnh nhân vật / vật phẩm ở màn kết quả chiêu mộ.")
+for icon, vi in (("weapon", "vũ khí"), ("stigma", "vết thánh"), ("material", "nguyên liệu"), ("gold", "vàng")):
+    single(f"recruit-icon-{icon}", f"Chiêu mộ · icon tạm {vi}", f"assets/placeholders/placeholder_recruit_icon_{icon}.png",
+           "Icon", "Chiêu mộ", "Placeholder vẽ code", "todo", spec(512, 512, naming=f"recruit_icon_{icon}.png"),
+           placeholder=True, pnote="Dùng khi món chưa có ảnh riêng (EquipmentDef.art / vật phẩm).",
+           requests=[f"Ảnh thật cho từng món {vi} (đặt EquipmentDef.art) hoặc icon chung 512×512"],
+           tags=["gacha", "icon"], brief=f"Icon {vi} trên thẻ kết quả và dãy icon đề cử của banner trang bị.")
 
 single("char-wind-01-vfx-wind-arrow", "Kazeyumi · mũi tên gió", "assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png",
        "VFX", "Màn chiến đấu", "VFX vẽ tay (owner)", "approved", spec(165, 47, naming="char_wind_01_vfx_wind_arrow.png"),

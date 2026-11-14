@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets", "ui", "recruit")
-BANNER_SIZE = (1301, 839)
+BANNER_SIZE = (1590, 1080)   # owner 2026-11-15: ảnh phủ phần phải màn (bố cục mới)
 THUMB_SIZE = (390, 226)
 TOP, BOTTOM = (42, 46, 62), (20, 22, 31)
 FIGURE = (91, 97, 128)

@@ -28,7 +28,7 @@ func _svc(seed_value := 7) -> GachaService:
 func test_equip_config_matches_owner_and_sums_to_100() -> void:
 	var b := _equip()
 	assert_array(b.validate()).is_empty()
-	assert_array([b.cost_single, b.cost_multi, b.multi_count]).is_equal([280, 2520, 10])
+	assert_array([b.cost_single, b.cost_multi, b.multi_count]).is_equal([200, 1800, 10])   # owner 2026-11-15
 	assert_float(b.tier("W4").base_rate).is_equal(0.0287)
 	assert_float(b.tier("S4").base_rate).is_equal(0.14)
 	assert_float(b.tier("W3").base_rate).is_equal(0.107)
@@ -39,9 +39,11 @@ func test_equip_config_matches_owner_and_sums_to_100() -> void:
 	for row in table:
 		total += float(row["rate"])
 	assert_float(total).is_equal_approx(1.0, 0.0000001)
-	assert_int(b.tier("W4").hard_pity).is_equal(60)
-	assert_array(Array(b.multi_guarantee_tiers)).is_equal(["W4", "S4"])
-	assert_array(Array(b.multi_guarantee_pick)).is_equal(["S4"])          # ưu tiên vết thánh
+	for t in b.tiers:                                                     # owner 2026-11-15: không pity, không bảo đảm
+		assert_int(t.hard_pity).is_equal(0)
+		assert_int(t.soft_pity_start).is_equal(0)
+	assert_array(Array(b.multi_guarantee_tiers)).is_empty()
+	assert_array(Array(b.multi_guarantee_pick)).is_empty()
 	assert_str(b.group()).is_equal("equip")
 	assert_array(Array(b.tier("W4").featured)).is_equal(["equip:eq_weapon_greatsword_magma"])
 	assert_int(b.tier("S4").featured.size()).is_equal(3)                  # bộ Đầu / Thân / Chân đề cử
@@ -61,26 +63,17 @@ func test_equip_pools_hold_right_rarity_and_slot() -> void:
 	assert_int(slots.size()).is_equal(3)
 
 
-func test_weapon_hard_pity_60_and_ten_pull_guarantee() -> void:
+func test_no_pity_and_no_forced_pulls() -> void:
+	# Owner 2026-11-15: tiếp tế không còn pity cứng 60 và bảo đảm 10 lượt: không lượt nào bị ép bậc.
 	var s := _svc(13)
-	var gap := 0
-	var worst := 0
-	var forced_stigma := 0
+	var four := 0
 	for i in 120:
-		var got_four := false
 		for r: Dictionary in s.pull(_equip(), 10)["results"]:
-			gap += 1
-			if r["tier"] == "W4":
-				worst = maxi(worst, gap)
-				gap = 0
+			assert_bool(r["forced"]).is_false()
 			if r["tier"] in ["W4", "S4"]:
-				got_four = true
-			if r["forced"]:
-				assert_str(r["tier"]).is_equal("S4")
-				forced_stigma += 1
-		assert_bool(got_four).is_true()
-	assert_int(worst).is_between(1, 60)
-	assert_int(forced_stigma).is_greater(0)
+				four += 1
+	var rate := float(four) / 1200.0
+	assert_float(rate).is_between(0.13, 0.21)                             # 2.87% + 14% ≈ 16.9%
 
 
 func test_equip_pull_adds_equipment_and_shares_no_pity_with_characters() -> void:
