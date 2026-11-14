@@ -1270,3 +1270,18 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** lần đầu 1 lỗi (`test_real_frame_counts_match_folders`: thiếu thư mục frame `hold_end`, `weapon_catch`) → tạo thư mục; lần hai GdUnit4 525 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
 - **Quyết định Claude chọn:** nhát kết dùng đúng 220 ms hồi phục của tài liệu và không cộng sát thương (tổng Lôi Quang Loạn Vũ vẫn 240%); chạy cả khi nhả nút sớm lẫn khi hết 8 nhịp. Đao về tay ở 940 ms (ném 140 + đi 400 + về 400); animation bắt bắt đầu ở 880 ms để frame 001 (đao vào tay) rơi vào ~940 ms. Bắt đao chỉ phát khi đứng yên vì đây là động tác đứng, không khóa điều khiển.
 - **Hạn chế đã biết:** đang chạy / nhảy lúc đao về thì không có hình bắt đao (đao lặng lẽ về tay); thời điểm bắt không co giãn theo tốc độ tấn công (Song Lôi Phi Nhận là kỹ năng vũ khí, không chịu tốc độ tấn công). Chưa thử bằng mắt trong Godot.
+
+## 2026-11-14 — Kazeyumi: mũi tên gió (bộ phận 42) làm hình mũi tên năng lượng bắn ra
+
+- **Milestone / task:** combat + VFX — owner yêu cầu dùng mũi tên gió (bộ phận số 42 trên trang "Bảng tên bộ phận Kazeyumi") làm mũi tên năng lượng Kazeyumi bắn ra
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png` (165×47): cắt khung 42 từ tờ bộ phận, tách nền trắng thành trong suốt (color-to-alpha), lấp lõi sáng ở đầu tên, bỏ mảnh lạ.
+  - `scripts/combat/hit_def.gd`: `projectile_sprite`, `projectile_scale`. `scripts/combat/detached_hit.gd`: vùng tách có hình thì gắn `Sprite2D` (xoay theo góc bay, lật theo hướng nhìn, ẩn tới khi bật nếu có trễ) và tắt khối màu tạm của Hitbox.
+  - `tools/skill_data_lib.py` (`WIND_ARROW`, `wind_arrow()`), `tools/gen_kael_lyra_data.py`, `tools/gen_switch_in_data.py`, `tools/gen_wind_lightning_skills.py` → 11 SkillDef của `char_wind_01` (đòn thường 3, né, đòn giữ cấp 1/2, trên không 2, Liên Châu 6 tên, vào sân Thường/Liên kết): mọi vùng tên bay có hình mũi tên gió. Dữ liệu nhân vật khác không đổi.
+  - `docs/ASSET_LICENSES.md` mục 2: thêm dòng file trên (chỉ commit dòng này; phần Codex đang sửa dở để nguyên).
+  - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd`: mọi tên bay của Kazeyumi dùng hình mũi tên gió, đao Raikiba không; bắn đòn thường sinh mũi tên hiện hình và bay về trước.
+- **Đã chạy:** 3 script sinh dữ liệu trên, `--import`, GdUnit4 bộ Kazeyumi/Raikiba (23/23), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 527 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. `git diff --stat data/` chỉ có 11 file `char_wind_01`, toàn dòng thêm.
+- **Quyết định Claude chọn:** tỉ lệ vẽ 0.55 (≈91 px) cho tên thường / quạt / Liên Châu / né / vào sân, 0.7 cho đòn giữ cấp 1, 0.9 cho cấp 2 (theo khung va chạm 70 / 90 / 120 px); lọc linear khi thu nhỏ; hòa màu thường (không cộng sáng) để không bị mất trên nền sáng.
+- **Hạn chế đã biết:** chưa xem bằng mắt trong Godot; quầng sáng của mũi tên bị tối đi một chút do tách từ nền trắng của ảnh JPEG. Phong Vực (tên rơi như sao băng) và Hạ Phong Trận không có vùng tên bay nên chưa có hình mũi tên.

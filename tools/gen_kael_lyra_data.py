@@ -5,7 +5,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from skill_data_lib import NONE, NORMAL, RECT, hit, write_skill  # noqa: E402
+from skill_data_lib import NONE, NORMAL, RECT, hit, wind_arrow, write_skill  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -50,7 +50,7 @@ FLY = round(700 / 1800 * 1000)  # 389 ms
 
 def arrow(at, ratio, max_targets, statuses=(), travel=700, fly=FLY):
     return hit(at, fly, ratio, shape=RECT, rect=(70, 24), offset=(50, -150), detached=True, travel=travel,
-               statuses=statuses, max_targets=max_targets)
+               statuses=statuses, max_targets=max_targets, **wind_arrow())
 
 
 for n, (s, a, r, ratio) in enumerate([(100, 40, 140, 0.55), (100, 40, 140, 0.55), (180, 60, 260, 0.90)], start=1):

@@ -7,7 +7,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from skill_data_lib import CIRCLE, RECT, SWITCH_IN, hit, write_skill  # noqa: E402
+from skill_data_lib import CIRCLE, RECT, SWITCH_IN, hit, wind_arrow, write_skill  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -51,7 +51,7 @@ for linked in (False, True):
         arrows.append(hit(180 + i * 50, 300, ratio, shape=RECT, rect=(70, 24), offset=(50, -150),
                           detached=True, travel=700, knock=100 if last else 0,
                           statuses=[("slow", 3.0 if linked else 2.0, 0.25)] if last else [],
-                          travel_angle_deg=angle))
+                          travel_angle_deg=angle, **wind_arrow()))
     write_skill(sid, d, arrows,
                 "Mục 8.6 Phong Dực Giáng Tiễn (%s): 3 tên ±15° tầm 700, %s, tên cuối đẩy 100 + Chậm 25%% %s, 180/200/220, bất tử 0-380"
                 % ("Liên kết" if linked else "Thường", "3x60%" if linked else "3x40%", "3s" if linked else "2s"),

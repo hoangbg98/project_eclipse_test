@@ -49,6 +49,11 @@ enum Shape { ARC, CIRCLE, RECT }
 @export var delay_ms := 0.0
 ## Vùng tách: đặt tại mục tiêu kỹ năng đã chọn (tuyệt kỹ) thay vì tại người đánh.
 @export var at_target := false
+## Vùng tách: hình vẽ đi theo vùng (vd mũi tên năng lượng của Kazeyumi), vẽ hướng phải, tâm ảnh = tâm vùng.
+## Rỗng = không vẽ (chỉ hiện khối màu tạm của Hitbox).
+@export_file("*.png") var projectile_sprite := ""
+## Tỉ lệ vẽ hình đạn.
+@export var projectile_scale := 1.0
 
 
 func end_ms() -> float:

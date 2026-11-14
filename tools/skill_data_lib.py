@@ -16,6 +16,15 @@ def fmt(v):
     return '"%s"' % v
 
 
+# Mũi tên năng lượng gió của Kazeyumi (bộ phận số 42 trên tờ bộ phận), vẽ theo đạn tên (HitDef.projectile_sprite).
+WIND_ARROW = "res://assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png"
+
+
+def wind_arrow(scale=0.55):
+    """Trường HitDef để vẽ mũi tên gió đi theo vùng tên bay."""
+    return dict(projectile_sprite=WIND_ARROW, projectile_scale=float(scale))
+
+
 def hit(at, dur, ratio, shape=ARC, radius=140, arc=120, tilt=0, rect=(100, 100), offset=(0, -120),
         sc=1.0, knock=0, statuses=(), detached=False, travel=0, tick=0, **extra):
     return dict(at_ms=float(at), duration_ms=float(dur), atk_ratio=float(ratio), sc_multiplier=float(sc),

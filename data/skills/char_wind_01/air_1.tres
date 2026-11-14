@@ -22,6 +22,8 @@ travel_px = 600.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = 18.0
+projectile_sprite = "res://assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png"
+projectile_scale = 0.55
 statuses = Array[ExtResource("3")]([])
 
 [sub_resource type="Resource" id="hit_1"]
@@ -42,6 +44,8 @@ travel_px = 600.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = 30.0
+projectile_sprite = "res://assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png"
+projectile_scale = 0.55
 statuses = Array[ExtResource("3")]([])
 
 [sub_resource type="Resource" id="hit_2"]
@@ -62,6 +66,8 @@ travel_px = 600.0
 tick_interval_ms = 0.0
 max_targets = 1
 travel_angle_deg = 42.0
+projectile_sprite = "res://assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png"
+projectile_scale = 0.55
 statuses = Array[ExtResource("3")]([])
 
 [resource]

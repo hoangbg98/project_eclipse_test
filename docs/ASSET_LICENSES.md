@@ -29,6 +29,7 @@ nhạc, SFX bên ngoài. Ghi từng file bên ngoài vào bảng dưới khi đ�
 |---|---|---|---|---|---|
 | `assets/characters/char_fire_01/rig_parts/` (64 PNG + `parts_manifest.json`; sheet gốc ở `source/`) | Bộ phận nhân vật Aether (chibi) để ráp rig: mặt, tóc, áo, tay, chân, ủng, vũ khí, giáp, pose mẫu | Owner cung cấp (ảnh sheet tải lên 2026-11-12); Claude chỉ cắt nền và tách file bằng `tools/sprite_parts/` | Của owner; dùng cho bản phát hành theo quyết định owner 2026-11-12 | Owner đặt tên 64/64 bộ phận qua trang "Bảng tên bộ phận Aether" | 2026-11-12 |
 | `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` | Ảnh đứng toàn thân Aether (bộ phận 16 của sheet trên) | Như trên | Như trên | Như trên | 2026-11-12 |
+| `assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png` | Mũi tên năng lượng gió của Kazeyumi, vẽ theo đạn tên trong game (HitDef.projectile_sprite) | Owner: bộ phận số 42 "Mũi tên gió (hiệu ứng)" trên tờ bộ phận Kazeyumi (`char_wind_01/rig_parts/source/char_wind_01_parts_sheet.jpg`); Claude chỉ tách nền trắng thành trong suốt | Của owner, như tờ bộ phận | Owner yêu cầu dùng làm mũi tên bắn ra (2026-11-14) | 2026-11-14 |
 
 > Nếu sheet trên được tạo bằng công cụ AI, owner ghi thêm công cụ vào mục 2.1 để khai báo khi phát hành.
 

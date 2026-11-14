@@ -91,6 +91,40 @@ func test_kazeyumi_data_matches_spec() -> void:
 	assert_bool(s["ultimate"].locks_switch).is_false()                               # loại vùng
 
 
+func test_kazeyumi_flying_arrows_use_wind_arrow_sprite() -> void:
+	var n := 0
+	for s: SkillDef in _skills("char_wind_01").values():
+		for h in s.hits:
+			if h.detached and h.travel_px > 0.0:
+				n += 1
+				assert_str(h.projectile_sprite).override_failure_message(s.id).ends_with("char_wind_01_vfx_wind_arrow.png")
+				assert_bool(ResourceLoader.exists(h.projectile_sprite)).is_true()
+	assert_int(n).is_greater_equal(20)
+	for s: SkillDef in _skills("char_lightning_01").values():                      # đao ném không dùng mũi tên
+		for h in s.hits:
+			assert_str(h.projectile_sprite).is_empty()
+
+
+func test_kazeyumi_shot_spawns_visible_arrow() -> void:
+	await _setup("char_wind_01", 600.0)
+	_p.intent.tap_attack(_buf())
+	var arrow: DetachedHit
+	for f in 30:
+		await get_tree().physics_frame
+		for c in _stage.get_children():
+			if c is DetachedHit and c.sprite:
+				arrow = c
+		if arrow:
+			break
+	assert_object(arrow).is_not_null()
+	assert_bool(arrow.sprite.visible).is_true()
+	assert_bool(arrow.hitbox.show_shape).is_false()                                # có hình thật: tắt khối màu tạm
+	var x0 := arrow.global_position.x
+	await _frames(3)
+	if is_instance_valid(arrow):
+		assert_float(arrow.global_position.x).is_greater(x0)                        # bay về phía trước
+
+
 func test_raikiba_data_matches_spec() -> void:
 	var s := _skills("char_lightning_01")
 	for k in ["hold_1", "hold_finish", "air_1", "air_2", "air_3", "landing", "skill", "weapon", "ultimate"]:

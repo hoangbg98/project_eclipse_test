@@ -9,7 +9,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from skill_data_lib import AIR, CIRCLE, HOLD, LANDING, RECT, SKILL, ULTIMATE, WEAPON, hit, write_skill  # noqa: E402
+from skill_data_lib import AIR, CIRCLE, HOLD, LANDING, RECT, SKILL, ULTIMATE, WEAPON, hit, wind_arrow, write_skill  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,10 +27,11 @@ WD = os.path.join(ROOT, "data", "skills", W)
 ARROW_SPEED = 1800.0  # px/s, như Phong Tiễn
 
 
-def arrow(at, ratio, travel, max_targets=1, angle=0.0, statuses=(), knock=0, rect=(70, 24), offset=(50, -150), **extra):
+def arrow(at, ratio, travel, max_targets=1, angle=0.0, statuses=(), knock=0, rect=(70, 24), offset=(50, -150),
+          sprite_scale=0.55, **extra):
     return hit(at, round(travel / ARROW_SPEED * 1000), ratio, shape=RECT, rect=rect, offset=offset, detached=True,
                travel=travel, statuses=statuses, knock=knock, max_targets=max_targets, travel_angle_deg=float(angle),
-               **extra)
+               **wind_arrow(sprite_scale), **extra)
 
 
 # --- Nhấn giữ TC — Xuyên Phong Tiễn: giữ >= 500 ms nạp (chậm 50%); Cấp 1 tại 900 ms xuyên 900 px 180%;
@@ -38,10 +39,10 @@ def arrow(at, ratio, travel, max_targets=1, angle=0.0, statuses=(), knock=0, rec
 HOLD_W = dict(cooldown_sec=1.2, cooldown_uses_cdr=False, cooldown_group="hold", extra_en_on_hit=3.0,
               charge_start_ms=500.0, charge_move_slow=0.5)
 write_skill("hold_1", base(W, "hold_1", "hold", "hold_release", HOLD, 100, 50, 300, charge_level_ms=900.0, **HOLD_W),
-            [arrow(100, 1.80, 900, max_targets=0, rect=(90, 28))],
+            [arrow(100, 1.80, 900, max_targets=0, rect=(90, 28), sprite_scale=0.7)],
             "Mục 2 Xuyên Phong Tiễn Cấp 1: tên xuyên 900 px 180%, 100/50/300", WD)
 write_skill("hold_2", base(W, "hold_2", "hold", "hold_release_2", HOLD, 100, 50, 300, charge_level_ms=1600.0, **HOLD_W),
-            [arrow(100, 3.00, 1200, max_targets=0, rect=(120, 40), knock=120, statuses=[("slow", 3.0, 0.30)])],
+            [arrow(100, 3.00, 1200, max_targets=0, rect=(120, 40), sprite_scale=0.9, knock=120, statuses=[("slow", 3.0, 0.30)])],
             "Mục 2 Xuyên Phong Tiễn Cấp 2: xuyên mọi mục tiêu 1200 px 300%, đẩy lùi 120 px, Chậm 30% 3s, 100/50/300", WD)
 
 # --- TC trên không — Thiên Phong Loạt Tiễn: quạt 3 tên chếch xuống 30° (±12°), tầm 600, 45% x3;

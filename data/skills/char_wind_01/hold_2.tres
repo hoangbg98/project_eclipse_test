@@ -28,6 +28,8 @@ travel_px = 1200.0
 tick_interval_ms = 0.0
 max_targets = 0
 travel_angle_deg = 0.0
+projectile_sprite = "res://assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png"
+projectile_scale = 0.9
 statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
 
 [resource]

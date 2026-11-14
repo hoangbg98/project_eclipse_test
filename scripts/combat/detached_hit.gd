@@ -4,6 +4,8 @@ extends Node2D
 ## Vẫn còn sau khi người đánh rời đi (mục 8.1: hiệu ứng đã tạo là node độc lập).
 
 var hitbox: Hitbox
+## Hình đạn (HitDef.projectile_sprite), null nếu không có.
+var sprite: Sprite2D
 var lifetime := 0.3
 var velocity := Vector2.ZERO
 ## 0 = chỉ bật một lần; > 0 = bật lại (hit_id mới) mỗi khoảng này.
@@ -35,6 +37,11 @@ static func spawn(parent: Node, def: HitDef, attacker: Node, team: PhysicsLayers
 	d.hitbox.damage_bonus = damage_bonus
 	d.hitbox.extra_en = extra_en
 	d.add_child(d.hitbox)
+	d.sprite = _make_sprite(def)
+	if d.sprite:
+		d.hitbox.show_shape = false
+		d.sprite.visible = d.delay <= 0.0
+		d.add_child(d.sprite)
 	parent.add_child(d)
 	d.global_position = pos + Vector2(def.offset.x * facing, def.offset.y)
 	if d.delay <= 0.0:
@@ -42,8 +49,25 @@ static func spawn(parent: Node, def: HitDef, attacker: Node, team: PhysicsLayers
 	return d
 
 
+## Hình đạn từ HitDef.projectile_sprite; thiếu file thì không vẽ (không crash).
+static func _make_sprite(def: HitDef) -> Sprite2D:
+	if def.projectile_sprite.is_empty() or not ResourceLoader.exists(def.projectile_sprite):
+		return null
+	var tex := load(def.projectile_sprite) as Texture2D
+	if tex == null:
+		return null
+	var s := Sprite2D.new()
+	s.name = "Projectile"
+	s.texture = tex
+	s.scale = Vector2.ONE * def.projectile_scale
+	s.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	return s
+
+
 func _start() -> void:
 	_started = true
+	if sprite:
+		sprite.visible = true
 	_age = 0.0
 	_next_tick = tick_interval
 	hitbox.activate()
