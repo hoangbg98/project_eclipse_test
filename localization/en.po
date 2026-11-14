@@ -251,7 +251,7 @@ msgid "STAGE_OBJ_BOSS"
 msgstr "Defeat the boss"
 
 msgid "STAGE_CHECKPOINT"
-msgstr "Checkpoint"
+msgstr "Anchor point set"
 
 msgid "STAGE_WAVE_CLEARED"
 msgstr "Wave cleared"
@@ -1697,3 +1697,99 @@ msgstr "Quick tip: in battle, when a reserve portrait glows, switch to them to t
 
 msgid "TUTORIAL_RECRUIT_DONE_2_R"
 msgstr "I'll remember."
+
+msgid "NEO_KEY_FMT"
+msgstr "%s key"
+
+msgid "NEO_BTN_SKILL"
+msgstr "the Skill button"
+
+msgid "NEO_BTN_WEAPON"
+msgstr "the Weapon button"
+
+msgid "NEO_BTN_ULTIMATE"
+msgstr "the Ultimate button"
+
+msgid "NEO_BTN_DODGE"
+msgstr "the Dodge button"
+
+msgid "NEO_BTN_ATTACK"
+msgstr "the Attack button"
+
+msgid "BARK_CH01_START"
+msgstr "We're inside the Hollow Zone. I'm watching from inside the Neo, go ahead, Manager."
+
+msgid "BARK_CH01_WAVE1"
+msgstr "Ash dregs in the way. Clear them and we move on."
+
+msgid "BARK_CH01_WAVE1_NEO"
+msgstr "Ash dregs are blocking the road. Clear them out first."
+
+msgid "BARK_CH01_CP1"
+msgstr "When the fire underground dies, the rock cracks. Watch the sinkholes."
+
+msgid "BARK_CH01_CP1_NEO"
+msgstr "The ground caved in once the fire below died. Careful with the gaps."
+
+msgid "BARK_CH01_WAVE2"
+msgstr "More of them now. Switch me in, my wind can slow them down."
+
+msgid "BARK_CH01_WAVE2_NEO"
+msgstr "More of them this time. Hitting from range or slowing them helps."
+
+msgid "BARK_CH01_CP2"
+msgstr "I can see the furnace gate! Bigger than I thought."
+
+msgid "BARK_CH01_CP2_NEO"
+msgstr "The Mother Hearth's gate is just ahead."
+
+msgid "BARK_CH01_CP3"
+msgstr "The guardian is right ahead. This is the last anchor point, you're covered."
+
+msgid "BARK_CH01_BOSS"
+msgstr "Guardian! We're on the Hearth's side, stop!"
+
+msgid "BARK_CH01_BOSS_NEO"
+msgstr "The Ancient Stone Golem! It no longer answers to the valley."
+
+msgid "BARK_CH01_BOSS_B"
+msgstr "No response. Its ground slam has a long wind-up, dodge when you see it."
+
+msgid "BARK_CH01_PHASE2"
+msgstr "There's a channel signal in the guardian's core... It isn't mine."
+
+msgid "BARK_CH01_PHASE2_B"
+msgstr "Someone woke it up on purpose?!"
+
+msgid "BARK_CH01_PHASE2_B_NEO"
+msgstr "Someone woke it up on purpose."
+
+msgid "BARK_CH01_QUAKE"
+msgstr "It slams out shockwaves both ways, jump over them!"
+
+msgid "BARK_CH01_QUAKE_NEO"
+msgstr "Shockwaves both ways! Jump to avoid them."
+
+msgid "NEO_HINT_SKILL"
+msgstr "Energy is full! Try your skill (%s)."
+
+msgid "NEO_HINT_WEAPON"
+msgstr "Weapon skill ready (%s). It hits hard."
+
+msgid "NEO_HINT_ULTIMATE"
+msgstr "Ultimate gauge is full! Let it all out (%s)."
+
+msgid "NEO_HINT_DODGE"
+msgstr "Dodge (%s) right before a hit lands for a perfect dodge: enemies slow down."
+
+msgid "NEO_HINT_HOLD"
+msgstr "Tip: hold %s to charge a stronger strike."
+
+msgid "NEO_HINT_STUN"
+msgstr "The enemy is about to be Stunned! Land a few more heavy hits."
+
+msgid "NEO_HINT_LINK"
+msgstr "A reserve portrait is glowing! Switch now to trigger an elemental reaction."
+
+msgid "NEO_HINT_REACTION"
+msgstr "Elemental reaction! That's perfect switch timing, Manager."

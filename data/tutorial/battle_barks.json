@@ -1,0 +1,183 @@
+{
+	"_comment": "Thoại trong trận (owner 2026-11-14): câu cốt truyện theo sự kiện màn + NEO gợi ý cách dùng chiêu. Mỗi câu phát một lần mỗi save (tutorial.seen, id 'bark:<id>'). speaker = 'neo' hoặc Data ID; nhân vật không có trong đội thì NEO nói câu neo_text (hoặc text). Chữ thật trong localization/*.po.",
+	"settings": {
+		"show_sec": 3.0,
+		"per_char_sec": 0.04,
+		"gap_sec": 0.35,
+		"start_delay_sec": 1.0,
+		"sc_high_ratio": 0.7,
+		"poll_sec": 0.25,
+		"queue_max": 4
+	},
+	"lines": [
+		{
+			"id": "ch01_start",
+			"kind": "story",
+			"on": "stage_start",
+			"stage": "stage_01",
+			"speaker": "neo",
+			"text": "BARK_CH01_START"
+		},
+		{
+			"id": "ch01_wave1",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01",
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_WAVE1",
+			"arg": 0,
+			"neo_text": "BARK_CH01_WAVE1_NEO"
+		},
+		{
+			"id": "ch01_cp1",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01",
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_CP1",
+			"arg": 1,
+			"neo_text": "BARK_CH01_CP1_NEO"
+		},
+		{
+			"id": "ch01_wave2",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01",
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_WAVE2",
+			"arg": 1,
+			"neo_text": "BARK_CH01_WAVE2_NEO"
+		},
+		{
+			"id": "ch01_cp2",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01",
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_CP2",
+			"arg": 2,
+			"neo_text": "BARK_CH01_CP2_NEO"
+		},
+		{
+			"id": "ch01_cp3",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01",
+			"speaker": "neo",
+			"text": "BARK_CH01_CP3",
+			"arg": 3
+		},
+		{
+			"id": "ch01_boss",
+			"kind": "story",
+			"on": "boss_started",
+			"stage": "stage_01",
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_BOSS",
+			"delay": 0.4,
+			"neo_text": "BARK_CH01_BOSS_NEO"
+		},
+		{
+			"id": "ch01_boss_b",
+			"kind": "story",
+			"on": "boss_started",
+			"stage": "stage_01",
+			"speaker": "neo",
+			"text": "BARK_CH01_BOSS_B",
+			"delay": 3.0
+		},
+		{
+			"id": "ch01_phase2",
+			"kind": "story",
+			"on": "boss_phase",
+			"stage": "stage_01",
+			"speaker": "neo",
+			"text": "BARK_CH01_PHASE2",
+			"arg": 2
+		},
+		{
+			"id": "ch01_phase2_b",
+			"kind": "story",
+			"on": "boss_phase",
+			"stage": "stage_01",
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_PHASE2_B",
+			"arg": 2,
+			"delay": 2.8,
+			"neo_text": "BARK_CH01_PHASE2_B_NEO"
+		},
+		{
+			"id": "ch01_quake",
+			"kind": "story",
+			"on": "boss_phase",
+			"stage": "stage_01",
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_QUAKE",
+			"arg": 2,
+			"delay": 6.0,
+			"neo_text": "BARK_CH01_QUAKE_NEO"
+		},
+		{
+			"id": "hint_skill",
+			"kind": "hint",
+			"on": "skill_ready",
+			"speaker": "neo",
+			"text": "NEO_HINT_SKILL",
+			"action": "skill"
+		},
+		{
+			"id": "hint_weapon",
+			"kind": "hint",
+			"on": "skill_ready",
+			"speaker": "neo",
+			"text": "NEO_HINT_WEAPON",
+			"action": "weapon"
+		},
+		{
+			"id": "hint_ultimate",
+			"kind": "hint",
+			"on": "skill_ready",
+			"speaker": "neo",
+			"text": "NEO_HINT_ULTIMATE",
+			"action": "ultimate"
+		},
+		{
+			"id": "hint_dodge",
+			"kind": "hint",
+			"on": "hit_taken",
+			"speaker": "neo",
+			"text": "NEO_HINT_DODGE",
+			"action": "dodge"
+		},
+		{
+			"id": "hint_hold",
+			"kind": "hint",
+			"on": "wave_cleared",
+			"speaker": "neo",
+			"text": "NEO_HINT_HOLD",
+			"action": "attack",
+			"arg": 0
+		},
+		{
+			"id": "hint_stun",
+			"kind": "hint",
+			"on": "sc_high",
+			"speaker": "neo",
+			"text": "NEO_HINT_STUN"
+		},
+		{
+			"id": "hint_link",
+			"kind": "hint",
+			"on": "link_glow",
+			"speaker": "neo",
+			"text": "NEO_HINT_LINK"
+		},
+		{
+			"id": "hint_reaction",
+			"kind": "hint",
+			"on": "reaction",
+			"speaker": "neo",
+			"text": "NEO_HINT_REACTION"
+		}
+	]
+}

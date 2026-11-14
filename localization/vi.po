@@ -251,7 +251,7 @@ msgid "STAGE_OBJ_BOSS"
 msgstr "Hạ gục boss"
 
 msgid "STAGE_CHECKPOINT"
-msgstr "Điểm lưu"
+msgstr "Đã cắm điểm neo"
 
 msgid "STAGE_WAVE_CLEARED"
 msgstr "Đã dẹp xong"
@@ -1697,3 +1697,99 @@ msgstr "Mẹo nhỏ: trong trận, khi chân dung người dự bị phát sáng
 
 msgid "TUTORIAL_RECRUIT_DONE_2_R"
 msgstr "Nhớ rồi."
+
+msgid "NEO_KEY_FMT"
+msgstr "phím %s"
+
+msgid "NEO_BTN_SKILL"
+msgstr "nút Kĩ năng"
+
+msgid "NEO_BTN_WEAPON"
+msgstr "nút Vũ khí"
+
+msgid "NEO_BTN_ULTIMATE"
+msgstr "nút Tuyệt kỹ"
+
+msgid "NEO_BTN_DODGE"
+msgstr "nút Né"
+
+msgid "NEO_BTN_ATTACK"
+msgstr "nút Đánh"
+
+msgid "BARK_CH01_START"
+msgstr "Đã vào Vùng Thực. Tôi theo dõi từ trong Neo, Quản lý cứ tiến lên nhé."
+
+msgid "BARK_CH01_WAVE1"
+msgstr "Cặn tro chắn đường. Dọn sạch rồi mình đi tiếp."
+
+msgid "BARK_CH01_WAVE1_NEO"
+msgstr "Cặn tro chắn đường phía trước. Dọn sạch rồi đi tiếp nhé."
+
+msgid "BARK_CH01_CP1"
+msgstr "Lửa ngầm tắt thì đá cũng nứt. Cẩn thận mấy chỗ sụt."
+
+msgid "BARK_CH01_CP1_NEO"
+msgstr "Đất sụt vì lửa ngầm đã tắt. Cẩn thận khi nhảy qua hố."
+
+msgid "BARK_CH01_WAVE2"
+msgstr "Đông hơn rồi. Đổi tớ ra, gió của tớ làm chậm được chúng."
+
+msgid "BARK_CH01_WAVE2_NEO"
+msgstr "Lần này đông hơn. Đánh từ xa hoặc làm chậm chúng sẽ dễ hơn."
+
+msgid "BARK_CH01_CP2"
+msgstr "Thấy cửa lò rồi! To hơn tớ tưởng."
+
+msgid "BARK_CH01_CP2_NEO"
+msgstr "Cửa Lò Mẹ ở ngay phía trước rồi."
+
+msgid "BARK_CH01_CP3"
+msgstr "Thủ vệ ở ngay phía trước. Đây là điểm neo cuối, cứ yên tâm."
+
+msgid "BARK_CH01_BOSS"
+msgstr "Thủ vệ! Bọn tớ ở phe Lò Mẹ mà, dừng lại!"
+
+msgid "BARK_CH01_BOSS_NEO"
+msgstr "Golem Đá Cổ! Nó không còn nghe lệnh của vùng nữa."
+
+msgid "BARK_CH01_BOSS_B"
+msgstr "Không phản hồi. Đòn đập đất của nó gồng lâu, thấy là né ngay."
+
+msgid "BARK_CH01_PHASE2"
+msgstr "Có tín hiệu kênh trong lõi thủ vệ... Không phải của tôi."
+
+msgid "BARK_CH01_PHASE2_B"
+msgstr "Có kẻ đánh thức nó sao?!"
+
+msgid "BARK_CH01_PHASE2_B_NEO"
+msgstr "Có ai đó đã cố ý đánh thức nó."
+
+msgid "BARK_CH01_QUAKE"
+msgstr "Nó đập đất tạo sóng chạy hai bên, nhảy lên mà tránh!"
+
+msgid "BARK_CH01_QUAKE_NEO"
+msgstr "Sóng đất chạy hai bên! Nhảy lên để tránh nhé."
+
+msgid "NEO_HINT_SKILL"
+msgstr "EN đã đủ! Thử Kĩ năng thường xem (%s)."
+
+msgid "NEO_HINT_WEAPON"
+msgstr "Kĩ năng vũ khí sẵn sàng (%s). Đòn này mạnh lắm đấy."
+
+msgid "NEO_HINT_ULTIMATE"
+msgstr "Thanh Tuyệt kỹ đầy rồi! Tung hết sức đi (%s)."
+
+msgid "NEO_HINT_DODGE"
+msgstr "Né (%s) ngay lúc đòn sắp trúng là né hoàn hảo, kẻ địch sẽ chậm lại."
+
+msgid "NEO_HINT_HOLD"
+msgstr "Mẹo nhỏ: giữ %s để nạp một đòn mạnh hơn."
+
+msgid "NEO_HINT_STUN"
+msgstr "Kẻ địch sắp Choáng! Dồn thêm vài đòn nặng nữa."
+
+msgid "NEO_HINT_LINK"
+msgstr "Chân dung dự bị đang sáng! Đổi người ngay để kích hoạt phản ứng nguyên tố."
+
+msgid "NEO_HINT_REACTION"
+msgstr "Phản ứng nguyên tố! Đổi người đúng lúc là vậy đó, Quản lý."

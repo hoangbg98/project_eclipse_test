@@ -13,6 +13,8 @@ var _timer: Label
 var _notice: Label
 var _notice_left := 0.0
 var _boss_bar: Control
+## Băng thoại NEO / nhân vật trong trận (NeoBark).
+var bark: NeoBark
 
 
 func _ready() -> void:
@@ -35,6 +37,9 @@ func _ready() -> void:
 	_boss_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_boss_bar.draw.connect(_draw_boss_bar)
 	root.add_child(_boss_bar)
+	bark = NeoBark.new()
+	bark.name = "NeoBark"
+	root.add_child(bark)
 	if stage == null:
 		stage = get_parent() as StageController
 	if stage:
@@ -62,6 +67,8 @@ func bind(s: StageController) -> void:
 	s.boss_started.connect(func(b: BossController) -> void:
 		notify(tr(b.def.name_key))
 		b.phase_changed.connect(func(p: int) -> void: notify(tr("STAGE_BOSS_PHASE") % p)))
+	if bark:
+		bark.bind(s)
 
 
 ## Thông báo ngắn giữa màn hình (2 s).
