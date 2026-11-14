@@ -68,10 +68,14 @@ EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi,
     ("eq_stigma_mid_bedrock", "stigma_mid", 4, 3, 0.0, 1600.0, 80.0, 0.0, 0.0, 0.0, "Ấn Nham Thạch (Thân)", "Bedrock Sigil (Middle)"),
     ("eq_stigma_bot_bedrock", "stigma_bot", 4, 3, 40.0, 0.0, 60.0, 0.0, 0.0, 0.05, "Ấn Nham Thạch (Chân)", "Bedrock Sigil (Bottom)"),
 ]
+# Bộ vết thánh 4★ (hiệu ứng bộ ở data/equipment/sets/, sinh bằng tools/gen_equipment_5star.py).
+SET_ID = {e: "set_" + e.rsplit("_", 1)[1] for e in
+          ("eq_stigma_top_blaze", "eq_stigma_mid_blaze", "eq_stigma_bot_blaze",
+           "eq_stigma_top_bedrock", "eq_stigma_mid_bedrock", "eq_stigma_bot_bedrock")}
 for eid, slot, rarity, cost, atk, hp, df, cr, cd, cdr, vi, en in EQUIP:
     write("data/equipment/%s.tres" % eid, "equipment_def.gd", "EquipmentDef",
           [("id", eid), ("name_key", "EQUIP_" + eid.upper()), ("slot", slot), ("rarity", rarity),
-           ("weapon_type", WEAPON_TYPE.get(eid, "")), ("max_level", 10),
+           ("weapon_type", WEAPON_TYPE.get(eid, "")), ("set_id", SET_ID.get(eid, "")), ("max_level", 10),
            ("atk", atk), ("max_hp", hp), ("def", df), ("crit_rate", cr), ("crit_damage", cd), ("cdr", cdr),
            ("growth_per_level", 0.1), ("enhance_gold_base", 200 * cost), ("enhance_points_base", 100 * cost)])
 

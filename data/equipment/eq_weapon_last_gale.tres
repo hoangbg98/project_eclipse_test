@@ -1,0 +1,110 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "wind"
+stat = "elem_dmg"
+value = 0.15
+note = "Cộng hưởng: người đeo hệ Phong +15% ST Phong"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 0
+stat = "move_speed"
+value = 0.08
+note = "Người đeo +8% tốc độ di chuyển"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 0
+stat = "all_dmg"
+value = 0.06
+note = "Người đeo +6% tất cả ST"
+
+[sub_resource type="Resource" id="Effect_3"]
+script = ExtResource("2")
+kind = 2
+condition = "slow"
+value = 0.08
+note = "Kẻ địch đang Chậm chịu +8% ST từ người đeo"
+
+[sub_resource type="Resource" id="Effect_4"]
+script = ExtResource("2")
+kind = 3
+status_id = "slow"
+value = 2.0
+magnitude = 0.2
+note = "Kĩ năng vũ khí thêm Chậm 20% trong 2s"
+
+[sub_resource type="Resource" id="Effect_5"]
+script = ExtResource("2")
+kind = 4
+note = "Bắn trúng 2 kẻ địch khác nhau trong 4s: +8% tốc độ di chuyển 4s"
+
+[sub_resource type="Resource" id="Effect_6"]
+script = ExtResource("2")
+kind = 0
+exclusive = true
+team = true
+effect_id = "wind_wpn_team_en"
+stat = "en_regen"
+value = 0.06
+note = "Toàn đội +6% tốc độ nạp EN"
+
+[sub_resource type="Resource" id="Effect_7"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Kẻ địch trong Phong Vực chịu +12% ST từ Kazeyumi"
+
+[sub_resource type="Resource" id="Effect_8"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "skill:weapon:cooldown_sec"
+value = -2.0
+note = "CD Kĩ năng vũ khí 13.0s → 11.0s"
+
+[sub_resource type="Resource" id="Effect_9"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Bonus mục tiêu đứng trong Phong Vực +25% → +35%"
+
+[sub_resource type="Resource" id="Effect_10"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Né hoàn hảo: Kĩ năng vũ khí giảm 3.0s CD (ICD 8s)"
+
+[sub_resource type="Resource" id="Effect_11"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Đồng đội trong Phong Vực +10% ST nguyên tố"
+
+[resource]
+script = ExtResource("1")
+id = "eq_weapon_last_gale"
+name_key = "EQUIP_EQ_WEAPON_LAST_GALE"
+slot = "weapon"
+rarity = 5
+weapon_type = "bow"
+max_level = 10
+owner_id = "char_wind_01"
+set_id = ""
+atk = 215.0
+max_hp = 0.0
+def = 0.0
+crit_rate = 0.05
+crit_damage = 0.0
+cdr = 0.0
+growth_per_level = 0.1
+enhance_gold_base = 1000
+enhance_points_base = 500
+effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2"), SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6"), SubResource("Effect_7"), SubResource("Effect_8"), SubResource("Effect_9"), SubResource("Effect_10"), SubResource("Effect_11")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

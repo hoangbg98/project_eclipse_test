@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="StigmaSetDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/stigma_set_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "earth"
+stat = "elem_dmg"
+value = 0.05
+note = "Người đeo +5% ST Địa"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 0
+stat = "dmg_taken_down"
+value = 0.03
+note = "Người đeo giảm 3% ST nhận"
+
+[resource]
+script = ExtResource("1")
+id = "set_bedrock"
+name_key = "SET_SET_BEDROCK"
+rarity = 4
+owner_id = ""
+element = "earth"
+bonus_2 = Array[ExtResource("2")]([SubResource("Effect_0")])
+bonus_3 = Array[ExtResource("2")]([SubResource("Effect_1")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

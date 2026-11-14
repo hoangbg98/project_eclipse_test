@@ -18,6 +18,13 @@ var _base: Dictionary = {}       # key -> giây gốc
 var _remaining: Dictionary = {}  # key -> giây còn lại
 var _uses_cdr: Dictionary = {}   # key -> bool
 var _reduced: Dictionary = {}    # key -> giây đã rút trong chu kỳ hiện tại
+var _cycle: Dictionary = {}      # key -> độ dài chu kỳ hiện tại (sau CDR)
+var _floor: Dictionary = {}      # key -> tỉ lệ sàn: chu kỳ thực tế ≥ tỉ lệ × giây gốc (EQUIPMENT_5STAR 3.4 dòng 1)
+
+
+## Sàn CD: tổng rút ngắn riêng trong một chu kỳ không làm chu kỳ ngắn hơn `ratio` × giây gốc đã khai báo.
+func set_floor(key: StringName, ratio: float) -> void:
+	_floor[key] = clampf(ratio, 0.0, 1.0)
 
 
 func _init(combat_rules: CombatRules) -> void:
@@ -70,6 +77,7 @@ func trigger(key: StringName) -> bool:
 	var d := duration_of(key)
 	_remaining[key] = d
 	_reduced[key] = 0.0
+	_cycle[key] = d
 	cooldown_started.emit(key, d)
 	if d <= 0.0:
 		cooldown_ready.emit(key)
@@ -84,6 +92,9 @@ func reduce(key: StringName, seconds: float, max_per_cycle: float = -1.0) -> flo
 	var allowed := seconds
 	if max_per_cycle >= 0.0:
 		allowed = minf(allowed, maxf(max_per_cycle - float(_reduced[key]), 0.0))
+	if _floor.has(key):
+		var room := float(_cycle.get(key, 0.0)) - float(_floor[key]) * float(_base[key]) - float(_reduced[key])
+		allowed = minf(allowed, maxf(room, 0.0))
 	var applied := minf(allowed, remaining(key))
 	if applied <= 0.0:
 		return 0.0

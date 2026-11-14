@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "lightning"
+stat = "elem_dmg"
+value = 0.15
+note = "Cộng hưởng: người đeo hệ Lôi +15% ST Lôi"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 0
+stat = "atk_speed"
+value = 0.08
+note = "Người đeo +8% tốc độ tấn công"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 0
+stat = "all_dmg"
+value = 0.06
+note = "Người đeo +6% tất cả ST"
+
+[sub_resource type="Resource" id="Effect_3"]
+script = ExtResource("2")
+kind = 2
+condition = "elemental"
+value = 0.08
+note = "Kẻ địch đang mang hiệu ứng nguyên tố chịu +8% tất cả ST từ người đeo"
+
+[sub_resource type="Resource" id="Effect_4"]
+script = ExtResource("2")
+kind = 3
+requires_element = "lightning"
+status_id = "lightning_mark"
+value = 6.0
+magnitude = -1.0
+note = "Kĩ năng vũ khí thêm 1 Dấu Sét lên mục tiêu trúng"
+
+[sub_resource type="Resource" id="Effect_5"]
+script = ExtResource("2")
+kind = 4
+note = "Gây hiệu ứng nguyên tố: người đeo +6% tốc độ nạp EN trong 4s (ICD 4s)"
+
+[sub_resource type="Resource" id="Effect_6"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Sau mỗi Bùng nổ Sét: toàn đội +8% tốc độ tấn công 6s (làm mới, ICD 4s)"
+
+[sub_resource type="Resource" id="Effect_7"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "kit:burst.atk_ratio"
+value = 0.4
+note = "Bùng nổ Sét +40% ST (150% → 190% ATK)"
+
+[sub_resource type="Resource" id="Effect_8"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "skill:weapon:cooldown_sec"
+value = -2.0
+note = "CD Kĩ năng vũ khí 11.0s → 9.0s"
+
+[sub_resource type="Resource" id="Effect_9"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Kĩ năng vũ khí áp 2 Dấu Sét mỗi lượt đao thay vì 1"
+
+[sub_resource type="Resource" id="Effect_10"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "skill:weapon:blocks_normal_ms"
+value = -300.0
+note = "Khóa đòn thường sau Kĩ năng vũ khí 800 ms → 500 ms"
+
+[sub_resource type="Resource" id="Effect_11"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Mỗi Bùng nổ Sét hồi 8 EN cho Raikiba (ICD 4s)"
+
+[resource]
+script = ExtResource("1")
+id = "eq_weapon_twin_thunder"
+name_key = "EQUIP_EQ_WEAPON_TWIN_THUNDER"
+slot = "weapon"
+rarity = 5
+weapon_type = "dual_blades"
+max_level = 10
+owner_id = "char_lightning_01"
+set_id = ""
+atk = 220.0
+max_hp = 0.0
+def = 0.0
+crit_rate = 0.0
+crit_damage = 0.15
+cdr = 0.0
+growth_per_level = 0.1
+enhance_gold_base = 1000
+enhance_points_base = 500
+effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2"), SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6"), SubResource("Effect_7"), SubResource("Effect_8"), SubResource("Effect_9"), SubResource("Effect_10"), SubResource("Effect_11")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

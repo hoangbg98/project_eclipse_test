@@ -99,8 +99,12 @@ func validate() -> PackedStringArray:
 			e.append("%s: bậc %d có featured_rate / bảo hiểm nhưng không có rate-up" % [id, t.rarity])
 		if t.soft_pity_start > 0 and t.hard_pity > 0 and t.soft_pity_start >= t.hard_pity:
 			e.append("%s: bậc %d pity mềm phải bắt đầu trước pity cứng" % [id, t.rarity])
+		if t.exclude_owned_until_complete:
+			for entry in t.pool:
+				if not entry.begins_with("equip:"):
+					e.append("%s: bậc %d loại món đã có chỉ dùng cho trang bị" % [id, t.rarity])
 		if i < tiers.size() - 1:
-			sum += t.base_rate
+			sum += t.base_rate * (t.pool.size() if t.rate_per_item else 1)
 	for k in multi_guarantee_tiers:
 		if not keys.has(k):
 			e.append("%s: multi_guarantee_tiers có khóa lạ '%s'" % [id, k])

@@ -61,6 +61,8 @@ func _on_hit_dealt(target: Combatant, result: DamageCalculator.Result, hit: HitI
 	if config == null or target == null:
 		return
 	var rate := lifesteal_rate(hit, target)
+	if combatant.equip:
+		rate = combatant.equip.kit_lifesteal(rate)   # kit + trang bị ≤ trần hút máu (EQUIPMENT_5STAR 3.4 dòng 5)
 	if rate > 0.0 and result.amount > 0:
 		combatant.heal_target(combatant, float(result.amount) * rate)
 	var key := hit.skill_id.get_slice(".", 1)

@@ -68,7 +68,7 @@ chung, mỗi kỳ 1 bộ đề cử 5★ (1 vũ khí + 3 vết thánh của mộ
 đủ bộ (thiếu 4 / 3 / 2 / 1 món: tổng 6 / 4.5 / 3 / 1.5%), đủ bộ thì về 6% và có thể ra trùng. Pity cứng 50 lượt mỗi món,
 chỉ chắc chắn ra món chưa có. Pity mềm từ lượt 30: tổng tỉ lệ 5★ +10% một lần. Pity về 0 khi sang banner mới, kể cả
 banner chạy lại. Các bậc 4★ / 3★ giữ như tiếp tế, phần 5★ lấy từ nguyên liệu (58% − tỉ lệ 5★). Giá 280 / 2520 Ngọc.
-Món trùng không quy đổi. **Chưa làm** (chưa có code).
+Món trùng không quy đổi. **Đã làm** 2026-11-15: `data/banners/banner_star5_earth.tres` (đề cử Iwagane), sinh bằng `tools/gen_banner_data.py`.
 
 ## B. Hình nhân vật (frame-by-frame)
 

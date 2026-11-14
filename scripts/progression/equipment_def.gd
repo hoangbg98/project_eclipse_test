@@ -18,6 +18,14 @@ const STIGMA_SLOTS: Array[String] = ["stigma_top", "stigma_mid", "stigma_bot"]
 @export_file("*.png", "*.webp", "*.jpg") var art := ""
 @export var max_level := 10
 
+@export_group("Hiệu ứng (EQUIPMENT_5STAR.md)")
+## Giáp chủ sở hữu (Data ID, owner Q1). Rỗng = không có phần độc quyền.
+@export var owner_id := ""
+## Vết thánh: id bộ (StigmaSetDef trong data/equipment/sets/). Rỗng = không thuộc bộ nào.
+@export var set_id := ""
+## Hiệu ứng riêng của món (phần chung + phần độc quyền). Cố định, không tăng theo cường hóa (owner Q8).
+@export var effects: Array[EquipEffect] = []
+
 @export_group("Chỉ số cộng ở cấp 0")
 @export var atk := 0.0
 @export var max_hp := 0.0
@@ -58,6 +66,15 @@ func validate() -> PackedStringArray:
 		e.append("%s: slot lạ '%s'" % [id, slot])
 	if max_level < 0 or growth_per_level < 0.0:
 		e.append("%s: max_level / growth không được âm" % id)
+	if not set_id.is_empty() and slot == "weapon":
+		e.append("%s: vũ khí không thuộc bộ vết thánh" % id)
+	for i in effects.size():
+		if effects[i] == null:
+			e.append("%s: effects[%d] rỗng" % [id, i])
+			continue
+		e.append_array(effects[i].validate("%s.effects[%d]" % [id, i]))
+		if effects[i].exclusive and owner_id.is_empty():
+			e.append("%s: hiệu ứng độc quyền cần owner_id" % id)
 	if atk == 0.0 and max_hp == 0.0 and def == 0.0 and crit_rate == 0.0 and crit_damage == 0.0 and cdr == 0.0:
 		e.append("%s: không cộng chỉ số nào" % id)
 	return e

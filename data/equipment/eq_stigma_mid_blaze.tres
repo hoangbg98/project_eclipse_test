@@ -9,6 +9,7 @@ name_key = "EQUIP_EQ_STIGMA_MID_BLAZE"
 slot = "stigma_mid"
 rarity = 4
 weapon_type = ""
+set_id = "set_blaze"
 max_level = 10
 atk = 40.0
 max_hp = 1500.0

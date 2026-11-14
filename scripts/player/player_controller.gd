@@ -53,6 +53,8 @@ var kit: Node
 var stats_override: CombatStats
 ## Cấp kỹ năng theo SkillDef.key (từ hồ sơ người chơi); thiếu key = cấp 1.
 var skill_levels: Dictionary = {}
+## Hiệu ứng trang bị đã gom (PartyManager gán trước khi vào cây); null = không có.
+var loadout: EquipmentResolver.Loadout
 ## Combatant của cả đội (PartyManager gán sau khi tạo đủ thành viên); rỗng = chỉ mình nhân vật này.
 var team_combatants: Array[Combatant] = []
 ## Còn bấy nhiêu giây không dùng được đòn thường (SkillDef.blocks_normal_ms, vd Raikiba ném đao).
@@ -86,7 +88,13 @@ func _ready() -> void:
 	_setup_sprite()
 	sprite.animation_finished.connect(_on_sprite_animation_finished)
 	combatant.setup()
-	runner.setup(self, combatant, character.load_skills() if character else {}, hurtbox)
+	combatant.equip = loadout
+	var skills: Dictionary = character.load_skills() if character else {}
+	if loadout:
+		skills = EquipmentResolver.apply_to_skills(skills, loadout)
+	runner.setup(self, combatant, skills, hurtbox)
+	if loadout:
+		combatant.cooldowns.set_floor(&"weapon", loadout.rules.cd_floor_ratio)
 	runner.skill_started.connect(_on_skill_started)
 	runner.level_provider = func(s: SkillDef) -> int: return int(skill_levels.get(s.key, 1))
 	var hold: SkillDef = runner.skills.get("hold_1")
@@ -100,7 +108,7 @@ func _ready() -> void:
 		kit = character.kit_script.new()
 		kit.name = "Kit"
 		add_child(kit)
-		kit.attach(self, character.kit_config)
+		kit.attach(self, EquipmentResolver.apply_to_kit_config(character.kit_config, loadout) if loadout else character.kit_config)
 	MovementStates.register(fsm, self)
 	CombatStates.register(fsm, self)
 	fsm.state_changed.connect(_on_state_changed)
@@ -319,7 +327,8 @@ func _apply_horizontal(delta: float) -> void:
 			velocity.x = runner.velocity_x()
 		return
 	var st := combatant.statuses
-	var speed := config.run_speed * maxf(1.0 + st.move_speed_up() - st.move_slow(), 0.0)
+	var equip_speed := loadout.stat("move_speed") if loadout else 0.0
+	var speed := config.run_speed * maxf(1.0 + st.move_speed_up() + equip_speed - st.move_slow(), 0.0)
 	if charging:
 		var hold: SkillDef = runner.skills.get("hold_1")
 		speed *= 1.0 - (hold.charge_move_slow if hold else 0.0)
@@ -450,7 +459,8 @@ const ATTACK_SPEED_KEYS := ["normal", "hold", "air", "landing"]
 ## Hệ số thời gian cho kỹ năng đang chạy (1 + % tốc độ tấn công nếu là đòn cơ bản).
 func attack_speed_factor() -> float:
 	if runner.current != null and runner.current.key in ATTACK_SPEED_KEYS:
-		return 1.0 + combatant.statuses.attack_speed_up()
+		var from_status := combatant.statuses.attack_speed_up()
+		return 1.0 + (loadout.attack_speed(from_status) if loadout else from_status)
 	return 1.0
 
 

@@ -159,6 +159,13 @@ func stats_of(character_id: String) -> CombatStats:
 	return progression.stats_for(load(path) as CharacterDef)
 
 
+## Hiệu ứng trang bị đã gom của một nhân vật (cho PartyManager.loadout_provider).
+func loadout_of(character_id: String) -> EquipmentResolver.Loadout:
+	var path := CHARACTER_DATA % character_id
+	var d := load(path) as CharacterDef if ResourceLoader.exists(path) else null
+	return inventory.loadout_of(character_id, d.element if d else "")
+
+
 ## Cấp kỹ năng theo SkillDef.key của một nhân vật (cho PartyManager.skill_levels_provider).
 func skill_levels_of(character_id: String) -> Dictionary:
 	return progression.skill_levels_by_key(character_id)

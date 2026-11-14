@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+stat = "hp_pct"
+value = 0.08
+note = "HP tối đa +8%"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 4
+requires_element = "fire"
+note = "Thời gian bị Cháy −30% (chỉ hệ Hỏa)"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "kit:heat_atk_per_stack"
+value = 0.01
+note = "Mỗi tầng Nhiệt +4% → +5% ATK (tối đa +25%)"
+
+[resource]
+script = ExtResource("1")
+id = "eq_stigma_mid_lavoisier"
+name_key = "EQUIP_EQ_STIGMA_MID_LAVOISIER"
+slot = "stigma_mid"
+rarity = 5
+weapon_type = ""
+max_level = 10
+owner_id = "char_fire_01"
+set_id = "set_lavoisier"
+atk = 50.0
+max_hp = 2000.0
+def = 60.0
+crit_rate = 0.0
+crit_damage = 0.0
+cdr = 0.0
+growth_per_level = 0.1
+enhance_gold_base = 1000
+enhance_points_base = 500
+effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

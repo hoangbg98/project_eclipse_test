@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentRules" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_rules.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+cd_floor_ratio = 0.5
+atk_speed_cap = 0.6
+lifesteal_cap = 0.3
+heal_bonus_cap = 0.5
+overflow_shield_cap = 0.12
+stone_shield_cap = 0.25
+equip_damage_cap = 1.0
+low_hp_ratio = 0.3
+param_caps = {
+"kit:shield_max_ratio": 0.12
+}
+metadata/source = "EQUIPMENT_5STAR mục 3.4, owner xác nhận 2026-11-14 (mục 5.4). Chỉnh sau playtest."

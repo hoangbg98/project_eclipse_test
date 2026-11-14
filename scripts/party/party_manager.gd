@@ -45,6 +45,8 @@ var members: Array[CharacterRuntime] = []
 var stats_provider: Callable
 ## (character_id) -> {SkillDef.key: cấp} (PlayerProfile.skill_levels_of). Không gán thì mọi kỹ năng cấp 1.
 var skill_levels_provider: Callable
+## (character_id) -> EquipmentResolver.Loadout (PlayerProfile.loadout_of). Không gán thì không có hiệu ứng trang bị.
+var loadout_provider: Callable
 var active_index := 0
 var rules: CombatRules
 var links: LinkTracker
@@ -74,6 +76,8 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 			p.stats_override = stats_provider.call(character_ids[i])
 		if skill_levels_provider.is_valid():
 			p.skill_levels = skill_levels_provider.call(character_ids[i])
+		if loadout_provider.is_valid():
+			p.loadout = loadout_provider.call(character_ids[i])
 		p.position = spawn
 		parent.add_child(p)
 		var m := CharacterRuntime.new(character_ids[i], p, i)
@@ -90,6 +94,12 @@ func setup(character_ids: PackedStringArray, parent: Node, spawn: Vector2) -> vo
 		team.append(m.controller.combatant)
 	for m in members:
 		m.controller.team_combatants = team
+	# Buff toàn đội từ trang bị: cùng ID lấy mức cao nhất, cả 3 người (gồm dự bị) cùng nhận (EQUIPMENT_5STAR 3.3).
+	var loadouts: Array = []
+	for m in members:
+		if m.controller.loadout:
+			loadouts.append(m.controller.loadout)
+	EquipmentResolver.merge_team(loadouts)
 	active_index = 0
 	for m in members:
 		if m.party_index != active_index:

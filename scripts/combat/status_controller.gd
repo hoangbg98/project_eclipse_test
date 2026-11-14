@@ -40,6 +40,10 @@ func apply(status_id: String, duration := -1.0, magnitude := -1.0, source: Objec
 	if dur <= 0.0:
 		return false
 	var mag := def.default_magnitude if magnitude < 0.0 else magnitude
+	# Trang bị của người gây ra cộng thêm thời gian / độ mạnh (EquipEffect PARAM status_dur / status_mag).
+	if source != null and source.has_method("status_bonus"):
+		dur += float(source.status_bonus("status_dur:" + status_id))
+		mag += float(source.status_bonus("status_mag:" + status_id))
 	if _active.has(status_id):
 		var e: Dictionary = _active[status_id]
 		e["remaining"] = maxf(float(e["remaining"]), dur)

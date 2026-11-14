@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="StigmaSetDef" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/stigma_set_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "fire"
+stat = "elem_dmg"
+value = 0.1
+note = "Người đeo +10% ST Hỏa"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 2
+requires_element = "fire"
+condition = "burn"
+value = 0.05
+note = "Kẻ địch đang Cháy chịu +5% ST Hỏa từ người đeo"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Kĩ năng thường trúng mục tiêu: +1 tầng Nhiệt ngay (ICD 3s)"
+
+[sub_resource type="Resource" id="Effect_3"]
+script = ExtResource("2")
+kind = 4
+note = "Khi người đeo dùng Tuyệt kỹ: toàn đội +8% tất cả ST trong 8s"
+
+[sub_resource type="Resource" id="Effect_4"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Đạt 5 Nhiệt: toàn đội +10% ST Hỏa 6s (làm mới, ICD 8s)"
+
+[sub_resource type="Resource" id="Effect_5"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "status_mag:phoenix"
+value = 0.1
+note = "Hỏa Hoàng +20% → +30% ST"
+
+[resource]
+script = ExtResource("1")
+id = "set_lavoisier"
+name_key = "SET_SET_LAVOISIER"
+rarity = 5
+owner_id = "char_fire_01"
+element = "fire"
+bonus_2 = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2")])
+bonus_3 = Array[ExtResource("2")]([SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

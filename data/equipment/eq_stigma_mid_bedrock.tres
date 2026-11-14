@@ -9,6 +9,7 @@ name_key = "EQUIP_EQ_STIGMA_MID_BEDROCK"
 slot = "stigma_mid"
 rarity = 4
 weapon_type = ""
+set_id = "set_bedrock"
 max_level = 10
 atk = 0.0
 max_hp = 1600.0

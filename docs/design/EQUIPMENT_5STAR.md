@@ -356,3 +356,48 @@ Tên mới thay cho tên bộ cũ (Lễ Phục Hỏa Hoàng, Áo Choàng Lữ Ph
 | 9 | Món trùng | Không quy đổi. Phân giải trang bị thiết kế sau (Q11) |
 
 **Cách tính (owner xác nhận 2026-11-14):** tổng tỉ lệ 5★ theo số món còn thiếu: 4 món 6%, 3 món 4.5%, 2 món 3%, 1 món 1.5%; đủ bộ thì về 6% và có thể ra trùng. Nguyên liệu = 58% − tổng tỉ lệ 5★ (52–56.5%). Pity mềm "+10%" cộng vào **tổng** tỉ lệ 5★ của lượt đó, không phải mỗi món (ví dụ thiếu 4 món, từ lượt 30: 16%).
+
+---
+
+## 6. Cài đặt (2026-11-15)
+
+### 6.1 ID dữ liệu
+
+Theo quy ước đang có trong `data/equipment/` (thư mục phẳng), thay cho `wpn_*` / `set_*` / `art_*` tạm ở mục 1–2:
+
+| Nhân vật | Vũ khí 5★ | Bộ vết thánh (`data/equipment/sets/`) | 3 món Đầu / Thân / Chân |
+| --- | --- | --- | --- |
+| Enkiba | `eq_weapon_dusk_inferno` | `set_lavoisier` | `eq_stigma_{top,mid,bot}_lavoisier` |
+| Kazeyumi | `eq_weapon_last_gale` | `set_davinci` | `eq_stigma_{top,mid,bot}_davinci` |
+| Raikiba | `eq_weapon_twin_thunder` | `set_franklin` | `eq_stigma_{top,mid,bot}_franklin` |
+| Hikarine | `eq_weapon_solar_verdict` | `set_nightingale` | `eq_stigma_{top,mid,bot}_nightingale` |
+| Yomigari | `eq_weapon_crescent_pact` | `set_poe` | `eq_stigma_{top,mid,bot}_poe` |
+| Iwagane | `eq_weapon_unyielding_peak` | `set_darwin` | `eq_stigma_{top,mid,bot}_darwin` |
+
+Bộ 4★ (Q9): `set_blaze`, `set_bedrock`. Banner 5★ đầu tiên: `data/banners/banner_star5_earth.tres` (đề cử Iwagane,
+`pity_group = banner_star5_earth_r1`; kỳ chạy lại đổi hậu tố để pity về 0).
+
+Sinh lại dữ liệu: `python -X utf8 tools/gen_equipment_5star.py` (đồ, bộ, khóa dịch), `python -X utf8 tools/gen_banner_data.py` (banner).
+
+### 6.2 Cách chạy
+
+- Mỗi dòng hiệu ứng là một `EquipEffect` (`scripts/progression/equip_effect.gd`): `STAT`, `PARAM` ("A → B", cộng phần
+  tăng), `VS_TARGET` (% ST lên mục tiêu thỏa điều kiện), `ON_WEAPON_HIT` (Kĩ năng vũ khí trúng thì áp trạng thái),
+  `PENDING` (chưa cài, chỉ giữ mô tả).
+- `EquipmentResolver` gom hiệu ứng (chủ sở hữu theo giáp, khóa hệ, đếm món cùng bộ) và chặn trần ở một chỗ; trần ở
+  `data/config/equipment_rules.tres`. Giảm ST nhận dùng trần sẵn có `CombatRules.damage_taken_reduction_cap` (0.80).
+- Vào trận: `PlayerProfile.loadout_of` → `PartyManager.loadout_provider` → `PlayerController` (bản sao SkillDef và cấu
+  hình kit đã cộng phần tăng, sàn CD Kĩ năng vũ khí) và `Combatant.equip` (sát thương, giảm ST nhận, hồi máu, hút máu,
+  thời gian / độ mạnh trạng thái do người đeo gây ra). HP %, DEF %, chí mạng vào `Progression.stats_for`.
+- Buff toàn đội tĩnh (vd vũ khí Enkiba: toàn đội +8% tất cả ST): cùng `effect_id` lấy mức cao nhất, cả 3 người nhận.
+
+### 6.3 Chưa cài (PENDING, 46 / 154 dòng)
+
+Các dòng theo sự kiện có thời hạn (buff khi dùng Tuyệt kỹ, khi hạ gục, khi né hoàn hảo, buff toàn đội có ICD), dòng đổi
+cơ chế kit (tiêu 3 Nhiệt, 2 Dấu Sét mỗi lượt đao, lan Dấu Sét / Nguyền, gỡ 2 hiệu ứng xấu...) và dòng cần vùng (Phong Vực,
+vùng hồi của Hikarine). Danh sách đầy đủ: các hiệu ứng `kind = 4` trong `data/equipment/`; test
+`tests/unit/progression/test_equipment_effects.gd` đếm chúng. Khi cài một dòng, đổi `PENDING` trong
+`tools/gen_equipment_5star.py` sang loại đúng rồi sinh lại.
+
+Chưa làm khác: mô tả hiệu ứng trên màn Trang bị / Nhân vật (đang chỉ có tên món và chỉ số), ảnh vũ khí / vết thánh,
+dòng 9 (ngưỡng HP có đệm), 11, 12, 13, 14 của mục 3.4 (chạy theo cơ chế kit sẵn có, chưa có test riêng).

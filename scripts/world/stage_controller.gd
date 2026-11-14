@@ -31,6 +31,7 @@ const WALL_THICKNESS := 64.0
 var party_ids := PackedStringArray()
 var stats_provider: Callable
 var skill_levels_provider: Callable
+var loadout_provider: Callable
 ## true: lấy màn từ GameConfig.selected_stage_id (màn chọn màn đặt trước khi mở scene).
 var use_selected_stage := true
 ## false: không đọc / ghi SaveService (test).
@@ -87,6 +88,8 @@ func _ready() -> void:
 			stats_provider = profile.stats_of
 		if not skill_levels_provider.is_valid():
 			skill_levels_provider = profile.skill_levels_of
+		if not loadout_provider.is_valid():
+			loadout_provider = profile.loadout_of
 	if party_ids.is_empty():
 		party_ids = PackedStringArray(SaveSchema.STARTER_CHARACTERS)
 
@@ -95,6 +98,7 @@ func _ready() -> void:
 	add_child(party)
 	party.stats_provider = stats_provider
 	party.skill_levels_provider = skill_levels_provider
+	party.loadout_provider = loadout_provider
 	party.setup(party_ids, self, respawn_point)
 	party.party_defeated.connect(_on_party_defeated)
 	objectives.track(party)

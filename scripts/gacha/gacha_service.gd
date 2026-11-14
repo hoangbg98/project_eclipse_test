@@ -126,11 +126,28 @@ func _pull_one(banner: BannerDef, force_tier := "") -> Dictionary:
 	return entry
 
 
+## Phần thưởng còn được ra của bậc: bậc `exclude_owned_until_complete` bỏ món đã có cho tới khi có đủ cả pool.
+func eligible_pool(t: GachaTierDef) -> PackedStringArray:
+	if not t.exclude_owned_until_complete:
+		return t.pool
+	var out := PackedStringArray()
+	for p in t.pool:
+		if not (p.begins_with("equip:") and profile.inventory.owns_def(p.get_slice(":", 1))):
+			out.append(p)
+	return out if not out.is_empty() else t.pool
+
+
+## Tỉ lệ gốc của bậc lúc này: `rate_per_item` → tỉ lệ mỗi món × số món còn được ra.
+func base_rate_of(t: GachaTierDef) -> float:
+	return t.base_rate * eligible_pool(t).size() if t.rate_per_item else t.base_rate
+
+
 ## Tỉ lệ thực của một bậc ở lượt hiện tại (đã tính pity mềm / cứng); bậc cuối không dùng hàm này.
-static func tier_rate(t: GachaTierDef, pulls_since: int) -> float:
+## `base` ≥ 0: tỉ lệ gốc thay cho t.base_rate (bậc tính theo món, base_rate_of).
+static func tier_rate(t: GachaTierDef, pulls_since: int, base := -1.0) -> float:
 	if t.hard_pity > 0 and pulls_since >= t.hard_pity:
 		return 1.0
-	var r := t.base_rate
+	var r := t.base_rate if base < 0.0 else base
 	if t.soft_pity_start > 0 and pulls_since >= t.soft_pity_start:
 		if t.soft_pity_mode == "flat":
 			r += t.soft_pity_step
@@ -150,13 +167,17 @@ func _roll_tier(banner: BannerDef, pity: Dictionary) -> GachaTierDef:
 	var acc := 0.0
 	for i in last:
 		var t := banner.tiers[i]
-		acc += tier_rate(t, int(pity[t.key()]))
+		acc += tier_rate(t, int(pity[t.key()]), base_rate_of(t))
 		if roll < acc:
 			return t
 	return banner.tiers[last]
 
 
 func _pick_reward(tier: GachaTierDef, group: String) -> Dictionary:
+	if tier.exclude_owned_until_complete:
+		var pool := eligible_pool(tier)
+		var item := pool[rng.randi_range(0, pool.size() - 1)]
+		return {"item": item, "featured": item in tier.featured}
 	if tier.featured.is_empty():
 		return {"item": tier.pool[rng.randi_range(0, tier.pool.size() - 1)], "featured": false}
 	var g := _guarantee_table(group)
@@ -236,9 +257,11 @@ static func rates_table(banner: BannerDef) -> Array:
 	var last := banner.tiers.size() - 1
 	for i in banner.tiers.size():
 		var t := banner.tiers[i]
-		var rate := t.base_rate if i < last else maxf(1.0 - upper, 0.0)
+		# Bậc tính theo món: hiện mức khi còn thiếu cả pool (tỉ lệ thật giảm dần theo món đã có, base_rate_of).
+		var base := t.base_rate * (t.pool.size() if t.rate_per_item else 1)
+		var rate := base if i < last else maxf(1.0 - upper, 0.0)
 		if i < last:
-			upper += t.base_rate
+			upper += base
 		var items: Array = []
 		var n_feat := t.featured.size()
 		var n_other := t.pool.size() - n_feat

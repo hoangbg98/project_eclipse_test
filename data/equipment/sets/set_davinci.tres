@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="StigmaSetDef" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/stigma_set_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "wind"
+stat = "elem_dmg"
+value = 0.1
+note = "Người đeo +10% ST Phong"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 4
+note = "Né hoàn hảo: +10% tất cả ST 4s"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "kit:zone_duration_sec"
+value = 1.5
+note = "Phong Vực kéo dài +1.5s"
+
+[sub_resource type="Resource" id="Effect_3"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Chậm trong Phong Vực 20% → 25%"
+
+[sub_resource type="Resource" id="Effect_4"]
+script = ExtResource("2")
+kind = 4
+note = "Bắn trúng ≥ 3 kẻ địch khác nhau trong 4s: toàn đội +8% ST nguyên tố 6s (ICD 10s)"
+
+[sub_resource type="Resource" id="Effect_5"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Tuyệt kỹ: bão kéo dài +2s"
+
+[sub_resource type="Resource" id="Effect_6"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "status_mag:storm_blessing"
+value = 0.05
+note = "Buff đồng đội trong bão +15% → +20% ST"
+
+[resource]
+script = ExtResource("1")
+id = "set_davinci"
+name_key = "SET_SET_DAVINCI"
+rarity = 5
+owner_id = "char_wind_01"
+element = "wind"
+bonus_2 = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2"), SubResource("Effect_3")])
+bonus_3 = Array[ExtResource("2")]([SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

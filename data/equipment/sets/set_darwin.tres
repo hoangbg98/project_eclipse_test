@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="StigmaSetDef" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/stigma_set_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "earth"
+stat = "elem_dmg"
+value = 0.1
+note = "Người đeo +10% ST Địa"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 4
+note = "Dưới 50% HP: giảm thêm 8% ST nhận"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Khiên Đá hấp thụ tối đa 20% → 25% HP tối đa"
+
+[sub_resource type="Resource" id="Effect_3"]
+script = ExtResource("2")
+kind = 4
+note = "Dùng Kĩ năng vũ khí hoặc Tuyệt kỹ: toàn đội giảm 6% ST nhận 6s (ICD 10s)"
+
+[sub_resource type="Resource" id="Effect_4"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "status_mag:stone_god"
+value = 0.05
+note = "Thạch Thần: giảm ST nhận −40% → −45%"
+
+[sub_resource type="Resource" id="Effect_5"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "kit:stone_god_atk"
+value = 0.05
+note = "Thạch Thần: +20% → +25% ATK"
+
+[resource]
+script = ExtResource("1")
+id = "set_darwin"
+name_key = "SET_SET_DARWIN"
+rarity = 5
+owner_id = "char_earth_01"
+element = "earth"
+bonus_2 = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2")])
+bonus_3 = Array[ExtResource("2")]([SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

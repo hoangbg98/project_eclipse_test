@@ -105,6 +105,14 @@ func equipment_level(uid: String) -> int:
 	return int(data["inventory"]["equipment"][uid].get("level", 0)) if owns(uid) else 0
 
 
+## Đang có ít nhất một món theo định nghĩa `def_id`.
+func owns_def(def_id: String) -> bool:
+	for uid in data["inventory"]["equipment"]:
+		if str(data["inventory"]["equipment"][uid]["def_id"]) == def_id:
+			return true
+	return false
+
+
 func equipment_uids() -> PackedStringArray:
 	return PackedStringArray(data["inventory"]["equipment"].keys())
 
@@ -205,6 +213,23 @@ func enhance(uid: String, material_id: String) -> String:
 	data["inventory"]["equipment"][uid]["level"] = level + 1
 	changed.emit()
 	return OK_REASON
+
+
+## Định nghĩa các món nhân vật đang mặc (bỏ qua món mất / sai ô).
+func equipped_defs(character_id: String) -> Array[EquipmentDef]:
+	var out: Array[EquipmentDef] = []
+	if not data["characters"].has(character_id):
+		return out
+	for slot in data["characters"][character_id]["equipment"]:
+		var def := equipment_def_of(str(data["characters"][character_id]["equipment"][slot]))
+		if def and def.slot == slot:
+			out.append(def)
+	return out
+
+
+## Hiệu ứng trang bị đã gom cho nhân vật (EquipmentResolver). `element` = nguyên tố của giáp.
+func loadout_of(character_id: String, element: String) -> EquipmentResolver.Loadout:
+	return EquipmentResolver.resolve(character_id, element, equipped_defs(character_id))
 
 
 ## Tổng chỉ số cộng từ trang bị đang mặc: {atk, max_hp, def, crit_rate, crit_damage, cdr}.

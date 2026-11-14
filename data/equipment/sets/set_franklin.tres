@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="StigmaSetDef" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/stigma_set_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "lightning"
+stat = "elem_dmg"
+value = 0.1
+note = "Người đeo +10% ST Lôi"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 4
+note = "Mục tiêu đang có hiệu ứng nguyên tố chịu +6% tất cả ST từ toàn đội"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Bùng nổ Sét lan 1 Dấu Sét sang kẻ địch gần nhất (ICD 4s)"
+
+[sub_resource type="Resource" id="Effect_3"]
+script = ExtResource("2")
+kind = 4
+note = "Gây hiệu ứng nguyên tố lên kẻ địch: người đeo +6% tốc độ tấn công 4s (ICD 4s)"
+
+[sub_resource type="Resource" id="Effect_4"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "status_mag:overload"
+value = 0.05
+note = "Quá Tải +25% → +30% tốc độ tấn công"
+
+[sub_resource type="Resource" id="Effect_5"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Sau Bùng nổ Sét: toàn đội +8% ST Lôi 6s"
+
+[resource]
+script = ExtResource("1")
+id = "set_franklin"
+name_key = "SET_SET_FRANKLIN"
+rarity = 5
+owner_id = "char_lightning_01"
+element = "lightning"
+bonus_2 = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2")])
+bonus_3 = Array[ExtResource("2")]([SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

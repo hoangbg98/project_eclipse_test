@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+stat = "en_regen"
+value = 0.1
+note = "Tốc độ nạp EN +10%"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "kit:fair_wind_icd_sec"
+value = -2.0
+note = "ICD Gió Thuận 10s → 8s"
+
+[resource]
+script = ExtResource("1")
+id = "eq_stigma_bot_davinci"
+name_key = "EQUIP_EQ_STIGMA_BOT_DAVINCI"
+slot = "stigma_bot"
+rarity = 5
+weapon_type = ""
+max_level = 10
+owner_id = "char_wind_01"
+set_id = "set_davinci"
+atk = 60.0
+max_hp = 0.0
+def = 0.0
+crit_rate = 0.0
+crit_damage = 0.0
+cdr = 0.08
+growth_per_level = 0.1
+enhance_gold_base = 1000
+enhance_points_base = 500
+effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

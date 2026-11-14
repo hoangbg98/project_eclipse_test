@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "fire"
+stat = "elem_dmg"
+value = 0.15
+note = "Cộng hưởng: người đeo hệ Hỏa +15% ST Hỏa"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 0
+stat = "all_dmg"
+value = 0.08
+note = "Người đeo +8% tất cả ST"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 2
+requires_element = "fire"
+condition = "burn"
+value = 0.08
+note = "Kẻ địch đang Cháy chịu +8% ST Hỏa từ người đeo"
+
+[sub_resource type="Resource" id="Effect_3"]
+script = ExtResource("2")
+kind = 3
+requires_element = "fire"
+status_id = "burn"
+value = 3.0
+magnitude = -1.0
+note = "Kĩ năng vũ khí áp Cháy 3s lên mục tiêu trúng"
+
+[sub_resource type="Resource" id="Effect_4"]
+script = ExtResource("2")
+kind = 4
+note = "Dùng Tuyệt kỹ: người đeo +6% tất cả ST trong 6s"
+
+[sub_resource type="Resource" id="Effect_5"]
+script = ExtResource("2")
+kind = 0
+exclusive = true
+team = true
+effect_id = "fire_wpn_team_dmg"
+stat = "all_dmg"
+value = 0.08
+note = "Toàn đội +8% tất cả ST"
+
+[sub_resource type="Resource" id="Effect_6"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "+8% tất cả ST nữa (toàn đội) khi Enkiba có ≥ 3 Nhiệt"
+
+[sub_resource type="Resource" id="Effect_7"]
+script = ExtResource("2")
+kind = 2
+exclusive = true
+condition = "stun"
+value = 0.15
+note = "Kẻ địch đang Choáng chịu +15% tất cả ST từ Enkiba"
+
+[sub_resource type="Resource" id="Effect_8"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "skill:weapon:cooldown_sec"
+value = -2.0
+note = "CD Kĩ năng vũ khí 12.0s → 10.0s"
+
+[sub_resource type="Resource" id="Effect_9"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "status_mag:melt"
+value = 0.05
+note = "Nung chảy −10% → −15% DEF"
+
+[sub_resource type="Resource" id="Effect_10"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Bonus +25% của Kĩ năng vũ khí vẫn cần 5 Nhiệt, chỉ tiêu 3 tầng (giữ lại 2)"
+
+[sub_resource type="Resource" id="Effect_11"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Kĩ năng vũ khí trúng: toàn đội +10% ST Hỏa 8s (ICD 10s, làm mới)"
+
+[sub_resource type="Resource" id="Effect_12"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "status_dur:phoenix"
+value = 2.0
+note = "Hỏa Hoàng 8s → 10s"
+
+[resource]
+script = ExtResource("1")
+id = "eq_weapon_dusk_inferno"
+name_key = "EQUIP_EQ_WEAPON_DUSK_INFERNO"
+slot = "weapon"
+rarity = 5
+weapon_type = "sword"
+max_level = 10
+owner_id = "char_fire_01"
+set_id = ""
+atk = 230.0
+max_hp = 0.0
+def = 0.0
+crit_rate = 0.06
+crit_damage = 0.0
+cdr = 0.0
+growth_per_level = 0.1
+enhance_gold_base = 1000
+enhance_points_base = 500
+effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2"), SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6"), SubResource("Effect_7"), SubResource("Effect_8"), SubResource("Effect_9"), SubResource("Effect_10"), SubResource("Effect_11"), SubResource("Effect_12")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

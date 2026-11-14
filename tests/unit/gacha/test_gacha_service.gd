@@ -69,7 +69,7 @@ func test_banner_validation() -> void:
 
 func test_shipped_banners_are_valid() -> void:
 	var files := ResourceLoader.list_directory("res://data/banners")
-	assert_array(Array(files)).is_equal(["banner_char_terra.tres", "banner_equip_terra.tres"])
+	assert_array(Array(files)).is_equal(["banner_char_terra.tres", "banner_equip_terra.tres", "banner_star5_earth.tres"])
 	for f in files:
 		var b: BannerDef = load("res://data/banners/" + f)
 		assert_array(b.validate()).is_empty()

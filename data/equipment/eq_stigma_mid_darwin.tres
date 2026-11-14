@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+stat = "dmg_taken_down"
+value = 0.06
+note = "Giảm 6% ST nhận"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "kit:bone_damage_reduction"
+value = 0.005
+note = "Mỗi tầng Cốt Đá giảm 3% → 3.5% ST nhận"
+
+[resource]
+script = ExtResource("1")
+id = "eq_stigma_mid_darwin"
+name_key = "EQUIP_EQ_STIGMA_MID_DARWIN"
+slot = "stigma_mid"
+rarity = 5
+weapon_type = ""
+max_level = 10
+owner_id = "char_earth_01"
+set_id = "set_darwin"
+atk = 50.0
+max_hp = 2000.0
+def = 60.0
+crit_rate = 0.0
+crit_damage = 0.0
+cdr = 0.0
+growth_per_level = 0.1
+enhance_gold_base = 1000
+enhance_points_base = 500
+effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

@@ -2111,3 +2111,113 @@ msgstr "Stage %s is coming soon."
 
 msgid "MAP_STAGE_LOCKED"
 msgstr "Clear the previous stage to unlock %s."
+
+# Trang bị 5★, bộ vết thánh
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO"
+msgstr "Dusk Inferno"
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE"
+msgstr "Last Breath of the Gale"
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER"
+msgstr "Twin Thunderclaps"
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT"
+msgstr "Solar Crown Verdict"
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT"
+msgstr "Crescent Pact Scythe"
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK"
+msgstr "Unyielding Mountain Bone"
+
+msgid "EQUIP_EQ_STIGMA_TOP_LAVOISIER"
+msgstr "Oxygen (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_LAVOISIER"
+msgstr "Law of Conservation of Mass (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_LAVOISIER"
+msgstr "Elementary Treatise on Chemistry (Bottom)"
+
+msgid "SET_SET_LAVOISIER"
+msgstr "Antoine Lavoisier"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DAVINCI"
+msgstr "Aerial Screw (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DAVINCI"
+msgstr "Ornithopter (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DAVINCI"
+msgstr "Codex Manuscript (Bottom)"
+
+msgid "SET_SET_DAVINCI"
+msgstr "Leonardo da Vinci"
+
+msgid "EQUIP_EQ_STIGMA_TOP_FRANKLIN"
+msgstr "Kite in the Storm (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_FRANKLIN"
+msgstr "Lightning Rod (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_FRANKLIN"
+msgstr "Poor Richard's Almanack (Bottom)"
+
+msgid "SET_SET_FRANKLIN"
+msgstr "Benjamin Franklin"
+
+msgid "EQUIP_EQ_STIGMA_TOP_NIGHTINGALE"
+msgstr "Lamp of Scutari (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_NIGHTINGALE"
+msgstr "Rose Diagram (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_NIGHTINGALE"
+msgstr "Notes on Nursing (Bottom)"
+
+msgid "SET_SET_NIGHTINGALE"
+msgstr "Florence Nightingale"
+
+msgid "EQUIP_EQ_STIGMA_TOP_POE"
+msgstr "The Raven (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_POE"
+msgstr "The Tell-Tale Heart (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_POE"
+msgstr "The Pit and the Pendulum (Bottom)"
+
+msgid "SET_SET_POE"
+msgstr "Edgar Allan Poe"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DARWIN"
+msgstr "Voyage of the Beagle (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DARWIN"
+msgstr "Natural Selection (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DARWIN"
+msgstr "Theory of Evolution (Bottom)"
+
+msgid "SET_SET_DARWIN"
+msgstr "Charles Darwin"
+
+msgid "SET_SET_BLAZE"
+msgstr "Blaze Sovereign Sigil"
+
+msgid "SET_SET_BEDROCK"
+msgstr "Bedrock Sigil"
+
+# Banner 5★ (owner 2026-11-14)
+msgid "BANNER_STAR5_EARTH"
+msgstr "5★ rate-up: Iwagane's weapon & Charles Darwin set"
+
+msgid "BANNER_KIND_STAR5"
+msgstr "5★ gear banner"
+
+msgid "BANNER_TITLE_STAR5_EARTH"
+msgstr "Unyielding Mountain Bone & Charles Darwin"
+
+msgid "GACHA_TIER_STAR5"
+msgstr "5★ gear (per item)"

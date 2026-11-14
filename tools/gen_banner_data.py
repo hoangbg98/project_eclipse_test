@@ -84,10 +84,12 @@ def equip_by(rarity, stigma):
 
 
 def tier(sub_id, tier_id, rarity, rate, pool, label_key, featured=(), featured_rate=0.0, hard=0, soft_start=0,
-         soft_step=0.0, soft_mode="step", dup_frag=0):
+         soft_step=0.0, soft_mode="step", dup_frag=0, per_item=False, exclude_owned=False):
     arr = lambda xs: "PackedStringArray(%s)" % ", ".join('"%s"' % x for x in xs)
+    extra = ["rate_per_item = true"] if per_item else []
+    extra += ["exclude_owned_until_complete = true"] if exclude_owned else []
     return "\n".join([
-        '[sub_resource type="Resource" id="%s"]' % sub_id, 'script = ExtResource("2")',
+        '[sub_resource type="Resource" id="%s"]' % sub_id, 'script = ExtResource("2")'] + extra + [
         "rarity = %d" % rarity, 'tier_id = "%s"' % tier_id, 'label_key = "%s"' % label_key,
         "base_rate = %s" % repr(float(rate)), "hard_pity = %d" % hard, "soft_pity_start = %d" % soft_start,
         "soft_pity_step = %s" % repr(float(soft_step)), 'soft_pity_mode = "%s"' % soft_mode,
@@ -99,7 +101,21 @@ def tier(sub_id, tier_id, rarity, rate, pool, label_key, featured=(), featured_r
 DISPLAY = {
     "banner_char_terra": ("BANNER_KIND_CHAR", "BANNER_TITLE_TERRA"),
     "banner_equip_terra": ("BANNER_KIND_EQUIP", "BANNER_TITLE_EQUIP_TERRA"),
+    "banner_star5_earth": ("BANNER_KIND_STAR5", "BANNER_TITLE_STAR5_EARTH"),
 }
+
+# --- Owner 2026-11-14: banner 5★ vũ khí + vết thánh (EQUIPMENT_5STAR mục 5.6) ---
+#   Một banner chung, mỗi kỳ 1 bộ đề cử 5★ (1 vũ khí + 3 vết thánh của một nhân vật). Mỗi món 1.5%; món đã có không
+#   ra lại cho tới khi đủ bộ (thiếu 4/3/2/1 món: 6/4.5/3/1.5%), đủ bộ thì 6% và có thể trùng. Pity cứng 50 lượt mỗi
+#   món, chỉ chắc chắn ra món chưa có. Pity mềm từ lượt 30: +10% một lần. Pity về 0 khi sang banner mới, kể cả chạy
+#   lại → mỗi kỳ (kể cả chạy lại) dùng pity_group riêng (đổi hậu tố "_r2"...). Bậc 4★ / 3★ giữ như tiếp tế, phần 5★
+#   lấy từ nguyên liệu (bậc cuối nhận phần còn lại). Giá 280 / 2520.
+STAR5_RATE_PER_ITEM = 0.015
+STAR5_BANNERS = [("banner_star5_earth", "BANNER_STAR5_EARTH", "banner_star5_earth_r1",
+                  ["equip:eq_weapon_unyielding_peak", "equip:eq_stigma_top_darwin", "equip:eq_stigma_mid_darwin",
+                   "equip:eq_stigma_bot_darwin"],
+                  ["equip:eq_weapon_greatsword_magma"],
+                  ["equip:eq_stigma_top_bedrock", "equip:eq_stigma_mid_bedrock", "equip:eq_stigma_bot_bedrock"])]
 
 
 def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_pick, group, source, starter=False):
@@ -162,6 +178,28 @@ for file_id, name_key, weapons, stigmata in EQUIP_BANNERS:
                  "Owner 2026-11-12/13: vũ khí 4★ 2.87%%, vết thánh 4★ 14%%, vũ khí 3★ 10.7%%, vết thánh 3★ 14.43%%, "
                  "nguyên liệu 58%%; pity cứng vũ khí 4★ 60; 10 lượt chắc chắn 4★ (ưu tiên vết thánh); giá 280 / 2520.")
     print("viết", file_id, "W4:", w4, "S4:", s4, "W3:", w3, "S3:", s3)
+
+for file_id, name_key, group, set_items, weapons, stigmata in STAR5_BANNERS:
+    w4, s4 = equip_by(4, False), equip_by(4, True)
+    w3, s3 = equip_by(3, False), equip_by(3, True)
+    five = equip_by(5, False) + equip_by(5, True)
+    assert all(x in five for x in set_items), "món 5★ đề cử phải là đồ 5★"
+    tiers = [
+        ("t_x5", tier("t_x5", "X5", 5, STAR5_RATE_PER_ITEM, set_items, "GACHA_TIER_STAR5", hard=50, soft_start=30,
+                      soft_step=0.10, soft_mode="flat", per_item=True, exclude_owned=True)),
+        ("t_w4", tier("t_w4", "W4", 4, EQUIP_RATES["W4"], w4, "GACHA_TIER_WEAPON_4", featured=weapons,
+                      featured_rate=1.0 if len(weapons) == len(w4) else 0.5, hard=60)),
+        ("t_s4", tier("t_s4", "S4", 4, EQUIP_RATES["S4"], s4, "GACHA_TIER_STIGMA_4", featured=stigmata,
+                      featured_rate=1.0 if len(stigmata) == len(s4) else STIGMA_FEATURED_RATE)),
+        ("t_w3", tier("t_w3", "W3", 3, EQUIP_RATES["W3"], w3, "GACHA_TIER_WEAPON_3")),
+        ("t_s3", tier("t_s3", "S3", 3, EQUIP_RATES["S3"], s3, "GACHA_TIER_STIGMA_3")),
+        ("t_m", tier("t_m", "MAT", 1, 0.0, MATERIALS, "GACHA_TIER_MATERIALS")),
+    ]
+    write_banner(OUT, file_id, name_key, tiers, ["W4", "S4", "X5"], ["S4"], group,
+                 "Owner 2026-11-14: mỗi món 5★ 1.5%, món đã có không ra lại tới khi đủ bộ; pity cứng 50, từ lượt 30 "
+                 "+10% một lần; pity về 0 mỗi kỳ (pity_group riêng); 4★ / 3★ như tiếp tế, 5★ lấy từ nguyên liệu; "
+                 "giá 280 / 2520.")
+    print("viết", file_id, "X5:", set_items)
 
 starter_tiers = [
     ("t_k", tier("t_k", "STARTER", 3, 0.0, ["char:" + STARTER_CHARACTER], "GACHA_TIER_CHAR_B",

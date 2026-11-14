@@ -1,0 +1,105 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "light"
+stat = "elem_dmg"
+value = 0.15
+note = "Cộng hưởng: người đeo hệ Quang +15% ST Quang"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 0
+stat = "heal_bonus"
+value = 0.1
+note = "Người đeo +10% hiệu quả hồi máu"
+
+[sub_resource type="Resource" id="Effect_2"]
+script = ExtResource("2")
+kind = 2
+requires_element = "light"
+condition = "judgment"
+value = 0.06
+note = "Kẻ địch có Phán quyết chịu +6% ST từ người đeo"
+
+[sub_resource type="Resource" id="Effect_3"]
+script = ExtResource("2")
+kind = 4
+note = "Kĩ năng vũ khí hồi cho toàn đội 3% HP tối đa nếu trúng ít nhất 1 kẻ địch"
+
+[sub_resource type="Resource" id="Effect_4"]
+script = ExtResource("2")
+kind = 4
+note = "Hồi máu cho đồng đội dưới 50% HP: người đeo +6% ST 5s (ICD 8s)"
+
+[sub_resource type="Resource" id="Effect_5"]
+script = ExtResource("2")
+kind = 0
+exclusive = true
+team = true
+effect_id = "light_wpn_team_heal"
+stat = "heal_bonus"
+value = 0.08
+note = "Toàn đội +8% hiệu quả hồi máu"
+
+[sub_resource type="Resource" id="Effect_6"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "status_mag:judgment"
+value = 0.04
+note = "Phán quyết từ Hikarine +8% → +12% ST nhận"
+
+[sub_resource type="Resource" id="Effect_7"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "skill:weapon:cooldown_sec"
+value = -2.0
+note = "CD Kĩ năng vũ khí 12.0s → 10.0s"
+
+[sub_resource type="Resource" id="Effect_8"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Hồi đồng đội trong vùng 60% → 90% ATK"
+
+[sub_resource type="Resource" id="Effect_9"]
+script = ExtResource("2")
+kind = 4
+exclusive = true
+note = "Đồng đội trong vùng +10% tất cả ST trong 6s (làm mới)"
+
+[sub_resource type="Resource" id="Effect_10"]
+script = ExtResource("2")
+kind = 1
+exclusive = true
+param = "kit:shield_max_ratio"
+value = 0.04
+note = "Khiên từ hồi thừa tối đa 8% → 12% HP tối đa"
+
+[resource]
+script = ExtResource("1")
+id = "eq_weapon_solar_verdict"
+name_key = "EQUIP_EQ_WEAPON_SOLAR_VERDICT"
+slot = "weapon"
+rarity = 5
+weapon_type = "staff"
+max_level = 10
+owner_id = "char_light_01"
+set_id = ""
+atk = 200.0
+max_hp = 1200.0
+def = 0.0
+crit_rate = 0.0
+crit_damage = 0.0
+cdr = 0.0
+growth_per_level = 0.1
+enhance_gold_base = 1000
+enhance_points_base = 500
+effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2"), SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6"), SubResource("Effect_7"), SubResource("Effect_8"), SubResource("Effect_9"), SubResource("Effect_10")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

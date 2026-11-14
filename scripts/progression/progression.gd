@@ -275,10 +275,14 @@ func stats_for(def: CharacterDef) -> CombatStats:
 	var level := level_of(id)
 	var bonus := inventory.equipped_bonus(id) if inventory else {}
 	var promo := 1.0 + rules.promotion_stat_bonus * float(promotion_of(id))
-	out.max_hp = round(base.max_hp * rules.stat_multiplier(rules.hp_growth_per_level, level) * promo + float(bonus.get("max_hp", 0.0)))
+	# Hiệu ứng % của trang bị (HP, DEF, chí mạng) nhân lên chỉ số sau khi cộng phần cộng thẳng.
+	var lo: EquipmentResolver.Loadout = inventory.loadout_of(id, def.element) if inventory and def else null
+	var hp_pct := lo.stat("hp_pct") if lo else 0.0
+	var def_pct := lo.stat("def_pct") if lo else 0.0
+	out.max_hp = round((base.max_hp * rules.stat_multiplier(rules.hp_growth_per_level, level) * promo + float(bonus.get("max_hp", 0.0))) * (1.0 + hp_pct))
 	out.atk = round(base.atk * rules.stat_multiplier(rules.atk_growth_per_level, level) * promo + float(bonus.get("atk", 0.0)))
-	out.def = round(base.def * rules.stat_multiplier(rules.def_growth_per_level, level) * promo + float(bonus.get("def", 0.0)))
-	out.crit_rate = clampf(base.crit_rate + float(bonus.get("crit_rate", 0.0)), 0.0, 1.0)
+	out.def = round((base.def * rules.stat_multiplier(rules.def_growth_per_level, level) * promo + float(bonus.get("def", 0.0))) * (1.0 + def_pct))
+	out.crit_rate = clampf(base.crit_rate + float(bonus.get("crit_rate", 0.0)) + (lo.stat("crit_rate") if lo else 0.0), 0.0, 1.0)
 	out.crit_damage = base.crit_damage + float(bonus.get("crit_damage", 0.0))
 	out.cdr = clampf(base.cdr + float(bonus.get("cdr", 0.0)), 0.0, 1.0)
 	return out

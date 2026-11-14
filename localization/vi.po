@@ -2111,3 +2111,113 @@ msgstr "Ải %s sắp ra mắt."
 
 msgid "MAP_STAGE_LOCKED"
 msgstr "Hoàn thành ải trước để mở ải %s."
+
+# Trang bị 5★, bộ vết thánh
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO"
+msgstr "Hoàng Hôn Thiêu Rụi"
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE"
+msgstr "Hơi Thở Cuối Mùa Gió"
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER"
+msgstr "Hai Tiếng Sấm"
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT"
+msgstr "Nhật Miện Phán Quyết"
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT"
+msgstr "Liềm Khế Ước Trăng Khuyết"
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK"
+msgstr "Cốt Sơn Bất Khuất"
+
+msgid "EQUIP_EQ_STIGMA_TOP_LAVOISIER"
+msgstr "Oxy (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_LAVOISIER"
+msgstr "Định Luật Bảo Toàn Khối Lượng (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_LAVOISIER"
+msgstr "Chuyên Luận Hóa Học (Chân)"
+
+msgid "SET_SET_LAVOISIER"
+msgstr "Antoine Lavoisier"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DAVINCI"
+msgstr "Chong Chóng Trên Không (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DAVINCI"
+msgstr "Cỗ Máy Cánh Chim (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DAVINCI"
+msgstr "Bản Thảo Codex (Chân)"
+
+msgid "SET_SET_DAVINCI"
+msgstr "Leonardo da Vinci"
+
+msgid "EQUIP_EQ_STIGMA_TOP_FRANKLIN"
+msgstr "Con Diều Trong Bão (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_FRANKLIN"
+msgstr "Cột Thu Lôi (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_FRANKLIN"
+msgstr "Niên Lịch Richard Nghèo (Chân)"
+
+msgid "SET_SET_FRANKLIN"
+msgstr "Benjamin Franklin"
+
+msgid "EQUIP_EQ_STIGMA_TOP_NIGHTINGALE"
+msgstr "Ngọn Đèn Scutari (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_NIGHTINGALE"
+msgstr "Biểu Đồ Hoa Hồng (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_NIGHTINGALE"
+msgstr "Ghi Chép Về Điều Dưỡng (Chân)"
+
+msgid "SET_SET_NIGHTINGALE"
+msgstr "Florence Nightingale"
+
+msgid "EQUIP_EQ_STIGMA_TOP_POE"
+msgstr "Con Quạ (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_POE"
+msgstr "Trái Tim Tố Giác (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_POE"
+msgstr "Chiếc Hố Và Con Lắc (Chân)"
+
+msgid "SET_SET_POE"
+msgstr "Edgar Allan Poe"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DARWIN"
+msgstr "Chuyến Đi Beagle (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DARWIN"
+msgstr "Chọn Lọc Tự Nhiên (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DARWIN"
+msgstr "Lý Luận Tiến Hoá (Chân)"
+
+msgid "SET_SET_DARWIN"
+msgstr "Charles Darwin"
+
+msgid "SET_SET_BLAZE"
+msgstr "Ấn Viêm Hoàng"
+
+msgid "SET_SET_BEDROCK"
+msgstr "Ấn Nham Thạch"
+
+# Banner 5★ (owner 2026-11-14)
+msgid "BANNER_STAR5_EARTH"
+msgstr "Đề cử 5★: vũ khí & bộ Charles Darwin của Iwagane"
+
+msgid "BANNER_KIND_STAR5"
+msgstr "Banner trang bị 5★"
+
+msgid "BANNER_TITLE_STAR5_EARTH"
+msgstr "Cốt Sơn Bất Khuất & Charles Darwin"
+
+msgid "GACHA_TIER_STAR5"
+msgstr "Trang bị 5★ (mỗi món)"

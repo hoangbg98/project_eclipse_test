@@ -106,11 +106,13 @@ func test_closed_without_banners() -> void:
 
 func test_shipped_banners_listed_in_order() -> void:
 	var s := _screen()
-	assert_int(s.banners.size()).is_equal(2)                           # banner nhân vật + tiếp tế; lượt hướng dẫn không hiện
+	assert_int(s.banners.size()).is_equal(3)                           # nhân vật + tiếp tế + 5★; lượt hướng dẫn không hiện
 	assert_str(s.banners[0].id).is_equal("banner_char_terra")
 	assert_str(s.banners[1].id).is_equal("banner_equip_terra")
+	assert_str(s.banners[2].id).is_equal("banner_star5_earth")
 	assert_object(_node(s, "Banner_0")).is_not_null()
 	assert_object(_node(s, "Banner_1")).is_not_null()
+	assert_object(_node(s, "Banner_2")).is_not_null()
 	for b in s.banners:
 		assert_bool(b.starter_free_multi).is_false()
 

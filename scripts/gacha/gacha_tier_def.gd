@@ -32,6 +32,13 @@ extends Resource
 ## Bảo hiểm: lần ra bậc này mà trượt rate-up thì lần kế chắc chắn là rate-up.
 @export var guarantee_after_miss := false
 
+@export_group("Banner 5★ (owner 2026-11-14, EQUIPMENT_5STAR mục 5.6)")
+## true: `base_rate` là tỉ lệ MỖI MÓN; tỉ lệ bậc = base_rate × số món còn được ra.
+@export var rate_per_item := false
+## true: món trang bị đã có không ra lại cho tới khi người chơi có đủ cả pool (đủ bộ); đủ rồi thì ra cả pool,
+## có thể trùng. Pity của bậc vì vậy chỉ chắc chắn ra món chưa có.
+@export var exclude_owned_until_complete := false
+
 @export_group("Trùng nhân vật")
 ## Nhân vật đã sở hữu thì đổi thành nguyên liệu này (rỗng = không đổi, chỉ ghi lịch sử).
 @export var duplicate_item := ""
