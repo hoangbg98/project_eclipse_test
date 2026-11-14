@@ -1,17 +1,17 @@
 extends Control
-## Hub (README 15): thanh tab Home / Chiến đấu / Nhân vật / Chiêu mộ / Cài đặt và nút Back.
+## Hub (README 15): thanh tab Home / Chiến đấu / Chiêu mộ / Cài đặt và nút Back. Tab Nhân vật đã thay bằng nút
+## lục giác Nhân vật ở tab Trang chủ (owner 2026-11-14); các màn Trang bị / Xuất kích / Tiếp tế / Người cộng tác /
+## Thông tin người chơi cũng mở từ tab Trang chủ (HubHomePanel).
 ## Nội dung mỗi tab là một bảng dựng bằng code (HubPanel, SettingsPanel, CreditsPanel) đặt vào vùng nội dung.
 ## Hai nút vào màn (Màn 1, Màn thử nghiệm) nằm sẵn trong hub.tscn, chỉ hiện ở tab Chiến đấu.
 
 const TABS := {
 	"HomeTab": "HUB_TAB_HOME",
 	"BattleTab": "HUB_TAB_BATTLE",
-	"CharactersTab": "HUB_TAB_CHARACTERS",
 	"RecruitTab": "HUB_TAB_RECRUIT",
 	"SettingsTab": "HUB_TAB_SETTINGS",
 }
 
-const CHARACTERS_TAB := "CharactersTab"
 const RECRUIT_TAB := "RecruitTab"
 
 var current_tab := ""
@@ -46,21 +46,14 @@ func _ready() -> void:
 	for tab_name: String in TABS:
 		var button: Button = _tab_bar.get_node(tab_name)
 		button.toggle_mode = true
-		if tab_name == CHARACTERS_TAB:
-			button.pressed.connect(open_characters)
-		elif tab_name == RECRUIT_TAB:
+		if tab_name == RECRUIT_TAB:
 			button.pressed.connect(open_recruit)
 		else:
 			button.pressed.connect(show_tab.bind(tab_name))
-	show_tab("HomeTab")
-	(_tab_bar.get_node("HomeTab") as Button).grab_focus()
-
-
-## Tab Nhân vật mở màn riêng CharacterScreen (6 ảnh tham chiếu của owner), không đặt bảng vào Hub.
-func open_characters() -> void:
-	(_tab_bar.get_node(CHARACTERS_TAB) as Button).set_pressed_no_signal(current_tab == CHARACTERS_TAB)
-	GameConfig.selected_character_id = ""
-	SceneRouter.push(GameConfig.SCENE_CHARACTER)
+	var start := GameConfig.hub_start_tab if TABS.has(GameConfig.hub_start_tab) else "HomeTab"
+	GameConfig.hub_start_tab = ""
+	show_tab(start)
+	(_tab_bar.get_node(start) as Button).grab_focus()
 
 
 ## Tab Chiêu mộ mở màn riêng RecruitScreen (theo ảnh tham chiếu màn Wish của owner).

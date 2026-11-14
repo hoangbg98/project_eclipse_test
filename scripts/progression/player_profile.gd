@@ -36,6 +36,30 @@ static func equipment_defs() -> DefLibrary:
 	return _equipment
 
 
+const NAME_OK := ""
+const NAME_EMPTY := "name_empty"
+const NAME_TOO_LONG := "name_too_long"
+const NAME_SAME := "name_same"
+
+
+## Tên người chơi ("" nếu chưa đặt; UI hiện tên mặc định PLAYER_DEFAULT_NAME).
+func player_name() -> String:
+	return str(data["account"].get("name", ""))
+
+
+## Đổi tên người chơi; trả về lý do ("" = được). Tên được làm sạch (SaveSchema.clean_name) trước khi kiểm tra.
+func set_player_name(raw: String) -> String:
+	var n := SaveSchema.clean_name(raw)
+	if n.is_empty():
+		return NAME_EMPTY
+	if raw.strip_edges().length() > SaveSchema.NAME_MAX:
+		return NAME_TOO_LONG
+	if n == player_name():
+		return NAME_SAME
+	data["account"]["name"] = n
+	return NAME_OK
+
+
 ## Đội hiện tại (ID theo thứ tự).
 func party_ids() -> PackedStringArray:
 	return PackedStringArray(data["party"])

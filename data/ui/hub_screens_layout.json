@@ -1,0 +1,79 @@
+{
+	"_huong_dan": [
+		"Bố cục các màn mở từ tab Trang chủ (owner 2026-11-14, theo ảnh tham chiếu): Túi đồ (bag), Tiếp tế (supply), Xuất kích (sortie), Người cộng tác (companion), Thông tin người chơi (player). Mục 'common' là thanh trên dùng chung.",
+		"Sửa file này rồi mở lại màn để thấy thay đổi; không cần sửa code. Tọa độ khung 1920×1080, rect = [x, y, rộng, cao].",
+		"anchor: 'left' (mặc định) / 'right' / 'center' như các file bố cục khác. font = cỡ chữ. Màu '#RRGGBB' hoặc '#RRGGBBAA'.",
+		"Icon thẻ ở assets/ui/hub/icons/{icon}.png. Ảnh vũ khí / vết thánh lấy từ trường 'art' trong data/equipment/*.tres; chưa có ảnh thì vẽ placeholder."
+	],
+	"design_size": [1920, 1080],
+	"colors": {
+		"background": "#1A2238",
+		"panel": "#14161FD9",
+		"panel_light": "#2A3550E6",
+		"button": "#1E2130F0",
+		"button_border": "#5C6380",
+		"button_selected": "#FFFFFF",
+		"yellow": "#FFD84D",
+		"yellow_text": "#1B1E2B",
+		"text": "#FFFFFF",
+		"text_dark": "#1B1E2B",
+		"text_dim": "#B8BCCB",
+		"accent": "#FFB347",
+		"accent_blue": "#7FD4FF",
+		"tab": "#1F2A44",
+		"tab_selected": "#2E7BD6",
+		"rarity_5": "#E8A93A",
+		"rarity_4": "#9C6ADE",
+		"rarity_3": "#3E8ED0",
+		"rarity_2": "#4F9A6A",
+		"rarity_1": "#6B7280",
+		"star": "#FFD23F",
+		"in_use": "#FFD84D",
+		"gold": "#FFD23F",
+		"gems": "#7FD4FF",
+		"placeholder_fill": "#3A3F55",
+		"placeholder_figure": "#5B6180",
+		"placeholder_text": "#D8DCEB",
+		"card_line_shop": "#E07BF0",
+		"card_line_gacha": "#FFA31A",
+		"card_line_topup": "#2EB8FF",
+		"soon": "#FF7A3D"
+	},
+	"common": {
+		"back": {"rect": [48, 16, 190, 76], "font": 30, "text_key": "UI_BACK"},
+		"menu": {"rect": [258, 16, 220, 76], "font": 30, "text_key": "UI_MENU"},
+		"title": {"rect": [500, 16, 600, 76], "font": 36},
+		"gold": {"rect": [1290, 22, 290, 60], "anchor": "right", "font": 28},
+		"gems": {"rect": [1600, 22, 270, 60], "anchor": "right", "font": 28}
+	},
+	"bag": {
+		"tabs": {"origin": [76, 112], "size": [214, 98], "step": 104, "font": 30},
+		"grid": {"rect": [330, 112, 1440, 830], "card": [190, 236], "gap": 16, "font": 22},
+		"detail": {"rect": [330, 958, 1440, 104], "font": 26},
+		"empty": {"font": 30}
+	},
+	"supply": {
+		"cards": {"rects": [[300, 112, 440, 640], [780, 112, 440, 640], [1260, 112, 440, 640]], "anchor": "center",
+			"title_font": 52, "body_font": 26, "button_font": 32},
+		"bottom": {"rect": [0, 790, 1920, 120], "font": 32}
+	},
+	"sortie": {
+		"tabs": {"rect": [560, 104, 880, 70], "font": 30, "anchor": "center"},
+		"story": {"rect": [590, 196, 820, 380], "anchor": "center"},
+		"trial": {"rect": [262, 196, 300, 380], "anchor": "center"},
+		"material": {"rect": [1438, 196, 300, 380], "anchor": "center"},
+		"party": {"rect": [460, 612, 1000, 230], "anchor": "center"},
+		"title_font": 34, "sub_font": 24
+	},
+	"companion": {
+		"art": {"rect": [140, 150, 620, 700]},
+		"panel": {"rect": [820, 150, 960, 700], "font": 30, "title_font": 52}
+	},
+	"player": {
+		"art": {"rect": [40, 110, 640, 800]},
+		"card": {"rect": [720, 120, 840, 520]},
+		"buttons": {"origin": [1620, 120], "size": [250, 96], "step": 112, "font": 30, "anchor": "right"},
+		"bottom": {"rect": [0, 920, 1920, 150], "font": 30},
+		"list": {"rect": [300, 120, 1320, 760], "font": 26}
+	}
+}

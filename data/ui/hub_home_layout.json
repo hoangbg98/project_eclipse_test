@@ -1,0 +1,42 @@
+{
+	"_huong_dan": [
+		"Bố cục tab Trang chủ của Hub (owner 2026-11-14, theo ảnh tham chiếu sảnh chính). Sửa file này rồi mở lại Hub; không cần sửa code.",
+		"Tọa độ theo khung thiết kế 1920×1080, tính từ góc trên-trái MÀN HÌNH (không phải vùng nội dung). rect = [x, y, rộng, cao].",
+		"hex: center = [x, y] tâm lục giác, radius = bán kính (tâm tới đỉnh). Icon ở assets/ui/hub/icons/{icon}.png (sinh bằng tools/ui/gen_hub_icons.py, owner vẽ đè).",
+		"Phần bên trái (dòng tóm tắt) giữ như cũ theo yêu cầu owner; owner chỉnh sau.",
+		"anchor: 'left' / 'right' / 'center' như các file bố cục khác."
+	],
+	"design_size": [1920, 1080],
+	"colors": {
+		"hex_fill": "#14203ACC",
+		"hex_fill_hover": "#1F3352DD",
+		"hex_rim": "#7FD4FF",
+		"hex_glow": "#7FD4FF59",
+		"text": "#FFFFFF",
+		"text_dim": "#B8BCCB",
+		"badge": "#FFD23F",
+		"card": "#14161FD9",
+		"card_border": "#7FD4FF",
+		"exp_back": "#00000099",
+		"exp_fill": "#7FD4FF",
+		"pill": "#14161FD9",
+		"gold": "#FFD23F",
+		"gems": "#7FD4FF",
+		"art_glow": "#7FD4FF26"
+	},
+	"player_card": {"rect": [64, 196, 600, 124], "font": 34, "font_small": 24, "avatar": [76, 206, 104, 104]},
+	"summary": {"rect": [64, 340, 760, 400]},
+	"leader_art": {"rect": [780, 250, 520, 790], "anchor": "center"},
+	"pills": {
+		"gold": {"rect": [1250, 196, 290, 60], "anchor": "right", "font": 30},
+		"gems": {"rect": [1560, 196, 290, 60], "anchor": "right", "font": 30}
+	},
+	"hex": {
+		"font": 30,
+		"equipment": {"center": [1710, 400], "radius": 112, "icon": "bag", "text_key": "HUB_HEX_EQUIPMENT", "anchor": "right"},
+		"companion": {"center": [1505, 505], "radius": 112, "icon": "companion", "text_key": "HUB_HEX_COMPANION", "anchor": "right", "badge_key": "HUB_BADGE_SOON", "font": 25},
+		"sortie": {"center": [1735, 668], "radius": 150, "icon": "sortie", "text_key": "HUB_HEX_SORTIE", "anchor": "right", "font": 40},
+		"character": {"center": [1490, 760], "radius": 112, "icon": "character", "text_key": "HUB_HEX_CHARACTER", "anchor": "right"},
+		"supply": {"center": [1700, 935], "radius": 112, "icon": "supply", "text_key": "HUB_HEX_SUPPLY", "anchor": "right"}
+	}
+}

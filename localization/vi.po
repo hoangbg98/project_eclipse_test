@@ -1169,3 +1169,219 @@ msgstr "Phá Giáp"
 
 msgid "STATUS_STONE_GOD"
 msgstr "Thạch Thần"
+
+msgid "UI_MENU"
+msgstr "Menu"
+
+msgid "UI_COMING_SOON"
+msgstr "Sắp ra mắt"
+
+msgid "UI_OK"
+msgstr "Xác nhận"
+
+msgid "UI_CANCEL"
+msgstr "Hủy"
+
+msgid "HUB_HEX_EQUIPMENT"
+msgstr "Trang bị"
+
+msgid "HUB_HEX_COMPANION"
+msgstr "Người cộng tác"
+
+msgid "HUB_HEX_SORTIE"
+msgstr "Xuất kích"
+
+msgid "HUB_HEX_CHARACTER"
+msgstr "Nhân vật"
+
+msgid "HUB_HEX_SUPPLY"
+msgstr "Tiếp tế"
+
+msgid "HUB_BADGE_SOON"
+msgstr "Sắp có!"
+
+msgid "HUB_PLAYER_CARD_HINT"
+msgstr "Chạm để xem thông tin"
+
+msgid "PLAYER_DEFAULT_NAME"
+msgstr "Đội trưởng"
+
+msgid "BAG_TITLE"
+msgstr "Túi đồ"
+
+msgid "BAG_TAB_WEAPON"
+msgstr "Vũ khí"
+
+msgid "BAG_TAB_STIGMA"
+msgstr "Vết thánh"
+
+msgid "BAG_TAB_MATERIAL"
+msgstr "Nguyên liệu"
+
+msgid "BAG_TAB_FRAGMENT"
+msgstr "Mảnh"
+
+msgid "BAG_EMPTY"
+msgstr "Chưa có %s. Nhận từ Tiếp tế, sự kiện hoặc phần thưởng màn."
+
+msgid "BAG_IN_USE"
+msgstr "Đang dùng"
+
+msgid "BAG_NOT_IN_USE"
+msgstr "Chưa ai dùng"
+
+msgid "BAG_DETAIL_HINT"
+msgstr "Chạm một thẻ để xem chi tiết."
+
+msgid "BAG_SLOT_WEAPON"
+msgstr "Vũ khí"
+
+msgid "BAG_SLOT_STIGMA_TOP"
+msgstr "Vết thánh Đầu"
+
+msgid "BAG_SLOT_STIGMA_MID"
+msgstr "Vết thánh Thân"
+
+msgid "BAG_SLOT_STIGMA_BOT"
+msgstr "Vết thánh Chân"
+
+msgid "BAG_FRAGMENT_DETAIL"
+msgstr "Mảnh %s ×%d  ·  cần %d để tiến cấp"
+
+msgid "SUPPLY_TITLE"
+msgstr "Tiếp tế"
+
+msgid "SUPPLY_SHOP_TITLE"
+msgstr "Shop"
+
+msgid "SUPPLY_SHOP_DESC"
+msgstr "Bán vũ khí, vết thánh và tài nguyên."
+
+msgid "SUPPLY_SHOP_GO"
+msgstr "Đi đến Shop"
+
+msgid "SUPPLY_GACHA_TITLE"
+msgstr "Tiếp tế"
+
+msgid "SUPPLY_GACHA_DESC"
+msgstr "Dùng thẻ tiếp tế mở rương: nhân vật, vũ khí, vết thánh."
+
+msgid "SUPPLY_GACHA_GO"
+msgstr "Đi tiếp tế"
+
+msgid "SUPPLY_TOPUP_TITLE"
+msgstr "Nạp"
+
+msgid "SUPPLY_TOPUP_DESC"
+msgstr "Mua ngọc (chỉ có ở bản phát hành online)."
+
+msgid "SUPPLY_TOPUP_GO"
+msgstr "Đi nạp"
+
+msgid "SUPPLY_ONLINE_ONLY"
+msgstr "Bản online"
+
+msgid "SUPPLY_TOPUP_OFFLINE"
+msgstr "Nạp chỉ mở khi game phát hành online."
+
+msgid "SUPPLY_FORGE"
+msgstr "Rèn trang bị"
+
+msgid "SORTIE_TAB_RECOMMEND"
+msgstr "Đề cử"
+
+msgid "SORTIE_TAB_SORTIE"
+msgstr "Xuất kích"
+
+msgid "SORTIE_TAB_CHALLENGE"
+msgstr "Khiêu chiến"
+
+msgid "SORTIE_TAB_EVENT"
+msgstr "Event"
+
+msgid "SORTIE_STORY_TITLE"
+msgstr "Chương cốt truyện chính"
+
+msgid "SORTIE_STORY_SUB"
+msgstr "Tiếp tục: %s"
+
+msgid "SORTIE_STORY_DONE"
+msgstr "Đã xong"
+
+msgid "SORTIE_STORY_NEW"
+msgstr "Mới!"
+
+msgid "SORTIE_TRIAL_TITLE"
+msgstr "Thử đội hình"
+
+msgid "SORTIE_TRIAL_SUB"
+msgstr "Thử kỹ năng với bù nhìn"
+
+msgid "SORTIE_MATERIAL_TITLE"
+msgstr "Ải nguyên liệu"
+
+msgid "SORTIE_MATERIAL_SUB"
+msgstr "Nguyên liệu cường hóa, EXP"
+
+msgid "SORTIE_PARTY_TITLE"
+msgstr "Đội hình"
+
+msgid "SORTIE_PARTY_EDIT"
+msgstr "Chạm để đổi đội"
+
+msgid "COMPANION_TITLE"
+msgstr "Người cộng tác"
+
+msgid "COMPANION_DESC"
+msgstr "Một tinh linh nhỏ bay theo nhân vật trên sân, trợ chiến và tích năng lượng tinh linh."
+
+msgid "COMPANION_POINT_1"
+msgstr "Bay theo nhân vật đang ra trận, đổi người thì đi theo người mới."
+
+msgid "COMPANION_POINT_2"
+msgstr "Tự đánh hỗ trợ nhẹ khi nhân vật tấn công."
+
+msgid "COMPANION_POINT_3"
+msgstr "Tích năng lượng tinh linh khi đánh trúng, né hoàn hảo."
+
+msgid "COMPANION_POINT_4"
+msgstr "Đầy năng lượng: dùng kỹ năng chủ động riêng của tinh linh."
+
+msgid "PLAYER_COMMANDER"
+msgstr "Chỉ huy"
+
+msgid "PLAYER_INFO_LINE"
+msgstr "Nhân vật đầu đội: %s\nSố màn đã qua: %d"
+
+msgid "PLAYER_RENAME"
+msgstr "Đổi tên"
+
+msgid "PLAYER_RENAME_HINT"
+msgstr "Tên mới, tối đa %d ký tự."
+
+msgid "PLAYER_RENAMED"
+msgstr "Đã đổi tên."
+
+msgid "PLAYER_NAME_ERR_NAME_EMPTY"
+msgstr "Tên không được để trống."
+
+msgid "PLAYER_NAME_ERR_NAME_TOO_LONG"
+msgstr "Tên quá dài."
+
+msgid "PLAYER_NAME_ERR_NAME_SAME"
+msgstr "Tên mới trùng tên cũ."
+
+msgid "PLAYER_COLLECTION"
+msgstr "Bộ sưu tập"
+
+msgid "PLAYER_COLL_CHARACTER"
+msgstr "Nhân vật"
+
+msgid "PLAYER_COLL_WEAPON"
+msgstr "Kho vũ khí"
+
+msgid "PLAYER_COLL_STIGMA"
+msgstr "Kho vết thánh"
+
+msgid "PLAYER_COLL_HINT"
+msgstr "✓ đã sở hữu  ·  — chưa sở hữu (nhận từ Tiếp tế, sự kiện, phần thưởng màn)"

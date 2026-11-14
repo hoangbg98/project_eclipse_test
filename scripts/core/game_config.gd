@@ -11,11 +11,19 @@ const SCENE_STAGE := "res://scenes/stages/stage.tscn"
 const SCENE_CHARACTER := "res://scenes/main/character_screen.tscn"
 const SCENE_RECRUIT := "res://scenes/main/recruit_screen.tscn"
 const SCENE_DEBUG_GIFT := "res://scenes/main/debug_gift_screen.tscn"
+## Màn mở từ cụm nút lục giác của Hub (owner 2026-11-14).
+const SCENE_BAG := "res://scenes/main/bag_screen.tscn"
+const SCENE_SUPPLY := "res://scenes/main/supply_screen.tscn"
+const SCENE_SORTIE := "res://scenes/main/sortie_screen.tscn"
+const SCENE_COMPANION := "res://scenes/main/companion_screen.tscn"
+const SCENE_PLAYER := "res://scenes/main/player_screen.tscn"
 
 ## Màn sẽ chơi khi mở SCENE_STAGE (data/stages/{id}.json).
 var selected_stage_id := "stage_01"
 ## Nhân vật mở sẵn khi vào màn Nhân vật (rỗng = nhân vật đầu đội).
 var selected_character_id := ""
+## Tab Hub mở sẵn lần vào Hub kế tiếp (vd "BattleTab" từ thẻ Đội hình ở màn Xuất kích); rỗng = Trang chủ. Hub đọc rồi xóa.
+var hub_start_tab := ""
 
 ## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
 const TRANSITION_TIME := 0.2

@@ -1169,3 +1169,219 @@ msgstr "Armor Break"
 
 msgid "STATUS_STONE_GOD"
 msgstr "Stone God"
+
+msgid "UI_MENU"
+msgstr "Menu"
+
+msgid "UI_COMING_SOON"
+msgstr "Coming soon"
+
+msgid "UI_OK"
+msgstr "Confirm"
+
+msgid "UI_CANCEL"
+msgstr "Cancel"
+
+msgid "HUB_HEX_EQUIPMENT"
+msgstr "Equipment"
+
+msgid "HUB_HEX_COMPANION"
+msgstr "Companion"
+
+msgid "HUB_HEX_SORTIE"
+msgstr "Sortie"
+
+msgid "HUB_HEX_CHARACTER"
+msgstr "Characters"
+
+msgid "HUB_HEX_SUPPLY"
+msgstr "Supply"
+
+msgid "HUB_BADGE_SOON"
+msgstr "Soon!"
+
+msgid "HUB_PLAYER_CARD_HINT"
+msgstr "Tap for profile"
+
+msgid "PLAYER_DEFAULT_NAME"
+msgstr "Captain"
+
+msgid "BAG_TITLE"
+msgstr "Inventory"
+
+msgid "BAG_TAB_WEAPON"
+msgstr "Weapons"
+
+msgid "BAG_TAB_STIGMA"
+msgstr "Stigmata"
+
+msgid "BAG_TAB_MATERIAL"
+msgstr "Materials"
+
+msgid "BAG_TAB_FRAGMENT"
+msgstr "Fragments"
+
+msgid "BAG_EMPTY"
+msgstr "No %s yet. Get them from Supply, events or stage rewards."
+
+msgid "BAG_IN_USE"
+msgstr "In use"
+
+msgid "BAG_NOT_IN_USE"
+msgstr "Not equipped"
+
+msgid "BAG_DETAIL_HINT"
+msgstr "Tap a card to see details."
+
+msgid "BAG_SLOT_WEAPON"
+msgstr "Weapon"
+
+msgid "BAG_SLOT_STIGMA_TOP"
+msgstr "Stigma (Head)"
+
+msgid "BAG_SLOT_STIGMA_MID"
+msgstr "Stigma (Body)"
+
+msgid "BAG_SLOT_STIGMA_BOT"
+msgstr "Stigma (Legs)"
+
+msgid "BAG_FRAGMENT_DETAIL"
+msgstr "%s fragments ×%d  ·  %d needed to promote"
+
+msgid "SUPPLY_TITLE"
+msgstr "Supply"
+
+msgid "SUPPLY_SHOP_TITLE"
+msgstr "Shop"
+
+msgid "SUPPLY_SHOP_DESC"
+msgstr "Weapons, stigmata and resources for sale."
+
+msgid "SUPPLY_SHOP_GO"
+msgstr "Go to Shop"
+
+msgid "SUPPLY_GACHA_TITLE"
+msgstr "Supply Drop"
+
+msgid "SUPPLY_GACHA_DESC"
+msgstr "Open supply crates: characters, weapons, stigmata."
+
+msgid "SUPPLY_GACHA_GO"
+msgstr "Open Supply"
+
+msgid "SUPPLY_TOPUP_TITLE"
+msgstr "Top-up"
+
+msgid "SUPPLY_TOPUP_DESC"
+msgstr "Buy gems (online release only)."
+
+msgid "SUPPLY_TOPUP_GO"
+msgstr "Top up"
+
+msgid "SUPPLY_ONLINE_ONLY"
+msgstr "Online only"
+
+msgid "SUPPLY_TOPUP_OFFLINE"
+msgstr "Top-up opens only in the online release."
+
+msgid "SUPPLY_FORGE"
+msgstr "Forge equipment"
+
+msgid "SORTIE_TAB_RECOMMEND"
+msgstr "Featured"
+
+msgid "SORTIE_TAB_SORTIE"
+msgstr "Sortie"
+
+msgid "SORTIE_TAB_CHALLENGE"
+msgstr "Challenge"
+
+msgid "SORTIE_TAB_EVENT"
+msgstr "Event"
+
+msgid "SORTIE_STORY_TITLE"
+msgstr "Main Story"
+
+msgid "SORTIE_STORY_SUB"
+msgstr "Continue: %s"
+
+msgid "SORTIE_STORY_DONE"
+msgstr "Cleared"
+
+msgid "SORTIE_STORY_NEW"
+msgstr "New!"
+
+msgid "SORTIE_TRIAL_TITLE"
+msgstr "Team Trial"
+
+msgid "SORTIE_TRIAL_SUB"
+msgstr "Test skills on dummies"
+
+msgid "SORTIE_MATERIAL_TITLE"
+msgstr "Material Stages"
+
+msgid "SORTIE_MATERIAL_SUB"
+msgstr "Enhance materials, EXP"
+
+msgid "SORTIE_PARTY_TITLE"
+msgstr "Party"
+
+msgid "SORTIE_PARTY_EDIT"
+msgstr "Tap to change"
+
+msgid "COMPANION_TITLE"
+msgstr "Companion"
+
+msgid "COMPANION_DESC"
+msgstr "A small spirit that follows your on-field character, assists in battle and builds spirit energy."
+
+msgid "COMPANION_POINT_1"
+msgstr "Follows the active character and switches with them."
+
+msgid "COMPANION_POINT_2"
+msgstr "Lands light assist hits while you attack."
+
+msgid "COMPANION_POINT_3"
+msgstr "Builds spirit energy on hits and perfect dodges."
+
+msgid "COMPANION_POINT_4"
+msgstr "When full: use the spirit's own active skill."
+
+msgid "PLAYER_COMMANDER"
+msgstr "Commander"
+
+msgid "PLAYER_INFO_LINE"
+msgstr "Leader: %s\nStages cleared: %d"
+
+msgid "PLAYER_RENAME"
+msgstr "Rename"
+
+msgid "PLAYER_RENAME_HINT"
+msgstr "New name, up to %d characters."
+
+msgid "PLAYER_RENAMED"
+msgstr "Name changed."
+
+msgid "PLAYER_NAME_ERR_NAME_EMPTY"
+msgstr "The name can't be empty."
+
+msgid "PLAYER_NAME_ERR_NAME_TOO_LONG"
+msgstr "The name is too long."
+
+msgid "PLAYER_NAME_ERR_NAME_SAME"
+msgstr "That's already your name."
+
+msgid "PLAYER_COLLECTION"
+msgstr "Collection"
+
+msgid "PLAYER_COLL_CHARACTER"
+msgstr "Characters"
+
+msgid "PLAYER_COLL_WEAPON"
+msgstr "Weapons"
+
+msgid "PLAYER_COLL_STIGMA"
+msgstr "Stigmata"
+
+msgid "PLAYER_COLL_HINT"
+msgstr "✓ owned  ·  — not owned (get from Supply, events, stage rewards)"

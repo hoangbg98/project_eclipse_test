@@ -1373,3 +1373,21 @@ un_tests.ps1`
 - **Kết quả thật:** GdUnit4 533 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh chụp: joystick chiếm góc dưới-trái, phím ~92 px, không còn che thân nhân vật ở vị trí xuất phát.
 - **Quyết định Claude chọn:** 240 px (2/3 cỡ cũ), lề 64 px giữ nguyên; tỉ lệ phím / đế và quãng lệch giữ nguyên.
 - **Hạn chế đã biết:** chưa thử ngón tay trên máy thật; nếu vùng chạm nhỏ quá có thể tăng lại trong HudTheme.
+
+## 2026-11-14 — Sảnh chính (Hub) mới: thẻ người chơi, cụm nút lục giác, Túi đồ, Tiếp tế, Xuất kích, Người cộng tác, Thông tin người chơi
+
+- **Milestone / task:** UI Hub (README 15) — owner gửi 5 ảnh tham chiếu, đề xuất sắp xếp sảnh chính: giữ phần bên trái (owner chỉnh sau), bên phải có các nút Trang bị (túi đồ), Người cộng tác (tính năng riêng: tinh linh), Nhân vật (thay nút / tab Nhân vật), Tiếp tế (shop, gacha, nạp nếu online), Xuất kích (thử đội hình, cốt truyện, ải nguyên liệu); nút nhân vật góc trái mở thông tin người chơi (đổi tên, xem trang bị / vết thánh đã có và chưa có)
+- **Trạng thái:** TESTED (đã chụp màn bằng Godot có cửa sổ; owner chưa xem)
+- **File tạo/sửa:**
+  - Tab Trang chủ: `scripts/ui/hub_home_panel.gd` (viết lại), `scripts/ui/hex_button.gd` (nút lục giác, bấm theo hình lục giác), `data/ui/hub_home_layout.json`.
+  - Màn mới (`scenes/main/*.tscn` + `scripts/ui/*.gd`): `hub_screen.gd` (nền chung: Trở về, Menu, ô vàng / ngọc), `bag_screen`, `supply_screen`, `sortie_screen`, `companion_screen`, `player_screen`; bố cục `data/ui/hub_screens_layout.json`.
+  - `scripts/ui/hub.gd`, `scenes/main/hub.tscn`: bỏ tab Nhân vật (thay bằng nút lục giác), đọc `GameConfig.hub_start_tab` (thẻ Đội hình ở Xuất kích mở thẳng tab Chiến đấu). `scripts/core/game_config.gd`: `SCENE_BAG/SUPPLY/SORTIE/COMPANION/PLAYER`, `hub_start_tab`.
+  - Save v4: `scripts/save/save_schema.gd` (`account.name`, `clean_name`, `NAME_MAX` 16, migration 3→4), `scripts/progression/player_profile.gd` (`player_name`, `set_player_name` + lý do).
+  - Icon tạm: `tools/ui/gen_hub_icons.py` → `assets/ui/hub/icons/` (11 PNG). `docs/ASSET_LICENSES.md` mục 2 (chỉ commit dòng này).
+  - Chữ: 72 khóa mới trong `localization/vi.po` và `en.po` (thêm bằng script riêng vì `tools/add_locale_keys.py` đang có thay đổi chưa commit của Codex).
+  - Tài liệu: `docs/design/HUB_FEATURES.md` (bản đồ màn, kế hoạch Người cộng tác, mục riêng Nạp tiền khi phát hành online).
+  - Test: `tests/unit/ui/test_hub_home.gd` (10 test).
+- **Đã chạy:** `python -I tools/ui/gen_hub_icons.py --force`, `--import`, chụp Hub + 5 màn (dữ liệu thật và dữ liệu giả lập có đồ), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 543 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** phần trái giữ nguyên nội dung cũ, chỉ dời xuống dưới thẻ người chơi; ảnh giữa là nhân vật đầu đội; Xuất kích là lục giác lớn nhất; vũ khí / vết thánh trong Bộ sưu tập tính theo loại (định nghĩa trong data/equipment); Túi đồ xếp đồ đang dùng trước rồi theo độ hiếm; tên người chơi tối đa 16 ký tự; tab Chiêu mộ trên thanh tab giữ lại (trùng Tiếp tế → Tiếp tế) chờ owner quyết; thanh tab Trang chủ / Chiến đấu / Chiêu mộ / Cài đặt giữ nguyên.
+- **Hạn chế đã biết:** Shop, Ải nguyên liệu, tab Đề cử / Khiêu chiến / Event, Rèn trang bị: chỉ hiện "Sắp có / Sắp ra mắt". Người cộng tác chưa có gameplay (chờ owner quyết các điểm trong HUB_FEATURES.md). Nạp tiền chỉ là thông báo (bản offline). Icon và nền là tạm; chưa có ảnh vũ khí / vết thánh (thẻ dùng icon tạm). Chưa thử chạm trên máy cảm ứng thật.
