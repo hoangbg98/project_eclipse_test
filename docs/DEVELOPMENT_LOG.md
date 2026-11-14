@@ -1427,3 +1427,18 @@ un_tests.ps1`
 - **Kết quả thật:** Owner duyệt `run`; approve thành công với 8 frame, 12 fps. GdUnit4: 554 test, 0 lỗi; 5 smoke test ĐẠT; toàn bộ lệnh test thoát mã 0.
 - **Quyết định Codex chọn:** Dải đầu có nền trắng alpha thấp nên xóa lớp nền mờ trước khi cắt; dải thứ hai giữ alpha gốc.
 - **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.
+
+## 2026-11-14 — Mục tiêu chiến đấu, màn thông tin màn chơi, đội hình splash và chọn giáp
+- **Milestone / task:** UI Hub / màn chơi — owner gửi 3 ảnh tham chiếu: mỗi lần vào màn có phần mục tiêu chiến đấu, đạt mỗi mục tiêu thưởng thêm vàng; chọn giáp giữ logic cũ nhưng đổi giao diện: đang chọn = lưới giáp sở hữu + 3 vị trí nhân vật đứng idle; chọn xong = splash 3 nhân vật, chạm để chọn lại.
+- **Trạng thái:** TESTED (đã chụp 3 màn; owner chưa xem trong Godot)
+- **File tạo/sửa:**
+  - Mục tiêu: `scripts/world/battle_objectives.gd` (mới), `scripts/world/stage_controller.gd` (đếm đòn / sát thương chịu / số lần gục, chấm khi thắng, cộng vàng, lưu mục tiêu đã đạt), `scripts/ui/result_screen.gd` (dòng mục tiêu + vàng thưởng, khung kết quả lớn hơn), `data/stages/stage_01.json` (`desc_key`, `recommended_level`, 3 mục tiêu).
+  - Màn mới: `scripts/ui/stage_info_screen.gd` + `scenes/main/stage_info_screen.tscn`, `scripts/ui/party_prep_screen.gd` + `scenes/main/party_prep_screen.tscn`, `scripts/ui/party_select_screen.gd` + `scenes/main/party_select_screen.tscn`, `scripts/ui/character_art.gd` (chân dung / splash / frame idle, cắt phần trên splash).
+  - Nối luồng: `scripts/core/game_config.gd` (`SCENE_STAGE_INFO`, `SCENE_PARTY_PREP`, `SCENE_PARTY_SELECT`, `prep_launch_stage`), `scripts/ui/sortie_screen.gd` (Cốt truyện → Thông tin màn; Đội hình → màn Đội hình), `scripts/progression/player_profile.gd` (`toggle_party` + mã lý do, dùng chung với `HubBattlePanel`).
+  - Bố cục / chữ: `data/ui/hub_screens_layout.json` (mục `stage_info`, `party_prep`, `party_select`, màu nguyên tố), `localization/vi.po`, `en.po` (30 khóa).
+  - Test: `tests/unit/world/test_battle_objectives.gd`, `tests/unit/ui/test_party_screens.gd` (mới), `tests/unit/world/test_stage_controller.gd` (vàng có thưởng mục tiêu), `tests/unit/ui/test_hub_home.gd` (đích mới của thẻ Xuất kích), `tests/smoke/m8_playthrough_check.gd` (vàng = 1200 + thưởng mục tiêu).
+  - Tài liệu: `docs/design/HUB_FEATURES.md` (mục "Vào màn").
+- **Đã chạy:** `--import`, chụp 3 màn bằng script SceneTree, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** lần đầu test khói m8 lỗi 2 bước (vàng cố định 1200, chưa tính thưởng mục tiêu) → sửa thành 1200 + thưởng (lần chạy đạt cả 3 mục tiêu, +1000). Lần cuối GdUnit4 554 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** mục tiêu Màn 1: qua màn trong 5:00 (+300), chịu ≤ 25 đòn (+300), không ai gục (+400); thưởng vàng **mỗi lần** đạt (theo lời owner), ghi thêm "Đã đạt" khi từng đạt; đòn 0 sát thương không tính; Thông tin màn chỉ cho Cốt truyện, Thử đội hình vẫn vào thẳng; màn Đội hình mở từ thẻ Đội hình có nút Xác nhận thay cho Khai chiến; bảng Chiến đấu cũ ở sảnh giữ lại (dùng chung `toggle_party`) cho test khói và đường dự phòng; không làm thể lực, buff đội, skill đội trưởng (game chưa có).
+- **Hạn chế đã biết:** chưa có ảnh xem trước màn (hiện icon); chỉ Enkiba có splash, Kazeyumi dùng chân dung chibi, Raikiba dùng frame idle; nhân vật chưa có frame idle hiện chân dung; chưa thử chạm trên máy thật.

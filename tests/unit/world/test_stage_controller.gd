@@ -186,13 +186,17 @@ func test_boss_arena_then_clear_grants_rewards_and_saves() -> void:
 	assert_int(s["rewards"]["gold"]).is_equal(1200)
 	assert_int(s["first_clear_rewards"]["gems"]).is_equal(300)
 	# Dữ liệu người chơi đã đổi và đã ghi ra file.
-	assert_int(_save.data["currencies"]["gold"]).is_equal(1200)
+	# 3 objectives met (200 s, no hits, no downs): +300 +300 +400 gold.
+	assert_int(s["objectives"].size()).is_equal(3)
+	assert_int(s["objective_rewards"]["gold"]).is_equal(1000)
+	assert_int(_save.data["currencies"]["gold"]).is_equal(2200)
 	assert_int(_save.data["currencies"]["gems"]).is_equal(300)
+	assert_array(_save.data["progress"]["stages"]["stage_01"]["objectives"]).contains_exactly(["time", "hits", "downs"])
 	assert_bool(_save.data["progress"]["stages"]["stage_01"]["cleared"]).is_true()
 	assert_float(_save.data["progress"]["stages"]["stage_01"]["best_time_sec"]).is_between(200.0, 201.0)
 	assert_int(int(_save.data["characters"]["char_fire_01"]["level"])).is_greater(1)   # 600 EXP cho cả đội
 	var disk := SaveStore.new(SAVE_DIR).read()
-	assert_int(disk["currencies"]["gold"]).is_equal(1200)
+	assert_int(disk["currencies"]["gold"]).is_equal(2200)
 	assert_bool(disk["progress"]["stages"]["stage_01"]["cleared"]).is_true()
 	assert_int(disk["inventory"]["equipment"].size()).is_equal(1)                   # thưởng lần đầu: 1 món
 	# Màn kết quả hiện, có dòng thưởng và lên cấp.
@@ -204,13 +208,18 @@ func test_boss_arena_then_clear_grants_rewards_and_saves() -> void:
 
 
 func test_second_clear_has_no_first_clear_bonus_and_keeps_best_time() -> void:
-	_save.data["progress"]["stages"]["stage_01"] = {"cleared": true, "best_time_sec": 150.0}
+	_save.data["progress"]["stages"]["stage_01"] = {"cleared": true, "best_time_sec": 150.0, "objectives": ["downs"]}
 	await _setup()
 	_stage.waves_cleared = 3
 	await _teleport_col(157)
-	_stage.elapsed_sec = 240.0
+	_stage.elapsed_sec = 400.0
+	_stage.objectives.hits_taken = 30
 	await _kill_all()
 	var s := _stage.last_summary
+	# Only "no downs" is met again: +400 gold; achieved list keeps the old entry without duplicates.
+	assert_int(s["objective_rewards"]["gold"]).is_equal(400)
+	assert_int(_save.data["currencies"]["gold"]).is_equal(1600)
+	assert_array(_save.data["progress"]["stages"]["stage_01"]["objectives"]).contains_exactly(["downs"])
 	assert_bool(s["first_clear"]).is_false()
 	assert_bool(s["best_time"]).is_false()
 	assert_int(_save.data["currencies"]["gems"]).is_equal(0)

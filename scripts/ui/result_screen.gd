@@ -23,11 +23,11 @@ func _ready() -> void:
 	add_child(dim)
 	_panel = PanelContainer.new()
 	_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_panel.custom_minimum_size = Vector2(900, 620)
-	_panel.offset_left = -450
-	_panel.offset_right = 450
-	_panel.offset_top = -310
-	_panel.offset_bottom = 310
+	_panel.custom_minimum_size = Vector2(1000, 860)
+	_panel.offset_left = -500
+	_panel.offset_right = 500
+	_panel.offset_top = -430
+	_panel.offset_bottom = 430
 	add_child(_panel)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 14)
@@ -70,7 +70,7 @@ func show_result(s: Dictionary) -> void:
 		var l := Label.new()
 		l.text = text
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		l.add_theme_font_size_override("font_size", 30)
+		l.add_theme_font_size_override("font_size", 28)
 		_lines.add_child(l)
 	visible = true
 	(_hub if victory else _retry).grab_focus()
@@ -87,8 +87,14 @@ func result_lines(s: Dictionary) -> PackedStringArray:
 	out.append_array(_reward_lines(tr("RESULT_REWARDS"), s.get("rewards", {})))
 	if bool(s.get("first_clear", false)):
 		out.append_array(_reward_lines(tr("RESULT_FIRST_CLEAR"), s.get("first_clear_rewards", {})))
+	var objs: Array = s.get("objectives", [])
+	if not objs.is_empty():
+		out.append(tr("RESULT_OBJECTIVES") % [objs.filter(func(o: Dictionary) -> bool: return bool(o.get("met", false))).size(),
+				objs.size(), int((s.get("objective_rewards", {}) as Dictionary).get("gold", 0))])
+		for o: Dictionary in objs:
+			out.append("  %s %s" % ["✔" if bool(o.get("met", false)) else "✘", BattleObjectives.describe(o)])
 	var levels := {}
-	for part in [s.get("rewards", {}), s.get("first_clear_rewards", {})]:
+	for part in [s.get("rewards", {}), s.get("first_clear_rewards", {}), s.get("objective_rewards", {})]:
 		for id in (part as Dictionary).get("levels", {}):
 			levels[id] = int(levels.get(id, 0)) + int(part["levels"][id])
 	for id in levels:

@@ -37,7 +37,15 @@
 		"card_line_shop": "#E07BF0",
 		"card_line_gacha": "#FFA31A",
 		"card_line_topup": "#2EB8FF",
-		"soon": "#FF7A3D"
+		"soon": "#FF7A3D",
+		"objective_header": "#4F86B8E6",
+		"objective_row": "#2A5C8ACC",
+		"element_fire": "#FF6A3D",
+		"element_wind": "#3DDC97",
+		"element_lightning": "#B07CFF",
+		"element_light": "#FFE27A",
+		"element_dark": "#7B5CD6",
+		"element_earth": "#C99A5B"
 	},
 	"common": {
 		"back": {"rect": [48, 16, 190, 76], "font": 30, "text_key": "UI_BACK"},
@@ -64,6 +72,28 @@
 		"material": {"rect": [1438, 196, 300, 380], "anchor": "center"},
 		"party": {"rect": [460, 612, 1000, 230], "anchor": "center"},
 		"title_font": 34, "sub_font": 24
+	},
+	"stage_info": {
+		"title": {"rect": [120, 120, 640, 84], "font": 52},
+		"preview": {"rect": [120, 220, 640, 340]},
+		"desc": {"rect": [120, 590, 640, 220], "font": 28},
+		"best": {"rect": [120, 840, 640, 50]},
+		"location": {"rect": [800, 120, 1080, 60], "anchor": "right"},
+		"objectives_header": {"rect": [800, 192, 1080, 56], "anchor": "right"},
+		"row_height": 64, "font": 30, "drop_size": 150,
+		"prepare": {"rect": [1480, 950, 400, 100], "anchor": "right", "font": 40}
+	},
+	"party_prep": {
+		"cards": {"rect": [100, 150, 340, 560], "step": 370},
+		"hint": {"rect": [100, 780, 1080, 50]},
+		"info": {"rect": [1240, 150, 640, 560], "anchor": "right"},
+		"go": {"rect": [1480, 950, 400, 100], "anchor": "right", "font": 42}
+	},
+	"party_select": {
+		"grid": {"rect": [60, 112, 700, 830], "card": [160, 200], "gap": 14},
+		"spots": [[1330, 860, 1.55], [1000, 720, 1.2], [1680, 720, 1.2]],
+		"detail": {"rect": [1110, 960, 360, 96], "anchor": "right", "font": 30},
+		"confirm": {"rect": [1490, 960, 390, 96], "anchor": "right", "font": 32}
 	},
 	"companion": {
 		"art": {"rect": [140, 150, 620, 700]},

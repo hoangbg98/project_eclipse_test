@@ -226,12 +226,13 @@ func test_sortie_cards() -> void:
 	GameConfig.selected_stage_id = ""
 	s.activate("story")
 	assert_str(GameConfig.selected_stage_id).is_equal("stage_01")
-	assert_str(s.last_target).is_equal(GameConfig.SCENE_STAGE)
+	assert_str(s.last_target).is_equal(GameConfig.SCENE_STAGE_INFO)
 	s.activate("trial")
 	assert_str(s.last_target).is_equal(GameConfig.SCENE_TEST_STAGE)
+	GameConfig.prep_launch_stage = true
 	s.activate("party")
-	assert_str(GameConfig.hub_start_tab).is_equal("BattleTab")
-	assert_str(s.last_target).is_equal(GameConfig.SCENE_HUB)
+	assert_bool(GameConfig.prep_launch_stage).is_false()
+	assert_str(s.last_target).is_equal(GameConfig.SCENE_PARTY_PREP)
 	s.activate("material")
 	assert_str(s.notice).is_equal(tr("UI_COMING_SOON"))
 

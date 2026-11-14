@@ -14,7 +14,7 @@ Không còn thanh tab ô vuông phía trên và dòng tóm tắt (PROJECT ECLIPS
 | Thẻ người chơi (góc trên-trái) | Thông tin người chơi `scenes/main/player_screen.tscn` | Có: LV / EXP Chỉ huy, đổi tên, bộ sưu tập |
 | Góc trên-phải | Ô vàng / ngọc; nút khung tranh → bảng Đổi nền; bánh răng → bảng Cài đặt (+ Credits, quà thử nghiệm bản debug) | Có |
 | Ô Nhân vật | Màn Nhân vật | Có |
-| Ô Xuất kích (lớn) | `sortie_screen.tscn`: Cốt truyện chính, Thử đội hình, Đội hình (→ bảng Chiến đấu của sảnh), Ải nguyên liệu (Sắp có) | Có |
+| Ô Xuất kích (lớn) | `sortie_screen.tscn`: Cốt truyện chính (→ Thông tin màn), Thử đội hình, Đội hình (→ màn Đội hình), Ải nguyên liệu (Sắp có) | Có |
 | Ô Trang bị | Túi đồ `bag_screen.tscn` | Có |
 | Ô Tiếp tế | `supply_screen.tscn`: Shop (Sắp có), **Chiêu mộ** (→ màn Chiêu mộ), Nạp (chỉ bản online) | Có |
 | Ô Người cộng tác | `companion_screen.tscn` (giới thiệu, Sắp có) | Gameplay chưa làm |
@@ -29,6 +29,23 @@ Cài đặt, Đổi nền.
 - Nền STARTER có sẵn; SHOP mua bằng ngọc trong bảng Đổi nền (sau này cả Shop); EVENT mở bằng
   `PlayerProfile.unlock_background(id)` khi phát thưởng sự kiện.
 - Nền khởi đầu hiện là ảnh TẠM `assets/placeholders/placeholder_hub_bg_sky_garden.png` (không ship, xem ASSET_LICENSES).
+
+## Vào màn: mục tiêu chiến đấu, đội hình, chọn giáp (owner 2026-11-14)
+
+Luồng: Xuất kích → Cốt truyện chính → **Thông tin màn** → Chuẩn bị → **Đội hình** → Khai chiến. Chạm ảnh ở Đội hình →
+**Chọn giáp** → Xác nhận đội ngũ (quay lại Đội hình). Thẻ Đội hình ở Xuất kích mở màn Đội hình không có nút Khai chiến.
+
+- Thông tin màn (`stage_info_screen.tscn`): tên, ảnh xem trước (trường `preview` trong data màn; chưa có thì icon),
+  mô tả (`desc_key`), cấp đề cử (`recommended_level`), mục tiêu chiến đấu (Đã đạt / Chưa đạt), Có thể rơi.
+- Mục tiêu chiến đấu: mục `objectives` trong `data/stages/{id}.json`, loại `time_max`, `hits_taken_max`,
+  `damage_taken_max`, `downs_max` (`BattleObjectives`). **Mỗi lần qua màn**, mỗi mục tiêu đạt thưởng thêm số vàng
+  `gold` của nó; mục tiêu đã từng đạt lưu ở `progress.stages[id].objectives`. Thua thì không chấm.
+- Đội hình (`party_prep_screen.tscn`): splash 3 giáp trong đội (chưa có splash thì chân dung chibi, rồi frame idle);
+  bên phải tóm tắt màn và mục tiêu.
+- Chọn giáp (`party_select_screen.tscn`): lưới giáp đang sở hữu (số thứ tự trong đội ở góc) + sân khấu 3 vị trí
+  (1 giữa, 2 trái, 3 phải) nhân vật đứng idle. Luật giữ như cũ (`PlayerProfile.toggle_party`): thêm xuống cuối, bỏ
+  ra, không bỏ người cuối, tối đa 3, không hai giáp cùng nhân vật.
+- Bố cục: mục `stage_info`, `party_prep`, `party_select` trong `data/ui/hub_screens_layout.json`.
 
 ## Người cộng tác (tinh linh) — kế hoạch, CHƯA làm
 

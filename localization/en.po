@@ -1427,3 +1427,93 @@ msgstr "Not for sale."
 
 msgid "BG_ERR_BG_NO_GEMS"
 msgstr "Not enough gems."
+
+msgid "STAGE_01_DESC"
+msgstr "Embers still smoulder across the valley. An ancient stone golem has woken at the end of the road, and slimes swarm to block the way."
+
+msgid "OBJ_TIME_MAX"
+msgstr "Clear within %s"
+
+msgid "OBJ_HITS_TAKEN_MAX"
+msgstr "Take no more than %d hits"
+
+msgid "OBJ_DAMAGE_TAKEN_MAX"
+msgstr "Take no more than %d total damage"
+
+msgid "OBJ_DOWNS_MAX"
+msgstr "No more than %d teammates down"
+
+msgid "OBJ_NO_DOWNS"
+msgstr "No teammate goes down"
+
+msgid "RESULT_OBJECTIVES"
+msgstr "Objectives: %d/%d met · bonus %d gold"
+
+msgid "STAGE_INFO_NO_PREVIEW"
+msgstr "No stage image yet"
+
+msgid "STAGE_INFO_RECOMMENDED"
+msgstr "Recommended LV.%d"
+
+msgid "STAGE_INFO_OBJECTIVES"
+msgstr "Objectives"
+
+msgid "STAGE_INFO_OBJECTIVE_REWARD"
+msgstr "Gold every time met"
+
+msgid "STAGE_INFO_NO_OBJECTIVES"
+msgstr "This stage has no objectives"
+
+msgid "STAGE_INFO_DONE"
+msgstr "Achieved"
+
+msgid "STAGE_INFO_NOT_DONE"
+msgstr "Not yet"
+
+msgid "STAGE_INFO_DROPS"
+msgstr "Possible drops"
+
+msgid "STAGE_INFO_PREPARE"
+msgstr "Prepare"
+
+msgid "PARTY_PREP_TITLE"
+msgstr "Team"
+
+msgid "PARTY_PREP_HINT"
+msgstr "Tap a character to change the team"
+
+msgid "PARTY_PREP_STAGE"
+msgstr "Stage: %s"
+
+msgid "PARTY_PREP_GO"
+msgstr "Deploy"
+
+msgid "PARTY_PREP_CONFIRM"
+msgstr "Confirm"
+
+msgid "PARTY_PREP_EMPTY"
+msgstr "Empty"
+
+msgid "PARTY_LEADER"
+msgstr "Leader"
+
+msgid "PARTY_SELECT_TITLE"
+msgstr "Choose suits"
+
+msgid "PARTY_SELECT_DETAIL"
+msgstr "Character details"
+
+msgid "PARTY_SELECT_CONFIRM"
+msgstr "Confirm team"
+
+msgid "PARTY_ERR_LAST"
+msgstr "The team needs at least 1 character."
+
+msgid "PARTY_ERR_FULL"
+msgstr "The team is full. Remove a suit first."
+
+msgid "PARTY_ERR_SAME_PERSON"
+msgstr "This character already has a suit in the team."
+
+msgid "PARTY_ERR_NOT_OWNED"
+msgstr "You do not own this suit."

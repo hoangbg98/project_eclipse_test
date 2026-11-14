@@ -5,6 +5,7 @@ extends Node2D
 ##   waves: [{trigger_col, lock_cols: [trái, phải], enemies: [{id, col}]}]   đợt quái, khóa sân tới khi hạ hết
 ##   boss:  {id, trigger_col, lock_cols, col}                                 đấu trường boss (khóa camera)
 ##   rewards / first_clear_rewards: định dạng PlayerProfile.grant()
+##   objectives: mục tiêu chiến đấu (BattleObjectives); mỗi mục tiêu đạt khi qua màn thưởng thêm vàng
 ## Rơi hố → về checkpoint gần nhất đã qua. Cả đội gục → thất bại. Hạ boss → hoàn thành, trao thưởng, lưu.
 
 signal wave_started(index: int)
@@ -51,6 +52,8 @@ var boss: BossController
 var respawn_point := Vector2.ZERO
 var elapsed_sec := 0.0
 var last_summary: Dictionary = {}
+## Đếm đòn / sát thương chịu, số lần gục cho mục tiêu chiến đấu.
+var objectives := BattleObjectives.new()
 
 var _walls: Array[StaticBody2D] = []
 var _checkpoints_left: Array[Vector2] = []
@@ -94,6 +97,7 @@ func _ready() -> void:
 	party.skill_levels_provider = skill_levels_provider
 	party.setup(party_ids, self, respawn_point)
 	party.party_defeated.connect(_on_party_defeated)
+	objectives.track(party)
 	party.switched.connect(func(_f: CharacterRuntime, _t: CharacterRuntime, _m: String) -> void: _bind_player())
 
 	camera.set_bounds(map.bounds_px())
@@ -300,7 +304,9 @@ func _finish_cleared() -> void:
 	phase = Phase.CLEARED
 	_freeze_all()
 	var summary := {"victory": true, "time_sec": elapsed_sec, "stage_id": stage_id, "first_clear": false,
-			"rewards": {}, "first_clear_rewards": {}, "best_time": false}
+			"rewards": {}, "first_clear_rewards": {}, "best_time": false, "objectives": [], "objective_rewards": {}}
+	var results := BattleObjectives.evaluate(BattleObjectives.list_of(map.data), objectives.stats(elapsed_sec))
+	summary["objectives"] = results
 	var save := _save()
 	if save and profile:
 		var stages: Dictionary = save.data["progress"]["stages"]
@@ -314,7 +320,17 @@ func _finish_cleared() -> void:
 		if prev is Dictionary and float(prev.get("best_time_sec", 0.0)) > 0.0:
 			best = minf(best, float(prev["best_time_sec"]))
 		summary["best_time"] = first or best == elapsed_sec
-		stages[stage_id] = {"cleared": true, "best_time_sec": best}
+		var bonus := BattleObjectives.gold_of(results)
+		if bonus > 0:
+			summary["objective_rewards"] = profile.grant({"gold": bonus})
+		# Mục tiêu đã từng đạt (màn thông tin màn chơi hiện "Đã đạt").
+		var achieved: Array = []
+		if prev is Dictionary and prev.get("objectives") is Array:
+			achieved = (prev["objectives"] as Array).duplicate()
+		for r in results:
+			if bool(r["met"]) and not achieved.has(str(r["id"])):
+				achieved.append(str(r["id"]))
+		stages[stage_id] = {"cleared": true, "best_time_sec": best, "objectives": achieved}
 		save.save_game()
 	last_summary = summary
 	stage_cleared.emit(summary)

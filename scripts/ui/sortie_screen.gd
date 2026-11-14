@@ -5,7 +5,8 @@ extends HubScreen
 ## - Cốt truyện chính (giữa, lớn): vào màn cốt truyện đầu tiên chưa qua (hiện có Màn 1), ghi Đã xong / Mới;
 ## - Thử đội hình (trái): màn thử nghiệm với bù nhìn, thử kỹ năng và đội hình;
 ## - Ải nguyên liệu (phải): nhận nguyên liệu cường hóa / EXP — chưa có (Sắp ra mắt);
-## - Đội hình (dưới): đội hiện tại; chạm để về Hub tab Chiến đấu đổi đội.
+## - Đội hình (dưới): đội hiện tại; chạm để mở màn đội hình (splash, chạm để chọn giáp).
+## Cốt truyện mở màn thông tin màn chơi (mục tiêu chiến đấu) → Chuẩn bị → đội hình → Khai chiến.
 
 const TABS: Array[String] = ["SORTIE_TAB_RECOMMEND", "SORTIE_TAB_SORTIE", "SORTIE_TAB_CHALLENGE", "SORTIE_TAB_EVENT"]
 const STORY_STAGES: Array[String] = ["stage_01"]
@@ -97,12 +98,12 @@ func activate(key: String) -> void:
 		"story":
 			if gc:
 				gc.selected_stage_id = story_stage()
-			open_scene("SCENE_STAGE")
+			open_scene("SCENE_STAGE_INFO")
 		"trial":
 			open_scene("SCENE_TEST_STAGE")
 		"party":
 			if gc:
-				gc.hub_start_tab = "BattleTab"
-			open_scene("SCENE_HUB", true)
+				gc.prep_launch_stage = false
+			open_scene("SCENE_PARTY_PREP")
 		_:
 			say(tr("UI_COMING_SOON"))

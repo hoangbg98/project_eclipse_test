@@ -33,12 +33,7 @@ func build() -> void:
 
 ## Thêm / bỏ một nhân vật khỏi đội. Không bỏ được người cuối cùng; đội đủ 3 thì không thêm.
 func toggle_party(id: String) -> bool:
-	var party := Array(profile.party_ids())
-	if id in party:
-		party.erase(id)
-	else:
-		party.append(id)
-	if not profile.set_party(party):
+	if profile.toggle_party(id) != PlayerProfile.PARTY_OK:
 		refresh()
 		return false
 	commit()

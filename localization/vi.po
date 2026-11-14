@@ -1427,3 +1427,93 @@ msgstr "Nền này không bán."
 
 msgid "BG_ERR_BG_NO_GEMS"
 msgstr "Không đủ ngọc."
+
+msgid "STAGE_01_DESC"
+msgstr "Tro bụi còn âm ỉ khắp thung lũng. Golem đá cổ đã thức giấc ở cuối đường, đàn slime kéo về chặn lối."
+
+msgid "OBJ_TIME_MAX"
+msgstr "Qua màn trong %s"
+
+msgid "OBJ_HITS_TAKEN_MAX"
+msgstr "Số đòn chịu không quá %d"
+
+msgid "OBJ_DAMAGE_TAKEN_MAX"
+msgstr "Tổng ST nhân vật chịu không quá %d"
+
+msgid "OBJ_DOWNS_MAX"
+msgstr "Không quá %d đồng đội gục"
+
+msgid "OBJ_NO_DOWNS"
+msgstr "Không đồng đội nào gục"
+
+msgid "RESULT_OBJECTIVES"
+msgstr "Mục tiêu: %d/%d đạt · thưởng thêm %d vàng"
+
+msgid "STAGE_INFO_NO_PREVIEW"
+msgstr "Chưa có ảnh màn"
+
+msgid "STAGE_INFO_RECOMMENDED"
+msgstr "LV đề cử LV.%d"
+
+msgid "STAGE_INFO_OBJECTIVES"
+msgstr "Mục tiêu"
+
+msgid "STAGE_INFO_OBJECTIVE_REWARD"
+msgstr "Mỗi lần đạt thưởng vàng"
+
+msgid "STAGE_INFO_NO_OBJECTIVES"
+msgstr "Màn này không có mục tiêu"
+
+msgid "STAGE_INFO_DONE"
+msgstr "Đã đạt"
+
+msgid "STAGE_INFO_NOT_DONE"
+msgstr "Chưa đạt"
+
+msgid "STAGE_INFO_DROPS"
+msgstr "Có thể rơi"
+
+msgid "STAGE_INFO_PREPARE"
+msgstr "Chuẩn bị"
+
+msgid "PARTY_PREP_TITLE"
+msgstr "Đội hình"
+
+msgid "PARTY_PREP_HINT"
+msgstr "Chạm vào ảnh nhân vật để chọn lại giáp ra trận"
+
+msgid "PARTY_PREP_STAGE"
+msgstr "Màn: %s"
+
+msgid "PARTY_PREP_GO"
+msgstr "Khai chiến"
+
+msgid "PARTY_PREP_CONFIRM"
+msgstr "Xác nhận"
+
+msgid "PARTY_PREP_EMPTY"
+msgstr "Trống"
+
+msgid "PARTY_LEADER"
+msgstr "Đội trưởng"
+
+msgid "PARTY_SELECT_TITLE"
+msgstr "Chọn giáp"
+
+msgid "PARTY_SELECT_DETAIL"
+msgstr "Chi tiết nhân vật"
+
+msgid "PARTY_SELECT_CONFIRM"
+msgstr "Xác nhận đội ngũ"
+
+msgid "PARTY_ERR_LAST"
+msgstr "Đội cần ít nhất 1 nhân vật."
+
+msgid "PARTY_ERR_FULL"
+msgstr "Đội đã đủ 3 người. Bỏ một giáp trước."
+
+msgid "PARTY_ERR_SAME_PERSON"
+msgstr "Nhân vật này đã có giáp khác trong đội."
+
+msgid "PARTY_ERR_NOT_OWNED"
+msgstr "Chưa sở hữu giáp này."

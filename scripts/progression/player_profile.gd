@@ -195,6 +195,33 @@ func set_party(ids: Array) -> bool:
 	return true
 
 
+const PARTY_OK := "ok"
+const PARTY_LAST := "party_last"
+const PARTY_FULL := "party_full"
+const PARTY_SAME_PERSON := "party_same_person"
+const PARTY_NOT_OWNED := "party_not_owned"
+
+
+## Thêm (xuống cuối) / bỏ một giáp khỏi đội. Không bỏ được người cuối cùng; đội đủ 3 thì không thêm;
+## không thêm giáp khác của nhân vật đã có trong đội. Trả về PARTY_*.
+func toggle_party(id: String) -> String:
+	var party := Array(party_ids())
+	if id in party:
+		if party.size() <= 1:
+			return PARTY_LAST
+		party.erase(id)
+	else:
+		if not progression.owns(id):
+			return PARTY_NOT_OWNED
+		if party.size() >= 3:
+			return PARTY_FULL
+		for other: String in party:
+			if person_of(other) == person_of(id):
+				return PARTY_SAME_PERSON
+		party.append(id)
+	return PARTY_OK if set_party(party) else PARTY_NOT_OWNED
+
+
 ## Nhận thưởng: {"gold": n, "gems": n, "materials": {id: n}, "equipment": [def_id], "exp": {char_id: n} | n cho cả đội}.
 ## Trả về bản tóm tắt những gì đã nhận thật (để màn kết quả hiển thị).
 func grant(reward: Dictionary) -> Dictionary:
