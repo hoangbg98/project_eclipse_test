@@ -1442,3 +1442,12 @@ un_tests.ps1`
 - **Kết quả thật:** lần đầu test khói m8 lỗi 2 bước (vàng cố định 1200, chưa tính thưởng mục tiêu) → sửa thành 1200 + thưởng (lần chạy đạt cả 3 mục tiêu, +1000). Lần cuối GdUnit4 554 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
 - **Quyết định Claude chọn:** mục tiêu Màn 1: qua màn trong 5:00 (+300), chịu ≤ 25 đòn (+300), không ai gục (+400); thưởng vàng **mỗi lần** đạt (theo lời owner), ghi thêm "Đã đạt" khi từng đạt; đòn 0 sát thương không tính; Thông tin màn chỉ cho Cốt truyện, Thử đội hình vẫn vào thẳng; màn Đội hình mở từ thẻ Đội hình có nút Xác nhận thay cho Khai chiến; bảng Chiến đấu cũ ở sảnh giữ lại (dùng chung `toggle_party`) cho test khói và đường dự phòng; không làm thể lực, buff đội, skill đội trưởng (game chưa có).
 - **Hạn chế đã biết:** chưa có ảnh xem trước màn (hiện icon); chỉ Enkiba có splash, Kazeyumi dùng chân dung chibi, Raikiba dùng frame idle; nhân vật chưa có frame idle hiện chân dung; chưa thử chạm trên máy thật.
+
+## 2026-11-14 — Raikiba: duyệt frame `attack_1`
+- **Milestone / task:** Tạo và duyệt animation `attack_1` cho `char_lightning_01` (4 frame, 18 fps, không lặp).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_lightning_01/frames/attack_1/` (4 PNG + import metadata); `assets/characters/char_lightning_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_lightning_01 attack_1`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Owner duyệt `attack_1`; approve thành công với 4 frame, 18 fps. GdUnit4: 554 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Codex chọn:** giữ nguyên hai frame impact liền nhau (001–002) để thể hiện nhịp giữ pose trúng đòn theo phiếu.
+- **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.
