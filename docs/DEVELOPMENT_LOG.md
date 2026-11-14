@@ -1488,3 +1488,12 @@ un_tests.ps1`
 - **Kết quả thật:** lần đầu `test_tutorial` lỗi 1 (khung đặt theo chế độ chỉ dẫn ở frame đầu vì cờ đang hiện chưa bật) → sửa; ảnh chụp cho thấy ảnh chỉ dẫn chụp khi chữ còn đang gõ (sửa công cụ) và mũi tên lọt khỏi màn khi nút ở sát đáy (sửa: nút ở nửa dưới thì mũi tên ở trên). Lần cuối GdUnit4 570 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
 - **Quyết định Claude chọn:** trợ lý tên **NEO** (theo đề xuất cốt truyện, chưa canon; đổi bằng khóa `TUTORIAL_AI_NAME`), danh xưng "Trợ lý AI của Trạm"; mỗi câu NEO có đúng một câu đáp của Quản lý (một nhánh, không lựa chọn); đoạn trò chuyện mỗi bước chỉ phát một lần, lần sau chỉ còn câu chỉ dẫn; chạm bất kỳ đâu cũng sang câu; tốc độ chữ 48 ký tự/giây; màu giao diện AI xanh lơ #5CE1FF, ô sáng giữ vàng; thêm mẹo né đòn golem (bước Khai chiến) và mẹo đổi người khi chân dung dự bị phát sáng (bước cuối).
 - **Hạn chế đã biết:** chưa có art chân dung NEO (lõi vẽ bằng code) và chưa có âm thanh gõ chữ / giọng; kịch bản sửa trong `.po`, thêm câu mới phải thêm cả khóa trong JSON và hai file `.po`; chưa thử chạm trên máy cảm ứng thật.
+
+## 2026-11-14 — Cốt truyện: owner xác nhận các lựa chọn
+- **Milestone / task:** Nội dung — owner trả lời các mục E3 của `docs/design/STORY_PROPOSAL.md` qua bảng lựa chọn trong hội thoại.
+- **Trạng thái:** IMPLEMENTED (tài liệu; chưa có code mới)
+- **File tạo/sửa:** `docs/design/STORY_PROPOSAL.md` (bảng "Quyết định owner" ở đầu; B4 quan hệ Enkiba – Raikiba; quy ước clip NEO; thoại clip mở Chương 1 nhịp 5–6; mục mới D4b gợi ý chiêu trong trận; ghi chú E3).
+- **Đã chạy:** không (chỉ tài liệu).
+- **Kết quả thật:** owner chốt: tiền đề Mặt Trời Khuyết / Vùng Thực giữ nguyên; NEO là AI trong thiết bị Neo (gộp với trợ lý hướng dẫn); kẻ thù là người cầm Neo 00; 7 chương nhưng kết mở để mở khóa nhân vật / giáp mới; chốt tính cách; Enkiba nam 16–19, Kazeyumi nữ 16–19, Raikiba nam 16–19, Hikarine nữ 16–19, Yomigari nam 20+, Iwagane nam 20+; xưng hô "tớ – cậu" cùng lứa, "anh – em" với người lớn hơn; Enkiba và Raikiba cùng một lò luyện; PROJECT ECLIPSE là tên chính thức; clip mở chương phát trước Thông tin màn; giữ cảnh nhá "???"; đổi chữ checkpoint thành "Đã cắm điểm neo"; NEO nói trong trận và thêm gợi ý cách dùng chiêu.
+- **Quyết định Claude chọn:** tên tạm "Lò Nanh" cho lò luyện chung; kết mở Chương 7 bằng các "vết khuyết" nhỏ còn lại ở vùng xa; 7 câu gợi ý chiêu SK01–SK07 (mỗi câu một lần mỗi save).
+- **Hạn chế đã biết:** chưa làm code cho: trình phát clip chibi, băng thoại NEO trong trận, gợi ý chiêu, chữ "Đã cắm điểm neo" (STORY_PROPOSAL D10, D4b).

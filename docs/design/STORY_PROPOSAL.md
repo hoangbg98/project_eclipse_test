@@ -1,13 +1,29 @@
 # Cốt truyện PROJECT ECLIPSE — Đề xuất v1 (story bible + Chương 1)
 
-> **Tình trạng: ĐỀ XUẤT SÁNG TÁC, chưa phải canon.** Claude viết ngày 2026-11-14. Owner duyệt từng phần
-> (mục E3) thì mới chuyển thành canon.
+> **Tình trạng:** Claude viết ngày 2026-11-14. **Owner đã xác nhận các mục ở bảng "Quyết định owner" ngay dưới
+> đây (2026-11-14) — những mục đó là canon.** Phần còn lại vẫn là đề xuất.
 >
 > Ký hiệu: **[CANON]** là điều đã có trong tài liệu hoặc data của dự án (có ghi nguồn). **[ĐỀ XUẤT]** là sáng tác
 > mới. **[HỎI]** cần owner quyết. Phần nào không gắn nhãn thì coi là [ĐỀ XUẤT].
 >
-> Giới tính và tuổi của sáu nhân vật chưa được xác định, nên thoại dùng xưng hô trung tính ("tớ – cậu",
-> "tôi", "Quản lý"). Owner chốt rồi thì chỉnh lại xưng hô.
+> Xưng hô (owner 2026-11-14): bạn bè cùng lứa gọi nhau "tớ – cậu"; người lớn tuổi hơn thì "anh/chị – em".
+
+## Quyết định owner (2026-11-14) — CANON
+
+| # | Mục | Owner chọn | Hệ quả |
+|---|---|---|---|
+| 1 | Tiền đề (B1) | **Giữ nguyên**: Mặt Trời Khuyết, Vùng Thực, Cặn, thủ vệ | Mặt Trời Khuyết là motif của mọi nền ngoài trời |
+| 2 | Neo / NEO (B3, B4) | **Gộp**: NEO là trợ lý AI sống trong thiết bị Neo của Quản lý — vừa trò chuyện, dẫn đường (hướng dẫn người mới), vừa giữ kênh cho người dự bị | Luật kênh Neo ở B3 là canon. Trong clip, NEO nói bằng giọng thân thiện như ở hướng dẫn (không phải chữ hệ thống lạnh), vẫn có chân dung lõi AI |
+| 3 | Kẻ thù (B6) | **Người cầm Neo 00** — Quản lý đời trước, động cơ như B6 mục 3 | Gieo từ Chương 1 (mảnh ấn mã 00, cảnh nhá "???") |
+| 4 | Cấu trúc (C) | **7 chương như bảng C, nhưng kết mở** để sau này mở khóa nhân vật / giáp mới | Chương 7 khép bí ẩn Neo 00 và Mặt Trời Khuyết, nhưng để ngỏ: vành nhật thực cân bằng còn những "vết khuyết" nhỏ ở vùng xa → nơi xuất hiện nhân vật / giáp mới trong cập nhật sau |
+| 5 | Tính cách (B4) | **Chốt** 6 tính cách như B4 | — |
+| 6 | Giới tính / tuổi | Enkiba **nam 16–19**, Kazeyumi **nữ 16–19**, Raikiba **nam 16–19**, Hikarine **nữ 16–19**, Yomigari **nam 20+**, Iwagane **nam 20+** | Bốn người trẻ gọi nhau "tớ – cậu"; với Yomigari, Iwagane thì "anh – em" |
+| 7 | Enkiba – Raikiba | **Cùng một lò luyện** (gọi tạm **Lò Nanh**, nơi rèn người mang giáp; đề xuất tên) — bạn cũ kiêm đối thủ, không ruột thịt | Raikiba biết Enkiba từ hồi ở Lò Nanh; sửa thoại clip mở Chương 1 (nhịp 5–6) |
+| 8 | Tên game | **PROJECT ECLIPSE là tên chính thức** | Nhật thực là trục chính của truyện; Chương 7 giữ tên "Nhật Thực" |
+| 9 | Clip mở chương | Phát **lần đầu bấm Chương 1, trước Thông tin màn** (có nút Xem lại) | — |
+| 10 | Cảnh nhá "???" cuối Chương 1 | **Giữ** | — |
+| 11 | Chữ checkpoint | Đổi thành **"Đã cắm điểm neo"** | Việc code còn chờ (D10) |
+| 12 | Thoại trong trận | **NEO nói trong trận** (băng chữ 1 dòng, không dừng trận, cùng khung / chân dung NEO), **thêm gợi ý cách dùng chiêu** để hướng dẫn người chơi | Việc code còn chờ: các câu BK ở D4 do NEO nói khi người nói gốc không có trong đội; thêm câu gợi ý chiêu (mục D4b) |
 
 ---
 
@@ -141,8 +157,9 @@ phản ứng Nhật Thực trong tay người chơi.
 | Yomigari | Trầm, ít nói, quen bị hiểu lầm vì nguyên tố Ám; cảm được "mép" của Thực | Control, hút máu; Liên kết khi hạ gục (kết thúc việc dang dở) |
 | Iwagane | Kiên định, kiệm lời, coi việc "giữ cửa" là danh dự. Xuất thân từ dòng họ làm thủ vệ | Tank, khiêu khích; Liên kết khi đồng đội tung đòn lớn (đứng ra đỡ sau đó) |
 
-**[HỎI] Ý tưởng tùy chọn:** tên Enkiba và Raikiba cùng đuôi "-kiba" (nanh), giáp của Raikiba tên "Nanh Của Lôi
-Thần". Có thể cho hai người là anh chị em / cùng một lò luyện. Đây là quyết định lớn nên chưa dùng trong kịch bản.
+**[CANON, owner 2026-11-14]** Enkiba và Raikiba (cùng đuôi "-kiba", nanh) từng cùng rèn luyện ở một lò luyện người
+mang giáp, gọi tạm **Lò Nanh** (tên đề xuất). Hai người là bạn cũ kiêm đối thủ, không ruột thịt. Raikiba rời lò sớm để
+làm người đưa tin ở thành tháp sét (Chương 3); Enkiba về quê ở Làng Lò Than.
 
 ### B5. Mục tiêu dài hạn và nguy cơ
 
@@ -249,8 +266,9 @@ trong màn, không qua độc thoại.
 - **Mỗi chibi cần:** 5 biểu cảm (thường, cười, ngạc nhiên, nghiêm, lo) + 1 tư thế hành động (Enkiba giơ kiếm,
   Kazeyumi giương cung, Raikiba thủ thế thấp). Ảnh tĩnh, đổi ảnh tức thì.
 - **Biểu tượng cảm xúc** (bong bóng trên đầu, 0.8 s): `!`, `?`, `…`, giọt mồ hôi, tia giận, lấp lánh.
-- **Neo:** ảnh vòng sáng nhỏ ~96 px, lơ lửng ở G dưới (x 960, y 620), nhấp nháy khi "nói". Thoại của Neo hiện tên
-  **NEO**, chữ in nghiêng màu xanh nhạt, không có chân dung.
+- **Neo / NEO:** ảnh vòng sáng nhỏ ~96 px, lơ lửng ở G dưới (x 960, y 620), nhấp nháy khi "nói". NEO là trợ lý AI
+  trong Neo (owner 2026-11-14): thoại hiện tên **NEO** kèm chân dung lõi AI như khung hướng dẫn, giọng thân thiện;
+  các câu đo đạc giữ ý nhưng nói như người (vd "Mật độ nguyên tố phía trước chỉ còn 12%.").
 - **Nút:** Ẩn (ẩn hộp thoại, chạm để hiện lại), Lịch sử (cuộn lại các câu đã qua), Tự động, Bỏ qua (hỏi xác nhận,
   rồi hiện **tóm tắt 2 dòng** để người chơi vẫn biết mục tiêu). Esc / Back = Bỏ qua.
 - **Khóa chữ:** mỗi câu một khóa `STORY_CH01_OP_###` / `STORY_CH01_ED_###` / `STORY_CH01_BK_###`, thêm vào cả
@@ -271,8 +289,8 @@ Thực**. Lớp nền xa: vách đá cuối thung lũng có cửa lò khổng l�
 | 2 | **Raikiba** `chạy` từ mép trái tới `P-`, phanh trượt, chồm người nhìn qua vạch mờ. Bong bóng `!`. | Raikiba | Tới rồi! …Ơ. Sao im thế này? |
 | 3 | **Kazeyumi** `đi` vào tới `G`, dừng, giơ một tay lên như dò gió. Biểu cảm nghiêm, bong bóng `…`. | Kazeyumi | Không có gió. Tro rơi thẳng xuống như rơi trong nhà kín. |
 | 4 | **Enkiba** `đi` vào sau cùng, dừng ở `T`, quay mặt về biển gỗ. Đốm than trên biển tắt (hạt nhỏ phụt lên rồi hết). | Enkiba | Lò Mẹ ở cuối đường này. Tuần trước lửa ở đây còn cao hơn mái nhà. |
-| 5 | Raikiba `quay` về phía Enkiba, ngạc nhiên. | Raikiba | Cậu biết chỗ này à? |
-| 6 | Enkiba biểu cảm lo, nhìn về nền xa. | Enkiba | Tớ lớn lên ở làng ngay cửa thung lũng. Giờ thì… cậu nhìn đi. |
+| 5 | Raikiba `quay` về phía Enkiba, ngạc nhiên. | Raikiba | Đây là quê cậu à? Hồi ở Lò Nanh cậu kể suốt. |
+| 6 | Enkiba biểu cảm lo, nhìn về nền xa. | Enkiba | Ừ. Lửa ở đây từng cao hơn mái nhà. Giờ thì… cậu nhìn đi. |
 | 7 | **Neo** trồi lên từ dưới khung (G dưới), vòng sáng xoay. Ba nhân vật quay về phía Neo. | NEO | Phát hiện ranh giới Vùng Thực. Mật độ nguyên tố phía trước: 12%. |
 | 8 | Kazeyumi nghiêm. | Kazeyumi | Mười hai phần trăm. Đủ nuôi một bộ giáp. Không đủ cho ba. |
 | 9 | Raikiba gãi đầu, giọt mồ hôi. | Raikiba | Vậy là đúng như bản hướng dẫn nói hả? Tớ… đọc lướt thôi. |
@@ -333,6 +351,23 @@ Thoại trong trận là **băng chữ không dừng trận**: một dòng, châ
 - Chỉ phát thoại khi qua màn lần đầu. Lần chơi lại chỉ còn BK03 / BK04 (nếu chưa từng hiện) và chữ mục tiêu HUD.
 - BK14: cần kiểm tra trong game là sóng Địa chấn **né được bằng nhảy**. Nếu không, đổi câu thành
   "Sóng đất chạy hai phía, né đi!".
+
+### D4b. NEO gợi ý cách dùng chiêu trong trận (owner 2026-11-14, đề xuất câu chữ)
+
+Băng chữ 1 dòng của NEO, không dừng trận, **mỗi câu chỉ một lần mỗi save**, chỉ khi điều kiện xảy ra:
+
+| # | Khi nào | NEO nói |
+|---|---|---|
+| SK01 | Lần đầu EN đủ dùng Kĩ năng thường | "EN đầy rồi! Thử Kĩ năng thường xem, phím U." |
+| SK02 | Lần đầu Kĩ năng vũ khí sẵn sàng | "Kĩ năng vũ khí sẵn sàng, phím I. Đòn này mạnh lắm." |
+| SK03 | Lần đầu UG đầy | "Thanh Tuyệt kỹ đầy rồi! Phím O, tung hết sức đi." |
+| SK04 | Lần đầu bị trúng đòn có báo hiệu | "Né đúng lúc đòn sắp trúng sẽ thành né hoàn hảo, kẻ địch chậm lại đấy." |
+| SK05 | Lần đầu giữ phím đánh đủ lâu / chưa từng giữ sau 60 s | "Giữ phím đánh để nạp đòn mạnh hơn." |
+| SK06 | Lần đầu thanh SC của kẻ địch gần đầy | "Kẻ địch sắp Choáng! Dồn thêm vài đòn nặng." |
+| SK07 | Lần đầu một chân dung dự bị phát sáng | "Chân dung đang sáng! Đổi người ngay để kích hoạt phản ứng nguyên tố." |
+
+Phím trong câu lấy theo thiết bị đang dùng (bàn phím / tay cầm / cảm ứng thì nói "nút"). Số liệu kích hoạt nằm trong
+data, không viết cứng.
 
 ### D5. Cao trào: Golem Đá Cổ
 
@@ -453,6 +488,8 @@ Cảnh này không làm mất chiến thắng: làng vẫn an toàn, chỉ xác 
   chủ đề nên đối chiếu lại với tên game chính thức.
 
 ### E3. Cần owner xác nhận trước khi thành canon
+
+> **Đã trả lời hết (owner 2026-11-14):** xem bảng "Quyết định owner" ở đầu tài liệu. Danh sách dưới giữ để đối chiếu.
 
 1. Tiền đề Mặt Trời Khuyết / Vùng Thực / Cặn / thủ vệ (B1).
 2. Neo và luật "kênh" giải thích một người trên sân (B3, B4). Đây là nền móng; đổi chỗ này thì phải viết lại phần lớn.
