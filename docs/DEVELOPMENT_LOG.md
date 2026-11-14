@@ -1417,3 +1417,13 @@ un_tests.ps1`
 - **Quyết định Claude chọn:** hàng trên Nhân vật + Xuất kích (lớn), hàng dưới Trang bị, Tiếp tế, Người cộng tác; ảnh ô Nhân vật / Trang bị lấy tạm splash skill / weapon của Enkiba, ô khác dùng icon; màu dải chữ theo ảnh tham chiếu; Cài đặt / Chiến đấu / Đổi nền là bảng nổi trong sảnh (không tạo màn mới); nút bánh răng / khung tranh 84 px (owner muốn icon nhỏ; nhỏ hơn mốc 128 px của README).
 - **Lưu ý giấy phép:** ảnh nền thứ 3 owner gửi trùng nền sảnh của một game thương mại → để ở `assets/placeholders/` tên `placeholder_*` (bản Release tự loại), ghi KHÔNG SHIP trong ASSET_LICENSES; owner cần thay trước khi phát hành. Ảnh dự án cũ chỉ dùng làm tham khảo bố cục, không chép vào dự án.
 - **Hạn chế đã biết:** chưa có Shop nên mua nền chỉ trong bảng Đổi nền; chưa có nền thứ hai để thử mua (đã thử bằng nền giả lập trong test); chưa có ảnh riêng cho ô Xuất kích / Tiếp tế / Người cộng tác; chưa thử chạm trên máy thật.
+
+
+## 2026-11-14 — Raikiba: duyệt frame `run`
+- **Milestone / task:** Tạo và duyệt animation `run` cho `char_lightning_01` (8 frame, 12 fps, lặp).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_lightning_01/frames/run/` (8 PNG + import metadata); `assets/characters/char_lightning_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_lightning_01 run` (ĐẠT); `python -I tools/frames/approve_frames.py char_lightning_01 run`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Owner duyệt `run`; approve thành công với 8 frame, 12 fps. GdUnit4: 554 test, 0 lỗi; 5 smoke test ĐẠT; toàn bộ lệnh test thoát mã 0.
+- **Quyết định Codex chọn:** Dải đầu có nền trắng alpha thấp nên xóa lớp nền mờ trước khi cắt; dải thứ hai giữ alpha gốc.
+- **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.
