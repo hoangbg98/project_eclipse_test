@@ -14,6 +14,8 @@
 		"gear": {"title": "Mỗi trang bị một món", "gift": "equip:all"},
 		"all_characters": {"title": "Mở khóa mọi nhân vật", "gift": "char:all"},
 		"promotion": {"title": "Mảnh tiến cấp (100 mảnh mỗi nhân vật)", "gift": "frag:all=100"},
-		"everything": {"title": "Tất cả các gói trên", "gift": "preset:rich preset:level_up preset:enhance preset:gear preset:all_characters preset:promotion"}
+		"lavoisier": {"title": "Bộ vết thánh Antoine Lavoisier (Enkiba)", "gift": "equip:eq_stigma_top_lavoisier equip:eq_stigma_mid_lavoisier equip:eq_stigma_bot_lavoisier"},
+		"upgrade": {"title": "Đồ nâng bậc và tẩy phụ tố", "gift": "item:mat_weapon_ascend=30 item:mat_affix_reroll=30 gold=200000"},
+		"everything": {"title": "Tất cả các gói trên", "gift": "preset:rich preset:level_up preset:enhance preset:upgrade preset:gear preset:all_characters preset:promotion"}
 	}
 }

@@ -276,8 +276,15 @@ func test_weapon_picker_only_lists_matching_type_and_equips() -> void:
 	assert_bool(w1 in c and w2 in c).is_true()
 	assert_bool(bow in c).is_false()                                   # Enkiba dùng kiếm
 	(_node(s, "ChangeWeaponButton") as Button).pressed.emit()
-	(_node(s, "Equip_%s" % w2) as Button).pressed.emit()
+	assert_str(s.candidates("weapon")[0]).is_equal(w2)                 # chưa mặc: 4★ trước 3★
+	(_node(s, "PickCard_%s" % w2) as Button).pressed.emit()
+	assert_str(s.picker_pick).is_equal(w2)
+	assert_str((_node(s, "PickEquip") as Button).text).is_equal(tr("CHAR_UI_EQUIP"))
+	(_node(s, "PickEquip") as Button).pressed.emit()
 	assert_str(inv.equipped_uid(A, "weapon")).is_equal(w2)
+	assert_str(s.picker).is_equal("weapon")                           # bảng vẫn mở, nút đổi thành Tháo
+	assert_str((_node(s, "PickEquip") as Button).text).is_equal(tr("CHAR_UNEQUIP"))
+	s.intercept_back()
 	assert_str(s.picker).is_equal("")
 	assert_str((_node(s, "WeaponName") as Label).text).is_equal(tr(inv.equipment_def_of(w2).name_key))
 	assert_str(_disk()["characters"][A]["equipment"]["weapon"]).is_equal(w2)
@@ -462,6 +469,31 @@ func test_lavoisier_stigma_art_and_center_crop() -> void:
 	assert_object((_node(s, "WeaponDetailArt") as PlaceholderArt).texture).is_not_null()
 
 
+## Bảng đổi trang bị toàn màn (owner 2026-11-15): chỉ số trước → sau, kĩ năng món đang chọn, lưới xếp sao giảm dần,
+## Xem chi tiết mở bảng thông tin món.
+func test_equip_picker_preview_sort_and_detail() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var three := inv.add_equipment("eq_stigma_top_elite")
+	var five := inv.add_equipment("eq_stigma_top_lavoisier")
+	var four := inv.add_equipment("eq_stigma_top_blaze")
+	s.open_picker("stigma_top")
+	assert_array(Array(s.candidates("stigma_top"))).is_equal([five, four, three])
+	assert_str(s.picker_pick).is_equal(five)
+	var before := s.profile.stats_of(A)
+	var after := s.preview_stats(five)
+	assert_float(after.atk).is_greater(before.atk)
+	assert_float(s.profile.stats_of(A).atk).is_equal(before.atk)        # xem trước không đổi save
+	assert_str((_node(s, "After_atk") as Label).text).is_equal(s.stat_value("atk", after))
+	assert_bool((_node(s, "PickSkills") as RichTextLabel).text.contains(tr("STIGMA_UI_TAB_SET"))).is_true()
+	(_node(s, "PickDetail") as Button).pressed.emit()
+	assert_str(s.picker).is_equal("")
+	assert_int(s.view).is_equal(CharacterScreen.View.WEAPON_DETAIL)
+	assert_str(s.detail_uid).is_equal(five)
+	# Có lớp riêng: biểu tượng bộ đầy đủ + nhân vật tách nền.
+	assert_object(_node(s, "StigmaEmblem")).is_not_null()
+
+
 func test_background_image_per_view() -> void:
 	var s := _screen()
 	assert_str(s.background_key()).is_equal("overview")
@@ -489,13 +521,16 @@ func test_stigma_tab_three_slots_and_unequip() -> void:
 		assert_object(_node(s, "ChangeStigma%d" % i)).is_not_null()
 	(_node(s, "ChangeStigma1") as Button).pressed.emit()
 	assert_str(s.picker).is_equal("stigma_mid")
-	(_node(s, "Equip_%s" % mid) as Button).pressed.emit()
+	assert_str(s.picker_pick).is_equal(mid)                           # chưa mặc gì: chọn sẵn món đầu lưới
+	(_node(s, "PickEquip") as Button).pressed.emit()
 	assert_str(inv.equipped_uid(A, "stigma_mid")).is_equal(mid)
+	s.intercept_back()
 	assert_bool((_node(s, "StigmaText") as Label).text.contains(tr(inv.equipment_def_of(mid).name_key))).is_true()
 	s.open_picker("stigma_mid")
-	(_node(s, "Unequip") as Button).pressed.emit()
+	(_node(s, "PickEquip") as Button).pressed.emit()                 # đang mặc → Tháo
 	assert_str(inv.equipped_uid(A, "stigma_mid")).is_equal("")
-	s.open_picker("stigma_top")
+	(_node(s, "SlotCard_stigma_top") as Button).pressed.emit()        # ô đang mặc phía trên đổi loại danh sách
+	assert_str(s.picker).is_equal("stigma_top")
 	assert_bool(_texts(s).contains(tr("CHAR_UI_NOTHING"))).is_true()
 
 

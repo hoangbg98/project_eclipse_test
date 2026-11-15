@@ -3,7 +3,9 @@
 
   python -X utf8 -I tools/compose_stigma_art.py <biểu tượng.png> <ra.png> <ảnh vào.png> [--size 1248x2280]
          [--emblem-scale 0.96] [--glow #FF2A1A] [--glow-radius 46] [--glow-strength 1.6] [--emblem-tint 0.25]
-         [--fit] [--margin 24]
+         [--fit] [--margin 24] [--overflow 1.0] [--no-emblem]
+Lớp riêng cho full art ở bảng thông tin vết thánh: bỏ <ảnh vào> → chỉ biểu tượng + hào quang (vd --size 1400x1400
+--emblem-scale 0.8); --no-emblem → chỉ nhân vật.
 
 Ảnh vào và biểu tượng là PNG có alpha (xóa nền trước bằng tools/cut_flat_bg.py). Ảnh vào thu vừa bề ngang khung, giữ tỉ
 lệ. Hào quang = mặt nạ alpha của biểu tượng làm mờ (2 lớp: rộng + sát viền) tô màu --glow. --emblem-tint pha màu
@@ -33,7 +35,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("emblem")
     ap.add_argument("dst")
-    ap.add_argument("src")
+    ap.add_argument("src", nargs="?", default="", help="bỏ trống = chỉ biểu tượng + hào quang (lớp nền cho full art)")
     ap.add_argument("--size", default="1248x2280")
     ap.add_argument("--emblem-scale", type=float, default=0.96, help="bề ngang biểu tượng / bề ngang khung")
     ap.add_argument("--glow", default="#FF2A1A")
@@ -43,12 +45,24 @@ def main():
     ap.add_argument("--fit", action="store_true",
                     help="cắt ảnh vào theo vùng có hình rồi phóng cho vừa khít khung (trừ --margin); biểu tượng có thể bị xén")
     ap.add_argument("--margin", type=int, default=24, help="lề quanh hình khi --fit (px)")
+    ap.add_argument("--no-emblem", action="store_true", help="chỉ ảnh vào (lớp nhân vật cho full art), không biểu tượng")
+    ap.add_argument("--overflow", type=float, default=1.0,
+                    help="--fit: cho hình rộng hơn khung tối đa bấy nhiêu lần (xén hai bên), vd 1.35 cho ảnh có cánh dang ngang")
     a = ap.parse_args()
     w, h = (int(v) for v in a.size.lower().split("x"))
     color = parse_color(a.glow)
     canvas = Image.new("RGBA", (w, h), (0, 0, 0, 0))
 
     # Biểu tượng: thu theo bề ngang, đặt chính giữa; pha màu hào quang; hào quang phía sau.
+    if not a.no_emblem:
+        _draw_emblem(canvas, a, w, h, color)
+    if a.src:
+        _draw_src(canvas, a, w, h)
+    canvas.save(a.dst, optimize=True)
+    print("%s: %dx%d" % (a.dst, w, h))
+
+
+def _draw_emblem(canvas, a, w, h, color):
     em = Image.open(a.emblem).convert("RGBA")
     ew = int(w * a.emblem_scale)
     em = em.resize((ew, int(em.height * ew / em.width)), Image.LANCZOS)
@@ -65,20 +79,20 @@ def main():
     canvas.alpha_composite(glow, (ex, ey))
     canvas.alpha_composite(big, (ex, ey))
 
-    # Ảnh vào: thu vừa bề ngang, chính giữa.
+
+def _draw_src(canvas, a, w, h):
+    # Ảnh vào: thu vừa bề ngang (hoặc vừa khít khung với --fit), chính giữa.
     src = Image.open(a.src).convert("RGBA")
     if a.fit:
         # Owner 2026-11-15: nhân vật vừa khít khung; cắt theo vùng alpha > 8 rồi phóng giữ tỉ lệ.
         box = src.getchannel("A").point(lambda v: 255 if v > 8 else 0).getbbox()
         if box:
             src = src.crop(box)
-        k = min((w - 2 * a.margin) / src.width, (h - 2 * a.margin) / src.height)
+        k = min((w - 2 * a.margin) * a.overflow / src.width, (h - 2 * a.margin) / src.height)
         src = src.resize((max(1, int(src.width * k)), max(1, int(src.height * k))), Image.LANCZOS)
     else:
         src = src.resize((w, int(src.height * w / src.width)), Image.LANCZOS)
     canvas.alpha_composite(src, ((w - src.width) // 2, (h - src.height) // 2))
-    canvas.save(a.dst, optimize=True)
-    print("%s: %dx%d" % (a.dst, w, h))
 
 
 if __name__ == "__main__":

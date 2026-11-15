@@ -127,6 +127,9 @@
 		"type": {"rect": [70, 190, 500, 44], "font": 28},
 		"art": {"rect": [215, 236, 560, 296], "placeholder_label": "ẢNH VŨ KHÍ"},
 		"stigma_art": {"rect": [180, 90, 800, 990]},
+		"stigma_emblem": {"rect": [5, 90, 990, 990]},
+		"stigma_figure": {"rect": [0, 90, 1000, 990]},
+		"stigma_layers": {"figure": "res://assets/equipment/stigmata/{id}_figure.png", "emblem": "res://assets/equipment/sets/{set}_glow.png"},
 		"wearer": {"rect": [70, 546, 520, 56], "font": 26},
 		"tier": {"rect": [70, 606, 300, 50], "font": 34},
 		"stars": {"rect": [70, 658, 420, 56], "font": 44},
@@ -188,6 +191,15 @@
 		"nav_next_name": {"rect": [845, 975, 215, 44], "font": 30}
 	},
 	"lore_panel": {"rect": [360, 120, 1200, 840], "anchor": "center", "font": 28},
+	"equip_picker": {
+		"_ghi_chu": "Bảng đổi trang bị toàn màn (owner 2026-11-15): trái = chỉ số trước → sau + kĩ năng món đang chọn; phải = 4 ô đang mặc, lưới thẻ, 2 nút.",
+		"stats": {"rect": [30, 110, 850, 270], "font": 30},
+		"skills": {"rect": [30, 400, 850, 640], "font": 26},
+		"current": {"rect": [900, 110, 990, 250], "anchor": "right", "font": 30, "card_w": 150, "card_h": 180},
+		"grid": {"rect": [900, 380, 990, 560], "anchor": "right", "columns": 5, "card_w": 176, "card_h": 200},
+		"detail_button": {"rect": [900, 958, 480, 84], "anchor": "right", "font": 34},
+		"equip_button": {"rect": [1410, 958, 480, 84], "anchor": "right", "font": 34}
+	},
 	"picker": {
 		"rect": [460, 140, 1000, 800], "anchor": "center", "font": 30, "row_height": 96
 	},

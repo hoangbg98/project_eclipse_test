@@ -3099,3 +3099,9 @@ msgstr "Mount Unyielding has been struck by lightning, battered by storms and er
 
 msgid "WEAPON_UI_LORE"
 msgstr "Story"
+
+msgid "EQUIP_PICK_CURRENT"
+msgstr "Currently equipped"
+
+msgid "EQUIP_PICK_DETAIL"
+msgstr "View details"

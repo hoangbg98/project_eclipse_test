@@ -3099,3 +3099,9 @@ msgstr "Núi Bất Khuất từng bị sét đánh, bị bão quật, bị nư�
 
 msgid "WEAPON_UI_LORE"
 msgstr "Giai thoại"
+
+msgid "EQUIP_PICK_CURRENT"
+msgstr "Trang bị hiện đang cài đặt"
+
+msgid "EQUIP_PICK_DETAIL"
+msgstr "Xem chi tiết"

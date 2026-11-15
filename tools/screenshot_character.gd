@@ -19,6 +19,8 @@ const SHOTS := [
 	["13_stigma_set", "stigma_detail", "set"],
 	["14_stigma_reroll", "stigma_reroll", ""],
 	["15_weapon_lore", "weapon_lore", ""],
+	["16_pick_stigma", "pick", "stigma_top"],
+	["17_pick_weapon", "pick", "weapon"],
 ]
 
 var _frames := 0
@@ -40,6 +42,9 @@ func _prepare() -> void:
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_weapon_dusk_inferno"))   # có ảnh thật (owner 2026-11-15)
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_lavoisier"))
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_lavoisier"))
+	for extra in ["eq_stigma_top_blaze", "eq_stigma_top_elite", "eq_stigma_top_davinci", "eq_stigma_top_whirlwind",
+			"eq_weapon_flame", "eq_weapon_iron"]:
+		p.inventory.add_equipment(extra)
 	p.progression.add_exp("char_fire_01", 1500)
 	p.progression.add_fragments("char_fire_01", 6)
 	for id in ["char_lightning_01", "char_wind_01", "char_earth_01"]:
@@ -86,6 +91,11 @@ func _process(_delta: float) -> bool:
 				_screen.picker = ""
 				_screen.open_equipment_detail(_screen.profile.inventory.equipped_uid("char_fire_01", "stigma_top"), "stigma")
 				_screen.open_detail_tab(str(s[2]))
+			"pick":
+				_screen.lore_open = false
+				_screen.view = CharacterScreen.View.DETAIL
+				_screen.tab = "stigma"
+				_screen.open_picker(str(s[2]))
 			"weapon_lore":
 				_screen.picker = ""
 				_screen.open_weapon_detail()

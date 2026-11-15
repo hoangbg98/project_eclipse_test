@@ -124,7 +124,9 @@ func test_everything_preset_applies_full_account() -> void:
 	var res := DebugGift.apply(p, _gift("preset:everything"))
 	assert_bool(res["ok"]).is_true()
 	assert_int(p.inventory.currency("gems")).is_equal(50000)
-	assert_int(p.inventory.currency("gold")).is_equal(900000)                         # rich + level_up + enhance
+	assert_int(p.inventory.currency("gold")).is_equal(1100000)                        # rich + level_up + enhance + upgrade
+	assert_int(p.inventory.material_count("mat_weapon_ascend")).is_equal(30)
+	assert_int(p.inventory.material_count("mat_affix_reroll")).is_equal(30)
 	assert_int(p.inventory.material_count("mat_exp_small")).is_equal(50)
 	assert_int(p.inventory.material_count("mat_enhance_ore")).is_equal(100)
 	assert_int(p.inventory.equipment_uids().size()).is_equal(DebugGift.equipment_ids().size())

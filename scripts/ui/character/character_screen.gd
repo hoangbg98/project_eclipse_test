@@ -33,6 +33,8 @@ var lore_open := false
 ## Bảng chọn đang mở: "" (không), "exp", "weapon", "stigma_top", "stigma_mid", "stigma_bot", "enhance" (cường hóa
 ## món `detail_uid`), "ascend" (nâng bậc), "reroll" (tẩy phụ tố vết thánh).
 var picker := ""
+## Món đang chọn trong bảng đổi trang bị (lưới thẻ, owner 2026-11-15); "" = món đang mặc / món đầu danh sách.
+var picker_pick := ""
 ## Món đang xem ở View.WEAPON_DETAIL.
 var detail_uid := ""
 ## Tab chi tiết quay về khi bấm Trở về ("weapon" / "stigma"); "" = rời màn (mở từ Túi đồ).
@@ -425,6 +427,18 @@ func _art(r: Rect2, tex: Texture2D, placeholder_label: String, crop := Rect2(0, 
 		a.name = name_
 	_place(a, r)
 	return a
+
+
+## Hai lớp full art của vết thánh cho bảng thông tin: [biểu tượng bộ + hào quang, nhân vật tách nền]. Đường dẫn mẫu ở
+## "weapon_detail.stigma_layers" (file bố cục, {id} = Data ID, {set} = set_id). Thiếu một lớp → [] (dùng ảnh ghép sẵn).
+func stigma_layers(d: EquipmentDef) -> Array:
+	if d == null or d.set_id == "":
+		return []
+	var fig := layout.text("weapon_detail.stigma_layers.figure", "").replace("{id}", d.id)
+	var emb := layout.text("weapon_detail.stigma_layers.emblem", "").replace("{set}", d.set_id)
+	if fig == "" or emb == "" or not ResourceLoader.exists(fig) or not ResourceLoader.exists(emb):
+		return []
+	return [load(emb) as Texture2D, load(fig) as Texture2D]
 
 
 ## Dải chuyển màu từ màu nền sang trong suốt ở mép trái, phải và đáy của vùng `r` (độ rộng `w` px).
@@ -962,11 +976,17 @@ func _build_weapon_detail() -> void:
 	if is_weapon:
 		_panel(layout.rect(p + "left_panel"), Color(0.06, 0.07, 0.1, 0.8))
 	else:
-		# Cả người (vừa theo chiều cao khung), đặt lệch phải để chữ bên trái đè lên nền ảnh.
+		var layers := stigma_layers(d)
+		if not layers.is_empty():
+			# Owner 2026-11-15: nền mở rộng — biểu tượng bộ đầy đủ + hào quang phủ nửa trái, nhân vật cả người phía trước.
+			_art(layout.rect(p + "stigma_emblem", Rect2(5, 90, 990, 990)), layers[0], "", Rect2(0, 0, 1, 1), "StigmaEmblem")
+			_art(layout.rect(p + "stigma_figure", Rect2(0, 90, 1000, 990)), layers[1], "", Rect2(0, 0, 1, 1), "WeaponDetailArt")
+		# Chưa có lớp riêng: ảnh ghép sẵn, cả người (vừa theo chiều cao khung), lệch phải để chữ bên trái đè lên nền ảnh.
 		var full_r := layout.rect(p + "stigma_art", Rect2(180, 90, 800, 990))
-		_art(full_r, _equip_art(d), tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + d.slot.to_upper()), Rect2(0, 0, 1, 1),
-				"WeaponDetailArt")
-		if _equip_art(d):
+		if layers.is_empty():
+			_art(full_r, _equip_art(d), tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + d.slot.to_upper()), Rect2(0, 0, 1, 1),
+					"WeaponDetailArt")
+		if layers.is_empty() and _equip_art(d):
 			# Ảnh vết thánh bị xén ở mép (biểu tượng phóng to): mờ dần hai bên và đáy vào màu nền để hòa vào màn.
 			var tex := _equip_art(d)
 			var k := minf(full_r.size.x / tex.get_width(), full_r.size.y / tex.get_height())
@@ -1441,6 +1461,7 @@ func _build_glossary() -> void:
 
 func open_picker(kind: String) -> void:
 	picker = kind
+	picker_pick = ""
 	notice = ""
 	refresh()
 
@@ -1449,30 +1470,215 @@ func open_picker(kind: String) -> void:
 func candidates(slot: String) -> PackedStringArray:
 	var out := PackedStringArray()
 	var cdef := char_def(selected)
-	var cur := profile.inventory.equipped_uid(selected, slot)
+	var inv := profile.inventory
+	var cur := inv.equipped_uid(selected, slot)
 	if cur != "":
 		out.append(cur)
-	for uid in profile.inventory.equipment_uids():
-		var d := profile.inventory.equipment_def_of(uid)
+	var rest: Array = []
+	for uid in inv.equipment_uids():
+		var d := inv.equipment_def_of(uid)
 		if d == null or d.slot != slot or uid == cur:
 			continue
 		if slot == "weapon" and d.weapon_type != "" and cdef and cdef.weapon_type != "" and d.weapon_type != cdef.weapon_type:
 			continue
+		rest.append(uid)
+	# Owner 2026-11-15 (lưới như ảnh tham chiếu): sao giảm dần, cấp giảm dần, rồi món nhận trước.
+	rest.sort_custom(func(a: String, b: String) -> bool:
+		var da := inv.equipment_def_of(a)
+		var db := inv.equipment_def_of(b)
+		if da.rarity != db.rarity:
+			return da.rarity > db.rarity
+		if inv.equipment_level(a) != inv.equipment_level(b):
+			return inv.equipment_level(a) > inv.equipment_level(b)
+		return int(a) < int(b))
+	for uid: String in rest:
 		out.append(uid)
 	return out
 
 
+## Mặc món `uid`; bảng đổi trang bị vẫn mở (nút đổi thành Tháo), Trở về để đóng.
 func equip(uid: String) -> void:
 	var reason := profile.inventory.equip(selected, uid)
 	if reason == "":
-		picker = ""
+		picker_pick = uid
 	commit(reason)
 
 
 func unequip(slot: String) -> void:
 	profile.inventory.unequip(selected, slot)
-	picker = ""
 	commit()
+
+
+func pick(uid: String) -> void:
+	picker_pick = uid
+	refresh()
+
+
+## Chỉ số của nhân vật nếu mặc thêm món `uid` (tính trên bản sao dữ liệu, không đổi save).
+func preview_stats(uid: String) -> CombatStats:
+	if uid == "" or profile.inventory.equipped_by(uid) == selected:
+		return profile.stats_of(selected)
+	var p2 := PlayerProfile.new(profile.data.duplicate(true))
+	p2.inventory.equip(selected, uid)
+	return p2.stats_of(selected)
+
+
+## Thẻ một món trang bị (ảnh, viền theo độ hiếm, sao, cấp, nhãn đang dùng). Trả về Button chưa gắn vào cây.
+func _equip_card(uid: String, sz: Vector2, chosen: bool, cb: Callable, name_: String, empty_label := "") -> Button:
+	var inv := profile.inventory
+	var d := inv.equipment_def_of(uid) if uid != "" else null
+	var b := Button.new()
+	b.name = name_
+	b.focus_mode = Control.FOCUS_NONE
+	b.custom_minimum_size = sz
+	b.size = sz
+	var rc := {5: layout.color("rank_s", Color.GOLD), 4: layout.color("rank_a", Color.MEDIUM_PURPLE),
+			3: layout.color("rank_b", Color.SKY_BLUE)}
+	var border: Color = rc.get(d.rarity if d else 0, Color(1, 1, 1, 0.25))
+	if chosen:
+		border = Color("#FF6FCF")
+	var st := _style(Color(0.1, 0.11, 0.16, 0.95), border, 6)
+	st.set_border_width_all(4 if chosen else 2)
+	for k in ["normal", "hover", "pressed"]:
+		b.add_theme_stylebox_override(k, st if k != "hover" else _style(Color(0.16, 0.17, 0.24, 0.95), border, 6))
+	if cb.is_valid():
+		b.pressed.connect(cb)
+	var a := PlaceholderArt.new()
+	var tex := _equip_art(d)
+	a.texture = tex
+	a.crop = PlaceholderArt.center_square(tex)
+	a.label_text = empty_label if d == null else ""
+	a.fill_color = layout.color("placeholder_fill", a.fill_color)
+	a.figure_color = layout.color("placeholder_figure", a.figure_color)
+	a.text_color = layout.color("placeholder_text", a.text_color)
+	a.position = Vector2(6, 6)
+	a.size = sz - Vector2(12, 12)
+	b.add_child(a)
+	if d:
+		var fs := int(sz.y * 0.13)
+		for row in [[_stars(d.rarity), layout.color("star", Color.GOLD), sz.y - fs * 2 - 14, HORIZONTAL_ALIGNMENT_CENTER],
+				["Lv.%d" % inv.equipment_level(uid), Color.WHITE, sz.y - fs - 10, HORIZONTAL_ALIGNMENT_CENTER]]:
+			var l := Label.new()
+			l.text = str(row[0])
+			l.add_theme_font_size_override("font_size", fs)
+			l.add_theme_color_override("font_color", row[1])
+			l.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.95))
+			l.add_theme_constant_override("outline_size", 6)
+			l.horizontal_alignment = row[3]
+			l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			l.position = Vector2(4, float(row[2]))
+			l.size = Vector2(sz.x - 8, fs + 6)
+			b.add_child(l)
+		var who := inv.equipped_by(uid)
+		if who != "":
+			var tag := Label.new()
+			tag.text = suit_label(who) if who != selected else tr("BAG_IN_USE")
+			tag.add_theme_font_size_override("font_size", int(sz.y * 0.09))
+			tag.add_theme_color_override("font_color", Color.WHITE)
+			tag.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.95))
+			tag.add_theme_constant_override("outline_size", 6)
+			tag.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			tag.position = Vector2(8, 8)
+			tag.size = Vector2(sz.x - 16, sz.y * 0.3)
+			tag.name = "InUse"
+			b.add_child(tag)
+	return b
+
+
+## Bảng đổi trang bị toàn màn (owner 2026-11-15, theo ảnh tham chiếu): trái = chỉ số trước → sau và kĩ năng của món
+## đang chọn; phải = 4 ô đang mặc (bấm để đổi loại), lưới thẻ cuộn được, nút Xem chi tiết / Trang bị (Tháo).
+func _build_equip_picker() -> void:
+	var p := "equip_picker."
+	var inv := profile.inventory
+	var slot := picker
+	var cands := candidates(slot)
+	var cur := inv.equipped_uid(selected, slot)
+	if picker_pick == "" or picker_pick not in cands:
+		picker_pick = cur if cur != "" else (cands[0] if not cands.is_empty() else "")
+	var bgc := layout.color("background", Color("#1B1E2B"))
+	var cover := _panel(Rect2(Vector2.ZERO, layout.view_size), Color(bgc, 0.97), "EquipPicker")
+	cover.mouse_filter = Control.MOUSE_FILTER_STOP
+	_button(_common("back_button"), "<", 44, intercept_back, false, "PickerClose")
+	var dark := Color(0.06, 0.07, 0.1, 0.92)
+	var pd := inv.equipment_def_of(picker_pick) if picker_pick != "" else null
+	# Trái trên: chỉ số trước → sau.
+	var sr := layout.rect(p + "stats", Rect2(30, 110, 850, 270))
+	_panel(sr, dark)
+	_label(Rect2(sr.position + Vector2(20, 8), Vector2(sr.size.x - 40, 54)),
+			("Lv.%d  %s" % [inv.equipment_level(picker_pick), tr(pd.name_key)]) if pd else tr("CHAR_UI_NOTHING"),
+			layout.font(p + "stats", 30) + 4, Color.WHITE).name = "PickName"
+	var now := profile.stats_of(selected)
+	var after := preview_stats(picker_pick)
+	var rows := [["STAT_HP", "max_hp"], ["STAT_ATK", "atk"], ["STAT_DEF", "def"], ["STAT_CRIT", "crit_rate"]]
+	var rh := (sr.size.y - 74) / rows.size()
+	for i in rows.size():
+		var y := sr.position.y + 68 + i * rh
+		var fs := layout.font(p + "stats", 30)
+		var stat: String = rows[i][1]
+		_label(Rect2(sr.position.x + 24, y, 300, rh), tr(rows[i][0]), fs, layout.color("text_dim", Color.GRAY))
+		_label(Rect2(sr.position.x + 300, y, 180, rh), stat_value(stat, now), fs + 2, Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
+		_label(Rect2(sr.position.x + 490, y, 60, rh), "»", fs, layout.color("text_dim", Color.GRAY), HORIZONTAL_ALIGNMENT_CENTER)
+		var dv := float(after.get(stat)) - float(now.get(stat))
+		var col := Color("#7CFF9B") if dv > 0.0001 else (Color("#FF7A7A") if dv < -0.0001 else Color.WHITE)
+		_label(Rect2(sr.position.x + 560, y, 220, rh), stat_value(stat, after), fs + 2, col).name = "After_" + stat
+	# Trái dưới: kĩ năng của món đang chọn.
+	var kr := layout.rect(p + "skills", Rect2(30, 400, 850, 640))
+	_panel(kr, dark)
+	var body := ""
+	if pd and pd.slot == "weapon":
+		body = weapon_skill_text(picker_pick)
+	elif pd:
+		body = "[b][color=#FFB347]%s[/color][/b]\n%s\n\n[b][color=#FFB347]%s[/color][/b]\n%s" % [tr("STIGMA_UI_TAB_SKILL"),
+				stigma_skill_text(picker_pick), tr("STIGMA_UI_TAB_SET"), set_text(picker_pick)]
+	var t := RichTextLabel.new()
+	t.name = "PickSkills"
+	t.bbcode_enabled = true
+	t.add_theme_font_size_override("normal_font_size", layout.font(p + "skills", 26))
+	t.add_theme_font_size_override("bold_font_size", layout.font(p + "skills", 26) + 2)
+	t.text = body
+	t.mouse_filter = Control.MOUSE_FILTER_PASS
+	_place(t, kr.grow(-20))
+	# Phải trên: 4 ô đang mặc.
+	var cr := layout.rect(p + "current", Rect2(900, 110, 990, 250))
+	_panel(cr, dark)
+	_label(Rect2(cr.position + Vector2(20, 6), Vector2(cr.size.x - 40, 46)), tr("EQUIP_PICK_CURRENT"), layout.font(p + "current", 30),
+			Color.WHITE)
+	var csz := Vector2(layout.num(p + "current.card_w", 150), layout.num(p + "current.card_h", 180))
+	for i in EquipmentDef.SLOTS.size():
+		var sl := EquipmentDef.SLOTS[i]
+		var b := _equip_card(inv.equipped_uid(selected, sl), csz, sl == slot, open_picker.bind(sl), "SlotCard_" + sl,
+				tr("SLOT_SHORT_" + sl.to_upper()) if sl != "weapon" else tr("SLOT_WEAPON"))
+		_place(b, Rect2(cr.position + Vector2(20 + i * (csz.x + 16), 58), csz))
+	# Phải giữa: lưới thẻ cuộn được.
+	var gr := layout.rect(p + "grid", Rect2(900, 380, 990, 560))
+	_panel(gr, dark)
+	var gsz := Vector2(layout.num(p + "grid.card_w", 176), layout.num(p + "grid.card_h", 200))
+	var scroll := ScrollContainer.new()
+	scroll.name = "PickScroll"
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var grid := GridContainer.new()
+	grid.columns = int(layout.num(p + "grid.columns", 5))
+	grid.add_theme_constant_override("h_separation", 14)
+	grid.add_theme_constant_override("v_separation", 14)
+	scroll.add_child(grid)
+	_place(scroll, gr.grow(-14))
+	for uid in cands:
+		grid.add_child(_equip_card(uid, gsz, uid == picker_pick, pick.bind(uid), "PickCard_" + uid))
+	if cands.is_empty():
+		_label(gr.grow(-30), tr("CHAR_UI_NOTHING"), 30, layout.color("text_dim", Color.GRAY), HORIZONTAL_ALIGNMENT_CENTER)
+	# Dưới: Xem chi tiết, Trang bị / Tháo.
+	var db := _button(layout.rect(p + "detail_button", Rect2(900, 958, 480, 84)), tr("EQUIP_PICK_DETAIL"), layout.font(p + "detail_button", 34),
+			func() -> void:
+				var u := picker_pick
+				picker = ""
+				open_equipment_detail(u, "weapon" if slot == "weapon" else "stigma"), false, "PickDetail")
+	db.disabled = picker_pick == ""
+	var worn := picker_pick != "" and picker_pick == cur
+	var eb := _button(layout.rect(p + "equip_button", Rect2(1410, 958, 480, 84)), tr("CHAR_UNEQUIP") if worn else tr("CHAR_UI_EQUIP"),
+			layout.font(p + "equip_button", 34), unequip.bind(slot) if worn else equip.bind(picker_pick), true, "PickEquip")
+	eb.disabled = picker_pick == ""
+
 
 
 func use_exp(material_id: String) -> void:
@@ -1480,6 +1686,9 @@ func use_exp(material_id: String) -> void:
 
 
 func _build_picker() -> void:
+	if picker in EquipmentDef.SLOTS:
+		_build_equip_picker()
+		return
 	var r := layout.rect("picker", Rect2(460, 140, 1000, 800))
 	var fs := layout.font("picker", 30)
 	var rh := layout.num("picker.row_height", 96)
