@@ -1,106 +1,78 @@
-const sidebarWidths = [74, 58, 82, 66, 71, 54];
-const articleWidths = [100, 97, 94, 98, 86];
+"use client";
 
-export default function Home() {
-  return (
-    <main className="fixed inset-0 overflow-hidden bg-[#fbfaf8] text-zinc-900">
-      <header
-        aria-hidden="true"
-        className="grid h-[76px] grid-cols-[1fr_auto_1fr] items-center border-b border-stone-200 bg-white/95 px-6 sm:px-14"
-      >
-        <div className="flex items-center gap-3">
-          <span className="h-9 w-9 rounded-full bg-stone-100" />
-          <span className="h-3.5 w-28 rounded-full bg-stone-100" />
-        </div>
-        <span className="hidden h-9 w-[min(30vw,420px)] rounded-xl bg-stone-100 sm:block" />
-        <div className="flex items-center justify-end gap-3">
-          <span className="hidden h-9 w-9 rounded-full bg-stone-100 sm:block" />
-          <span className="h-9 w-24 rounded-xl bg-stone-100" />
-        </div>
-      </header>
+import { useEffect, useMemo, useState } from "react";
+import { Activity, ArchiveRestore, ArrowDownUp, ArrowUpRight, Bell, Check, ChevronDown, CircleHelp, Clock3, Columns2, Download, FileImage, Filter, Grid2X2, ImagePlus, LayoutDashboard, ListChecks, MoreHorizontal, Palette, Plus, Search, Settings2, ShieldCheck, SlidersHorizontal, Sparkles, Upload, X } from "lucide-react";
+import { seedAssets } from "@/lib/seed-assets";
 
-      <div
-        aria-hidden="true"
-        className="grid h-[calc(100%-76px)] grid-cols-[180px_minmax(0,1fr)_260px] gap-10 px-6 pb-24 pt-10 opacity-55 max-lg:grid-cols-[150px_minmax(0,1fr)] max-sm:grid-cols-1 sm:px-14"
-      >
-        <aside className="hidden border-r border-stone-200 pr-7 sm:block">
-          <div className="mb-6 h-2.5 w-16 rounded-full bg-stone-200" />
-          <div className="space-y-4">
-            {sidebarWidths.map((width) => (
-              <div key={width} className="flex items-center gap-3">
-                <span className="h-4 w-4 rounded bg-stone-200" />
-                <span
-                  className="h-2.5 rounded-full bg-stone-200"
-                  style={{ width: `${width}%` }}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="mb-6 mt-9 h-2.5 w-24 rounded-full bg-stone-200" />
-          <div className="space-y-4">
-            {sidebarWidths.slice(0, 3).map((width) => (
-              <span
-                key={width}
-                className="block h-2.5 rounded-full bg-stone-200"
-                style={{ width: `${width}%` }}
-              />
-            ))}
-          </div>
-        </aside>
+type Version = { id: string; label: string; url: string; objectKey?: string; role?: string; note: string; date: string; status: string };
+type Asset = { id: string; name: string; group: string; project: string; scene: string; style: string; status: string; priority: string; owner: string; updated: string; brief: string; request: string; notes: string[]; tags: string[]; preview: string; versions: Version[]; qa: Record<string, boolean>; exportPng: boolean };
 
-        <article className="mx-auto flex w-full max-w-3xl flex-col gap-6">
-          <div className="space-y-3">
-            <div className="h-2.5 w-28 rounded-full bg-stone-200" />
-            <div className="h-7 w-4/5 rounded-lg bg-stone-200" />
-            <div className="h-7 w-3/5 rounded-lg bg-stone-200" />
-          </div>
-          <div className="min-h-[240px] flex-1 rounded-2xl bg-stone-200" />
-          <div className="flex items-center gap-3">
-            <span className="h-9 w-9 rounded-full bg-stone-200" />
-            <span className="h-2.5 w-28 rounded-full bg-stone-200" />
-          </div>
-          <div className="space-y-2">
-            {articleWidths.map((width) => (
-              <span
-                key={width}
-                className="block h-2.5 rounded-full bg-stone-200"
-                style={{ width: `${width}%` }}
-              />
-            ))}
-          </div>
-        </article>
+const seed: Asset[] = seedAssets as Asset[];
+/*
+  { id:"mascot-panda", name:"Mascot gấu trúc · bộ biểu cảm", group:"Mascot", project:"Eclipse Hub", scene:"Hub · loading", style:"Anime chibi · line mềm", status:"Cần chỉnh", priority:"P1", owner:"Art", updated:"Hôm nay", brief:"Mascot gấu/panda dùng xuyên suốt màn Hub.", request:"Giữ nhận diện mascot và bảng màu hiện tại. Stroke mảnh hơn; không thêm detail ngoài brief.", notes:["Option A: tai tròn, biểu cảm vui","Option B: dáng ôm huy hiệu; giữ mắt và mảng lông nguyên bản"], tags:["Mascot","Chibi","UI"], preview:"panda", versions:[], qa:{style:true, identity:true, edges:false, size:true}, exportPng:true },
+  { id:"loading-bar", name:"Loading bar · preloader", group:"UI / Loading", project:"Eclipse Hub", scene:"Boot · Preloader", style:"Steampunk anime UI", status:"Đang làm", priority:"P1", owner:"UI", updated:"Hôm nay", brief:"Thanh tiến trình và preloader cho thời gian tải.", request:"Tách nền trong suốt PNG; giữ khung bánh răng, chỉ đổi chất liệu đồng khi brief yêu cầu.", notes:["Option A: kim loại đồng xước","Option B: thủy tinh khói, lõi sáng nhỏ"], tags:["Preloader","Transparent PNG"], preview:"loader", versions:[], qa:{style:true, identity:true, edges:false, size:false}, exportPng:true },
+  { id:"hk-market", name:"Chợ đêm Hồng Kông · parallax", group:"Background", project:"Màn 1 · Phố đêm", scene:"Stage 1 · Phố chợ", style:"Anime 2D · cinematic", status:"Chờ duyệt", priority:"P1", owner:"Environment", updated:"Hôm qua", brief:"Background chợ đêm Hồng Kông, chia lớp gần / giữa / xa.", request:"Giữ biển hiệu và phối cảnh; chỉ đổi background khi được yêu cầu. Không chèn chữ giả.", notes:["Option A: mưa nhẹ, phản chiếu neon","Option B: trời khô, đèn ấm"], tags:["Parallax","Background","Layered"], preview:"market", versions:[], qa:{style:true, identity:true, edges:true, size:false}, exportPng:false },
+  { id:"steampunk-panel", name:"Bảng steampunk · panel thông tin", group:"UI / Steampunk", project:"Eclipse Hub", scene:"Hub · thông tin", style:"Steampunk anime UI", status:"Đã duyệt", priority:"P2", owner:"UI", updated:"12 thg 11", brief:"Panel thông tin theo style steampunk hiện tại.", request:"Bảo toàn bố cục. Viền kim loại mảnh, giảm ornament nếu không có trong brief.", notes:["Option A: viền đồng mảnh — được chọn","Option B: viền đồng dày — lưu để đối chiếu"], tags:["Panel","Steampunk","UI"], preview:"panel", versions:[], qa:{style:true, identity:true, edges:true, size:true}, exportPng:true },
+  { id:"steampunk-button", name:"Nút steampunk · bộ trạng thái", group:"UI / Steampunk", project:"Eclipse Hub", scene:"Hub · điều hướng", style:"Steampunk anime UI", status:"Cần chỉnh", priority:"P2", owner:"UI", updated:"12 thg 11", brief:"Nút mặc định, hover, nhấn, khóa.", request:"Không đổi icon hoặc nội dung chữ. Xuất từng trạng thái riêng, nền trong suốt.", notes:["Option A: đồng xước + men xanh","Option B: đồng tối, highlight vàng"], tags:["Button","States","Transparent PNG"], preview:"button", versions:[], qa:{style:true, identity:false, edges:false, size:true}, exportPng:true },
+  { id:"combat-scene", name:"Cảnh nhân vật giao chiến · key pose", group:"Cảnh chiến đấu", project:"Màn 1 · Phố đêm", scene:"Stage 1 · Combat beat", style:"Anime 2D action", status:"Đang làm", priority:"P1", owner:"Character art", updated:"Hôm nay", brief:"Cảnh nhân vật giao chiến trong không gian game.", request:"Bảo toàn quần áo, trang sức và nhận diện. Chỉ thay pose / màu / chất liệu / background theo yêu cầu cụ thể.", notes:["Option A: pose lao tới","Option B: pose đỡ đòn; trang sức giữ nguyên"], tags:["Combat","Key pose","Character"], preview:"combat", versions:[], qa:{style:true, identity:false, edges:true, size:false}, exportPng:false },
+  { id:"chibi-character", name:"Nhân vật anime/chibi · turnaround", group:"Nhân vật", project:"Character Lab", scene:"Character select", style:"Anime chibi · game style", status:"Cần chỉnh", priority:"P1", owner:"Character art", updated:"Hôm qua", brief:"Bản chibi giữ đúng dấu hiệu nhận biết của nhân vật gốc.", request:"Không sửa quần áo, trang sức, tóc hoặc nhận diện nếu brief chỉ yêu cầu đổi pose. Nhiều option, không ghi đè bản gốc.", notes:["Option A: đứng thẳng","Option B: nghiêng người; cần soát phụ kiện"], tags:["Chibi","Turnaround","Identity lock"], preview:"chibi", versions:[], qa:{style:false, identity:false, edges:true, size:true}, exportPng:true },
+  { id:"chibi-animation", name:"Gói animation chibi · tách layer", group:"Animation / Layer", project:"Character Lab", scene:"Animation pack · idle", style:"Anime chibi · frame-by-frame", status:"Đang làm", priority:"P2", owner:"Animation", updated:"10 thg 11", brief:"Gói idle, run và biểu cảm; layer nhân vật và phụ kiện có thể kiểm tra riêng.", request:"PNG 384×384, chân y=336, tâm x=192, hướng phải; nền trong suốt. Bảo toàn trang sức; không thêm smear/VFX ngoài brief.", notes:["Option A: idle 6 frame","Option B: run 8 frame; giữ pivot ổn định"], tags:["Animation","Layers","PNG alpha"], preview:"frames", versions:[], qa:{style:true, identity:true, edges:false, size:false}, exportPng:true },
+];
+*/
 
-        <aside className="space-y-5 max-lg:hidden">
-          {[0, 1].map((card) => (
-            <div
-              key={card}
-              className="space-y-4 rounded-2xl border border-stone-200 bg-white/70 p-6"
-            >
-              <span className="block h-10 w-10 rounded-full bg-stone-200" />
-              <span className="block h-3 w-3/5 rounded-full bg-stone-200" />
-              <span className="block h-2.5 w-full rounded-full bg-stone-200" />
-              <span className="block h-2.5 w-4/5 rounded-full bg-stone-200" />
-              <span className="block h-8 w-24 rounded-lg bg-stone-200" />
-            </div>
-          ))}
-        </aside>
-      </div>
+const groups=["Tất cả asset","Mascot","UI / Loading","Background","UI / Steampunk","Cảnh chiến đấu","Nhân vật","Animation / Layer"];
+const statuses=["Đang làm","Cần chỉnh","Chờ duyệt","Đã duyệt"];
+const previewArt: Record<string, React.ReactNode> = {
+  panda:<><div className="panda-ear left"/><div className="panda-ear right"/><div className="panda-face"><i className="eye one"/><i className="eye two"/><b className="nose"/><span className="cheek a"/><span className="cheek b"/></div><div className="scarf"/><span className="sparkle">✦</span></>,
+  loader:<><div className="gear gear-a">⚙</div><div className="gear gear-b">⚙</div><div className="load-track"><span/></div><small>LOADING · 68%</small></>,
+  market:<><div className="moon"/><div className="sign sign-a">夜市</div><div className="sign sign-b">茶</div><div className="market-roof"/><div className="market-lights"/><div className="market-stalls"/></>,
+  panel:<><div className="ornament tl"/><div className="ornament br"/><div className="panel-lines"><i/><i/><i/></div><div className="panel-gem"/></>,
+  button:<><div className="demo-button"><span>✦</span> QUEST <b>›</b></div><div className="demo-button muted">INVENTORY</div></>,
+  combat:<><div className="slash slash-one"/><div className="slash slash-two"/><div className="fighter f-one"><i/><b/><span/></div><div className="fighter f-two"><i/><b/><span/></div><div className="impact">✦</div></>,
+  chibi:<><div className="chibi-hair"/><div className="chibi-body"><i/><b/><span/></div><div className="pin">◆</div></>,
+  frames:<><div className="frame-person p-one"><i/><b/><span/></div><div className="frame-person p-two"><i/><b/><span/></div><div className="frame-person p-three"><i/><b/><span/></div><div className="frame-grid"/></>,
+};
 
-      <output
-        aria-live="polite"
-        aria-atomic="true"
-        className="absolute left-1/2 top-[clamp(96px,13vh,122px)] w-[min(620px,calc(100%-40px))] -translate-x-1/2 rounded-[18px] border border-stone-200 bg-white/95 px-5 py-5 shadow-[0_18px_50px_rgb(24_24_27/9%)] backdrop-blur-sm"
-      >
-        <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.09em] text-stone-500">
-          Building your site
-        </p>
-        <h1 className="text-xl font-semibold tracking-tight">
-          Your site is taking shape
-        </h1>
-        <p className="mt-1 text-sm text-stone-500">
-          Your first version will appear here automatically when it’s ready.
-        </p>
-      </output>
-    </main>
-  );
+function Artwork({kind, className=""}:{kind:string;className?:string}) { return <div className={`art ${kind} ${className}`} aria-label="Bản xem trước minh họa">{previewArt[kind]}</div> }
+function AssetArtwork({asset,className=""}:{asset:Asset;className?:string}) { const latest=asset.versions[0]; return latest?.url?<div className={`uploaded-art ${className}`}><img src={latest.url} alt={`Preview ${asset.name} · ${latest.label}`}/><span>{latest.label}</span></div>:<Artwork kind={asset.preview} className={className}/> }
+function ComparisonView({asset,side,selected,onSelect}:{asset:Asset;side:string;selected:string;onSelect:(id:string)=>void}) { const version=asset.versions.find(v=>v.id===selected); return <div><label>{side}</label><select className="compare-select" value={selected} onChange={e=>onSelect(e.target.value)}><option value="brief">Preview brief</option>{asset.versions.map(v=><option key={v.id} value={v.id}>{v.label}{v.role==="original"?" · khóa gốc":""}</option>)}</select>{version?<img src={version.url} alt={`${side} ${version.label}`}/>:<Artwork kind={asset.preview}/>}<p>{version?.note||asset.brief}</p></div> }
+function statusClass(status:string){return status=== "Đã duyệt"?"approved":status==="Chờ duyệt"?"review":status==="Cần chỉnh"?"revise":"working"}
+
+export default function Home(){
+  const [assets,setAssets]=useState<Asset[]>(seed); const [activeGroup,setActiveGroup]=useState("Tất cả asset"); const [query,setQuery]=useState(""); const [statusFilter,setStatusFilter]=useState("Tất cả trạng thái"); const [projectFilter,setProjectFilter]=useState("Tất cả project"); const [selected,setSelected]=useState<Asset|null>(null); const [compare,setCompare]=useState<Asset|null>(null); const [compareLeft,setCompareLeft]=useState("brief"); const [compareRight,setCompareRight]=useState("brief"); const [toast,setToast]=useState(""); const [showNew,setShowNew]=useState(false); const [tab,setTab]=useState("Tổng quan"); const [sortPriority,setSortPriority]=useState(false); const [loading,setLoading]=useState(false);
+  useEffect(()=>{fetch("/api/assets").then(r=>r.ok?r.json() as Promise<{assets:Asset[]}>:Promise.resolve(null)).then(data=>{if(data?.assets?.length)setAssets(data.assets)}).catch(()=>{});},[]);
+  const visible=useMemo(()=>assets.filter(a=>(tab!=="Audit style"||!a.qa.style)&&(tab!=="Checklist export"||a.exportPng)&&(activeGroup==="Tất cả asset"||a.group===activeGroup)&& (statusFilter==="Tất cả trạng thái"||a.status===statusFilter) && (projectFilter==="Tất cả project"||a.project===projectFilter) && `${a.name} ${a.group} ${a.scene} ${a.tags.join(" ")}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>sortPriority?a.priority.localeCompare(b.priority):a.name.localeCompare(b.name)),[assets,activeGroup,statusFilter,projectFilter,query,sortPriority,tab]);
+  const counts={all:assets.length,revise:assets.filter(a=>a.status==="Cần chỉnh").length,review:assets.filter(a=>a.status==="Chờ duyệt").length,approved:assets.filter(a=>a.status==="Đã duyệt").length};
+  function notify(s:string){setToast(s);setTimeout(()=>setToast(""),3000)}
+  function beginCompare(asset:Asset,rightId?:string){setSelected(asset);setCompare(asset);const original=asset.versions.find(v=>v.role==="original");const option=asset.versions.find(v=>v.role==="option");setCompareLeft(original?.id||"brief");setCompareRight(rightId||option?.id||(original?"brief":asset.versions[0]?.id)||"brief")}
+  async function patchAsset(asset:Asset, patch:Partial<Asset>){const next={...asset,...patch};setAssets(prev=>prev.map(a=>a.id===asset.id?next:a));setSelected(next);try{await fetch(`/api/assets/${asset.id}`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify(patch)})}catch{} }
+  async function addVersion(asset:Asset,file:File,note:string){setLoading(true);const form=new FormData();form.append("file",file);form.append("note",note);try{const res=await fetch(`/api/assets/${asset.id}/versions`,{method:"POST",body:form});if(!res.ok)throw new Error("storage");const {version}=await res.json() as {version:Version};const next={...asset,versions:[version,...asset.versions],preview:asset.preview};setAssets(prev=>prev.map(a=>a.id===asset.id?next:a));setSelected(next);notify("Đã thêm option mới · bản gốc được giữ nguyên")}catch{const url=URL.createObjectURL(file);const original=asset.versions.length===0;const version={id:crypto.randomUUID(),label:original?"v1 · Bản gốc":`v${asset.versions.length+1}`,role:original?"original":"option",url,note,date:"Vừa xong",status:original?"Bản gốc":"Đang làm"};const next={...asset,versions:[version,...asset.versions]};setAssets(prev=>prev.map(a=>a.id===asset.id?next:a));setSelected(next);notify("Ảnh đang xem trong phiên này; kết nối kho lưu trữ để lưu lâu dài")}finally{setLoading(false)}}
+  async function restoreVersion(asset:Asset,v:Version){try{const res=await fetch(`/api/assets/${asset.id}/versions/${v.id}/restore`,{method:"POST"});if(!res.ok)throw new Error();const {version}=await res.json() as {version:Version};const next={...asset,versions:[version,...asset.versions],status:"Đang làm"};setAssets(prev=>prev.map(a=>a.id===asset.id?next:a));setSelected(next);notify(`Đã tạo ${version.label} từ ${v.label}; lịch sử được giữ nguyên`)}catch{const version={...v,id:crypto.randomUUID(),label:`v${asset.versions.length+1} · phục hồi`,role:"option",date:"Vừa xong",note:`Phục hồi từ ${v.label}`};const next={...asset,versions:[version,...asset.versions],status:"Đang làm"};setAssets(prev=>prev.map(a=>a.id===asset.id?next:a));setSelected(next);notify(`Đã tạo bản phục hồi từ ${v.label}`)}}
+  async function newAsset(data:Partial<Asset>){const asset={...seed[0],...data,id:crypto.randomUUID(),versions:[],notes:[],tags:["Mới"],updated:"Vừa xong"} as Asset;setAssets(prev=>[asset,...prev]);setShowNew(false);try{await fetch("/api/assets",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(asset)})}catch{}notify("Đã tạo hồ sơ asset mới")}
+  return <main className="shell">
+    <aside className="sidebar"><a className="brand"><span className="brand-mark"><Sparkles size={19}/></span><span><b>ECLIPSE</b><small>ASSET ATELIER</small></span></a><div className="workspace"><div className="workspace-icon">E</div><span><b>PROJECT ECLIPSE</b><small>Workspace nghệ thuật</small></span><ChevronDown size={14}/></div>
+      <div className="nav-label">WORKSPACE</div>{[[LayoutDashboard,"Tổng quan"],[Grid2X2,"Thư viện asset"],[Activity,"Audit style"],[ListChecks,"Checklist export"]].map(([Icon,label]:any)=><button key={label} className={`nav-item ${tab===label?"active":""}`} onClick={()=>setTab(label)}><Icon size={17}/>{label}{label==="Thư viện asset"&&<span className="nav-count">{assets.length}</span>}</button>)}
+      <div className="nav-label group-label">NHÓM ASSET <button aria-label="Thêm nhóm" onClick={()=>notify("Nhóm mới: nhập qua hồ sơ asset")}>+</button></div><div className="group-list">{groups.map((g,i)=><button key={g} onClick={()=>{setActiveGroup(g);setTab("Thư viện asset")}} className={`group-item ${activeGroup===g?"selected":""}`}><span className={`group-dot dot-${i}`}/>{g}<span>{g==="Tất cả asset"?assets.length:assets.filter(a=>a.group===g).length}</span></button>)}</div>
+      <div className="sidebar-bottom"><div className="storage-card"><div className="storage-title"><span>Kho asset</span><span>Private</span></div><div className="storage-line"><i/></div><small>D1 + R2 · file gốc bất biến</small></div><button className="nav-item"><Settings2 size={17}/>Cài đặt workspace</button><button className="profile"><span className="avatar">A</span><span><b>Asset owner</b><small>Quản trị viên</small></span><MoreHorizontal size={17}/></button></div>
+    </aside>
+    <section className="main-area"><header className="topbar"><div className="crumb">Workspace <span>/</span> <b>{tab}</b></div><div className="top-actions"><span className="private-pill"><ShieldCheck size={13}/> Riêng tư</span><button className="icon-btn" aria-label="Thông báo" onClick={()=>notify(`${counts.revise} asset cần chỉnh · ${counts.review} asset chờ duyệt`)}><Bell size={17}/><i/></button><span className="top-avatar">A</span></div></header>
+      <div className="content"><div className="welcome-row"><div><div className="eyebrow"><span className="eyebrow-line"/> ART PRODUCTION · 2026</div><h1>Asset <em>atelier</em></h1><p className="subhead">Theo dõi từng option, bảo toàn bản gốc và giữ đồng nhất style game.</p></div><button className="primary-btn" onClick={()=>setShowNew(true)}><Plus size={17}/> Thêm asset</button></div>
+      <div className="stat-grid"><div className="stat-card"><div className="stat-top"><span>Tổng asset</span><Grid2X2 size={16}/></div><div className="stat-value">{counts.all}<small> hồ sơ</small></div><div className="stat-foot"><span className="stat-dot blue"/>Đang theo dõi trong workspace</div></div><div className="stat-card"><div className="stat-top"><span>Cần chỉnh</span><ArrowUpRight size={16}/></div><div className="stat-value">{counts.revise}<small> asset</small></div><div className="stat-foot"><span className="stat-dot orange"/>Ưu tiên theo project / scene</div></div><div className="stat-card"><div className="stat-top"><span>Chờ duyệt</span><Clock3 size={16}/></div><div className="stat-value">{counts.review}<small> asset</small></div><div className="stat-foot"><span className="stat-dot violet"/>Cần quyết định option</div></div><div className="stat-card"><div className="stat-top"><span>Đã duyệt</span><ShieldCheck size={16}/></div><div className="stat-value">{counts.approved}<small> asset</small></div><div className="stat-foot"><span className="stat-dot green"/>Có thể chuyển sang export</div></div></div>
+      <section className="priority-strip"><div className="priority-icon"><Activity size={16}/></div><div className="priority-copy"><b>Hàng đợi ưu tiên</b><span>Scene 1 · Phố đêm <i/> P1 <i/> 3 asset cần xử lý trước</span></div><button onClick={()=>{setProjectFilter("Màn 1 · Phố đêm");setSortPriority(true);setTab("Thư viện asset")}}>Mở hàng đợi <ArrowUpRight size={14}/></button><div className="priority-progress"><div><span>Tiến độ duyệt</span><b>{counts.approved}/{counts.all}</b></div><i><b style={{width:`${Math.round(counts.approved/Math.max(counts.all,1)*100)}%`}}/></i></div></section>
+      <div className="section-head"><div><h2>{tab==="Audit style"?"Audit độ đồng nhất style":tab==="Checklist export"?"Checklist PNG nền trong suốt":"Thư viện asset"}</h2><p>{tab==="Audit style"?"Ưu tiên các hồ sơ chưa xác nhận khớp style game.":tab==="Checklist export"?"Asset tách layer / animation cần kiểm tra alpha và file trước khi export.":"Preview minh họa · mở asset để quản lý file và phiên bản."}</p></div><button className="ghost-btn" onClick={()=>setSortPriority(!sortPriority)}><ArrowDownUp size={15}/>{sortPriority?"Ưu tiên P1 trước":"Sắp xếp"}</button></div>
+      <div className="filter-bar"><label className="searchbox"><Search size={16}/><input placeholder="Tìm asset, scene, tag…" value={query} onChange={e=>setQuery(e.target.value)}/><kbd>⌘ K</kbd></label><label className="select-wrap"><Filter size={15}/><select value={projectFilter} onChange={e=>setProjectFilter(e.target.value)}><option>Tất cả project</option>{[...new Set(assets.map(a=>a.project))].map(p=><option key={p}>{p}</option>)}</select><ChevronDown size={14}/></label><label className="select-wrap"><SlidersHorizontal size={15}/><select value={statusFilter} onChange={e=>setStatusFilter(e.target.value)}><option>Tất cả trạng thái</option>{statuses.map(s=><option key={s}>{s}</option>)}</select><ChevronDown size={14}/></label><button className="filter-icon" onClick={()=>{setProjectFilter("Tất cả project");setStatusFilter("Tất cả trạng thái");setActiveGroup("Tất cả asset");setQuery("")}} title="Xóa lọc"><X size={15}/></button></div>
+      <div className="chips">{groups.slice(0,6).map(g=><button key={g} className={`chip ${activeGroup===g?"on":""}`} onClick={()=>setActiveGroup(g)}>{g}</button>)}<button className="chip more" onClick={()=>notify("Các nhóm Character và Animation / Layer có ở thanh bên")}>+ nhóm khác</button></div>
+      <div className="asset-grid">{visible.map(asset=><article key={asset.id} className="asset-card"><button className="art-button" onClick={()=>setSelected(asset)}><AssetArtwork asset={asset}/><span className="preview-label"><ImagePlus size={12}/> {asset.versions.length?asset.versions[0].label.toUpperCase():"BRIEF PREVIEW"}</span><span className="card-menu" onClick={e=>{e.stopPropagation();setSelected(asset)}}><MoreHorizontal size={16}/></span></button><div className="asset-body"><div className="card-meta"><span>{asset.group}</span><b className={`status ${statusClass(asset.status)}`}><i/>{asset.status}</b></div><button className="asset-title" onClick={()=>setSelected(asset)}>{asset.name}</button><div className="scene-line"><span>{asset.project}</span><i/> {asset.scene}</div><div className="card-tags">{asset.tags.slice(0,2).map(t=><span key={t}>{t}</span>)}<span className="priority-tag">{asset.priority}</span></div><div className="card-footer"><div className="version-avatars"><span>v{asset.versions.length+1}</span><span className="plus-version">+{asset.versions.length}</span></div><span className="updated">{asset.updated}</span><button className="compare-link" onClick={()=>beginCompare(asset)}><Columns2 size={14}/> So sánh</button></div></div></article>)}</div>
+      {visible.length===0&&<div className="empty-state"><Search size={22}/><b>Không có asset khớp bộ lọc</b><span>Thử đổi project, trạng thái hoặc từ khóa.</span></div>}
+      <div className="bottom-note"><CircleHelp size={15}/><span>Các hình trong hồ sơ chưa có file gốc là preview minh họa. Tải file vào asset để bắt đầu quản lý phiên bản thực.</span><button onClick={()=>notify("PNG trong suốt: bật export checklist trong từng hồ sơ")}>Hướng dẫn asset <ArrowUpRight size={13}/></button></div>
+      </div></section>
+    {selected&&<div className="overlay" onMouseDown={e=>{if(e.target===e.currentTarget){setSelected(null);setCompare(null)}}}><section className="detail-panel"><header><div><small className="eyebrow">ASSET RECORD · {selected.id.slice(0,12).toUpperCase()}</small><h2>{selected.name}</h2></div><button className="icon-btn" onClick={()=>{setSelected(null);setCompare(null)}}><X size={18}/></button></header><div className="detail-content"><AssetArtwork asset={selected} className="detail-art"/><div className="detail-meta"><span className={`status ${statusClass(selected.status)}`}><i/>{selected.status}</span><span className="priority-tag">Ưu tiên {selected.priority}</span><span>{selected.project} / {selected.scene}</span></div><div className="field"><label>Brief</label><p>{selected.brief}</p></div><div className="field"><label>Yêu cầu chỉnh sửa</label><textarea value={selected.request} onChange={e=>patchAsset(selected,{request:e.target.value})}/></div><div className="field"><label>Trạng thái duyệt</label><div className="status-actions">{statuses.map(s=><button key={s} className={selected.status===s?"chosen":""} onClick={()=>patchAsset(selected,{status:s})}>{selected.status===s&&<Check size={13}/>} {s}</button>)}</div></div><div className="field"><label>Lịch sử option & phiên bản</label><div className="version-list"><div className="version-row current"><div className="mini-thumb"><AssetArtwork asset={selected}/></div><div><b>Option đang làm</b><small>Bản gốc và mọi option được giữ riêng</small></div><span className="version-current">CURRENT</span><label className="upload-mini"><Upload size={14}/> Thêm option<input type="file" accept="image/png,image/webp,image/jpeg,image/gif" onChange={e=>{const f=e.target.files?.[0];if(f)addVersion(selected,f,"")}}/></label></div>{selected.versions.map(v=><div className="version-row" key={v.id}><div className="mini-thumb"><img src={v.url} alt="Option version"/></div><div><b>{v.label}</b><small>{v.note||"Chưa có ghi chú"} · {v.date}</small></div><button className="restore-btn" onClick={()=>restoreVersion(selected,v)}><ArchiveRestore size={13}/> Tạo bản phục hồi</button><button className="compare-small" onClick={()=>beginCompare(selected,v.id)}>So sánh</button></div>)}{selected.versions.length===0&&<div className="no-version"><FileImage size={17}/>Chưa có file gốc. Tải option đầu tiên để lưu lịch sử.</div>}</div></div><div className="field"><label>Ghi chú option thử</label><div className="note-list">{selected.notes.map((n,i)=><div key={i}><span>{String.fromCharCode(65+i)}</span>{n}</div>)}</div><button className="text-action" onClick={()=>{const n=prompt("Ghi chú option mới");if(n)patchAsset(selected,{notes:[...selected.notes,n]})}}><Plus size={14}/> Ghi chú option</button></div><div className="field"><label>Checklist chất lượng</label><div className="check-grid">{[["style","Đúng style game hiện tại"],["identity","Giữ quần áo / trang sức / nhận diện"],["edges","Viền sạch, stroke đúng brief"],["size","Đúng canvas và pivot"]].map(([key,label]:any)=><label key={key}><input type="checkbox" checked={!!selected.qa[key]} onChange={e=>patchAsset(selected,{qa:{...selected.qa,[key]:e.target.checked}})}/><span>{label}</span></label>)}</div></div>{selected.exportPng&&<div className="export-check"><div><FileImage size={16}/><b>Export PNG · nền trong suốt</b><small>Asset tách layer / animation</small></div><label><input type="checkbox" checked={!!selected.qa.alpha} onChange={e=>patchAsset(selected,{qa:{...selected.qa,alpha:e.target.checked}})}/> Alpha sạch</label><label><input type="checkbox" checked={!!selected.qa.halo} onChange={e=>patchAsset(selected,{qa:{...selected.qa,halo:e.target.checked}})}/> Không viền halo</label><label><input type="checkbox" checked={!!selected.qa.filename} onChange={e=>patchAsset(selected,{qa:{...selected.qa,filename:e.target.checked}})}/> Tên file chuẩn</label><button onClick={()=>notify("Checklist export được ghi vào hồ sơ asset")}>Lưu checklist</button></div>}<div className="detail-actions"><label className="primary-btn upload-large"><Upload size={15}/>{loading?"Đang tải…":"Tải file / option mới"}<input type="file" accept="image/png,image/webp,image/jpeg,image/gif" onChange={e=>{const f=e.target.files?.[0];if(f)addVersion(selected,f,"")}}/></label><button className="ghost-btn" onClick={()=>beginCompare(selected)}><Columns2 size={15}/> So sánh bản trước–sau</button></div></div></section>{compare&&<div className="compare-modal"><header><div><small className="eyebrow">VERSION REVIEW</small><h3>Đối chiếu option</h3></div><button className="icon-btn" onClick={()=>setCompare(null)}><X size={17}/></button></header><div className="compare-views"><ComparisonView asset={compare} side="OPTION A" selected={compareLeft} onSelect={setCompareLeft}/><ComparisonView asset={compare} side="OPTION B" selected={compareRight} onSelect={setCompareRight}/></div><div className="compare-footer"><span><ShieldCheck size={15}/> Nhận diện, trang sức và quần áo: khóa theo brief</span><button onClick={()=>{patchAsset(compare,{status:"Đã duyệt"});setCompare(null);notify("Đã duyệt option hiện tại")}}><Check size={15}/> Duyệt option</button></div></div>}</div>}
+    {showNew&&<NewAssetModal onClose={()=>setShowNew(false)} onCreate={newAsset}/>}{toast&&<div className="toast"><Check size={16}/>{toast}<button onClick={()=>setToast("")}><X size={14}/></button></div>}
+  </main>
 }
+
+function NewAssetModal({onClose,onCreate}:{onClose:()=>void;onCreate:(a:Partial<Asset>)=>void}){const [name,setName]=useState("");const [group,setGroup]=useState("Nhân vật");const [scene,setScene]=useState("");const [brief,setBrief]=useState("");return <div className="overlay modal-overlay" onMouseDown={e=>{if(e.target===e.currentTarget)onClose()}}><form className="new-modal" onSubmit={e=>{e.preventDefault();onCreate({name,group,project:"Character Lab",scene:scene||"Chưa gán scene",style:"Anime 2D · game style",brief,request:"Giữ nguyên quần áo, trang sức và nhận diện. Chỉ chỉnh đúng nội dung brief; không thêm detail ngoài yêu cầu.",status:"Đang làm",priority:"P2",owner:"Art team",preview:group.includes("Background")?"market":group.includes("UI")?"panel":"chibi",qa:{style:false,identity:false,edges:false,size:false},exportPng:group.includes("Animation")||group.includes("UI"),versions:[],notes:[],tags:[group]})}}><header><div><small className="eyebrow">NEW ASSET RECORD</small><h2>Tạo hồ sơ asset</h2></div><button type="button" className="icon-btn" onClick={onClose}><X size={18}/></button></header><label>Tên asset<input required value={name} onChange={e=>setName(e.target.value)} placeholder="Ví dụ: Enkiba · idle · frame 001"/></label><label>Nhóm<select value={group} onChange={e=>setGroup(e.target.value)}>{groups.slice(1).map(g=><option key={g}>{g}</option>)}</select></label><label>Project / scene<input value={scene} onChange={e=>setScene(e.target.value)} placeholder="Ví dụ: Stage 1 · Phố chợ"/></label><label>Brief<textarea required value={brief} onChange={e=>setBrief(e.target.value)} placeholder="Mục tiêu, nội dung dùng ở đâu, style tham chiếu…"/></label><p className="lock-note"><ShieldCheck size={15}/> Mặc định khóa nhận diện, quần áo và trang sức. Có thể ghi rõ phạm vi thay đổi trong yêu cầu chỉnh sửa.</p><footer><button type="button" className="ghost-btn" onClick={onClose}>Hủy</button><button className="primary-btn"><Plus size={15}/> Tạo asset</button></footer></form></div>}
+
+
+
+

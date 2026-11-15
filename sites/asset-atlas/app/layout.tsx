@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Starter Project",
-  description: "A clean starting point for building your site.",
-  other: {
-    "codex-preview": "development",
-  },
+  title: "Eclipse Asset Atelier · PROJECT ECLIPSE",
+  description: "Thư viện asset, phiên bản, duyệt và checklist xuất cho PROJECT ECLIPSE.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -19,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body className="antialiased">{children}</body>
     </html>
   );
