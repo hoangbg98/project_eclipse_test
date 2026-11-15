@@ -1,7 +1,7 @@
 """Xóa nền trắng của ảnh splash art (2D, không chibi) và cắt sát nhân vật, xuất PNG có alpha.
 
   python -I tools/cut_splash.py <ảnh vào> <ảnh ra.png> [--edge-thresh 235] [--hole-thresh 240] [--hole-area 100]
-         [--hole-mean 246] [--erode 1] [--margin 8]
+         [--hole-mean 246] [--erode 1] [--margin 8] [--keep x0,y0,x1,y1 ...]
 
 Cách làm (chỉ Pillow + numpy):
 1. Nền nối mép: vùng gần trắng (mọi kênh >= --edge-thresh) nối với mép ảnh.
@@ -10,6 +10,7 @@ Cách làm (chỉ Pillow + numpy):
    các điểm sáng nhỏ (tóc, mắt) không bị xóa.
 3. Alpha = ngược của nền; làm sạch đốm lẻ, khử viền sáng (dải 2 px sát mép), co viền --erode px rồi làm mượt nhẹ để không
    còn quầng trắng khi đặt lên nền tối.
+   --keep (tọa độ ảnh gốc, lặp được): trong các hộp này không xóa lỗ kín, dùng cho răng trắng khi nhân vật cười.
 4. Cắt sát vùng có alpha + --margin px; ghi PNG.
 Lưu ý Pillow 10.2: ImageDraw.floodfill trên ảnh tạo từ mảng numpy không làm gì, phải .copy() trước.
 In kích thước và tỉ lệ điểm bị xóa để soát nhanh; mã thoát 0.
@@ -49,8 +50,8 @@ def _fill_components(rest, min_area, min_mean, mn, limit=3000):
     return out
 
 
-def background_mask(rgb, edge_thresh, hole_thresh, hole_area, hole_mean):
-    """Mảng bool, True = nền (nối mép hoặc lỗ kín)."""
+def background_mask(rgb, edge_thresh, hole_thresh, hole_area, hole_mean, keep=()):
+    """Mảng bool, True = nền (nối mép hoặc lỗ kín). Lỗ kín chạm hộp `keep` (x0, y0, x1, y1) được giữ."""
     mn = rgb.min(axis=2)
     near_edge = mn >= edge_thresh
     # Khung 1 px trắng bao quanh để mọi điểm gần trắng ở mép nối với nhau.
@@ -58,7 +59,10 @@ def background_mask(rgb, edge_thresh, hole_thresh, hole_area, hole_mean):
     ImageDraw.floodfill(padded, (0, 0), 128)
     bg = np.asarray(padded)[1:-1, 1:-1] == 128
     rest = Image.fromarray(((mn >= hole_thresh) & ~bg).astype(np.uint8) * 255, "L").copy()
-    return bg | _fill_components(rest, hole_area, hole_mean, mn)
+    holes = _fill_components(rest, hole_area, hole_mean, mn)
+    for x0, y0, x1, y1 in keep:
+        holes[y0:y1, x0:x1] = False
+    return bg | holes
 
 
 def main(argv=None):
@@ -71,11 +75,13 @@ def main(argv=None):
     ap.add_argument("--hole-mean", type=int, default=246, help="độ trắng trung bình tối thiểu của lỗ kín")
     ap.add_argument("--erode", type=int, default=1)
     ap.add_argument("--margin", type=int, default=8)
+    ap.add_argument("--keep", action="append", default=[], help="hộp x0,y0,x1,y1 không xóa lỗ kín (răng, mắt)")
     args = ap.parse_args(argv)
 
     img = Image.open(args.src).convert("RGB")
     rgb = np.asarray(img)
-    bg = background_mask(rgb, args.edge_thresh, args.hole_thresh, args.hole_area, args.hole_mean)
+    keep = [tuple(int(v) for v in k.split(",")) for k in args.keep]
+    bg = background_mask(rgb, args.edge_thresh, args.hole_thresh, args.hole_area, args.hole_mean, keep)
     alpha = Image.fromarray((~bg).astype(np.uint8) * 255, "L")
     # Bỏ đốm lẻ (mở hình thái), rồi co viền để mất quầng trắng, làm mượt nhẹ.
     alpha = alpha.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.MaxFilter(3))

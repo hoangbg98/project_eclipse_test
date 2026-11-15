@@ -118,9 +118,9 @@ func test_overview_art_uses_portrait_or_placeholder() -> void:
 	var s := _screen()
 	var art := _node(s, "CharacterArt") as PlaceholderArt
 	assert_bool(art.is_placeholder()).is_equal(s.portrait(A) == null)
-	_save.data["characters"]["char_lightning_01"] = SaveSchema.default_character()
-	s.select("char_lightning_01")
-	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()   # Raikiba chưa có ảnh
+	_save.data["characters"]["char_earth_01"] = SaveSchema.default_character()
+	s.select("char_earth_01")
+	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()   # Iwagane chưa có ảnh
 
 
 # ---------- Splash art 2D (owner 2026-11-13) ----------
@@ -148,17 +148,23 @@ func test_enkiba_uses_splash_art_on_every_view() -> void:
 	assert_object(s.portrait(A)).is_not_same(load(SPLASH_DIR % "overview"))
 
 
-func test_kazeyumi_uses_splash_art_on_every_view() -> void:
+func test_kazeyumi_and_raikiba_use_splash_art_on_every_view() -> void:
+	for id in ["char_wind_01", "char_lightning_01"]:
+		_check_splash_views(id)
+
+
+func _check_splash_views(id: String) -> void:
 	var s := _screen()
-	_save.data["characters"]["char_wind_01"] = SaveSchema.default_character()
-	s.select("char_wind_01")
-	var dir := "res://assets/characters/char_wind_01/splash/char_wind_01_splash_%s.png"
+	_save.data["characters"][id] = SaveSchema.default_character()
+	s.select(id)
+	var dir := "res://assets/characters/{id}/splash/{id}_splash_%s.png".replace("{id}", id)
 	assert_object(_tex(s, "CharacterArt")).is_same(load(dir % "overview"))
 	for t in ["level", "weapon", "skill"]:
 		s.open_tab(t)
 		assert_object(_tex(s, "CharacterArt")).is_same(load(dir % t))
 	s.open_tab("stigma")
 	assert_object(_tex(s, "BackArt")).is_same(load(dir % "stigma"))                 # ảnh lưng cho tab Vết Thánh
+
 
 func test_splash_file_per_view_is_configurable_in_layout() -> void:
 	var s := _screen()
@@ -172,8 +178,8 @@ func test_splash_falls_back_to_chibi_or_placeholder() -> void:
 	s.layout.data["art"]["weapon"] = "khong_co_file"
 	assert_object(s.splash(A, "weapon")).is_same(s.portrait(A))                      # thiếu file: dùng chibi
 	assert_object(s.splash(A, "weapon", false)).is_null()                            # ảnh lưng không thay bằng chibi
-	_save.data["characters"]["char_lightning_01"] = SaveSchema.default_character()
-	s.select("char_lightning_01")                                                    # nhân vật chưa có splash lẫn chibi
+	_save.data["characters"]["char_earth_01"] = SaveSchema.default_character()
+	s.select("char_earth_01")                                                        # nhân vật chưa có splash lẫn chibi
 	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()
 	s.open_tab("stigma")
 	assert_bool((_node(s, "BackArt") as PlaceholderArt).is_placeholder()).is_true()

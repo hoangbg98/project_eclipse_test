@@ -1711,3 +1711,17 @@ un_tests.ps1`.
 - **Quyết định Claude chọn:** thứ tự ảnh theo đúng thứ tự owner gửi (1 giương cung → tổng quan, 2 bật nhảy → tăng cấp, 3 cầm cung vén tóc → vũ khí, 4 lưng → vết thánh, 5 đưa tay → kỹ năng); không sửa code màn hình (cơ chế splash theo Data ID đã có), không thu nhỏ ảnh. Ảnh tổng quan còn tự dùng ở sảnh (nếu Kazeyumi đứng đầu đội), đội hình ra trận và thẻ chiêu mộ.
 - **Hạn chế đã biết:** dây cung rất mảnh nên sau khi xóa nền hơi đứt nét / mờ ở vài đoạn; ở màn tổng quan đầu cung chạm sát dòng tên giáp; công cụ tạo ảnh gốc chưa rõ (cần owner xác nhận để khai báo AI).
 
+## 2026-11-15 — Splash art 2D của Raikiba thay ảnh chibi / placeholder ở màn Nhân vật
+- **Milestone / task:** art + M7-2 (màn Nhân vật) — owner đưa 5 splash art 2D (không chibi) của Raikiba, yêu cầu xóa nền, phóng to hợp lý, thay lần lượt vào: nhân vật, tăng cấp, vũ khí, vết thánh, kỹ năng (như Enkiba, Kazeyumi).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_lightning_01/splash/char_lightning_01_splash_{overview,level,weapon,stigma,skill}.png` (PNG alpha, bỏ ICC profile; 920–1023 px rộng, 1188–1535 px cao).
+  - `tools/cut_splash.py`: tùy chọn `--keep x0,y0,x1,y1` (lặp được, tọa độ ảnh gốc) — trong hộp này không xóa lỗ kín. Lý do: răng trắng khi Raikiba cười nhe răng bị coi là lỗ nền.
+  - `tests/unit/ui/test_character_screen.gd`: test splash 5 màn chạy cho cả Kazeyumi và Raikiba; hai test dùng Raikiba làm "nhân vật chưa có ảnh" đổi sang Iwagane (`char_earth_01`).
+  - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh; ảnh 3 và 5 thêm `--keep` vùng miệng, dò bằng cách tô đỏ các lỗ kín bị xóa); `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_lightning_01` (soát bằng mắt 5 màn); `tools
+un_tests.ps1`.
+- **Kết quả thật:** nền bị xóa 66–73 %; soát trên nền xanh: răng còn, áo đen / ủng xám nguyên vẹn; các khe nền giữa sợi tóc bạc ở viền tóc được xóa đúng. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
+- **Quyết định Claude chọn:** thứ tự ảnh theo thứ tự owner gửi (1 bắt chéo đao → tổng quan, 2 vung đao → tăng cấp, 3 bật nhảy → vũ khí, 4 lưng → vết thánh, 5 ngồi xổm → kỹ năng); không thu nhỏ ảnh; không sửa code màn hình. Ảnh tổng quan tự thay frame idle của Raikiba ở sảnh, đội hình ra trận và thẻ chiêu mộ.
+- **Hạn chế đã biết:** quầng sáng vàng mờ quanh đao / vệt sét nhạt dần vào nền trắng nên phần ngoài cùng của quầng bị cắt (còn lõi sáng); ảnh kỹ năng rộng (ngồi dang tay) nên vòng đao bên phải chạm nhẹ nhãn kỹ năng Bị động; thẻ Raikiba trong danh sách vẫn là placeholder vì chưa có chân dung chibi; công cụ tạo ảnh gốc chưa rõ.
+
