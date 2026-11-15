@@ -3115,14 +3115,8 @@ msgstr "Online (test)"
 msgid "ONLINE_TITLE"
 msgstr "Online (test)"
 
-msgid "ONLINE_SERVER"
-msgstr "Server"
 
-msgid "ONLINE_SERVER_HINT"
-msgstr "Paste the address from the admin (e.g. https://....trycloudflare.com). Empty = default server."
 
-msgid "ONLINE_CONNECT"
-msgstr "Connect"
 
 msgid "ONLINE_STATUS_OFFLINE"
 msgstr "Not connected."
@@ -3165,3 +3159,96 @@ msgstr "Server wallet (test build: not merged with local save yet)."
 
 msgid "ONLINE_REFRESH"
 msgstr "Refresh"
+
+msgid "TITLE_ACCOUNT"
+msgstr "Account: %s"
+
+msgid "ONLINE_ACCOUNT"
+msgstr "Account: %s"
+
+msgid "ONLINE_OPEN_LOGIN"
+msgstr "Log in / Create account"
+
+msgid "ONLINE_LOGOUT"
+msgstr "Log out"
+
+msgid "ONLINE_ERR_NOT_LOGGED_IN"
+msgstr "not logged in"
+
+msgid "ONLINE_ERR_SESSION_EXPIRED"
+msgstr "session expired, please log in again"
+
+msgid "LOGIN_TAB_LOGIN"
+msgstr "Log in"
+
+msgid "LOGIN_TAB_REGISTER"
+msgstr "Create account"
+
+msgid "LOGIN_NAME_OR_EMAIL"
+msgstr "Username or email"
+
+msgid "LOGIN_USERNAME"
+msgstr "Username"
+
+msgid "LOGIN_USERNAME_HINT"
+msgstr "3–20 characters: letters, digits, _"
+
+msgid "LOGIN_EMAIL"
+msgstr "Email"
+
+msgid "LOGIN_PASSWORD"
+msgstr "Password"
+
+msgid "LOGIN_PASSWORD_HINT"
+msgstr "At least 8 characters"
+
+msgid "LOGIN_PASSWORD_CONFIRM"
+msgstr "Confirm password"
+
+msgid "LOGIN_REMEMBER"
+msgstr "Remember me"
+
+msgid "LOGIN_SUBMIT"
+msgstr "Log in"
+
+msgid "LOGIN_REGISTER_SUBMIT"
+msgstr "Create account"
+
+msgid "LOGIN_PLAY_OFFLINE"
+msgstr "Play offline"
+
+msgid "LOGIN_SERVER"
+msgstr "Server: %s"
+
+msgid "LOGIN_SERVER_CHANGE"
+msgstr "Change"
+
+msgid "LOGIN_SERVER_SAVE"
+msgstr "Save"
+
+msgid "LOGIN_RESUMING"
+msgstr "Logging back in as %s..."
+
+msgid "LOGIN_ERR_EMPTY"
+msgstr "Enter your username (or email) and password."
+
+msgid "LOGIN_ERR_USERNAME"
+msgstr "Username: 3–20 characters, letters, digits, underscore."
+
+msgid "LOGIN_ERR_EMAIL"
+msgstr "Invalid email."
+
+msgid "LOGIN_ERR_PASSWORD_SHORT"
+msgstr "Password needs at least 8 characters."
+
+msgid "LOGIN_ERR_PASSWORD_MISMATCH"
+msgstr "Passwords do not match."
+
+msgid "LOGIN_ERR_BAD_CREDENTIALS"
+msgstr "Wrong username / email or password."
+
+msgid "LOGIN_ERR_USERNAME_TAKEN"
+msgstr "Username already taken."
+
+msgid "LOGIN_ERR_EMAIL_TAKEN"
+msgstr "Email already has an account (wrong password). Please log in."

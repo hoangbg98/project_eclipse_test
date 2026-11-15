@@ -44,6 +44,65 @@ static func authenticate_device(server_url: String, server_key: String, device_i
 	}
 
 
+## Tạo tài khoản: tên đăng nhập + email + mật khẩu (M9-1b). Email đã có và đúng mật khẩu thì Nakama đăng nhập luôn.
+static func register_account(server_url: String, server_key: String, username: String, email: String,
+		password: String) -> Dictionary:
+	return _email_auth(server_url, server_key, "?create=true&username=" + username.uri_encode(),
+			{"email": email, "password": password})
+
+
+## Đăng nhập bằng tên đăng nhập hoặc email (có "@" thì coi là email).
+static func login_account(server_url: String, server_key: String, name_or_email: String, password: String) -> Dictionary:
+	var s := name_or_email.strip_edges()
+	if s.contains("@"):
+		return _email_auth(server_url, server_key, "?create=false", {"email": s, "password": password})
+	return _email_auth(server_url, server_key, "?create=false&username=" + s.uri_encode(), {"password": password})
+
+
+static func _email_auth(server_url: String, server_key: String, query: String, body: Dictionary) -> Dictionary:
+	return {
+		"method": HTTPClient.METHOD_POST,
+		"url": server_url + "/v2/account/authenticate/email" + query,
+		"headers": PackedStringArray(["Authorization: " + basic_auth(server_key), "Content-Type: application/json"]),
+		"body": JSON.stringify(body),
+	}
+
+
+## Đổi refresh token lấy phiên mới (đăng nhập lại tự động khi mở game).
+static func refresh_session(server_url: String, server_key: String, refresh_token: String) -> Dictionary:
+	return {
+		"method": HTTPClient.METHOD_POST,
+		"url": server_url + "/v2/account/session/refresh",
+		"headers": PackedStringArray(["Authorization: " + basic_auth(server_key), "Content-Type: application/json"]),
+		"body": JSON.stringify({"token": refresh_token}),
+	}
+
+
+# ---------- Kiểm tra ô nhập (trả về khóa dịch lỗi, "" = hợp lệ). Máy chủ kiểm lại tên đăng nhập. ----------
+
+const USERNAME_MIN := 3
+const USERNAME_MAX := 20
+const PASSWORD_MIN := 8   # Nakama yêu cầu tối thiểu 8
+
+
+static func username_error(username: String) -> String:
+	var re := RegEx.create_from_string("^[A-Za-z0-9_]{%d,%d}$" % [USERNAME_MIN, USERNAME_MAX])
+	return "" if re.search(username) else "LOGIN_ERR_USERNAME"
+
+
+static func email_error(email: String) -> String:
+	var re := RegEx.create_from_string("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
+	return "" if re.search(email.strip_edges()) else "LOGIN_ERR_EMAIL"
+
+
+static func password_error(password: String, confirm: String) -> String:
+	if password.length() < PASSWORD_MIN:
+		return "LOGIN_ERR_PASSWORD_SHORT"
+	if password != confirm:
+		return "LOGIN_ERR_PASSWORD_MISMATCH"
+	return ""
+
+
 ## Gọi RPC của module máy chủ khi đã đăng nhập. Nakama nhận payload là một chuỗi JSON nằm trong JSON.
 static func rpc(server_url: String, token: String, rpc_id: String, payload: Dictionary = {}) -> Dictionary:
 	return {

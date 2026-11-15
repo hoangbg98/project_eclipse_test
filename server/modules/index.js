@@ -2,6 +2,7 @@
 // Đặt trong thư mục runtime.path của Nakama; Nakama gọi InitModule khi khởi động.
 //
 // Chức năng giai đoạn 1:
+//  - Tài khoản: đăng ký tên + email + mật khẩu (endpoint authenticate/email), đăng nhập bằng tên hoặc email.
 //  - Mỗi tài khoản có một "mã người chơi" 8 chữ số (duy nhất), người chơi ghi vào nội dung chuyển khoản.
 //  - eclipse_profile (người chơi gọi): mã, tên, ví (wallet).
 //  - admin_find / admin_grant (chỉ gọi bằng http_key từ tool của QTV): tra cứu theo mã, phát tiền vào ví.
@@ -92,6 +93,21 @@ function afterAuthenticateDevice(ctx, logger, nk, session, request) {
   ensureCode(nk, logger, ctx.userId);
 }
 
+// Tên đăng nhập: 3–20 ký tự chữ không dấu, số, gạch dưới (giống kiểm tra phía game, NakamaApi.username_error).
+var USERNAME_RE = /^[A-Za-z0-9_]{3,20}$/;
+
+// Đăng ký tài khoản (create = true) phải có tên hợp lệ; đăng nhập (create = false) không kiểm.
+function beforeAuthenticateEmail(ctx, logger, nk, data) {
+  if (data.create && !USERNAME_RE.test(String(data.username || ""))) {
+    throw new Error("tên đăng nhập 3–20 ký tự: chữ không dấu, số, gạch dưới");
+  }
+  return data;
+}
+
+function afterAuthenticateEmail(ctx, logger, nk, session, request) {
+  ensureCode(nk, logger, ctx.userId);
+}
+
 function rpcProfile(ctx, logger, nk, payload) {
   if (!ctx.userId) {
     throw new Error("cần đăng nhập");
@@ -179,6 +195,8 @@ function rpcAdminGrant(ctx, logger, nk, payload) {
 
 function InitModule(ctx, logger, nk, initializer) {
   initializer.registerAfterAuthenticateDevice(afterAuthenticateDevice);
+  initializer.registerBeforeAuthenticateEmail(beforeAuthenticateEmail);
+  initializer.registerAfterAuthenticateEmail(afterAuthenticateEmail);
   initializer.registerRpc("eclipse_profile", rpcProfile);
   initializer.registerRpc("admin_find", rpcAdminFind);
   initializer.registerRpc("admin_grant", rpcAdminGrant);

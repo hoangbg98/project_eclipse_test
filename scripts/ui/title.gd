@@ -22,6 +22,8 @@ func _build_online() -> void:
 	var b := Button.new()
 	b.name = "OnlineButton"
 	b.text = tr("TITLE_ONLINE")
+	if OnlineService.is_online():
+		b.text = tr("TITLE_ACCOUNT") % OnlineService.username()
 	b.custom_minimum_size = _quit.custom_minimum_size
 	b.add_theme_font_size_override("font_size", _quit.get_theme_font_size("font_size"))
 	_quit.get_parent().add_child(b)

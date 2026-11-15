@@ -3,5 +3,6 @@
   "default_server_url": "http://127.0.0.1:7350",
   "server_key": "eclipse-test-key",
   "timeout_sec": 12,
+  "login_on_start": true,
   "currencies_shown": ["gems", "gold"]
 }

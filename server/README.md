@@ -1,6 +1,6 @@
 # Máy chủ PROJECT ECLIPSE (Nakama) — hướng dẫn vận hành
 
-Giai đoạn 1 (M9-1): đăng nhập bằng thiết bị, mã người chơi 8 số, ví trên máy chủ (`gems`, `gold`),
+Giai đoạn 1 (M9-1): tài khoản (tên + email + mật khẩu, màn Đăng nhập khi mở game), mã người chơi 8 số, ví trên máy chủ (`gems`, `gold`),
 tool phát quà cho QTV (nạp bằng chuyển khoản QR thủ công). Ví máy chủ **chưa** gộp với save trên máy.
 
 ## Thành phần
@@ -27,7 +27,14 @@ powershell -ExecutionPolicy Bypass -File server\start_local.ps1
 powershell -ExecutionPolicy Bypass -File server\tunnel.ps1         (in địa chỉ trycloudflare)
 ```
 
-Người thử: mở game → **Trực tuyến (thử nghiệm)** → dán địa chỉ → **Kết nối** → thấy mã người chơi.
+Người thử: mở game → màn **Đăng nhập** hiện sau logo → **Đổi** (cạnh dòng "Máy chủ") → dán địa chỉ → **Lưu**
+→ thẻ **Tạo tài khoản** (tên 3–20 ký tự không dấu, email, mật khẩu ≥ 8 ký tự) → vào game. Mã người chơi xem ở
+nút **Tài khoản** trên màn Title. "Ghi nhớ đăng nhập" bật thì lần sau tự vào; "Chơi ngoại tuyến" bỏ qua máy chủ.
+
+Máy chủ coi như dịch vụ ngoài dự án Godot: game chỉ biết địa chỉ (`default_server_url` trong
+`data/config/online_config.json`, người chơi đổi được). Khi có tên miền / VPS cố định, sửa `default_server_url`
+rồi build lại là người chơi không phải nhập gì. Tắt màn Đăng nhập: `"login_on_start": false`; chạy game với
+tham số `-- --offline` cũng bỏ qua.
 
 Trang quản trị Nakama: `http://127.0.0.1:7351` (chỉ trên máy chạy server), tài khoản `admin`,
 mật khẩu = `console_password` trong `secrets.json`.
@@ -59,5 +66,5 @@ powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120 -Gems 6
 - Đường hầm trycloudflare: chỉ để thử, địa chỉ đổi mỗi lần, không cam kết ổn định.
 - Máy chủ sống theo máy tính của owner: tắt máy / ngủ / Windows Update khởi động lại = người chơi mất kết nối.
 - Chưa backup tự động. Sao lưu tay: `server\.runtime\pgsql\bin\pg_dump.exe -h 127.0.0.1 -p 5433 -U nakama nakama > backup.sql`.
-- Mỗi bản cài game = một tài khoản (mã thiết bị ngẫu nhiên trong `user://online_device.cfg`); cài lại / xóa dữ liệu
-  game = tài khoản mới. Liên kết email / khôi phục tài khoản để giai đoạn sau.
+- Chưa có quên mật khẩu / xác minh email (cần dịch vụ gửi mail). QTV đặt lại mật khẩu trong trang quản trị nếu cần.
+- Đừng chạy `start_local.ps1` qua ống `| ...` (PowerShell chờ Nakama tắt mới trả về).

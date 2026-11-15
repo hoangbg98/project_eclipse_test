@@ -57,3 +57,29 @@ func test_format_code_and_device_id() -> void:
 	assert_str(NakamaApi.format_code("123")).is_equal("123")
 	assert_bool(NakamaApi.valid_device_id("short")).is_false()
 	assert_bool(NakamaApi.valid_device_id("0123456789abcdef0123456789abcdef")).is_true()
+
+
+func test_account_requests() -> void:
+	var reg := NakamaApi.register_account("http://h", "k", "tester_1", "a@b.vn", "matkhau123")
+	assert_str(reg["url"]).is_equal("http://h/v2/account/authenticate/email?create=true&username=tester_1")
+	assert_dict(JSON.parse_string(reg["body"])).is_equal({"email": "a@b.vn", "password": "matkhau123"})
+	var by_name := NakamaApi.login_account("http://h", "k", " tester_1 ", "matkhau123")
+	assert_str(by_name["url"]).is_equal("http://h/v2/account/authenticate/email?create=false&username=tester_1")
+	assert_dict(JSON.parse_string(by_name["body"])).is_equal({"password": "matkhau123"})
+	var by_email := NakamaApi.login_account("http://h", "k", "a@b.vn", "matkhau123")
+	assert_str(by_email["url"]).is_equal("http://h/v2/account/authenticate/email?create=false")
+	var rf := NakamaApi.refresh_session("http://h", "k", "RT")
+	assert_str(rf["url"]).is_equal("http://h/v2/account/session/refresh")
+	assert_dict(JSON.parse_string(rf["body"])).is_equal({"token": "RT"})
+
+
+func test_input_validation() -> void:
+	assert_str(NakamaApi.username_error("tester_1")).is_empty()
+	assert_str(NakamaApi.username_error("ab")).is_equal("LOGIN_ERR_USERNAME")
+	assert_str(NakamaApi.username_error("có dấu")).is_equal("LOGIN_ERR_USERNAME")
+	assert_str(NakamaApi.username_error("a".repeat(21))).is_equal("LOGIN_ERR_USERNAME")
+	assert_str(NakamaApi.email_error(" a@b.vn ")).is_empty()
+	assert_str(NakamaApi.email_error("a@b")).is_equal("LOGIN_ERR_EMAIL")
+	assert_str(NakamaApi.password_error("matkhau123", "matkhau123")).is_empty()
+	assert_str(NakamaApi.password_error("1234567", "1234567")).is_equal("LOGIN_ERR_PASSWORD_SHORT")
+	assert_str(NakamaApi.password_error("matkhau123", "matkhau12")).is_equal("LOGIN_ERR_PASSWORD_MISMATCH")

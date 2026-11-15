@@ -100,8 +100,9 @@ giai đoạn thử chạy trên máy owner qua đường hầm trycloudflare.com
 | ID | Task | Ghi chú |
 |---|---|---|
 | M9-1 | Máy chủ thử trên máy owner (portable), đường hầm trycloudflare, đăng nhập thiết bị, mã người chơi, ví máy chủ, tool phát quà `grant.ps1`, màn Trực tuyến | |
+| M9-1b | Màn Đăng nhập sau Boot: tạo tài khoản (tên + email + mật khẩu), đăng nhập bằng tên / email, ghi nhớ phiên, chơi ngoại tuyến | |
 | M9-2 | Gộp ví máy chủ với save: ngọc / vé do máy chủ giữ, gacha quay trên máy chủ | Cần owner chốt gói nạp |
-| M9-3 | Cloud save (đẩy / kéo save theo tài khoản), liên kết email để khôi phục tài khoản | |
+| M9-3 | Cloud save (đẩy / kéo save theo tài khoản), quên mật khẩu / xác minh email | |
 | M9-4 | Hộp thư quà trong game, lịch sử nạp cho người chơi | |
 | M9-5 | Chuyển lên VPS (docker-compose), tên miền + Cloudflare Tunnel cố định, backup tự động | Trước khi nhận tiền thật |
 

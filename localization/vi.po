@@ -3115,14 +3115,8 @@ msgstr "Trực tuyến (thử nghiệm)"
 msgid "ONLINE_TITLE"
 msgstr "Trực tuyến (thử nghiệm)"
 
-msgid "ONLINE_SERVER"
-msgstr "Máy chủ"
 
-msgid "ONLINE_SERVER_HINT"
-msgstr "Dán địa chỉ QTV gửi (vd https://....trycloudflare.com). Để trống = máy chủ mặc định."
 
-msgid "ONLINE_CONNECT"
-msgstr "Kết nối"
 
 msgid "ONLINE_STATUS_OFFLINE"
 msgstr "Chưa kết nối."
@@ -3165,3 +3159,96 @@ msgstr "Ví trên máy chủ (bản thử: chưa gộp với dữ liệu chơi t
 
 msgid "ONLINE_REFRESH"
 msgstr "Làm mới"
+
+msgid "TITLE_ACCOUNT"
+msgstr "Tài khoản: %s"
+
+msgid "ONLINE_ACCOUNT"
+msgstr "Tài khoản: %s"
+
+msgid "ONLINE_OPEN_LOGIN"
+msgstr "Đăng nhập / Tạo tài khoản"
+
+msgid "ONLINE_LOGOUT"
+msgstr "Đăng xuất"
+
+msgid "ONLINE_ERR_NOT_LOGGED_IN"
+msgstr "chưa đăng nhập"
+
+msgid "ONLINE_ERR_SESSION_EXPIRED"
+msgstr "phiên đăng nhập đã hết hạn, hãy đăng nhập lại"
+
+msgid "LOGIN_TAB_LOGIN"
+msgstr "Đăng nhập"
+
+msgid "LOGIN_TAB_REGISTER"
+msgstr "Tạo tài khoản"
+
+msgid "LOGIN_NAME_OR_EMAIL"
+msgstr "Tên đăng nhập hoặc email"
+
+msgid "LOGIN_USERNAME"
+msgstr "Tên đăng nhập"
+
+msgid "LOGIN_USERNAME_HINT"
+msgstr "3–20 ký tự: chữ không dấu, số, _"
+
+msgid "LOGIN_EMAIL"
+msgstr "Email"
+
+msgid "LOGIN_PASSWORD"
+msgstr "Mật khẩu"
+
+msgid "LOGIN_PASSWORD_HINT"
+msgstr "Ít nhất 8 ký tự"
+
+msgid "LOGIN_PASSWORD_CONFIRM"
+msgstr "Nhập lại mật khẩu"
+
+msgid "LOGIN_REMEMBER"
+msgstr "Ghi nhớ đăng nhập"
+
+msgid "LOGIN_SUBMIT"
+msgstr "Đăng nhập"
+
+msgid "LOGIN_REGISTER_SUBMIT"
+msgstr "Tạo tài khoản"
+
+msgid "LOGIN_PLAY_OFFLINE"
+msgstr "Chơi ngoại tuyến"
+
+msgid "LOGIN_SERVER"
+msgstr "Máy chủ: %s"
+
+msgid "LOGIN_SERVER_CHANGE"
+msgstr "Đổi"
+
+msgid "LOGIN_SERVER_SAVE"
+msgstr "Lưu"
+
+msgid "LOGIN_RESUMING"
+msgstr "Đang đăng nhập lại %s..."
+
+msgid "LOGIN_ERR_EMPTY"
+msgstr "Nhập tên đăng nhập (hoặc email) và mật khẩu."
+
+msgid "LOGIN_ERR_USERNAME"
+msgstr "Tên đăng nhập 3–20 ký tự: chữ không dấu, số, gạch dưới."
+
+msgid "LOGIN_ERR_EMAIL"
+msgstr "Email không hợp lệ."
+
+msgid "LOGIN_ERR_PASSWORD_SHORT"
+msgstr "Mật khẩu cần ít nhất 8 ký tự."
+
+msgid "LOGIN_ERR_PASSWORD_MISMATCH"
+msgstr "Hai lần nhập mật khẩu không khớp."
+
+msgid "LOGIN_ERR_BAD_CREDENTIALS"
+msgstr "Sai tên đăng nhập / email hoặc mật khẩu."
+
+msgid "LOGIN_ERR_USERNAME_TAKEN"
+msgstr "Tên đăng nhập đã có người dùng."
+
+msgid "LOGIN_ERR_EMAIL_TAKEN"
+msgstr "Email đã có tài khoản (sai mật khẩu). Hãy đăng nhập."

@@ -9,6 +9,8 @@ const USER_PATH := "user://online.cfg"
 var default_server_url := "http://127.0.0.1:7350"
 var server_key := ""
 var timeout_sec := 12.0
+## Hiện màn Đăng nhập sau Boot (bản chạy có cửa sổ; headless / --offline bỏ qua).
+var login_on_start := true
 var currencies_shown: Array = ["gems", "gold"]
 ## Địa chỉ đang dùng (người chơi nhập, hoặc mặc định).
 var server_url := ""
@@ -25,6 +27,7 @@ static func load_from(data_path := DATA_PATH, user_cfg_path := USER_PATH) -> Onl
 			c.default_server_url = NakamaApi.normalize_url(str(d.get("default_server_url", c.default_server_url)))
 			c.server_key = str(d.get("server_key", ""))
 			c.timeout_sec = float(d.get("timeout_sec", c.timeout_sec))
+			c.login_on_start = bool(d.get("login_on_start", c.login_on_start))
 			if d.get("currencies_shown") is Array:
 				c.currencies_shown = d["currencies_shown"]
 	else:
