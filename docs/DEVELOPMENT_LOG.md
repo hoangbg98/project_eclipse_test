@@ -1930,3 +1930,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** repo private, `main` theo dõi `origin/main`. Kết quả tự push của commit này: xem `.git/auto-push.log`.
 - **Quyết định Claude chọn:** hook nằm trong repo (`tools/git-hooks/`) để cả đội dùng chung, nhưng mỗi máy phải bật một lần bằng `git config core.hooksPath tools/git-hooks` (git không tự bật hook từ repo). Push chạy nền để commit không chờ mạng; bỏ qua khi detached HEAD (lúc rebase). Không force push.
 - **Hạn chế đã biết:** push lỗi (mất mạng, GitHub có commit mới hơn) chỉ ghi vào `.git/auto-push.log`, không báo ra màn hình; agent kiểm tra `git status -sb` sau commit theo AGENTS.md.
+
+
+## 2026-11-15 — M5: Tinh thể nâng bậc rơi từ ải 1-5 → 1-10
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15 chọn nguồn Tinh thể nâng bậc vũ khí: "Rơi từ ải".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/stages/gen_stages_01_05_10.py` (`rew` / `first` thêm `mat_weapon_ascend`) → `data/stages/stage_01_05.json` … `stage_01_10.json` (chỉ khối thưởng đổi); `tests/unit/progression/test_progression_inventory.gd` (`test_ascension_material_drops_from_stages`).
+- **Đã chạy:** `python -X utf8 -I tools/stages/gen_stages_01_05_10.py`; GdUnit `test_progression_inventory.gd` (21/21); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 670/670 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** thưởng cố định (ải không có rơi ngẫu nhiên): mỗi lượt qua ải 1-5 → 1-9 được 1, ải 1-10 được 2; lần đầu 1-5 → 1-9 mỗi ải 1, ải 1-10 được 3 (tổng lần đầu 8: đủ nâng hết 2 bậc vũ khí 4★ cần 6, vũ khí 5★ cần 12 phải cày lại). Ải 1-1 → 1-4 (có hướng dẫn người mới) giữ nguyên.
+- **Hạn chế đã biết:** số do Claude đặt, owner chỉnh trong generator rồi chạy lại.

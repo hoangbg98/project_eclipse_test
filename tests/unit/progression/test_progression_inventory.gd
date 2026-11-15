@@ -207,6 +207,22 @@ func test_weapon_ascension_raises_level_cap() -> void:
 	assert_str(_inv.enhance(w, "mat_enhance_crystal")).is_equal(Inventory.REASON_MAX_LEVEL)
 
 
+## Tinh thể nâng bậc rơi từ ải 1-5 → 1-10 (owner 2026-11-15), cả lượt thường và lần đầu; lần đầu cả chương đủ nâng hết
+## bậc một vũ khí 4★.
+func test_ascension_material_drops_from_stages() -> void:
+	var mat := _rules.weapon_ascend_material
+	assert_object(PlayerProfile.item_defs().get_def(mat)).is_not_null()
+	var first_total := 0
+	for n in range(5, 11):
+		var d: Dictionary = StageMap.load_from("res://data/stages/stage_01_%02d.json" % n).data
+		assert_int(int(d["rewards"]["materials"].get(mat, 0))).override_failure_message("1-%d" % n).is_greater(0)
+		first_total += int(d["first_clear_rewards"]["materials"].get(mat, 0))
+	var four_star := 0
+	for i in _rules.weapon_max_tier(4):
+		four_star += _rules.weapon_ascend_material_count[i]
+	assert_int(first_total).is_greater_equal(four_star)
+
+
 # ---------- Chỉ số cuối cùng ----------
 
 func test_stats_at_level_1_no_gear_equal_base() -> void:

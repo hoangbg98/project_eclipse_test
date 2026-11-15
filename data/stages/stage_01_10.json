@@ -109,14 +109,16 @@
 		"exp": 1200,
 		"materials": {
 			"mat_exp_small": 8,
-			"mat_enhance_ore": 6
+			"mat_enhance_ore": 6,
+			"mat_weapon_ascend": 2
 		}
 	},
 	"first_clear_rewards": {
 		"gems": 300,
 		"materials": {
 			"mat_exp_medium": 5,
-			"mat_enhance_ore": 6
+			"mat_enhance_ore": 6,
+			"mat_weapon_ascend": 3
 		}
 	},
 	"rows": [
