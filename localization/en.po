@@ -3108,3 +3108,60 @@ msgstr "View details"
 
 msgid "STIGMA_UI_NO_ACTIVE_SET"
 msgstr "No set bonus active (needs 2 pieces of one set)."
+
+msgid "TITLE_ONLINE"
+msgstr "Online (test)"
+
+msgid "ONLINE_TITLE"
+msgstr "Online (test)"
+
+msgid "ONLINE_SERVER"
+msgstr "Server"
+
+msgid "ONLINE_SERVER_HINT"
+msgstr "Paste the address from the admin (e.g. https://....trycloudflare.com). Empty = default server."
+
+msgid "ONLINE_CONNECT"
+msgstr "Connect"
+
+msgid "ONLINE_STATUS_OFFLINE"
+msgstr "Not connected."
+
+msgid "ONLINE_STATUS_CONNECTING"
+msgstr "Connecting..."
+
+msgid "ONLINE_STATUS_ONLINE"
+msgstr "Connected."
+
+msgid "ONLINE_STATUS_ERROR"
+msgstr "Error: %s"
+
+msgid "ONLINE_ERR_NO_SERVER"
+msgstr "no server address"
+
+msgid "ONLINE_ERR_UNREACHABLE"
+msgstr "cannot reach the server (wrong address, server down or no network)"
+
+msgid "ONLINE_ERR_AUTH"
+msgstr "the server refused the login (server key mismatch)"
+
+msgid "ONLINE_ERR_NO_SERVICE"
+msgstr "Online service unavailable."
+
+msgid "ONLINE_PLAYER_CODE"
+msgstr "Player code"
+
+msgid "ONLINE_COPY_CODE"
+msgstr "Copy"
+
+msgid "ONLINE_CODE_COPIED"
+msgstr "Player code copied."
+
+msgid "ONLINE_CODE_HINT"
+msgstr "When topping up, put this code in the transfer note so the admin can credit the right account."
+
+msgid "ONLINE_WALLET_HINT"
+msgstr "Server wallet (test build: not merged with local save yet)."
+
+msgid "ONLINE_REFRESH"
+msgstr "Refresh"

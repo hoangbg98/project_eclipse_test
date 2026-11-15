@@ -25,6 +25,7 @@ SceneRouter="*res://scripts/core/scene_router.gd"
 AudioRouter="*res://scripts/core/audio_router.gd"
 SaveService="*res://scripts/save/save_service.gd"
 TutorialGuide="*res://scripts/ui/tutorial_guide.gd"
+OnlineService="*res://scripts/online/online_service.gd"
 
 [display]
 

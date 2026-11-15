@@ -92,6 +92,19 @@ thanh; điều khiển cảm ứng hoàn chỉnh; safe area; credits/giấy phé
 Chạy toàn bộ ACCEPTANCE_TESTS trên Windows và Android, checklist tự chơi
 (README 16), ghi lỗi tồn đọng. Đổi tên Aether/Noctis trước khi công khai.
 
+## Milestone 9 — Trực tuyến (owner 2026-11-16)
+
+Nạp tiền bằng chuyển khoản QR thủ công, QTV phát quà bằng tool máy chủ. Máy chủ Nakama + PostgreSQL;
+giai đoạn thử chạy trên máy owner qua đường hầm trycloudflare.com. Hướng dẫn vận hành: `server/README.md`.
+
+| ID | Task | Ghi chú |
+|---|---|---|
+| M9-1 | Máy chủ thử trên máy owner (portable), đường hầm trycloudflare, đăng nhập thiết bị, mã người chơi, ví máy chủ, tool phát quà `grant.ps1`, màn Trực tuyến | |
+| M9-2 | Gộp ví máy chủ với save: ngọc / vé do máy chủ giữ, gacha quay trên máy chủ | Cần owner chốt gói nạp |
+| M9-3 | Cloud save (đẩy / kéo save theo tài khoản), liên kết email để khôi phục tài khoản | |
+| M9-4 | Hộp thư quà trong game, lịch sử nạp cho người chơi | |
+| M9-5 | Chuyển lên VPS (docker-compose), tên miền + Cloudflare Tunnel cố định, backup tự động | Trước khi nhận tiền thật |
+
 ## Mốc owner nên mở Godot để thử
 
 > Quy ước làm việc: **trước khi bắt đầu task nằm ở một mốc dưới đây, Claude nhắc

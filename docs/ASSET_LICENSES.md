@@ -273,6 +273,17 @@ font Arial của Windows chỉ để ghi nhãn). Thay bằng ảnh thật cùng 
 | `assets/placeholders/story/placeholder_map_ch01.png` … `ch07.png` (7 ảnh, cao 1080, rộng 3240–9200) | Tranh nền map chương kéo ngang | 2026-11-14 |
 | `assets/placeholders/story/placeholder_card_ch01.png` … `ch07.png` (7 ảnh 380×600) | Ảnh thẻ chương ở màn chọn chương | 2026-11-14 |
 
+### 3.4 Phần mềm máy chủ (M9-1, không nằm trong bản game)
+
+Tải bằng `server/setup_local.ps1` vào `server/.runtime/` (không vào git, không export). Chỉ chạy trên máy chủ.
+Bản game **không** chứa thư viện bên thứ ba nào cho phần trực tuyến: client REST tự viết (`scripts/online/`).
+
+| Phần mềm | Phiên bản | Nguồn | Giấy phép | Lý do |
+|---|---|---|---|---|
+| Nakama | 3.42.0 (windows-amd64; VPS: image `heroiclabs/nakama:3.42.0`) | github.com/heroiclabs/nakama | Apache-2.0 | Máy chủ game: tài khoản, ví, RPC |
+| PostgreSQL | 17.12-1 (zip binaries EnterpriseDB; VPS: image `postgres:17`) | enterprisedb.com / postgresql.org | PostgreSQL License | Cơ sở dữ liệu của Nakama |
+| cloudflared | 2026.11.0 (windows-amd64.exe) | github.com/cloudflare/cloudflared | Apache-2.0 | Đường hầm thử nghiệm trycloudflare.com |
+
 ## 4. Tài liệu tham khảo (không phải asset game)
 
 | File | Nội dung | Ghi chú |

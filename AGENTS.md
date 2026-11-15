@@ -41,8 +41,11 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
 - Logic gameplay tách khỏi UI; UI chỉ đọc state và nghe signal (`EventBus`).
 - **Mọi số cân bằng nằm trong data** (`.tres` trong `data/`), không viết cứng trong script.
 - Nhân vật dùng **Data ID** (`char_fire_01`…), không dùng tên hiển thị trong code/data. Mỗi Data ID là một **giáp** (owner 2026-11-13); `CharacterDef.person_id` nối các giáp cùng nhân vật, `suit_key` là tên giáp. Đội không có hai giáp cùng nhân vật. Tên hiện tại: Enkiba (fire), Kazeyumi (wind), Raikiba (lightning), Hikarine (light), Yomigari (dark), Iwagane (earth) — tên cũ Aether / Lyra / Kael / Seraphine / Noctis / Terra không dùng cho chữ hiển thị nữa.
-- Autoload hiện có: `GameConfig`, `EventBus`, `InputRouter`, `SceneRouter`, `AudioRouter`, `SaveService`, `TutorialGuide` (thứ tự trong `project.godot`). Không thêm luật gameplay vào autoload. `TutorialGuide` là lớp hướng dẫn người mới (chỉ vẽ ô sáng và chặn input; luật bước ở `TutorialFlow`).
+- Autoload hiện có: `GameConfig`, `EventBus`, `InputRouter`, `SceneRouter`, `AudioRouter`, `SaveService`, `TutorialGuide`, `OnlineService` (thứ tự trong `project.godot`). Không thêm luật gameplay vào autoload. `TutorialGuide` là lớp hướng dẫn người mới (chỉ vẽ ô sáng và chặn input; luật bước ở `TutorialFlow`).
 - Công cụ thử nghiệm: gửi quà thẳng vào save bằng `DebugGift` (bảng "Quà thử nghiệm" ở tab Cài đặt của Hub, chỉ bản debug) hoặc `tools\give_gift.ps1` (game đã đóng); gói quà mẫu ở `data/debug/gift_presets.json`, hướng dẫn ở `docs/DEBUG_GIFT.md`. Không dùng cho luật gameplay.
+- Trực tuyến (M9): máy chủ Nakama trong `server/` (hướng dẫn `server/README.md`); game gọi qua `OnlineService`
+  (`scripts/online/`, client REST tự viết, không plugin). Mạng đi qua `OnlineService.transport` để test thay bằng
+  máy chủ giả. Không commit `server/.runtime/` (khóa bí mật, DB) hay `server/.env`.
 - Input: dùng action của `InputRouter` (`move_left/right`, `jump`, `attack`, `dodge`, `skill`, `weapon`, `ultimate`, `switch_1/2`, `pause`, `ui_back`) và `InputRouter.consume_buffered()`; không đọc phím trực tiếp.
 - Chữ hiển thị: khóa `UPPER_SNAKE` qua `tr()`, thêm vào **cả** `localization/vi.po` và `en.po`.
 - Đặt tên: file/hàm/biến `snake_case`, `class_name` `PascalCase`, hằng `UPPER_SNAKE`.

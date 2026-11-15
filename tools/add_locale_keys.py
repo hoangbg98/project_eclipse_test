@@ -334,6 +334,26 @@ KEYS = [
     ("REASON_NEED_LEVEL", "Cần cường hóa tới giới hạn cấp trước.", "Enhance to the level cap first."),
     ("REASON_NO_AFFIX", "Món này không có phụ tố.", "This item has no affixes."),
     ("REASON_PENDING", "Hãy chọn giữ phụ tố mới hoặc cũ trước.", "Choose to keep the new or old affixes first."),
+    # M9-1 — trực tuyến (Nakama, thử nghiệm)
+    ("TITLE_ONLINE", "Trực tuyến (thử nghiệm)", "Online (test)"),
+    ("ONLINE_TITLE", "Trực tuyến (thử nghiệm)", "Online (test)"),
+    ("ONLINE_SERVER", "Máy chủ", "Server"),
+    ("ONLINE_SERVER_HINT", "Dán địa chỉ QTV gửi (vd https://....trycloudflare.com). Để trống = máy chủ mặc định.", "Paste the address from the admin (e.g. https://....trycloudflare.com). Empty = default server."),
+    ("ONLINE_CONNECT", "Kết nối", "Connect"),
+    ("ONLINE_STATUS_OFFLINE", "Chưa kết nối.", "Not connected."),
+    ("ONLINE_STATUS_CONNECTING", "Đang kết nối...", "Connecting..."),
+    ("ONLINE_STATUS_ONLINE", "Đã kết nối.", "Connected."),
+    ("ONLINE_STATUS_ERROR", "Lỗi: %s", "Error: %s"),
+    ("ONLINE_ERR_NO_SERVER", "chưa nhập địa chỉ máy chủ", "no server address"),
+    ("ONLINE_ERR_UNREACHABLE", "không kết nối được máy chủ (sai địa chỉ, máy chủ tắt hoặc mất mạng)", "cannot reach the server (wrong address, server down or no network)"),
+    ("ONLINE_ERR_AUTH", "máy chủ từ chối đăng nhập (khóa máy chủ không khớp)", "the server refused the login (server key mismatch)"),
+    ("ONLINE_ERR_NO_SERVICE", "Không có dịch vụ trực tuyến.", "Online service unavailable."),
+    ("ONLINE_PLAYER_CODE", "Mã người chơi", "Player code"),
+    ("ONLINE_COPY_CODE", "Sao chép", "Copy"),
+    ("ONLINE_CODE_COPIED", "Đã sao chép mã người chơi.", "Player code copied."),
+    ("ONLINE_CODE_HINT", "Khi nạp, ghi mã này vào nội dung chuyển khoản để QTV phát quà đúng tài khoản.", "When topping up, put this code in the transfer note so the admin can credit the right account."),
+    ("ONLINE_WALLET_HINT", "Ví trên máy chủ (bản thử: chưa gộp với dữ liệu chơi trên máy).", "Server wallet (test build: not merged with local save yet)."),
+    ("ONLINE_REFRESH", "Làm mới", "Refresh"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

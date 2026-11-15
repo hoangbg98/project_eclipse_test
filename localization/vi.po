@@ -3108,3 +3108,60 @@ msgstr "Xem chi tiết"
 
 msgid "STIGMA_UI_NO_ACTIVE_SET"
 msgstr "Chưa kích hoạt hiệu ứng bộ (cần 2 món cùng bộ)."
+
+msgid "TITLE_ONLINE"
+msgstr "Trực tuyến (thử nghiệm)"
+
+msgid "ONLINE_TITLE"
+msgstr "Trực tuyến (thử nghiệm)"
+
+msgid "ONLINE_SERVER"
+msgstr "Máy chủ"
+
+msgid "ONLINE_SERVER_HINT"
+msgstr "Dán địa chỉ QTV gửi (vd https://....trycloudflare.com). Để trống = máy chủ mặc định."
+
+msgid "ONLINE_CONNECT"
+msgstr "Kết nối"
+
+msgid "ONLINE_STATUS_OFFLINE"
+msgstr "Chưa kết nối."
+
+msgid "ONLINE_STATUS_CONNECTING"
+msgstr "Đang kết nối..."
+
+msgid "ONLINE_STATUS_ONLINE"
+msgstr "Đã kết nối."
+
+msgid "ONLINE_STATUS_ERROR"
+msgstr "Lỗi: %s"
+
+msgid "ONLINE_ERR_NO_SERVER"
+msgstr "chưa nhập địa chỉ máy chủ"
+
+msgid "ONLINE_ERR_UNREACHABLE"
+msgstr "không kết nối được máy chủ (sai địa chỉ, máy chủ tắt hoặc mất mạng)"
+
+msgid "ONLINE_ERR_AUTH"
+msgstr "máy chủ từ chối đăng nhập (khóa máy chủ không khớp)"
+
+msgid "ONLINE_ERR_NO_SERVICE"
+msgstr "Không có dịch vụ trực tuyến."
+
+msgid "ONLINE_PLAYER_CODE"
+msgstr "Mã người chơi"
+
+msgid "ONLINE_COPY_CODE"
+msgstr "Sao chép"
+
+msgid "ONLINE_CODE_COPIED"
+msgstr "Đã sao chép mã người chơi."
+
+msgid "ONLINE_CODE_HINT"
+msgstr "Khi nạp, ghi mã này vào nội dung chuyển khoản để QTV phát quà đúng tài khoản."
+
+msgid "ONLINE_WALLET_HINT"
+msgstr "Ví trên máy chủ (bản thử: chưa gộp với dữ liệu chơi trên máy)."
+
+msgid "ONLINE_REFRESH"
+msgstr "Làm mới"

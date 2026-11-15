@@ -30,3 +30,7 @@ __pycache__/
 # Dữ liệu chạy và file đính kèm của Codex trên máy
 /.codex/
 /.codex-attachments/
+
+# Máy chủ thử nghiệm: bản portable, DB, khóa bí mật (server/setup_local.ps1), .env của VPS
+/server/.runtime/
+/server/.env

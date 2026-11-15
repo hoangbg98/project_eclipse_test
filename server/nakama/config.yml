@@ -1,0 +1,12 @@
+# Cấu hình Nakama dùng chung (máy thử và VPS). KHÔNG ghi khóa bí mật vào file này:
+# khóa truyền bằng tham số dòng lệnh (start_local.ps1 đọc server/.runtime/secrets.json; docker-compose đọc .env).
+name: eclipse1
+logger:
+  level: INFO
+session:
+  token_expiry_sec: 7200            # phiên 2 giờ; game tự đăng nhập lại khi hết hạn
+  refresh_token_expiry_sec: 2592000 # 30 ngày
+runtime:
+  js_entrypoint: index.js
+socket:
+  max_message_size_bytes: 65536

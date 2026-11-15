@@ -11,6 +11,7 @@ const SCENE_STAGE := "res://scenes/stages/stage.tscn"
 const SCENE_CHARACTER := "res://scenes/main/character_screen.tscn"
 const SCENE_RECRUIT := "res://scenes/main/recruit_screen.tscn"
 const SCENE_DEBUG_GIFT := "res://scenes/main/debug_gift_screen.tscn"
+const SCENE_ONLINE := "res://scenes/main/online_screen.tscn"
 ## Màn mở từ cụm nút lục giác của Hub (owner 2026-11-14).
 const SCENE_BAG := "res://scenes/main/bag_screen.tscn"
 const SCENE_SUPPLY := "res://scenes/main/supply_screen.tscn"

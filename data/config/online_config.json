@@ -1,0 +1,7 @@
+{
+  "_comment": "Cấu hình kết nối máy chủ Nakama (M9-1). server_key không phải bí mật (nằm trong bản game), nhưng phải khớp với máy chủ: server\\start_local.ps1 đọc giá trị ở đây.",
+  "default_server_url": "http://127.0.0.1:7350",
+  "server_key": "eclipse-test-key",
+  "timeout_sec": 12,
+  "currencies_shown": ["gems", "gold"]
+}

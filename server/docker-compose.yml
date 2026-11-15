@@ -1,0 +1,48 @@
+# Máy chủ cho VPS Linux (giai đoạn sau; máy Windows thử nghiệm dùng start_local.ps1).
+# Chạy: cp .env.example .env  → điền khóa  → docker compose up -d
+# Chỉ mở cổng 7350 ra ngoài (qua Cloudflare Tunnel hoặc reverse proxy HTTPS); 7351 chỉ trên 127.0.0.1.
+services:
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nakama
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: nakama
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "nakama"]
+      interval: 5s
+      retries: 10
+
+  nakama:
+    image: registry.heroiclabs.com/heroiclabs/nakama:3.42.0
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint:
+      - /bin/sh
+      - -ecx
+      - >
+        /nakama/nakama migrate up --database.address nakama:${DB_PASSWORD}@postgres:5432/nakama &&
+        exec /nakama/nakama --config /nakama/data/config.yml
+        --database.address nakama:${DB_PASSWORD}@postgres:5432/nakama
+        --runtime.path /nakama/data/modules
+        --socket.server_key ${SERVER_KEY}
+        --session.encryption_key ${SESSION_ENCRYPTION_KEY}
+        --session.refresh_encryption_key ${REFRESH_ENCRYPTION_KEY}
+        --runtime.http_key ${HTTP_KEY}
+        --console.username admin
+        --console.password ${CONSOLE_PASSWORD}
+        --console.signing_key ${CONSOLE_SIGNING_KEY}
+    volumes:
+      - ./nakama/config.yml:/nakama/data/config.yml:ro
+      - ./modules:/nakama/data/modules:ro
+    ports:
+      - "7350:7350"
+      - "127.0.0.1:7351:7351"
+
+volumes:
+  pgdata:

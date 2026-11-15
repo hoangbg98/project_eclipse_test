@@ -13,7 +13,20 @@ func _ready() -> void:
 	_new_game.pressed.connect(_on_new_game)
 	_quit.pressed.connect(_on_quit)
 	(_new_game if _continue.disabled else _continue).grab_focus()
+	_build_online()
 	_build_settings()
+
+
+## Nút "Trực tuyến (thử nghiệm)" (M9-1): mở màn đăng nhập máy chủ Nakama.
+func _build_online() -> void:
+	var b := Button.new()
+	b.name = "OnlineButton"
+	b.text = tr("TITLE_ONLINE")
+	b.custom_minimum_size = _quit.custom_minimum_size
+	b.add_theme_font_size_override("font_size", _quit.get_theme_font_size("font_size"))
+	_quit.get_parent().add_child(b)
+	_quit.get_parent().move_child(b, _quit.get_index())
+	b.pressed.connect(func() -> void: SceneRouter.push(GameConfig.SCENE_ONLINE))
 
 
 var _settings_layer: CanvasLayer
