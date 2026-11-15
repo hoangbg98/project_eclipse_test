@@ -111,6 +111,7 @@ func resume() -> bool:
 
 ## Đăng xuất: xóa phiên trong bộ nhớ và phiên đã ghi nhớ.
 func logout() -> void:
+	_detach_cloud()
 	token = ""
 	refresh_token = ""
 	profile = {}
@@ -169,6 +170,215 @@ func refresh_profile(retry := true) -> bool:
 func wallet_amount(currency: String) -> int:
 	var w: Variant = profile.get("wallet", {})
 	return int(w.get(currency, 0)) if w is Dictionary else 0
+
+
+func user_id() -> String:
+	return str(profile.get("user_id", ""))
+
+
+# ---------- Cloud save (M9-3) ----------
+# Sau khi đăng nhập, `open_cloud_world()` chọn thế giới của tài khoản (CloudSave.decide) và chuyển SaveService sang
+# bản đệm của tài khoản. Từ đó mỗi lần SaveService.saved, save được gửi lên (gom trong `push_delay` giây).
+# Gửi lỗi mạng → PENDING, thử lại mỗi `RETRY_SEC` và ở lần lưu sau. Máy chủ báo bản đã đổi từ thiết bị khác → CONFLICT,
+# ngừng gửi (không ghi đè); đăng nhập lại sẽ lấy bản trên máy chủ.
+
+signal cloud_state_changed(state: Cloud)
+
+enum Cloud { OFF, SYNCING, SYNCED, PENDING, CONFLICT, ERROR }
+
+const SAVE_GET_RPC := "save_get"
+const SAVE_PUT_RPC := "save_put"
+const PUSH_DELAY := 2.0
+const RETRY_SEC := 30.0
+
+var cloud_state := Cloud.OFF
+var cloud_error := ""
+## Thời điểm (unix) gửi lên thành công gần nhất.
+var cloud_synced_at := 0
+var cloud_root := CloudSave.ROOT_DIR
+## SaveService (test gán bản riêng); null = autoload.
+var save_service: Node
+var push_delay := PUSH_DELAY
+
+var _cloud_dir := ""
+var _pushing := false
+var _push_again := false
+var _push_timer: Timer
+var _retry_timer: Timer
+
+
+## Mở thế giới của tài khoản vừa đăng nhập. Trả về "ok", "ask" (máy chủ chưa có save mà máy này có save ngoại tuyến:
+## gọi lại với import_offline = true để mang lên, false để bắt đầu mới) hoặc "error" (`cloud_error` là khóa dịch).
+func open_cloud_world(import_offline: Variant = null) -> String:
+	var saves := _saves()
+	if saves == null or user_id().is_empty():
+		cloud_error = "CLOUD_ERR_NOT_READY"
+		return "error"
+	_cloud_set(Cloud.SYNCING)
+	var dir := CloudSave.dir_for(user_id(), cloud_root)
+	var local := SaveStore.new(dir)
+	var meta := CloudSave.read_meta(dir)
+	var got := await _call_rpc(SAVE_GET_RPC, {})
+	if not got["ok"]:
+		cloud_error = got["error"]
+		_cloud_set(Cloud.ERROR)
+		return "error"
+	var data: Dictionary = got["data"]
+	var cloud_version := str(data.get("version", "")) if data.get("exists", false) else ""
+	var offline: SaveStore = saves.offline_store()
+	var action := CloudSave.decide(cloud_version, local.has_save(), meta, offline.has_save())
+	var push := false
+	match action:
+		CloudSave.Action.ASK_IMPORT:
+			if import_offline == null:
+				_cloud_set(Cloud.OFF)
+				return "ask"
+			CloudSave.write_meta(dir, "", false)
+			if import_offline:
+				local.import_envelope(SaveStore.envelope_of(offline.read()))
+				push = true
+		CloudSave.Action.USE_CLOUD:
+			var env: Variant = data.get("envelope")
+			if not (env is Dictionary) or local.import_envelope(env) != OK:
+				cloud_error = "CLOUD_ERR_NEWER" if local.last_import_newer else "CLOUD_ERR_BAD_DATA"
+				_cloud_set(Cloud.ERROR)
+				return "error"
+			CloudSave.write_meta(dir, cloud_version, false)
+		CloudSave.Action.PUSH_LOCAL:
+			CloudSave.write_meta(dir, cloud_version, true)
+			push = true
+		CloudSave.Action.NEW_WORLD:
+			CloudSave.write_meta(dir, "", false)
+	_attach_cloud(dir)
+	if push:
+		await push_now()
+	else:
+		cloud_error = ""
+		_cloud_set(Cloud.SYNCED)
+	return "ok"
+
+
+## Gửi save hiện tại lên ngay (không chờ gom). Đang gửi thì gửi thêm một lần sau khi xong.
+func push_now() -> bool:
+	if _cloud_dir.is_empty() or cloud_state == Cloud.CONFLICT:
+		return false
+	if _pushing:
+		_push_again = true
+		return false
+	_pushing = true
+	var meta := CloudSave.read_meta(_cloud_dir)
+	CloudSave.write_meta(_cloud_dir, meta["version"], true)
+	_cloud_set(Cloud.SYNCING)
+	var r := await _call_rpc(SAVE_PUT_RPC, {"envelope": SaveStore.envelope_of(_saves().data), "base_version": meta["version"]})
+	var ok: bool = r["ok"]
+	if ok:
+		CloudSave.write_meta(_cloud_dir, str(r["data"].get("version", "")), false)
+		cloud_synced_at = int(Time.get_unix_time_from_system())
+		cloud_error = ""
+		_cloud_set(Cloud.SYNCED)
+	elif str(r["error"]).contains("save_conflict"):
+		cloud_error = "CLOUD_ERR_CONFLICT"
+		_cloud_set(Cloud.CONFLICT)
+	else:
+		cloud_error = r["error"]
+		_cloud_set(Cloud.PENDING)
+		_retry_timer.start(RETRY_SEC)
+	_pushing = false
+	if _push_again and cloud_state != Cloud.CONFLICT:
+		_push_again = false
+		return await push_now()
+	return ok
+
+
+func _saves() -> Node:
+	if save_service == null:
+		save_service = get_tree().root.get_node_or_null("SaveService") if is_inside_tree() else null
+	return save_service
+
+
+func _attach_cloud(dir: String) -> void:
+	_cloud_dir = dir
+	var saves := _saves()
+	saves.use_store(SaveStore.new(dir))
+	if not saves.saved.is_connected(_on_saved):
+		saves.saved.connect(_on_saved)
+	if _push_timer == null:
+		_push_timer = Timer.new()
+		_push_timer.one_shot = true
+		_push_timer.timeout.connect(push_now)
+		add_child(_push_timer)
+		_retry_timer = Timer.new()
+		_retry_timer.one_shot = true
+		_retry_timer.timeout.connect(func() -> void:
+			if cloud_state == Cloud.PENDING:
+				push_now())
+		add_child(_retry_timer)
+
+
+## Thoát thế giới tài khoản: SaveService về save ngoại tuyến. Tiến độ chưa gửi vẫn ở bản đệm (dirty), gửi ở lần sau.
+func _detach_cloud() -> void:
+	if _cloud_dir.is_empty():
+		return
+	if _push_timer:
+		_push_timer.stop()
+		_retry_timer.stop()
+	var saves := _saves()
+	if saves.saved.is_connected(_on_saved):
+		saves.saved.disconnect(_on_saved)
+	_cloud_dir = ""
+	saves.use_store(saves.offline_store())
+	_cloud_set(Cloud.OFF)
+
+
+func _on_saved() -> void:
+	if _cloud_dir.is_empty() or cloud_state == Cloud.CONFLICT:
+		return
+	CloudSave.write_meta(_cloud_dir, CloudSave.read_meta(_cloud_dir)["version"], true)
+	if push_delay <= 0.0:
+		push_now.call_deferred()
+	else:
+		_push_timer.start(push_delay)
+
+
+func _cloud_set(s: Cloud) -> void:
+	if cloud_state == s:
+		return
+	cloud_state = s
+	cloud_state_changed.emit(s)
+
+
+## Gọi RPC có token; 401 (phiên hết hạn) thì làm mới phiên một lần rồi gọi lại. {ok, code, data, error}.
+func _call_rpc(rpc_id: String, payload: Dictionary, retry := true) -> Dictionary:
+	if token.is_empty():
+		return {"ok": false, "code": 401, "data": {}, "error": "ONLINE_ERR_NOT_LOGGED_IN"}
+	var res: Dictionary = await transport.call(NakamaApi.rpc(config.server_url, token, rpc_id, payload))
+	var code := int(res.get("code", 0))
+	if code == 401 and retry and await _renew_token():
+		return await _call_rpc(rpc_id, payload, false)
+	var r := NakamaApi.parse_rpc(code, str(res.get("body", "")))
+	r["code"] = code
+	if not r["ok"]:
+		r["error"] = "ONLINE_ERR_UNREACHABLE" if code == 0 else r["error"]
+	return r
+
+
+## Chỉ làm mới token (không đổi trạng thái / hồ sơ).
+func _renew_token() -> bool:
+	var req: Dictionary
+	if _mode == "device":
+		req = NakamaApi.authenticate_device(config.server_url, config.server_key, device_id())
+	elif not refresh_token.is_empty():
+		req = NakamaApi.refresh_session(config.server_url, config.server_key, refresh_token)
+	else:
+		return false
+	var res: Dictionary = await transport.call(req)
+	var s := NakamaApi.parse_session(int(res.get("code", 0)), str(res.get("body", "")))
+	if not s["ok"]:
+		return false
+	token = s["token"]
+	if not s["refresh_token"].is_empty():
+		refresh_token = s["refresh_token"]
+	return true
 
 
 # ---------- Nội bộ ----------

@@ -72,6 +72,37 @@ static func encode(data: Dictionary, version: int) -> String:
 	}, "\t")
 
 
+## Phong bì save dạng Dictionary (gửi lên cloud save, M9-3).
+static func envelope_of(data: Dictionary) -> Dictionary:
+	return JSON.parse_string(encode(data, SaveSchema.VERSION))
+
+
+## Ghi phong bì save nhận từ cloud thành file chính, sau khi kiểm tra như khi đọc (checksum, version).
+## Không hợp lệ (hỏng, hoặc của bản game mới hơn) thì không đổi gì và trả ERR_INVALID_DATA (`last_import_newer` cho biết lý do).
+var last_import_newer := false
+
+
+func import_envelope(env: Dictionary) -> Error:
+	last_import_newer = false
+	var err := DirAccess.make_dir_recursive_absolute(dir)
+	if err != OK and not DirAccess.dir_exists_absolute(dir):
+		return err
+	var f := FileAccess.open(path_of(TEMP), FileAccess.WRITE)
+	if f == null:
+		return FileAccess.get_open_error()
+	f.store_string(JSON.stringify(env, "\t"))
+	f.close()
+	if _read_valid(path_of(TEMP)) == null:
+		last_import_newer = _last_was_newer
+		DirAccess.remove_absolute(path_of(TEMP))
+		return ERR_INVALID_DATA
+	if FileAccess.file_exists(path_of(MAIN)) and _read_valid(path_of(MAIN)) != null:
+		DirAccess.rename_absolute(path_of(MAIN), path_of(BACKUP))
+	elif FileAccess.file_exists(path_of(MAIN)):
+		DirAccess.remove_absolute(path_of(MAIN))
+	return DirAccess.rename_absolute(path_of(TEMP), path_of(MAIN))
+
+
 # ---------- Đọc ----------
 
 ## Đọc save: file chính → backup → mặc định. Luôn trả về dữ liệu đã migrate + làm sạch; không bao giờ ném lỗi.

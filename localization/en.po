@@ -3252,3 +3252,51 @@ msgstr "Username already taken."
 
 msgid "LOGIN_ERR_EMAIL_TAKEN"
 msgstr "Email already has an account (wrong password). Please log in."
+
+msgid "CLOUD_LOADING"
+msgstr "Loading your account's world..."
+
+msgid "CLOUD_ERR_OPEN"
+msgstr "Could not open server data: %s"
+
+msgid "CLOUD_ERR_NOT_READY"
+msgstr "not logged in"
+
+msgid "CLOUD_ERR_NEWER"
+msgstr "data was saved by a newer game version, please update"
+
+msgid "CLOUD_ERR_BAD_DATA"
+msgstr "server data is damaged, please contact an admin"
+
+msgid "CLOUD_ERR_CONFLICT"
+msgstr "This account was just played on another device. Log in again to get the latest data."
+
+msgid "CLOUD_IMPORT_TITLE"
+msgstr "This account has no data yet"
+
+msgid "CLOUD_IMPORT_TEXT"
+msgstr "This device has offline play data. Move it to your account, or start a new world? The offline data stays on this device."
+
+msgid "CLOUD_IMPORT_YES"
+msgstr "Move data to account"
+
+msgid "CLOUD_IMPORT_NO"
+msgstr "Start a new world"
+
+msgid "CLOUD_STATE_OFF"
+msgstr "Cloud save: not open"
+
+msgid "CLOUD_STATE_SYNCING"
+msgstr "Cloud save: syncing..."
+
+msgid "CLOUD_STATE_SYNCED"
+msgstr "Cloud save: synced"
+
+msgid "CLOUD_STATE_SYNCED_AT"
+msgstr "Cloud save: synced at %s"
+
+msgid "CLOUD_STATE_PENDING"
+msgstr "Cloud save: not sent yet (offline), will retry"
+
+msgid "CLOUD_SYNC_NOW"
+msgstr "Sync now"

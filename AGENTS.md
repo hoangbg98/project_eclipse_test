@@ -47,7 +47,9 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
   địa chỉ trong `data/config/online_config.json`. Boot → màn Đăng nhập (`LoginScreen`, bỏ qua khi headless / `--offline`)
   → Title. Game gọi qua `OnlineService`
   (`scripts/online/`, client REST tự viết, không plugin). Mạng đi qua `OnlineService.transport` để test thay bằng
-  máy chủ giả. Không commit `server/.runtime/` (khóa bí mật, DB) hay `server/.env`.
+  máy chủ giả (`tests/unit/support/fake_nakama.gd`). Cloud save (M9-3): đăng nhập xong `OnlineService.open_cloud_world()`
+  chuyển `SaveService` sang bản đệm của tài khoản (`SaveService.use_store`); code gameplay vẫn chỉ gọi `SaveService.save_game()`.
+  Không commit `server/.runtime/` (khóa bí mật, DB) hay `server/.env`.
 - Input: dùng action của `InputRouter` (`move_left/right`, `jump`, `attack`, `dodge`, `skill`, `weapon`, `ultimate`, `switch_1/2`, `pause`, `ui_back`) và `InputRouter.consume_buffered()`; không đọc phím trực tiếp.
 - Chữ hiển thị: khóa `UPPER_SNAKE` qua `tr()`, thêm vào **cả** `localization/vi.po` và `en.po`.
 - Đặt tên: file/hàm/biến `snake_case`, `class_name` `PascalCase`, hằng `UPPER_SNAKE`.

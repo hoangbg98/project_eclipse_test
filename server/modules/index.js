@@ -5,6 +5,7 @@
 //  - Tài khoản: đăng ký tên + email + mật khẩu (endpoint authenticate/email), đăng nhập bằng tên hoặc email.
 //  - Mỗi tài khoản có một "mã người chơi" 8 chữ số (duy nhất), người chơi ghi vào nội dung chuyển khoản.
 //  - eclipse_profile (người chơi gọi): mã, tên, ví (wallet).
+//  - save_get / save_put (người chơi gọi): cloud save, mỗi tài khoản một thế giới (M9-3).
 //  - admin_find / admin_grant (chỉ gọi bằng http_key từ tool của QTV): tra cứu theo mã, phát tiền vào ví.
 //    Mỗi lần phát cần mã giao dịch ngân hàng (ref) duy nhất: cùng ref lần hai bị từ chối (chống phát trùng).
 //
@@ -193,7 +194,87 @@ function rpcAdminGrant(ctx, logger, nk, payload) {
   return JSON.stringify(profileOf(nk, userId, code));
 }
 
+// ---------- Cloud save (M9-3) ----------
+// Mỗi tài khoản một "thế giới": collection "save", key "main", chủ = người chơi; chỉ ghi qua RPC (permissionWrite 0).
+// Giá trị = phong bì file save của game: {schema_version, checksum, saved_at, data: "<chuỗi JSON>"} (SaveStore.encode).
+// Ghi có kiểm tra version (base_version): bản trên máy chủ đã đổi từ thiết bị khác thì báo "save_conflict".
+// Bản trước mỗi lần ghi giữ ở "save_backup"/"prev" để QTV khôi phục khi cần.
+
+var SAVE_COLLECTION = "save";
+var SAVE_KEY = "main";
+var SAVE_BACKUP_COLLECTION = "save_backup";
+var SAVE_MAX_DATA = 200000;   // ký tự của chuỗi data (save thật ~20 KB)
+
+function readSave(nk, userId) {
+  var rows = nk.storageRead([{ collection: SAVE_COLLECTION, key: SAVE_KEY, userId: userId }]);
+  return rows && rows.length > 0 ? rows[0] : null;
+}
+
+function validateEnvelope(env) {
+  if (!env || typeof env !== "object") {
+    return "thiếu dữ liệu save";
+  }
+  if (typeof env.schema_version !== "number" || env.schema_version < 1) {
+    return "schema_version không hợp lệ";
+  }
+  if (typeof env.checksum !== "string" || env.checksum.length !== 64) {
+    return "checksum không hợp lệ";
+  }
+  if (typeof env.data !== "string" || env.data.length < 2) {
+    return "data không hợp lệ";
+  }
+  if (env.data.length > SAVE_MAX_DATA) {
+    return "save quá lớn (" + env.data.length + " ký tự)";
+  }
+  return "";
+}
+
+function rpcSaveGet(ctx, logger, nk, payload) {
+  if (!ctx.userId) {
+    throw new Error("cần đăng nhập");
+  }
+  var row = readSave(nk, ctx.userId);
+  if (!row) {
+    return JSON.stringify({ exists: false });
+  }
+  return JSON.stringify({ exists: true, version: row.version, envelope: row.value, update_time: row.updateTime });
+}
+
+function rpcSavePut(ctx, logger, nk, payload) {
+  if (!ctx.userId) {
+    throw new Error("cần đăng nhập");
+  }
+  var req = JSON.parse(payload || "{}");
+  var err = validateEnvelope(req.envelope);
+  if (err) {
+    throw new Error(err);
+  }
+  var base = String(req.base_version || "");
+  var current = readSave(nk, ctx.userId);
+  if ((current ? current.version : "") !== base) {
+    throw new Error("save_conflict");
+  }
+  var acks;
+  try {
+    acks = nk.storageWrite([{
+      collection: SAVE_COLLECTION, key: SAVE_KEY, userId: ctx.userId, value: req.envelope,
+      version: base === "" ? "*" : base, permissionRead: 1, permissionWrite: 0
+    }]);
+  } catch (e) {
+    throw new Error("save_conflict");   // thiết bị khác vừa ghi chen vào
+  }
+  if (current) {
+    nk.storageWrite([{
+      collection: SAVE_BACKUP_COLLECTION, key: "prev", userId: ctx.userId, value: current.value,
+      permissionRead: 0, permissionWrite: 0
+    }]);
+  }
+  return JSON.stringify({ version: acks[0].version });
+}
+
 function InitModule(ctx, logger, nk, initializer) {
+  initializer.registerRpc("save_get", rpcSaveGet);
+  initializer.registerRpc("save_put", rpcSavePut);
   initializer.registerAfterAuthenticateDevice(afterAuthenticateDevice);
   initializer.registerBeforeAuthenticateEmail(beforeAuthenticateEmail);
   initializer.registerAfterAuthenticateEmail(afterAuthenticateEmail);

@@ -27,6 +27,25 @@ func _ready() -> void:
 	SettingsPanel.apply_settings(data["settings"], has_save() and not lang_arg)
 
 
+## Đổi nơi lưu (M9-3: save ngoại tuyến `user://saves` ↔ bản đệm cloud save của tài khoản) rồi đọc lại và áp cài đặt.
+func use_store(s: SaveStore) -> SaveStore.Status:
+	store = s
+	var status := load_game()
+	SettingsPanel.apply_settings(data["settings"], has_save())
+	return status
+
+
+## Thư mục save ngoại tuyến; rỗng = mặc định (test đặt thư mục riêng).
+var offline_dir := ""
+
+
+## Nơi lưu ngoại tuyến của máy này.
+func offline_store() -> SaveStore:
+	if not offline_dir.is_empty():
+		return SaveStore.new(offline_dir)
+	return SaveStore.new(HEADLESS_DIR if DisplayServer.get_name() == "headless" else SaveStore.new().dir)
+
+
 func has_save() -> bool:
 	return store.has_save()
 

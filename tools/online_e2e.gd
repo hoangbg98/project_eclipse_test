@@ -18,6 +18,17 @@ func _check(ok: bool, what: String, service: Node) -> void:
 		_fails += 1
 
 
+func _remove_tree(path: String) -> void:
+	var d := DirAccess.open(path)
+	if d == null:
+		return
+	for sub in d.get_directories():
+		_remove_tree(path.path_join(sub))
+	for f in d.get_files():
+		DirAccess.remove_absolute(path.path_join(f))
+	DirAccess.remove_absolute(path)
+
+
 func _run() -> void:
 	var service: Node = root.get_node("OnlineService")
 	service.device_file = "user://online_e2e_device.cfg"
@@ -54,5 +65,29 @@ func _run() -> void:
 	_check(not await service.register(user, "khac@example.com", "matkhau123", "matkhau123", false)
 			and service.last_error == "LOGIN_ERR_USERNAME_TAKEN", "trùng tên bị từ chối", service)
 	service.logout()
+
+	# Cloud save (M9-3): thư mục riêng cho lần kiểm tra, không đụng save thật.
+	var saves: Node = root.get_node("SaveService")
+	var e2e_root := "user://online_e2e"
+	saves.offline_dir = e2e_root.path_join("offline")
+	saves.use_store(saves.offline_store())
+	service.cloud_root = e2e_root.path_join("cloud")
+	service.push_delay = 0.0
+	_check(await service.login_account(user, "matkhau123", false), "đăng nhập để thử cloud save", service)
+	_check(await service.open_cloud_world() == "ok", "mở thế giới mới của tài khoản", service)
+	saves.new_game()
+	saves.data["currencies"]["gold"] = 4321
+	t = Time.get_ticks_msec()
+	saves.save_game()
+	_check(await service.push_now(), "gửi save lên máy chủ (%d ms, %d byte)" % [Time.get_ticks_msec() - t,
+			JSON.stringify(SaveStore.envelope_of(saves.data)).length()], service)
+	service.logout()
+	_remove_tree(ProjectSettings.globalize_path(service.cloud_root))   # như một máy khác chưa từng chơi
+	_check(await service.login_account(user, "matkhau123", false), "đăng nhập lại (máy trống)", service)
+	t = Time.get_ticks_msec()
+	_check(await service.open_cloud_world() == "ok", "tải thế giới từ máy chủ (%d ms)" % (Time.get_ticks_msec() - t), service)
+	_check(int(saves.data["currencies"]["gold"]) == 4321, "dữ liệu tải về đúng (vàng 4321)", service)
+	service.logout()
+	_remove_tree(ProjectSettings.globalize_path(e2e_root))
 	print("ĐẠT" if _fails == 0 else "CÓ %d BƯỚC LỖI" % _fails)
 	quit(0 if _fails == 0 else 1)

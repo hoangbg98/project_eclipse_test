@@ -12,7 +12,7 @@ tool phát quà cho QTV (nạp bằng chuyển khoản QR thủ công). Ví máy
 | `tunnel.ps1` | Mở đường hầm `https://....trycloudflare.com` tới 7350, in địa chỉ. Địa chỉ **đổi mỗi lần chạy**. |
 | `stop_local.ps1` | Tắt đường hầm, Nakama, PostgreSQL. Dữ liệu giữ nguyên. |
 | `grant.ps1` | Tool QTV: tra cứu người chơi theo mã, phát / thu hồi tiền. |
-| `modules/index.js` | Module máy chủ (RPC `eclipse_profile`, `admin_find`, `admin_grant`). Sửa xong phải khởi động lại Nakama. |
+| `modules/index.js` | Module máy chủ (RPC `eclipse_profile`, `admin_find`, `admin_grant`, `save_get`, `save_put`). Sửa xong phải khởi động lại Nakama. |
 | `nakama/config.yml` | Cấu hình chung, không chứa khóa. |
 | `docker-compose.yml`, `.env.example` | Dùng khi chuyển lên VPS Linux. |
 
@@ -44,6 +44,19 @@ Kiểm tra nhanh từ dòng lệnh (game → máy chủ):
 ```
 C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --script res://tools/online_e2e.gd -- --server=https://xxx.trycloudflare.com
 ```
+
+## Cloud save (M9-3): mỗi tài khoản một thế giới
+
+- Máy chủ giữ bản gốc save của từng tài khoản (storage `save`/`main`, chỉ ghi qua RPC `save_put`). Bản trước mỗi lần
+  ghi nằm ở `save_backup`/`prev`: QTV khôi phục được trong trang quản trị (Storage) khi người chơi báo mất dữ liệu.
+- Trên máy người chơi: bản đệm riêng từng tài khoản ở `user://saves_online/<user_id>/`; save ngoại tuyến
+  (`user://saves`) giữ nguyên, dùng khi bấm "Chơi ngoại tuyến".
+- Lần đầu đăng nhập mà tài khoản chưa có save và máy có save ngoại tuyến: game hỏi mang lên hay bắt đầu mới.
+- Mỗi lần game lưu, save gửi lên sau 2 giây. Mất mạng thì giữ trên máy, tự gửi lại mỗi 30 giây và ở lần đăng nhập sau.
+- Hai thiết bị cùng chơi một tài khoản: thiết bị gửi bản cũ bị từ chối ("Tài khoản vừa được chơi ở thiết bị khác"),
+  ngừng gửi; đăng nhập lại sẽ lấy bản trên máy chủ. Không bao giờ ghi đè bản mới hơn.
+- Save vẫn do game tạo ra nên người chơi sửa được trước khi gửi (chưa chống gian lận). Ngọc / gacha chuyển lên máy
+  chủ ở M9-2.
 
 ## Quy trình nạp QR thủ công (QTV)
 

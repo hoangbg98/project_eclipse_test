@@ -3,6 +3,8 @@ extends Control
 ## Màn Đăng nhập (M9-1b, owner 2026-11-16): hiện sau Boot khi bật `login_on_start` (data/config/online_config.json).
 ## Hai thẻ: Đăng nhập (tên hoặc email + mật khẩu) và Tạo tài khoản (tên, email, mật khẩu, nhập lại).
 ## Có phiên đã ghi nhớ thì tự vào lại. "Chơi ngoại tuyến" vào game không cần máy chủ.
+## Đăng nhập xong thì mở thế giới của tài khoản (cloud save, M9-3); máy chủ chưa có save mà máy này có save ngoại tuyến
+## thì hỏi mang lên hay bắt đầu mới.
 ## Máy chủ coi như dịch vụ ngoài dự án: chỉ biết địa chỉ (mặc định trong data, đổi ở dòng "Máy chủ").
 ## Màn chỉ gọi OnlineService; không chứa luật.
 
@@ -27,6 +29,8 @@ var _remember: CheckBox
 var _server_label: Label
 var _server_row: HBoxContainer
 var _busy := false
+var _form: Control
+var _import_box: VBoxContainer
 
 
 func _ready() -> void:
@@ -66,13 +70,41 @@ func submit() -> bool:
 	else:
 		ok = await service.register(field("reg_name").text, field("reg_email").text, field("reg_password").text,
 				field("reg_confirm").text, _remember.button_pressed)
-	_busy = false
-	_submit.disabled = false
 	if ok:
-		_enter_game()
+		ok = await _open_world()
 	else:
 		_set_status(tr(service.last_error), true)
+	_busy = false
+	_submit.disabled = false
 	return ok
+
+
+## Trả lời câu hỏi mang save ngoại tuyến lên tài khoản. Trả về true nếu đã vào game.
+func answer_import(import_offline: bool) -> bool:
+	_import_box.visible = false
+	_form.visible = true
+	return await _open_world(import_offline)
+
+
+func is_asking_import() -> bool:
+	return _import_box.visible
+
+
+## Mở thế giới của tài khoản rồi vào game. Trả về true nếu đã vào.
+func _open_world(import_offline: Variant = null) -> bool:
+	_set_status(tr("CLOUD_LOADING"))
+	var r: String = await service.open_cloud_world(import_offline)
+	match r:
+		"ok":
+			_enter_game()
+			return true
+		"ask":
+			_form.visible = false
+			_import_box.visible = true
+			_set_status("")
+		_:
+			_set_status(tr("CLOUD_ERR_OPEN") % tr(service.cloud_error), true)
+	return false
 
 
 func play_offline() -> void:
@@ -95,13 +127,13 @@ func _try_resume() -> void:
 	_submit.disabled = true
 	_set_status(tr("LOGIN_RESUMING") % service.saved_username())
 	var ok: bool = await service.resume()
-	_busy = false
-	_submit.disabled = false
 	if ok:
-		_enter_game()
+		await _open_world()
 	else:
 		field("login_name").text = service.saved_username()
 		_set_status(tr(service.last_error) if not service.last_error.is_empty() else "", true)
+	_busy = false
+	_submit.disabled = false
 
 
 func _enter_game() -> void:
@@ -141,8 +173,27 @@ func _build() -> void:
 	sb.set_content_margin_all(40)
 	panel.add_theme_stylebox_override("panel", sb)
 	col.add_child(panel)
+	var outer := UiKit.vbox(20)
+	panel.add_child(outer)
 	var box := UiKit.vbox(20)
-	panel.add_child(box)
+	_form = box
+	outer.add_child(box)
+	_import_box = UiKit.vbox(20)
+	_import_box.name = "ImportBox"
+	_import_box.visible = false
+	_import_box.add_child(UiKit.label(tr("CLOUD_IMPORT_TITLE"), 34))
+	_import_box.add_child(UiKit.label(tr("CLOUD_IMPORT_TEXT"), 26))
+	var yes := UiKit.button(tr("CLOUD_IMPORT_YES"), 320.0, 30)
+	yes.name = "ImportYes"
+	yes.custom_minimum_size.y = 96.0
+	yes.pressed.connect(func() -> void: answer_import(true))
+	_import_box.add_child(yes)
+	var no := UiKit.button(tr("CLOUD_IMPORT_NO"), 320.0, 30)
+	no.name = "ImportNo"
+	no.custom_minimum_size.y = 96.0
+	no.pressed.connect(func() -> void: answer_import(false))
+	_import_box.add_child(no)
+	outer.add_child(_import_box)
 
 	var tabs := UiKit.hbox(12)
 	var group := ButtonGroup.new()
@@ -178,7 +229,7 @@ func _build() -> void:
 
 	_status = UiKit.label("", 26)
 	_status.name = "Status"
-	box.add_child(_status)
+	outer.add_child(_status)
 
 	_submit = UiKit.button(tr("LOGIN_SUBMIT"), 320.0, 34)
 	_submit.name = "SubmitButton"

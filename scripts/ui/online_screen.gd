@@ -1,6 +1,7 @@
 class_name OnlineScreen
 extends Control
 ## Màn "Tài khoản trực tuyến" (M9-1): tên tài khoản, mã người chơi, ví trên máy chủ, Làm mới, Đăng xuất.
+## Dòng "Lưu đám mây" cho biết save của tài khoản đã gửi lên máy chủ chưa (M9-3).
 ## Mã người chơi là thứ người chơi ghi vào nội dung chuyển khoản khi nạp (QTV phát quà bằng server\grant.ps1).
 ## Chưa đăng nhập thì có nút mở màn Đăng nhập. Màn chỉ gọi OnlineService; không chứa luật.
 
@@ -12,6 +13,7 @@ var _profile_box: VBoxContainer
 var _account_label: Label
 var _code_label: Label
 var _wallet_label: Label
+var _cloud_label: Label
 var _login_btn: Button
 
 
@@ -23,6 +25,7 @@ func _ready() -> void:
 	if service:
 		service.state_changed.connect(func(_s: int) -> void: refresh_view())
 		service.profile_changed.connect(func(_p: Dictionary) -> void: refresh_view())
+		service.cloud_state_changed.connect(func(_s: int) -> void: refresh_view())
 	refresh_view()
 
 
@@ -37,6 +40,29 @@ func status_text() -> String:
 		service.State.ERROR:
 			return tr("ONLINE_STATUS_ERROR") % tr(service.last_error)
 	return tr("ONLINE_STATUS_OFFLINE")
+
+
+## Trạng thái cloud save (M9-3).
+func cloud_text() -> String:
+	match service.cloud_state:
+		service.Cloud.SYNCING:
+			return tr("CLOUD_STATE_SYNCING")
+		service.Cloud.SYNCED:
+			if service.cloud_synced_at > 0:
+				var t := Time.get_datetime_dict_from_unix_time(service.cloud_synced_at + _tz_offset_sec())
+				return tr("CLOUD_STATE_SYNCED_AT") % ("%02d:%02d" % [t.hour, t.minute])
+			return tr("CLOUD_STATE_SYNCED")
+		service.Cloud.PENDING:
+			return tr("CLOUD_STATE_PENDING")
+		service.Cloud.CONFLICT:
+			return tr("CLOUD_ERR_CONFLICT")
+		service.Cloud.ERROR:
+			return tr("CLOUD_ERR_OPEN") % tr(service.cloud_error)
+	return tr("CLOUD_STATE_OFF")
+
+
+static func _tz_offset_sec() -> int:
+	return int(Time.get_time_zone_from_system().get("bias", 0)) * 60
 
 
 func wallet_text() -> String:
@@ -55,6 +81,7 @@ func refresh_view() -> void:
 		_account_label.text = tr("ONLINE_ACCOUNT") % service.username()
 		_code_label.text = NakamaApi.format_code(str(service.profile.get("code", "")))
 		_wallet_label.text = wallet_text()
+		_cloud_label.text = cloud_text()
 
 
 func logout() -> void:
@@ -127,12 +154,20 @@ func _build() -> void:
 	_wallet_label.name = "Wallet"
 	_profile_box.add_child(_wallet_label)
 	_profile_box.add_child(UiKit.label(tr("ONLINE_WALLET_HINT"), 22))
+	_cloud_label = UiKit.label("", 28)
+	_cloud_label.name = "CloudStatus"
+	_profile_box.add_child(_cloud_label)
 	var actions := UiKit.hbox(16)
 	var refresh := UiKit.button(tr("ONLINE_REFRESH"), 320.0, 30)
 	refresh.name = "RefreshButton"
 	refresh.custom_minimum_size.y = 84.0
 	refresh.pressed.connect(func() -> void: service.refresh_profile())
 	actions.add_child(refresh)
+	var sync := UiKit.button(tr("CLOUD_SYNC_NOW"), 320.0, 30)
+	sync.name = "SyncButton"
+	sync.custom_minimum_size.y = 84.0
+	sync.pressed.connect(func() -> void: service.push_now())
+	actions.add_child(sync)
 	var out := UiKit.button(tr("ONLINE_LOGOUT"), 320.0, 30)
 	out.name = "LogoutButton"
 	out.custom_minimum_size.y = 84.0

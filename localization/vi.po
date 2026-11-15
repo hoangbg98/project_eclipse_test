@@ -3252,3 +3252,51 @@ msgstr "Tên đăng nhập đã có người dùng."
 
 msgid "LOGIN_ERR_EMAIL_TAKEN"
 msgstr "Email đã có tài khoản (sai mật khẩu). Hãy đăng nhập."
+
+msgid "CLOUD_LOADING"
+msgstr "Đang tải thế giới của tài khoản..."
+
+msgid "CLOUD_ERR_OPEN"
+msgstr "Không mở được dữ liệu trên máy chủ: %s"
+
+msgid "CLOUD_ERR_NOT_READY"
+msgstr "chưa đăng nhập"
+
+msgid "CLOUD_ERR_NEWER"
+msgstr "dữ liệu được lưu bằng bản game mới hơn, hãy cập nhật game"
+
+msgid "CLOUD_ERR_BAD_DATA"
+msgstr "dữ liệu trên máy chủ bị hỏng, hãy báo QTV"
+
+msgid "CLOUD_ERR_CONFLICT"
+msgstr "Tài khoản vừa được chơi ở thiết bị khác. Hãy đăng nhập lại để lấy dữ liệu mới nhất."
+
+msgid "CLOUD_IMPORT_TITLE"
+msgstr "Tài khoản chưa có dữ liệu"
+
+msgid "CLOUD_IMPORT_TEXT"
+msgstr "Máy này có dữ liệu chơi ngoại tuyến. Mang dữ liệu đó lên tài khoản, hay bắt đầu thế giới mới? Dữ liệu ngoại tuyến vẫn được giữ trên máy."
+
+msgid "CLOUD_IMPORT_YES"
+msgstr "Mang dữ liệu lên tài khoản"
+
+msgid "CLOUD_IMPORT_NO"
+msgstr "Bắt đầu thế giới mới"
+
+msgid "CLOUD_STATE_OFF"
+msgstr "Lưu đám mây: chưa mở"
+
+msgid "CLOUD_STATE_SYNCING"
+msgstr "Lưu đám mây: đang đồng bộ..."
+
+msgid "CLOUD_STATE_SYNCED"
+msgstr "Lưu đám mây: đã đồng bộ"
+
+msgid "CLOUD_STATE_SYNCED_AT"
+msgstr "Lưu đám mây: đã đồng bộ lúc %s"
+
+msgid "CLOUD_STATE_PENDING"
+msgstr "Lưu đám mây: chưa gửi được (mất mạng), sẽ tự gửi lại"
+
+msgid "CLOUD_SYNC_NOW"
+msgstr "Đồng bộ ngay"

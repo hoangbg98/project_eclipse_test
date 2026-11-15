@@ -383,6 +383,23 @@ KEYS = [
     ("LOGIN_ERR_BAD_CREDENTIALS", "Sai tên đăng nhập / email hoặc mật khẩu.", "Wrong username / email or password."),
     ("LOGIN_ERR_USERNAME_TAKEN", "Tên đăng nhập đã có người dùng.", "Username already taken."),
     ("LOGIN_ERR_EMAIL_TAKEN", "Email đã có tài khoản (sai mật khẩu). Hãy đăng nhập.", "Email already has an account (wrong password). Please log in."),
+    # M9-3 — cloud save
+    ("CLOUD_LOADING", "Đang tải thế giới của tài khoản...", "Loading your account's world..."),
+    ("CLOUD_ERR_OPEN", "Không mở được dữ liệu trên máy chủ: %s", "Could not open server data: %s"),
+    ("CLOUD_ERR_NOT_READY", "chưa đăng nhập", "not logged in"),
+    ("CLOUD_ERR_NEWER", "dữ liệu được lưu bằng bản game mới hơn, hãy cập nhật game", "data was saved by a newer game version, please update"),
+    ("CLOUD_ERR_BAD_DATA", "dữ liệu trên máy chủ bị hỏng, hãy báo QTV", "server data is damaged, please contact an admin"),
+    ("CLOUD_ERR_CONFLICT", "Tài khoản vừa được chơi ở thiết bị khác. Hãy đăng nhập lại để lấy dữ liệu mới nhất.", "This account was just played on another device. Log in again to get the latest data."),
+    ("CLOUD_IMPORT_TITLE", "Tài khoản chưa có dữ liệu", "This account has no data yet"),
+    ("CLOUD_IMPORT_TEXT", "Máy này có dữ liệu chơi ngoại tuyến. Mang dữ liệu đó lên tài khoản, hay bắt đầu thế giới mới? Dữ liệu ngoại tuyến vẫn được giữ trên máy.", "This device has offline play data. Move it to your account, or start a new world? The offline data stays on this device."),
+    ("CLOUD_IMPORT_YES", "Mang dữ liệu lên tài khoản", "Move data to account"),
+    ("CLOUD_IMPORT_NO", "Bắt đầu thế giới mới", "Start a new world"),
+    ("CLOUD_STATE_OFF", "Lưu đám mây: chưa mở", "Cloud save: not open"),
+    ("CLOUD_STATE_SYNCING", "Lưu đám mây: đang đồng bộ...", "Cloud save: syncing..."),
+    ("CLOUD_STATE_SYNCED", "Lưu đám mây: đã đồng bộ", "Cloud save: synced"),
+    ("CLOUD_STATE_SYNCED_AT", "Lưu đám mây: đã đồng bộ lúc %s", "Cloud save: synced at %s"),
+    ("CLOUD_STATE_PENDING", "Lưu đám mây: chưa gửi được (mất mạng), sẽ tự gửi lại", "Cloud save: not sent yet (offline), will retry"),
+    ("CLOUD_SYNC_NOW", "Đồng bộ ngay", "Sync now"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):
