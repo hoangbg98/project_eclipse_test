@@ -1992,3 +1992,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 678/678 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Ảnh chụp tab Vết thánh: 2 thẻ Oxy / Định Luật Bảo Toàn Khối Lượng hiện nhân vật vừa khung, biểu tượng đỏ phát sáng phía sau.
 - **Quyết định Claude chọn:** ghép ảnh theo nội dung: lồng lửa + ống nghiệm → Đầu (Oxy), cân hai bình → Thân (Định Luật Bảo Toàn Khối Lượng), đọc sách + bộ chưng cất → Chân (Chuyên Luận Hóa Học). Hào quang #FF2A1A, biểu tượng pha 25% màu hào quang. Khung ngang / vuông (bảng thông tin, ô tổng quan, Túi đồ) lấy phần vuông phía trên ảnh (kiểu chân dung). Giữ biểu tượng bộ trong `assets/equipment/sets/` để ghép lại / dùng sau.
 - **Hạn chế đã biết:** tên dài trên thẻ tab Vết thánh đè hàng sao; dòng "Hiệu ứng bộ: chưa có" ở tab Vết thánh là chữ cũ (bộ đã có dữ liệu). 15 bộ vết thánh 5★ còn lại chưa có ảnh.
+
+
+## 2026-11-15 — M5: vết thánh dạng full art (thẻ tab Vết thánh, bảng thông tin)
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15: thẻ vết thánh và bảng thông tin vết thánh dạng full art như ảnh tham chiếu, chữ (tên, sao, Lv, mô tả) đè lên ảnh không có nền; bảng thông tin vũ khí giữ nguyên.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/character/character_screen.gd` (thẻ tab Vết thánh: ảnh phủ kín thẻ trừ nút Đổi, `cover_crop`, Lv / tên canh đáy / sao đè lên ảnh qua `_overlay_label`; bảng thông tin vết thánh: ảnh cả người ở nửa trái, bỏ các ô nền bên trái, chữ đè lên ảnh, `_edge_fade` làm mờ hai mép và đáy vào màu nền); `scripts/ui/character/placeholder_art.gd` (`cover_crop`); `data/ui/character_screen_layout.json` (`weapon_detail.stigma_art`).
+- **Đã chạy:** `<godot> --headless --path . --check-only -s scripts/ui/character/character_screen.gd`; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; chạy lại `<godot> --headless --path . --script res://tests/smoke/m1_flow_check.gd` ×2.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 1: GdUnit 678/678 đạt, 4/5 test khói đạt; `m1_flow_check` lỗi 1 bước "Game mới -> Hub" (lần chạy đó song song với công cụ chụp màn hình). Chạy lại riêng `m1_flow_check` 2 lần: 0 lỗi, mã thoát 0. Ảnh chụp `character_3_stigma.png`, `character_11..13`: thẻ và bảng thông tin full art, tên dài không đè sao.
+- **Quyết định Claude chọn:** bảng thông tin vết thánh hiện cả người (vừa theo chiều cao) lệch phải thay vì phủ kín khung (phủ kín chỉ còn tới đùi, đè chữ); viền chữ đen đậm thay cho nền ô chữ.
+- **Hạn chế đã biết:** bước "Game mới -> Hub" của `m1_flow_check` có lúc lỗi khi máy bận (không tái hiện khi chạy riêng); không chạy công cụ chụp màn hình cùng lúc với test.

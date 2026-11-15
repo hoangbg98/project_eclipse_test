@@ -15,6 +15,19 @@ static func center_square(tex: Texture2D) -> Rect2:
 	if tex == null or tex.get_height() <= tex.get_width():
 		return Rect2(0, 0, 1, 1)
 	return Rect2(0, 0, 1, float(tex.get_width()) / float(tex.get_height()))
+
+
+## Vùng cắt để ảnh phủ kín khung `box` (kiểu "cover", owner 2026-11-15: vết thánh full art): ảnh rộng hơn khung → cắt hai
+## bên, giữ giữa; ảnh cao hơn khung → cắt dưới, giữ phần trên (đầu nhân vật).
+static func cover_crop(tex: Texture2D, box: Vector2) -> Rect2:
+	if tex == null or box.x <= 0.0 or box.y <= 0.0:
+		return Rect2(0, 0, 1, 1)
+	var rt := float(tex.get_width()) / float(tex.get_height())
+	var rb := box.x / box.y
+	if rt > rb:
+		var w := rb / rt
+		return Rect2((1.0 - w) * 0.5, 0, w, 1)
+	return Rect2(0, 0, 1, rt / rb)
 var fill_color := Color("#3A3F55")
 var figure_color := Color("#5B6180")
 var text_color := Color("#D8DCEB")

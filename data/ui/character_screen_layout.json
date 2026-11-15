@@ -126,6 +126,7 @@
 		"name": {"rect": [70, 130, 880, 62], "font": 42},
 		"type": {"rect": [70, 190, 500, 44], "font": 28},
 		"art": {"rect": [215, 236, 560, 296], "placeholder_label": "ẢNH VŨ KHÍ"},
+		"stigma_art": {"rect": [180, 90, 800, 990]},
 		"wearer": {"rect": [70, 546, 520, 56], "font": 26},
 		"tier": {"rect": [70, 606, 300, 50], "font": 34},
 		"stars": {"rect": [70, 658, 420, 56], "font": 44},

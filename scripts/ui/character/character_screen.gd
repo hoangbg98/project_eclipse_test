@@ -427,6 +427,48 @@ func _art(r: Rect2, tex: Texture2D, placeholder_label: String, crop := Rect2(0, 
 	return a
 
 
+## Dải chuyển màu từ màu nền sang trong suốt ở mép trái, phải và đáy của vùng `r` (độ rộng `w` px).
+func _edge_fade(r: Rect2, w: float) -> void:
+	var bg := layout.color("background", Color("#1B1E2B"))
+	for side in ["left", "right", "bottom"]:
+		var g := Gradient.new()
+		g.set_color(0, bg)
+		g.set_color(1, Color(bg, 0.0))
+		var gt := GradientTexture2D.new()
+		gt.gradient = g
+		gt.width = 64
+		gt.height = 64
+		var rr := Rect2()
+		match side:
+			"left":
+				gt.fill_from = Vector2(0, 0.5)
+				gt.fill_to = Vector2(1, 0.5)
+				rr = Rect2(r.position, Vector2(w, r.size.y))
+			"right":
+				gt.fill_from = Vector2(1, 0.5)
+				gt.fill_to = Vector2(0, 0.5)
+				rr = Rect2(Vector2(r.end.x - w, r.position.y), Vector2(w, r.size.y))
+			_:
+				gt.fill_from = Vector2(0.5, 1)
+				gt.fill_to = Vector2(0.5, 0)
+				rr = Rect2(Vector2(r.position.x, r.end.y - w), Vector2(r.size.x, w))
+		var t := TextureRect.new()
+		t.texture = gt
+		t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		t.stretch_mode = TextureRect.STRETCH_SCALE
+		t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		t.name = "EdgeFade_" + side
+		_place(t, rr)
+
+
+## Chữ đè thẳng lên ảnh full art (owner 2026-11-15: bỏ nền ô chữ, chỉ để chữ): viền đen đậm để đọc được trên mọi ảnh.
+func _overlay_label(r: Rect2, text: String, font_size: int, col := Color.WHITE, align := HORIZONTAL_ALIGNMENT_LEFT) -> Label:
+	var l := _label(r, text, font_size, col, align)
+	l.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.95))
+	l.add_theme_constant_override("outline_size", maxi(8, font_size / 3))
+	return l
+
+
 func _badge(r: Rect2, text: String, font_size: int) -> Label:
 	var p := _panel(r, Color(0, 0, 0, 0.0001))
 	p.add_theme_stylebox_override("panel", _style(Color(0, 0, 0, 0.35), _rank_color(text), 8))
@@ -914,34 +956,47 @@ func _build_weapon_detail() -> void:
 	var cap := inv.level_cap(uid)
 	var mt := inv.max_tier(uid)
 	var tier := inv.equipment_tier(uid)
-	# Trái: tên, loại, ảnh, người đeo, bậc, sao.
-	_panel(layout.rect(p + "left_panel"), Color(0.06, 0.07, 0.1, 0.8))
-	_label(layout.rect(p + "name"), tr(d.name_key), layout.font(p + "name", 42), Color.WHITE).name = "WeaponDetailName"
+	# Trái: tên, loại, ảnh, người đeo, bậc, sao. Vết thánh (owner 2026-11-15): ảnh full art phủ nửa trái, chữ đè lên ảnh
+	# không có ô nền; vũ khí giữ khung cũ.
+	var text_fn := _label if is_weapon else _overlay_label
+	if is_weapon:
+		_panel(layout.rect(p + "left_panel"), Color(0.06, 0.07, 0.1, 0.8))
+	else:
+		# Cả người (vừa theo chiều cao khung), đặt lệch phải để chữ bên trái đè lên nền ảnh.
+		var full_r := layout.rect(p + "stigma_art", Rect2(180, 90, 800, 990))
+		_art(full_r, _equip_art(d), tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + d.slot.to_upper()), Rect2(0, 0, 1, 1),
+				"WeaponDetailArt")
+		if _equip_art(d):
+			# Ảnh vết thánh bị xén ở mép (biểu tượng phóng to): mờ dần hai bên và đáy vào màu nền để hòa vào màn.
+			var tex := _equip_art(d)
+			var k := minf(full_r.size.x / tex.get_width(), full_r.size.y / tex.get_height())
+			var shown := Vector2(tex.get_width(), tex.get_height()) * k
+			_edge_fade(Rect2(full_r.position + (full_r.size - shown) * 0.5, shown), layout.num(p + "stigma_art.fade", 110))
+	text_fn.call(layout.rect(p + "name"), tr(d.name_key), layout.font(p + "name", 42), Color.WHITE).name = "WeaponDetailName"
 	var type_text := ""
 	if is_weapon:
 		var wt := d.weapon_type if d.weapon_type != "" else (char_def(selected).weapon_type if char_def(selected) else "")
 		type_text = "◈ " + tr("WEAPON_TYPE_" + wt.to_upper()) if wt != "" else ""
 	else:
 		type_text = "◈ " + tr("SLOT_" + d.slot.to_upper())
-	_label(layout.rect(p + "type"), type_text, layout.font(p + "type", 28), layout.color("text_dim", Color.GRAY))
-	var art_tex := _equip_art(d)
-	_art(layout.rect(p + "art"), art_tex, layout.text(p + "art.placeholder_label", "") if is_weapon
-			else tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + d.slot.to_upper()), PlaceholderArt.center_square(art_tex),
-			"WeaponDetailArt")
+	text_fn.call(layout.rect(p + "type"), type_text, layout.font(p + "type", 28), layout.color("text_dim", Color.GRAY))
+	if is_weapon:
+		_art(layout.rect(p + "art"), _equip_art(d), layout.text(p + "art.placeholder_label", ""), Rect2(0, 0, 1, 1), "WeaponDetailArt")
 	var who := inv.equipped_by(uid)
-	_label(layout.rect(p + "wearer"), tr("WEAPON_UI_WEARER") % suit_label(who) if who != "" else tr("BAG_NOT_IN_USE"),
+	text_fn.call(layout.rect(p + "wearer"), tr("WEAPON_UI_WEARER") % suit_label(who) if who != "" else tr("BAG_NOT_IN_USE"),
 			layout.font(p + "wearer", 26), Color.WHITE).name = "WeaponWearer"
 	if mt > 0:
-		_label(layout.rect(p + "tier"), tr("WEAPON_UI_TIER") % [tier, mt], layout.font(p + "tier", 34),
+		text_fn.call(layout.rect(p + "tier"), tr("WEAPON_UI_TIER") % [tier, mt], layout.font(p + "tier", 34),
 				layout.color("accent", Color.ORANGE)).name = "WeaponTier"
-	_label(layout.rect(p + "stars"), _stars(d.rarity), layout.font(p + "stars", 44), layout.color("star", Color.GOLD))
+	text_fn.call(layout.rect(p + "stars"), _stars(d.rarity), layout.font(p + "stars", 44), layout.color("star", Color.GOLD))
 	if detail_return != "" and who == selected:
 		_button(layout.rect(p + "change_button"), "⟳  " + layout.label(p + "change_button"), layout.font(p + "change_button", 30),
 				open_picker.bind(d.slot), false, "WeaponDetailChange")
 	# Mô tả ngắn (khóa <name_key>_DESC, owner 2026-11-15: ~25–30 chữ, không bị cắt); có giai thoại (<name_key>_LORE)
 	# thì thêm nút "Giai thoại" ở góc ô.
 	var lore_r := layout.rect(p + "lore")
-	_panel(lore_r, Color(0.06, 0.07, 0.1, 0.8))
+	if is_weapon:
+		_panel(lore_r, Color(0.06, 0.07, 0.1, 0.8))
 	var dk := d.name_key + "_DESC"
 	var has_lore := tr(d.name_key + "_LORE") != d.name_key + "_LORE"
 	var desc_r := lore_r.grow(-20)
@@ -949,12 +1004,12 @@ func _build_weapon_detail() -> void:
 		var lb := layout.rect(p + "lore_button")
 		_button(lb, "📜 " + layout.label(p + "lore_button"), layout.font(p + "lore_button", 24), open_lore, false, "LoreButton")
 		desc_r.size.y -= lb.size.y + 6
-	_label(desc_r, tr(dk) if tr(dk) != dk else tr("WEAPON_UI_NO_LORE"), layout.font(p + "lore", 28), Color.WHITE).name = "WeaponLore"
+	text_fn.call(desc_r, tr(dk) if tr(dk) != dk else tr("WEAPON_UI_NO_LORE"), layout.font(p + "lore", 28), Color.WHITE).name = "WeaponLore"
 	# Cấp: LV hiện tại / giới hạn của bậc; gợi ý nâng bậc hoặc vướng cấp người chơi.
-	var lp := layout.rect(p + "level_panel")
-	_panel(lp, Color(0.06, 0.07, 0.1, 0.8))
-	_label(layout.rect(p + "level_text"), "LV. %d / %d" % [lv, cap], layout.font(p + "level_text", 44), Color.WHITE).name = "WeaponLevel"
-	_label(layout.rect(p + "level_hint"), level_hint(uid), layout.font(p + "level_hint", 24), layout.color("text_dim", Color.GRAY),
+	if is_weapon:
+		_panel(layout.rect(p + "level_panel"), Color(0.06, 0.07, 0.1, 0.8))
+	text_fn.call(layout.rect(p + "level_text"), "LV. %d / %d" % [lv, cap], layout.font(p + "level_text", 44), Color.WHITE).name = "WeaponLevel"
+	text_fn.call(layout.rect(p + "level_hint"), level_hint(uid), layout.font(p + "level_hint", 24), layout.color("text_dim", Color.GRAY),
 			HORIZONTAL_ALIGNMENT_RIGHT).name = "WeaponLevelHint"
 	var bar := layout.rect(p + "level_bar")
 	_panel(bar, Color(1, 1, 1, 0.15))
@@ -1198,21 +1253,28 @@ func _build_stigma_tab() -> void:
 		var r := layout.rect_in(p + "cards.rects", i, anchor)
 		var uid := profile.inventory.equipped_uid(selected, slot)
 		var d := profile.inventory.equipment_def_of(uid) if uid != "" else null
+		# Owner 2026-11-15: ảnh full art phủ cả thẻ (trừ nút Đổi); Lv, tên, sao đè lên ảnh, không có nền ô chữ.
 		_panel(r, Color(0.1, 0.11, 0.16, 0.95))
-		var art_r := Rect2(r.position, Vector2(r.size.x, art_h))
-		_art(art_r, _equip_art(d), tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + slot.to_upper()))
+		var art_r := Rect2(r.position, Vector2(r.size.x, r.size.y - ch))
+		var tex := _equip_art(d)
+		_art(art_r, tex, tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + slot.to_upper()),
+				PlaceholderArt.cover_crop(tex, art_r.size), "StigmaArt%d" % i)
+		var fs := layout.font(p + "cards", 34)
+		var bottom := art_r.end.y
+		if d:
+			_overlay_label(Rect2(art_r.position.x + 10, bottom - 240, art_r.size.x - 20, 44), "Lv.%d" % profile.inventory.equipment_level(uid),
+					fs, Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
+			_overlay_label(Rect2(art_r.position.x + 10, bottom - 56, art_r.size.x - 20, 50), _stars(d.rarity), 40,
+					layout.color("star", Color.GOLD))
+		# Tên canh đáy, ngay trên hàng sao (tên dài 2–3 dòng mọc lên trên, không đè sao).
+		var nl := _overlay_label(Rect2(art_r.position.x + 10, bottom - 196, art_r.size.x - 20, 140), tr(d.name_key) if d else tr("CHAR_UI_EMPTY"),
+				fs - 4, Color.WHITE)
+		nl.name = "StigmaName%d" % i
+		nl.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 		if d:
 			var cb := _button(art_r, "", 10, open_equipment_detail.bind(uid, "stigma"), false, "StigmaCard%d" % i)
 			cb.add_theme_stylebox_override("normal", _style(Color(0, 0, 0, 0)))
 			cb.add_theme_stylebox_override("hover", _style(Color(1, 1, 1, 0.04), Color(1, 1, 1, 0.3)))
-		if d:
-			_label(Rect2(r.position + Vector2(r.size.x - 120, art_h - 50), Vector2(112, 44)), "Lv.%d" % profile.inventory.equipment_level(uid),
-					layout.font(p + "cards", 34), Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
-		_label(Rect2(r.position + Vector2(10, art_h + 6), Vector2(r.size.x - 20, 90)), tr(d.name_key) if d else tr("CHAR_UI_EMPTY"),
-				layout.font(p + "cards", 34), Color.WHITE).name = "StigmaName%d" % i
-		if d:
-			_label(Rect2(r.position + Vector2(10, art_h + 100), Vector2(r.size.x - 20, 50)), _stars(d.rarity), 40,
-					layout.color("star", Color.GOLD), HORIZONTAL_ALIGNMENT_CENTER)
 		_button(Rect2(r.position + Vector2(0, r.size.y - ch), Vector2(r.size.x, ch)), "⟳  " + tr("CHAR_UI_CHANGE"), 32,
 				open_picker.bind(slot), false, "ChangeStigma%d" % i)
 
