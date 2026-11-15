@@ -50,7 +50,7 @@ func _make_service(key := FakeNakama.SERVER_KEY) -> Node:
 
 func test_config_reads_data_and_saves_user_url() -> void:
 	var c := OnlineConfig.load_from(OnlineConfig.DATA_PATH, USER_CFG)
-	assert_str(c.server_url).is_equal("http://127.0.0.1:7350")
+	assert_str(c.server_url).is_equal("http://127.0.0.1:7360")
 	assert_str(c.server_key).is_not_empty()
 	assert_bool(c.login_on_start).is_true()
 	assert_str(c.set_server_url("abc.trycloudflare.com/")).is_equal("https://abc.trycloudflare.com")

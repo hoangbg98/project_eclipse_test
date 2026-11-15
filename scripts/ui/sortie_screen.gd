@@ -4,7 +4,7 @@ extends HubScreen
 ## Event — hiện chỉ Xuất kích có nội dung) và các thẻ:
 ## - Cốt truyện chính (giữa, lớn): vào màn cốt truyện đầu tiên chưa qua (hiện có Màn 1), ghi Đã xong / Mới;
 ## - Thử đội hình (trái): màn thử nghiệm với bù nhìn, thử kỹ năng và đội hình;
-## - Ải nguyên liệu (phải): nhận nguyên liệu cường hóa / EXP — chưa có (Sắp ra mắt);
+## - Ải nguyên liệu (phải): chế độ nhịp điệu (M10), nhận nguyên liệu tăng cấp — RhythmMaterialScreen;
 ## - Đội hình (dưới): đội hiện tại; chạm để mở màn đội hình (splash, chạm để chọn giáp).
 ## Cốt truyện mở màn thông tin màn chơi (mục tiêu chiến đấu) → Chuẩn bị → đội hình → Khai chiến.
 
@@ -49,7 +49,7 @@ func _build_body() -> void:
 	_card("story", layout.rect("sortie.story", Rect2(590, 196, 820, 380)), "story", tr("SORTIE_STORY_TITLE"),
 			tr("SORTIE_STORY_SUB") % _stage_title(story_stage()), status, tf + 6, sf)
 	_card("material", layout.rect("sortie.material", Rect2(1438, 196, 300, 380)), "material", tr("SORTIE_MATERIAL_TITLE"),
-			tr("SORTIE_MATERIAL_SUB"), tr("HUB_BADGE_SOON"), tf, sf)
+			tr("SORTIE_MATERIAL_SUB"), tr("SORTIE_MATERIAL_TAG"), tf, sf)
 	var names := PackedStringArray()
 	for id in profile.party_ids():
 		var p := PlayerProfile.CHARACTER_DATA % id
@@ -99,6 +99,8 @@ func activate(key: String) -> void:
 			open_scene("SCENE_CHAPTERS")
 		"trial":
 			open_scene("SCENE_TEST_STAGE")
+		"material":
+			open_scene("SCENE_RHYTHM_MATERIAL")
 		"party":
 			if gc:
 				gc.prep_launch_stage = false

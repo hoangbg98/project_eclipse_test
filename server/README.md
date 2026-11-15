@@ -8,8 +8,10 @@ tool phát quà cho QTV (nạp bằng chuyển khoản QR thủ công). Ví máy
 | File | Việc |
 |---|---|
 | `setup_local.ps1` | Tải bản portable Nakama, PostgreSQL, cloudflared vào `server/.runtime/` (không vào git), tạo khóa bí mật, khởi tạo DB. Chạy 1 lần. |
-| `start_local.ps1` | Bật PostgreSQL (cổng 5433) + Nakama (API 7350, trang quản trị 7351). `-Lan`: mở 7350 cho máy cùng mạng LAN. |
-| `tunnel.ps1` | Mở đường hầm `https://....trycloudflare.com` tới 7350, in địa chỉ. Địa chỉ **đổi mỗi lần chạy**. |
+| `start_local.ps1` | Bật PostgreSQL (cổng 5433), cổng vào `gateway.mjs` (7360) + Nakama (API 7350, trang quản trị 7351). `-Lan`: mở cổng vào cho máy cùng mạng LAN. |
+| `tunnel.ps1` | Mở đường hầm `https://....trycloudflare.com` tới cổng vào 7360, in địa chỉ. Địa chỉ **đổi mỗi lần chạy**. |
+| `gateway.mjs` | Cổng vào (Node.js, cổng 7360): `/music/` phát nhạc + bản nốt của chế độ nhịp điệu (M10), mọi đường dẫn khác chuyển tới Nakama. Game mặc định gọi `http://127.0.0.1:7360`. |
+| `music/` | Chế độ nhịp điệu: `songs.json` (danh sách bài), nhạc, `charts/`, `catalog.json` (sinh bằng `python -X utf8 -I tools/rhythm/build_catalog.py`), `fixed/` (bản nốt cố định ải boss). Xem `docs/design/RHYTHM_MODE.md`. |
 | `stop_local.ps1` | Tắt đường hầm, Nakama, PostgreSQL. Dữ liệu giữ nguyên. |
 | `grant.ps1` | Tool QTV: tra cứu người chơi theo mã, phát / thu hồi tiền. |
 | `modules/index.js` | Module máy chủ (RPC `eclipse_profile`, `admin_find`, `admin_grant`, `save_get`, `save_put`). Sửa xong phải khởi động lại Nakama. |
@@ -23,6 +25,7 @@ Khóa bí mật của máy thử ở `server/.runtime/secrets.json`: **không g�
 
 ```
 powershell -ExecutionPolicy Bypass -File server\setup_local.ps1    (1 lần)
+python -X utf8 -I tools\rhythm\build_catalog.py                    (1 lần, và mỗi khi thêm / đổi bài nhạc)
 powershell -ExecutionPolicy Bypass -File server\start_local.ps1
 powershell -ExecutionPolicy Bypass -File server\tunnel.ps1         (in địa chỉ trycloudflare)
 ```

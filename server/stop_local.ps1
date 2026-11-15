@@ -21,6 +21,15 @@ if (Test-Path $tunnelPid) {
     }
     Remove-Item -Force $tunnelPid
 }
+$gwPid = Join-Path $rt "gateway.pid"
+if (Test-Path $gwPid) {
+    $g = Get-Process -Id ([int](Get-Content $gwPid)) -ErrorAction SilentlyContinue
+    if ($g -and $g.ProcessName -eq "node") {
+        Stop-Process -Id $g.Id -Confirm:$false
+        Write-Output "Đã tắt cổng vào (PID $($g.Id))."
+    }
+    Remove-Item -Force $gwPid
+}
 $pgData = Join-Path $rt "pgdata"
 & (Join-Path $rt "pgsql\bin\pg_ctl.exe") status -D "$pgData" *> $null
 if ($LASTEXITCODE -eq 0) {

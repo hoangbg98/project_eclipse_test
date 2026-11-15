@@ -35,7 +35,33 @@ if ($LASTEXITCODE -ne 0) {
     Write-Output "PostgreSQL đang chạy."
 }
 
-# 2. Nakama
+# 2. Cổng vào (gateway.mjs, cổng 7360): game và đường hầm đi qua đây; /music/ phát file nhạc chế độ nhịp điệu (M10).
+$gwPid = Join-Path $rt "gateway.pid"
+$gwRunning = $false
+if (Test-Path $gwPid) {
+    $g = Get-Process -Id ([int](Get-Content $gwPid)) -ErrorAction SilentlyContinue
+    $gwRunning = [bool]($g -and $g.ProcessName -eq "node")
+}
+if (-not $gwRunning) {
+    $node = (Get-Command node -ErrorAction SilentlyContinue).Source
+    if (-not $node) {
+        Write-Output "CẢNH BÁO: không thấy Node.js (node) trong PATH: không bật cổng 7360, chế độ nhịp điệu không tải được nhạc."
+    } else {
+        $gwHost = if ($Lan) { "0.0.0.0" } else { "127.0.0.1" }
+        $g = Start-Process -FilePath $node -WindowStyle Hidden -PassThru `
+            -ArgumentList @((Join-Path $server "gateway.mjs"), "--host", $gwHost, "--port", "7360") `
+            -RedirectStandardOutput (Join-Path $logs "gateway.out.log") -RedirectStandardError (Join-Path $logs "gateway.err.log")
+        Set-Content -Encoding ascii $gwPid $g.Id
+        Write-Output "Cổng vào đang chạy (PID $($g.Id)): http://127.0.0.1:7360 (Nakama + /music/)"
+    }
+} else {
+    Write-Output "Cổng vào đang chạy."
+}
+if (-not (Test-Path (Join-Path $server "music\catalog.json"))) {
+    Write-Output "Chưa có danh mục nhạc: python -X utf8 -I tools\rhythm\build_catalog.py"
+}
+
+# 3. Nakama
 $pidFile = Join-Path $rt "nakama.pid"
 if (Test-Path $pidFile) {
     $old = Get-Process -Id ([int](Get-Content $pidFile)) -ErrorAction SilentlyContinue
@@ -87,6 +113,6 @@ for ($i = 0; $i -lt 30; $i++) {
 }
 Write-Output ""
 Write-Output "Nakama đang chạy (PID $($p.Id))."
-Write-Output "  API cho game:   http://127.0.0.1:7350"
+Write-Output "  API cho game:   http://127.0.0.1:7360 (qua cổng vào; Nakama trực tiếp: 7350)"
 Write-Output "  Trang quản trị: http://127.0.0.1:7351  (tài khoản admin, mật khẩu: console_password trong server\.runtime\secrets.json)"
 Write-Output "  Mở cho người ngoài: powershell -ExecutionPolicy Bypass -File server\tunnel.ps1"

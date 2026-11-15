@@ -34,3 +34,11 @@ __pycache__/
 # Máy chủ thử nghiệm: bản portable, DB, khóa bí mật (server/setup_local.ps1), .env của VPS
 /server/.runtime/
 /server/.env
+
+# Chế độ nhịp điệu (M10): nhạc, bản nốt sinh ra và danh mục dựng bằng tools/rhythm/build_catalog.py (không vào git;
+# bản cố định server/music/fixed/ và songs.json thì có)
+/server/music/*.wav
+/server/music/*.ogg
+/server/music/*.mp3
+/server/music/charts/
+/server/music/catalog.json

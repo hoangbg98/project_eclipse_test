@@ -239,7 +239,7 @@ func test_sortie_cards() -> void:
 	assert_bool(GameConfig.prep_launch_stage).is_false()
 	assert_str(s.last_target).is_equal(GameConfig.SCENE_PARTY_PREP)
 	s.activate("material")
-	assert_str(s.notice).is_equal(tr("UI_COMING_SOON"))
+	assert_str(s.last_target).is_equal(GameConfig.SCENE_RHYTHM_MATERIAL)   # Ải nguyên liệu → chế độ nhịp điệu (M10)
 
 
 func test_companion_screen_is_coming_soon() -> void:

@@ -6,7 +6,7 @@ extends RefCounted
 const DATA_PATH := "res://data/config/online_config.json"
 const USER_PATH := "user://online.cfg"
 
-var default_server_url := "http://127.0.0.1:7350"
+var default_server_url := "http://127.0.0.1:7360"
 var server_key := ""
 var timeout_sec := 12.0
 ## Hiện màn Đăng nhập sau Boot (bản chạy có cửa sổ; headless / --offline bỏ qua).

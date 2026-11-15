@@ -284,6 +284,19 @@ Bản game **không** chứa thư viện bên thứ ba nào cho phần trực tu
 | PostgreSQL | 17.12-1 (zip binaries EnterpriseDB; VPS: image `postgres:17`) | enterprisedb.com / postgresql.org | PostgreSQL License | Cơ sở dữ liệu của Nakama |
 | cloudflared | 2026.11.0 (windows-amd64.exe) | github.com/cloudflare/cloudflared | Apache-2.0 | Đường hầm thử nghiệm trycloudflare.com |
 
+### 3.5 Nhạc thử chế độ nhịp điệu (M10, owner 2026-11-16: Claude sinh nhạc thử, thay nhạc thật sau)
+
+Không nằm trong bản game: nhạc phát từ máy chủ (`server/music/`, không vào git), game tải về lúc chơi. Không phải
+nhạc AI: tổng hợp bằng code (sóng sin / răng cưa / vuông + nhiễu cho trống), tham số trong `server/music/songs.json`.
+Nhạc thật sau này phải có quyền dùng thương mại và ghi thêm dòng ở đây.
+
+| File | Nội dung | Công cụ | Ngày |
+|---|---|---|---|
+| `server/music/song_ember_steps.wav`, `song_gale_runner.wav`, `song_thunder_lane.wav`, `song_lumen_waltz.wav`, `song_eclipse_boss.wav`, `song_night_market.wav` | 6 bài điện tử 112–160 BPM, 22 050 Hz mono, ~100–140 s | `tools/rhythm/gen_test_music.py` (numpy), dựng lại được: `python -X utf8 -I tools/rhythm/build_catalog.py` | 2026-11-16 |
+| `server/music/fixed/song_eclipse_boss_boss.json` | Bản nốt cố định ải boss N-5 | `tools/rhythm/build_catalog.py` | 2026-11-16 |
+
+Cổng vào máy chủ `server/gateway.mjs` chạy bằng **Node.js** (đã có trên máy owner; MIT; không đóng gói, không thư viện ngoài).
+
 ## 4. Tài liệu tham khảo (không phải asset game)
 
 | File | Nội dung | Ghi chú |

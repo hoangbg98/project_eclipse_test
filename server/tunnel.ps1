@@ -1,7 +1,7 @@
 ﻿# Mở đường hầm tạm trycloudflare.com tới Nakama trên máy này (không cần tài khoản Cloudflare, không mở port router).
 # Chạy: powershell -ExecutionPolicy Bypass -File server\tunnel.ps1
 # In ra địa chỉ https://....trycloudflare.com: gửi cho người thử, họ dán vào ô "Máy chủ" ở màn Trực tuyến.
-# Địa chỉ ĐỔI mỗi lần chạy lại; chỉ dùng để thử. Chỉ mở API 7350, KHÔNG mở trang quản trị 7351.
+# Địa chỉ ĐỔI mỗi lần chạy lại; chỉ dùng để thử. Mở cổng vào 7360 (Nakama API + /music/), KHÔNG mở trang quản trị 7351.
 [Console]::OutputEncoding = [Text.Encoding]::UTF8
 $rt = Join-Path $PSScriptRoot ".runtime"
 $cf = Join-Path $rt "cloudflared.exe"
@@ -10,7 +10,7 @@ New-Item -ItemType Directory -Force (Join-Path $rt "logs") | Out-Null
 if (Test-Path $log) { Remove-Item -Force $log }
 
 $p = Start-Process -FilePath $cf -WindowStyle Hidden -PassThru `
-    -ArgumentList @("tunnel", "--no-autoupdate", "--url", "http://127.0.0.1:7350", "--logfile", $log)
+    -ArgumentList @("tunnel", "--no-autoupdate", "--url", "http://127.0.0.1:7360", "--logfile", $log)
 Set-Content -Encoding ascii (Join-Path $rt "tunnel.pid") $p.Id
 
 $url = $null

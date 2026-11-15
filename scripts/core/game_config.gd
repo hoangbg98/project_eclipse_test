@@ -28,6 +28,10 @@ const SCENE_STORY_CLIP := "res://scenes/main/story_clip.tscn"
 ## Cốt truyện chính (owner 2026-11-14): chọn chương (nhóm chương + thẻ) → map chương cuộn ngang.
 const SCENE_CHAPTERS := "res://scenes/main/chapter_select_screen.tscn"
 const SCENE_CHAPTER_MAP := "res://scenes/main/chapter_map_screen.tscn"
+## Chế độ nhịp điệu (M10): ải nguyên liệu, danh sách bài (vô tận), màn chơi.
+const SCENE_RHYTHM_MATERIAL := "res://scenes/main/rhythm_material_screen.tscn"
+const SCENE_RHYTHM_SONGS := "res://scenes/main/rhythm_song_list_screen.tscn"
+const SCENE_RHYTHM_STAGE := "res://scenes/main/rhythm_stage.tscn"
 
 ## Màn sẽ chơi khi mở SCENE_STAGE (data/stages/{id}.json).
 var selected_stage_id := "stage_01"
@@ -45,6 +49,12 @@ var story_clip_next := ""
 ## Map chương sẽ mở và phần cuộn tới (0 = ải đang tới).
 var selected_chapter := 1
 var selected_part := 0
+## Lượt chơi nhịp điệu sẽ mở bằng SCENE_RHYTHM_STAGE: bài, bản nốt (easy/normal/hard/boss), khóa kỷ lục
+## (id ải nguyên liệu hoặc "endless:<bài>:<độ khó>", xem RhythmProgress), ải boss hay không.
+var rhythm_song_id := ""
+var rhythm_chart_key := ""
+var rhythm_record_key := ""
+var rhythm_boss := false
 
 ## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
 const TRANSITION_TIME := 0.2

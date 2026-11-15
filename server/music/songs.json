@@ -1,0 +1,61 @@
+{
+	"_comment": "Danh sách bài của chế độ nhịp điệu (M10). build_catalog.py đọc file này, sinh bản nốt (easy/normal/hard) từ file nhạc và ghi catalog.json. Bài có 'synth' là nhạc thử do tools/rhythm/gen_test_music.py tạo (owner 2026-11-16: Claude sinh nhạc thử, thay bằng nhạc thật sau). Bài thật: chép file .wav/.ogg/.mp3 vào server/music/, thêm mục với 'file', bỏ 'synth'; 'bpm' có thể bỏ (tool tự đoán). Nhạc phát hành phải có quyền dùng thương mại, ghi vào docs/ASSET_LICENSES.md.",
+	"format": 1,
+	"songs": [
+		{
+			"id": "song_ember_steps",
+			"title": "Bước Chân Than Hồng",
+			"artist": "ECLIPSE Synth (nhạc thử)",
+			"file": "song_ember_steps.wav",
+			"bpm": 112,
+			"license": "Tự tạo bằng tools/rhythm/gen_test_music.py, dùng nội bộ",
+			"synth": {"seed": 11, "root": 57, "scale": "minor", "sections": [["intro", 4], ["verse", 8], ["hold", 4], ["chorus", 8], ["roll", 2], ["verse", 8], ["hold", 4], ["chorus", 8], ["outro", 4]]}
+		},
+		{
+			"id": "song_gale_runner",
+			"title": "Kẻ Chạy Theo Gió",
+			"artist": "ECLIPSE Synth (nhạc thử)",
+			"file": "song_gale_runner.wav",
+			"bpm": 126,
+			"license": "Tự tạo bằng tools/rhythm/gen_test_music.py, dùng nội bộ",
+			"synth": {"seed": 23, "root": 62, "scale": "dorian", "sections": [["intro", 4], ["verse", 8], ["chorus", 8], ["hold", 4], ["roll", 2], ["verse", 8], ["chorus", 8], ["roll", 2], ["chorus", 8], ["outro", 4]]}
+		},
+		{
+			"id": "song_thunder_lane",
+			"title": "Làn Sấm",
+			"artist": "ECLIPSE Synth (nhạc thử)",
+			"file": "song_thunder_lane.wav",
+			"bpm": 138,
+			"license": "Tự tạo bằng tools/rhythm/gen_test_music.py, dùng nội bộ",
+			"synth": {"seed": 37, "root": 52, "scale": "phrygian", "sections": [["intro", 4], ["verse", 8], ["chorus", 8], ["roll", 2], ["hold", 4], ["verse", 8], ["chorus", 8], ["chorus", 8], ["roll", 2], ["outro", 4]]}
+		},
+		{
+			"id": "song_lumen_waltz",
+			"title": "Vũ Điệu Ánh Sáng",
+			"artist": "ECLIPSE Synth (nhạc thử)",
+			"file": "song_lumen_waltz.wav",
+			"bpm": 148,
+			"license": "Tự tạo bằng tools/rhythm/gen_test_music.py, dùng nội bộ",
+			"synth": {"seed": 41, "root": 64, "scale": "major", "sections": [["intro", 4], ["verse", 8], ["chorus", 8], ["hold", 4], ["verse", 8], ["roll", 2], ["chorus", 8], ["hold", 4], ["chorus", 8], ["roll", 2], ["outro", 4]]}
+		},
+		{
+			"id": "song_eclipse_boss",
+			"title": "Nhật Thực",
+			"artist": "ECLIPSE Synth (nhạc thử)",
+			"file": "song_eclipse_boss.wav",
+			"bpm": 160,
+			"license": "Tự tạo bằng tools/rhythm/gen_test_music.py, dùng nội bộ",
+			"boss": true,
+			"synth": {"seed": 59, "root": 50, "scale": "harmonic_minor", "sections": [["intro", 4], ["verse", 8], ["chorus", 8], ["roll", 2], ["hold", 4], ["verse", 8], ["chorus", 8], ["roll", 2], ["chorus", 8], ["hold", 4], ["chorus", 8], ["roll", 2], ["outro", 4]]}
+		},
+		{
+			"id": "song_night_market",
+			"title": "Chợ Đêm",
+			"artist": "ECLIPSE Synth (nhạc thử)",
+			"file": "song_night_market.wav",
+			"bpm": 120,
+			"license": "Tự tạo bằng tools/rhythm/gen_test_music.py, dùng nội bộ",
+			"synth": {"seed": 73, "root": 60, "scale": "mixolydian", "sections": [["intro", 4], ["verse", 8], ["chorus", 8], ["hold", 4], ["verse", 8], ["roll", 2], ["chorus", 8], ["outro", 4]]}
+		}
+	]
+}

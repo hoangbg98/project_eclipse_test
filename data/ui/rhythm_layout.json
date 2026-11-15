@@ -1,0 +1,18 @@
+{
+	"_comment": "Bố cục màn chơi nhịp điệu (RhythmStage, M10). Tọa độ theo khung 1920x1080.",
+	"design_size": [1920, 1080],
+	"field": {"judge_x": 380, "up_y": 430, "down_y": 760},
+	"character": {"scale": 0.85},
+	"colors": {
+		"background": "#141029",
+		"ground": "#1F5E63",
+		"ground_edge": "#7FF4E0",
+		"lane_up": "#5FD7FF",
+		"lane_down": "#FF5FA8",
+		"lane_both": "#FFD84D",
+		"perfect": "#FF6FD8",
+		"great": "#6FD3FF",
+		"miss": "#B0B0C0",
+		"wrong": "#FF5050"
+	}
+}

@@ -34,6 +34,7 @@ static func default_data() -> Dictionary:
 		"cosmetics": {"backgrounds": [], "hub_background": ""},   # nền sảnh đã có (ngoài nền starter), nền đang dùng
 		"gacha": {"pity": {}, "guarantee": {}, "history": [], "starter_used": []},   # starter_used: id banner x10 miễn phí đã dùng
 		"progress": {"stages": {}, "parts_claimed": []},   # stage_id -> {cleared, best_time_sec}; id phần đã nhận quà
+		"rhythm": {"records": {}, "favorites": []},   # ải nhịp điệu (RhythmProgress): khóa -> kỷ lục; id bài yêu thích
 		"tutorial": {"done": false, "seen": []},   # hướng dẫn người mới (TutorialFlow); seen: id bước đã nghe NEO nói
 		"settings": {"language": "vi", "master_volume": 1.0, "music_volume": 1.0, "sfx_volume": 1.0, "fullscreen": false},
 		"stats": {"play_time_sec": 0.0},
@@ -165,7 +166,7 @@ static func sanitize(data: Variant) -> Dictionary:
 	if not (data is Dictionary):
 		return def
 	var out := _merge_fixed(def, data, ["characters", "inventory.equipment", "inventory.materials", "gacha.pity",
-			"gacha.guarantee", "progress.stages"], "")
+			"gacha.guarantee", "progress.stages", "rhythm.records"], "")
 	# Nhân vật: mỗi mục đủ level / exp / equipment.
 	var chars := {}
 	for id in out["characters"]:

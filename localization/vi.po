@@ -3300,3 +3300,153 @@ msgstr "Lưu đám mây: chưa gửi được (mất mạng), sẽ tự gửi l�
 
 msgid "CLOUD_SYNC_NOW"
 msgstr "Đồng bộ ngay"
+
+msgid "RHYTHM_MATERIAL_TITLE"
+msgstr "Ải nguyên liệu · Nhịp điệu"
+
+msgid "RHYTHM_MATERIAL_SUB"
+msgstr "Đánh theo nhạc để nhận nhiều nguyên liệu tăng cấp. Qua ải 5 mở chế độ Vô tận."
+
+msgid "RHYTHM_STAGE_01_NAME"
+msgstr "Nhịp than hồng"
+
+msgid "RHYTHM_STAGE_02_NAME"
+msgstr "Đường gió"
+
+msgid "RHYTHM_STAGE_03_NAME"
+msgstr "Làn sấm"
+
+msgid "RHYTHM_STAGE_04_NAME"
+msgstr "Sảnh ánh sáng"
+
+msgid "RHYTHM_STAGE_05_NAME"
+msgstr "Boss: Nhật thực"
+
+msgid "RHYTHM_BOSS"
+msgstr "BOSS"
+
+msgid "SORTIE_MATERIAL_TAG"
+msgstr "Nhịp điệu"
+
+msgid "RHYTHM_LOCKED"
+msgstr "Chưa mở"
+
+msgid "RHYTHM_LOCKED_HINT"
+msgstr "Qua ải trước để mở ải này."
+
+msgid "RHYTHM_CLEARED"
+msgstr "Đã qua"
+
+msgid "RHYTHM_LEVEL"
+msgstr "Độ khó %d"
+
+msgid "RHYTHM_ENDLESS_TITLE"
+msgstr "Vô tận"
+
+msgid "RHYTHM_ENDLESS_SUB"
+msgstr "Chọn bài và độ khó, chơi bao nhiêu tùy thích."
+
+msgid "RHYTHM_ENDLESS_LOCKED"
+msgstr "Qua ải N-5 (boss) để mở chế độ Vô tận."
+
+msgid "RHYTHM_CATALOG_LOADING"
+msgstr "Đang tải danh sách bài..."
+
+msgid "RHYTHM_CATALOG_OFFLINE"
+msgstr "Không tới được máy chủ: chỉ chơi được bài đã tải."
+
+msgid "RHYTHM_CATALOG_NONE"
+msgstr "Không tới được máy chủ và chưa tải bài nào. Kiểm tra mạng rồi thử lại."
+
+msgid "RHYTHM_DOWNLOADING"
+msgstr "Đang tải bài (%.1f MB)..."
+
+msgid "RHYTHM_DOWNLOAD_FAILED"
+msgstr "Tải bài thất bại (%s). Thử lại sau."
+
+msgid "RHYTHM_DIFF_EASY"
+msgstr "Dễ"
+
+msgid "RHYTHM_DIFF_NORMAL"
+msgstr "Thường"
+
+msgid "RHYTHM_DIFF_HARD"
+msgstr "Khó"
+
+msgid "RHYTHM_FAVORITES"
+msgstr "Yêu thích"
+
+msgid "RHYTHM_NO_SONGS"
+msgstr "Chưa có bài nào ở đây."
+
+msgid "RHYTHM_PLAY"
+msgstr "Chơi"
+
+msgid "RHYTHM_BEST_SCORE"
+msgstr "Kỷ lục %d"
+
+msgid "RHYTHM_SCORE"
+msgstr "ĐIỂM"
+
+msgid "RHYTHM_COMBO"
+msgstr "COMBO"
+
+msgid "RHYTHM_FEVER"
+msgstr "FEVER"
+
+msgid "RHYTHM_GO"
+msgstr "BẮT ĐẦU!"
+
+msgid "RHYTHM_PERFECT"
+msgstr "HOÀN HẢO"
+
+msgid "RHYTHM_GREAT"
+msgstr "TỐT"
+
+msgid "RHYTHM_MISS"
+msgstr "TRƯỢT"
+
+msgid "RHYTHM_WRONG"
+msgstr "SAI"
+
+msgid "RHYTHM_HINT_UP"
+msgstr "Đánh trên: D / F / ↑ (chạm nửa trái)"
+
+msgid "RHYTHM_HINT_DOWN"
+msgstr "Đánh dưới: J / K / ↓ (chạm nửa phải)"
+
+msgid "RHYTHM_PAUSED"
+msgstr "Tạm dừng"
+
+msgid "RHYTHM_RESUME"
+msgstr "Tiếp tục"
+
+msgid "RHYTHM_QUIT"
+msgstr "Thoát"
+
+msgid "RHYTHM_CLEAR"
+msgstr "HOÀN THÀNH"
+
+msgid "RHYTHM_FAILED"
+msgstr "THẤT BẠI"
+
+msgid "RHYTHM_FAILED_HINT"
+msgstr "Hết HP. Nhớ: mỗi nốt chỉ đúng một lựa chọn (trên, dưới hoặc cả hai)."
+
+msgid "RHYTHM_NEW_BEST"
+msgstr "Kỷ lục mới!"
+
+msgid "RHYTHM_RESULT_SCORE"
+msgstr "Điểm: %d"
+
+msgid "RHYTHM_RESULT_COMBO"
+msgstr "Combo cao nhất: %d"
+
+msgid "RHYTHM_RESULT_ACCURACY"
+msgstr "Chính xác: %.1f%%"
+
+msgid "RHYTHM_RESULT_COUNTS"
+msgstr "Hoàn hảo %d · Tốt %d · Trượt %d · Sai %d"
+
+msgid "RHYTHM_LOAD_ERROR"
+msgstr "Không mở được bài này (chưa tải hoặc file hỏng). Quay lại và tải lại bài."

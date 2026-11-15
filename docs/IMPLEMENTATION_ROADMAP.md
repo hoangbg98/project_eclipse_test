@@ -108,6 +108,17 @@ giai đoạn thử chạy trên máy owner qua đường hầm trycloudflare.com
 | M9-4 | Hộp thư quà trong game, lịch sử nạp cho người chơi | |
 | M9-5 | Chuyển lên VPS (docker-compose), tên miền + Cloudflare Tunnel cố định, backup tự động | Trước khi nhận tiền thật |
 
+## Milestone 10 — Chế độ nhịp điệu: ải nguyên liệu (owner 2026-11-16)
+
+Thiết kế: `docs/design/RHYTHM_MODE.md`. Owner chọn: bản nốt tool tự sinh từ nhạc; Claude sinh nhạc thử; nhạc tải từ
+máy chủ rồi lưu cache.
+
+| ID | Task | Ghi chú |
+|---|---|---|
+| M10-1 | Lõi chấm (đúng 1 trong 3: trên / dưới / cả hai; ấn, giữ, ấn liên tục; HP, combo, fever, hạng), bản nốt, tiến độ + thưởng trong save, tool sinh nhạc thử + sinh bản nốt, cổng vào máy chủ phát `/music/`, tải + cache + sha256, màn Ải nguyên liệu (5 ải, boss cố định), màn chơi, danh sách bài Vô tận | |
+| M10-2 | Hình riêng (quái, boss, nền, hiệu ứng), âm đánh trúng, chỉnh độ trễ âm thanh trong Cài đặt, tốc độ nốt | Cần owner duyệt hình |
+| M10-3 | Nhạc thật (có giấy phép), chỉnh tay bản nốt boss; trình soạn nốt nếu cần | Cần nhạc của owner |
+
 ## Mốc owner nên mở Godot để thử
 
 > Quy ước làm việc: **trước khi bắt đầu task nằm ở một mốc dưới đây, Claude nhắc
@@ -123,6 +134,7 @@ giai đoạn thử chạy trên máy owner qua đường hầm trycloudflare.com
 | M4-4, M4-7 | Đổi 3 nhân vật, switch-in Liên kết, HUD icon dự bị | Vòng SI-CD, vòng sáng Liên kết hiển thị đúng |
 | M6 | Chơi hết màn đầu và boss 2 phase | Màn 3–5 phút, telegraph boss rõ |
 | M7 | Duyệt toàn bộ UI, đổi ngôn ngữ trong Cài đặt | Hub, chọn màn/đội, trang bị, chiêu mộ |
+| M10-1 | Bật máy chủ (`start_local.ps1`), F5 → Xuất kích → Ải nguyên liệu → N-1; đánh bằng D/F (trên), J/K (dưới) | Nốt khớp nhạc, cảm giác cửa sổ chấm, độ khó 5 ải |
 
 Máy thật (không thay bằng Godot trên PC): M1-8 (APK, cảm ứng, phím Back, dấu tiếng
 Việt), M2-4 (bộ nhớ texture Android), M8 (QA đầy đủ).

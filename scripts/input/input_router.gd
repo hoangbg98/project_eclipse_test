@@ -63,6 +63,9 @@ func register_actions() -> void:
 	_bind(&"switch_1", [_key(KEY_Q), _key(KEY_1), _joy_button(JOY_BUTTON_DPAD_UP)])
 	_bind(&"switch_2", [_key(KEY_E), _key(KEY_2), _joy_button(JOY_BUTTON_DPAD_DOWN)])
 	_bind(&"pause", [_key(KEY_P), _joy_button(JOY_BUTTON_START)])
+	# Chế độ nhịp điệu (M10): đánh trên / đánh dưới (hai tay mỗi bên hai phím; cảm ứng: nửa trái / nửa phải màn).
+	_bind(&"rhythm_up", [_key(KEY_D), _key(KEY_F), _key(KEY_UP), _joy_button(JOY_BUTTON_Y), _joy_button(JOY_BUTTON_LEFT_SHOULDER)])
+	_bind(&"rhythm_down", [_key(KEY_J), _key(KEY_K), _key(KEY_DOWN), _joy_button(JOY_BUTTON_A), _joy_button(JOY_BUTTON_RIGHT_SHOULDER)])
 	# Esc và nút Back/Select của tay cầm; phím Back Android do SceneRouter bắt riêng.
 	_bind(&"ui_back", [_key(KEY_ESCAPE), _joy_button(JOY_BUTTON_BACK)])
 

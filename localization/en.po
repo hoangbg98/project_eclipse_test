@@ -3300,3 +3300,153 @@ msgstr "Cloud save: not sent yet (offline), will retry"
 
 msgid "CLOUD_SYNC_NOW"
 msgstr "Sync now"
+
+msgid "RHYTHM_MATERIAL_TITLE"
+msgstr "Material Stages · Rhythm"
+
+msgid "RHYTHM_MATERIAL_SUB"
+msgstr "Fight to the music for extra level-up materials. Clear stage 5 to unlock Endless."
+
+msgid "RHYTHM_STAGE_01_NAME"
+msgstr "Ember Beat"
+
+msgid "RHYTHM_STAGE_02_NAME"
+msgstr "Wind Road"
+
+msgid "RHYTHM_STAGE_03_NAME"
+msgstr "Thunder Lane"
+
+msgid "RHYTHM_STAGE_04_NAME"
+msgstr "Hall of Light"
+
+msgid "RHYTHM_STAGE_05_NAME"
+msgstr "Boss: Eclipse"
+
+msgid "RHYTHM_BOSS"
+msgstr "BOSS"
+
+msgid "SORTIE_MATERIAL_TAG"
+msgstr "Rhythm"
+
+msgid "RHYTHM_LOCKED"
+msgstr "Locked"
+
+msgid "RHYTHM_LOCKED_HINT"
+msgstr "Clear the previous stage to unlock this one."
+
+msgid "RHYTHM_CLEARED"
+msgstr "Cleared"
+
+msgid "RHYTHM_LEVEL"
+msgstr "Level %d"
+
+msgid "RHYTHM_ENDLESS_TITLE"
+msgstr "Endless"
+
+msgid "RHYTHM_ENDLESS_SUB"
+msgstr "Pick any song and difficulty, play as much as you like."
+
+msgid "RHYTHM_ENDLESS_LOCKED"
+msgstr "Clear stage N-5 (boss) to unlock Endless."
+
+msgid "RHYTHM_CATALOG_LOADING"
+msgstr "Loading the song list..."
+
+msgid "RHYTHM_CATALOG_OFFLINE"
+msgstr "Server unreachable: only downloaded songs can be played."
+
+msgid "RHYTHM_CATALOG_NONE"
+msgstr "Server unreachable and no songs downloaded yet. Check your connection and try again."
+
+msgid "RHYTHM_DOWNLOADING"
+msgstr "Downloading song (%.1f MB)..."
+
+msgid "RHYTHM_DOWNLOAD_FAILED"
+msgstr "Download failed (%s). Try again later."
+
+msgid "RHYTHM_DIFF_EASY"
+msgstr "Easy"
+
+msgid "RHYTHM_DIFF_NORMAL"
+msgstr "Normal"
+
+msgid "RHYTHM_DIFF_HARD"
+msgstr "Hard"
+
+msgid "RHYTHM_FAVORITES"
+msgstr "Favorites"
+
+msgid "RHYTHM_NO_SONGS"
+msgstr "No songs here yet."
+
+msgid "RHYTHM_PLAY"
+msgstr "Play"
+
+msgid "RHYTHM_BEST_SCORE"
+msgstr "Best %d"
+
+msgid "RHYTHM_SCORE"
+msgstr "SCORE"
+
+msgid "RHYTHM_COMBO"
+msgstr "COMBO"
+
+msgid "RHYTHM_FEVER"
+msgstr "FEVER"
+
+msgid "RHYTHM_GO"
+msgstr "GO!"
+
+msgid "RHYTHM_PERFECT"
+msgstr "PERFECT"
+
+msgid "RHYTHM_GREAT"
+msgstr "GREAT"
+
+msgid "RHYTHM_MISS"
+msgstr "MISS"
+
+msgid "RHYTHM_WRONG"
+msgstr "WRONG"
+
+msgid "RHYTHM_HINT_UP"
+msgstr "Upper: D / F / ↑ (tap left half)"
+
+msgid "RHYTHM_HINT_DOWN"
+msgstr "Lower: J / K / ↓ (tap right half)"
+
+msgid "RHYTHM_PAUSED"
+msgstr "Paused"
+
+msgid "RHYTHM_RESUME"
+msgstr "Resume"
+
+msgid "RHYTHM_QUIT"
+msgstr "Quit"
+
+msgid "RHYTHM_CLEAR"
+msgstr "CLEAR"
+
+msgid "RHYTHM_FAILED"
+msgstr "FAILED"
+
+msgid "RHYTHM_FAILED_HINT"
+msgstr "Out of HP. Remember: each note takes exactly one choice (upper, lower or both)."
+
+msgid "RHYTHM_NEW_BEST"
+msgstr "New best!"
+
+msgid "RHYTHM_RESULT_SCORE"
+msgstr "Score: %d"
+
+msgid "RHYTHM_RESULT_COMBO"
+msgstr "Max combo: %d"
+
+msgid "RHYTHM_RESULT_ACCURACY"
+msgstr "Accuracy: %.1f%%"
+
+msgid "RHYTHM_RESULT_COUNTS"
+msgstr "Perfect %d · Great %d · Miss %d · Wrong %d"
+
+msgid "RHYTHM_LOAD_ERROR"
+msgstr "Could not open this song (not downloaded or damaged). Go back and download it again."

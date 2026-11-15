@@ -50,6 +50,10 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
   máy chủ giả (`tests/unit/support/fake_nakama.gd`). Cloud save (M9-3): đăng nhập xong `OnlineService.open_cloud_world()`
   chuyển `SaveService` sang bản đệm của tài khoản (`SaveService.use_store`); code gameplay vẫn chỉ gọi `SaveService.save_game()`.
   Không commit `server/.runtime/` (khóa bí mật, DB) hay `server/.env`.
+- Chế độ nhịp điệu (M10, `docs/design/RHYTHM_MODE.md`): logic `scripts/rhythm/` (`RhythmJudge`, `RhythmChart`, `RhythmProgress`,
+  `RhythmLibrary`), màn `scripts/ui/rhythm/`. Nhạc + bản nốt ở máy chủ (`server/music/`, dựng bằng
+  `python -X utf8 -I tools/rhythm/build_catalog.py`), phát qua `server/gateway.mjs` (cổng 7360, `/music/`); game tải về
+  `user://rhythm_cache/`. Số chấm / HP / điểm ở `data/rhythm/rhythm_rules.tres`, ải + thưởng ở `data/rhythm/material_stages.json`.
 - Input: dùng action của `InputRouter` (`move_left/right`, `jump`, `attack`, `dodge`, `skill`, `weapon`, `ultimate`, `switch_1/2`, `pause`, `ui_back`) và `InputRouter.consume_buffered()`; không đọc phím trực tiếp.
 - Chữ hiển thị: khóa `UPPER_SNAKE` qua `tr()`, thêm vào **cả** `localization/vi.po` và `en.po`.
 - Đặt tên: file/hàm/biến `snake_case`, `class_name` `PascalCase`, hằng `UPPER_SNAKE`.
