@@ -1696,3 +1696,18 @@ un_tests.ps1`
 - **Đã chạy:** `python -X utf8 -I tools/gen_wind_lightning_skills.py` (chỉ weapon.tres đổi, +12 dòng); `<godot> --headless --path . --import`; `tools\run_tests.ps1`.
 - **Quyết định Claude chọn:** đao 33 bay chếch lên, đao 34 chếch xuống, cả lượt đi và lượt về; tỉ lệ 0.5 (~115 px, vừa vùng trúng 110×110); xoay 1080°/s (3 vòng/giây) cho giống đao ném vòng, cũng tránh cảnh đao bay giật lùi lúc quay về.
 - **Hạn chế đã biết:** đao bay đường thẳng (đi 400 ms, về 400 ms), chưa cong thành vòng cung; lúc chuyển từ lượt đi sang lượt về hình đao biến mất rồi hiện lại cùng chỗ (hai vùng riêng).
+
+## 2026-11-15 — Splash art 2D của Kazeyumi thay ảnh chibi ở màn Nhân vật
+- **Milestone / task:** art + M7-2 (màn Nhân vật) — owner đưa 5 splash art 2D (không chibi) của Kazeyumi, yêu cầu xóa nền, phóng to hợp lý, thay lần lượt vào: nhân vật, tăng cấp, vũ khí, vết thánh, kỹ năng (giống Enkiba 2026-11-13).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_wind_01/splash/char_wind_01_splash_{overview,level,weapon,stigma,skill}.png` (PNG alpha, 700–963 px rộng, ~1490 px cao, bỏ ICC profile của webp).
+  - `tests/unit/ui/test_character_screen.gd`: thêm `test_kazeyumi_uses_splash_art_on_every_view`.
+  - `tools/screenshot_character.gd`: tham số tùy chọn `-- --id=<Data ID>` để chụp nhân vật khác Enkiba (ảnh ra `character_<id>_<n>_<tên>.png`).
+  - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh, tham số mặc định); `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_wind_01` (soát bằng mắt 5 màn); `tools
+un_tests.ps1`.
+- **Kết quả thật:** 5 ảnh xóa nền 71–74 %, soát trên nền tối / đỏ không còn quầng trắng, áo trắng ngà và ủng còn nguyên. Lần import đầu ảnh stigma bị `valid=false` (không có .ctex); xóa ICC profile + import lại thì được. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
+- **Quyết định Claude chọn:** thứ tự ảnh theo đúng thứ tự owner gửi (1 giương cung → tổng quan, 2 bật nhảy → tăng cấp, 3 cầm cung vén tóc → vũ khí, 4 lưng → vết thánh, 5 đưa tay → kỹ năng); không sửa code màn hình (cơ chế splash theo Data ID đã có), không thu nhỏ ảnh. Ảnh tổng quan còn tự dùng ở sảnh (nếu Kazeyumi đứng đầu đội), đội hình ra trận và thẻ chiêu mộ.
+- **Hạn chế đã biết:** dây cung rất mảnh nên sau khi xóa nền hơi đứt nét / mờ ở vài đoạn; ở màn tổng quan đầu cung chạm sát dòng tên giáp; công cụ tạo ảnh gốc chưa rõ (cần owner xác nhận để khai báo AI).
+

@@ -1,6 +1,6 @@
 extends SceneTree
 ## Chụp màn Nhân vật ở 6 trạng thái theo 6 ảnh tham chiếu (cần cửa sổ, không chạy --headless):
-##   <godot> --path . -s tools/screenshot_character.gd
+##   <godot> --path . -s tools/screenshot_character.gd [-- --id=char_wind_01]
 ## Ảnh ra build/screenshots/character_<n>_<tên>.png. Dữ liệu tạm trong bộ nhớ; KHÔNG ghi save.
 
 const SHOTS := [
@@ -39,6 +39,9 @@ func _prepare() -> void:
 	_screen.profile = p
 	_screen.save_enabled = false
 	root.add_child(_screen)
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--id="):
+			_screen.select(a.substr(5))
 
 
 func _process(_delta: float) -> bool:
@@ -63,9 +66,13 @@ func _process(_delta: float) -> bool:
 				_screen.filter_open = true
 				_screen.toggle_filter("rank", str(s[2]))
 	if _frames % 12 == 10:
-		var out := "res://build/screenshots/character_%s.png" % str(SHOTS[_index][0])
+		var out := "res://build/screenshots/character_%s%s.png" % [_suffix(), str(SHOTS[_index][0])]
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out.get_base_dir()))
 		root.get_texture().get_image().save_png(out)
 		print("saved ", out)
 		_index += 1
 	return false
+
+
+func _suffix() -> String:
+	return "" if _screen.selected == "char_fire_01" else _screen.selected + "_"

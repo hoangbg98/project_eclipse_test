@@ -148,6 +148,18 @@ func test_enkiba_uses_splash_art_on_every_view() -> void:
 	assert_object(s.portrait(A)).is_not_same(load(SPLASH_DIR % "overview"))
 
 
+func test_kazeyumi_uses_splash_art_on_every_view() -> void:
+	var s := _screen()
+	_save.data["characters"]["char_wind_01"] = SaveSchema.default_character()
+	s.select("char_wind_01")
+	var dir := "res://assets/characters/char_wind_01/splash/char_wind_01_splash_%s.png"
+	assert_object(_tex(s, "CharacterArt")).is_same(load(dir % "overview"))
+	for t in ["level", "weapon", "skill"]:
+		s.open_tab(t)
+		assert_object(_tex(s, "CharacterArt")).is_same(load(dir % t))
+	s.open_tab("stigma")
+	assert_object(_tex(s, "BackArt")).is_same(load(dir % "stigma"))                 # ảnh lưng cho tab Vết Thánh
+
 func test_splash_file_per_view_is_configurable_in_layout() -> void:
 	var s := _screen()
 	s.layout.data["art"]["level"] = "skill"                                         # đổi ảnh tab Tăng cấp bằng cấu hình
