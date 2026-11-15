@@ -1,6 +1,6 @@
 # Ảnh màn Chiêu mộ
 
-Thư mục này chứa ảnh banner của màn Chiêu mộ (`scripts/ui/recruit_screen.gd`). Hiện toàn bộ là **ảnh tạm**
+Thư mục này chứa ảnh banner của màn Chiêu mộ (`scripts/ui/recruit_screen.gd`). Phần lớn là **ảnh tạm**
 (`placeholder_*`, hình người xám kèm tên banner); owner thay bằng ảnh thật khi có.
 
 ## Cách thay ảnh
@@ -9,8 +9,10 @@ Mỗi banner (id ghi trong `data/banners/*.tres`, ví dụ `banner_char_terra`) 
 
 | Ảnh | Tên file | Kích thước khuyến nghị | Hiện ở đâu |
 |---|---|---|---|
-| Banner lớn | `{id}_banner.png` | **1301 × 839** px | Khung giữa màn, chữ và nút nằm đè lên (nửa trái nên để tối / thoáng) |
-| Ảnh nhỏ | `{id}_thumb.png` | **390 × 226** px | Danh sách banner bên trái (hiển thị 195 × 113) |
+| Banner lớn | `{id}_banner.png` | **1590 × 1080** px | Phủ phần phải màn (x 330 → 1920); vùng chữ / nút xem wireframe `docs/design/wireframes/recruit/` |
+| Ảnh nhỏ | `{id}_thumb.png` | **390 × 226** px | Bố cục 2026-11-15 không còn hiện (danh sách trái là thẻ chữ) |
+
+Đã có ảnh thật: `banner_char_terra_banner.png` (Iwagane, owner 2026-11-15).
 
 Chỉ cần **thêm file đúng tên** vào thư mục này, không sửa code. Màn tìm theo thứ tự:
 

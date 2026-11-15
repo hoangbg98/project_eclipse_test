@@ -1848,3 +1848,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Món mới (số tạm):** Đại kiếm đá thô ATK 82; Trượng gỗ sồi ATK 70 + HP 300; Lưỡi hái sắt đen ATK 80.
 - **Quyết định Claude chọn:** ATK trong khoảng 75–82 như 3 vũ khí 3★ cũ (trượng thấp hơn, bù HP như trượng 4★ / 5★); thêm vào bậc 3★ của **cả hai** banner trang bị (generator lấy mọi đồ 3★; owner chỉ tách riêng bộ 4★ mới). Tỉ lệ bậc giữ nguyên, nên mỗi vũ khí 3★ còn ≈ 1.783% (trước 3.567%).
 - **Hạn chế đã biết:** chưa có ảnh riêng (icon placeholder).
+
+## 2026-11-15 — Chiêu mộ: ảnh banner thật cho banner nhân vật Iwagane
+- **Milestone / task:** Asset — owner gửi ảnh và yêu cầu "Thay ảnh này vào banner nhân vật Iwagane".
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_1_character_banner.png`; owner chưa xem trong Godot)
+- **File tạo/sửa:** `assets/ui/recruit/banner_char_terra_banner.png` (+ `.import`), `assets/ui/recruit/README.md` (kích thước 1590×1080, trỏ wireframe), `docs/ASSET_LICENSES.md` (mục 2.1, 1 dòng).
+- **Đã chạy:** đổi webp 1590×1080 → PNG (Pillow, không sửa nội dung); `<godot> --headless --path . --import`; GdUnit `tests/unit/ui/test_recruit_screen.gd` (20/20); `<godot> --path . -s tools/screenshot_recruit.gd`.
+- **Kết quả thật:** ảnh đúng 1590×1080, màn tự nhận theo tên `{id}_banner.png` (không sửa code, không sửa dữ liệu banner); placeholder cũ giữ nguyên, không bị dùng nữa.
+- **Quyết định Claude chọn:** ghi ASSET_LICENSES như các splash art owner đưa (công cụ tạo ảnh không rõ); không ghi đè placeholder.
+- **Hạn chế đã biết:** mục banner nhân vật trên Asset Atlas chưa đánh dấu đã có ảnh thật.
