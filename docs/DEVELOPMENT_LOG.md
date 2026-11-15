@@ -1885,3 +1885,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `check_frames.py` ĐẠT (6 frame, 8 fps, lặp); `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt.
 - **Quyết định Codex chọn:** tạo một dải ngang 6 pose trong một lần gọi imagegen theo phiếu; giữ dải đã duyệt và metadata trong `art_review/` để lưu vết review. Imagegen không cung cấp model ID.
 - **Hạn chế đã biết:** ảnh tạo có góc nhìn 3/4 thay vì ngang hoàn toàn; nhịp chuyển động giữa các pose nhẹ. Owner đã duyệt dải này.
+
+
+## 2026-11-15 — Art: Hikarine frames `run`–`ultimate` (AI)
+- **Milestone / task:** Asset — owner duyệt batch 18 animation Hikarine (`char_light_01`) từ `run` đến `ultimate`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** 107 frame PNG trong `assets/characters/char_light_01/frames/{run,attack_1,attack_2,attack_3,dodge,jump_up,fall,hurt,knockback,down,hold_charge,air_1,landing_attack,skill_1,skill_2,switch_in,switch_out,ultimate}/`; `assets/characters/char_light_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_light_01 <animation>` cho 18 animation; `powershell -ExecutionPolicy Bypass -File tools/run_tests.ps1`.
+- **Kết quả thật:** Cả 18 lệnh duyệt thành công; tổng 107 frame. `run_tests.ps1` mã thoát 0: GdUnit4 661/661 đạt; 5/5 smoke check đạt.
+- **Quyết định Codex chọn:** Gộp nhật ký và commit thành một batch theo yêu cầu duyệt chung của owner; giữ nguyên số frame, fps và loop flag lấy từ từng phiếu.
+- **Hạn chế đã biết:** Không có lỗi kiểm tra frame còn lại.
