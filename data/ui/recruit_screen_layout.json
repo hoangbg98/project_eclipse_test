@@ -163,7 +163,8 @@
 				180
 			],
 			"size": 104,
-			"step": 112
+			"step": 112,
+			"anchor": "right"
 		},
 		"time": {
 			"rect": [

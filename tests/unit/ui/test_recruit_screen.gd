@@ -125,9 +125,8 @@ func test_character_banner_main_screen() -> void:
 	assert_str(s.banner_layout(s.banners[0])).is_equal("char")
 	assert_str(_text(s, "Banner_0") if _node(s, "Banner_0") is Label else (_node(s, "Banner_0") as Button).text).is_equal(tr("BANNER_KIND_CHAR"))
 	assert_str(_text(s, "BannerTitle")).is_equal(tr("BANNER_TITLE_TERRA"))
-	assert_str(_text(s, "FeaturedName")).is_equal(tr("CHAR_EARTH_01"))   # Iwagane
-	assert_str(_text(s, "Stars")).is_equal("★★★★★")
-	assert_str(_text(s, "FeaturedSub")).is_equal(tr("SUIT_EARTH_01"))
+	for n in ["FeaturedName", "Stars", "FeaturedSub"]:                   # owner 2026-11-15: bỏ chữ Iwagane / tên giáp
+		assert_object(_node(s, n)).override_failure_message(n).is_null()
 	assert_str(_text(s, "TimeValue")).contains(tr("RECRUIT_UI_PERMANENT"))
 	assert_str(_text(s, "OrangeBox")).is_equal(tr("RECRUIT_UI_GUARANTEE_BOX") % [10, "%s / %s" % [tr("GACHA_TIER_CHAR_S"), tr("GACHA_TIER_CHAR_A")]])
 	assert_str(_text(s, "PityLine")).is_equal(tr("RECRUIT_UI_PITY_LEFT") % [100, tr("GACHA_TIER_CHAR_S")])
@@ -143,6 +142,30 @@ func test_character_banner_main_screen() -> void:
 	s.refresh()
 	var need := s.profile.progression.fragments_to_promote("char_earth_01") - 4
 	assert_str(_text(s, "FragmentLine")).is_equal(tr("RECRUIT_UI_FRAG_LEFT") % [need, "S1"])
+
+
+func test_right_column_stays_on_screen_for_any_aspect() -> void:
+	# Owner 2026-11-15: chữ cột phải (thời gian, mảnh, pity, bảo đảm) bị cắt ở màn rộng; mọi tỉ lệ phải nằm trong màn.
+	var s := _screen()
+	for sz in [Vector2(1920, 1080), Vector2(2560, 1080), Vector2(1728, 1080), Vector2(1440, 1080)]:
+		_resize(s, sz)
+		s.refresh()
+		for i in s.banners.size():
+			s.select(i)
+			for n in ["TimeValue", "FragmentLine", "PityLine", "OrangeBox", "GiftButton", "Wish_10", "OwnedIcon_3"]:
+				var c := _node(s, n)
+				if c == null:
+					continue
+				var r := c.get_global_rect()
+				assert_bool(r.end.x <= sz.x + 0.5 and r.position.x >= 0.0) \
+						.override_failure_message("%s %s banner %d: %s" % [n, sz, i, r]).is_true()
+				if c is Label and (c as Label).autowrap_mode == TextServer.AUTOWRAP_OFF:
+					var l := c as Label
+					var w := l.get_theme_default_font().get_string_size(l.text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+							l.get_theme_font_size("font_size")).x
+					assert_bool(w <= l.size.x + 0.5).override_failure_message("%s rộng %s > %s" % [n, w, l.size.x]).is_true()
+		var art := _node(s, "BannerArt")
+		assert_float(art.get_global_rect().end.x).is_greater_equal(sz.x - 0.5)
 
 
 func test_rates_are_not_on_main_screen_but_in_details() -> void:

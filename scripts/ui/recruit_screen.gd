@@ -323,10 +323,12 @@ func intercept_back() -> bool:
 
 # ---------- Dựng giao diện ----------
 
-## Hình chữ nhật của mục trong "panel": dời theo neo của panel (các mục con không tự có neo).
+## Hình chữ nhật của mục trong "panel": mục có neo riêng (vd cột phải "right") dùng neo đó;
+## mục không có neo dời theo neo của panel. Không cộng hai lần (trước đây chữ cột phải bị đẩy ra ngoài màn rộng).
 func _pr(key: String) -> Rect2:
 	var r := layout.rect("panel." + key)
-	r.position.x += layout.anchor_shift(layout.text("panel.anchor", "left"))
+	if not layout.dict("panel." + key).has("anchor"):
+		r.position.x += layout.anchor_shift(layout.text("panel.anchor", "left"))
 	return r
 
 
@@ -478,6 +480,7 @@ func fragment_text(b: BannerDef) -> String:
 func _build_banner(b: BannerDef) -> void:
 	var kind := banner_layout(b)
 	var pr := layout.rect("panel")
+	pr.size.x = maxf(pr.size.x, layout.view_size.x - pr.position.x)   # ảnh phủ tới mép phải mọi tỉ lệ màn
 	var art := _art(pr, art_texture(b, "banner"), banner_title(b), Rect2(0, 0, 1, 1), "BannerArt")
 	art.border_color = Color(0, 0, 0, 0)
 	# Làm tối dần hai bên để chữ đọc được trên mọi ảnh.
@@ -488,8 +491,9 @@ func _build_banner(b: BannerDef) -> void:
 			layout.color("accent_blue", Color.SKY_BLUE))
 	kt.name = "KindTag"
 	_label(_pr("title"), banner_title(b), layout.font("panel.title", 76), Color.WHITE).name = "BannerTitle"
-	# Chú thích tên món / nhân vật đề cử (đường kẻ + tên + nhãn sao), theo ảnh gợi ý 1.
-	var f := featured(b)
+	# Chú thích tên món đề cử (đường kẻ + tên + nhãn sao), theo ảnh gợi ý 1. Banner nhân vật không có
+	# chú thích tên nhân vật / giáp (owner 2026-11-15: ảnh banner tự thể hiện).
+	var f := featured(b) if kind == "equip" else {}
 	if not f.is_empty():
 		var cr := _pr("callout_1")
 		_callout(cr, str(f["name"]), "★".repeat(int(f["stars"])), tr("RECRUIT_UI_SURE" if is_starter(b) else "RECRUIT_UI_UP"),
@@ -507,8 +511,12 @@ func _build_banner(b: BannerDef) -> void:
 		pl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	if kind == "equip":
 		_build_icon_row(b)
-	_label(_pr("time"), "%s %s" % [tr("RECRUIT_UI_TIME_LEFT"), time_text(b)], layout.font("panel.time", 28), Color.WHITE,
-			HORIZONTAL_ALIGNMENT_RIGHT).name = "TimeValue"
+	var tr_ := _pr("time")
+	var time_s := "%s %s" % [tr("RECRUIT_UI_TIME_LEFT"), time_text(b)]
+	var tl := _label(tr_, time_s, _fit_font(time_s, layout.font("panel.time", 28), tr_.size.x, 18), Color.WHITE,
+			HORIZONTAL_ALIGNMENT_RIGHT)
+	tl.name = "TimeValue"
+	tl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	var gift := _pr("gift_card")
 	var gb := _button(gift, tr("RECRUIT_UI_GIFT"), layout.font("panel.gift_card", 26), Callable(), false, "GiftButton")
 	gb.add_theme_stylebox_override("normal", _style(Color(1, 1, 1, 0.9), Color(1, 1, 1, 1), 6))
@@ -604,7 +612,7 @@ func _build_bottom(b: BannerDef) -> void:
 		var gr := layout.rect(p + "guarantee_note")
 		_panel(gr, Color(1, 1, 1, 0.88))
 		var gl := _label(gr.grow(-6), guarantee_text(b), layout.font(p + "guarantee_note", 24),
-				layout.color("guarantee_text", Color("#D23B3B")), HORIZONTAL_ALIGNMENT_CENTER)
+				layout.color("guarantee_text", Color("#D23B3B")), HORIZONTAL_ALIGNMENT_RIGHT)   # căn phải (owner 2026-11-15)
 		gl.name = "OrangeBox"
 	if is_starter(b):
 		var sr := layout.rect(p + "wish_10")

@@ -1775,3 +1775,12 @@ un_tests.ps1`.
 - **Quyết định Claude chọn:** không có phiếu `hold_release` (Hikarine chỉ có `hold_charge` là vòng cầu nguyện, SkillDef `hold_1`), không có phiếu `air_2` (dùng chung `air_1`); `hold_charge` không gắn SkillDef (vòng lặp 6 frame 10 fps); `skill_2` ghi `hits_ms` 200–300 ms để đánh dấu frame phóng quả cầu vì SkillDef không có hiệu lực tức thì; quả cầu trên gậy vẽ đặc, không quầng sáng; mảnh giáp xanh-vàng 36–41 không vẽ (không thấy trên ảnh toàn thân).
 - **Hạn chế đã biết:** chưa tạo frame nào (owner chạy Codex theo phiếu, bắt đầu `idle`). Nếu Hikarine phải mang mảnh giáp 36–41 thì sửa `design_en` trong job JSON rồi sinh lại phiếu.
 
+## 2026-11-15 — Chiêu mộ: banner nhân vật bỏ chú thích tên; chữ cột phải không còn bị cắt
+- **Milestone / task:** UI Chiêu mộ — owner: banner nhân vật bỏ chữ "Iwagane" và "Thần Kiếm Nham Thạch"; chữ cột phải (thời gian, mảnh tiến cấp, bảo đảm) bị mất phần cuối, đề xuất căn lề phải.
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_*.png` ở 1680×720; owner chưa xem lại trong Godot)
+- **File tạo/sửa:** `scripts/ui/recruit_screen.gd` (`_pr` không cộng neo hai lần, ảnh banner phủ tới mép phải, banner nhân vật không có chú thích, dòng thời gian thu chữ một dòng, ô bảo đảm căn phải), `data/ui/recruit_screen_layout.json` (`panel.icons.anchor = right`), `tests/unit/ui/test_recruit_screen.gd` (sửa test banner nhân vật, +1 test cột phải nằm trong màn ở 4 tỉ lệ).
+- **Đã chạy:** GdUnit `test_recruit_screen.gd` (20/20); `<godot> --path . --resolution 1680x720 -s tools/screenshot_recruit.gd`; `powershell -ExecutionPolicy Bypass -File toolsun_tests.ps1`.
+- **Kết quả thật:** run_tests.ps1 mã thoát 0: GdUnit 639/639 đạt, 5/5 test khói đạt; test_recruit_screen.gd 20/20.
+- **Nguyên nhân chữ bị cắt:** mục cột phải có neo `right`, nhưng `_pr` cộng thêm neo `center` của panel → khi cửa sổ rộng hơn 16:9 chữ bị đẩy quá mép phải (vd 2560×1080: dòng thời gian kết thúc ở x 2850).
+- **Quyết định Claude chọn:** giữ tiêu đề banner và nhãn loại banner (owner chỉ nêu tên nhân vật và giáp); banner trang bị vẫn có chú thích món đề cử; dãy icon trang bị neo phải theo cột phải.
+- **Hạn chế đã biết:** chữ in sẵn trong ảnh placeholder vẫn đè vùng tiền tệ (mất khi có ảnh thật).
