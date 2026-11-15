@@ -22,6 +22,7 @@
 		"C": "checkpoint",
 		".": "trống"
 	},
+	"backdrop": [{"image": "res://assets/backgrounds/stages/stage_01/bg_stage_01_far.png", "scroll": 0.1}, {"image": "res://assets/backgrounds/stages/stage_01/bg_stage_01_mid.png", "scroll": 0.3}, {"image": "res://assets/backgrounds/stages/stage_01/bg_stage_01_near.png", "scroll": 0.6}],
 	"waves": [
 		{
 			"trigger_col": 16,

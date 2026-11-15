@@ -2500,3 +2500,255 @@ msgstr "Tiếp theo: lần theo kẻ đeo mặt nạ qua Thung Lũng Tro Tàn."
 
 msgid "STORY_CH01_END_03_2"
 msgstr "Quản lý của ngươi là ai?"
+
+msgid "BOSS_HENCHMAN_01"
+msgstr "Kẻ Đeo Mặt Nạ"
+
+msgid "STAGE_01_05_NAME"
+msgstr "Rừng Cây Chết"
+
+msgid "STAGE_01_05_DESC"
+msgstr "Dấu chân tay sai dẫn lên rừng cây chết trên sườn vách. Hắn cắm cọc ấn khắp rừng để gọi Cặn chặn đường. Dọn đàn Cặn và lần tiếp dấu hắn."
+
+msgid "BARK_CH01_5_START"
+msgstr "Tín hiệu 00 yếu, lặp lại đều. Như có thứ gì cắm khắp khu rừng."
+
+msgid "BARK_CH01_5_WAVE1"
+msgstr "Cây chết hết rồi, đến lá khô cũng không xào xạc."
+
+msgid "BARK_CH01_5_WAVE1_NEO"
+msgstr "Cặn tro bị tín hiệu lạ kéo tới."
+
+msgid "BARK_CH01_5_CP1"
+msgstr "Cọc đá này có vòng trắng đen! Hắn cắm cái này để gọi Cặn à?"
+
+msgid "BARK_CH01_5_CP1_NEO"
+msgstr "Cọc ấn mang tín hiệu 00. Nó đang gọi Cặn tới."
+
+msgid "BARK_CH01_5_WAVE2"
+msgstr "Thêm một bầy, có cả Cặn lớn."
+
+msgid "BARK_CH01_5_CP2"
+msgstr "Nhổ hết đống cọc này. Không để hắn dùng rừng làm hàng rào."
+
+msgid "BARK_CH01_5_CP2_NEO"
+msgstr "Đã ghi vị trí các cọc ấn."
+
+msgid "BARK_CH01_5_WAVE3"
+msgstr "Bầy cuối rồi! Dọn xong là thấy đường!"
+
+msgid "BARK_CH01_5_WAVE3_NEO"
+msgstr "Bầy Cặn cuối cùng quanh cọc ấn lớn."
+
+msgid "BARK_CH01_5_CLEAR"
+msgstr "Tín hiệu tắt rồi. Đi tiếp thôi, hắn chưa xa đâu."
+
+msgid "BARK_CH01_5_CLEAR_NEO"
+msgstr "Các cọc ấn đã tắt. Ra bìa rừng để hoàn tất."
+
+msgid "STAGE_01_06_NAME"
+msgstr "Cầu Đá Treo"
+
+msgid "STAGE_01_06_DESC"
+msgstr "Đường duy nhất qua vực là cây cầu đá cổ của thủ vệ, nay sụt nhiều nhịp: tay sai đã phá cầu sau lưng hắn. Nhảy qua các nhịp gãy và dọn đàn Cặn."
+
+msgid "BARK_CH01_6_START"
+msgstr "Cầu đá của thủ vệ, nhiều nhịp đã sụt. Rơi xuống thì tôi kéo về điểm neo."
+
+msgid "BARK_CH01_6_WAVE1"
+msgstr "Cầu gãy thế này thì để tớ! Nhảy là nghề của tớ."
+
+msgid "BARK_CH01_6_WAVE1_NEO"
+msgstr "Cặn tro chặn đầu cầu."
+
+msgid "BARK_CH01_6_CP1"
+msgstr "Vết chém mới trên trụ cầu. Hắn cố ý phá cho sập."
+
+msgid "BARK_CH01_6_CP1_NEO"
+msgstr "Trụ cầu có vết phá còn mới."
+
+msgid "BARK_CH01_6_WAVE2"
+msgstr "Giữa cầu không có chỗ lùi. Đánh gọn, đừng để bị đẩy xuống."
+
+msgid "BARK_CH01_6_WAVE2_NEO"
+msgstr "Giữ thăng bằng. Cặn lớn đẩy lùi rất mạnh."
+
+msgid "BARK_CH01_6_CP2"
+msgstr "Thấy đầu cầu bên kia rồi!"
+
+msgid "BARK_CH01_6_CP2_NEO"
+msgstr "Còn một đoạn cầu nữa."
+
+msgid "BARK_CH01_6_WAVE3"
+msgstr "Bầy Cặn lớn chặn đầu cầu bên kia."
+
+msgid "BARK_CH01_6_CLEAR"
+msgstr "Qua được rồi. Hắn tưởng phá cầu là cắt đuôi được bọn mình à."
+
+msgid "BARK_CH01_6_CLEAR_NEO"
+msgstr "Đã qua vực. Tiến tới đầu cầu để hoàn tất."
+
+msgid "STAGE_01_07_NAME"
+msgstr "Trạm Thủ Vệ Bỏ Hoang"
+
+msgid "STAGE_01_07_DESC"
+msgstr "Bên kia vực là trạm canh cổ của thủ vệ, khắc dấu ba vòng đá. Tay sai đã ghé đây trước. Vào trong, tìm xem hắn lấy đi thứ gì."
+
+msgid "BARK_CH01_7_START"
+msgstr "Trạm canh của thủ vệ. Dấu ba vòng đá, giống trên lưng golem."
+
+msgid "BARK_CH01_7_WAVE1"
+msgstr "Chỗ này từng có nhiều thủ vệ đứng canh. Giờ trống trơn."
+
+msgid "BARK_CH01_7_WAVE1_NEO"
+msgstr "Cặn tro làm tổ trong trạm."
+
+msgid "BARK_CH01_7_CP1"
+msgstr "Hốc tường này trống. Lõi của thủ vệ bị tháo đi rồi."
+
+msgid "BARK_CH01_7_CP1_NEO"
+msgstr "Các hốc chứa lõi thủ vệ đều trống."
+
+msgid "BARK_CH01_7_WAVE2"
+msgstr "Hắn lấy lõi thủ vệ để làm gì chứ?!"
+
+msgid "BARK_CH01_7_WAVE2_NEO"
+msgstr "Cặn lớn bám quanh hốc lõi."
+
+msgid "BARK_CH01_7_CP2"
+msgstr "Golem ở cửa lò… chắc cũng bị gắn lõi từ đây rồi sai đi."
+
+msgid "BARK_CH01_7_CP2_NEO"
+msgstr "Lõi golem ở cửa lò có thể đến từ trạm này."
+
+msgid "BARK_CH01_7_WAVE3"
+msgstr "Bầy cuối ở lối ra phía sau trạm."
+
+msgid "BARK_CH01_7_CLEAR"
+msgstr "Lấy lõi, sai thủ vệ, dập lửa. Hắn tính hết từ trước."
+
+msgid "BARK_CH01_7_CLEAR_NEO"
+msgstr "Trạm đã sạch. Ra lối sau để hoàn tất."
+
+msgid "STAGE_01_08_NAME"
+msgstr "Trại Mặt Nạ"
+
+msgid "STAGE_01_08_DESC"
+msgstr "Dấu vết dẫn tới trại tạm của tay sai trong hẻm đá. Giữa trại là cột kênh trắng đen đang hút hơi ấm của Lò Mẹ. Phá trại và tìm ra kế hoạch của hắn."
+
+msgid "BARK_CH01_8_START"
+msgstr "Cột kênh phía trước đang hút nhiệt về một mạng khác. Định dạng 00."
+
+msgid "BARK_CH01_8_WAVE1"
+msgstr "Trại của hắn! Không để sót chỗ nào."
+
+msgid "BARK_CH01_8_WAVE1_NEO"
+msgstr "Cặn tro canh quanh trại."
+
+msgid "BARK_CH01_8_CP1"
+msgstr "Bản ghi trên bàn: \"Tắt lò vào đêm nhật thực đầy nhất.\" Là đêm nay."
+
+msgid "BARK_CH01_8_CP1_NEO"
+msgstr "Bản ghi ghi hạn: đêm nay."
+
+msgid "BARK_CH01_8_WAVE2"
+msgstr "Đêm nay á?! Vậy phải nhanh lên!"
+
+msgid "BARK_CH01_8_WAVE2_NEO"
+msgstr "Cặn lớn bảo vệ cột kênh."
+
+msgid "BARK_CH01_8_CP2"
+msgstr "Đã ngắt một nhánh cột kênh. Lò Mẹ hết bị hút thêm."
+
+msgid "BARK_CH01_8_WAVE3"
+msgstr "Phá nốt chỗ này rồi về cửa lò. Hắn sẽ ở đó."
+
+msgid "BARK_CH01_8_WAVE3_NEO"
+msgstr "Bầy cuối canh lối ra của trại."
+
+msgid "BARK_CH01_8_CLEAR"
+msgstr "Cột kênh đổ rồi. Hắn chỉ còn cách tự ra mặt."
+
+msgid "BARK_CH01_8_CLEAR_NEO"
+msgstr "Trại đã bị phá. Ra lối hẻm để hoàn tất."
+
+msgid "STAGE_01_09_NAME"
+msgstr "Đường Về Cửa Lò"
+
+msgid "STAGE_01_09_DESC"
+msgstr "Đêm xuống, nhật thực đầy dần. Đường mòn đêm dẫn ngược về cửa Lò Mẹ, nơi tay sai đang chờ. Cặn tro dày đặc hơn bao giờ hết."
+
+msgid "BARK_CH01_9_START"
+msgstr "Mặt Trời Khuyết đang bị che thêm. Vùng Thực dày lên theo từng phút."
+
+msgid "BARK_CH01_9_WAVE1"
+msgstr "Tối đen mà Cặn cứ trồi lên mãi!"
+
+msgid "BARK_CH01_9_WAVE1_NEO"
+msgstr "Cặn tro dày đặc. Giữ nhịp."
+
+msgid "BARK_CH01_9_CP1"
+msgstr "Gió vẫn chưa về… Lò mà tắt hẳn đêm nay thì cả làng…"
+
+msgid "BARK_CH01_9_CP1_NEO"
+msgstr "Nhiệt Lò Mẹ chỉ còn 4%."
+
+msgid "BARK_CH01_9_WAVE2"
+msgstr "Không dừng. Cứ thế mà xuyên qua."
+
+msgid "BARK_CH01_9_WAVE2_NEO"
+msgstr "Hai Cặn lớn chắn đường."
+
+msgid "BARK_CH01_9_CP2"
+msgstr "Thấy cửa lò rồi! Có người đứng trước cửa!"
+
+msgid "BARK_CH01_9_CP2_NEO"
+msgstr "Phát hiện tín hiệu kênh 00 ở cửa lò."
+
+msgid "BARK_CH01_9_WAVE3"
+msgstr "Bầy cuối trước cửa lò. Sau đó là hắn."
+
+msgid "BARK_CH01_9_CLEAR"
+msgstr "Xong. Giờ thì tới lượt ngươi."
+
+msgid "BARK_CH01_9_CLEAR_NEO"
+msgstr "Đường đã thông. Tiến tới cửa lò để hoàn tất."
+
+msgid "STAGE_01_10_NAME"
+msgstr "Cửa Lò Mẹ"
+
+msgid "STAGE_01_10_DESC"
+msgstr "Trước cửa Lò Mẹ lạnh tối, kẻ đeo mặt nạ chờ sẵn trong bộ giáp của hắn. Hạ hắn trước khi lửa tắt hẳn."
+
+msgid "BARK_CH01_10_START"
+msgstr "Đêm nhật thực. Nhiệt Lò Mẹ: 2%. Còn rất ít thời gian."
+
+msgid "BARK_CH01_10_WAVE1"
+msgstr "Hắn thả Cặn ra câu giờ. Đừng mắc bẫy, dọn nhanh!"
+
+msgid "BARK_CH01_10_WAVE1_NEO"
+msgstr "Cặn tro chắn đường tới cửa lò."
+
+msgid "BARK_CH01_10_WAVE2"
+msgstr "Đống đá golem kìa… Chỗ này là nơi mọi chuyện bắt đầu."
+
+msgid "BARK_CH01_10_WAVE2_NEO"
+msgstr "Đây là chỗ golem đã đổ."
+
+msgid "BARK_CH01_10_BOSS"
+msgstr "Ngươi sai golem, lấp mạch lửa, phá cầu. Hôm nay dừng ở đây!"
+
+msgid "BARK_CH01_10_BOSS_NEO"
+msgstr "Mục tiêu: kẻ đeo mặt nạ. Hắn mặc giáp, đánh rất nặng."
+
+msgid "BARK_CH01_10_BOSS_B"
+msgstr "Giáp của hắn nhận lệnh qua kênh 00. Đánh vỡ giáp là cắt được kênh."
+
+msgid "BARK_CH01_10_PHASE2"
+msgstr "Giáp quá tải! Hắn đang dồn tro vào lưỡi móc."
+
+msgid "BARK_CH01_10_QUAKE"
+msgstr "Sóng tro chạy hai phía, nhảy lên!"
+
+msgid "BARK_CH01_10_QUAKE_NEO"
+msgstr "Sóng tro chạy hai bên! Nhảy lên để tránh nhé."

@@ -309,6 +309,408 @@
 			"neo_text": "BARK_CH01_4_CLEAR_NEO"
 		},
 		{
+			"id": "ch01_5_start",
+			"kind": "story",
+			"on": "stage_start",
+			"stage": "stage_01_05",
+			"speaker": "neo",
+			"text": "BARK_CH01_5_START"
+		},
+		{
+			"id": "ch01_5_wave1",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_05",
+			"arg": 0,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_5_WAVE1",
+			"neo_text": "BARK_CH01_5_WAVE1_NEO"
+		},
+		{
+			"id": "ch01_5_cp1",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_05",
+			"arg": 1,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_5_CP1",
+			"neo_text": "BARK_CH01_5_CP1_NEO"
+		},
+		{
+			"id": "ch01_5_wave2",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_05",
+			"arg": 1,
+			"speaker": "neo",
+			"text": "BARK_CH01_5_WAVE2"
+		},
+		{
+			"id": "ch01_5_cp2",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_05",
+			"arg": 2,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_5_CP2",
+			"neo_text": "BARK_CH01_5_CP2_NEO"
+		},
+		{
+			"id": "ch01_5_wave3",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_05",
+			"arg": 2,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_5_WAVE3",
+			"neo_text": "BARK_CH01_5_WAVE3_NEO"
+		},
+		{
+			"id": "ch01_5_clear",
+			"kind": "story",
+			"on": "wave_cleared",
+			"stage": "stage_01_05",
+			"arg": 2,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_5_CLEAR",
+			"neo_text": "BARK_CH01_5_CLEAR_NEO"
+		},
+		{
+			"id": "ch01_6_start",
+			"kind": "story",
+			"on": "stage_start",
+			"stage": "stage_01_06",
+			"speaker": "neo",
+			"text": "BARK_CH01_6_START"
+		},
+		{
+			"id": "ch01_6_wave1",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_06",
+			"arg": 0,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_6_WAVE1",
+			"neo_text": "BARK_CH01_6_WAVE1_NEO"
+		},
+		{
+			"id": "ch01_6_cp1",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_06",
+			"arg": 1,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_6_CP1",
+			"neo_text": "BARK_CH01_6_CP1_NEO"
+		},
+		{
+			"id": "ch01_6_wave2",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_06",
+			"arg": 1,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_6_WAVE2",
+			"neo_text": "BARK_CH01_6_WAVE2_NEO"
+		},
+		{
+			"id": "ch01_6_cp2",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_06",
+			"arg": 2,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_6_CP2",
+			"neo_text": "BARK_CH01_6_CP2_NEO"
+		},
+		{
+			"id": "ch01_6_wave3",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_06",
+			"arg": 2,
+			"speaker": "neo",
+			"text": "BARK_CH01_6_WAVE3"
+		},
+		{
+			"id": "ch01_6_clear",
+			"kind": "story",
+			"on": "wave_cleared",
+			"stage": "stage_01_06",
+			"arg": 2,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_6_CLEAR",
+			"neo_text": "BARK_CH01_6_CLEAR_NEO"
+		},
+		{
+			"id": "ch01_7_start",
+			"kind": "story",
+			"on": "stage_start",
+			"stage": "stage_01_07",
+			"speaker": "neo",
+			"text": "BARK_CH01_7_START"
+		},
+		{
+			"id": "ch01_7_wave1",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_07",
+			"arg": 0,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_7_WAVE1",
+			"neo_text": "BARK_CH01_7_WAVE1_NEO"
+		},
+		{
+			"id": "ch01_7_cp1",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_07",
+			"arg": 1,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_7_CP1",
+			"neo_text": "BARK_CH01_7_CP1_NEO"
+		},
+		{
+			"id": "ch01_7_wave2",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_07",
+			"arg": 1,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_7_WAVE2",
+			"neo_text": "BARK_CH01_7_WAVE2_NEO"
+		},
+		{
+			"id": "ch01_7_cp2",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_07",
+			"arg": 2,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_7_CP2",
+			"neo_text": "BARK_CH01_7_CP2_NEO"
+		},
+		{
+			"id": "ch01_7_wave3",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_07",
+			"arg": 2,
+			"speaker": "neo",
+			"text": "BARK_CH01_7_WAVE3"
+		},
+		{
+			"id": "ch01_7_clear",
+			"kind": "story",
+			"on": "wave_cleared",
+			"stage": "stage_01_07",
+			"arg": 2,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_7_CLEAR",
+			"neo_text": "BARK_CH01_7_CLEAR_NEO"
+		},
+		{
+			"id": "ch01_8_start",
+			"kind": "story",
+			"on": "stage_start",
+			"stage": "stage_01_08",
+			"speaker": "neo",
+			"text": "BARK_CH01_8_START"
+		},
+		{
+			"id": "ch01_8_wave1",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_08",
+			"arg": 0,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_8_WAVE1",
+			"neo_text": "BARK_CH01_8_WAVE1_NEO"
+		},
+		{
+			"id": "ch01_8_cp1",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_08",
+			"arg": 1,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_8_CP1",
+			"neo_text": "BARK_CH01_8_CP1_NEO"
+		},
+		{
+			"id": "ch01_8_wave2",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_08",
+			"arg": 1,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_8_WAVE2",
+			"neo_text": "BARK_CH01_8_WAVE2_NEO"
+		},
+		{
+			"id": "ch01_8_cp2",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_08",
+			"arg": 2,
+			"speaker": "neo",
+			"text": "BARK_CH01_8_CP2"
+		},
+		{
+			"id": "ch01_8_wave3",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_08",
+			"arg": 2,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_8_WAVE3",
+			"neo_text": "BARK_CH01_8_WAVE3_NEO"
+		},
+		{
+			"id": "ch01_8_clear",
+			"kind": "story",
+			"on": "wave_cleared",
+			"stage": "stage_01_08",
+			"arg": 2,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_8_CLEAR",
+			"neo_text": "BARK_CH01_8_CLEAR_NEO"
+		},
+		{
+			"id": "ch01_9_start",
+			"kind": "story",
+			"on": "stage_start",
+			"stage": "stage_01_09",
+			"speaker": "neo",
+			"text": "BARK_CH01_9_START"
+		},
+		{
+			"id": "ch01_9_wave1",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_09",
+			"arg": 0,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_9_WAVE1",
+			"neo_text": "BARK_CH01_9_WAVE1_NEO"
+		},
+		{
+			"id": "ch01_9_cp1",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_09",
+			"arg": 1,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_9_CP1",
+			"neo_text": "BARK_CH01_9_CP1_NEO"
+		},
+		{
+			"id": "ch01_9_wave2",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_09",
+			"arg": 1,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_9_WAVE2",
+			"neo_text": "BARK_CH01_9_WAVE2_NEO"
+		},
+		{
+			"id": "ch01_9_cp2",
+			"kind": "story",
+			"on": "checkpoint",
+			"stage": "stage_01_09",
+			"arg": 2,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_9_CP2",
+			"neo_text": "BARK_CH01_9_CP2_NEO"
+		},
+		{
+			"id": "ch01_9_wave3",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_09",
+			"arg": 2,
+			"speaker": "neo",
+			"text": "BARK_CH01_9_WAVE3"
+		},
+		{
+			"id": "ch01_9_clear",
+			"kind": "story",
+			"on": "wave_cleared",
+			"stage": "stage_01_09",
+			"arg": 2,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_9_CLEAR",
+			"neo_text": "BARK_CH01_9_CLEAR_NEO"
+		},
+		{
+			"id": "ch01_10_start",
+			"kind": "story",
+			"on": "stage_start",
+			"stage": "stage_01_10",
+			"speaker": "neo",
+			"text": "BARK_CH01_10_START"
+		},
+		{
+			"id": "ch01_10_wave1",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_10",
+			"arg": 0,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_10_WAVE1",
+			"neo_text": "BARK_CH01_10_WAVE1_NEO"
+		},
+		{
+			"id": "ch01_10_wave2",
+			"kind": "story",
+			"on": "wave_started",
+			"stage": "stage_01_10",
+			"arg": 1,
+			"speaker": "char_lightning_01",
+			"text": "BARK_CH01_10_WAVE2",
+			"neo_text": "BARK_CH01_10_WAVE2_NEO"
+		},
+		{
+			"id": "ch01_10_boss",
+			"kind": "story",
+			"on": "boss_started",
+			"stage": "stage_01_10",
+			"delay": 0.4,
+			"speaker": "char_fire_01",
+			"text": "BARK_CH01_10_BOSS",
+			"neo_text": "BARK_CH01_10_BOSS_NEO"
+		},
+		{
+			"id": "ch01_10_boss_b",
+			"kind": "story",
+			"on": "boss_started",
+			"stage": "stage_01_10",
+			"delay": 3.0,
+			"speaker": "neo",
+			"text": "BARK_CH01_10_BOSS_B"
+		},
+		{
+			"id": "ch01_10_phase2",
+			"kind": "story",
+			"on": "boss_phase",
+			"stage": "stage_01_10",
+			"arg": 2,
+			"speaker": "neo",
+			"text": "BARK_CH01_10_PHASE2"
+		},
+		{
+			"id": "ch01_10_quake",
+			"kind": "story",
+			"on": "boss_phase",
+			"stage": "stage_01_10",
+			"arg": 2,
+			"delay": 2.8,
+			"speaker": "char_wind_01",
+			"text": "BARK_CH01_10_QUAKE",
+			"neo_text": "BARK_CH01_10_QUAKE_NEO"
+		},
+		{
 			"id": "hint_skill",
 			"kind": "hint",
 			"on": "skill_ready",

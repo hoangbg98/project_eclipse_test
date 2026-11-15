@@ -2500,3 +2500,255 @@ msgstr "Next: follow the masked figure through the Ashen Valley."
 
 msgid "STORY_CH01_END_03_2"
 msgstr "Who is your Manager?"
+
+msgid "BOSS_HENCHMAN_01"
+msgstr "The Masked Henchman"
+
+msgid "STAGE_01_05_NAME"
+msgstr "Dead Grove"
+
+msgid "STAGE_01_05_DESC"
+msgstr "The henchman's tracks lead up into a dead grove on the cliff slope. He has planted seal stakes all over it to call Dregs onto the path. Clear them and keep following his trail."
+
+msgid "BARK_CH01_5_START"
+msgstr "A weak 00 signal, repeating steadily. Like something's planted all over this grove."
+
+msgid "BARK_CH01_5_WAVE1"
+msgstr "Every tree is dead. Not even the dry leaves rustle."
+
+msgid "BARK_CH01_5_WAVE1_NEO"
+msgstr "The strange signal is pulling the ash Dregs in."
+
+msgid "BARK_CH01_5_CP1"
+msgstr "This stone stake has a black-and-white ring! He planted these to call the Dregs?"
+
+msgid "BARK_CH01_5_CP1_NEO"
+msgstr "A seal stake carrying the 00 signal. It's calling Dregs."
+
+msgid "BARK_CH01_5_WAVE2"
+msgstr "Another pack, big Dregs included."
+
+msgid "BARK_CH01_5_CP2"
+msgstr "Pull up every one of these stakes. He doesn't get to use the grove as a fence."
+
+msgid "BARK_CH01_5_CP2_NEO"
+msgstr "Seal stake positions logged."
+
+msgid "BARK_CH01_5_WAVE3"
+msgstr "Last pack! Clear it and the path opens!"
+
+msgid "BARK_CH01_5_WAVE3_NEO"
+msgstr "The last pack is around the big seal stake."
+
+msgid "BARK_CH01_5_CLEAR"
+msgstr "The signal's gone. Let's move, he can't be far."
+
+msgid "BARK_CH01_5_CLEAR_NEO"
+msgstr "The seal stakes are dead. Head to the edge of the grove to finish."
+
+msgid "STAGE_01_06_NAME"
+msgstr "Hanging Stone Bridge"
+
+msgid "STAGE_01_06_DESC"
+msgstr "The only way across the chasm is the guardians' ancient stone bridge, now missing many spans: the henchman wrecked it behind him. Leap the broken spans and clear the Dregs."
+
+msgid "BARK_CH01_6_START"
+msgstr "The guardians' stone bridge, many spans collapsed. If you fall, I'll pull you back to the anchor."
+
+msgid "BARK_CH01_6_WAVE1"
+msgstr "Broken bridge? Leave it to me! Jumping's my specialty."
+
+msgid "BARK_CH01_6_WAVE1_NEO"
+msgstr "Ash Dregs are blocking the bridgehead."
+
+msgid "BARK_CH01_6_CP1"
+msgstr "Fresh cuts on the pillar. He broke it down on purpose."
+
+msgid "BARK_CH01_6_CP1_NEO"
+msgstr "The pillar shows fresh damage."
+
+msgid "BARK_CH01_6_WAVE2"
+msgstr "No room to back off mid-bridge. Fight clean, don't get knocked off."
+
+msgid "BARK_CH01_6_WAVE2_NEO"
+msgstr "Keep your footing. Big Dregs knock you back hard."
+
+msgid "BARK_CH01_6_CP2"
+msgstr "I can see the far end of the bridge!"
+
+msgid "BARK_CH01_6_CP2_NEO"
+msgstr "One more stretch of bridge."
+
+msgid "BARK_CH01_6_WAVE3"
+msgstr "A pack of big Dregs is blocking the far bridgehead."
+
+msgid "BARK_CH01_6_CLEAR"
+msgstr "We made it. He thought wrecking a bridge would shake us off?"
+
+msgid "BARK_CH01_6_CLEAR_NEO"
+msgstr "Chasm crossed. Head to the bridgehead to finish."
+
+msgid "STAGE_01_07_NAME"
+msgstr "Abandoned Guardian Post"
+
+msgid "STAGE_01_07_DESC"
+msgstr "Across the chasm stands an ancient guardian outpost carved with the three-ring mark. The henchman got here first. Go inside and find out what he took."
+
+msgid "BARK_CH01_7_START"
+msgstr "A guardian outpost. Three stone rings, same as on the golem's back."
+
+msgid "BARK_CH01_7_WAVE1"
+msgstr "Many guardians used to stand watch here. Now it's empty."
+
+msgid "BARK_CH01_7_WAVE1_NEO"
+msgstr "Ash Dregs are nesting in the outpost."
+
+msgid "BARK_CH01_7_CP1"
+msgstr "This wall niche is empty. The guardian's core was pulled out."
+
+msgid "BARK_CH01_7_CP1_NEO"
+msgstr "Every guardian core niche is empty."
+
+msgid "BARK_CH01_7_WAVE2"
+msgstr "What does he want with guardian cores?!"
+
+msgid "BARK_CH01_7_WAVE2_NEO"
+msgstr "Big Dregs are clinging around the core niches."
+
+msgid "BARK_CH01_7_CP2"
+msgstr "The golem at the Hearth… its core probably came from here, then it was sent off."
+
+msgid "BARK_CH01_7_CP2_NEO"
+msgstr "The golem's core may have come from this outpost."
+
+msgid "BARK_CH01_7_WAVE3"
+msgstr "The last pack is at the outpost's back exit."
+
+msgid "BARK_CH01_7_CLEAR"
+msgstr "Take a core, send a guardian, kill the fire. He planned all of it."
+
+msgid "BARK_CH01_7_CLEAR_NEO"
+msgstr "The outpost is clear. Take the back exit to finish."
+
+msgid "STAGE_01_08_NAME"
+msgstr "Masked Camp"
+
+msgid "STAGE_01_08_DESC"
+msgstr "The trail leads to the henchman's camp in a rocky gorge. In its middle, a black-and-white channel pylon is siphoning the Mother Hearth's heat. Wreck the camp and uncover his plan."
+
+msgid "BARK_CH01_8_START"
+msgstr "The pylon ahead is siphoning heat into another network. Format 00."
+
+msgid "BARK_CH01_8_WAVE1"
+msgstr "His camp! Leave nothing standing."
+
+msgid "BARK_CH01_8_WAVE1_NEO"
+msgstr "Ash Dregs are guarding the camp."
+
+msgid "BARK_CH01_8_CP1"
+msgstr "A note on the table: \"Kill the Hearth on the night of the deepest eclipse.\" That's tonight."
+
+msgid "BARK_CH01_8_CP1_NEO"
+msgstr "The note gives a deadline: tonight."
+
+msgid "BARK_CH01_8_WAVE2"
+msgstr "Tonight?! Then we have to hurry!"
+
+msgid "BARK_CH01_8_WAVE2_NEO"
+msgstr "Big Dregs are guarding the pylon."
+
+msgid "BARK_CH01_8_CP2"
+msgstr "One branch of the pylon is cut. The Hearth isn't being drained any further."
+
+msgid "BARK_CH01_8_WAVE3"
+msgstr "Finish this, then back to the Hearth gate. He'll be there."
+
+msgid "BARK_CH01_8_WAVE3_NEO"
+msgstr "The last pack guards the camp exit."
+
+msgid "BARK_CH01_8_CLEAR"
+msgstr "The pylon's down. Now he has to show himself."
+
+msgid "BARK_CH01_8_CLEAR_NEO"
+msgstr "The camp is wrecked. Head out through the gorge to finish."
+
+msgid "STAGE_01_09_NAME"
+msgstr "Road Back to the Gate"
+
+msgid "STAGE_01_09_DESC"
+msgstr "Night falls as the eclipse deepens. The night trail leads back down to the Mother Hearth's gate, where the henchman is waiting. The ash Dregs are thicker than ever."
+
+msgid "BARK_CH01_9_START"
+msgstr "The Eclipsed Sun is being covered further. The Hollow Zone thickens by the minute."
+
+msgid "BARK_CH01_9_WAVE1"
+msgstr "It's pitch black and the Dregs keep coming!"
+
+msgid "BARK_CH01_9_WAVE1_NEO"
+msgstr "The Dregs are dense. Keep your rhythm."
+
+msgid "BARK_CH01_9_CP1"
+msgstr "Still no wind… If the Hearth dies tonight, the whole village…"
+
+msgid "BARK_CH01_9_CP1_NEO"
+msgstr "The Hearth's heat is down to 4%."
+
+msgid "BARK_CH01_9_WAVE2"
+msgstr "No stopping. We push straight through."
+
+msgid "BARK_CH01_9_WAVE2_NEO"
+msgstr "Two big Dregs block the path."
+
+msgid "BARK_CH01_9_CP2"
+msgstr "I can see the Hearth gate! Someone's standing in front of it!"
+
+msgid "BARK_CH01_9_CP2_NEO"
+msgstr "Channel 00 signal detected at the Hearth gate."
+
+msgid "BARK_CH01_9_WAVE3"
+msgstr "The last pack before the gate. Then it's him."
+
+msgid "BARK_CH01_9_CLEAR"
+msgstr "Done. Now it's your turn."
+
+msgid "BARK_CH01_9_CLEAR_NEO"
+msgstr "The way is open. Head to the Hearth gate to finish."
+
+msgid "STAGE_01_10_NAME"
+msgstr "The Hearth Gate"
+
+msgid "STAGE_01_10_DESC"
+msgstr "Before the cold, dark gate of the Mother Hearth, the masked henchman waits in his armor. Bring him down before the fire dies for good."
+
+msgid "BARK_CH01_10_START"
+msgstr "The eclipse night. Hearth heat: 2%. We're almost out of time."
+
+msgid "BARK_CH01_10_WAVE1"
+msgstr "He's using Dregs to stall us. Don't fall for it, clear them fast!"
+
+msgid "BARK_CH01_10_WAVE1_NEO"
+msgstr "Ash Dregs block the way to the gate."
+
+msgid "BARK_CH01_10_WAVE2"
+msgstr "The golem's rubble… This is where it all started."
+
+msgid "BARK_CH01_10_WAVE2_NEO"
+msgstr "This is where the golem fell."
+
+msgid "BARK_CH01_10_BOSS"
+msgstr "You sent the golem, sealed the vein, wrecked the bridge. It ends here!"
+
+msgid "BARK_CH01_10_BOSS_NEO"
+msgstr "Target: the masked henchman. Armored, hits hard."
+
+msgid "BARK_CH01_10_BOSS_B"
+msgstr "His armor takes orders through channel 00. Break the armor and the channel goes with it."
+
+msgid "BARK_CH01_10_PHASE2"
+msgstr "His armor is overloading! He's packing ash into the glaive."
+
+msgid "BARK_CH01_10_QUAKE"
+msgstr "Ash waves both ways, jump!"
+
+msgid "BARK_CH01_10_QUAKE_NEO"
+msgstr "Ash waves both ways! Jump to avoid them."

@@ -44,7 +44,7 @@ ARCS = [
 # Chương: (số, tên vi, tên en, màu nền map (trên, dưới), [(tên phần vi, en, số ải)], màn chơi đã có {số ải: stage_id})
 CHAPTERS = [
     (1, "Thung Lũng Tro Tàn", "The Ashen Valley", ((150, 120, 110), (60, 55, 60)),
-     [("Thung Lũng Tro Tàn", "The Ashen Valley", 10)], {1: "stage_01", 2: "stage_01_02", 3: "stage_01_03", 4: "stage_01_04"}),
+     [("Thung Lũng Tro Tàn", "The Ashen Valley", 10)], {i: ("stage_01" if i == 1 else "stage_01_%02d" % i) for i in range(1, 11)}),
     (2, "Xưởng Đá Ngủ", "The Sleeping Stone Workshop", ((140, 130, 105), (55, 60, 55)),
      [("Cao Nguyên Thủ Vệ", "Guardian Highlands", 12)], {}),
     (3, "Thành Tháp Sét Câm", "City of Silent Towers", ((70, 80, 120), (25, 28, 50)),

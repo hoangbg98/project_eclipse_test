@@ -39,7 +39,7 @@
 
 ---
 
-> **Cập nhật owner 2026-11-15 (hàng 21–24):** các mục D1, D5, D6 dưới đây còn mô tả bản cũ (golem nuốt lửa, Lò Mẹ cháy ở cuối 1-1). Kịch bản clip đúng nằm ở `tools/story/gen_story_clips.py` (`ch01_open`, `ch01_golem`, `ch01_end`); truyện từng màn 1-2 → 1-4 ở đầu `tools/stages/gen_stage_01_0X.py`.
+> **Cập nhật owner 2026-11-15 (hàng 21–24):** các mục D1, D5, D6 dưới đây còn mô tả bản cũ (golem nuốt lửa, Lò Mẹ cháy ở cuối 1-1). Kịch bản clip đúng nằm ở `tools/story/gen_story_clips.py` (`ch01_open`, `ch01_golem`, `ch01_end`); truyện từng màn 1-2 → 1-4 ở đầu `tools/stages/gen_stage_01_0X.py`, 1-5 → 1-10 (gồm boss Kẻ Đeo Mặt Nạ) ở đầu `tools/stages/gen_stages_01_05_10.py`. Mọi prompt ảnh Chương 1 gộp ở `docs/prompts/ART_MASTER.md` (sinh bằng `tools/prompts/build_art_master.py`).
 
 ## A. Cơ sở sáng tác
 

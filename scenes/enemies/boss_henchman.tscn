@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/boss_controller.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/combat/combatant.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/combat/skill_runner.gd" id="4"]
+
+[sub_resource type="RectangleShape2D" id="body"]
+size = Vector2(90, 270)
+
+[sub_resource type="RectangleShape2D" id="hurt"]
+size = Vector2(130, 290)
+
+[node name="BossHenchman" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+floor_snap_length = 8.0
+script = ExtResource("1")
+enemy_id = "boss_henchman_01"
+
+[node name="Body" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-55, 0, -20, 0, -10, -110, 10, -110, 20, 0, 55, 0, 45, -130, 60, -200, 40, -230, 30, -285, -30, -285, -40, -230, -60, -200, -45, -130)
+
+[node name="Visor" type="Polygon2D" parent="Body"]
+color = Color(0.05, 0.05, 0.06, 1)
+polygon = PackedVector2Array(-22, -278, 26, -278, 28, -244, -20, -244)
+
+[node name="Seam" type="Polygon2D" parent="Body"]
+color = Color(0.85, 0.5, 0.2, 1)
+polygon = PackedVector2Array(-6, -225, 6, -225, 6, -140, -6, -140)
+
+[node name="Glaive" type="Polygon2D" parent="Body"]
+color = Color(0.08, 0.08, 0.1, 1)
+polygon = PackedVector2Array(50, -60, 60, -60, 64, -250, 110, -280, 100, -250, 74, -232, 70, -60)
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -135)
+shape = SubResource("body")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("2")
+team = 1
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -145)
+shape = SubResource("hurt")
+
+[node name="Combatant" type="Node" parent="."]
+script = ExtResource("3")
+team = 1
+is_boss = true
+auto_setup = false
+
+[node name="Skills" type="Node2D" parent="."]
+script = ExtResource("4")

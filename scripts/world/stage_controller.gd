@@ -24,6 +24,7 @@ const ENEMY_SCENES := {
 	"enemy_slime_01": preload("res://scenes/enemies/enemy_slime.tscn"),
 	"enemy_slime_02": preload("res://scenes/enemies/enemy_slime.tscn"),
 	"boss_golem_01": preload("res://scenes/enemies/boss_golem.tscn"),
+	"boss_henchman_01": preload("res://scenes/enemies/boss_henchman.tscn"),
 }
 const WALL_THICKNESS := 64.0
 
