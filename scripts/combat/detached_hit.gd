@@ -12,6 +12,8 @@ var velocity := Vector2.ZERO
 var tick_interval := 0.0
 ## Chờ bấy nhiêu giây rồi mới bật (vết chém nổ chậm).
 var delay := 0.0
+## Tốc độ xoay hình đạn (rad / giây), từ HitDef.projectile_spin_deg.
+var spin := 0.0
 
 var _age := 0.0
 var _next_tick := 0.0
@@ -41,6 +43,7 @@ static func spawn(parent: Node, def: HitDef, attacker: Node, team: PhysicsLayers
 	if d.sprite:
 		d.hitbox.show_shape = false
 		d.sprite.visible = d.delay <= 0.0
+		d.spin = deg_to_rad(def.projectile_spin_deg)
 		d.add_child(d.sprite)
 	parent.add_child(d)
 	d.global_position = pos + Vector2(def.offset.x * facing, def.offset.y)
@@ -85,6 +88,8 @@ func step(delta: float) -> void:
 		return
 	_age += delta
 	position += velocity * delta
+	if sprite and spin != 0.0:
+		sprite.rotation += spin * delta
 	if tick_interval > 0.0 and _age >= _next_tick - 0.000001 and _age < lifetime:
 		_next_tick += tick_interval
 		hitbox.activate()

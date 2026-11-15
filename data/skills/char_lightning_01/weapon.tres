@@ -27,6 +27,9 @@ detached = true
 travel_px = 450.0
 tick_interval_ms = 0.0
 travel_angle_deg = -10.0
+projectile_sprite = "res://assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_1.png"
+projectile_scale = 0.5
+projectile_spin_deg = 1080.0
 statuses = Array[ExtResource("3")]([SubResource("st_0_0")])
 
 [sub_resource type="Resource" id="st_1_0"]
@@ -53,6 +56,9 @@ travel_px = -450.0
 tick_interval_ms = 0.0
 travel_angle_deg = -10.0
 delay_ms = 400.0
+projectile_sprite = "res://assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_1.png"
+projectile_scale = 0.5
+projectile_spin_deg = 1080.0
 statuses = Array[ExtResource("3")]([SubResource("st_1_0")])
 
 [sub_resource type="Resource" id="st_2_0"]
@@ -78,6 +84,9 @@ detached = true
 travel_px = 450.0
 tick_interval_ms = 0.0
 travel_angle_deg = 10.0
+projectile_sprite = "res://assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_2.png"
+projectile_scale = 0.5
+projectile_spin_deg = 1080.0
 statuses = Array[ExtResource("3")]([SubResource("st_2_0")])
 
 [sub_resource type="Resource" id="st_3_0"]
@@ -104,6 +113,9 @@ travel_px = -450.0
 tick_interval_ms = 0.0
 travel_angle_deg = 10.0
 delay_ms = 400.0
+projectile_sprite = "res://assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_2.png"
+projectile_scale = 0.5
+projectile_spin_deg = 1080.0
 statuses = Array[ExtResource("3")]([SubResource("st_3_0")])
 
 [resource]

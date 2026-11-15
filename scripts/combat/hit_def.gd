@@ -54,6 +54,8 @@ enum Shape { ARC, CIRCLE, RECT }
 @export_file("*.png") var projectile_sprite := ""
 ## Tỉ lệ vẽ hình đạn.
 @export var projectile_scale := 1.0
+## Hình đạn tự xoay (độ / giây) trong lúc bay, vd đao ném của Raikiba; 0 = không xoay.
+@export var projectile_spin_deg := 0.0
 
 
 func end_ms() -> float:

@@ -100,9 +100,43 @@ func test_kazeyumi_flying_arrows_use_wind_arrow_sprite() -> void:
 				assert_str(h.projectile_sprite).override_failure_message(s.id).ends_with("char_wind_01_vfx_wind_arrow.png")
 				assert_bool(ResourceLoader.exists(h.projectile_sprite)).is_true()
 	assert_int(n).is_greater_equal(20)
-	for s: SkillDef in _skills("char_lightning_01").values():                      # đao ném không dùng mũi tên
+	for s: SkillDef in _skills("char_lightning_01").values():                      # Raikiba không dùng mũi tên gió
 		for h in s.hits:
-			assert_str(h.projectile_sprite).is_empty()
+			assert_str(h.projectile_sprite).not_contains("wind_arrow")
+
+
+func test_raikiba_thrown_daggers_use_dagger_sprites() -> void:
+	var s: SkillDef = _skills("char_lightning_01")["weapon"]
+	var files: Array[String] = []
+	for h in s.hits:
+		assert_str(h.projectile_sprite).is_not_empty()
+		assert_bool(ResourceLoader.exists(h.projectile_sprite)).is_true()
+		assert_float(h.projectile_spin_deg).is_greater(0.0)
+		files.append(h.projectile_sprite.get_file())
+	# 4 lượt bay: đao 33 đi + về (chếch lên), đao 34 đi + về (chếch xuống)
+	assert_array(files).is_equal(["char_lightning_01_vfx_dagger_1.png", "char_lightning_01_vfx_dagger_1.png",
+			"char_lightning_01_vfx_dagger_2.png", "char_lightning_01_vfx_dagger_2.png"])
+	var all := _skills("char_lightning_01")
+	for name: String in all:                                                       # chỉ đòn ném có hình đao
+		if name != "weapon":
+			for h in (all[name] as SkillDef).hits:
+				assert_str(h.projectile_sprite).override_failure_message(name).is_empty()
+
+
+func test_detached_hit_sprite_spins_while_flying() -> void:
+	var def := HitDef.new()
+	def.detached = true
+	def.duration_ms = 400.0
+	def.travel_px = 450.0
+	def.projectile_sprite = "res://assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_1.png"
+	def.projectile_spin_deg = 1080.0
+	var parent := auto_free(Node2D.new()) as Node2D
+	add_child(parent)
+	var d := DetachedHit.spawn(parent, def, null, PhysicsLayers.Team.PLAYER, 1, Vector2.ZERO, {},
+			ResourceComponent.HitKind.NONE, "test.dagger")
+	assert_object(d.sprite).is_not_null()
+	d.step(0.1)
+	assert_float(d.sprite.rotation).is_equal_approx(deg_to_rad(108.0), 0.001)
 
 
 func test_kazeyumi_shot_spawns_visible_arrow() -> void:

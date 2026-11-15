@@ -1686,3 +1686,13 @@ un_tests.ps1`
 - **Đã chạy:** `python -X utf8 -I tools/frames/gen_prompts.py char_earth_01`; tìm mọi chỗ nhắc Iwagane trong docs / localization / data: không có lời thoại hay đại từ nào gọi Iwagane là nam.
 - **Quyết định Claude chọn:** "lớn tuổi nhất" = lớn hơn Yomigari (20+), ghi là cuối hai mươi trong prompt ảnh; "dáng cao" = ~3 đầu, 300 px khi đứng (các nhân vật khác 280 px).
 - **Hạn chế đã biết:** pose mẫu 52–57 trong tờ bộ phận vẫn tỉ lệ ~2.5 đầu, phiếu dặn Codex cho chân dài hơn mẫu; giơ kiếm qua đầu với chiều cao 300 px có thể chạm mép trên canvas 384 (check_frames.py sẽ báo).
+
+
+## 2026-11-15 — Raikiba: hình đao bay cho Song Lôi Phi Nhận
+
+- **Milestone / task:** VFX — owner yêu cầu thêm hai đao 33, 34 (tờ bộ phận Raikiba) vào hiệu ứng đòn ném
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_1.png`, `_dagger_2.png` (từ ảnh tham chiếu 33, 34, nền trong suốt, giữ ánh sét); `scripts/combat/hit_def.gd` (`projectile_spin_deg`); `scripts/combat/detached_hit.gd` (xoay hình đạn khi bay); `tools/skill_data_lib.py` (`thrown_dagger()`); `tools/gen_wind_lightning_skills.py` → `data/skills/char_lightning_01/weapon.tres`; `tests/unit/combat/test_kazeyumi_raikiba_skills.gd` (2 test mới, sửa test cũ "Raikiba không có hình đạn"); `docs/ASSET_LICENSES.md`.
+- **Đã chạy:** `python -X utf8 -I tools/gen_wind_lightning_skills.py` (chỉ weapon.tres đổi, +12 dòng); `<godot> --headless --path . --import`; `tools\run_tests.ps1`.
+- **Quyết định Claude chọn:** đao 33 bay chếch lên, đao 34 chếch xuống, cả lượt đi và lượt về; tỉ lệ 0.5 (~115 px, vừa vùng trúng 110×110); xoay 1080°/s (3 vòng/giây) cho giống đao ném vòng, cũng tránh cảnh đao bay giật lùi lúc quay về.
+- **Hạn chế đã biết:** đao bay đường thẳng (đi 400 ms, về 400 ms), chưa cong thành vòng cung; lúc chuyển từ lượt đi sang lượt về hình đao biến mất rồi hiện lại cùng chỗ (hai vùng riêng).

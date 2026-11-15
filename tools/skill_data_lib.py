@@ -25,6 +25,17 @@ def wind_arrow(scale=0.55):
     return dict(projectile_sprite=WIND_ARROW, projectile_scale=float(scale))
 
 
+# Song đao sét của Raikiba (bộ phận số 33, 34), vẽ theo đao bay của Song Lôi Phi Nhận (owner 2026-11-15).
+RAIKIBA_DAGGERS = ("res://assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_1.png",
+                   "res://assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_2.png")
+
+
+def thrown_dagger(index, scale=0.5, spin_deg=1080.0):
+    """Trường HitDef để vẽ đao bay (index 0 = đao 33, 1 = đao 34), tự xoay khi bay."""
+    return dict(projectile_sprite=RAIKIBA_DAGGERS[index], projectile_scale=float(scale),
+                projectile_spin_deg=float(spin_deg))
+
+
 def hit(at, dur, ratio, shape=ARC, radius=140, arc=120, tilt=0, rect=(100, 100), offset=(0, -120),
         sc=1.0, knock=0, statuses=(), detached=False, travel=0, tick=0, **extra):
     return dict(at_ms=float(at), duration_ms=float(dur), atk_ratio=float(ratio), sc_multiplier=float(sc),

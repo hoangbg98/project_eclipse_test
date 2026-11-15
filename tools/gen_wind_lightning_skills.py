@@ -9,7 +9,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from skill_data_lib import AIR, CIRCLE, HOLD, LANDING, RECT, SKILL, ULTIMATE, WEAPON, hit, wind_arrow, write_skill  # noqa: E402
+from skill_data_lib import AIR, CIRCLE, HOLD, LANDING, RECT, SKILL, ULTIMATE, WEAPON, hit, thrown_dagger, wind_arrow, write_skill  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -218,14 +218,16 @@ write_skill("skill", base(K, "skill", "skill", "skill_1", SKILL, 100, 350, 200, 
 BLADE_Y = -100.0
 SPREAD = 10.0  # độ lệch lên / xuống của hai đao
 blades = []
-for sgn in (-1, 1):
+for idx, sgn in enumerate((-1, 1)):
     a = sgn * SPREAD
     end = (450 * math.cos(math.radians(a)), BLADE_Y + 450 * math.sin(math.radians(a)))
+    # Hình đao bay: đao 33 bay chếch lên, đao 34 chếch xuống (owner 2026-11-15), tự xoay khi bay.
     blades.append(hit(140, 400, 0.50, shape=RECT, rect=(110, 110), offset=(0, BLADE_Y), detached=True,
-                      travel=450, travel_angle_deg=a, statuses=[MARK]))
+                      travel=450, travel_angle_deg=a, statuses=[MARK], **thrown_dagger(idx)))
     # Lượt về: đặt cùng lúc ném (vùng tách chỉ sinh trong thời lượng kỹ năng), bật sau 400 ms tại điểm xa nhất.
     blades.append(hit(140, 400, 0.50, shape=RECT, rect=(110, 110), offset=(round(end[0], 1), round(end[1], 1)),
-                      detached=True, travel=-450, travel_angle_deg=a, statuses=[MARK], delay_ms=400.0))
+                      detached=True, travel=-450, travel_angle_deg=a, statuses=[MARK], delay_ms=400.0,
+                      **thrown_dagger(idx)))
 write_skill("weapon", base(K, "weapon", "weapon", "skill_2", WEAPON, 140, 0, 180, en_cost=30.0, cooldown_sec=11.0,
             blocks_normal_ms=800.0, catch_animation="weapon_catch", catch_at_ms=880.0),
             blades,
