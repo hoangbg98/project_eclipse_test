@@ -8,6 +8,63 @@ Tên nhân vật theo AGENTS.md (owner 2026-11-13): Enkiba = Aether cũ (`char_f
 
 ---
 
+## Danh sách nhanh (2026-11-15)
+
+Tóm tắt toàn bộ đồ 5★ đang có trong game. Chi tiết từng dòng hiệu ứng ở mục 1 (vũ khí) và mục 2 (vết thánh); số liệu thật nằm trong `data/equipment/`. Tên là tên tạm.
+
+### Vũ khí 5★ (6 món)
+
+Mỗi vũ khí khóa theo loại vũ khí của nhân vật (mục 5.1). Hiệu ứng độc quyền chỉ kích hoạt cho chủ sở hữu.
+
+| # | Tên | Loại | Chủ sở hữu | Data ID | Chỉ số cộng | Mô tả sơ qua |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Hoàng Hôn Thiêu Rụi | Kiếm | Enkiba (Hỏa) | `eq_weapon_dusk_inferno` | ATK 230, Tỉ lệ chí mạng +6% | Vũ khí công Hỏa: +15% ST Hỏa, +8% tất cả ST, đánh mạnh hơn lên kẻ địch đang Cháy; skill_2 áp Cháy. Enkiba: toàn đội +8% ST (thêm +8% khi ≥ 3 Nhiệt), skill_2 hồi nhanh hơn |
+| 2 | Hơi Thở Cuối Mùa Gió | Cung | Kazeyumi (Phong) | `eq_weapon_last_gale` | ATK 215, Tỉ lệ chí mạng +5% | Cơ động: +15% ST Phong, +8% tốc độ di chuyển, +6% tất cả ST, mạnh hơn lên kẻ địch bị Chậm; skill_2 gây Chậm. Kazeyumi: toàn đội +6% nạp EN, kẻ địch trong Phong Vực chịu thêm ST |
+| 3 | Hai Tiếng Sấm | Song đao | Raikiba (Lôi) | `eq_weapon_twin_thunder` | ATK 220, ST chí mạng +15% | Tốc đánh: +15% ST Lôi, +8% tốc độ tấn công, +6% tất cả ST, mạnh hơn lên kẻ địch mang hiệu ứng nguyên tố. Raikiba: Bùng nổ Sét +40% ST, toàn đội +8% tốc độ tấn công sau Bùng nổ |
+| 4 | Nhật Miện Phán Quyết | Trượng | Hikarine (Quang) | `eq_weapon_solar_verdict` | ATK 200, HP +1200 | Hỗ trợ: +15% ST Quang, +10% hiệu quả hồi máu; skill_2 hồi toàn đội 3% HP. Hikarine: toàn đội +8% hồi máu, Phán quyết mạnh hơn, khiên từ hồi thừa lớn hơn |
+| 5 | Liềm Khế Ước Trăng Khuyết | Lưỡi hái | Yomigari (Ám) | `eq_weapon_crescent_pact` | ATK 225, ST chí mạng +15% | Duy trì: +15% ST Ám, +8% tất cả ST, +4% hút máu, hồi máu khi hạ gục, mạnh hơn lên kẻ địch dưới 30% HP. Yomigari: hạ gục rút hồi chiêu, Nguyền và hút máu skill_2 mạnh hơn |
+| 6 | Cốt Sơn Bất Khuất | Đại kiếm | Iwagane (Địa) | `eq_weapon_unyielding_peak` | ATK 235, DEF +100 | Công thủ: +15% ST Địa, +8% tất cả ST, giảm 6% ST nhận, mạnh hơn lên kẻ địch bị giảm DEF. Iwagane: toàn đội giảm ST nhận sau skill_2, Cốt Đá kích hoạt ở 4 tầng |
+
+### Vết thánh 5★ (6 bộ × 3 món = 18 món)
+
+Chỉ số cộng theo ô (như nhau ở mọi bộ): **Đầu** ATK 80, Tỉ lệ chí mạng +8% · **Thân** ATK 50, HP +2000, DEF 60 · **Chân** ATK 60, Giảm hồi chiêu +8%. Phần *(chỉ hệ X)* chỉ có tác dụng khi người đeo cùng hệ với bộ.
+
+| Bộ (chủ sở hữu) | Ô | Tên món | Data ID | Hiệu ứng chung (mọi người đeo) | Độc quyền (chỉ chủ sở hữu) |
+| --- | --- | --- | --- | --- | --- |
+| Antoine Lavoisier (Enkiba, Hỏa) | Đầu | Oxy | `eq_stigma_top_lavoisier` | ST Hỏa +10% *(chỉ hệ Hỏa)* | Nhiệt tồn tại 6s → 8s |
+| | Thân | Định Luật Bảo Toàn Khối Lượng | `eq_stigma_mid_lavoisier` | HP tối đa +8%; bị Cháy ngắn hơn 30% *(chỉ hệ Hỏa)* | Mỗi tầng Nhiệt +5% ATK (thay +4%) |
+| | Chân | Chuyên Luận Hóa Học | `eq_stigma_bot_lavoisier` | Tất cả ST +8% | Cộng tầng Nhiệt nhanh hơn |
+| Leonardo da Vinci (Kazeyumi, Phong) | Đầu | Chong Chóng Trên Không | `eq_stigma_top_davinci` | ST Phong +10% *(chỉ hệ Phong)* | Gió Thuận chỉ cần trúng 2 kẻ địch |
+| | Thân | Cỗ Máy Cánh Chim | `eq_stigma_mid_davinci` | Tốc độ di chuyển +8% | Gió Thuận kéo dài 5s → 7s |
+| | Chân | Bản Thảo Codex | `eq_stigma_bot_davinci` | Tốc độ nạp EN +10% | Gió Thuận hồi nhanh hơn |
+| Benjamin Franklin (Raikiba, Lôi) | Đầu | Con Diều Trong Bão | `eq_stigma_top_franklin` | ST Lôi +10% *(chỉ hệ Lôi)* | Dấu Sét tồn tại 6s → 8s |
+| | Thân | Cột Thu Lôi | `eq_stigma_mid_franklin` | Tốc độ tấn công +8% | Bùng nổ Sét 150% → 170% ATK |
+| | Chân | Niên Lịch Richard Nghèo | `eq_stigma_bot_franklin` | +8% ST lên kẻ địch mang hiệu ứng nguyên tố | Bùng nổ Sét lặp lại nhanh hơn trên cùng mục tiêu |
+| Florence Nightingale (Hikarine, Quang) | Đầu | Ngọn Đèn Scutari | `eq_stigma_top_nightingale` | ST Quang +10% *(chỉ hệ Quang)* | Hồi thừa chuyển thành khiên nhiều hơn |
+| | Thân | Biểu Đồ Hoa Hồng | `eq_stigma_mid_nightingale` | Hiệu quả hồi máu +10% | Khiên tối đa 8% → 10% HP |
+| | Chân | Ghi Chép Về Điều Dưỡng | `eq_stigma_bot_nightingale` | HP tối đa +8% | Ân Huệ Ánh Sáng kích hoạt dày hơn |
+| Edgar Allan Poe (Yomigari, Ám) | Đầu | Con Quạ | `eq_stigma_top_poe` | ST Ám +10% *(chỉ hệ Ám)* | Hút máu lên mục tiêu Nguyền cao hơn |
+| | Thân | Trái Tim Tố Giác | `eq_stigma_mid_poe` | Hút máu +5% | Nguyền giảm DEF −15% → −18% |
+| | Chân | Chiếc Hố Và Con Lắc | `eq_stigma_bot_poe` | +8% ST lên kẻ địch bị giảm DEF (hệ Ám tính cả Nguyền) | Phần thưởng hạ gục kích hoạt dày hơn |
+| Charles Darwin (Iwagane, Địa) | Đầu | Chuyến Đi Beagle | `eq_stigma_top_darwin` | ST Địa +10% *(chỉ hệ Địa)* | Cốt Đá tồn tại 8s → 10s |
+| | Thân | Chọn Lọc Tự Nhiên | `eq_stigma_mid_darwin` | Giảm 6% ST nhận | Mỗi tầng Cốt Đá giảm 3.5% ST nhận (thay 3%) |
+| | Chân | Lý Luận Tiến Hoá | `eq_stigma_bot_darwin` | HP tối đa +12% | Cộng tầng Cốt Đá nhanh hơn |
+
+**Hiệu ứng bộ (phần chung, mọi người đeo):**
+
+| Bộ | 2 món | 3 món |
+| --- | --- | --- |
+| Antoine Lavoisier | +10% ST Hỏa; kẻ địch đang Cháy chịu thêm 5% *(chỉ hệ Hỏa)* | Dùng Tuyệt kỹ: toàn đội +8% ST trong 8s |
+| Leonardo da Vinci | +10% ST Phong *(chỉ hệ Phong)*; né hoàn hảo: +10% ST 4s | Bắn trúng ≥ 3 kẻ địch: toàn đội +8% ST nguyên tố 6s |
+| Benjamin Franklin | +10% ST Lôi *(chỉ hệ Lôi)*; mục tiêu mang hiệu ứng nguyên tố chịu +6% ST từ toàn đội | Gây hiệu ứng nguyên tố: +6% tốc độ tấn công 4s |
+| Florence Nightingale | +10% ST Quang *(chỉ hệ Quang)*; mọi hồi máu +8% | Hồi cho đồng đội dưới 50% HP: toàn đội +8% ST 5s |
+| Edgar Allan Poe | +10% ST Ám *(chỉ hệ Ám)*; hạ gục: hồi 3% HP | Kẻ địch dưới 30% HP chịu +10% ST |
+| Charles Darwin | +10% ST Địa *(chỉ hệ Địa)*; dưới 50% HP: giảm thêm 8% ST nhận | Dùng skill_2 / Tuyệt kỹ: toàn đội giảm 6% ST nhận 6s |
+
+Phần độc quyền của hiệu ứng bộ (chỉ chủ sở hữu): xem bảng "Mức bộ" ở mục 2.2–2.7.
+
+---
+
 ## 0. Quy ước chung
 
 ### Hai tầng hiệu ứng

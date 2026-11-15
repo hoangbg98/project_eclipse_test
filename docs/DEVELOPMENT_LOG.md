@@ -1811,3 +1811,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 6 PNG. Bản overlay 1590×1080 nền trong suốt, đúng kích thước ảnh banner, tọa độ tính trên ảnh: đặt làm layer trên cùng trong Photoshop. Bản 1920×1080 là cả màn (danh sách trái, thanh trên), tọa độ theo màn. Mỗi ô ghi tên, cỡ (rộng×cao) và vị trí; lưới 50 px; hai dải làm tối nhẹ (30% trái, 32% phải) và trục giữa ảnh vẽ đường đỏ.
 - **Quyết định Claude chọn:** số đo đọc thẳng từ `data/ui/recruit_screen_layout.json` (chạy lại script sau khi sửa bố cục); màu theo loại: tím = thanh trên, xám = danh sách, xanh dương = chữ, vàng = nút / icon, cam = nút Chiêu mộ, xanh lá = ảnh vũ khí màn tự vẽ; chữ chú thích dùng font Windows (chỉ trên wireframe, không vào game); ảnh nằm trong `docs/` nên không vào bản export.
 - **Hạn chế đã biết:** PNG một lớp (không phải PSD nhiều layer); kích thước theo màn 16:9 1920×1080.
+
+## 2026-11-15 — Tài liệu: danh sách nhanh vũ khí và vết thánh 5★
+- **Milestone / task:** Tài liệu — owner: "gửi cho mình list danh sách vũ khí và vết thánh 5 sao kèm mô tả sơ qua vào file markdown hiện có của game".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/EQUIPMENT_5STAR.md` (mục mới "Danh sách nhanh" trước mục 0).
+- **Đã chạy:** kiểm tra mọi Data ID trong mục mới đều có file trong `data/equipment/` (không thiếu).
+- **Kết quả thật:** 3 bảng: 6 vũ khí 5★ (tên, loại, chủ sở hữu, Data ID, chỉ số cộng lấy từ `.tres`, mô tả sơ qua); 18 vết thánh 5★ (bộ, ô, tên, Data ID, hiệu ứng chung, độc quyền rút gọn) kèm chỉ số cộng theo ô; hiệu ứng bộ 2 / 3 món phần chung của 6 bộ.
+- **Quyết định Claude chọn:** đặt ở đầu tài liệu thiết kế trang bị 5★ (file markdown đã có) thay vì tạo file mới; mô tả rút từ mục 1 / 2 của chính tài liệu, chi tiết vẫn ở mục 1 / 2.
+- **Hạn chế đã biết:** bảng là bản tóm tắt viết tay; khi đổi số trong `data/equipment/` cần sửa lại cột chỉ số cộng.
