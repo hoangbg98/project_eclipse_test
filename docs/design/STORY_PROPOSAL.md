@@ -17,7 +17,7 @@
 | 3 | Kẻ thù (B6) | **Người cầm Neo 00** — Quản lý đời trước, động cơ như B6 mục 3 | Gieo từ Chương 1 (mảnh ấn mã 00, cảnh nhá "???") |
 | 4 | Cấu trúc (C) | **7 chương như bảng C, nhưng kết mở** để sau này mở khóa nhân vật / giáp mới | Chương 7 khép bí ẩn Neo 00 và Mặt Trời Khuyết, nhưng để ngỏ: vành nhật thực cân bằng còn những "vết khuyết" nhỏ ở vùng xa → nơi xuất hiện nhân vật / giáp mới trong cập nhật sau |
 | 5 | Tính cách (B4) | **Chốt** 6 tính cách như B4 | — |
-| 6 | Giới tính / tuổi | Enkiba **nam 16–19**, Kazeyumi **nữ 16–19**, Raikiba **nam 16–19**, Hikarine **nữ 16–19**, Yomigari **nam 20+**, Iwagane **nam 20+** | Bốn người trẻ gọi nhau "tớ – cậu"; với Yomigari, Iwagane thì "anh – em" |
+| 6 | Giới tính / tuổi | Enkiba **nam 16–19**, Kazeyumi **nữ 16–19**, Raikiba **nam 16–19**, Hikarine **nữ 16–19**, Yomigari **nam 20+**, Iwagane **nữ, lớn tuổi nhất nhóm, dáng cao** (owner đổi 2026-11-15, trước là nam 20+) | Bốn người trẻ gọi nhau "tớ – cậu"; với Yomigari thì "anh – em", với Iwagane thì "chị – em" (Yomigari cũng gọi Iwagane là chị) |
 | 7 | Enkiba – Raikiba | **Cùng một lò luyện** (gọi tạm **Lò Nanh**, nơi rèn người mang giáp; đề xuất tên) — bạn cũ kiêm đối thủ, không ruột thịt | Raikiba biết Enkiba từ hồi ở Lò Nanh; sửa thoại clip mở Chương 1 (nhịp 5–6) |
 | 8 | Tên game | **PROJECT ECLIPSE là tên chính thức** | Nhật thực là trục chính của truyện; Chương 7 giữ tên "Nhật Thực" |
 | 9 | Clip mở chương | Phát **lần đầu bấm Chương 1, trước Thông tin màn** (có nút Xem lại) | — |

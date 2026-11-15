@@ -7,10 +7,12 @@
 
 ## Tỉ lệ và nét vẽ
 
-- Chibi khoảng **2.5 đầu**: đầu to, tóc nâu bù xù; thân chắc, vai giáp to tròn làm người trông rộng ngang; chân ngắn, ủng to.
-- Pose mẫu nhỏ (52–57) là chibi đúng tỉ lệ dùng trong game; ảnh toàn thân (số 1) cao hơn (gần 4 đầu), chỉ dùng để khóa chi tiết và màu.
+- Iwagane là **nữ, lớn tuổi nhất nhóm, dáng cao** (owner 2026-11-15): người trưởng thành cuối hai mươi, mặt điềm tĩnh, không trẻ con.
+- Chibi khoảng **3 đầu** (cao hơn các nhân vật khác ~2.5 đầu): đầu vẫn to, nhưng thân và chân dài hơn; thân chắc, vai giáp to tròn; ủng to.
+- Pose mẫu nhỏ (52–57) khóa nét chibi, giáp và cỡ kiếm; khi vẽ frame cho chân dài hơn mẫu một chút. Ảnh toàn thân (số 1)
+  cao gần 4 đầu, chỉ dùng để khóa chi tiết và màu.
 - Nét viền nâu sẫm gần đen, dày khoảng 2–3 px ở canvas 384; cel shading 2–3 tầng, highlight kim loại trên giáp đồng.
-- Mục tiêu chiều cao đứng **~280 px** trong canvas 384×384 (như các nhân vật khác), chân ở y = 336, tâm x = 192.
+- Mục tiêu chiều cao đứng **~300 px** trong canvas 384×384 (các nhân vật khác ~280 px, Iwagane cao nhất nhóm), chân ở y = 336, tâm x = 192.
   Đại kiếm dài gần bằng người: được vượt khung người nhưng không ra khỏi canvas (khi vung qua đầu có thể phải thu nhỏ góc vung).
 
 ## Bảng màu chính (ước lượng)
