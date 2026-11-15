@@ -374,7 +374,13 @@ def equip_fields(eid, slot, owner, set_id, wtype, st):
     return [("id", eid), ("name_key", "EQUIP_" + eid.upper()), ("slot", slot), ("rarity", 5),
             ("weapon_type", wtype), ("max_level", 10), ("owner_id", owner), ("set_id", set_id),
             ("atk", atk), ("max_hp", hp), ("def", df), ("crit_rate", cr), ("crit_damage", cd), ("cdr", cdr),
-            ("growth_per_level", 0.1), ("enhance_gold_base", 1000), ("enhance_points_base", 500)]
+            ("growth_per_level", 0.1), ("enhance_gold_base", 1000), ("enhance_points_base", 500)] + art_field(eid, slot)
+
+
+def art_field(eid, slot):
+    """Ảnh món (owner 2026-11-15): có file assets/equipment/{weapons|stigmata}/<id>.png thì ghi `art`."""
+    rel = "assets/equipment/%s/%s.png" % ("weapons" if slot == "weapon" else "stigmata", eid)
+    return [("art", "res://" + rel)] if os.path.exists(os.path.join(ROOT, rel)) else []
 
 
 locale = []

@@ -140,5 +140,6 @@ cdr = 0.0
 growth_per_level = 0.1
 enhance_gold_base = 1000
 enhance_points_base = 500
+art = "res://assets/equipment/weapons/eq_weapon_dusk_inferno.png"
 effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2"), SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6"), SubResource("Effect_7"), SubResource("Effect_8"), SubResource("Effect_9"), SubResource("Effect_10"), SubResource("Effect_11"), SubResource("Effect_12")])
 metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

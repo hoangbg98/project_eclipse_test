@@ -1866,3 +1866,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại, `reports/report_216`), 5/5 test khói đạt.
 - **Nguyên nhân:** 2 panel đen 35% (30% trái, 32% phải vùng banner) thêm từ đầu để đọc chữ trên ảnh placeholder; trên ảnh thật mép cứng lộ thành 2 khối vuông.
 - **Hạn chế đã biết:** chữ trên ảnh sáng dựa vào nền riêng của từng ô (pity, nút); ảnh banner rất sáng có thể cần owner chừa vùng tối.
+
+## 2026-11-15 — Trang bị: ảnh vũ khí 5★ Hoàng Hôn Thiêu Rụi (Enkiba)
+- **Milestone / task:** Asset — owner gửi ảnh vũ khí Enkiba theo chuẩn 1950 × 1030 và yêu cầu đưa vào game thử.
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/character_1_overview.png`, `character_2_weapon.png`; owner chưa xem trong Godot)
+- **File tạo/sửa:** `assets/equipment/weapons/eq_weapon_dusk_inferno.png` (+ `.import`), `tools/cut_flat_bg.py` (mới: xóa nền phẳng, giữ khung, bịt khe viền), `tools/gen_equipment_5star.py` (`art_field`: tự ghi `art` khi có `assets/equipment/{weapons,stigmata}/<id>.png`) → `data/equipment/eq_weapon_dusk_inferno.tres`, `tools/screenshot_character.gd` (Enkiba cầm vũ khí 5★), `docs/ASSET_LICENSES.md` (mục 2.1, 1 dòng).
+- **Đã chạy:** `python -X utf8 -I tools/cut_flat_bg.py <webp> assets/equipment/weapons/eq_weapon_dusk_inferno.png`; `python -X utf8 -I tools/gen_equipment_5star.py`; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ảnh 1950×1030 RGBA, nền (59, 59, 59) trong suốt hẳn 86.7%, trong mờ 1.1% (lửa mũi kiếm); lưỡi kiếm alpha 255. Hiện ở tab Vũ khí (ô 975×515) và thẻ vũ khí tab tổng quan (415×205). `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại, `reports/report_216`), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** lần xóa nền đầu (chỉ loang theo màu) làm nửa trên lưỡi kiếm trong mờ vì màu lưỡi gần màu nền → thêm bước nới vật thể 4 px trước khi loang; thư mục ảnh trang bị `assets/equipment/weapons/`, `assets/equipment/stigmata/`, tên file = Data ID.
+- **Hạn chế đã biết:** dòng chỉ số ở tab Vũ khí đè nhẹ lên góc dưới trái ô ảnh (bố cục cũ); generator 4★ / 3★ (`gen_item_data.py`) chưa tự ghi `art`.

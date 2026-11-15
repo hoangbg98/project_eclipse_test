@@ -26,7 +26,7 @@ func _prepare() -> void:
 	p.inventory.add_currency("gold", 12345)
 	p.inventory.add_material("mat_exp_small", 5)
 	p.inventory.add_material("mat_exp_medium", 2)
-	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_weapon_flame"))
+	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_weapon_dusk_inferno"))   # có ảnh thật (owner 2026-11-15)
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_elite"))
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_guardian"))
 	p.progression.add_exp("char_fire_01", 1500)
