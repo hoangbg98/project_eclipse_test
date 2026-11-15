@@ -88,9 +88,9 @@ func pull_starter(banner: BannerDef) -> Dictionary:
 	for i in banner.multi_count:
 		var r := _pull_one(banner, first if i == at else rest)
 		results.append(r)
-		# Nhân vật mới từ lượt hướng dẫn vào đội luôn nếu còn chỗ (người mới có đội 3 người sau hướng dẫn).
+		# Nhân vật mới vào đội nếu còn chỗ — trừ lúc hướng dẫn người mới: NEO chỉ người chơi tự xếp đội (owner 2026-11-15).
 		if str(r["item"]).begins_with("char:") and not r["duplicate"]:
-			profile.join_party_if_room(str(r["item"]).get_slice(":", 1))
+			profile.auto_join_party(str(r["item"]).get_slice(":", 1))
 	return {"reason": REASON_OK, "results": results}
 
 

@@ -2831,6 +2831,7 @@ msgstr "Oak Staff"
 msgid "EQUIP_EQ_WEAPON_SCYTHE_IRON"
 msgstr "Black Iron Scythe"
 
+# Vật phẩm, trang bị (M5)
 msgid "ITEM_MAT_WEAPON_ASCEND"
 msgstr "Ascension Crystal"
 
@@ -2893,3 +2894,79 @@ msgstr "Lv.%d → Lv.%d"
 
 msgid "WEAPON_UI_CONFIRM"
 msgstr "Confirm"
+
+# Hướng dẫn người mới: NEO chỉ xếp đội sau ải 1-1 (owner 2026-11-15)
+msgid "TUTORIAL_RECRUIT_CLOSE_1"
+msgstr "Raikiba has joined! You now have three suits, Manager: Enkiba, Kazeyumi and Raikiba."
+
+msgid "TUTORIAL_RECRUIT_CLOSE_1_R"
+msgstr "Awesome!"
+
+msgid "TUTORIAL_RECRUIT_CLOSE_2"
+msgstr "But owning suits isn't enough: right now only Enkiba is in the battle party."
+
+msgid "TUTORIAL_RECRUIT_CLOSE_2_R"
+msgstr "So what do I do?"
+
+msgid "TUTORIAL_RECRUIT_CLOSE"
+msgstr "Let's set up your party. Tap Confirm to close the results."
+
+msgid "TUTORIAL_RECRUIT_BACK"
+msgstr "Tap Back to leave Recruit."
+
+msgid "TUTORIAL_HUB_PARTY_1"
+msgstr "The party lives in Sortie, right below the mission types."
+
+msgid "TUTORIAL_HUB_PARTY_1_R"
+msgstr "Let's go."
+
+msgid "TUTORIAL_HUB_PARTY"
+msgstr "Tap Sortie."
+
+msgid "TUTORIAL_SORTIE_PARTY_1"
+msgstr "The Party card shows who goes into battle. Up to three suits; the first one leads."
+
+msgid "TUTORIAL_SORTIE_PARTY_1_R"
+msgstr "Got it."
+
+msgid "TUTORIAL_SORTIE_PARTY"
+msgstr "Tap the Party card."
+
+msgid "TUTORIAL_PARTY_SLOT_1"
+msgstr "A slot with a + is an empty spot in the party."
+
+msgid "TUTORIAL_PARTY_SLOT_1_R"
+msgstr "Let's fill it."
+
+msgid "TUTORIAL_PARTY_SLOT"
+msgstr "Tap the empty slot to pick a suit."
+
+msgid "TUTORIAL_PARTY_ADD_1"
+msgstr "On the left are the suits you own. Tap a suit to add it, tap it again to take it out."
+
+msgid "TUTORIAL_PARTY_ADD_1_R"
+msgstr "Simple enough."
+
+msgid "TUTORIAL_PARTY_ADD_2"
+msgstr "Note: two suits of the same person can't be in the party together."
+
+msgid "TUTORIAL_PARTY_ADD_2_R"
+msgstr "Noted."
+
+msgid "TUTORIAL_PARTY_ADD"
+msgstr "Tap the highlighted suit to add it to the party."
+
+msgid "TUTORIAL_PARTY_CONFIRM_1"
+msgstr "Two in the party! In battle, switching when the reserve's portrait glows triggers an elemental reaction."
+
+msgid "TUTORIAL_PARTY_CONFIRM_1_R"
+msgstr "Nice!"
+
+msgid "TUTORIAL_PARTY_CONFIRM_2"
+msgstr "Come back any time to add Raikiba or change the order. That's the end of my guide."
+
+msgid "TUTORIAL_PARTY_CONFIRM_2_R"
+msgstr "Thanks, NEO!"
+
+msgid "TUTORIAL_PARTY_CONFIRM"
+msgstr "Tap Confirm team to save it."

@@ -242,15 +242,24 @@ func join_party_if_room(id: String) -> bool:
 	return set_party(party)
 
 
+## Giáp vừa nhận tự vào đội (join_party_if_room) — trừ khi hướng dẫn người mới chưa xong (owner 2026-11-15: đội ban
+## đầu chỉ có Enkiba; sau ải 1-1, NEO chỉ người chơi tự xếp đội). Save không có mục `tutorial` coi như đã xong.
+func auto_join_party(id: String) -> bool:
+	var t: Variant = data.get("tutorial")
+	if t is Dictionary and not bool(t.get("done", false)):
+		return false
+	return join_party_if_room(id)
+
+
 ## Nhận thưởng: {"gold": n, "gems": n, "materials": {id: n}, "equipment": [def_id], "characters": [char_id],
-## "exp": {char_id: n} | n cho cả đội}. Nhân vật mới vào đội luôn nếu còn chỗ.
-## Trả về bản tóm tắt những gì đã nhận thật (để màn kết quả hiển thị).
+## "exp": {char_id: n} | n cho cả đội}. Nhân vật mới vào đội luôn nếu còn chỗ (trừ lúc hướng dẫn người mới, xem
+## auto_join_party). Trả về bản tóm tắt những gì đã nhận thật (để màn kết quả hiển thị).
 func grant(reward: Dictionary) -> Dictionary:
 	var got := {"gold": 0, "gems": 0, "materials": {}, "equipment": [], "characters": [], "levels": {}, "captain_levels": 0}
 	for id in reward.get("characters", []):
 		if progression.unlock(str(id)):
 			got["characters"].append(str(id))
-			join_party_if_room(str(id))
+			auto_join_party(str(id))
 	# EXP đội trưởng trước: cấp đội trưởng là giới hạn cấp nhân vật.
 	if int(reward.get("captain_exp", 0)) > 0:
 		got["captain_levels"] = progression.add_captain_exp(int(reward["captain_exp"]))

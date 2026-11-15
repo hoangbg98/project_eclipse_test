@@ -1,7 +1,8 @@
 extends GdUnitTestSuite
 ## Hướng dẫn người mới (owner 2026-11-14): game mới chỉ có Enkiba; qua ải 1-1 lần đầu nhận Kazeyumi và vé chiêu mộ x10
 ## đầu tiên; hướng dẫn khóa màn, chỉ sáng nút cần bấm: Xuất kích → Cốt truyện → Chuẩn bị → Khai chiến → (thắng) Về Hub →
-## Tiếp tế → Chiêu mộ → x10 miễn phí (chắc chắn Raikiba) → Xác nhận → xong.
+## Tiếp tế → Chiêu mộ → x10 miễn phí (chắc chắn Raikiba) → Xác nhận → Trở về → Xuất kích → Đội hình → ô trống →
+## Kazeyumi → Xác nhận đội ngũ → xong (owner 2026-11-15: đội ban đầu chỉ Enkiba, giáp mới không tự vào đội).
 
 const GC := preload("res://scripts/core/game_config.gd")
 const GUIDE_SCRIPT := preload("res://scripts/ui/tutorial_guide.gd")
@@ -43,6 +44,15 @@ func _stage_first_clear() -> Dictionary:
 	return StageMap.load_from("res://data/stages/stage_01.json").data["first_clear_rewards"]
 
 
+## Giả lập lượt x10 miễn phí: nhận Raikiba, dùng vé (như GachaService.pull_starter, không vào đội lúc hướng dẫn).
+func _pull_starter(data: Dictionary) -> void:
+	var p := PlayerProfile.new(data)
+	p.progression.unlock("char_lightning_01")
+	p.auto_join_party("char_lightning_01")
+	data["gacha"]["starter_used"].append("starter_pull")
+	data["inventory"]["materials"].erase("ticket_starter_x10")
+
+
 func _clear_stage(data: Dictionary) -> PlayerProfile:
 	var p := PlayerProfile.new(data)
 	p.grant(_stage_first_clear())
@@ -78,11 +88,26 @@ func test_stage_1_1_first_clear_gives_kazeyumi_and_ticket() -> void:
 	var got := p.grant(_stage_first_clear())
 	assert_array(got["characters"]).is_equal(["char_wind_01"])
 	assert_bool(p.progression.owns("char_wind_01")).is_true()
-	assert_array(Array(p.party_ids())).is_equal(["char_fire_01", "char_wind_01"])
+	# Owner 2026-11-15: lúc hướng dẫn, giáp mới không tự vào đội (NEO chỉ cách xếp đội sau).
+	assert_array(Array(p.party_ids())).is_equal(["char_fire_01"])
 	assert_int(p.inventory.material_count("ticket_starter_x10")).is_equal(1)
-	# Nhận lại (đã có) thì không thêm, không trùng trong đội.
+	# Nhận lại (đã có) thì không thêm.
 	assert_array(p.grant({"characters": ["char_wind_01"]})["characters"]).is_empty()
+	assert_array(Array(p.party_ids())).is_equal(["char_fire_01"])
+
+
+func test_new_character_joins_party_after_tutorial() -> void:
+	var data := SaveSchema.default_data()
+	TutorialFlow.finish(data)
+	var p := PlayerProfile.new(data)
+	p.grant({"characters": ["char_wind_01"]})
 	assert_array(Array(p.party_ids())).is_equal(["char_fire_01", "char_wind_01"])
+	# Save không có mục tutorial (dữ liệu cũ chưa qua sanitize) coi như đã xong.
+	var old := SaveSchema.default_data()
+	old.erase("tutorial")
+	var q := PlayerProfile.new(old)
+	assert_bool(q.progression.unlock("char_wind_01")).is_true()
+	assert_bool(q.auto_join_party("char_wind_01")).is_true()
 
 
 func test_stage_code_shown_in_title() -> void:
@@ -132,13 +157,33 @@ func test_pull_and_finish_phase_steps() -> void:
 	assert_array(_targets(d, GC.SCENE_HUB)).is_equal(["Tile_supply"])
 	assert_array(_targets(d, GC.SCENE_SUPPLY)).is_equal(["Go_gacha"])
 	assert_array(_targets(d, GC.SCENE_RECRUIT)).is_equal(["Wish_starter"])
-	d["gacha"]["starter_used"].append("starter_pull")
-	d["inventory"]["materials"].erase("ticket_starter_x10")
+	_pull_starter(d)
+	# Đội vẫn chỉ Enkiba → NEO chỉ xếp đội: đóng kết quả / Trở về → Xuất kích → Đội hình → ô trống → Kazeyumi.
+	assert_str(TutorialFlow.phase(d)).is_equal(TutorialFlow.PHASE_PARTY)
+	assert_str(TutorialFlow.party_candidate(d)).is_equal("char_wind_01")
+	var r := TutorialFlow.step(d, GC.SCENE_RECRUIT)
+	assert_array(r["targets"]).is_equal(["ResultClose", "CloseButton"])
+	assert_str(TutorialFlow.pick(r, 0)["hint"]).is_equal("TUTORIAL_RECRUIT_CLOSE")
+	assert_str(TutorialFlow.pick(r, 1)["hint"]).is_equal("TUTORIAL_RECRUIT_BACK")
+	assert_array(TutorialFlow.pick(r, 1)["targets"]).is_equal(["CloseButton"])
+	assert_array(_targets(d, GC.SCENE_SUPPLY)).is_equal(["MenuButton"])
+	assert_array(_targets(d, GC.SCENE_HUB)).is_equal(["Tile_sortie"])
+	assert_str(TutorialFlow.step(d, GC.SCENE_HUB)["hint"]).is_equal("TUTORIAL_HUB_PARTY")
+	assert_array(_targets(d, GC.SCENE_SORTIE)).is_equal(["Card_party"])
+	assert_array(_targets(d, GC.SCENE_PARTY_PREP)).is_equal(["Slot_1"])
+	assert_array(_targets(d, GC.SCENE_PARTY_SELECT)).is_equal(["Suit_char_wind_01"])
+	assert_bool(TutorialFlow.step(d, GC.SCENE_HUB).get("finish", false)).is_false()
+	# Thêm Kazeyumi: đội 2 người → Xác nhận đội ngũ → xong.
+	assert_str(PlayerProfile.new(d).toggle_party("char_wind_01")).is_equal(PlayerProfile.PARTY_OK)
+	assert_array(d["party"]).is_equal(["char_fire_01", "char_wind_01"])
 	assert_str(TutorialFlow.phase(d)).is_equal(TutorialFlow.PHASE_FINISH)
+	assert_array(_targets(d, GC.SCENE_PARTY_SELECT)).is_equal(["ConfirmButton"])
+	assert_bool(TutorialFlow.step(d, GC.SCENE_PARTY_PREP).get("finish", false)).is_true()
+	assert_bool(TutorialFlow.step(d, GC.SCENE_HUB).get("finish", false)).is_true()
+	# Save cũ đang dở ở bước đóng kết quả quay (đội đã đủ người): vẫn kết thúc như trước.
 	var s := TutorialFlow.step(d, GC.SCENE_RECRUIT)
 	assert_array(s["targets"]).is_equal(["ResultClose"])
 	assert_bool(s["finish_if_missing"]).is_true()
-	assert_bool(TutorialFlow.step(d, GC.SCENE_HUB).get("finish", false)).is_true()
 	TutorialFlow.finish(d)
 	assert_str(TutorialFlow.phase(d)).is_equal(TutorialFlow.PHASE_DONE)
 	assert_dict(TutorialFlow.step(d, GC.SCENE_HUB)).is_empty()
@@ -174,7 +219,7 @@ func test_recruit_starter_with_ticket_pulls_raikiba_and_disappears() -> void:
 	var gems := s.profile.inventory.currency("gems")
 	btn.pressed.emit()
 	assert_bool(s.profile.progression.owns("char_lightning_01")).is_true()
-	assert_array(Array(s.profile.party_ids())).is_equal(["char_fire_01", "char_wind_01", "char_lightning_01"])
+	assert_array(Array(s.profile.party_ids())).is_equal(["char_fire_01"])   # lúc hướng dẫn không tự vào đội
 	assert_int(s.profile.inventory.currency("gems")).is_equal(gems)
 	assert_int(s.last_results.size()).is_equal(10)
 	assert_object(s.find_child("ResultClose", true, false)).is_not_null()
@@ -265,10 +310,60 @@ func test_guide_inactive_when_done_or_target_hidden() -> void:
 	assert_bool(g.is_active()).is_false()
 
 
+func test_guide_recruit_close_then_back_in_party_phase() -> void:
+	_clear_stage(_save.data)
+	_pull_starter(_save.data)
+	TutorialFlow.mark_seen(_save.data, "recruit_close")
+	var scene := _fake_scene(GC.SCENE_RECRUIT, "ResultClose")
+	var back := Button.new()
+	back.name = "CloseButton"
+	back.size = Vector2(200, 80)
+	scene.add_child(back)
+	var g := _guide(scene)
+	g.refresh()
+	assert_str(g.target.name).is_equal("ResultClose")
+	assert_str(g.hint_key).is_equal("TUTORIAL_RECRUIT_CLOSE")
+	(scene.find_child("ResultClose", false, false) as Control).visible = false
+	g.refresh()
+	assert_bool(g.is_active()).is_true()
+	assert_str(g.target.name).is_equal("CloseButton")
+	assert_str(g.hint_key).is_equal("TUTORIAL_RECRUIT_BACK")
+	assert_str(g.step_id).is_equal("recruit_back")
+	assert_bool(TutorialFlow.is_done(_save.data)).is_false()             # chưa xếp đội thì chưa xong
+
+
+func test_guide_party_add_then_confirm_finishes() -> void:
+	_clear_stage(_save.data)
+	_pull_starter(_save.data)
+	for id in ["party_add", "party_confirm"]:
+		TutorialFlow.mark_seen(_save.data, id)
+	var scene := _fake_scene(GC.SCENE_PARTY_SELECT, "Suit_char_wind_01")
+	var confirm := Button.new()
+	confirm.name = "ConfirmButton"
+	confirm.size = Vector2(300, 90)
+	scene.add_child(confirm)
+	var g := _guide(scene)
+	g.refresh()
+	assert_str(g.target.name).is_equal("Suit_char_wind_01")
+	assert_str(g.hint_key).is_equal("TUTORIAL_PARTY_ADD")
+	PlayerProfile.new(_save.data).toggle_party("char_wind_01")
+	g.refresh()
+	assert_str(g.target.name).is_equal("ConfirmButton")
+	assert_str(g.hint_key).is_equal("TUTORIAL_PARTY_CONFIRM")
+	# Xác nhận → về màn đội hình → hướng dẫn xong, đội 2 người.
+	g.scene_override = _fake_scene(GC.SCENE_PARTY_PREP, "GoButton")
+	g.refresh()
+	assert_bool(g.is_active()).is_false()
+	assert_bool(TutorialFlow.is_done(_save.data)).is_true()
+	assert_array(_save.data["party"]).is_equal(["char_fire_01", "char_wind_01"])
+
+
 func test_guide_finishes_after_results_closed() -> void:
+	# Save cũ: lượt miễn phí đã đưa Raikiba vào đội (trước 2026-11-15), đang dở ở bước đóng kết quả.
 	_clear_stage(_save.data)
 	_save.data["gacha"]["starter_used"].append("starter_pull")
 	_save.data["inventory"]["materials"].erase("ticket_starter_x10")
+	_save.data["party"] = ["char_fire_01", "char_wind_01"]
 	TutorialFlow.mark_seen(_save.data, "recruit_done")
 	var scene := _fake_scene(GC.SCENE_RECRUIT, "ResultClose")
 	var g := _guide(scene)
@@ -284,7 +379,9 @@ func test_guide_finishes_after_results_closed() -> void:
 func test_tutorial_texts_translated() -> void:
 	for k in ["TUTORIAL_HUB_SORTIE", "TUTORIAL_SORTIE_STORY", "TUTORIAL_STAGE_PREPARE", "TUTORIAL_PARTY_GO",
 			"TUTORIAL_RETRY", "TUTORIAL_RESULT_HUB", "TUTORIAL_MENU", "TUTORIAL_HUB_SUPPLY", "TUTORIAL_SUPPLY_GACHA",
-			"TUTORIAL_RECRUIT_STARTER", "TUTORIAL_RECRUIT_DONE", "ITEM_TICKET_STARTER_X10", "RESULT_NEW_CHARACTER",
+			"TUTORIAL_RECRUIT_STARTER", "TUTORIAL_RECRUIT_DONE", "TUTORIAL_RECRUIT_CLOSE", "TUTORIAL_RECRUIT_BACK",
+			"TUTORIAL_HUB_PARTY", "TUTORIAL_SORTIE_PARTY", "TUTORIAL_PARTY_SLOT", "TUTORIAL_PARTY_ADD",
+			"TUTORIAL_PARTY_CONFIRM", "ITEM_TICKET_STARTER_X10", "RESULT_NEW_CHARACTER",
 			"REASON_NO_TICKET"]:
 		assert_str(tr(k)).is_not_equal(k)
 
@@ -324,7 +421,8 @@ func test_dialogue_file_covers_steps_and_is_translated() -> void:
 	var dlg := TutorialFlow.dialogue()
 	var steps: Dictionary = dlg["steps"]
 	for id in ["hub_sortie", "sortie_story", "chapter_card", "map_stage", "stage_prepare", "party_go", "retry", "result_hub", "hub_supply",
-			"supply_gacha", "recruit_starter", "recruit_done"]:
+			"supply_gacha", "recruit_starter", "recruit_done", "recruit_close", "hub_party", "sortie_party", "party_slot",
+			"party_add", "party_confirm"]:
 		assert_bool(steps.has(id)).override_failure_message("thiếu thoại bước " + id).is_true()
 		for l: Dictionary in steps[id]:
 			assert_str(tr(str(l["text"]))).is_not_equal(str(l["text"]))

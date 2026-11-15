@@ -114,7 +114,8 @@ func test_starter_pull_is_free_once_with_exactly_one_kael() -> void:
 	assert_int(out["results"].size()).is_equal(10)
 	assert_int(kael).is_equal(1)
 	assert_bool(_profile.progression.owns("char_lightning_01")).is_true()
-	assert_array(Array(_profile.party_ids())).is_equal(["char_fire_01", "char_lightning_01"])   # vào đội luôn
+	# Lúc hướng dẫn người mới không tự vào đội (NEO chỉ xếp đội sau, owner 2026-11-15).
+	assert_array(Array(_profile.party_ids())).is_equal(["char_fire_01"])
 	assert_int(_profile.inventory.material_count("ticket_starter_x10")).is_equal(0)            # trừ vé
 	_profile.inventory.add_material("ticket_starter_x10", 1)
 	assert_bool(s.starter_available(b)).is_false()                     # có vé nhưng đã dùng

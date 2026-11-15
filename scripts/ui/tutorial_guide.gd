@@ -186,10 +186,12 @@ func refresh() -> void:
 	if bool(s.get("finish", false)):
 		_finish(save)
 		return
-	for n: String in s.get("targets", []):
-		var c := scene.find_child(n, true, false) as Control
+	var names: Array = s.get("targets", [])
+	for i in names.size():
+		var c := scene.find_child(str(names[i]), true, false) as Control
 		if c and c.is_visible_in_tree():
 			target = c
+			s = TutorialFlow.pick(s, i)
 			break
 	if target == null:
 		if bool(s.get("finish_if_missing", false)) and step_id == str(s.get("id", "")):

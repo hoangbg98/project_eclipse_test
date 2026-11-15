@@ -2831,6 +2831,7 @@ msgstr "Trượng gỗ sồi"
 msgid "EQUIP_EQ_WEAPON_SCYTHE_IRON"
 msgstr "Lưỡi hái sắt đen"
 
+# Vật phẩm, trang bị (M5)
 msgid "ITEM_MAT_WEAPON_ASCEND"
 msgstr "Tinh thể nâng bậc"
 
@@ -2893,3 +2894,79 @@ msgstr "Lv.%d → Lv.%d"
 
 msgid "WEAPON_UI_CONFIRM"
 msgstr "Xác nhận"
+
+# Hướng dẫn người mới: NEO chỉ xếp đội sau ải 1-1 (owner 2026-11-15)
+msgid "TUTORIAL_RECRUIT_CLOSE_1"
+msgstr "Raikiba đã gia nhập! Giờ Quản lý có ba giáp: Enkiba, Kazeyumi và Raikiba."
+
+msgid "TUTORIAL_RECRUIT_CLOSE_1_R"
+msgstr "Tuyệt!"
+
+msgid "TUTORIAL_RECRUIT_CLOSE_2"
+msgstr "Nhưng có giáp thôi chưa đủ đâu: đội ra trận lúc này vẫn chỉ có mỗi Enkiba."
+
+msgid "TUTORIAL_RECRUIT_CLOSE_2_R"
+msgstr "Vậy phải làm sao?"
+
+msgid "TUTORIAL_RECRUIT_CLOSE"
+msgstr "Mình đi sắp xếp đội hình nhé. Chạm Xác nhận để đóng bảng kết quả."
+
+msgid "TUTORIAL_RECRUIT_BACK"
+msgstr "Chạm Trở về để rời màn Chiêu mộ."
+
+msgid "TUTORIAL_HUB_PARTY_1"
+msgstr "Đội hình nằm trong Xuất kích, ngay dưới các loại nhiệm vụ."
+
+msgid "TUTORIAL_HUB_PARTY_1_R"
+msgstr "Đi thôi."
+
+msgid "TUTORIAL_HUB_PARTY"
+msgstr "Chạm Xuất kích nhé."
+
+msgid "TUTORIAL_SORTIE_PARTY_1"
+msgstr "Thẻ Đội hình cho biết ai sẽ ra trận. Đội tối đa ba giáp, người đứng đầu là đội trưởng."
+
+msgid "TUTORIAL_SORTIE_PARTY_1_R"
+msgstr "Hiểu rồi."
+
+msgid "TUTORIAL_SORTIE_PARTY"
+msgstr "Chạm thẻ Đội hình."
+
+msgid "TUTORIAL_PARTY_SLOT_1"
+msgstr "Ô có dấu + là chỗ còn trống trong đội."
+
+msgid "TUTORIAL_PARTY_SLOT_1_R"
+msgstr "Thêm người thôi."
+
+msgid "TUTORIAL_PARTY_SLOT"
+msgstr "Chạm ô trống để chọn giáp."
+
+msgid "TUTORIAL_PARTY_ADD_1"
+msgstr "Bên trái là các giáp Quản lý đang có. Chạm một giáp để thêm vào đội, chạm lại để đưa ra."
+
+msgid "TUTORIAL_PARTY_ADD_1_R"
+msgstr "Đơn giản nhỉ."
+
+msgid "TUTORIAL_PARTY_ADD_2"
+msgstr "Lưu ý: hai giáp của cùng một người không ra trận cùng lúc được."
+
+msgid "TUTORIAL_PARTY_ADD_2_R"
+msgstr "Nhớ rồi."
+
+msgid "TUTORIAL_PARTY_ADD"
+msgstr "Chạm giáp đang sáng để thêm vào đội."
+
+msgid "TUTORIAL_PARTY_CONFIRM_1"
+msgstr "Đội đã có hai người! Trong trận, đổi sang người dự bị lúc chân dung phát sáng sẽ kích hoạt phản ứng nguyên tố."
+
+msgid "TUTORIAL_PARTY_CONFIRM_1_R"
+msgstr "Hay quá!"
+
+msgid "TUTORIAL_PARTY_CONFIRM_2"
+msgstr "Muốn thêm Raikiba hay đổi thứ tự thì quay lại đây bất cứ lúc nào. Phần hướng dẫn của tôi đến đây là xong."
+
+msgid "TUTORIAL_PARTY_CONFIRM_2_R"
+msgstr "Cảm ơn NEO!"
+
+msgid "TUTORIAL_PARTY_CONFIRM"
+msgstr "Chạm Xác nhận đội ngũ để lưu đội hình."

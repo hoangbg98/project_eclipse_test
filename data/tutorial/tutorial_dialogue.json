@@ -111,6 +111,55 @@
 				"text": "TUTORIAL_MAP_STAGE_2",
 				"reply": "TUTORIAL_MAP_STAGE_2_R"
 			}
+		],
+		"recruit_close": [
+			{
+				"text": "TUTORIAL_RECRUIT_CLOSE_1",
+				"reply": "TUTORIAL_RECRUIT_CLOSE_1_R"
+			},
+			{
+				"text": "TUTORIAL_RECRUIT_CLOSE_2",
+				"reply": "TUTORIAL_RECRUIT_CLOSE_2_R"
+			}
+		],
+		"recruit_back": [],
+		"hub_party": [
+			{
+				"text": "TUTORIAL_HUB_PARTY_1",
+				"reply": "TUTORIAL_HUB_PARTY_1_R"
+			}
+		],
+		"sortie_party": [
+			{
+				"text": "TUTORIAL_SORTIE_PARTY_1",
+				"reply": "TUTORIAL_SORTIE_PARTY_1_R"
+			}
+		],
+		"party_slot": [
+			{
+				"text": "TUTORIAL_PARTY_SLOT_1",
+				"reply": "TUTORIAL_PARTY_SLOT_1_R"
+			}
+		],
+		"party_add": [
+			{
+				"text": "TUTORIAL_PARTY_ADD_1",
+				"reply": "TUTORIAL_PARTY_ADD_1_R"
+			},
+			{
+				"text": "TUTORIAL_PARTY_ADD_2",
+				"reply": "TUTORIAL_PARTY_ADD_2_R"
+			}
+		],
+		"party_confirm": [
+			{
+				"text": "TUTORIAL_PARTY_CONFIRM_1",
+				"reply": "TUTORIAL_PARTY_CONFIRM_1_R"
+			},
+			{
+				"text": "TUTORIAL_PARTY_CONFIRM_2",
+				"reply": "TUTORIAL_PARTY_CONFIRM_2_R"
+			}
 		]
 	}
 }

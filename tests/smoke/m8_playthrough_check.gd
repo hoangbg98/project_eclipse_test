@@ -2,7 +2,8 @@ extends SceneTree
 ## Kiểm tra khói M8 — chơi xuyên suốt theo checklist README 16 (headless, không cần GdUnit4):
 ## Title → Game mới → Hub → chọn đội → Màn 1 → đánh thật bằng input → 3 đợt quái → boss 2 pha → kết quả + thưởng
 ## → lưu → "thoát" (đọc lại save từ đĩa) → Tiếp tục với tiến trình còn nguyên.
-## Người mới chỉ có Enkiba; qua ải 1-1 nhận Kazeyumi + vé, hướng dẫn dẫn tới chiêu mộ x10 miễn phí (owner 2026-11-14).
+## Người mới chỉ có Enkiba; qua ải 1-1 nhận Kazeyumi + vé, hướng dẫn dẫn tới chiêu mộ x10 miễn phí (owner 2026-11-14)
+## rồi NEO chỉ xếp đội: thêm giáp mới vào đội (owner 2026-11-15).
 ## Chạy: godot --headless --path . --script res://tests/smoke/m8_playthrough_check.gd
 ##
 ## Để giữ test ngắn và ổn định, phần lớn quái bị hạ bằng sát thương trực tiếp sau khi đã xác nhận
@@ -34,6 +35,12 @@ func _wait_for_scene(path: String, timeout_s: float) -> bool:
 func _frames(n: int) -> void:
 	for i in n:
 		await physics_frame
+
+
+## Chờ khung _process (lớp hướng dẫn tính lại bước ở _process; headless có thể chạy nhiều physics frame mỗi khung).
+func _idle(n: int) -> void:
+	for i in n:
+		await process_frame
 
 
 func _tap(action: String) -> void:
@@ -174,8 +181,8 @@ func _run() -> void:
 	_check(stage.last_summary.get("objectives", []).size() == 3, "chấm 3 mục tiêu chiến đấu (thưởng thêm %d vàng)" % bonus)
 	_check(int(save.data["currencies"]["gold"]) == 1200 + bonus and int(save.data["currencies"]["gems"]) == 300, "nhận 1200 vàng + 300 ngọc (thưởng lần đầu)")
 	_check(int(save.data["characters"]["char_fire_01"]["level"]) > 1, "cả đội lên cấp")
-	# Qua ải 1-1 lần đầu: nhận Kazeyumi (vào đội) và vé chiêu mộ x10 đầu tiên.
-	_check(save.data["characters"].has("char_wind_01") and "char_wind_01" in save.data["party"], "nhận Kazeyumi, vào đội")
+	# Qua ải 1-1 lần đầu: nhận Kazeyumi (lúc hướng dẫn không tự vào đội) và vé chiêu mộ x10 đầu tiên.
+	_check(save.data["characters"].has("char_wind_01") and not ("char_wind_01" in save.data["party"]), "nhận Kazeyumi, chưa vào đội")
 	_check(int(save.data["inventory"]["materials"].get("ticket_starter_x10", 0)) == 1, "nhận 1 vé chiêu mộ đầu tiên")
 	await _frames(2)
 	_check(guide.is_active() and guide.target.name == "HubButton", "hướng dẫn: chỉ sáng nút Về Hub")
@@ -192,6 +199,8 @@ func _run() -> void:
 	_check(save.data["tutorial"]["seen"].has("clip:ch01_golem"), "clip cuối 1-1 đã đánh dấu xem")
 
 	# --- Hướng dẫn: Tiếp tế → Chiêu mộ → x10 miễn phí bằng vé (chắc chắn Raikiba) ---
+	# Người mới thật chỉ có Enkiba trong đội (Yomigari ở trên là giả lập để thử đổi người): trả đội về như người mới.
+	save.data["party"] = ["char_fire_01"]
 	await _frames(2)
 	_check(guide.is_active() and guide.target.name == "Tile_supply", "hướng dẫn: sáng ô Tiếp tế")
 	guide.press_target()
@@ -208,9 +217,43 @@ func _run() -> void:
 	_check(save.data["characters"].has("char_lightning_01"), "chiêu mộ miễn phí: nhận Raikiba")
 	_check(int(save.data["inventory"]["materials"].get("ticket_starter_x10", 0)) == 0, "đã dùng vé")
 	_check(int(save.data["currencies"]["gems"]) == gems_before, "không tốn ngọc")
+	_check(Array(save.data["party"]) == ["char_fire_01"], "chiêu mộ lúc hướng dẫn: Raikiba chưa vào đội")
 	_check(guide.is_active() and guide.target.name == "ResultClose", "hướng dẫn: sáng nút Xác nhận kết quả")
 	guide.press_target()
-	for i in 60:                                   # lớp hướng dẫn kết thúc ở khung _process kế tiếp
+	await _idle(3)
+	_check(not bool(save.data["tutorial"]["done"]), "chưa xếp đội: hướng dẫn chưa xong")
+
+	# --- NEO hướng dẫn xếp đội (owner 2026-11-15): Trở về → Menu → Xuất kích → Đội hình → ô trống → giáp → Xác nhận ---
+	_check(guide.is_active() and guide.target.name == "CloseButton", "hướng dẫn: sáng nút Trở về")
+	guide.press_target()
+	_check(await _wait_for_scene(gc.SCENE_SUPPLY, 4.0), "Chiêu mộ → Tiếp tế")
+	await _idle(3)
+	_check(guide.is_active() and guide.target.name == "MenuButton", "hướng dẫn: sáng nút Menu")
+	guide.press_target()
+	_check(await _wait_for_scene(gc.SCENE_HUB, 4.0), "Menu → sảnh")
+	await _idle(3)
+	_check(guide.is_active() and guide.target.name == "Tile_sortie" and guide.hint_key == "TUTORIAL_HUB_PARTY",
+			"hướng dẫn: sáng ô Xuất kích (xếp đội)")
+	guide.press_target()
+	_check(await _wait_for_scene(gc.SCENE_SORTIE, 4.0), "vào Xuất kích")
+	await _idle(3)
+	_check(guide.is_active() and guide.target.name == "Card_party", "hướng dẫn: sáng thẻ Đội hình")
+	guide.press_target()
+	_check(await _wait_for_scene(gc.SCENE_PARTY_PREP, 4.0), "vào Đội hình")
+	await _idle(3)
+	_check(guide.is_active() and guide.target.name == "Slot_1", "hướng dẫn: sáng ô trống")
+	guide.press_target()
+	_check(await _wait_for_scene(gc.SCENE_PARTY_SELECT, 4.0), "vào chọn giáp")
+	await _idle(3)
+	var suit := "Suit_" + TutorialFlow.party_candidate(save.data)
+	_check(guide.is_active() and guide.target.name == suit, "hướng dẫn: sáng giáp cần thêm (%s)" % suit)
+	guide.press_target()
+	await _idle(3)
+	_check(save.data["party"].size() == 2, "đội có 2 người")
+	_check(guide.is_active() and guide.target.name == "ConfirmButton", "hướng dẫn: sáng Xác nhận đội ngũ")
+	guide.press_target()
+	_check(await _wait_for_scene(gc.SCENE_PARTY_PREP, 4.0), "Xác nhận đội ngũ → về màn Đội hình")
+	for i in 120:                                  # lớp hướng dẫn kết thúc ở khung _process kế tiếp
 		await process_frame
 		if bool(save.data["tutorial"]["done"]):
 			break
