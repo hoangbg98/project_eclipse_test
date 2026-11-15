@@ -25,19 +25,19 @@
       "skill_key": null
     },
     "jump_up": {
-      "frames": 0,
+      "frames": 3,
       "fps": 12,
       "loop": false,
       "skill_key": null
     },
     "fall": {
-      "frames": 0,
+      "frames": 3,
       "fps": 12,
       "loop": false,
       "skill_key": null
     },
     "land": {
-      "frames": 0,
+      "frames": 3,
       "fps": 12,
       "loop": false,
       "skill_key": null
@@ -49,127 +49,127 @@
       "skill_key": "normal"
     },
     "attack_2": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 4,
+      "fps": 18,
       "loop": false,
       "skill_key": "normal"
     },
     "attack_3": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 4,
+      "fps": 18,
       "loop": false,
       "skill_key": "normal"
     },
     "attack_4": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 4,
+      "fps": 18,
       "loop": false,
       "skill_key": "normal"
     },
     "attack_5": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 6,
+      "fps": 12,
       "loop": false,
       "skill_key": "normal"
     },
     "dodge": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 4,
+      "fps": 12,
       "loop": false,
       "skill_key": "dodge"
     },
     "hold_charge": {
-      "frames": 0,
+      "frames": 4,
       "fps": 12,
       "loop": true,
       "skill_key": "hold"
     },
     "hold_release": {
-      "frames": 0,
-      "fps": 24,
-      "loop": false,
+      "frames": 6,
+      "fps": 15,
+      "loop": true,
       "skill_key": "hold"
     },
     "hold_end": {
-      "frames": 0,
+      "frames": 4,
       "fps": 12,
       "loop": false,
       "skill_key": "hold_end"
     },
     "air_1": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 4,
+      "fps": 20,
       "loop": false,
       "skill_key": "air"
     },
     "air_2": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 4,
+      "fps": 20,
       "loop": false,
       "skill_key": "air"
     },
     "air_3": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 5,
+      "fps": 18,
       "loop": false,
       "skill_key": "air"
     },
     "landing_attack": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 5,
+      "fps": 15,
       "loop": false,
       "skill_key": "landing"
     },
     "skill_1": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 8,
+      "fps": 12,
       "loop": false,
       "skill_key": "skill"
     },
     "skill_2": {
-      "frames": 0,
+      "frames": 8,
       "fps": 24,
       "loop": false,
       "skill_key": "weapon"
     },
     "weapon_catch": {
-      "frames": 0,
+      "frames": 4,
       "fps": 12,
       "loop": false,
       "skill_key": null
     },
     "ultimate": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 22,
+      "fps": 8,
       "loop": false,
       "skill_key": "ultimate"
     },
     "switch_in": {
-      "frames": 0,
-      "fps": 24,
+      "frames": 6,
+      "fps": 15,
       "loop": false,
       "skill_key": "switch_in"
     },
     "switch_out": {
-      "frames": 0,
+      "frames": 3,
       "fps": 12,
       "loop": false,
       "skill_key": null
     },
     "hurt": {
-      "frames": 0,
+      "frames": 4,
       "fps": 12,
       "loop": false,
       "skill_key": null
     },
     "knockback": {
-      "frames": 0,
+      "frames": 3,
       "fps": 12,
       "loop": false,
       "skill_key": null
     },
     "down": {
-      "frames": 0,
+      "frames": 6,
       "fps": 12,
       "loop": false,
       "skill_key": null
