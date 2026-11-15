@@ -138,7 +138,8 @@
 		"materials": {
 			"mat_exp_medium": 3,
 			"mat_enhance_ore": 4,
-			"mat_weapon_ascend": 1
+			"mat_weapon_ascend": 1,
+			"mat_affix_reroll": 1
 		}
 	},
 	"rows": [

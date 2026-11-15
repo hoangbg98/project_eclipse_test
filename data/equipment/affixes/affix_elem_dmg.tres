@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AffixDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/affix_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "affix_elem_dmg"
+name_key = "AFFIX_ELEM_DMG"
+stat = "elem_dmg"
+min_value = 0.03
+max_value = 0.08
+weight = 8
+metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

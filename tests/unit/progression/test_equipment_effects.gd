@@ -281,6 +281,7 @@ func test_profile_stats_include_percent_effects() -> void:
 	var def := load("res://data/characters/char_earth_01.tres") as CharacterDef
 	var before := p.stats_of(EARTH)
 	var uid := p.inventory.add_equipment("eq_stigma_bot_darwin")             # HP tối đa +12%
+	p.inventory.data["inventory"]["equipment"][uid]["affixes"] = []          # bỏ phụ tố ngẫu nhiên (2026-11-15)
 	assert_str(p.inventory.equip(EARTH, uid)).is_equal("")
 	var after := p.stats_of(EARTH)
 	var flat := _eq("eq_stigma_bot_darwin").atk
@@ -300,7 +301,9 @@ func test_loadout_reaches_battle() -> void:
 	var data := TestTeam.three()          # Enkiba, Raikiba, Kazeyumi
 	var p := PlayerProfile.new(data)
 	assert_str(p.inventory.equip(FIRE, p.inventory.add_equipment("eq_weapon_dusk_inferno"))).is_equal("")
-	assert_str(p.inventory.equip(LIGHTNING, p.inventory.add_equipment("eq_stigma_mid_franklin"))).is_equal("")
+	var franklin := p.inventory.add_equipment("eq_stigma_mid_franklin")
+	data["inventory"]["equipment"][franklin]["affixes"] = []                 # bỏ phụ tố ngẫu nhiên (2026-11-15)
+	assert_str(p.inventory.equip(LIGHTNING, franklin)).is_equal("")
 	var stage: Node2D = auto_free(STAGE_SCENE.instantiate())
 	stage.spawn_enemies = false
 	stage.stats_provider = p.stats_of

@@ -312,6 +312,23 @@ KEYS = [
     ("WEAPON_UI_NEXT", "Lv.%d → Lv.%d", "Lv.%d → Lv.%d"),
     ("WEAPON_UI_CONFIRM", "Xác nhận", "Confirm"),
     ("WEAPON_UI_WHEN_EQUIPPED", "Khi %s trang bị:", "When equipped by %s:"),
+    # Chi tiết vết thánh: 3 tab, phụ tố, tẩy phụ tố, bậc cường hóa (owner 2026-11-15)
+    ("STIGMA_UI_TAB_SKILL", "Skill vết thánh", "Stigma skill"),
+    ("STIGMA_UI_TAB_AFFIX", "Skill phụ tố", "Affixes"),
+    ("STIGMA_UI_TAB_SET", "Skill set", "Set skill"),
+    ("STIGMA_UI_NO_SKILL", "Vết thánh này không có skill riêng.", "This stigma has no skill of its own."),
+    ("STIGMA_UI_AFFIX_NOW", "Phụ tố hiện tại", "Current affixes"),
+    ("STIGMA_UI_AFFIX_NEW", "Phụ tố mới", "New affixes"),
+    ("STIGMA_UI_NO_AFFIX", "Chưa có phụ tố.", "No affixes."),
+    ("STIGMA_UI_REROLL", "Tẩy phụ tố", "Reroll affixes"),
+    ("STIGMA_UI_REROLL_COST", "Cần: %s %d/%d", "Cost: %s %d/%d"),
+    ("STIGMA_UI_KEEP_OLD", "Giữ cũ", "Keep old"),
+    ("STIGMA_UI_KEEP_NEW", "Giữ mới", "Keep new"),
+    ("STIGMA_UI_NO_SET", "Vết thánh này không thuộc bộ nào.", "This stigma is not part of a set."),
+    ("STIGMA_UI_SET_PIECES", "%s %d món", "%s %d-piece"),
+    ("REASON_NEED_LEVEL", "Cần cường hóa tới giới hạn cấp trước.", "Enhance to the level cap first."),
+    ("REASON_NO_AFFIX", "Món này không có phụ tố.", "This item has no affixes."),
+    ("REASON_PENDING", "Hãy chọn giữ phụ tố mới hoặc cũ trước.", "Choose to keep the new or old affixes first."),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

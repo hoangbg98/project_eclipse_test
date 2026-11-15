@@ -2971,3 +2971,91 @@ msgstr "Chạm Xác nhận đội ngũ để lưu đội hình."
 
 msgid "WEAPON_UI_WHEN_EQUIPPED"
 msgstr "Khi %s trang bị:"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_AFFIX_REROLL"
+msgstr "Đá tẩy phụ tố"
+
+msgid "AFFIX_ATK"
+msgstr "Tấn công"
+
+msgid "AFFIX_HP"
+msgstr "HP"
+
+msgid "AFFIX_DEF"
+msgstr "Phòng thủ"
+
+msgid "AFFIX_CRIT_RATE"
+msgstr "Tỉ lệ bạo kích"
+
+msgid "AFFIX_CRIT_DAMAGE"
+msgstr "ST bạo kích"
+
+msgid "AFFIX_CDR"
+msgstr "Giảm hồi chiêu"
+
+msgid "AFFIX_ALL_DMG"
+msgstr "Tất cả ST"
+
+msgid "AFFIX_ELEM_DMG"
+msgstr "ST nguyên tố"
+
+msgid "AFFIX_ATK_PCT"
+msgstr "% Tấn công"
+
+msgid "AFFIX_HP_PCT"
+msgstr "% HP"
+
+msgid "AFFIX_HEAL_BONUS"
+msgstr "Hiệu quả hồi máu"
+
+msgid "AFFIX_EN_REGEN"
+msgstr "Tốc độ nạp EN"
+
+msgid "STIGMA_UI_TAB_SKILL"
+msgstr "Skill vết thánh"
+
+msgid "STIGMA_UI_TAB_AFFIX"
+msgstr "Skill phụ tố"
+
+msgid "STIGMA_UI_TAB_SET"
+msgstr "Skill set"
+
+msgid "STIGMA_UI_NO_SKILL"
+msgstr "Vết thánh này không có skill riêng."
+
+msgid "STIGMA_UI_AFFIX_NOW"
+msgstr "Phụ tố hiện tại"
+
+msgid "STIGMA_UI_AFFIX_NEW"
+msgstr "Phụ tố mới"
+
+msgid "STIGMA_UI_NO_AFFIX"
+msgstr "Chưa có phụ tố."
+
+msgid "STIGMA_UI_REROLL"
+msgstr "Tẩy phụ tố"
+
+msgid "STIGMA_UI_REROLL_COST"
+msgstr "Cần: %s %d/%d"
+
+msgid "STIGMA_UI_KEEP_OLD"
+msgstr "Giữ cũ"
+
+msgid "STIGMA_UI_KEEP_NEW"
+msgstr "Giữ mới"
+
+msgid "STIGMA_UI_NO_SET"
+msgstr "Vết thánh này không thuộc bộ nào."
+
+msgid "STIGMA_UI_SET_PIECES"
+msgstr "%s %d món"
+
+msgid "REASON_NEED_LEVEL"
+msgstr "Cần cường hóa tới giới hạn cấp trước."
+
+msgid "REASON_NO_AFFIX"
+msgstr "Món này không có phụ tố."
+
+msgid "REASON_PENDING"
+msgstr "Hãy chọn giữ phụ tố mới hoặc cũ trước."

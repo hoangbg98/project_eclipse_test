@@ -200,6 +200,11 @@ func test_bag_lists_each_category() -> void:
 	assert_int(s.cards.size()).is_equal(2)
 	s.select("equipment", str(first["id"]))
 	assert_str(s.detail_text()).contains(tr("BAG_IN_USE"))
+	# Bấm thẻ vũ khí / vết thánh: mở bảng thông tin món ở màn Nhân vật (owner 2026-11-15).
+	s.cards[0].pressed.emit()
+	assert_str(s.last_target).is_equal(GameConfig.SCENE_CHARACTER)
+	assert_str(GameConfig.inspect_equipment_uid).is_equal(str(first["id"]))
+	GameConfig.inspect_equipment_uid = ""
 	s.set_category("material")
 	assert_str(s.entries("material")[0]["level_text"]).is_equal("×5")
 	var empty := _screen(load(GameConfig.SCENE_BAG)) as BagScreen

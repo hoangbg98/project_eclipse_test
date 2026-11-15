@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AffixDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/affix_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "affix_crit_rate"
+name_key = "AFFIX_CRIT_RATE"
+stat = "crit_rate"
+min_value = 0.02
+max_value = 0.06
+weight = 10
+metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

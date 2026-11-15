@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AffixDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/affix_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "affix_hp_pct"
+name_key = "AFFIX_HP_PCT"
+stat = "hp_pct"
+min_value = 0.03
+max_value = 0.08
+weight = 10
+metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

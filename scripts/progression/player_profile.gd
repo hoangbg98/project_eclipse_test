@@ -6,6 +6,7 @@ extends RefCounted
 const RULES_PATH := "res://data/config/progression.tres"
 const ITEMS_DIR := "res://data/items"
 const EQUIPMENT_DIR := "res://data/equipment"
+const AFFIXES_DIR := "res://data/equipment/affixes"
 const BACKGROUNDS_DIR := "res://data/backgrounds"
 const CHARACTER_DATA := "res://data/characters/%s.tres"
 
@@ -16,6 +17,7 @@ var progression: Progression
 
 static var _items: DefLibrary
 static var _equipment: DefLibrary
+static var _affixes: DefLibrary
 static var _backgrounds: DefLibrary
 
 
@@ -24,6 +26,9 @@ func _init(save_data: Dictionary) -> void:
 	rules = load(RULES_PATH)
 	inventory = Inventory.new(data, item_defs(), equipment_defs())
 	inventory.rules = rules
+	inventory.affixes = affix_defs()
+	inventory.rng.randomize()
+	inventory.ensure_affixes()   # vết thánh từ save cũ chưa có phụ tố (owner 2026-11-15)
 	progression = Progression.new(data, rules, inventory)
 
 
@@ -37,6 +42,12 @@ static func equipment_defs() -> DefLibrary:
 	if _equipment == null:
 		_equipment = DefLibrary.load_dir(EQUIPMENT_DIR)
 	return _equipment
+
+
+static func affix_defs() -> DefLibrary:
+	if _affixes == null:
+		_affixes = DefLibrary.load_dir(AFFIXES_DIR)
+	return _affixes
 
 
 # ---------- Nền sảnh chính (owner 2026-11-14) ----------

@@ -37,13 +37,17 @@ def wave(t, lock, *enemies):
 
 
 # asc: Tinh thể nâng bậc vũ khí (owner 2026-11-15: rơi từ ải; số do Claude đặt). 5★ cần 2 + 4 + 6 = 12 để đủ 3 bậc.
-def rew(gold, cexp, exp, small, ore, asc=1):
-    return {"gold": gold, "captain_exp": cexp, "exp": exp,
-            "materials": {"mat_exp_small": small, "mat_enhance_ore": ore, "mat_weapon_ascend": asc}}
+# reroll: Đá tẩy phụ tố vết thánh (owner 2026-11-15; số Claude đặt): lần đầu mỗi ải 1 (1-10: 2), lượt thường chỉ 1-10.
+def rew(gold, cexp, exp, small, ore, asc=1, reroll=0):
+    mats = {"mat_exp_small": small, "mat_enhance_ore": ore, "mat_weapon_ascend": asc}
+    if reroll:
+        mats["mat_affix_reroll"] = reroll
+    return {"gold": gold, "captain_exp": cexp, "exp": exp, "materials": mats}
 
 
-def first(gems, medium, ore, asc=1):
-    return {"gems": gems, "materials": {"mat_exp_medium": medium, "mat_enhance_ore": ore, "mat_weapon_ascend": asc}}
+def first(gems, medium, ore, asc=1, reroll=1):
+    return {"gems": gems, "materials": {"mat_exp_medium": medium, "mat_enhance_ore": ore, "mat_weapon_ascend": asc,
+                                        "mat_affix_reroll": reroll}}
 
 
 def barks(n, lines):
@@ -348,7 +352,7 @@ STAGES = [
      "waves": [wave(18, (12, 36), (S1, 20), (S2, 26), (S1, 32)),
                wave(80, (74, 94), (S2, 78), (S1, 84), (S2, 90))],
      "boss": {"id": BOSS, "trigger_col": 158, "lock_cols": [152, 206], "col": 190},
-     "rewards": rew(2400, 1000, 1200, 8, 6, 2), "first_clear": first(300, 5, 6, 3),
+     "rewards": rew(2400, 1000, 1200, 8, 6, 2, 1), "first_clear": first(300, 5, 6, 3, 2),
      "barks": [
          ("stage_start", None, "neo", "START", "Đêm nhật thực. Nhiệt Lò Mẹ: 2%. Còn rất ít thời gian.",
           "The eclipse night. Hearth heat: 2%. We're almost out of time.", "", "", 0),

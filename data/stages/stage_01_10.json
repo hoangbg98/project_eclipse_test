@@ -110,7 +110,8 @@
 		"materials": {
 			"mat_exp_small": 8,
 			"mat_enhance_ore": 6,
-			"mat_weapon_ascend": 2
+			"mat_weapon_ascend": 2,
+			"mat_affix_reroll": 1
 		}
 	},
 	"first_clear_rewards": {
@@ -118,7 +119,8 @@
 		"materials": {
 			"mat_exp_medium": 5,
 			"mat_enhance_ore": 6,
-			"mat_weapon_ascend": 3
+			"mat_weapon_ascend": 3,
+			"mat_affix_reroll": 2
 		}
 	},
 	"rows": [

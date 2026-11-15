@@ -14,6 +14,10 @@ const SHOTS := [
 	["8_weapon_detail", "weapon_detail", ""],
 	["9_weapon_enhance", "weapon_picker", "enhance"],
 	["10_weapon_ascend", "weapon_picker", "ascend"],
+	["11_stigma_skill", "stigma_detail", "skill"],
+	["12_stigma_affix", "stigma_detail", "affix"],
+	["13_stigma_set", "stigma_detail", "set"],
+	["14_stigma_reroll", "stigma_reroll", ""],
 ]
 
 var _frames := 0
@@ -31,9 +35,10 @@ func _prepare() -> void:
 	p.inventory.add_material("mat_exp_medium", 2)
 	p.inventory.add_material("mat_enhance_ore", 8)
 	p.inventory.add_material("mat_weapon_ascend", 3)
+	p.inventory.add_material("mat_affix_reroll", 2)
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_weapon_dusk_inferno"))   # có ảnh thật (owner 2026-11-15)
-	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_elite"))
-	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_guardian"))
+	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_blaze"))
+	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_blaze"))
 	p.progression.add_exp("char_fire_01", 1500)
 	p.progression.add_fragments("char_fire_01", 6)
 	for id in ["char_lightning_01", "char_wind_01", "char_earth_01"]:
@@ -76,6 +81,14 @@ func _process(_delta: float) -> bool:
 			"weapon_picker":
 				_screen.open_weapon_detail()
 				_screen.open_picker(str(s[2]))
+			"stigma_detail":
+				_screen.picker = ""
+				_screen.open_equipment_detail(_screen.profile.inventory.equipped_uid("char_fire_01", "stigma_top"), "stigma")
+				_screen.open_detail_tab(str(s[2]))
+			"stigma_reroll":
+				_screen.open_detail_tab("affix")
+				_screen.open_picker("reroll")
+				_screen.reroll()
 	if _frames % 12 == 10:
 		var out := "res://build/screenshots/character_%s%s.png" % [_suffix(), str(SHOTS[_index][0])]
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out.get_base_dir()))

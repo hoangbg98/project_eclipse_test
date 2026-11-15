@@ -15,7 +15,8 @@ const COMBAT_RULES_PATH := "res://data/config/combat_rules.tres"
 ## Nút Back / Esc được hỏi trước SceneRouter (giống PauseMenu).
 const BACK_GROUP := &"back_interceptor"
 
-## WEAPON_DETAIL: thông tin vũ khí đang mặc (owner 2026-11-15): chỉ số, kĩ năng chủ động / bị động, cường hóa, nâng bậc.
+## WEAPON_DETAIL: bảng thông tin một món trang bị `detail_uid` (owner 2026-11-15): vũ khí (chỉ số, kĩ năng chủ động /
+## bị động) hoặc vết thánh (3 tab Skill vết thánh / Skill phụ tố / Skill set), cường hóa, nâng bậc.
 enum View { OVERVIEW, DETAIL, SKILL_DETAIL, WEAPON_DETAIL }
 
 var layout: UiLayout
@@ -28,8 +29,14 @@ var brief := false
 var glossary_open := false
 var detail_stats_open := false
 ## Bảng chọn đang mở: "" (không), "exp", "weapon", "stigma_top", "stigma_mid", "stigma_bot", "enhance" (cường hóa
-## vũ khí), "ascend" (nâng bậc vũ khí).
+## món `detail_uid`), "ascend" (nâng bậc), "reroll" (tẩy phụ tố vết thánh).
 var picker := ""
+## Món đang xem ở View.WEAPON_DETAIL.
+var detail_uid := ""
+## Tab chi tiết quay về khi bấm Trở về ("weapon" / "stigma"); "" = rời màn (mở từ Túi đồ).
+var detail_return := "weapon"
+## Tab bên phải của chi tiết vết thánh: "skill", "affix", "set".
+var detail_tab := "skill"
 ## Bộ lọc danh sách giáp (owner 2026-11-13): mỗi nhóm rỗng = không lọc theo nhóm đó; trong nhóm là "hoặc", giữa các
 ## nhóm là "và". Chỉ giữ trong phiên.
 var filter := {"rank": [], "element": [], "person": []}
@@ -54,6 +61,17 @@ func _ready() -> void:
 	if profile == null:
 		var save := UiKit.autoload("SaveService")
 		profile = PlayerProfile.new(save.data if save else SaveSchema.default_data())
+	var gcfg := UiKit.autoload("GameConfig")
+	if detail_uid == "" and gcfg and "inspect_equipment_uid" in gcfg and str(gcfg.inspect_equipment_uid) != "":
+		# Mở từ Túi đồ (owner 2026-11-15): xem thẳng bảng thông tin món, Trở về là rời màn.
+		detail_uid = str(gcfg.inspect_equipment_uid)
+		gcfg.inspect_equipment_uid = ""
+	if detail_uid != "" and profile.inventory.owns(detail_uid):
+		view = View.WEAPON_DETAIL
+		detail_return = ""
+		var wearer := profile.inventory.equipped_by(detail_uid)
+		if wearer != "":
+			selected = wearer
 	if selected == "":
 		var gc := UiKit.autoload("GameConfig")
 		var want := str(gc.selected_character_id) if gc and "selected_character_id" in gc else ""
@@ -214,8 +232,10 @@ func intercept_back() -> bool:
 		view = View.DETAIL
 		tab = "skill"
 	elif view == View.WEAPON_DETAIL:
+		if detail_return == "":
+			return false
 		view = View.DETAIL
-		tab = "weapon"
+		tab = detail_return
 	elif view == View.DETAIL:
 		view = View.OVERVIEW
 	else:
@@ -811,12 +831,26 @@ func _equip_stat_line(uid: String) -> String:
 	return " · ".join(parts)
 
 
+## Mở bảng thông tin vũ khí đang mặc.
 func open_weapon_detail() -> void:
-	if profile.inventory.equipped_uid(selected, "weapon") == "":
+	open_equipment_detail(profile.inventory.equipped_uid(selected, "weapon"), "weapon")
+
+
+## Mở bảng thông tin món `uid`; `return_tab` = tab quay về khi bấm Trở về ("" = rời màn).
+func open_equipment_detail(uid: String, return_tab := "weapon") -> void:
+	if uid == "" or not profile.inventory.owns(uid):
 		return
+	detail_uid = uid
+	detail_return = return_tab
+	detail_tab = "skill"
 	view = View.WEAPON_DETAIL
 	picker = ""
 	notice = ""
+	refresh()
+
+
+func open_detail_tab(t: String) -> void:
+	detail_tab = t
 	refresh()
 
 
@@ -836,13 +870,14 @@ static func roman(n: int) -> String:
 func _build_weapon_detail() -> void:
 	var p := "weapon_detail."
 	var inv := profile.inventory
-	var uid := inv.equipped_uid(selected, "weapon")
-	var d := inv.equipment_def_of(uid) if uid != "" else null
+	var uid := detail_uid
+	var d := inv.equipment_def_of(uid) if inv.owns(uid) else null
 	if d == null:
 		view = View.DETAIL
-		tab = "weapon"
+		tab = detail_return if detail_return != "" else "weapon"
 		_build_detail()
 		return
+	var is_weapon := d.slot == "weapon"
 	var lv := inv.equipment_level(uid)
 	var cap := inv.level_cap(uid)
 	var mt := inv.max_tier(uid)
@@ -850,33 +885,35 @@ func _build_weapon_detail() -> void:
 	# Trái: tên, loại, ảnh, người đeo, bậc, sao.
 	_panel(layout.rect(p + "left_panel"), Color(0.06, 0.07, 0.1, 0.8))
 	_label(layout.rect(p + "name"), tr(d.name_key), layout.font(p + "name", 42), Color.WHITE).name = "WeaponDetailName"
-	var wt := d.weapon_type if d.weapon_type != "" else (char_def(selected).weapon_type if char_def(selected) else "")
-	_label(layout.rect(p + "type"), "◈ " + tr("WEAPON_TYPE_" + wt.to_upper()) if wt != "" else "", layout.font(p + "type", 28),
-			layout.color("text_dim", Color.GRAY))
-	_art(layout.rect(p + "art"), _equip_art(d), layout.text(p + "art.placeholder_label", ""), Rect2(0, 0, 1, 1), "WeaponDetailArt")
+	var type_text := ""
+	if is_weapon:
+		var wt := d.weapon_type if d.weapon_type != "" else (char_def(selected).weapon_type if char_def(selected) else "")
+		type_text = "◈ " + tr("WEAPON_TYPE_" + wt.to_upper()) if wt != "" else ""
+	else:
+		type_text = "◈ " + tr("SLOT_" + d.slot.to_upper())
+	_label(layout.rect(p + "type"), type_text, layout.font(p + "type", 28), layout.color("text_dim", Color.GRAY))
+	_art(layout.rect(p + "art"), _equip_art(d), layout.text(p + "art.placeholder_label", "") if is_weapon
+			else tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + d.slot.to_upper()), Rect2(0, 0, 1, 1), "WeaponDetailArt")
 	var who := inv.equipped_by(uid)
-	if who != "":
-		_label(layout.rect(p + "wearer"), tr("WEAPON_UI_WEARER") % suit_label(who), layout.font(p + "wearer", 26),
-				Color.WHITE).name = "WeaponWearer"
+	_label(layout.rect(p + "wearer"), tr("WEAPON_UI_WEARER") % suit_label(who) if who != "" else tr("BAG_NOT_IN_USE"),
+			layout.font(p + "wearer", 26), Color.WHITE).name = "WeaponWearer"
 	if mt > 0:
 		_label(layout.rect(p + "tier"), tr("WEAPON_UI_TIER") % [tier, mt], layout.font(p + "tier", 34),
 				layout.color("accent", Color.ORANGE)).name = "WeaponTier"
 	_label(layout.rect(p + "stars"), _stars(d.rarity), layout.font(p + "stars", 44), layout.color("star", Color.GOLD))
-	_button(layout.rect(p + "change_button"), "⟳  " + layout.label(p + "change_button"), layout.font(p + "change_button", 30),
-			open_picker.bind("weapon"), false, "WeaponDetailChange")
-	# Mô tả (chuyện của vũ khí): khóa <name_key>_DESC; chưa có thì báo chưa có.
+	if detail_return != "" and who == selected:
+		_button(layout.rect(p + "change_button"), "⟳  " + layout.label(p + "change_button"), layout.font(p + "change_button", 30),
+				open_picker.bind(d.slot), false, "WeaponDetailChange")
+	# Mô tả: khóa <name_key>_DESC; chưa có thì báo chưa có.
 	var lore_r := layout.rect(p + "lore")
 	_panel(lore_r, Color(0.06, 0.07, 0.1, 0.8))
 	var lk := d.name_key + "_DESC"
 	_label(lore_r.grow(-20), tr(lk) if tr(lk) != lk else tr("WEAPON_UI_NO_LORE"), layout.font(p + "lore", 28), Color.WHITE).name = "WeaponLore"
-	# Cấp.
+	# Cấp: LV hiện tại / giới hạn của bậc; gợi ý nâng bậc hoặc vướng cấp người chơi.
 	var lp := layout.rect(p + "level_panel")
 	_panel(lp, Color(0.06, 0.07, 0.1, 0.8))
 	_label(layout.rect(p + "level_text"), "LV. %d / %d" % [lv, cap], layout.font(p + "level_text", 44), Color.WHITE).name = "WeaponLevel"
-	var hint := ""
-	if lv >= cap:
-		hint = tr("WEAPON_UI_CAP_HINT") % profile.rules.weapon_ascend_level_step if tier < mt else tr("WEAPON_UI_MAXED")
-	_label(layout.rect(p + "level_hint"), hint, layout.font(p + "level_hint", 24), layout.color("text_dim", Color.GRAY),
+	_label(layout.rect(p + "level_hint"), level_hint(uid), layout.font(p + "level_hint", 24), layout.color("text_dim", Color.GRAY),
 			HORIZONTAL_ALIGNMENT_RIGHT).name = "WeaponLevelHint"
 	var bar := layout.rect(p + "level_bar")
 	_panel(bar, Color(1, 1, 1, 0.15))
@@ -893,19 +930,40 @@ func _build_weapon_detail() -> void:
 		_label(r, str(stats[i][0]), layout.font(p + "stat_rows", 30), layout.color("accent_blue", Color.SKY_BLUE))
 		_label(Rect2(r.position, r.size - Vector2(30, 0)), str(stats[i][1]), layout.font(p + "stat_rows", 30) + 6, Color.WHITE,
 				HORIZONTAL_ALIGNMENT_RIGHT).name = "WeaponStat%d" % i
-	# Phải: kĩ năng chủ động / bị động.
+	# Phải: kĩ năng. Vũ khí: một tiêu đề; vết thánh: 3 tab (ảnh tham chiếu owner 2026-11-15).
 	_panel(layout.rect(p + "skill_panel"), Color(0.06, 0.07, 0.1, 0.8))
 	var hr := layout.rect(p + "skill_header")
-	_panel(hr, layout.color("accent_blue", Color.SKY_BLUE).darkened(0.45))
-	_label(Rect2(hr.position + Vector2(24, 0), hr.size - Vector2(24, 0)), tr("WEAPON_UI_SKILLS"), layout.font(p + "skill_header", 34), Color.WHITE)
+	var text_r := layout.rect(p + "skill_text")
+	var body := ""
+	if is_weapon:
+		_panel(hr, layout.color("accent_blue", Color.SKY_BLUE).darkened(0.45))
+		_label(Rect2(hr.position + Vector2(24, 0), hr.size - Vector2(24, 0)), tr("WEAPON_UI_SKILLS"), layout.font(p + "skill_header", 34), Color.WHITE)
+		body = weapon_skill_text(uid)
+	else:
+		var tabs := ["skill", "affix", "set"]
+		var w := (hr.size.x - 20.0) / 3.0
+		for i in tabs.size():
+			_button(Rect2(hr.position + Vector2(i * (w + 10.0), 0), Vector2(w, hr.size.y)), tr("STIGMA_UI_TAB_" + tabs[i].to_upper()),
+					layout.font(p + "skill_header", 34) - 4, open_detail_tab.bind(tabs[i]), detail_tab == tabs[i], "StigmaTab_" + tabs[i])
+		match detail_tab:
+			"affix":
+				body = affix_text(uid)
+				var rb := _button(Rect2(text_r.position.x, text_r.end.y - 70, text_r.size.x, 64), tr("STIGMA_UI_REROLL"),
+						layout.font(p + "skill_text", 26) + 2, open_picker.bind("reroll"), false, "RerollButton")
+				rb.disabled = inv.affixes_of(uid).is_empty()
+				text_r.size.y -= 80
+			"set":
+				body = set_text(uid)
+			_:
+				body = stigma_skill_text(uid)
 	var st := RichTextLabel.new()
 	st.name = "WeaponSkills"
 	st.bbcode_enabled = true
 	st.add_theme_font_size_override("normal_font_size", layout.font(p + "skill_text", 26))
 	st.add_theme_font_size_override("bold_font_size", layout.font(p + "skill_text", 26) + 2)
-	st.text = weapon_skill_text(uid)
+	st.text = body
 	st.mouse_filter = Control.MOUSE_FILTER_PASS
-	_place(st, layout.rect(p + "skill_text"))
+	_place(st, text_r)
 	# Nút: Cường hóa, Nâng bậc.
 	var maxed := lv >= cap and tier >= mt
 	var eb := _button(layout.rect(p + "enhance_button"), tr("WEAPON_UI_MAXED") if maxed else layout.label(p + "enhance_button"),
@@ -916,6 +974,78 @@ func _build_weapon_detail() -> void:
 	ab.disabled = tier >= mt
 
 
+## Dòng gợi ý dưới thanh cấp: đạt giới hạn bậc → nâng bậc mở thêm N cấp; vướng cấp người chơi; đã tối đa.
+func level_hint(uid: String) -> String:
+	var inv := profile.inventory
+	var lv := inv.equipment_level(uid)
+	var cap := inv.level_cap(uid)
+	if lv >= cap:
+		var caps := inv.level_caps(uid)
+		var t := inv.equipment_tier(uid)
+		return tr("WEAPON_UI_CAP_HINT") % (caps[t + 1] - cap) if t + 1 < caps.size() else tr("WEAPON_UI_MAXED")
+	if lv >= inv.captain_level():
+		return tr("REASON_LEVEL_CAP")
+	return ""
+
+
+## Tab "Skill vết thánh": hiệu ứng riêng của món (5★), theo cùng cách trình bày với vũ khí.
+func stigma_skill_text(uid: String) -> String:
+	var d := profile.inventory.equipment_def_of(uid)
+	if d == null:
+		return ""
+	var lines := _effect_lines(d)
+	return "\n".join(lines) if not lines.is_empty() else tr("STIGMA_UI_NO_SKILL")
+
+
+## Tab "Skill phụ tố": các dòng phụ tố hiện tại.
+func affix_text(uid: String) -> String:
+	var inv := profile.inventory
+	var parts := PackedStringArray(["[b][color=#7FD4FF]%s[/color][/b]" % tr("STIGMA_UI_AFFIX_NOW")])
+	var rows := affix_lines(inv.affixes_of(uid))
+	parts.append_array(rows if not rows.is_empty() else PackedStringArray([tr("STIGMA_UI_NO_AFFIX")]))
+	return "\n".join(parts)
+
+
+## "◆ Tên phụ tố  +giá trị" cho từng dòng.
+func affix_lines(arr: Array) -> PackedStringArray:
+	var out := PackedStringArray()
+	for a: Dictionary in arr:
+		var ad := PlayerProfile.affix_defs().get_def(str(a["id"])) as AffixDef
+		if ad:
+			out.append("◆ %s  [color=#7FD4FF]%s[/color]" % [tr(ad.name_key), ad.value_text(float(a["value"]))])
+	return out
+
+
+## Tab "Skill set": tên bộ, hiệu ứng 2 món và 3 món; dòng đang kích hoạt (theo số món người đeo đang mặc) sáng màu.
+func set_text(uid: String) -> String:
+	var d := profile.inventory.equipment_def_of(uid)
+	if d == null or d.set_id == "":
+		return tr("STIGMA_UI_NO_SET")
+	var sd := EquipmentResolver.set_defs().get_def(d.set_id) as StigmaSetDef
+	if sd == null:
+		return tr("STIGMA_UI_NO_SET")
+	var who := profile.inventory.equipped_by(uid)
+	var worn := 0
+	if who != "":
+		for slot in EquipmentDef.STIGMA_SLOTS:
+			var od := profile.inventory.equipment_def_of(profile.inventory.equipped_uid(who, slot))
+			if od and od.set_id == d.set_id:
+				worn += 1
+	var parts := PackedStringArray()
+	for n in [2, 3]:
+		var on: bool = worn >= int(n)
+		var col: String = "#7FD4FF" if on else "#8A8FA3"
+		parts.append("[b][color=%s]%s[/color][/b]" % [col, tr("STIGMA_UI_SET_PIECES") % [tr(sd.name_key), n]])
+		var effects: Array[EquipEffect] = sd.bonus_2 if n == 2 else sd.bonus_3
+		for e in effects:
+			if e and e.note != "":
+				parts.append(("• %s" if on else "[color=#8A8FA3]• %s[/color]") % e.note)
+		parts.append("")
+	if sd.owner_id != "":
+		parts.append("[color=#B8BCCB]%s[/color]" % (tr("WEAPON_UI_WHEN_EQUIPPED") % suit_label(sd.owner_id)).trim_suffix(":"))
+	return "\n".join(parts).strip_edges()
+
+
 ## BBCode phần kĩ năng: chủ động = Kĩ năng vũ khí của giáp đang mặc (kĩ năng theo giáp, CHARACTER_SKILLS); bị động =
 ## các dòng hiệu ứng của vũ khí (EquipEffect.note), dòng độc quyền ghi tên giáp chủ.
 func weapon_skill_text(uid: String) -> String:
@@ -924,7 +1054,7 @@ func weapon_skill_text(uid: String) -> String:
 		return ""
 	var who := profile.inventory.equipped_by(uid)
 	if who == "":
-		who = selected
+		who = d.owner_id if d.owner_id != "" and profile.progression.owns(d.owner_id) else selected
 	var hl := "[color=#FFB347]%s[/color]"
 	var parts := PackedStringArray()
 	parts.append("[b]" + hl % ("%s — %s" % [tr("WEAPON_UI_ACTIVE"), SkillText.skill_name(who, "weapon")]) + "[/b]")
@@ -936,8 +1066,15 @@ func weapon_skill_text(uid: String) -> String:
 	parts.append("[color=#B8BCCB]%s[/color]" % tr("WEAPON_UI_ACTIVE_NOTE"))
 	parts.append("")
 	parts.append("[b]" + hl % tr("WEAPON_UI_PASSIVE") + "[/b]")
-	# Owner 2026-11-15: hiệu ứng chung liệt kê trước; hiệu ứng độc quyền gom dưới "Khi <tên giáp> trang bị:", mỗi dòng
-	# một hiệu ứng (không lặp tên nhân vật).
+	var lines := _effect_lines(d)
+	parts.append_array(lines if not lines.is_empty() else PackedStringArray([tr("WEAPON_UI_NO_PASSIVE")]))
+	return "\n".join(parts)
+
+
+## Dòng hiệu ứng của món (owner 2026-11-15): hiệu ứng chung trước; hiệu ứng độc quyền gom dưới "Khi <tên giáp> trang
+## bị:", mỗi dòng một hiệu ứng (không lặp tên nhân vật).
+func _effect_lines(d: EquipmentDef) -> PackedStringArray:
+	var parts := PackedStringArray()
 	var common := PackedStringArray()
 	var exclusive := PackedStringArray()
 	for e in d.effects:
@@ -947,15 +1084,13 @@ func weapon_skill_text(uid: String) -> String:
 			exclusive.append("• " + e.note)
 		else:
 			common.append("• " + e.note)
-	if common.is_empty() and exclusive.is_empty():
-		parts.append(tr("WEAPON_UI_NO_PASSIVE"))
 	parts.append_array(common)
 	if not exclusive.is_empty():
 		if not common.is_empty():
 			parts.append("")
 		parts.append("[b][color=#7FD4FF]%s[/color][/b]" % (tr("WEAPON_UI_WHEN_EQUIPPED") % suit_label(d.owner_id)))
 		parts.append_array(exclusive)
-	return "\n".join(parts)
+	return parts
 
 
 ## Tên giáp (vd "Hỏa Diễm Mãnh Liệt"); chưa có tên giáp thì tên nhân vật.
@@ -965,12 +1100,23 @@ func suit_label(id: String) -> String:
 
 
 func enhance_with(material_id: String) -> void:
-	commit(profile.inventory.enhance(profile.inventory.equipped_uid(selected, "weapon"), material_id))
+	commit(profile.inventory.enhance(detail_uid, material_id))
 
 
 func ascend_weapon() -> void:
-	var uid := profile.inventory.equipped_uid(selected, "weapon")
-	var reason := profile.inventory.ascend(uid)
+	var reason := profile.inventory.ascend(detail_uid)
+	if reason == "":
+		picker = ""
+	commit(reason)
+
+
+func reroll() -> void:
+	commit(profile.inventory.reroll_affixes(detail_uid))
+
+
+## Chọn kết quả tẩy: giữ phụ tố mới hoặc cũ, rồi đóng bảng.
+func confirm_reroll(keep_new: bool) -> void:
+	var reason := profile.inventory.confirm_reroll(detail_uid, keep_new)
 	if reason == "":
 		picker = ""
 	commit(reason)
@@ -1012,7 +1158,12 @@ func _build_stigma_tab() -> void:
 		var uid := profile.inventory.equipped_uid(selected, slot)
 		var d := profile.inventory.equipment_def_of(uid) if uid != "" else null
 		_panel(r, Color(0.1, 0.11, 0.16, 0.95))
-		_art(Rect2(r.position, Vector2(r.size.x, art_h)), _equip_art(d), tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + slot.to_upper()))
+		var art_r := Rect2(r.position, Vector2(r.size.x, art_h))
+		_art(art_r, _equip_art(d), tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + slot.to_upper()))
+		if d:
+			var cb := _button(art_r, "", 10, open_equipment_detail.bind(uid, "stigma"), false, "StigmaCard%d" % i)
+			cb.add_theme_stylebox_override("normal", _style(Color(0, 0, 0, 0)))
+			cb.add_theme_stylebox_override("hover", _style(Color(1, 1, 1, 0.04), Color(1, 1, 1, 0.3)))
 		if d:
 			_label(Rect2(r.position + Vector2(r.size.x - 120, art_h - 50), Vector2(112, 44)), "Lv.%d" % profile.inventory.equipment_level(uid),
 					layout.font(p + "cards", 34), Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
@@ -1234,12 +1385,16 @@ func _build_picker() -> void:
 	var pbg := layout.color("panel_light", Color(0.16, 0.18, 0.24))
 	pbg.a = 1.0
 	_panel(r, pbg, "Picker")
-	var titles := {"exp": tr("CHAR_UI_LEVEL_UP"), "enhance": tr("CHAR_ENHANCE"), "ascend": tr("WEAPON_UI_ASCEND")}
+	var titles := {"exp": tr("CHAR_UI_LEVEL_UP"), "enhance": tr("CHAR_ENHANCE"), "ascend": tr("WEAPON_UI_ASCEND"),
+			"reroll": tr("STIGMA_UI_REROLL")}
 	var title: String = titles.get(picker, tr("SLOT_" + picker.to_upper()))
 	_label(Rect2(r.position + Vector2(30, 14), Vector2(r.size.x - 260, 60)), title, 38, Color.WHITE)
 	_button(Rect2(r.position + Vector2(r.size.x - 220, 14), Vector2(200, 60)), tr("UI_BACK"), 28, intercept_back, false, "PickerClose")
 	var y := r.position.y + 90
 	var rows := 0
+	if picker == "reroll":
+		_build_reroll_picker(r, fs)
+		return
 	if picker == "enhance" or picker == "ascend":
 		_build_weapon_upgrade_picker(r, fs, rh)
 		return
@@ -1275,10 +1430,49 @@ func _build_picker() -> void:
 		_label(Rect2(r.position + Vector2(30, 100), Vector2(r.size.x - 60, 80)), tr("CHAR_UI_NOTHING"), fs, layout.color("text_dim", Color.GRAY))
 
 
-## Bảng cường hóa (chọn nguyên liệu, xem chỉ số cấp kế) hoặc nâng bậc (bậc, giới hạn cấp, giá, xác nhận) của vũ khí đang mặc.
+## Bảng tẩy phụ tố: phụ tố hiện tại, giá; sau khi tẩy hiện phụ tố mới bên cạnh và hai nút Giữ mới / Giữ cũ.
+func _build_reroll_picker(r: Rect2, fs: int) -> void:
+	var inv := profile.inventory
+	var uid := detail_uid
+	var x := r.position.x + 30
+	var half := (r.size.x - 90) * 0.5
+	var y := r.position.y + 100
+	var pending := inv.pending_affixes(uid)
+	_label(Rect2(x, y, half, 50), tr("STIGMA_UI_AFFIX_NOW"), fs, layout.color("accent_blue", Color.SKY_BLUE))
+	_label(Rect2(x, y + 56, half, 220), "\n".join(_plain(affix_lines(inv.affixes_of(uid)))), fs - 2, Color.WHITE).name = "AffixNow"
+	if not pending.is_empty():
+		_label(Rect2(x + half + 30, y, half, 50), tr("STIGMA_UI_AFFIX_NEW"), fs, layout.color("accent", Color.ORANGE))
+		_label(Rect2(x + half + 30, y + 56, half, 220), "\n".join(_plain(affix_lines(pending))), fs - 2, Color.WHITE).name = "AffixNew"
+		_button(Rect2(r.position.x + r.size.x * 0.5 - 380, r.end.y - 110, 360, 80), tr("STIGMA_UI_KEEP_OLD"), fs + 2,
+				confirm_reroll.bind(false), false, "KeepOld")
+		_button(Rect2(r.position.x + r.size.x * 0.5 + 20, r.end.y - 110, 360, 80), tr("STIGMA_UI_KEEP_NEW"), fs + 2,
+				confirm_reroll.bind(true), true, "KeepNew")
+		return
+	var md := PlayerProfile.item_defs().get_def(profile.rules.affix_reroll_material) as ItemDef
+	_label(Rect2(x, y + 300, r.size.x - 60, 50), tr("STIGMA_UI_REROLL_COST") % [tr(md.name_key) if md else "?",
+			inv.material_count(profile.rules.affix_reroll_material), inv.reroll_cost(uid)], fs, Color.WHITE).name = "RerollCost"
+	var reason := inv.check_reroll(uid)
+	_label(Rect2(x, y + 360, r.size.x - 60, 50), tr("REASON_" + reason.to_upper()) if reason != "" else "", fs - 2,
+			layout.color("text_dim", Color.GRAY)).name = "RerollReason"
+	var b := _button(Rect2(r.position.x + r.size.x * 0.5 - 180, r.end.y - 110, 360, 80), tr("STIGMA_UI_REROLL"), fs + 2,
+			reroll, reason == "", "RerollConfirm")
+	b.disabled = reason != ""
+
+
+## Bỏ thẻ BBCode (Label không hiểu BBCode).
+func _plain(lines: PackedStringArray) -> PackedStringArray:
+	var out := PackedStringArray()
+	var re := RegEx.create_from_string("\\[/?[a-z]+(=[^\\]]*)?\\]")
+	for l in lines:
+		out.append(re.sub(l, "", true))
+	return out
+
+
+## Bảng cường hóa (chọn nguyên liệu, xem chỉ số cấp kế) hoặc nâng bậc (bậc, giới hạn cấp, giá, xác nhận) của món
+## `detail_uid`.
 func _build_weapon_upgrade_picker(r: Rect2, fs: int, rh: float) -> void:
 	var inv := profile.inventory
-	var uid := inv.equipped_uid(selected, "weapon")
+	var uid := detail_uid
 	if inv.equipment_def_of(uid) == null:
 		_label(Rect2(r.position + Vector2(30, 100), Vector2(r.size.x - 60, 80)), tr("CHAR_UI_NOTHING"), fs, layout.color("text_dim", Color.GRAY))
 		return
@@ -1289,9 +1483,9 @@ func _build_weapon_upgrade_picker(r: Rect2, fs: int, rh: float) -> void:
 	var y := r.position.y + 100
 	if picker == "enhance":
 		var head := tr("WEAPON_UI_NEXT") % [lv, mini(lv + 1, cap)]
-		if lv >= cap:
-			head = tr("WEAPON_UI_CAP_HINT") % profile.rules.weapon_ascend_level_step if inv.equipment_tier(uid) < inv.max_tier(uid) \
-					else tr("WEAPON_UI_MAXED")
+		var hint := level_hint(uid)
+		if hint != "":
+			head = hint
 		_label(Rect2(x, y, w, 56), head, fs + 2, layout.color("accent", Color.ORANGE)).name = "EnhanceHead"
 		y += 64
 		if lv < cap:
@@ -1321,15 +1515,15 @@ func _build_weapon_upgrade_picker(r: Rect2, fs: int, rh: float) -> void:
 	if cost.is_empty():
 		_label(Rect2(x, y, w, 56), tr("WEAPON_UI_MAXED"), fs + 2, layout.color("accent", Color.ORANGE)).name = "AscendHead"
 		return
-	var step := profile.rules.weapon_ascend_level_step
+	var next_cap := inv.level_caps(uid)[tier + 1]
 	_label(Rect2(x, y, w, 56), tr("WEAPON_UI_ASCEND_TIER") % [tier, tier + 1], fs + 4, layout.color("accent", Color.ORANGE)).name = "AscendHead"
-	_label(Rect2(x, y + 70, w, 50), tr("WEAPON_UI_ASCEND_CAP") % [cap, cap + step], fs, Color.WHITE)
+	_label(Rect2(x, y + 70, w, 50), tr("WEAPON_UI_ASCEND_CAP") % [cap, next_cap], fs, Color.WHITE)
 	var md := PlayerProfile.item_defs().get_def(str(cost["material"])) as ItemDef
 	_label(Rect2(x, y + 130, w, 50), tr("WEAPON_UI_COST") % [tr(md.name_key) if md else str(cost["material"]),
 			inv.material_count(str(cost["material"])), int(cost["count"]), tr("CURRENCY_GOLD"), int(cost["gold"])], fs, Color.WHITE).name = "AscendCost"
 	var reason := inv.check_ascend(uid)
 	var why := ""
-	if reason == Inventory.REASON_LEVEL_CAP:
+	if reason == Inventory.REASON_NEED_LEVEL:
 		why = tr("WEAPON_UI_NEED_LEVEL") % cap
 	elif reason != "":
 		why = tr("REASON_" + reason.to_upper())

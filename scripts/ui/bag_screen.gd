@@ -2,7 +2,8 @@ class_name BagScreen
 extends HubScreen
 ## Túi đồ (nút lục giác Trang bị, owner 2026-11-14, theo ảnh tham chiếu kho vũ khí): cột mục bên trái
 ## (Vũ khí, Vết thánh, Nguyên liệu, Mảnh) và lưới thẻ cuộn được: màu theo độ hiếm, ảnh (hoặc icon tạm), sao, cấp
-## cường hóa / số lượng, nhãn "Đang dùng" + người đang mặc. Chạm thẻ: dải chi tiết bên dưới (tên, ô, chỉ số).
+## cường hóa / số lượng, nhãn "Đang dùng" + người đang mặc. Chạm thẻ vũ khí / vết thánh: mở bảng thông tin món ở màn Nhân
+## vật (owner 2026-11-15); thẻ nguyên liệu / mảnh: dải chi tiết bên dưới.
 ## Đồ nhận từ Tiếp tế (chiêu mộ), sự kiện, phần thưởng màn. Màn chỉ đọc Inventory / Progression.
 
 const CATEGORIES: Array[String] = ["weapon", "stigma", "material", "fragment"]
@@ -130,7 +131,10 @@ func _card(e: Dictionary, sz: Vector2) -> Button:
 	b.add_theme_stylebox_override("normal", _style(col.darkened(0.15), border, 10))
 	b.add_theme_stylebox_override("hover", _style(col, border, 10))
 	b.add_theme_stylebox_override("pressed", _style(col.darkened(0.3), border, 10))
-	b.pressed.connect(select.bind(str(e["kind"]), str(e["id"])))
+	if str(e["kind"]) == "equipment":
+		b.pressed.connect(open_equipment.bind(str(e["id"])))
+	else:
+		b.pressed.connect(select.bind(str(e["kind"]), str(e["id"])))
 	var font := int(layout.num("bag.grid.font", 22))
 	# Ảnh: art của định nghĩa nếu có, không thì icon tạm.
 	var tex: Texture2D = null
@@ -200,6 +204,15 @@ func _mini_label(text: String, font_size: int, col: Color) -> Label:
 func select(kind: String, id: String) -> void:
 	selected = {"kind": kind, "id": id}
 	refresh()
+
+
+## Bấm thẻ vũ khí / vết thánh (owner 2026-11-15): mở bảng thông tin món ở màn Nhân vật (như Nhân vật → Vũ khí).
+func open_equipment(uid: String) -> void:
+	selected = {"kind": "equipment", "id": uid}
+	var gc := UiKit.autoload("GameConfig")
+	if gc:
+		gc.inspect_equipment_uid = uid
+	open_scene("SCENE_CHARACTER")
 
 
 ## Dòng chi tiết của món đang chọn.

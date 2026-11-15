@@ -31,6 +31,8 @@ const SCENE_CHAPTER_MAP := "res://scenes/main/chapter_map_screen.tscn"
 var selected_stage_id := "stage_01"
 ## Nhân vật mở sẵn khi vào màn Nhân vật (rỗng = nhân vật đầu đội).
 var selected_character_id := ""
+## Món trang bị (uid) mở thẳng bảng thông tin khi vào màn Nhân vật (bấm thẻ ở Túi đồ); màn đọc xong thì xóa.
+var inspect_equipment_uid := ""
 ## Tab Hub mở sẵn lần vào Hub kế tiếp (vd "BattleTab" từ thẻ Đội hình ở màn Xuất kích); rỗng = Trang chủ. Hub đọc rồi xóa.
 var hub_start_tab := ""
 ## Màn đội hình: true = có nút Khai chiến vào `selected_stage_id` (mở từ thông tin màn); false = chỉ sửa đội.

@@ -298,7 +298,7 @@ func test_weapon_tab_hides_stats_and_opens_detail() -> void:
 	assert_int(s.view).is_equal(CharacterScreen.View.WEAPON_DETAIL)
 	assert_str((_node(s, "WeaponDetailName") as Label).text).is_equal(tr("EQUIP_EQ_WEAPON_FLAME"))
 	assert_bool(_texts(s).contains(tr("STAT_ATK"))).is_true()
-	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 0 / 10")
+	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 0 / 25")      # 4★ bậc 0: 25
 	assert_str((_node(s, "WeaponTier") as Label).text).is_equal(tr("WEAPON_UI_TIER") % [0, 2])
 	s.intercept_back()
 	assert_int(s.view).is_equal(CharacterScreen.View.DETAIL)
@@ -322,7 +322,7 @@ func test_enhance_weapon() -> void:
 	(_node(s, "EnhanceWith_mat_enhance_ore") as Button).pressed.emit()
 	assert_int(inv.equipment_level(w)).is_equal(1)
 	assert_str(s.picker).is_equal("enhance")                                        # bảng giữ mở để nâng tiếp
-	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 1 / 10")
+	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 1 / 25")
 	assert_int(int(_disk()["inventory"]["equipment"][w]["level"])).is_equal(1)
 
 
@@ -336,16 +336,16 @@ func test_ascend_weapon_from_detail() -> void:
 	(_node(s, "AscendButton") as Button).pressed.emit()
 	assert_str(s.picker).is_equal("ascend")
 	assert_bool((_node(s, "AscendConfirm") as Button).disabled).is_true()
-	assert_str((_node(s, "AscendReason") as Label).text).is_equal(tr("WEAPON_UI_NEED_LEVEL") % 10)
-	s.profile.data["inventory"]["equipment"][w]["level"] = 10
+	assert_str((_node(s, "AscendReason") as Label).text).is_equal(tr("WEAPON_UI_NEED_LEVEL") % 25)
+	s.profile.data["inventory"]["equipment"][w]["level"] = 25
 	inv.add_currency("gold", 100000)
-	inv.add_material(rules.weapon_ascend_material, 10)
+	inv.add_material(rules.ascend_material, 10)
 	s.refresh()
 	assert_bool((_node(s, "AscendConfirm") as Button).disabled).is_false()
 	(_node(s, "AscendConfirm") as Button).pressed.emit()
 	assert_int(inv.equipment_tier(w)).is_equal(1)
 	assert_str(s.picker).is_equal("")
-	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 10 / %d" % (10 + rules.weapon_ascend_level_step))
+	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 25 / 30")
 	assert_int(int(_disk()["inventory"]["equipment"][w]["tier"])).is_equal(1)
 
 
@@ -366,6 +366,56 @@ func test_weapon_detail_skill_text() -> void:
 	assert_bool(s.weapon_skill_text(three).contains(tr("WEAPON_UI_NO_PASSIVE"))).is_true()
 	s.open_weapon_detail()
 	assert_bool((_node(s, "WeaponSkills") as RichTextLabel).text.contains(tr("WEAPON_UI_PASSIVE"))).is_true()
+
+
+## Tab Vết thánh: bấm ảnh thẻ mở bảng thông tin vết thánh với 3 tab (owner 2026-11-15); Trở về quay lại tab Vết thánh.
+func test_stigma_detail_three_tabs_and_reroll() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var top := inv.add_equipment("eq_stigma_top_blaze")
+	var mid := inv.add_equipment("eq_stigma_mid_blaze")
+	inv.equip(A, top)
+	inv.equip(A, mid)
+	s.open_tab("stigma")
+	(_node(s, "StigmaCard0") as Button).pressed.emit()
+	assert_int(s.view).is_equal(CharacterScreen.View.WEAPON_DETAIL)
+	assert_str(s.detail_uid).is_equal(top)
+	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 0 / 30")
+	assert_object(_node(s, "StigmaTab_skill")).is_not_null()
+	# Skill set: tên bộ 2 món đang kích hoạt (mặc 2 món cùng bộ).
+	(_node(s, "StigmaTab_set") as Button).pressed.emit()
+	assert_str(s.detail_tab).is_equal("set")
+	var sd := EquipmentResolver.set_defs().get_def(inv.equipment_def_of(top).set_id) as StigmaSetDef
+	assert_bool((_node(s, "WeaponSkills") as RichTextLabel).text.contains(tr("STIGMA_UI_SET_PIECES") % [tr(sd.name_key), 2])).is_true()
+	# Skill phụ tố: tẩy, chọn giữ mới.
+	(_node(s, "StigmaTab_affix") as Button).pressed.emit()
+	inv.add_material(s.profile.rules.affix_reroll_material, 5)
+	(_node(s, "RerollButton") as Button).pressed.emit()
+	assert_str(s.picker).is_equal("reroll")
+	(_node(s, "RerollConfirm") as Button).pressed.emit()
+	assert_object(_node(s, "AffixNew")).is_not_null()
+	var fresh := inv.pending_affixes(top).duplicate(true)
+	(_node(s, "KeepNew") as Button).pressed.emit()
+	assert_array(inv.affixes_of(top)).is_equal(fresh)
+	assert_str(s.picker).is_equal("")
+	assert_array(_disk()["inventory"]["equipment"][top]["affixes"]).is_equal(fresh)
+	s.intercept_back()
+	assert_int(s.view).is_equal(CharacterScreen.View.DETAIL)
+	assert_str(s.tab).is_equal("stigma")
+
+
+## Mở từ Túi đồ: GameConfig.inspect_equipment_uid → màn mở thẳng bảng thông tin, Trở về là rời màn.
+func test_open_detail_from_bag() -> void:
+	var inv := PlayerProfile.new(_save.data).inventory
+	var w := inv.add_equipment("eq_weapon_iron")
+	GameConfig.inspect_equipment_uid = w
+	var s := _screen()
+	assert_int(s.view).is_equal(CharacterScreen.View.WEAPON_DETAIL)
+	assert_str(s.detail_uid).is_equal(w)
+	assert_str(GameConfig.inspect_equipment_uid).is_equal("")
+	assert_str((_node(s, "WeaponWearer") as Label).text).is_equal(tr("BAG_NOT_IN_USE"))
+	assert_object(_node(s, "WeaponDetailChange")).is_null()
+	assert_bool(s.intercept_back()).is_false()
 
 
 func test_background_image_per_view() -> void:
@@ -513,8 +563,10 @@ func test_every_screen_builds_at_other_sizes() -> void:
 		for g in SkillText.GROUP_ORDER:
 			s.open_skill(g)
 		s.open_weapon_detail()
-		for pk in ["enhance", "ascend"]:
+		for pk in ["enhance", "ascend", "reroll"]:
 			s.open_picker(pk)
+		for t in ["skill", "affix", "set"]:
+			s.open_detail_tab(t)
 		s.picker = ""
 		s.view = CharacterScreen.View.OVERVIEW
 		s.refresh()

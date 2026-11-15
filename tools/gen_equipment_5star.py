@@ -374,7 +374,8 @@ def equip_fields(eid, slot, owner, set_id, wtype, st):
     return [("id", eid), ("name_key", "EQUIP_" + eid.upper()), ("slot", slot), ("rarity", 5),
             ("weapon_type", wtype), ("max_level", 10), ("owner_id", owner), ("set_id", set_id),
             ("atk", atk), ("max_hp", hp), ("def", df), ("crit_rate", cr), ("crit_damage", cd), ("cdr", cdr),
-            ("growth_per_level", 0.1), ("enhance_gold_base", 1000), ("enhance_points_base", 500)] + art_field(eid, slot)
+            # Cấp tối đa 50 (owner 2026-11-15): 4%/cấp → gấp 3 lần ở Lv.50; giá theo cấp chia lại cho 50 cấp.
+            ("growth_per_level", 0.04), ("enhance_gold_base", 100), ("enhance_points_base", 50)] + art_field(eid, slot)
 
 
 def art_field(eid, slot):

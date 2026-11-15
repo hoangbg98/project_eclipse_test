@@ -26,7 +26,7 @@ static func default_data() -> Dictionary:
 		"party": STARTER_CHARACTERS.duplicate(),
 		"inventory": {
 			"next_uid": 1,
-			"equipment": {},                 # uid (chuỗi) -> {def_id, level, tier?} (tier: bậc vũ khí, thiếu = 0)
+			"equipment": {},                 # uid -> {def_id, level, tier?, affixes?, affix_pending?} (tier: bậc, thiếu = 0)
 			"materials": {},                 # id -> số lượng
 		},
 		"currencies": {"gold": 0, "gems": 0},

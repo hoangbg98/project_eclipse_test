@@ -18,7 +18,7 @@ def write(rel, script, cls, fields):
     for k, v in fields:
         if isinstance(v, bool):
             v = "true" if v else "false"
-        elif isinstance(v, str) and not v.startswith("Packed"):
+        elif isinstance(v, str) and not v.startswith("Packed") and not v.startswith("{"):
             v = '"%s"' % v
         lines.append("%s = %s" % (k, v))
     lines.append('metadata/source = "%s"' % SRC)
@@ -31,10 +31,17 @@ write("data/config/progression.tres", "progression_rules.gd", "ProgressionRules"
     ("gold_per_exp", 0.2), ("skill_max_level", 10), ("skill_upgrade_gold_base", 500),
     ("captain_max_level", 50), ("captain_exp_base", 50.0), ("promotion_fragments", "PackedInt32Array(10, 20, 25)"),
     ("promotion_stat_bonus", 0.05),
-    # Nâng bậc vũ khí (owner 2026-11-15; số khởi điểm Claude đặt): bậc tối đa theo 1★..5★, +5 giới hạn cấp mỗi bậc.
-    ("weapon_ascend_max_tier", "PackedInt32Array(0, 0, 1, 2, 3)"), ("weapon_ascend_level_step", 5),
-    ("weapon_ascend_material", "mat_weapon_ascend"), ("weapon_ascend_material_count", "PackedInt32Array(2, 4, 6)"),
-    ("weapon_ascend_gold", "PackedInt32Array(5000, 10000, 20000)")])
+    # Bậc cường hóa (owner 2026-11-15): vũ khí 3★ 15-20-25, 4★ 25-30-35, 5★ 25-40-45-50; vết thánh 30-40-50.
+    # Giá mỗi bước nâng bậc do Claude đặt.
+    ("weapon_level_caps", '{"3": PackedInt32Array(15, 20, 25), "4": PackedInt32Array(25, 30, 35), '
+                          '"5": PackedInt32Array(25, 40, 45, 50)}'),
+    ("stigma_level_caps", "PackedInt32Array(30, 40, 50)"),
+    ("ascend_material", "mat_weapon_ascend"), ("ascend_material_count", "PackedInt32Array(2, 4, 6)"),
+    ("ascend_gold", "PackedInt32Array(5000, 10000, 20000)"),
+    # Phụ tố vết thánh (owner 2026-11-15; số Claude đặt): số dòng, hệ số giá trị, giá tẩy theo 1★..5★.
+    ("affix_count", "PackedInt32Array(1, 1, 1, 2, 2)"),
+    ("affix_value_scale", "PackedFloat32Array(0.4, 0.5, 0.6, 0.8, 1.0)"),
+    ("affix_reroll_material", "mat_affix_reroll"), ("affix_reroll_cost", "PackedInt32Array(1, 1, 1, 1, 2)")])
 
 EXP, ENHANCE, MISC = 0, 1, 2
 ITEMS = [  # id, kind, value, rarity, vi, en
@@ -44,6 +51,7 @@ ITEMS = [  # id, kind, value, rarity, vi, en
     ("mat_enhance_ore", ENHANCE, 50, 1, "Quặng cường hóa", "Enhancement Ore"),
     ("mat_enhance_crystal", ENHANCE, 250, 3, "Tinh thể cường hóa", "Enhancement Crystal"),
     ("mat_weapon_ascend", MISC, 0, 4, "Tinh thể nâng bậc", "Ascension Crystal"),
+    ("mat_affix_reroll", MISC, 0, 4, "Đá tẩy phụ tố", "Affix Reroll Stone"),
 ]
 for iid, kind, value, rarity, vi, en in ITEMS:
     write("data/items/%s.tres" % iid, "item_def.gd", "ItemDef",
@@ -106,12 +114,38 @@ EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi,
 # Bộ vết thánh 4★ (hiệu ứng bộ ở data/equipment/sets/, sinh bằng tools/gen_equipment_5star.py).
 SET_ID = {"eq_stigma_%s_%s" % (slot, k): "set_" + k for slot in ("top", "mid", "bot")
           for k in ("blaze", "bedrock", "whirlwind", "thunderclap", "dawnlight", "nightshade")}
+def growth(slot, rarity):
+    """% chỉ số mỗi cấp: ở cấp tối đa (vũ khí 3★ 25, 4★ 35, 5★ 50; vết thánh 50) gấp ~2.5–3 lần cấp 0."""
+    if slot != "weapon":
+        return 0.04
+    return {3: 0.06, 4: 0.05}.get(rarity, 0.04)
+
+
 for eid, slot, rarity, cost, atk, hp, df, cr, cd, cdr, vi, en in EQUIP:
     write("data/equipment/%s.tres" % eid, "equipment_def.gd", "EquipmentDef",
           [("id", eid), ("name_key", "EQUIP_" + eid.upper()), ("slot", slot), ("rarity", rarity),
            ("weapon_type", WEAPON_TYPE.get(eid, ""))] + ([("set_id", SET_ID[eid])] if eid in SET_ID else []) + [("max_level", 10),
            ("atk", atk), ("max_hp", hp), ("def", df), ("crit_rate", cr), ("crit_damage", cd), ("cdr", cdr),
-           ("growth_per_level", 0.1), ("enhance_gold_base", 200 * cost), ("enhance_points_base", 100 * cost)])
+           ("growth_per_level", growth(slot, rarity)), ("enhance_gold_base", 20 * cost),
+           ("enhance_points_base", 10 * cost)])
+
+AFFIXES = [  # id, stat, min, max, weight, vi, en (giá trị ở 5★; độ hiếm thấp nhân affix_value_scale)
+    ("affix_atk", "atk", 20.0, 60.0, 12, "Tấn công", "ATK"),
+    ("affix_hp", "max_hp", 200.0, 600.0, 12, "HP", "HP"),
+    ("affix_def", "def", 15.0, 45.0, 12, "Phòng thủ", "DEF"),
+    ("affix_crit_rate", "crit_rate", 0.02, 0.06, 10, "Tỉ lệ bạo kích", "Crit rate"),
+    ("affix_crit_damage", "crit_damage", 0.04, 0.12, 10, "ST bạo kích", "Crit damage"),
+    ("affix_cdr", "cdr", 0.02, 0.05, 8, "Giảm hồi chiêu", "Cooldown reduction"),
+    ("affix_all_dmg", "all_dmg", 0.02, 0.06, 8, "Tất cả ST", "All damage"),
+    ("affix_elem_dmg", "elem_dmg", 0.03, 0.08, 8, "ST nguyên tố", "Elemental damage"),
+    ("affix_atk_pct", "atk_pct", 0.03, 0.08, 10, "% Tấn công", "ATK %"),
+    ("affix_hp_pct", "hp_pct", 0.03, 0.08, 10, "% HP", "HP %"),
+    ("affix_heal_bonus", "heal_bonus", 0.03, 0.08, 6, "Hiệu quả hồi máu", "Healing bonus"),
+    ("affix_en_regen", "en_regen", 0.03, 0.08, 6, "Tốc độ nạp EN", "EN regen"),
+]
+for aid, stat, lo, hi, w, vi, en in AFFIXES:
+    write("data/equipment/affixes/%s.tres" % aid, "affix_def.gd", "AffixDef",
+          [("id", aid), ("name_key", aid.upper()), ("stat", stat), ("min_value", lo), ("max_value", hi), ("weight", w)])
 
 EXTRA = [("CURRENCY_GOLD", "Vàng", "Gold"), ("CURRENCY_GEMS", "Ngọc", "Gems"),
          ("SLOT_WEAPON", "Vũ khí", "Weapon"), ("SLOT_STIGMA_TOP", "Vết thánh Đầu", "Stigma (Top)"),
@@ -124,6 +158,7 @@ for po, idx in (("vi.po", 0), ("en.po", 1)):
     s = io.open(p, encoding="utf-8").read()
     add = ""
     rows = [("ITEM_" + i[0].upper(), i[4], i[5]) for i in ITEMS] + [("EQUIP_" + e[0].upper(), e[10], e[11]) for e in EQUIP] + EXTRA
+    rows += [(a[0].upper(), a[5], a[6]) for a in AFFIXES]
     for key, vi, en in rows:
         if 'msgid "%s"' % key not in s:
             add += '\nmsgid "%s"\nmsgstr "%s"\n' % (key, (vi, en)[idx])
