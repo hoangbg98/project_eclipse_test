@@ -40,8 +40,9 @@ func _prepare() -> void:
 	p.inventory.add_material("mat_weapon_ascend", 3)
 	p.inventory.add_material("mat_affix_reroll", 2)
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_weapon_dusk_inferno"))   # có ảnh thật (owner 2026-11-15)
-	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_lavoisier"))
+	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_davinci"))
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_lavoisier"))
+	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_bot_davinci"))
 	for extra in ["eq_stigma_top_blaze", "eq_stigma_top_elite", "eq_stigma_top_davinci", "eq_stigma_top_whirlwind",
 			"eq_weapon_flame", "eq_weapon_iron"]:
 		p.inventory.add_equipment(extra)

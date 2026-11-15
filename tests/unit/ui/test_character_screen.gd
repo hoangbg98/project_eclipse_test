@@ -450,10 +450,23 @@ func test_weapon_short_description_and_lore() -> void:
 	assert_object(_node(s, "LoreButton")).is_null()
 
 
+## Số lớp full art (biểu tượng + nhân vật) có file cho vết thánh `d`.
+func s_layers_count(d: EquipmentDef) -> int:
+	var n := 0
+	if ResourceLoader.exists("res://assets/equipment/stigmata/%s_figure.png" % d.id):
+		n += 1
+	if ResourceLoader.exists("res://assets/equipment/sets/%s_glow.png" % d.set_id):
+		n += 1
+	return n
+
+
 ## Ảnh bộ Antoine Lavoisier (owner 2026-11-15): 3 vết thánh có ảnh dọc 1248 × 2280; khung ngang / vuông lấy phần vuông trên.
 func test_lavoisier_stigma_art_and_center_crop() -> void:
-	for slot in ["top", "mid", "bot"]:
-		var d := PlayerProfile.equipment_defs().get_def("eq_stigma_%s_lavoisier" % slot) as EquipmentDef
+	for id in ["eq_stigma_top_lavoisier", "eq_stigma_mid_lavoisier", "eq_stigma_bot_lavoisier",
+			"eq_stigma_top_davinci", "eq_stigma_mid_davinci", "eq_stigma_bot_davinci"]:      # da Vinci: owner 2026-11-16
+		var slot: String = id
+		var d := PlayerProfile.equipment_defs().get_def(id) as EquipmentDef
+		assert_int(s_layers_count(d)).override_failure_message(id).is_equal(2)
 		assert_bool(ResourceLoader.exists(d.art)).override_failure_message(slot).is_true()
 		var tex := load(d.art) as Texture2D
 		assert_vector(tex.get_size()).is_equal(Vector2(1248, 2280))
