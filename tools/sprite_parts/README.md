@@ -13,3 +13,10 @@ Dùng cho sheet bộ phận vẽ trên nền trắng (owner giao, hoặc ảnh A
 
 Tên file: `{id}_part_{NN}_{category}_{tên không dấu}.png`. Thư mục `source/` có `.gdignore` (không vào bản build).
 Script đọc `character_id` cố định `char_fire_01` trong manifest: sửa khi dùng cho nhân vật khác.
+
+**Khung đặt tay (chồng nhau)** — khi tờ dính liền nhiều bộ phận nên `segment_parts.py` không tách được
+(Hikarine, 2026-11-15): đặt khung tay vào `<id>_parts_boxes.json`, owner đặt tên qua trang artifact, ghi
+`<id>_parts_labels.json`, rồi
+`python -I cut_boxes.py <id> [--clear-holes N] [--fill-holes N] [--blue-only N]`
+→ `assets/characters/<id>/rig_parts/{id}_part_{NN}_{loại}_{tên}.png` + `parts_manifest.json`.
+Khung là giới hạn cắt; bộ phận dính liền nhau trên tờ vẫn còn phần lấn vào trong khung.

@@ -1748,3 +1748,16 @@ un_tests.ps1`.
 - **Kết quả thật:** approve chép 6 frame, 8 fps và lặp; GdUnit4 báo 1 lỗi tại `tests/unit/ui/test_character_screen.gd:123` (kỳ vọng ảnh Yomigari là placeholder), các smoke test 5/5 đạt, toàn lệnh mã thoát 1. Lỗi ở test/file màn Nhân vật đã có thay đổi trong working tree trước task này; chưa xác định nguyên nhân sâu hơn.
 - **Quyết định Codex chọn:** metadata ghi `GPT Image (built-in image_gen; version not exposed)` vì công cụ không công bố phiên bản model.
 - **Hạn chế đã biết:** frame được owner duyệt dù dải có góc gần chính diện/3⁄4 như đã nêu ở preview; commit chưa tạo do toàn bộ test chưa đạt mã thoát 0.
+
+## 2026-11-15 — Art: tờ bộ phận Hikarine (char_light_01), bảng tên và 47 bộ phận rig
+- **Milestone / task:** art (bộ phận rig) — owner gửi tờ bộ phận cắt lớp của Hikarine, yêu cầu dựng trang để điền tên rồi cắt bộ phận.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_light_01/rig_parts/source/`: `char_light_01_parts_sheet.jpg` (ảnh gốc WebP RGBA ghép nền trắng), `char_light_01_parts_boxes.json` (47 khung đặt tay), `char_light_01_parts_labels.json` (tên owner điền), `.gdignore`.
+  - `assets/characters/char_light_01/rig_parts/`: 47 PNG nền trong suốt `char_light_01_part_{NN}_{loại}_{tên}.png` + `parts_manifest.json`.
+  - `tools/sprite_parts/cut_boxes.py` (mới): cắt theo khung đặt tay, cho phép khung chồng nhau; `tools/sprite_parts/README.md`.
+  - `docs/ASSET_LICENSES.md` (1 dòng); trang artifact "Bảng tên bộ phận Hikarine" (https://claude.ai/artifact/6XCnUkXXW8FR3so6hvVYEJ, dựng từ trang Iwagane, db `labels`).
+- **Đã chạy:** `python -I tools/sprite_parts/segment_parts.py ... 225 1` (chỉ ra 32 vùng dính nhau, không dùng); `python -I -X utf8 tools/sprite_parts/cut_boxes.py char_light_01 --clear-holes 28 --fill-holes 29 --blue-only 18`; `<godot> --headless --path . --import` (mã thoát 0, 47 file .import); `tools/run_tests.ps1`.
+- **Kết quả thật:** owner điền 47/47, giữ nguyên toàn bộ gợi ý. Soát bằng mắt bảng ghép 47 ảnh trên nền xanh: mặt, tóc, tay, ủng, gậy, giáp, pose sạch nền; vòng mặt trời (28) bỏ lòng trắng; quả cầu sáng (29) giữ lõi trắng; đai lưng (18) chỉ còn vải xanh. `run_tests.ps1`: GdUnit4 658 test, 0 lỗi; 5/5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** khung đặt tay thay vì tự tách (tờ dính liền áo/váy/tay áo); thêm `cut_boxes.py` thay vì sửa `cut_parts.py` (cái cũ cần khung trùng vùng tự tách); bộ phận ra `rig_parts/` như Aether (không chỉ ảnh tham chiếu `refs/`).
+- **Hạn chế đã biết:** tay áo (15, 17), áo thân (16) và váy (19) dính liền trên tờ nên mép mỗi mảnh còn chút phần của mảnh bên cạnh trong khung; váy (19) còn hai dải đai xanh rủ xuống (đúng như vẽ). Hiệu ứng 29/30 và quầng sáng ở pose 45–47 là alpha xấp xỉ từ nền trắng. Chưa có phiếu frame Codex cho Hikarine.

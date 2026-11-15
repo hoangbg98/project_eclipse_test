@@ -1,0 +1,668 @@
+{
+ "character_id": "char_light_01",
+ "source_sheet": "char_light_01_parts_sheet.jpg",
+ "sheet_size": [
+  1024,
+  1024
+ ],
+ "parts": [
+  {
+   "id": 1,
+   "file": "char_light_01_part_01_pose_anh_dung_tong_the_tham_chieu.png",
+   "category": "pose",
+   "name": "Ảnh đứng tổng thể (tham chiếu)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    7,
+    10,
+    369,
+    649
+   ]
+  },
+  {
+   "id": 2,
+   "file": "char_light_01_part_02_face_mat_binh_thuong_mim_cuoi.png",
+   "category": "face",
+   "name": "Mặt bình thường (mỉm cười)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    373,
+    23,
+    97,
+    102
+   ]
+  },
+  {
+   "id": 3,
+   "file": "char_light_01_part_03_face_mat_cuoi_hip_mat.png",
+   "category": "face",
+   "name": "Mặt cười híp mắt",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    479,
+    23,
+    96,
+    101
+   ]
+  },
+  {
+   "id": 4,
+   "file": "char_light_01_part_04_face_mat_nham_mat_chap_tay_cau_nguyen.png",
+   "category": "face",
+   "name": "Mặt nhắm mắt chắp tay cầu nguyện",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    585,
+    23,
+    97,
+    122
+   ]
+  },
+  {
+   "id": 5,
+   "file": "char_light_01_part_05_face_mat_nham_mat_binh_than.png",
+   "category": "face",
+   "name": "Mặt nhắm mắt bình thản",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    694,
+    23,
+    97,
+    102
+   ]
+  },
+  {
+   "id": 6,
+   "file": "char_light_01_part_06_face_mat_ngac_nhien.png",
+   "category": "face",
+   "name": "Mặt ngạc nhiên",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    801,
+    23,
+    97,
+    102
+   ]
+  },
+  {
+   "id": 7,
+   "file": "char_light_01_part_07_face_mat_het_niem_phep.png",
+   "category": "face",
+   "name": "Mặt hét / niệm phép",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    907,
+    23,
+    97,
+    102
+   ]
+  },
+  {
+   "id": 8,
+   "file": "char_light_01_part_08_hair_toc_mai_truoc.png",
+   "category": "hair",
+   "name": "Tóc mái trước",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    375,
+    146,
+    136,
+    149
+   ]
+  },
+  {
+   "id": 9,
+   "file": "char_light_01_part_09_armor_vong_mien_vang_circlet.png",
+   "category": "armor",
+   "name": "Vòng miện vàng (circlet)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    513,
+    156,
+    103,
+    40
+   ]
+  },
+  {
+   "id": 10,
+   "file": "char_light_01_part_10_hair_toc_sau_mang_lon.png",
+   "category": "hair",
+   "name": "Tóc sau (mảng lớn)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    623,
+    147,
+    165,
+    163
+   ]
+  },
+  {
+   "id": 11,
+   "file": "char_light_01_part_11_hair_toc_hai_ben_mat.png",
+   "category": "hair",
+   "name": "Tóc hai bên mặt",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    805,
+    154,
+    97,
+    130
+   ]
+  },
+  {
+   "id": 12,
+   "file": "char_light_01_part_12_hair_strand_lon_toc_roi_1.png",
+   "category": "hair_strand",
+   "name": "Lọn tóc rời 1",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    916,
+    155,
+    45,
+    60
+   ]
+  },
+  {
+   "id": 13,
+   "file": "char_light_01_part_13_hair_strand_lon_toc_roi_2.png",
+   "category": "hair_strand",
+   "name": "Lọn tóc rời 2",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    963,
+    180,
+    43,
+    72
+   ]
+  },
+  {
+   "id": 14,
+   "file": "char_light_01_part_14_hair_strand_lon_toc_roi_3_nho.png",
+   "category": "hair_strand",
+   "name": "Lọn tóc rời 3 (nhỏ)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    930,
+    235,
+    25,
+    45
+   ]
+  },
+  {
+   "id": 15,
+   "file": "char_light_01_part_15_arm_tay_ao_rong_trai.png",
+   "category": "arm",
+   "name": "Tay áo rộng trái",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    388,
+    321,
+    82,
+    180
+   ]
+  },
+  {
+   "id": 16,
+   "file": "char_light_01_part_16_torso_ao_than_tren_co_dung.png",
+   "category": "torso",
+   "name": "Áo thân trên cổ đứng",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    473,
+    300,
+    79,
+    94
+   ]
+  },
+  {
+   "id": 17,
+   "file": "char_light_01_part_17_arm_tay_ao_rong_phai.png",
+   "category": "arm",
+   "name": "Tay áo rộng phải",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    566,
+    322,
+    81,
+    179
+   ]
+  },
+  {
+   "id": 18,
+   "file": "char_light_01_part_18_belt_dai_lung_xanh_co_no.png",
+   "category": "belt",
+   "name": "Đai lưng xanh có nơ",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    479,
+    403,
+    126,
+    127
+   ]
+  },
+  {
+   "id": 19,
+   "file": "char_light_01_part_19_torso_vay_dai_nhieu_lop.png",
+   "category": "torso",
+   "name": "Váy dài nhiều lớp",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    381,
+    437,
+    262,
+    223
+   ]
+  },
+  {
+   "id": 20,
+   "file": "char_light_01_part_20_arm_canh_tay_co_tay_ao_trong_trang.png",
+   "category": "arm",
+   "name": "Cánh tay có tay áo trong (trắng)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    657,
+    326,
+    74,
+    117
+   ]
+  },
+  {
+   "id": 21,
+   "file": "char_light_01_part_21_arm_canh_tay_tran.png",
+   "category": "arm",
+   "name": "Cánh tay trần",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    722,
+    326,
+    61,
+    120
+   ]
+  },
+  {
+   "id": 22,
+   "file": "char_light_01_part_22_hand_ban_tay_mo.png",
+   "category": "hand",
+   "name": "Bàn tay mở",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    664,
+    455,
+    35,
+    54
+   ]
+  },
+  {
+   "id": 23,
+   "file": "char_light_01_part_23_hand_ban_tay_nam_ho.png",
+   "category": "hand",
+   "name": "Bàn tay nắm hờ",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    715,
+    461,
+    29,
+    43
+   ]
+  },
+  {
+   "id": 24,
+   "file": "char_light_01_part_24_hand_ban_tay_nam_chat.png",
+   "category": "hand",
+   "name": "Bàn tay nắm chặt",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    762,
+    463,
+    27,
+    37
+   ]
+  },
+  {
+   "id": 25,
+   "file": "char_light_01_part_25_boot_chan_ung_trang_gan.png",
+   "category": "boot",
+   "name": "Chân + ủng trắng (gần)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    669,
+    529,
+    48,
+    138
+   ]
+  },
+  {
+   "id": 26,
+   "file": "char_light_01_part_26_boot_chan_ung_trang_xa.png",
+   "category": "boot",
+   "name": "Chân + ủng trắng (xa)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    729,
+    529,
+    55,
+    134
+   ]
+  },
+  {
+   "id": 27,
+   "file": "char_light_01_part_27_weapon_gay_phep_mat_troi_nguyen_cay.png",
+   "category": "weapon",
+   "name": "Gậy phép mặt trời (nguyên cây)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    787,
+    310,
+    110,
+    352
+   ]
+  },
+  {
+   "id": 28,
+   "file": "char_light_01_part_28_weapon_vong_mat_troi_dau_gay_roi.png",
+   "category": "weapon",
+   "name": "Vòng mặt trời đầu gậy (rời)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    898,
+    309,
+    111,
+    91
+   ]
+  },
+  {
+   "id": 29,
+   "file": "char_light_01_part_29_fx_qua_cau_anh_sang.png",
+   "category": "fx",
+   "name": "Quả cầu ánh sáng",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    902,
+    444,
+    90,
+    92
+   ]
+  },
+  {
+   "id": 30,
+   "file": "char_light_01_part_30_fx_vong_phep_anh_sang_rune.png",
+   "category": "fx",
+   "name": "Vòng phép ánh sáng (rune)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    886,
+    547,
+    121,
+    124
+   ]
+  },
+  {
+   "id": 31,
+   "file": "char_light_01_part_31_face_mat_nghiem.png",
+   "category": "face",
+   "name": "Mặt nghiêm",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    21,
+    690,
+    93,
+    95
+   ]
+  },
+  {
+   "id": 32,
+   "file": "char_light_01_part_32_face_mat_cuoi_tuoi.png",
+   "category": "face",
+   "name": "Mặt cười tươi",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    132,
+    690,
+    92,
+    96
+   ]
+  },
+  {
+   "id": 33,
+   "file": "char_light_01_part_33_face_mat_nham_mot_ben_met.png",
+   "category": "face",
+   "name": "Mặt nhắm một bên / mệt",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    243,
+    690,
+    92,
+    95
+   ]
+  },
+  {
+   "id": 34,
+   "file": "char_light_01_part_34_face_mat_ngac_nhien_nhe.png",
+   "category": "face",
+   "name": "Mặt ngạc nhiên nhẹ",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    353,
+    690,
+    92,
+    95
+   ]
+  },
+  {
+   "id": 35,
+   "file": "char_light_01_part_35_face_mat_nheo_mat_nghien_rang.png",
+   "category": "face",
+   "name": "Mặt nheo mắt nghiến răng",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    463,
+    690,
+    92,
+    96
+   ]
+  },
+  {
+   "id": 36,
+   "file": "char_light_01_part_36_armor_giap_ong_tay_xanh_vang.png",
+   "category": "armor",
+   "name": "Giáp ống tay xanh-vàng",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    574,
+    690,
+    83,
+    90
+   ]
+  },
+  {
+   "id": 37,
+   "file": "char_light_01_part_37_armor_giap_vai_khuyu_vang.png",
+   "category": "armor",
+   "name": "Giáp vai / khuỷu vàng",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    675,
+    692,
+    47,
+    76
+   ]
+  },
+  {
+   "id": 38,
+   "file": "char_light_01_part_38_armor_manh_giap_vang_cong.png",
+   "category": "armor",
+   "name": "Mảnh giáp vàng cong",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    739,
+    694,
+    45,
+    82
+   ]
+  },
+  {
+   "id": 39,
+   "file": "char_light_01_part_39_armor_ong_giap_xanh.png",
+   "category": "armor",
+   "name": "Ống giáp xanh",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    799,
+    698,
+    44,
+    73
+   ]
+  },
+  {
+   "id": 40,
+   "file": "char_light_01_part_40_armor_ong_giap_xanh_nho.png",
+   "category": "armor",
+   "name": "Ống giáp xanh nhỏ",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    856,
+    702,
+    32,
+    50
+   ]
+  },
+  {
+   "id": 41,
+   "file": "char_light_01_part_41_armor_dai_vai_bang_xanh_vien_vang.png",
+   "category": "armor",
+   "name": "Dải vải / băng xanh viền vàng",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    903,
+    698,
+    110,
+    51
+   ]
+  },
+  {
+   "id": 42,
+   "file": "char_light_01_part_42_pose_pose_dung_cam_gay.png",
+   "category": "pose",
+   "name": "Pose đứng cầm gậy",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    7,
+    796,
+    128,
+    200
+   ]
+  },
+  {
+   "id": 43,
+   "file": "char_light_01_part_43_pose_pose_buoc_di_cam_gay.png",
+   "category": "pose",
+   "name": "Pose bước đi cầm gậy",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    164,
+    815,
+    153,
+    179
+   ]
+  },
+  {
+   "id": 44,
+   "file": "char_light_01_part_44_pose_pose_gio_gay_noi.png",
+   "category": "pose",
+   "name": "Pose giơ gậy nói",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    315,
+    781,
+    142,
+    213
+   ]
+  },
+  {
+   "id": 45,
+   "file": "char_light_01_part_45_pose_pose_cau_nguyen_trong_hao_quang.png",
+   "category": "pose",
+   "name": "Pose cầu nguyện trong hào quang",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    453,
+    803,
+    171,
+    197
+   ]
+  },
+  {
+   "id": 46,
+   "file": "char_light_01_part_46_pose_pose_dung_khien_anh_sang.png",
+   "category": "pose",
+   "name": "Pose dựng khiên ánh sáng",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    641,
+    816,
+    170,
+    178
+   ]
+  },
+  {
+   "id": 47,
+   "file": "char_light_01_part_47_pose_pose_gio_gay_tung_phep_ultimate.png",
+   "category": "pose",
+   "name": "Pose giơ gậy tung phép (ultimate)",
+   "side": "",
+   "note": "",
+   "sheet_rect": [
+    801,
+    764,
+    214,
+    232
+   ]
+  }
+ ]
+}
