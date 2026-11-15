@@ -1802,3 +1802,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** batch ghi nguyên khối 3 / 3 (version mới 4 / 3 / 3). Mỗi banner thêm 1 yêu cầu mới: 1590×1080 px, ảnh phủ x 330 → 1920 của màn 1920×1080, co giữ tỉ lệ, đặt giữa; liệt kê vùng bị chữ / nút che theo tọa độ trên ảnh (banner nhân vật: thanh trên, pity, nút tròn, ô bảo đảm, nút Chiêu mộ; trang bị thường: thanh trên, tiêu đề, hàng 3 vũ khí trưng bày, nút tròn, nút Chiêu mộ; trang bị 5★: đủ cột phải, tiêu đề, 2 chú thích). Mô tả (brief) viết lại theo từng banner; các yêu cầu cũ (1301×839, bố cục trước) đánh dấu xong; lịch sử thêm 1 dòng. Không publish lại trang (chỉ ghi cơ sở dữ liệu).
 - **Quyết định Claude chọn:** banner nhân vật ghi chú bản v2 owner đã tải lên đang 1521×1034 (cùng tỉ lệ, màn phóng ~4.5%), khuyên xuất đúng 1590×1080; banner trang bị thường ghi rõ ảnh chỉ làm nền vì màn tự đặt 3 ảnh vũ khí lên.
 - **Hạn chế đã biết:** ảnh v2 trên site chưa vào repo (owner chưa duyệt).
+
+## 2026-11-15 — Wireframe banner Chiêu mộ để vẽ trong Photoshop
+- **Milestone / task:** UI / asset — owner: "gửi cho mình ảnh wireframe có chia tỉ lệ các nút để có thể edit lại trên pts".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `tools/ui/gen_recruit_wireframes.py` (mới), `docs/design/wireframes/recruit/{banner_char_terra,banner_star5_earth,banner_equip_terra}_{overlay_1590x1080,screen_1920x1080}.png` (6 ảnh).
+- **Đã chạy:** `python -X utf8 tools/ui/gen_recruit_wireframes.py`.
+- **Kết quả thật:** 6 PNG. Bản overlay 1590×1080 nền trong suốt, đúng kích thước ảnh banner, tọa độ tính trên ảnh: đặt làm layer trên cùng trong Photoshop. Bản 1920×1080 là cả màn (danh sách trái, thanh trên), tọa độ theo màn. Mỗi ô ghi tên, cỡ (rộng×cao) và vị trí; lưới 50 px; hai dải làm tối nhẹ (30% trái, 32% phải) và trục giữa ảnh vẽ đường đỏ.
+- **Quyết định Claude chọn:** số đo đọc thẳng từ `data/ui/recruit_screen_layout.json` (chạy lại script sau khi sửa bố cục); màu theo loại: tím = thanh trên, xám = danh sách, xanh dương = chữ, vàng = nút / icon, cam = nút Chiêu mộ, xanh lá = ảnh vũ khí màn tự vẽ; chữ chú thích dùng font Windows (chỉ trên wireframe, không vào game); ảnh nằm trong `docs/` nên không vào bản export.
+- **Hạn chế đã biết:** PNG một lớp (không phải PSD nhiều layer); kích thước theo màn 16:9 1920×1080.
