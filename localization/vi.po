@@ -3105,3 +3105,6 @@ msgstr "Trang bị hiện đang cài đặt"
 
 msgid "EQUIP_PICK_DETAIL"
 msgstr "Xem chi tiết"
+
+msgid "STIGMA_UI_NO_ACTIVE_SET"
+msgstr "Chưa kích hoạt hiệu ứng bộ (cần 2 món cùng bộ)."

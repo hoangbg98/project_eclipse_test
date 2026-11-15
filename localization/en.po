@@ -3105,3 +3105,6 @@ msgstr "Currently equipped"
 
 msgid "EQUIP_PICK_DETAIL"
 msgstr "View details"
+
+msgid "STIGMA_UI_NO_ACTIVE_SET"
+msgstr "No set bonus active (needs 2 pieces of one set)."

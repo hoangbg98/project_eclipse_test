@@ -316,6 +316,7 @@ KEYS = [
     # Bảng đổi trang bị toàn màn (owner 2026-11-15)
     ("EQUIP_PICK_CURRENT", "Trang bị hiện đang cài đặt", "Currently equipped"),
     ("EQUIP_PICK_DETAIL", "Xem chi tiết", "View details"),
+    ("STIGMA_UI_NO_ACTIVE_SET", "Chưa kích hoạt hiệu ứng bộ (cần 2 món cùng bộ).", "No set bonus active (needs 2 pieces of one set)."),
     # Chi tiết vết thánh: 3 tab, phụ tố, tẩy phụ tố, bậc cường hóa (owner 2026-11-15)
     ("STIGMA_UI_TAB_SKILL", "Skill vết thánh", "Stigma skill"),
     ("STIGMA_UI_TAB_AFFIX", "Skill phụ tố", "Affixes"),

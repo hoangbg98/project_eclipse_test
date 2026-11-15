@@ -19,7 +19,9 @@ func _eq(id: String) -> EquipmentDef:
 
 func _wear(cid: String, ids: Array) -> void:
 	for id in ids:
-		assert_str(_p.inventory.equip(cid, _p.inventory.add_equipment(id))).is_equal("")
+		var uid := _p.inventory.add_equipment(id)
+		_p.data["inventory"]["equipment"][uid]["affixes"] = []   # bỏ phụ tố ngẫu nhiên (2026-11-15) để số liệu cố định
+		assert_str(_p.inventory.equip(cid, uid)).is_equal("")
 
 
 func _stage() -> Node2D:

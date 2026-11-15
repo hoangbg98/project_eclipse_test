@@ -507,6 +507,40 @@ func test_equip_picker_preview_sort_and_detail() -> void:
 	assert_object(_node(s, "StigmaEmblem")).is_not_null()
 
 
+## Owner 2026-11-16: ô dưới chân nhân vật chỉ hiện buff bộ đang kích hoạt; tab Skill set tách hiệu ứng chung và
+## "Khi <giáp> trang bị:" + độc quyền theo từng mức.
+func test_active_set_text_and_skill_set_exclusive() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var top := inv.add_equipment("eq_stigma_top_lavoisier")
+	var mid := inv.add_equipment("eq_stigma_mid_lavoisier")
+	inv.equip(A, top)
+	assert_str(s.active_set_text(A)).is_equal(tr("STIGMA_UI_NO_ACTIVE_SET"))
+	inv.equip(A, mid)
+	var sd := EquipmentResolver.set_defs().get_def("set_lavoisier") as StigmaSetDef
+	var t := s.active_set_text(A)
+	assert_bool(t.contains(tr("STIGMA_UI_SET_PIECES") % [tr(sd.name_key), 2])).is_true()
+	assert_bool(t.contains(tr("STIGMA_UI_SET_PIECES") % [tr(sd.name_key), 3])).is_false()
+	for e in sd.bonus_2:
+		assert_bool(t.contains(e.note)).override_failure_message(e.note).is_true()   # Enkiba là chủ: có cả độc quyền
+	s.open_tab("stigma")
+	assert_str((_node(s, "StigmaText") as RichTextLabel).text).is_equal(t)
+	# Giáp khác mặc 2 món: không có dòng độc quyền.
+	s.profile.progression.unlock(L)
+	inv.equip(L, top)
+	inv.equip(L, mid)
+	var tl := s.active_set_text(L)
+	for e in sd.bonus_2:
+		assert_bool(tl.contains(e.note)).override_failure_message(e.note).is_equal(not e.exclusive)
+	# Tab Skill set: dòng "Khi <giáp> trang bị:" nằm sau hiệu ứng chung của từng mức, trước dòng độc quyền.
+	var st := s.set_text(top)
+	var head := tr("WEAPON_UI_WHEN_EQUIPPED") % s.suit_label(A)
+	assert_int(st.count(head)).is_equal(2)
+	for e in sd.bonus_2:
+		if e.exclusive:
+			assert_int(st.find(e.note)).is_greater(st.find(head))
+
+
 func test_background_image_per_view() -> void:
 	var s := _screen()
 	assert_str(s.background_key()).is_equal("overview")
@@ -538,7 +572,7 @@ func test_stigma_tab_three_slots_and_unequip() -> void:
 	(_node(s, "PickEquip") as Button).pressed.emit()
 	assert_str(inv.equipped_uid(A, "stigma_mid")).is_equal(mid)
 	s.intercept_back()
-	assert_bool((_node(s, "StigmaText") as Label).text.contains(tr(inv.equipment_def_of(mid).name_key))).is_true()
+	assert_str((_node(s, "StigmaText") as RichTextLabel).text).is_equal(tr("STIGMA_UI_NO_ACTIVE_SET"))   # 1 món: chưa có bộ
 	s.open_picker("stigma_mid")
 	(_node(s, "PickEquip") as Button).pressed.emit()                 # đang mặc → Tháo
 	assert_str(inv.equipped_uid(A, "stigma_mid")).is_equal("")

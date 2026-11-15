@@ -1132,6 +1132,30 @@ func affix_lines(arr: Array) -> PackedStringArray:
 	return out
 
 
+## Hiệu ứng bộ đang kích hoạt của giáp `who` (BBCode): mỗi bộ đủ 2 / 3 món → tên mức + các dòng; phần độc quyền chỉ khi
+## đúng giáp chủ. Chưa đủ 2 món cùng bộ: một dòng báo chưa kích hoạt.
+func active_set_text(who: String) -> String:
+	var counts := {}
+	for slot in EquipmentDef.STIGMA_SLOTS:
+		var d := profile.inventory.equipment_def_of(profile.inventory.equipped_uid(who, slot))
+		if d and d.set_id != "":
+			counts[d.set_id] = int(counts.get(d.set_id, 0)) + 1
+	var parts := PackedStringArray()
+	for sid: String in counts:
+		var sd := EquipmentResolver.set_defs().get_def(sid) as StigmaSetDef
+		if sd == null:
+			continue
+		for n in [2, 3]:
+			if int(counts[sid]) < int(n):
+				continue
+			parts.append("[b][color=#7FD4FF]%s[/color][/b]" % (tr("STIGMA_UI_SET_PIECES") % [tr(sd.name_key), n]))
+			var effects: Array[EquipEffect] = sd.bonus_2 if n == 2 else sd.bonus_3
+			for e in effects:
+				if e and e.note != "" and (not e.exclusive or sd.owner_id == "" or sd.owner_id == who):
+					parts.append("• " + e.note)
+	return "\n".join(parts) if not parts.is_empty() else tr("STIGMA_UI_NO_ACTIVE_SET")
+
+
 ## Tab "Skill set": tên bộ, hiệu ứng 2 món và 3 món; dòng đang kích hoạt (theo số món người đeo đang mặc) sáng màu.
 func set_text(uid: String) -> String:
 	var d := profile.inventory.equipment_def_of(uid)
@@ -1153,12 +1177,24 @@ func set_text(uid: String) -> String:
 		var col: String = "#7FD4FF" if on else "#8A8FA3"
 		parts.append("[b][color=%s]%s[/color][/b]" % [col, tr("STIGMA_UI_SET_PIECES") % [tr(sd.name_key), n]])
 		var effects: Array[EquipEffect] = sd.bonus_2 if n == 2 else sd.bonus_3
+		# Owner 2026-11-16: hiệu ứng chung, rồi "Khi <tên giáp> trang bị:" + hiệu ứng độc quyền của mức này.
+		var common := PackedStringArray()
+		var exclusive := PackedStringArray()
 		for e in effects:
-			if e and e.note != "":
-				parts.append(("• %s" if on else "[color=#8A8FA3]• %s[/color]") % e.note)
+			if e == null or e.note == "":
+				continue
+			if e.exclusive and sd.owner_id != "":
+				exclusive.append(e.note)
+			else:
+				common.append(e.note)
+		for line in common:
+			parts.append(("• %s" if on else "[color=#8A8FA3]• %s[/color]") % line)
+		if not exclusive.is_empty():
+			var ecol := "#FFB347" if on and who == sd.owner_id else "#8A8FA3"
+			parts.append("[color=%s]%s[/color]" % [ecol, tr("WEAPON_UI_WHEN_EQUIPPED") % suit_label(sd.owner_id)])
+			for line in exclusive:
+				parts.append(("• %s" if on and who == sd.owner_id else "[color=#8A8FA3]• %s[/color]") % line)
 		parts.append("")
-	if sd.owner_id != "":
-		parts.append("[color=#B8BCCB]%s[/color]" % (tr("WEAPON_UI_WHEN_EQUIPPED") % suit_label(sd.owner_id)).trim_suffix(":"))
 	return "\n".join(parts).strip_edges()
 
 
@@ -1255,16 +1291,17 @@ func _build_stigma_art() -> void:
 
 func _build_stigma_tab() -> void:
 	var p := "stigma_tab."
-	var lines := PackedStringArray()
-	for slot in EquipmentDef.STIGMA_SLOTS:
-		var uid := profile.inventory.equipped_uid(selected, slot)
-		if uid != "":
-			lines.append("[%s] %s: %s" % [tr("SLOT_SHORT_" + slot.to_upper()), tr(profile.inventory.equipment_def_of(uid).name_key),
-					_equip_stat_line(uid)])
-	lines.append(tr("CHAR_UI_NO_SET_BONUS"))
+	# Owner 2026-11-16: ô dưới chân nhân vật chỉ hiện buff của bộ đang kích hoạt (đủ 2 / 3 món cùng bộ).
 	var box := layout.rect(p + "set_text")
 	_panel(box, Color(0, 0, 0, 0.6))
-	_label(box.grow(-14), "\n".join(lines), layout.font(p + "set_text", 28), Color.WHITE).name = "StigmaText"
+	var t := RichTextLabel.new()
+	t.name = "StigmaText"
+	t.bbcode_enabled = true
+	t.add_theme_font_size_override("normal_font_size", layout.font(p + "set_text", 28) - 2)
+	t.add_theme_font_size_override("bold_font_size", layout.font(p + "set_text", 28))
+	t.text = active_set_text(selected)
+	t.mouse_filter = Control.MOUSE_FILTER_PASS
+	_place(t, box.grow(-14))
 	var anchor := layout.text(p + "cards.anchor", "right")
 	var art_h := layout.num(p + "cards.art_height", 570)
 	var ch := layout.num(p + "cards.change_height", 66)
