@@ -1795,7 +1795,7 @@ msgid "NEO_HINT_REACTION"
 msgstr "Elemental reaction! That's perfect switch timing, Manager."
 
 msgid "STORY_CH01_OPEN_SUMMARY"
-msgstr "The Ancient Stone Golem at the end of the Ashen Valley is devouring the Mother Hearth's fire. Cross the valley and stop it before the fire dies out."
+msgstr "The Mother Hearth's fire is fading, and the Ancient Stone Golem has woken to block its gate. Cross the valley, get past the guardian and find out why the fire is dying before it's too late."
 
 msgid "STORY_CH01_OPEN_01_1"
 msgstr "The Ashen Valley."
@@ -1834,19 +1834,19 @@ msgid "STORY_CH01_OPEN_09_3"
 msgstr "And then boom! That part I remember."
 
 msgid "STORY_CH01_OPEN_10_1"
-msgstr "Large signal at the end of the valley. A stone guardian… it's draining the elements around it."
+msgstr "Large signal at the end of the valley. A stone guardian… it's standing in front of the Hearth's gate."
 
 msgid "STORY_CH01_OPEN_10_2"
 msgstr "The Ancient Stone Golem…? It's guarded the Hearth for a hundred years and never moved."
 
 msgid "STORY_CH01_OPEN_11_1"
-msgstr "Fire doesn't die this fast on its own. It's swallowing what's left."
+msgstr "Fire doesn't die this fast on its own. Someone is putting it out."
 
 msgid "STORY_CH01_OPEN_12_1"
 msgstr "And what are those hopping lumps of ash?"
 
 msgid "STORY_CH01_OPEN_12_2"
-msgstr "Dregs. Leftover elements clumped together. The golem pulls them in, and they block the road."
+msgstr "Dregs. Leftover elements clumped together. They're being pulled toward the Hearth, blocking the road."
 
 msgid "STORY_CH01_OPEN_13_1"
 msgstr "Manager. If the Hearth goes out, the Hollow Zone swallows my village. Send us in."
@@ -1864,25 +1864,25 @@ msgid "STORY_CH01_OPEN_CARD_TITLE"
 msgstr "Chapter 1 — The Ashen Valley"
 
 msgid "STORY_CH01_OPEN_CARD_SUB"
-msgstr "Objective: cross the valley and stop the Ancient Stone Golem before the Hearth dies out."
+msgstr "Objective: cross the valley and get past the Ancient Stone Golem blocking the Hearth's gate."
 
 msgid "STORY_CH01_END_SUMMARY"
-msgstr "The Mother Hearth burns again and the village is safe. Inside the golem's core lies a channel seal coded 00: there is another Neo, and its holder woke the guardian. The trail leads to the Guardian Highlands."
+msgstr "The masked henchman is defeated and pulled back through a strange channel. The Mother Hearth burns again and the village is safe. Two seals coded 00 show he was only the henchman of another Manager, serving the leader known as 00. The trail leads to the Guardian Highlands."
 
 msgid "STORY_CH01_END_01_1"
-msgstr "The Hollow Zone has thinned. Opening the channel: everyone can come out."
+msgstr "His suit is broken. The Hollow Zone has thinned: everyone can come out."
 
 msgid "STORY_CH01_END_02_1"
-msgstr "Phew… That thing was huge."
+msgstr "Phew… This guy was tougher than the golem."
 
 msgid "STORY_CH01_END_03_1"
-msgstr "It wasn't evil. It was forced awake and made to stand guard alone, with no one to relieve it."
+msgstr "So you beat a henchman. My Manager only needed this Hearth dark for one night."
 
 msgid "STORY_CH01_END_04_1"
-msgstr "The Hearth is still cold."
+msgstr "Stop!"
 
 msgid "STORY_CH01_END_04_2"
-msgstr "The guardian has stopped draining. Elemental density: 12%… 19%… 31%."
+msgstr "He was pulled back into another channel. Format… 00."
 
 msgid "STORY_CH01_END_05_1"
 msgstr "Wake up. It's your turn now."
@@ -1900,22 +1900,22 @@ msgid "STORY_CH01_END_07_2"
 msgstr "The Hollow Zone boundary has receded 2 km. Coalhearth Village is safe."
 
 msgid "STORY_CH01_END_08_1"
-msgstr "What's this? It looks a lot like Neo's ring."
+msgstr "He dropped this. Same as the one in the golem."
 
 msgid "STORY_CH01_END_09_1"
-msgstr "A channel seal fragment… same format as mine. Device code: 00."
+msgstr "Both share command source 00. The golem and that man took orders from the same channel network."
 
 msgid "STORY_CH01_END_09_2"
-msgstr "Our Neo isn't number 00."
+msgstr "A henchman, then his Manager, then whoever carries code 00…"
 
 msgid "STORY_CH01_END_10_1"
-msgstr "So there's another Neo. And whoever holds it woke my village's guardian."
+msgstr "I'll track down every one of them. Nobody puts out my village's fire again."
 
 msgid "STORY_CH01_END_11_1"
 msgstr "I've seen this mark on maps. The guardian workshop up on the stone highlands."
 
 msgid "STORY_CH01_END_11_2"
-msgstr "Anyone who wanted to wake them must have gone there first."
+msgstr "To command a guardian, they must have gone there first."
 
 msgid "STORY_CH01_END_12_1"
 msgstr "Heading out right away? My legs are still warmed up."
@@ -1927,7 +1927,7 @@ msgid "STORY_CH01_END_13_2"
 msgstr "Coordinates logged: the Guardian Highlands. Awaiting the Manager's orders."
 
 msgid "STORY_CH01_END_14_1"
-msgstr "One watch left unfinished. No matter. There are many more guardians."
+msgstr "So the henchman lost. No matter. Tell 00: there are plenty more guardians on the highlands."
 
 msgid "STORY_CH01_END_CARD_TITLE"
 msgstr "Chapter 1 — Complete"
@@ -2328,13 +2328,13 @@ msgid "STAGE_01_02_NAME"
 msgstr "Coalhearth Village"
 
 msgid "STAGE_01_02_DESC"
-msgstr "The Mother Hearth burns again, but leftover ash Dregs are drifting down the slope toward the village. Clear the road and hold Coalhearth's gate."
+msgstr "The Mother Hearth is still cold and ash Dregs are spilling into the village. The masked figure's channel trace passes through here too. Clear the road and hold Coalhearth's gate."
 
 msgid "ENEMY_SLIME_02"
 msgstr "Big Ash Slime"
 
 msgid "BARK_CH01_2_START"
-msgstr "The Hollow Zone is receding. Leftover ash Dregs are drifting toward the village."
+msgstr "The strange channel trace heads for the village. The ash Dregs are spilling down too."
 
 msgid "BARK_CH01_2_WAVE1"
 msgstr "Not one of them reaches the village!"
@@ -2358,7 +2358,7 @@ msgid "BARK_CH01_2_WAVE3"
 msgstr "The last pack is right at the gate. Give it everything!"
 
 msgid "BARK_CH01_2_CLEAR"
-msgstr "Done. The village fires won't go out again."
+msgstr "The village is safe for now. Now let's find whoever sent the golem."
 
 msgid "BARK_CH01_2_CLEAR_NEO"
 msgstr "The gate is safe. Head to it to finish."
@@ -2367,10 +2367,10 @@ msgid "STAGE_01_03_NAME"
 msgstr "Coal Tunnels"
 
 msgid "STAGE_01_03_DESC"
-msgstr "Ash still seeps up from the old coal tunnels under the village, where the buried fire vein runs. Go down and break the Dreg nest before the vein goes cold."
+msgstr "The strange channel trace leads down into the old coal tunnels under the village, where the fire vein feeds the Mother Hearth. Someone has choked the vein. Go down and break the Dreg nest in the way."
 
 msgid "BARK_CH01_3_START"
-msgstr "The heat underground is dropping. The ash Dregs are coming up from these tunnels."
+msgstr "The heat underground is dropping. The strange channel trace goes down these very tunnels."
 
 msgid "BARK_CH01_3_WAVE1"
 msgstr "It's pitch dark and they still found us?!"
@@ -2379,10 +2379,10 @@ msgid "BARK_CH01_3_WAVE1_NEO"
 msgstr "Ash Dregs ahead. They follow warmth."
 
 msgid "BARK_CH01_3_CP1"
-msgstr "The fire vein runs through here. It's almost cold."
+msgstr "The fire vein's been sealed with fresh rock. Someone did this on purpose."
 
 msgid "BARK_CH01_3_CP1_NEO"
-msgstr "The buried fire vein has nearly gone cold."
+msgstr "The fire vein has been sealed. The traces are fresh."
 
 msgid "BARK_CH01_3_WAVE2"
 msgstr "There's a draft from deep inside. The Dregs are riding it."
@@ -2397,10 +2397,106 @@ msgid "BARK_CH01_3_CP2_NEO"
 msgstr "A three-ring stone carving, matching the mark on the golem's back."
 
 msgid "BARK_CH01_3_WAVE3"
-msgstr "The Dreg nest is at the end of the tunnel. Break it and the ash stops reaching the village."
+msgstr "The Dreg nest is at the end of the tunnel, right where the vein was sealed."
 
 msgid "BARK_CH01_3_CLEAR"
-msgstr "The vein is warming up. The village will be fine."
+msgstr "The vein is open, but the Hearth still won't light. What else did he do?"
 
 msgid "BARK_CH01_3_CLEAR_NEO"
 msgstr "The nest is gone. Head for the tunnel exit to finish."
+
+msgid "STAGE_01_04_NAME"
+msgstr "Hearth Cliff"
+
+msgid "STAGE_01_04_DESC"
+msgstr "The vents on the Mother Hearth's cliff were deliberately blocked, so the Hearth can't breathe. Climb the narrow cliff path, clear the Dregs and follow whoever blocked them."
+
+msgid "BARK_CH01_4_START"
+msgstr "The cliff vents are blocked. If the Hearth can't breathe, it can't burn."
+
+msgid "BARK_CH01_4_WAVE1"
+msgstr "No wind… and the vents sealed shut. This isn't natural."
+
+msgid "BARK_CH01_4_WAVE1_NEO"
+msgstr "The Hearth's heat is drawing the ash Dregs in."
+
+msgid "BARK_CH01_4_CP1"
+msgstr "Falling from up here would be… nope, not thinking about it."
+
+msgid "BARK_CH01_4_CP1_NEO"
+msgstr "The cliff path is narrow. Watch the drops."
+
+msgid "BARK_CH01_4_WAVE2"
+msgstr "Big Dregs are clinging to the vent mouth. Clear them so the Hearth can breathe."
+
+msgid "BARK_CH01_4_CP2"
+msgstr "Footprints on the ledge, still fresh. He just came through."
+
+msgid "BARK_CH01_4_CP2_NEO"
+msgstr "Fresh traces detected on the ledge."
+
+msgid "BARK_CH01_4_WAVE3"
+msgstr "We're at the top! Clear this lot and we're done!"
+
+msgid "BARK_CH01_4_WAVE3_NEO"
+msgstr "Last vent. Clear out the Dregs."
+
+msgid "BARK_CH01_4_CLEAR"
+msgstr "The vents are clear. But his tracks lead even higher."
+
+msgid "BARK_CH01_4_CLEAR_NEO"
+msgstr "All vents are clear. Head to the clifftop to finish."
+
+msgid "STORY_CH01_GOLEM_SUMMARY"
+msgstr "The golem falls, but the Mother Hearth stays cold: the guardian was only sent to block the way. In the rubble lies a channel seal coded 00, and a masked figure watches from the cliff before leaving. Whoever is putting out the fire is still in the valley."
+
+msgid "STORY_CH01_GOLEM_01_1"
+msgstr "The guardian has shut down. Opening the channel: everyone can come out."
+
+msgid "STORY_CH01_GOLEM_02_1"
+msgstr "Phew… We're done, right?"
+
+msgid "STORY_CH01_GOLEM_02_2"
+msgstr "Not yet. Look at the Hearth."
+
+msgid "STORY_CH01_GOLEM_03_1"
+msgstr "The Hearth is still cold…"
+
+msgid "STORY_CH01_GOLEM_03_2"
+msgstr "The guardian wasn't draining the fire. It was only blocking the gate."
+
+msgid "STORY_CH01_GOLEM_04_1"
+msgstr "It wasn't evil. Someone sent it to stop us."
+
+msgid "STORY_CH01_GOLEM_05_1"
+msgstr "What's this? It looks a lot like Neo's ring."
+
+msgid "STORY_CH01_GOLEM_06_1"
+msgstr "A channel seal fragment… same format as mine. Command source: 00."
+
+msgid "STORY_CH01_GOLEM_06_2"
+msgstr "Our Neo isn't number 00."
+
+msgid "STORY_CH01_GOLEM_07_1"
+msgstr "Then whoever is really putting out the fire is still in this valley."
+
+msgid "STORY_CH01_GOLEM_08_1"
+msgstr "The guardian was only to buy time. Tell the Manager: the Hearth will die on schedule."
+
+msgid "STORY_CH01_GOLEM_09_1"
+msgstr "Up there! Someone's there!"
+
+msgid "STORY_CH01_GOLEM_10_1"
+msgstr "After him. We have to find him before the Hearth goes out for good."
+
+msgid "STORY_CH01_GOLEM_10_2"
+msgstr "Unknown channel trace logged. Awaiting the Manager's orders."
+
+msgid "STORY_CH01_GOLEM_CARD_TITLE"
+msgstr "Stage 1-1 — Complete"
+
+msgid "STORY_CH01_GOLEM_CARD_SUB"
+msgstr "Next: follow the masked figure through the Ashen Valley."
+
+msgid "STORY_CH01_END_03_2"
+msgstr "Who is your Manager?"

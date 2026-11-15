@@ -16,7 +16,8 @@
   hầm che** (màn có trần đá 2–3 ô).
 - Không nhân vật, không quái, không chữ. Tối nhưng đủ sáng để nhân vật và quái nổi lên (nền trung bình, không đen kịt).
 - Liền mạch với 1-2: làng Lò Than nằm **ngay phía trên**; ánh cam ấm từ đèn mỏ và mạch lửa ngầm đang nguội (đỏ cam
-  mờ trong khe đá). Dấu **ba vòng đá chồng nhau** phải giống dấu trên lưng golem ở ô truyện `ch01_end_11`.
+  mờ trong khe đá). Cốt truyện owner 2026-11-15: mạch lửa bị **lấp bằng đá vụn còn mới** (kẻ đeo mặt nạ làm), lớp
+  giữa có một đoạn chèn đá sáng màu hơn đá cũ. Dấu **ba vòng đá chồng nhau** phải giống dấu trên lưng golem ở ô truyện `ch01_end_11`.
 
 ## Bối cảnh chung (đầu mỗi prompt)
 

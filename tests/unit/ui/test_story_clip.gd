@@ -3,7 +3,7 @@ extends GdUnitTestSuite
 ## Bỏ qua (tóm tắt), placeholder đánh số có diễn biến cảnh, phát một lần, nối vào Xuất kích / kết quả / Thông tin màn.
 
 const SAVE_DIR := "user://test_saves_story_clip"
-const CLIPS := ["ch01_open", "ch01_end"]
+const CLIPS := ["ch01_open", "ch01_golem", "ch01_end"]
 
 var _save: Node
 var _old_store: SaveStore
@@ -205,7 +205,7 @@ func test_map_stage_plays_open_clip_first_time() -> void:
 func test_result_end_clip_and_stage_info_replay() -> void:
 	var r: ResultScreen = auto_free(ResultScreen.new())
 	r.summary = {"victory": true, "stage_id": "stage_01"}
-	assert_str(r.end_clip()).is_equal("ch01_end")
+	assert_str(r.end_clip()).is_equal("ch01_golem")
 	r.summary = {"victory": false, "stage_id": "stage_01"}
 	assert_str(r.end_clip()).is_equal("")
 	GameConfig.selected_stage_id = "stage_01"

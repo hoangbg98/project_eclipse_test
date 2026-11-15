@@ -50,10 +50,15 @@ LAYOUTS = {
           [(948, 427), (1880, 408), (1880, 800), (928, 800)]],
 }
 ENTER = ["left", "up", "right", "down"]
+CLIP_LABEL = {"ch01_open": "Mở chương", "ch01_golem": "Cuối ải 1-1", "ch01_end": "Kết chương (cuối ải 1-10)"}
 
 # ---------- Nhân vật (mô tả cho prompt) ----------
 E, K, R, N = "char_fire_01", "char_wind_01", "char_lightning_01", "neo"
+HM = "henchman"   # tay sai: người mặc giáp của một Quản lý dưới trướng thủ lĩnh mã 00 (chưa có tên; thoại dùng "unknown")
 CHAR_DESC = {
+    HM: "the masked henchman — a tall suit-wearer in dark ash-grey plated armor with dull orange seams, a smooth "
+        "faceless black visor (face never shown), a tattered charcoal cloak, a small half-white half-black ring "
+        "emblem on the chest; wields a heavy black hooked glaive",
     E: "Enkiba — teenage boy (16-19), spiky red-orange hair, amber eyes, black cropped jacket with red flame trim and a "
        "red shoulder guard, white shirt, red trousers, black boots, carries a sword with a flame-patterned orange blade",
     K: "Kazeyumi — teenage girl (16-19), long wavy teal-green hair in a high ponytail with a white feather ornament, teal "
@@ -82,10 +87,10 @@ STYLE = ("Anime 2D illustration in the style of a color manga panel: clean confi
 # hoặc {"card": (tiêu đề vi, en, dòng phụ vi, en)}. Người nói: Data ID, "neo", "narration", "unknown" (???).
 CLIPS = {
     "ch01_open": {
-        "summary": ("Golem Đá Cổ ở cuối Thung Lũng Tro Tàn đang nuốt lửa của Lò Mẹ. Xuyên qua thung lũng và dừng nó "
-                    "lại trước khi lửa tắt hẳn.",
-                    "The Ancient Stone Golem at the end of the Ashen Valley is devouring the Mother Hearth's fire. "
-                    "Cross the valley and stop it before the fire dies out."),
+        "summary": ("Lửa Lò Mẹ tắt dần, còn Golem Đá Cổ thức dậy chắn cửa lò. Xuyên qua thung lũng, vượt qua thủ vệ "
+                    "và tìm ra vì sao lửa tắt trước khi quá muộn.",
+                    "The Mother Hearth's fire is fading, and the Ancient Stone Golem has woken to block its gate. Cross "
+                    "the valley, get past the guardian and find out why the fire is dying before it's too late."),
         "pages": [
             {"layout": "A", "panels": [
                 {"chars": [], "vi": "Toàn cảnh cửa thung lũng xám tro, đường dốc xuống, tro rơi thẳng đứng; Mặt Trời "
@@ -146,22 +151,22 @@ CLIPS = {
                  "en": "Dramatic shot down the valley: in the darkness before the giant furnace gate, two orange-red "
                        "eyes light up on a towering stone silhouette — the Ancient Stone Golem, cracks glowing faintly. "
                        "The ground trembles, ash jumps.",
-                 "lines": [(N, "Tín hiệu lớn ở cuối thung lũng. Một thủ vệ đá… nó đang hút nguyên tố xung quanh.",
-                            "Large signal at the end of the valley. A stone guardian… it's draining the elements around it."),
+                 "lines": [(N, "Tín hiệu lớn ở cuối thung lũng. Một thủ vệ đá… nó đang đứng chắn cửa Lò Mẹ.",
+                            "Large signal at the end of the valley. A stone guardian… it's standing in front of the Hearth's gate."),
                            (E, "Golem Đá Cổ…? Nó canh Lò Mẹ cả trăm năm, chưa từng nhúc nhích.",
                             "The Ancient Stone Golem…? It's guarded the Hearth for a hundred years and never moved.")]},
                 {"chars": [K], "vi": "Kazeyumi nheo mắt nhìn về cuối thung lũng.",
                  "en": "Kazeyumi narrows her eyes toward the far end of the valley, hand on her bow.",
-                 "lines": [(K, "Lửa không tự tắt nhanh vậy đâu. Nó đang nuốt phần lửa còn lại.",
-                            "Fire doesn't die this fast on its own. It's swallowing what's left.")]},
+                 "lines": [(K, "Lửa không tự tắt nhanh vậy đâu. Có ai đó đang dập nó.",
+                            "Fire doesn't die this fast on its own. Someone is putting it out.")]},
             ]},
             {"layout": "G", "panels": [
                 {"chars": [R, K], "vi": "Những khối tro xám nhỏ trồi lên, nảy về phía cuối thung lũng; Raikiba chỉ tay.",
                  "en": "Small grey ash-slime blobs with faint ember specks pop out of the ash and hop toward the far "
                        "end of the valley; Raikiba points at them, Kazeyumi beside him.",
                  "lines": [(R, "Còn mấy cục tro biết nhảy kia là gì?", "And what are those hopping lumps of ash?"),
-                           (K, "Cặn. Nguyên tố thừa vón lại. Chúng bị golem kéo về, chắn hết đường.",
-                            "Dregs. Leftover elements clumped together. The golem pulls them in, and they block the road.")]},
+                           (K, "Cặn. Nguyên tố thừa vón lại. Chúng bị kéo về phía lò, chắn hết đường.",
+                            "Dregs. Leftover elements clumped together. They're being pulled toward the Hearth, blocking the road.")]},
                 {"chars": [E], "vi": "Enkiba bước tới vạch mờ, giơ kiếm, lưỡi kiếm bén lửa.",
                  "en": "Enkiba steps up to the haze line and raises his sword; a flame ignites along the blade, "
                        "determined face, low angle.",
@@ -179,40 +184,115 @@ CLIPS = {
                             "And a reminder from me: don't take too many hits.")]},
             ]},
             {"card": ("Chương 1 — Thung Lũng Tro Tàn", "Chapter 1 — The Ashen Valley",
-                      "Mục tiêu: xuyên qua thung lũng, dừng Golem Đá Cổ trước khi Lò Mẹ tắt hẳn.",
-                      "Objective: cross the valley and stop the Ancient Stone Golem before the Hearth dies out.")},
+                      "Mục tiêu: xuyên qua thung lũng, vượt qua Golem Đá Cổ đang chắn cửa Lò Mẹ.",
+                      "Objective: cross the valley and get past the Ancient Stone Golem blocking the Hearth's gate.")},
         ],
     },
-    "ch01_end": {
-        "summary": ("Lò Mẹ cháy lại, làng an toàn. Trong lõi golem có mảnh ấn mã 00: còn một Neo khác, và người cầm nó "
-                    "đã đánh thức thủ vệ. Manh mối dẫn tới Cao nguyên Thủ Vệ.",
-                    "The Mother Hearth burns again and the village is safe. Inside the golem's core lies a channel seal "
-                    "coded 00: there is another Neo, and its holder woke the guardian. The trail leads to the Guardian "
-                    "Highlands."),
+    "ch01_golem": {
+        "summary": ("Golem đổ, nhưng Lò Mẹ vẫn lạnh: thủ vệ chỉ bị sai tới chặn đường. Trong đá vỡ có mảnh ấn kênh mã 00, "
+                    "và một kẻ đeo mặt nạ đứng nhìn từ trên vách rồi bỏ đi. Kẻ dập lửa thật vẫn ở trong thung lũng.",
+                    "The golem falls, but the Mother Hearth stays cold: the guardian was only sent to block the way. In "
+                    "the rubble lies a channel seal coded 00, and a masked figure watches from the cliff before "
+                    "leaving. Whoever is putting out the fire is still in the valley."),
         "pages": [
             {"layout": "F", "panels": [
-                {"chars": [E], "vi": "Trước cửa Lò Mẹ lạnh tối; đá vỡ của golem ngổn ngang; Enkiba đứng quay lưng.",
-                 "en": "Wide shot: the cold, dark mouth of the gigantic Mother Hearth carved into a cliff; broken boulders "
-                       "of the defeated golem scattered around; Enkiba stands with his back to us, sword lowered.",
-                 "lines": [(N, "Vùng Thực đã loãng. Mở kênh: mọi người ra được rồi.",
-                            "The Hollow Zone has thinned. Opening the channel: everyone can come out.")]},
-                {"chars": [R, K], "vi": "Raikiba và Kazeyumi hiện ra từ hạt sáng; Raikiba ngồi phịch xuống.",
-                 "en": "Raikiba and Kazeyumi materialize from teal and yellow light particles; Raikiba flops down to sit "
-                       "on a rock, exhausted but grinning.",
-                 "lines": [(R, "Phù… Con đó to thật.", "Phew… That thing was huge.")]},
+                {"chars": [E], "vi": "Golem đổ sụp thành từng khối đá trước cửa Lò Mẹ lạnh tối; Enkiba thở dốc, kiếm hạ xuống.",
+                 "en": "Wide shot: the Ancient Stone Golem collapses into huge boulders in front of the cold, dark mouth "
+                       "of the gigantic Mother Hearth carved into the cliff; dust and ash billow; Enkiba stands panting, "
+                       "sword lowered, seen from behind.",
+                 "lines": [(N, "Thủ vệ đã ngừng hoạt động. Mở kênh: mọi người ra được rồi.",
+                            "The guardian has shut down. Opening the channel: everyone can come out.")]},
+                {"chars": [R, K], "vi": "Raikiba và Kazeyumi hiện ra từ hạt sáng; Raikiba ngồi phịch xuống, Kazeyumi nhìn lên lò.",
+                 "en": "Raikiba and Kazeyumi materialize from teal and yellow light particles; Raikiba flops down on a "
+                       "rock grinning, while Kazeyumi already looks up at the furnace with a frown.",
+                 "lines": [(R, "Phù… Xong rồi chứ?", "Phew… We're done, right?"),
+                           (K, "Chưa. Nhìn lò kìa.", "Not yet. Look at the Hearth.")]},
             ]},
             {"layout": "C", "panels": [
+                {"chars": [E, N], "vi": "Enkiba ngước nhìn cửa lò vẫn lạnh ngắt; NEO lơ lửng bên cạnh, ánh xanh nhạt.",
+                 "en": "Enkiba looks up at the still-cold, dark furnace mouth; NEO floats beside him glowing a pale, "
+                       "uncertain cyan. No fire anywhere.",
+                 "lines": [(E, "Lò Mẹ vẫn lạnh…", "The Hearth is still cold…"),
+                           (N, "Thủ vệ không hút lửa. Nó chỉ đứng chắn cửa lò.",
+                            "The guardian wasn't draining the fire. It was only blocking the gate.")]},
                 {"chars": [K], "vi": "Kazeyumi quỳ một gối, đặt tay lên đầu đá của golem.",
                  "en": "Kazeyumi kneels on one knee and gently lays her hand on the golem's broken stone head; its eye "
                        "sockets are dark now. Quiet, sorrowful mood.",
-                 "lines": [(K, "Nó không ác. Nó bị ép thức dậy rồi bị bắt canh một mình, không ai thay ca.",
-                            "It wasn't evil. It was forced awake and made to stand guard alone, with no one to relieve it.")]},
-                {"chars": [E, N], "vi": "Enkiba nhìn cửa lò lạnh; NEO nhấp nháy các con số.",
-                 "en": "Enkiba looks up at the cold furnace mouth; NEO beside him flickers with rising light, like "
-                       "a readout climbing.",
-                 "lines": [(E, "Lò Mẹ vẫn lạnh.", "The Hearth is still cold."),
-                           (N, "Thủ vệ đã ngừng hút. Mật độ nguyên tố: 12%… 19%… 31%.",
-                            "The guardian has stopped draining. Elemental density: 12%… 19%… 31%.")]},
+                 "lines": [(K, "Nó không ác. Có kẻ sai nó tới chặn bọn mình.",
+                            "It wasn't evil. Someone sent it to stop us.")]},
+            ]},
+            {"layout": "B", "panels": [
+                {"chars": [R], "vi": "Raikiba nhặt từ đống đá một chiếc đĩa nhỏ phát sáng trắng đen.",
+                 "en": "Tall shot: Raikiba crouches among the golem rubble holding up a small disc that glows half white, "
+                       "half black, with a ring pattern; puzzled look.",
+                 "lines": [(R, "Cái gì đây? Trông giống vòng sáng của Neo ghê.", "What's this? It looks a lot like Neo's ring.")]},
+                {"chars": [N], "vi": "Cận chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.",
+                 "en": "Close-up of the white-and-black disc with its ring sigil; NEO hovers right next to it, its cyan "
+                       "ring glitching and flickering.",
+                 "lines": [(N, "Mảnh ấn kênh… định dạng trùng với tôi. Nguồn lệnh: 00.",
+                            "A channel seal fragment… same format as mine. Command source: 00."),
+                           (K, "Neo của chúng ta đâu phải số 00.", "Our Neo isn't number 00.")]},
+                {"chars": [E], "vi": "Enkiba nghiêm mặt, siết chuôi kiếm, cửa lò lạnh phía sau.",
+                 "en": "Enkiba with a grim face, gripping his sword hilt tightly, the cold dark furnace behind him.",
+                 "lines": [(E, "Vậy kẻ thật sự dập lửa vẫn còn trong thung lũng.",
+                            "Then whoever is really putting out the fire is still in this valley.")]},
+            ]},
+            {"layout": "A", "panels": [
+                {"chars": [HM], "vi": "Trên đỉnh vách phía trên Lò Mẹ, một kẻ mặc giáp xám tro, mặt nạ đen trơn, đứng nhìn xuống "
+                 "rồi quay lưng.",
+                 "en": "Wide shot from below: high on the cliff edge above the cold Mother Hearth stands the masked "
+                       "henchman against the hazy sky and the Eclipsed Sun, looking down, cloak hanging still, already "
+                       "half-turned to leave.",
+                 "lines": [("unknown", "Thủ vệ chỉ để câu giờ. Báo với Quản lý: lò sẽ tắt đúng hẹn.",
+                            "The guardian was only to buy time. Tell the Manager: the Hearth will die on schedule.")]},
+                {"chars": [R], "vi": "Raikiba bật dậy chỉ tay lên vách.",
+                 "en": "Raikiba springs up and points sharply up at the cliff, shouting, daggers in his other hand.",
+                 "lines": [(R, "Trên kia! Có người!", "Up there! Someone's there!")]},
+                {"chars": [E, N], "vi": "Enkiba nhìn theo, quyết tâm; NEO sáng đỏ cảnh báo.",
+                 "en": "Enkiba glares up toward the now-empty cliff edge, determined; NEO beside him glows a warning red.",
+                 "lines": [(E, "Đuổi theo. Phải tìm ra hắn trước khi Lò Mẹ tắt hẳn.",
+                            "After him. We have to find him before the Hearth goes out for good."),
+                           (N, "Đã ghi dấu kênh lạ. Chờ lệnh của Quản lý.",
+                            "Unknown channel trace logged. Awaiting the Manager's orders.")]},
+            ]},
+            {"card": ("Ải 1-1 — Hoàn thành", "Stage 1-1 — Complete",
+                      "Tiếp theo: lần theo kẻ đeo mặt nạ qua Thung Lũng Tro Tàn.",
+                      "Next: follow the masked figure through the Ashen Valley.")},
+        ],
+    },
+    "ch01_end": {
+        "summary": ("Kẻ đeo mặt nạ bị đánh bại và bị rút về một kênh lạ. Lò Mẹ cháy lại, làng an toàn. Hai mảnh ấn mã 00 "
+                    "cho thấy hắn chỉ là tay sai của một Quản lý khác, dưới trướng thủ lĩnh mã 00. Manh mối dẫn tới "
+                    "Cao nguyên Thủ Vệ.",
+                    "The masked henchman is defeated and pulled back through a strange channel. The Mother Hearth burns "
+                    "again and the village is safe. Two seals coded 00 show he was only the henchman of another Manager, "
+                    "serving the leader known as 00. The trail leads to the Guardian Highlands."),
+        "pages": [
+            {"layout": "F", "panels": [
+                {"chars": [E, HM], "vi": "Trước cửa Lò Mẹ lạnh tối; kẻ đeo mặt nạ quỳ gối, giáp nứt vỡ; Enkiba chĩa kiếm.",
+                 "en": "Wide shot: before the cold, dark mouth of the Mother Hearth, the masked henchman kneels on one "
+                       "knee, his ash-grey armor cracked and smoking, glaive dropped; Enkiba stands over him, flaming "
+                       "sword pointed at him.",
+                 "lines": [(N, "Giáp của hắn đã vỡ. Vùng Thực loãng rồi: mọi người ra được.",
+                            "His suit is broken. The Hollow Zone has thinned: everyone can come out.")]},
+                {"chars": [R, K], "vi": "Raikiba và Kazeyumi hiện ra từ hạt sáng; Raikiba ngồi phịch xuống.",
+                 "en": "Raikiba and Kazeyumi materialize from teal and yellow light particles; Raikiba flops down to sit "
+                       "on a rock, exhausted but grinning.",
+                 "lines": [(R, "Phù… Tên này còn lì hơn cả con golem.", "Phew… This guy was tougher than the golem.")]},
+            ]},
+            {"layout": "C", "panels": [
+                {"chars": [HM, K], "vi": "Kẻ đeo mặt nạ ngẩng lên cười khẩy; Kazeyumi giương cung.",
+                 "en": "The masked henchman lifts his faceless visor toward them in mockery; Kazeyumi draws her bow at "
+                       "him, cold expression.",
+                 "lines": [("unknown", "Thắng một tay sai thì đã sao. Quản lý của ta chỉ cần lò này tắt một đêm.",
+                            "So you beat a henchman. My Manager only needed this Hearth dark for one night."),
+                           (K, "Quản lý của ngươi là ai?", "Who is your Manager?")]},
+                {"chars": [HM, E, N], "vi": "Kẻ đeo mặt nạ tan thành hạt sáng trắng đen, bị kéo đi; Enkiba vươn tay chụp hụt.",
+                 "en": "The henchman dissolves into black-and-white light particles that are sucked away into nothing; "
+                       "Enkiba lunges and grabs only empty air; NEO's ring flickers.",
+                 "lines": [(E, "Đứng lại!", "Stop!"),
+                           (N, "Hắn bị rút về một kênh khác. Định dạng… 00.",
+                            "He was pulled back into another channel. Format… 00.")]},
             ]},
             {"layout": "D", "panels": [
                 {"chars": [E], "vi": "Kiếm bén lửa của Enkiba chạm vào miệng lò.",
@@ -231,31 +311,33 @@ CLIPS = {
                             "The Hollow Zone boundary has receded 2 km. Coalhearth Village is safe.")]},
             ]},
             {"layout": "B", "panels": [
-                {"chars": [R], "vi": "Raikiba nhặt từ đống đá một chiếc đĩa nhỏ phát sáng trắng đen.",
-                 "en": "Tall shot: Raikiba crouches among the golem rubble holding up a small disc that glows half white, "
-                       "half black, with a ring pattern; puzzled look.",
-                 "lines": [(R, "Cái gì đây? Trông giống vòng sáng của Neo ghê.", "What's this? It looks a lot like Neo's ring.")]},
-                {"chars": [N], "vi": "Cận chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.",
-                 "en": "Close-up of the white-and-black disc with its ring sigil; NEO hovers right next to it, its cyan "
-                       "ring glitching and flickering.",
-                 "lines": [(N, "Mảnh ấn kênh… định dạng trùng với tôi. Mã thiết bị: 00.",
-                            "A channel seal fragment… same format as mine. Device code: 00."),
-                           (K, "Neo của chúng ta đâu phải số 00.", "Our Neo isn't number 00.")]},
+                {"chars": [R], "vi": "Raikiba giơ hai chiếc đĩa trắng đen: một từ golem, một hắn đánh rơi.",
+                 "en": "Tall shot: Raikiba holds up two small discs glowing half white, half black, one in each hand, "
+                       "comparing them; the burning hearth lights the scene warmly.",
+                 "lines": [(R, "Hắn làm rơi cái này. Giống hệt cái trong golem.",
+                            "He dropped this. Same as the one in the golem.")]},
+                {"chars": [N], "vi": "Cận hai chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.",
+                 "en": "Close-up of the two white-and-black discs side by side with their ring sigils; NEO hovers next "
+                       "to them, its cyan ring glitching.",
+                 "lines": [(N, "Cả hai cùng nguồn lệnh 00. Golem và tên đó nhận lệnh từ cùng một mạng kênh.",
+                            "Both share command source 00. The golem and that man took orders from the same channel network."),
+                           (K, "Tay sai, rồi Quản lý của hắn, rồi kẻ mang mã 00…",
+                            "A henchman, then his Manager, then whoever carries code 00…")]},
                 {"chars": [E], "vi": "Enkiba nghiêm mặt, siết chuôi kiếm.",
                  "en": "Enkiba with a grim face, gripping his sword hilt tightly, the burning hearth behind him.",
-                 "lines": [(E, "Vậy là còn một Neo khác. Và người cầm nó đã đánh thức thủ vệ của làng tớ.",
-                            "So there's another Neo. And whoever holds it woke my village's guardian.")]},
+                 "lines": [(E, "Tớ sẽ lần ra từng người một. Không ai được dập lửa của làng tớ nữa.",
+                            "I'll track down every one of them. Nobody puts out my village's fire again.")]},
             ]},
             {"layout": "A", "panels": [
                 {"chars": [K], "vi": "Tấm giáp lưng golem lật lên: dấu khắc ba vòng đá chồng nhau.",
-                 "en": "Wide shot: Kazeyumi has flipped over a large back-plate of the golem, revealing an engraved crest "
-                       "of three stacked stone rings.",
+                 "en": "Wide shot: Kazeyumi has flipped over a large back-plate of the golem rubble, revealing an "
+                       "engraved crest of three stacked stone rings.",
                  "lines": [(K, "Dấu này tớ từng thấy trên bản đồ. Xưởng làm thủ vệ trên cao nguyên đá.",
                             "I've seen this mark on maps. The guardian workshop up on the stone highlands."),
-                           (K, "Ai muốn đánh thức chúng thì chắc đã ghé đó trước.",
-                            "Anyone who wanted to wake them must have gone there first.")]},
-                {"chars": [R], "vi": "Raikiba nhét chiếc đĩa vào túi, cười.",
-                 "en": "Raikiba tucks the disc into his pocket with a confident grin, ready to go.",
+                           (K, "Muốn sai được thủ vệ thì chắc chúng đã ghé đó trước.",
+                            "To command a guardian, they must have gone there first.")]},
+                {"chars": [R], "vi": "Raikiba nhét hai chiếc đĩa vào túi, cười.",
+                 "en": "Raikiba tucks the two discs into his pocket with a confident grin, ready to go.",
                  "lines": [(R, "Đi luôn hả? Chân tớ vẫn còn nóng.", "Heading out right away? My legs are still warmed up.")]},
                 {"chars": [E, N], "vi": "Enkiba nhìn lại Lò Mẹ đang cháy rồi quay đi.",
                  "en": "Enkiba glances back at the blazing hearth over his shoulder, then turns toward the road; NEO "
@@ -267,12 +349,12 @@ CLIPS = {
             ]},
             {"layout": "E", "panels": [
                 {"chars": [], "vi": "Đêm, đỉnh vách đá trên thung lũng; Lò Mẹ cháy sáng phía dưới; một bóng người cầm "
-                 "vòng sáng trắng đen giống Neo.",
+                 "vòng sáng trắng đen giống Neo (Quản lý của tay sai).",
                  "en": "Night. On a cliff top above the valley stands a lone silhouette (pure black shape, face never "
                        "shown, long coat moving in the wind), holding a glowing white-and-black ring device like NEO; "
                        "far below, the Mother Hearth burns bright orange. Ominous, quiet.",
-                 "lines": [("unknown", "Một ca canh bị bỏ dở. Không sao. Thủ vệ thì còn nhiều.",
-                            "One watch left unfinished. No matter. There are many more guardians.")]},
+                 "lines": [("unknown", "Tay sai thua rồi à. Không sao. Báo với 00: thủ vệ trên cao nguyên còn nhiều.",
+                            "So the henchman lost. No matter. Tell 00: there are plenty more guardians on the highlands.")]},
             ]},
             {"card": ("Chương 1 — Hoàn thành", "Chapter 1 — Complete",
                       "Chương 2: Xưởng Đá Ngủ — sắp ra mắt", "Chapter 2: The Sleeping Stone Workshop — coming soon")},
@@ -425,7 +507,7 @@ def main():
                "placeholder_dir": "res://assets/placeholders/story",
                "summary": "STORY_%s_SUMMARY" % up, "pages": []}
         keys["STORY_%s_SUMMARY" % up] = clip["summary"]
-        doc.append("\n## %s — %s\n" % (clip_id, "Mở chương" if clip_id.endswith("open") else "Kết chương"))
+        doc.append("\n## %s — %s\n" % (clip_id, CLIP_LABEL[clip_id]))
         pn = 0
         for page in clip["pages"]:
             if "card" in page:
@@ -465,7 +547,7 @@ def main():
                 prompt += ("\n\nComposition: final image %dx%d px (aspect %.2f:1). The visible area is a %s panel; keep "
                            "the main subject inside it (see the numbered placeholder)." % (
                                w, h, w / h, {3: "triangular", 4: "slanted quadrilateral", 6: "diagonal band"}.get(len(poly), "polygon")))
-                doc.append("\n#### %s — ô %02d — `%s.png`\n" % ("Mở chương" if clip_id.endswith("open") else "Kết chương",
+                doc.append("\n#### %s — ô %02d — `%s.png`\n" % (CLIP_LABEL[clip_id],
                                                                  idx, name))
                 doc.append("- **Kích thước ảnh:** %d × %d px (1×; khuyến nghị làm 2× = %d × %d rồi lưu, game tự co). "
                            "Tạo bằng ChatGPT ở %s rồi cắt / co cho đúng tỉ lệ trong Photoshop.\n" % (w, h, w * 2, h * 2, gen_size(w, h)))
@@ -483,7 +565,7 @@ def main():
         with io.open(os.path.join(ROOT, "data/story/%s.json" % clip_id), "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(out, ensure_ascii=False, indent="\t") + "\n")
 
-    head = """# Prompt ChatGPT cho truyện tranh Chương 1 (mở / kết chương)
+    head = """# Prompt ChatGPT cho truyện tranh Chương 1 (mở chương, cuối ải 1-1, kết chương)
 
 > Sinh bởi `tools/story/gen_story_clips.py` — sửa kịch bản ở đó rồi chạy lại. Owner 2026-11-14: clip dẫn truyện là
 > các trang truyện tranh, mỗi trang 1–4 ô (vuông, thang, tam giác...) hiện dần, hết trang thì xóa để sang trang mới.
@@ -509,8 +591,10 @@ forms and the elements fade: fire dies to ash, the wind stops. Leftover elements
 blobs) and ancient stone guardians go berserk. The player is an unseen Manager who carries NEO, a small floating AI
 device (a glowing cyan ring with a light core), which deploys one suit-wearer at a time into the zone.
 Chapter 1, "The Ashen Valley": Enkiba (fire, sword), Kazeyumi (wind, bow) and Raikiba (lightning, twin daggers) enter
-a grey ash valley to stop the Ancient Stone Golem that is smothering the Mother Hearth, a giant furnace carved into a
-cliff that keeps Coalhearth Village alive. Keep every character faithful to the reference images I attach.
+a grey ash valley where the Mother Hearth, a giant furnace carved into a cliff that keeps Coalhearth Village alive, is
+dying. The Ancient Stone Golem was sent to block its gate; the real culprit is a masked henchman in dark ash-grey armor
+(faceless black visor), serving another Manager under a leader known only as "00". Keep every character faithful to
+the reference images I attach.
 Style for all panels: color manga panel, clean line art, cel shading, cinematic lighting. No text or speech bubbles.
 ```
 """

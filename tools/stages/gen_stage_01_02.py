@@ -9,7 +9,8 @@ Sinh / cập nhật:
   data/tutorial/battle_barks.json       — thoại trong trận của màn (id ch01_2_*), thêm / ghi đè theo id
   localization/vi.po, en.po             — STAGE_01_02_*, ENEMY_SLIME_02, BARK_CH01_2_* (thêm mới hoặc ghi đè)
 
-Truyện: sau khi Lò Mẹ cháy lại (1-1), Vùng Thực lùi nhưng Cặn tro còn sót trôi theo đường dốc xuống làng Lò Than.
+Truyện (owner 2026-11-15): golem ở 1-1 chỉ là thủ vệ bị sai tới chặn đường, Lò Mẹ vẫn lạnh. Dấu kênh lạ của kẻ đeo
+mặt nạ (tay sai của một Quản lý dưới trướng thủ lĩnh 00) đi về phía làng Lò Than; Cặn tro tràn xuống làng.
 Số cân bằng là số Claude đặt (tự chủ chi tiết nhỏ), chỉnh ở đây rồi chạy lại.
 """
 import os
@@ -39,25 +40,25 @@ WAVES = [
 
 TEXT = {
     "STAGE_01_02_NAME": ("Làng Lò Than", "Coalhearth Village"),
-    "STAGE_01_02_DESC": ("Lò Mẹ đã cháy lại, nhưng Cặn tro còn sót vẫn trôi theo đường dốc xuống làng. Dọn sạch lối "
-                         "và giữ cổng làng Lò Than.",
-                         "The Mother Hearth burns again, but leftover ash Dregs are drifting down the slope toward "
-                         "the village. Clear the road and hold Coalhearth's gate."),
+    "STAGE_01_02_DESC": ('Lò Mẹ vẫn lạnh, Cặn tro tràn xuống làng. Dấu kênh lạ của kẻ đeo mặt nạ cũng đi qua đây. Dọn sạch lối và giữ cổng làng Lò Than.',
+                         "The Mother Hearth is still cold and ash Dregs are spilling into the village. The masked figure's channel trace passes through here too. Clear the road and hold Coalhearth's gate."),
     "ENEMY_SLIME_02": ("Slime tro lớn", "Big Ash Slime"),
-    "BARK_CH01_2_START": ("Vùng Thực đang lùi. Cặn tro sót lại trôi xuống phía làng.",
-                          "The Hollow Zone is receding. Leftover ash Dregs are drifting toward the village."),
+    "BARK_CH01_2_START": ('Dấu kênh lạ đi về phía làng. Cặn tro cũng đang tràn xuống.',
+                          'The strange channel trace heads for the village. The ash Dregs are spilling down too.'),
     "BARK_CH01_2_WAVE1": ("Không để con nào tới được làng!", "Not one of them reaches the village!"),
     "BARK_CH01_2_WAVE1_NEO": ("Cặn tro chặn đường. Dọn sạch rồi đi tiếp.", "Ash Dregs ahead. Clear them and move on."),
     "BARK_CH01_2_WAVE2": ("Con to kia là Cặn kết khối. Cắn chậm mà nặng, né rồi đánh trả.",
                           "That big one is clumped Dregs. Slow but heavy bites, dodge, then hit back."),
     "BARK_CH01_2_WAVE2_NEO": ("Cặn tro kết khối. Đòn chậm nhưng nặng, né rồi phản công.",
                               "Clumped Dregs. Slow but heavy, dodge and counter."),
-    "BARK_CH01_2_CP2": ("Thấy mái làng rồi! Có khói bếp, vẫn còn người ở đó.",
-                        "I can see the roofs! Chimney smoke, people are still there."),
+    "BARK_CH01_2_CP2": ('Thấy mái làng rồi! Có khói bếp, vẫn còn người ở đó.',
+                        'I can see the roofs! Chimney smoke, people are still there.'),
     "BARK_CH01_2_CP2_NEO": ("Làng Lò Than ở phía trước.", "Coalhearth Village is just ahead."),
     "BARK_CH01_2_WAVE3": ("Đàn cuối ở ngay cổng làng. Dồn hết sức!", "The last pack is right at the gate. Give it everything!"),
-    "BARK_CH01_2_CLEAR": ("Xong rồi. Lửa trong làng sẽ không tắt nữa.", "Done. The village fires won't go out again."),
-    "BARK_CH01_2_CLEAR_NEO": ("Cổng làng an toàn. Tiến tới cổng để hoàn tất.", "The gate is safe. Head to it to finish."),
+    "BARK_CH01_2_CLEAR": ('Làng tạm ổn rồi. Giờ tìm kẻ đã sai golem.',
+                          "The village is safe for now. Now let's find whoever sent the golem."),
+    "BARK_CH01_2_CLEAR_NEO": ('Cổng làng an toàn. Tiến tới cổng để hoàn tất.',
+                              'The gate is safe. Head to it to finish.'),
 }
 
 BARKS = [

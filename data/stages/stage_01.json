@@ -5,7 +5,7 @@
 	"code": "1-1",
 	"chapter": 1,
 	"open_clip": "ch01_open",
-	"end_clip": "ch01_end",
+	"end_clip": "ch01_golem",
 	"description": "Màn đầu: 3 đợt quái, 3 checkpoint, boss 2 pha. Ký hiệu như test_stage + C = checkpoint.",
 	"desc_key": "STAGE_01_DESC",
 	"recommended_level": 5,

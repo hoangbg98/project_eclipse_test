@@ -4,9 +4,9 @@ Chạy (thư mục gốc dự án):  python -X utf8 -I tools/stages/gen_stage_01
 Sinh / cập nhật: data/stages/stage_01_03.json, thoại ch01_3_* trong data/tutorial/battle_barks.json,
 STAGE_01_03_* / BARK_CH01_3_* trong localization/vi.po, en.po. Hàm chung: tools/stages/stage_gen.py.
 
-Truyện: giữ được cổng làng (1-2), nhưng tro vẫn rỉ lên từ hầm than cũ dưới làng, nơi mạch lửa ngầm chạy qua
-("Lửa ngầm tắt thì đá cũng nứt", 1-1). Trong hầm có dấu ba vòng đá giống trên lưng golem: thủ vệ đã đào hầm này
-(nhắc lại manh mối Chương 1, không mở bí mật mới), dẫn sang Cao Nguyên Thủ Vệ ở Chương 2.
+Truyện (owner 2026-11-15): Lò Mẹ vẫn lạnh. Dấu kênh lạ dẫn xuống hầm than cũ dưới làng, nơi mạch lửa ngầm nuôi
+Lò Mẹ: mạch bị lấp bằng đá còn mới, kẻ đeo mặt nạ cố ý làm vậy. Trong hầm có dấu ba vòng đá giống trên lưng golem:
+thủ vệ đã đào hầm này (nhắc lại manh mối Chương 1, không mở bí mật mới), dẫn sang Cao Nguyên Thủ Vệ ở Chương 2.
 Màn không boss: hạ hết 3 đợt (đợt cuối là ổ Cặn, 3 Slime tro lớn) rồi ra cửa hầm (goal_col).
 Số cân bằng là số Claude đặt (tự chủ chi tiết nhỏ), chỉnh ở đây rồi chạy lại.
 """
@@ -38,17 +38,16 @@ WAVES = [
 
 TEXT = {
     "STAGE_01_03_NAME": ("Hầm Than Ngầm", "Coal Tunnels"),
-    "STAGE_01_03_DESC": ("Tro vẫn rỉ lên từ hầm than cũ dưới làng, nơi mạch lửa ngầm chảy qua. Xuống hầm, phá ổ Cặn "
-                         "tro trước khi mạch lửa nguội hẳn.",
-                         "Ash still seeps up from the old coal tunnels under the village, where the buried fire vein "
-                         "runs. Go down and break the Dreg nest before the vein goes cold."),
-    "BARK_CH01_3_START": ("Nhiệt dưới lòng đất đang tụt. Cặn tro trôi lên từ chính hầm này.",
-                          "The heat underground is dropping. The ash Dregs are coming up from these tunnels."),
+    "STAGE_01_03_DESC": ('Dấu kênh lạ dẫn xuống hầm than cũ dưới làng, nơi mạch lửa ngầm nuôi Lò Mẹ. Có kẻ đã lấp mạch lửa. Xuống hầm, phá ổ Cặn chắn đường.',
+                         'The strange channel trace leads down into the old coal tunnels under the village, where the fire vein feeds the Mother Hearth. Someone has choked the vein. Go down and break the Dreg nest in the way.'),
+    "BARK_CH01_3_START": ('Nhiệt dưới lòng đất đang tụt. Dấu kênh lạ đi xuống chính hầm này.',
+                          'The heat underground is dropping. The strange channel trace goes down these very tunnels.'),
     "BARK_CH01_3_WAVE1": ("Tối om thế này mà chúng vẫn tìm ra tụi mình à?!", "It's pitch dark and they still found us?!"),
     "BARK_CH01_3_WAVE1_NEO": ("Cặn tro phía trước. Chúng bám theo hơi ấm.", "Ash Dregs ahead. They follow warmth."),
-    "BARK_CH01_3_CP1": ("Mạch lửa ngầm chạy qua đây. Nó nguội gần hết rồi.",
-                        "The fire vein runs through here. It's almost cold."),
-    "BARK_CH01_3_CP1_NEO": ("Mạch lửa ngầm gần như đã nguội.", "The buried fire vein has nearly gone cold."),
+    "BARK_CH01_3_CP1": ('Mạch lửa bị lấp bằng đá mới. Có kẻ cố ý làm vậy.',
+                        "The fire vein's been sealed with fresh rock. Someone did this on purpose."),
+    "BARK_CH01_3_CP1_NEO": ('Mạch lửa ngầm bị lấp. Dấu vết còn mới.',
+                            'The fire vein has been sealed. The traces are fresh.'),
     "BARK_CH01_3_WAVE2": ("Có gió lùa từ sâu bên trong. Cặn đang kéo theo nó.",
                           "There's a draft from deep inside. The Dregs are riding it."),
     "BARK_CH01_3_WAVE2_NEO": ("Hai khối Cặn lớn. Né đòn cắn rồi phản công.", "Two big Dregs. Dodge the bite, then counter."),
@@ -56,9 +55,10 @@ TEXT = {
                         "Three stone rings… same as the golem's back. The guardians dug these tunnels."),
     "BARK_CH01_3_CP2_NEO": ("Dấu khắc ba vòng đá, trùng với dấu trên lưng golem.",
                             "A three-ring stone carving, matching the mark on the golem's back."),
-    "BARK_CH01_3_WAVE3": ("Ổ Cặn ở cuối hầm. Phá nó thì tro thôi trôi lên làng.",
-                          "The Dreg nest is at the end of the tunnel. Break it and the ash stops reaching the village."),
-    "BARK_CH01_3_CLEAR": ("Mạch lửa ấm lại rồi. Làng sẽ ổn thôi.", "The vein is warming up. The village will be fine."),
+    "BARK_CH01_3_WAVE3": ('Ổ Cặn ở cuối hầm, ngay chỗ mạch lửa bị lấp.',
+                          'The Dreg nest is at the end of the tunnel, right where the vein was sealed.'),
+    "BARK_CH01_3_CLEAR": ('Mạch lửa thông rồi, mà Lò Mẹ vẫn chưa cháy. Hắn còn làm gì nữa?',
+                          "The vein is open, but the Hearth still won't light. What else did he do?"),
     "BARK_CH01_3_CLEAR_NEO": ("Ổ Cặn đã tan. Ra cửa hầm để hoàn tất.", "The nest is gone. Head for the tunnel exit to finish."),
 }
 

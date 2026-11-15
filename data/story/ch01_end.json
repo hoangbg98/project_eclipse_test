@@ -32,8 +32,8 @@
 							460
 						]
 					],
-					"enter": "down",
-					"desc": "Trước cửa Lò Mẹ lạnh tối; đá vỡ của golem ngổn ngang; Enkiba đứng quay lưng.",
+					"enter": "up",
+					"desc": "Trước cửa Lò Mẹ lạnh tối; kẻ đeo mặt nạ quỳ gối, giáp nứt vỡ; Enkiba chĩa kiếm.",
 					"lines": [
 						{
 							"speaker": "neo",
@@ -61,7 +61,7 @@
 							800
 						]
 					],
-					"enter": "left",
+					"enter": "right",
 					"desc": "Raikiba và Kazeyumi hiện ra từ hạt sáng; Raikiba ngồi phịch xuống.",
 					"lines": [
 						{
@@ -95,12 +95,16 @@
 							800
 						]
 					],
-					"enter": "up",
-					"desc": "Kazeyumi quỳ một gối, đặt tay lên đầu đá của golem.",
+					"enter": "down",
+					"desc": "Kẻ đeo mặt nạ ngẩng lên cười khẩy; Kazeyumi giương cung.",
 					"lines": [
 						{
-							"speaker": "char_wind_01",
+							"speaker": "unknown",
 							"text": "STORY_CH01_END_03_1"
+						},
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_END_03_2"
 						}
 					]
 				},
@@ -124,8 +128,8 @@
 							800
 						]
 					],
-					"enter": "right",
-					"desc": "Enkiba nhìn cửa lò lạnh; NEO nhấp nháy các con số.",
+					"enter": "left",
+					"desc": "Kẻ đeo mặt nạ tan thành hạt sáng trắng đen, bị kéo đi; Enkiba vươn tay chụp hụt.",
 					"lines": [
 						{
 							"speaker": "char_fire_01",
@@ -158,7 +162,7 @@
 							660
 						]
 					],
-					"enter": "down",
+					"enter": "up",
 					"desc": "Kiếm bén lửa của Enkiba chạm vào miệng lò.",
 					"lines": [
 						{
@@ -195,7 +199,7 @@
 							704
 						]
 					],
-					"enter": "left",
+					"enter": "right",
 					"desc": "Lò Mẹ bùng cháy rực rỡ, đốm lửa bay lên; Raikiba nhảy cẫng lên.",
 					"lines": [
 						{
@@ -224,7 +228,7 @@
 							800
 						]
 					],
-					"enter": "up",
+					"enter": "down",
 					"desc": "Kazeyumi mỉm cười, đốm lửa bay ngang theo gió vừa trở lại.",
 					"lines": [
 						{
@@ -262,8 +266,8 @@
 							800
 						]
 					],
-					"enter": "right",
-					"desc": "Raikiba nhặt từ đống đá một chiếc đĩa nhỏ phát sáng trắng đen.",
+					"enter": "left",
+					"desc": "Raikiba giơ hai chiếc đĩa trắng đen: một từ golem, một hắn đánh rơi.",
 					"lines": [
 						{
 							"speaker": "char_lightning_01",
@@ -291,8 +295,8 @@
 							420
 						]
 					],
-					"enter": "down",
-					"desc": "Cận chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.",
+					"enter": "up",
+					"desc": "Cận hai chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.",
 					"lines": [
 						{
 							"speaker": "neo",
@@ -324,7 +328,7 @@
 							800
 						]
 					],
-					"enter": "left",
+					"enter": "right",
 					"desc": "Enkiba nghiêm mặt, siết chuôi kiếm.",
 					"lines": [
 						{
@@ -358,7 +362,7 @@
 							420
 						]
 					],
-					"enter": "up",
+					"enter": "down",
 					"desc": "Tấm giáp lưng golem lật lên: dấu khắc ba vòng đá chồng nhau.",
 					"lines": [
 						{
@@ -391,8 +395,8 @@
 							800
 						]
 					],
-					"enter": "right",
-					"desc": "Raikiba nhét chiếc đĩa vào túi, cười.",
+					"enter": "left",
+					"desc": "Raikiba nhét hai chiếc đĩa vào túi, cười.",
 					"lines": [
 						{
 							"speaker": "char_lightning_01",
@@ -420,7 +424,7 @@
 							800
 						]
 					],
-					"enter": "down",
+					"enter": "up",
 					"desc": "Enkiba nhìn lại Lò Mẹ đang cháy rồi quay đi.",
 					"lines": [
 						{
@@ -458,8 +462,8 @@
 							800
 						]
 					],
-					"enter": "left",
-					"desc": "Đêm, đỉnh vách đá trên thung lũng; Lò Mẹ cháy sáng phía dưới; một bóng người cầm vòng sáng trắng đen giống Neo.",
+					"enter": "right",
+					"desc": "Đêm, đỉnh vách đá trên thung lũng; Lò Mẹ cháy sáng phía dưới; một bóng người cầm vòng sáng trắng đen giống Neo (Quản lý của tay sai).",
 					"lines": [
 						{
 							"speaker": "unknown",

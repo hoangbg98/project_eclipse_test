@@ -9,7 +9,7 @@ extends HubScreen
 ## Cốt truyện mở màn thông tin màn chơi (mục tiêu chiến đấu) → Chuẩn bị → đội hình → Khai chiến.
 
 const TABS: Array[String] = ["SORTIE_TAB_RECOMMEND", "SORTIE_TAB_SORTIE", "SORTIE_TAB_CHALLENGE", "SORTIE_TAB_EVENT"]
-const STORY_STAGES: Array[String] = ["stage_01", "stage_01_02", "stage_01_03"]
+const STORY_STAGES: Array[String] = ["stage_01", "stage_01_02", "stage_01_03", "stage_01_04"]
 
 var card_buttons: Dictionary = {}
 

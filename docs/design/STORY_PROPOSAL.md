@@ -32,8 +32,14 @@
 | 18 | Số ải | Tăng dần: Ch.1 10 · Ch.2 12 · Ch.3 15 · Ch.4 20 (10+10) · Ch.5 24 (12+12) · Ch.6 26 (13+13) · Ch.7 30 (15+15) = 137 ải; part 10–15 ải | Nhóm chương (đề xuất, đổi được): Ch.1–2 "Tro Tàn Và Đá Ngủ", Ch.3–4 "Sét Câm, Ngọn Đèn Cuối", Ch.5–6 "Rừng Không Bóng, Đỉnh Gió Lặng", Ch.7 "Nhật Thực" (2 phần, mỗi phần một thẻ) |
 | 19 | Ải chưa có màn chơi | Hiện trên map nhưng khóa **"Sắp ra mắt"** | Thêm màn: đặt `stage_id` cho ải trong `gen_chapters.py` (bảng `built`) và tạo `data/stages/<id>.json` |
 | 20 | Quà khiêu chiến | Mỗi phần một rương: % huy chương (3 / ải = 3 mục tiêu chiến đấu); đủ 100% nhận **một lần** | Số thưởng tạm `PART_REWARD` (300 ngọc + nguyên liệu) trong `gen_chapters.py` |
+| 21 | Golem ở cuối ải 1-1 (owner 2026-11-15) | Golem **chỉ là thủ vệ bị sai tới chặn đường**, không phải kẻ dập lửa. Đánh xong golem **Lò Mẹ vẫn lạnh** | Clip cuối 1-1 mới `ch01_golem` (10 ô): golem đổ, mảnh ấn kênh nguồn lệnh 00 trong đá vỡ, kẻ đeo mặt nạ nhìn từ trên vách rồi bỏ đi. Thoại clip mở chỉ đổi lời (golem "chắn cửa lò", không "nuốt lửa"); ảnh giữ nguyên |
+| 22 | Kẻ chủ mưu Chương 1 (owner 2026-11-15) | **Tay sai của một Quản lý**, Quản lý đó dưới trướng **thủ lĩnh mã 00**: ba tầng tay sai → Quản lý → 00 | Tay sai là người mặc giáp, chưa có tên (thoại hiện "???"), hình: giáp xám tro, mặt nạ đen trơn, áo choàng than, vũ khí lưỡi móc (đề xuất, `CHAR_DESC["henchman"]` trong `tools/story/gen_story_clips.py`). Cảnh nhá cuối chương (hàng 10) là **Quản lý của tay sai**, nói "Báo với 00" |
+| 23 | Lò Mẹ cháy lại (owner 2026-11-15) | **Dời sang cuối ải 1-10**: clip kết chương `ch01_end` viết lại (đánh bại tay sai, hắn bị rút về kênh 00, Lò Mẹ cháy, gió trở lại, hai mảnh ấn 00, dấu ba vòng đá → Cao nguyên Thủ Vệ) | 1-2 → 1-9 là truy dấu tay sai, Lò Mẹ vẫn lạnh, chưa có gió. `ch01_end` chờ màn 1-10 (chưa làm) |
+| 24 | Boss ải 1-10 (owner 2026-11-15) | **Tay sai trong bộ giáp của hắn** (người quản lý không trực tiếp chiến đấu) | Cần thiết kế boss + hình mới khi làm 1-10 |
 
 ---
+
+> **Cập nhật owner 2026-11-15 (hàng 21–24):** các mục D1, D5, D6 dưới đây còn mô tả bản cũ (golem nuốt lửa, Lò Mẹ cháy ở cuối 1-1). Kịch bản clip đúng nằm ở `tools/story/gen_story_clips.py` (`ch01_open`, `ch01_golem`, `ch01_end`); truyện từng màn 1-2 → 1-4 ở đầu `tools/stages/gen_stage_01_0X.py`.
 
 ## A. Cơ sở sáng tác
 

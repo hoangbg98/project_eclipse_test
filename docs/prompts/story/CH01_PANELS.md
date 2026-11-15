@@ -1,4 +1,4 @@
-# Prompt ChatGPT cho truyện tranh Chương 1 (mở / kết chương)
+# Prompt ChatGPT cho truyện tranh Chương 1 (mở chương, cuối ải 1-1, kết chương)
 
 > Sinh bởi `tools/story/gen_story_clips.py` — sửa kịch bản ở đó rồi chạy lại. Owner 2026-11-14: clip dẫn truyện là
 > các trang truyện tranh, mỗi trang 1–4 ô (vuông, thang, tam giác...) hiện dần, hết trang thì xóa để sang trang mới.
@@ -24,8 +24,10 @@ forms and the elements fade: fire dies to ash, the wind stops. Leftover elements
 blobs) and ancient stone guardians go berserk. The player is an unseen Manager who carries NEO, a small floating AI
 device (a glowing cyan ring with a light core), which deploys one suit-wearer at a time into the zone.
 Chapter 1, "The Ashen Valley": Enkiba (fire, sword), Kazeyumi (wind, bow) and Raikiba (lightning, twin daggers) enter
-a grey ash valley to stop the Ancient Stone Golem that is smothering the Mother Hearth, a giant furnace carved into a
-cliff that keeps Coalhearth Village alive. Keep every character faithful to the reference images I attach.
+a grey ash valley where the Mother Hearth, a giant furnace carved into a cliff that keeps Coalhearth Village alive, is
+dying. The Ancient Stone Golem was sent to block its gate; the real culprit is a masked henchman in dark ash-grey armor
+(faceless black visor), serving another Manager under a leader known only as "00". Keep every character faithful to
+the reference images I attach.
 Style for all panels: color manga panel, clean line art, cel shading, cinematic lighting. No text or speech bubbles.
 ```
 
@@ -215,7 +217,7 @@ Composition: final image 1120x620 px (aspect 1.81:1). The visible area is a tria
 - **Kích thước ảnh:** 1260 × 760 px (1×; khuyến nghị làm 2× = 2520 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_open_10.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Cuối thung lũng: trong bóng tối trước cửa Lò Mẹ, hai đốm mắt cam đỏ sáng lên trên một khối đá khổng lồ.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** neo: “Tín hiệu lớn ở cuối thung lũng. Một thủ vệ đá… nó đang hút nguyên tố xung quanh.” / char_fire_01: “Golem Đá Cổ…? Nó canh Lò Mẹ cả trăm năm, chưa từng nhúc nhích.”
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** neo: “Tín hiệu lớn ở cuối thung lũng. Một thủ vệ đá… nó đang đứng chắn cửa Lò Mẹ.” / char_fire_01: “Golem Đá Cổ…? Nó canh Lò Mẹ cả trăm năm, chưa từng nhúc nhích.”
 - **Lưu thành:** `assets/story/ch01/ch01_open_10.png`
 
 ```text
@@ -230,7 +232,7 @@ Composition: final image 1260x760 px (aspect 1.66:1). The visible area is a slan
 - **Kích thước ảnh:** 956 × 760 px (1×; khuyến nghị làm 2× = 1912 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_open_11.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Kazeyumi nheo mắt nhìn về cuối thung lũng.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_wind_01: “Lửa không tự tắt nhanh vậy đâu. Nó đang nuốt phần lửa còn lại.”
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_wind_01: “Lửa không tự tắt nhanh vậy đâu. Có ai đó đang dập nó.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`
 - **Lưu thành:** `assets/story/ch01/ch01_open_11.png`
 
@@ -251,7 +253,7 @@ Composition: final image 956x760 px (aspect 1.26:1). The visible area is a slant
 - **Kích thước ảnh:** 900 × 384 px (1×; khuyến nghị làm 2× = 1800 × 768 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_open_12.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Những khối tro xám nhỏ trồi lên, nảy về phía cuối thung lũng; Raikiba chỉ tay.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Còn mấy cục tro biết nhảy kia là gì?” / char_wind_01: “Cặn. Nguyên tố thừa vón lại. Chúng bị golem kéo về, chắn hết đường.”
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Còn mấy cục tro biết nhảy kia là gì?” / char_wind_01: “Cặn. Nguyên tố thừa vón lại. Chúng bị kéo về phía lò, chắn hết đường.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png`, `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`
 - **Lưu thành:** `assets/story/ch01/ch01_open_12.png`
 
@@ -325,22 +327,22 @@ Characters:
 Composition: final image 952x392 px (aspect 2.43:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-## ch01_end — Kết chương
+## ch01_golem — Cuối ải 1-1
 
 ### Trang 1 (bố cục F)
 
-#### Kết chương — ô 01 — `ch01_end_01.png`
+#### Cuối ải 1-1 — ô 01 — `ch01_golem_01.png`
 - **Kích thước ảnh:** 1840 × 420 px (1×; khuyến nghị làm 2× = 3680 × 840 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
-- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_01.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
-- **Cảnh:** Trước cửa Lò Mẹ lạnh tối; đá vỡ của golem ngổn ngang; Enkiba đứng quay lưng.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** neo: “Vùng Thực đã loãng. Mở kênh: mọi người ra được rồi.”
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_01.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Golem đổ sụp thành từng khối đá trước cửa Lò Mẹ lạnh tối; Enkiba thở dốc, kiếm hạ xuống.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** neo: “Thủ vệ đã ngừng hoạt động. Mở kênh: mọi người ra được rồi.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_fire_01/splash/char_fire_01_splash_overview.png`
-- **Lưu thành:** `assets/story/ch01/ch01_end_01.png`
+- **Lưu thành:** `assets/story/ch01/ch01_golem_01.png`
 
 ```text
 Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
 
-Scene: Wide shot: the cold, dark mouth of the gigantic Mother Hearth carved into a cliff; broken boulders of the defeated golem scattered around; Enkiba stands with his back to us, sword lowered.
+Scene: Wide shot: the Ancient Stone Golem collapses into huge boulders in front of the cold, dark mouth of the gigantic Mother Hearth carved into the cliff; dust and ash billow; Enkiba stands panting, sword lowered, seen from behind.
 
 Characters:
 - Enkiba — teenage boy (16-19), spiky red-orange hair, amber eyes, black cropped jacket with red flame trim and a red shoulder guard, white shirt, red trousers, black boots, carries a sword with a flame-patterned orange blade
@@ -348,11 +350,213 @@ Characters:
 Composition: final image 1840x420 px (aspect 4.38:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-#### Kết chương — ô 02 — `ch01_end_02.png`
+#### Cuối ải 1-1 — ô 02 — `ch01_golem_02.png`
+- **Kích thước ảnh:** 1840 × 416 px (1×; khuyến nghị làm 2× = 3680 × 832 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_02.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Raikiba và Kazeyumi hiện ra từ hạt sáng; Raikiba ngồi phịch xuống, Kazeyumi nhìn lên lò.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Phù… Xong rồi chứ?” / char_wind_01: “Chưa. Nhìn lò kìa.”
+- **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png`, `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`
+- **Lưu thành:** `assets/story/ch01/ch01_golem_02.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Raikiba and Kazeyumi materialize from teal and yellow light particles; Raikiba flops down on a rock grinning, while Kazeyumi already looks up at the furnace with a frown.
+
+Characters:
+- Raikiba — teenage boy (16-19), spiky silver-white hair with lemon-yellow streaks, teal-green eyes, cool serious look, dark navy high-collar sleeveless zip top and baggy cargo pants with yellow lightning stripes, black arm bands and fingerless gloves, light grey boots with yellow laces, a serrated black-and-yellow curved dagger in each hand
+- Kazeyumi — teenage girl (16-19), long wavy teal-green hair in a high ponytail with a white feather ornament, teal eyes, cream sleeveless tunic with teal accents, dark teal short cape, teal pleated skirt, brown leather belts and a quiver, cream boots with small wing ornaments, long wooden recurve bow wrapped with teal ribbon
+
+Composition: final image 1840x416 px (aspect 4.42:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+### Trang 2 (bố cục C)
+
+#### Cuối ải 1-1 — ô 03 — `ch01_golem_03.png`
+- **Kích thước ảnh:** 1260 × 760 px (1×; khuyến nghị làm 2× = 2520 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_03.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Enkiba ngước nhìn cửa lò vẫn lạnh ngắt; NEO lơ lửng bên cạnh, ánh xanh nhạt.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_fire_01: “Lò Mẹ vẫn lạnh…” / neo: “Thủ vệ không hút lửa. Nó chỉ đứng chắn cửa lò.”
+- **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_fire_01/splash/char_fire_01_splash_overview.png`
+- **Lưu thành:** `assets/story/ch01/ch01_golem_03.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Enkiba looks up at the still-cold, dark furnace mouth; NEO floats beside him glowing a pale, uncertain cyan. No fire anywhere.
+
+Characters:
+- Enkiba — teenage boy (16-19), spiky red-orange hair, amber eyes, black cropped jacket with red flame trim and a red shoulder guard, white shirt, red trousers, black boots, carries a sword with a flame-patterned orange blade
+- NEO — a small floating AI device: a palm-sized glowing cyan ring around a soft white light core, two thin rotating arcs, no face, no limbs
+
+Composition: final image 1260x760 px (aspect 1.66:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+#### Cuối ải 1-1 — ô 04 — `ch01_golem_04.png`
+- **Kích thước ảnh:** 956 × 760 px (1×; khuyến nghị làm 2× = 1912 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_04.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Kazeyumi quỳ một gối, đặt tay lên đầu đá của golem.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_wind_01: “Nó không ác. Có kẻ sai nó tới chặn bọn mình.”
+- **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`
+- **Lưu thành:** `assets/story/ch01/ch01_golem_04.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Kazeyumi kneels on one knee and gently lays her hand on the golem's broken stone head; its eye sockets are dark now. Quiet, sorrowful mood.
+
+Characters:
+- Kazeyumi — teenage girl (16-19), long wavy teal-green hair in a high ponytail with a white feather ornament, teal eyes, cream sleeveless tunic with teal accents, dark teal short cape, teal pleated skirt, brown leather belts and a quiver, cream boots with small wing ornaments, long wooden recurve bow wrapped with teal ribbon
+
+Composition: final image 956x760 px (aspect 1.26:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+### Trang 3 (bố cục B)
+
+#### Cuối ải 1-1 — ô 05 — `ch01_golem_05.png`
+- **Kích thước ảnh:** 720 × 760 px (1×; khuyến nghị làm 2× = 1440 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1024×1024 (vuông) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_05.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Raikiba nhặt từ đống đá một chiếc đĩa nhỏ phát sáng trắng đen.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Cái gì đây? Trông giống vòng sáng của Neo ghê.”
+- **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png`
+- **Lưu thành:** `assets/story/ch01/ch01_golem_05.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Tall shot: Raikiba crouches among the golem rubble holding up a small disc that glows half white, half black, with a ring pattern; puzzled look.
+
+Characters:
+- Raikiba — teenage boy (16-19), spiky silver-white hair with lemon-yellow streaks, teal-green eyes, cool serious look, dark navy high-collar sleeveless zip top and baggy cargo pants with yellow lightning stripes, black arm bands and fingerless gloves, light grey boots with yellow laces, a serrated black-and-yellow curved dagger in each hand
+
+Composition: final image 720x760 px (aspect 0.95:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+#### Cuối ải 1-1 — ô 06 — `ch01_golem_06.png`
+- **Kích thước ảnh:** 1126 × 380 px (1×; khuyến nghị làm 2× = 2252 × 760 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_06.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Cận chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** neo: “Mảnh ấn kênh… định dạng trùng với tôi. Nguồn lệnh: 00.” / char_wind_01: “Neo của chúng ta đâu phải số 00.”
+- **Lưu thành:** `assets/story/ch01/ch01_golem_06.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Close-up of the white-and-black disc with its ring sigil; NEO hovers right next to it, its cyan ring glitching and flickering.
+
+Characters:
+- NEO — a small floating AI device: a palm-sized glowing cyan ring around a soft white light core, two thin rotating arcs, no face, no limbs
+
+Composition: final image 1126x380 px (aspect 2.96:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+#### Cuối ải 1-1 — ô 07 — `ch01_golem_07.png`
+- **Kích thước ảnh:** 1156 × 396 px (1×; khuyến nghị làm 2× = 2312 × 792 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_07.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Enkiba nghiêm mặt, siết chuôi kiếm, cửa lò lạnh phía sau.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_fire_01: “Vậy kẻ thật sự dập lửa vẫn còn trong thung lũng.”
+- **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_fire_01/splash/char_fire_01_splash_overview.png`
+- **Lưu thành:** `assets/story/ch01/ch01_golem_07.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Enkiba with a grim face, gripping his sword hilt tightly, the cold dark furnace behind him.
+
+Characters:
+- Enkiba — teenage boy (16-19), spiky red-orange hair, amber eyes, black cropped jacket with red flame trim and a red shoulder guard, white shirt, red trousers, black boots, carries a sword with a flame-patterned orange blade
+
+Composition: final image 1156x396 px (aspect 2.92:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+### Trang 4 (bố cục A)
+
+#### Cuối ải 1-1 — ô 08 — `ch01_golem_08.png`
+- **Kích thước ảnh:** 1840 × 380 px (1×; khuyến nghị làm 2× = 3680 × 760 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_08.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Trên đỉnh vách phía trên Lò Mẹ, một kẻ mặc giáp xám tro, mặt nạ đen trơn, đứng nhìn xuống rồi quay lưng.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** unknown: “Thủ vệ chỉ để câu giờ. Báo với Quản lý: lò sẽ tắt đúng hẹn.”
+- **Lưu thành:** `assets/story/ch01/ch01_golem_08.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Wide shot from below: high on the cliff edge above the cold Mother Hearth stands the masked henchman against the hazy sky and the Eclipsed Sun, looking down, cloak hanging still, already half-turned to leave.
+
+Characters:
+- the masked henchman — a tall suit-wearer in dark ash-grey plated armor with dull orange seams, a smooth faceless black visor (face never shown), a tattered charcoal cloak, a small half-white half-black ring emblem on the chest; wields a heavy black hooked glaive
+
+Composition: final image 1840x380 px (aspect 4.84:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+#### Cuối ải 1-1 — ô 09 — `ch01_golem_09.png`
+- **Kích thước ảnh:** 960 × 387 px (1×; khuyến nghị làm 2× = 1920 × 774 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_09.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Raikiba bật dậy chỉ tay lên vách.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Trên kia! Có người!”
+- **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png`
+- **Lưu thành:** `assets/story/ch01/ch01_golem_09.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Raikiba springs up and points sharply up at the cliff, shouting, daggers in his other hand.
+
+Characters:
+- Raikiba — teenage boy (16-19), spiky silver-white hair with lemon-yellow streaks, teal-green eyes, cool serious look, dark navy high-collar sleeveless zip top and baggy cargo pants with yellow lightning stripes, black arm bands and fingerless gloves, light grey boots with yellow laces, a serrated black-and-yellow curved dagger in each hand
+
+Composition: final image 960x387 px (aspect 2.48:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+#### Cuối ải 1-1 — ô 10 — `ch01_golem_10.png`
+- **Kích thước ảnh:** 916 × 416 px (1×; khuyến nghị làm 2× = 1832 × 832 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_golem_10.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Enkiba nhìn theo, quyết tâm; NEO sáng đỏ cảnh báo.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_fire_01: “Đuổi theo. Phải tìm ra hắn trước khi Lò Mẹ tắt hẳn.” / neo: “Đã ghi dấu kênh lạ. Chờ lệnh của Quản lý.”
+- **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_fire_01/splash/char_fire_01_splash_overview.png`
+- **Lưu thành:** `assets/story/ch01/ch01_golem_10.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Enkiba glares up toward the now-empty cliff edge, determined; NEO beside him glows a warning red.
+
+Characters:
+- Enkiba — teenage boy (16-19), spiky red-orange hair, amber eyes, black cropped jacket with red flame trim and a red shoulder guard, white shirt, red trousers, black boots, carries a sword with a flame-patterned orange blade
+- NEO — a small floating AI device: a palm-sized glowing cyan ring around a soft white light core, two thin rotating arcs, no face, no limbs
+
+Composition: final image 916x416 px (aspect 2.20:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+## ch01_end — Kết chương (cuối ải 1-10)
+
+### Trang 1 (bố cục F)
+
+#### Kết chương (cuối ải 1-10) — ô 01 — `ch01_end_01.png`
+- **Kích thước ảnh:** 1840 × 420 px (1×; khuyến nghị làm 2× = 3680 × 840 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
+- **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_01.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
+- **Cảnh:** Trước cửa Lò Mẹ lạnh tối; kẻ đeo mặt nạ quỳ gối, giáp nứt vỡ; Enkiba chĩa kiếm.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** neo: “Giáp của hắn đã vỡ. Vùng Thực loãng rồi: mọi người ra được.”
+- **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_fire_01/splash/char_fire_01_splash_overview.png`
+- **Lưu thành:** `assets/story/ch01/ch01_end_01.png`
+
+```text
+Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
+
+Scene: Wide shot: before the cold, dark mouth of the Mother Hearth, the masked henchman kneels on one knee, his ash-grey armor cracked and smoking, glaive dropped; Enkiba stands over him, flaming sword pointed at him.
+
+Characters:
+- Enkiba — teenage boy (16-19), spiky red-orange hair, amber eyes, black cropped jacket with red flame trim and a red shoulder guard, white shirt, red trousers, black boots, carries a sword with a flame-patterned orange blade
+- the masked henchman — a tall suit-wearer in dark ash-grey plated armor with dull orange seams, a smooth faceless black visor (face never shown), a tattered charcoal cloak, a small half-white half-black ring emblem on the chest; wields a heavy black hooked glaive
+
+Composition: final image 1840x420 px (aspect 4.38:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
+```
+
+#### Kết chương (cuối ải 1-10) — ô 02 — `ch01_end_02.png`
 - **Kích thước ảnh:** 1840 × 416 px (1×; khuyến nghị làm 2× = 3680 × 832 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_02.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Raikiba và Kazeyumi hiện ra từ hạt sáng; Raikiba ngồi phịch xuống.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Phù… Con đó to thật.”
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Phù… Tên này còn lì hơn cả con golem.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png`, `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`
 - **Lưu thành:** `assets/story/ch01/ch01_end_02.png`
 
@@ -370,39 +574,41 @@ Composition: final image 1840x416 px (aspect 4.42:1). The visible area is a slan
 
 ### Trang 2 (bố cục C)
 
-#### Kết chương — ô 03 — `ch01_end_03.png`
+#### Kết chương (cuối ải 1-10) — ô 03 — `ch01_end_03.png`
 - **Kích thước ảnh:** 1260 × 760 px (1×; khuyến nghị làm 2× = 2520 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_03.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
-- **Cảnh:** Kazeyumi quỳ một gối, đặt tay lên đầu đá của golem.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_wind_01: “Nó không ác. Nó bị ép thức dậy rồi bị bắt canh một mình, không ai thay ca.”
+- **Cảnh:** Kẻ đeo mặt nạ ngẩng lên cười khẩy; Kazeyumi giương cung.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** unknown: “Thắng một tay sai thì đã sao. Quản lý của ta chỉ cần lò này tắt một đêm.” / char_wind_01: “Quản lý của ngươi là ai?”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`
 - **Lưu thành:** `assets/story/ch01/ch01_end_03.png`
 
 ```text
 Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
 
-Scene: Kazeyumi kneels on one knee and gently lays her hand on the golem's broken stone head; its eye sockets are dark now. Quiet, sorrowful mood.
+Scene: The masked henchman lifts his faceless visor toward them in mockery; Kazeyumi draws her bow at him, cold expression.
 
 Characters:
+- the masked henchman — a tall suit-wearer in dark ash-grey plated armor with dull orange seams, a smooth faceless black visor (face never shown), a tattered charcoal cloak, a small half-white half-black ring emblem on the chest; wields a heavy black hooked glaive
 - Kazeyumi — teenage girl (16-19), long wavy teal-green hair in a high ponytail with a white feather ornament, teal eyes, cream sleeveless tunic with teal accents, dark teal short cape, teal pleated skirt, brown leather belts and a quiver, cream boots with small wing ornaments, long wooden recurve bow wrapped with teal ribbon
 
 Composition: final image 1260x760 px (aspect 1.66:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-#### Kết chương — ô 04 — `ch01_end_04.png`
+#### Kết chương (cuối ải 1-10) — ô 04 — `ch01_end_04.png`
 - **Kích thước ảnh:** 956 × 760 px (1×; khuyến nghị làm 2× = 1912 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_04.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
-- **Cảnh:** Enkiba nhìn cửa lò lạnh; NEO nhấp nháy các con số.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_fire_01: “Lò Mẹ vẫn lạnh.” / neo: “Thủ vệ đã ngừng hút. Mật độ nguyên tố: 12%… 19%… 31%.”
+- **Cảnh:** Kẻ đeo mặt nạ tan thành hạt sáng trắng đen, bị kéo đi; Enkiba vươn tay chụp hụt.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_fire_01: “Đứng lại!” / neo: “Hắn bị rút về một kênh khác. Định dạng… 00.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_fire_01/splash/char_fire_01_splash_overview.png`
 - **Lưu thành:** `assets/story/ch01/ch01_end_04.png`
 
 ```text
 Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
 
-Scene: Enkiba looks up at the cold furnace mouth; NEO beside him flickers with rising light, like a readout climbing.
+Scene: The henchman dissolves into black-and-white light particles that are sucked away into nothing; Enkiba lunges and grabs only empty air; NEO's ring flickers.
 
 Characters:
+- the masked henchman — a tall suit-wearer in dark ash-grey plated armor with dull orange seams, a smooth faceless black visor (face never shown), a tattered charcoal cloak, a small half-white half-black ring emblem on the chest; wields a heavy black hooked glaive
 - Enkiba — teenage boy (16-19), spiky red-orange hair, amber eyes, black cropped jacket with red flame trim and a red shoulder guard, white shirt, red trousers, black boots, carries a sword with a flame-patterned orange blade
 - NEO — a small floating AI device: a palm-sized glowing cyan ring around a soft white light core, two thin rotating arcs, no face, no limbs
 
@@ -411,7 +617,7 @@ Composition: final image 956x760 px (aspect 1.26:1). The visible area is a slant
 
 ### Trang 3 (bố cục D)
 
-#### Kết chương — ô 05 — `ch01_end_05.png`
+#### Kết chương (cuối ải 1-10) — ô 05 — `ch01_end_05.png`
 - **Kích thước ảnh:** 1120 × 620 px (1×; khuyến nghị làm 2× = 2240 × 1240 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tam giác. Placeholder: `assets/placeholders/story/placeholder_ch01_end_05.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Kiếm bén lửa của Enkiba chạm vào miệng lò.
@@ -430,7 +636,7 @@ Characters:
 Composition: final image 1120x620 px (aspect 1.81:1). The visible area is a triangular panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-#### Kết chương — ô 06 — `ch01_end_06.png`
+#### Kết chương (cuối ải 1-10) — ô 06 — `ch01_end_06.png`
 - **Kích thước ảnh:** 1840 × 760 px (1×; khuyến nghị làm 2× = 3680 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** lục giác (dải chéo). Placeholder: `assets/placeholders/story/placeholder_ch01_end_06.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Lò Mẹ bùng cháy rực rỡ, đốm lửa bay lên; Raikiba nhảy cẫng lên.
@@ -450,7 +656,7 @@ Characters:
 Composition: final image 1840x760 px (aspect 2.42:1). The visible area is a diagonal band panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-#### Kết chương — ô 07 — `ch01_end_07.png`
+#### Kết chương (cuối ải 1-10) — ô 07 — `ch01_end_07.png`
 - **Kích thước ảnh:** 1120 × 620 px (1×; khuyến nghị làm 2× = 2240 × 1240 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tam giác. Placeholder: `assets/placeholders/story/placeholder_ch01_end_07.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Kazeyumi mỉm cười, đốm lửa bay ngang theo gió vừa trở lại.
@@ -472,18 +678,18 @@ Composition: final image 1120x620 px (aspect 1.81:1). The visible area is a tria
 
 ### Trang 4 (bố cục B)
 
-#### Kết chương — ô 08 — `ch01_end_08.png`
+#### Kết chương (cuối ải 1-10) — ô 08 — `ch01_end_08.png`
 - **Kích thước ảnh:** 720 × 760 px (1×; khuyến nghị làm 2× = 1440 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1024×1024 (vuông) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_08.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
-- **Cảnh:** Raikiba nhặt từ đống đá một chiếc đĩa nhỏ phát sáng trắng đen.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Cái gì đây? Trông giống vòng sáng của Neo ghê.”
+- **Cảnh:** Raikiba giơ hai chiếc đĩa trắng đen: một từ golem, một hắn đánh rơi.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Hắn làm rơi cái này. Giống hệt cái trong golem.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png`
 - **Lưu thành:** `assets/story/ch01/ch01_end_08.png`
 
 ```text
 Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
 
-Scene: Tall shot: Raikiba crouches among the golem rubble holding up a small disc that glows half white, half black, with a ring pattern; puzzled look.
+Scene: Tall shot: Raikiba holds up two small discs glowing half white, half black, one in each hand, comparing them; the burning hearth lights the scene warmly.
 
 Characters:
 - Raikiba — teenage boy (16-19), spiky silver-white hair with lemon-yellow streaks, teal-green eyes, cool serious look, dark navy high-collar sleeveless zip top and baggy cargo pants with yellow lightning stripes, black arm bands and fingerless gloves, light grey boots with yellow laces, a serrated black-and-yellow curved dagger in each hand
@@ -491,17 +697,17 @@ Characters:
 Composition: final image 720x760 px (aspect 0.95:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-#### Kết chương — ô 09 — `ch01_end_09.png`
+#### Kết chương (cuối ải 1-10) — ô 09 — `ch01_end_09.png`
 - **Kích thước ảnh:** 1126 × 380 px (1×; khuyến nghị làm 2× = 2252 × 760 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_09.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
-- **Cảnh:** Cận chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** neo: “Mảnh ấn kênh… định dạng trùng với tôi. Mã thiết bị: 00.” / char_wind_01: “Neo của chúng ta đâu phải số 00.”
+- **Cảnh:** Cận hai chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** neo: “Cả hai cùng nguồn lệnh 00. Golem và tên đó nhận lệnh từ cùng một mạng kênh.” / char_wind_01: “Tay sai, rồi Quản lý của hắn, rồi kẻ mang mã 00…”
 - **Lưu thành:** `assets/story/ch01/ch01_end_09.png`
 
 ```text
 Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
 
-Scene: Close-up of the white-and-black disc with its ring sigil; NEO hovers right next to it, its cyan ring glitching and flickering.
+Scene: Close-up of the two white-and-black discs side by side with their ring sigils; NEO hovers next to them, its cyan ring glitching.
 
 Characters:
 - NEO — a small floating AI device: a palm-sized glowing cyan ring around a soft white light core, two thin rotating arcs, no face, no limbs
@@ -509,11 +715,11 @@ Characters:
 Composition: final image 1126x380 px (aspect 2.96:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-#### Kết chương — ô 10 — `ch01_end_10.png`
+#### Kết chương (cuối ải 1-10) — ô 10 — `ch01_end_10.png`
 - **Kích thước ảnh:** 1156 × 396 px (1×; khuyến nghị làm 2× = 2312 × 792 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_10.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Enkiba nghiêm mặt, siết chuôi kiếm.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_fire_01: “Vậy là còn một Neo khác. Và người cầm nó đã đánh thức thủ vệ của làng tớ.”
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_fire_01: “Tớ sẽ lần ra từng người một. Không ai được dập lửa của làng tớ nữa.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_fire_01/splash/char_fire_01_splash_overview.png`
 - **Lưu thành:** `assets/story/ch01/ch01_end_10.png`
 
@@ -530,18 +736,18 @@ Composition: final image 1156x396 px (aspect 2.92:1). The visible area is a slan
 
 ### Trang 5 (bố cục A)
 
-#### Kết chương — ô 11 — `ch01_end_11.png`
+#### Kết chương (cuối ải 1-10) — ô 11 — `ch01_end_11.png`
 - **Kích thước ảnh:** 1840 × 380 px (1×; khuyến nghị làm 2× = 3680 × 760 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_11.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Tấm giáp lưng golem lật lên: dấu khắc ba vòng đá chồng nhau.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_wind_01: “Dấu này tớ từng thấy trên bản đồ. Xưởng làm thủ vệ trên cao nguyên đá.” / char_wind_01: “Ai muốn đánh thức chúng thì chắc đã ghé đó trước.”
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_wind_01: “Dấu này tớ từng thấy trên bản đồ. Xưởng làm thủ vệ trên cao nguyên đá.” / char_wind_01: “Muốn sai được thủ vệ thì chắc chúng đã ghé đó trước.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`
 - **Lưu thành:** `assets/story/ch01/ch01_end_11.png`
 
 ```text
 Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
 
-Scene: Wide shot: Kazeyumi has flipped over a large back-plate of the golem, revealing an engraved crest of three stacked stone rings.
+Scene: Wide shot: Kazeyumi has flipped over a large back-plate of the golem rubble, revealing an engraved crest of three stacked stone rings.
 
 Characters:
 - Kazeyumi — teenage girl (16-19), long wavy teal-green hair in a high ponytail with a white feather ornament, teal eyes, cream sleeveless tunic with teal accents, dark teal short cape, teal pleated skirt, brown leather belts and a quiver, cream boots with small wing ornaments, long wooden recurve bow wrapped with teal ribbon
@@ -549,10 +755,10 @@ Characters:
 Composition: final image 1840x380 px (aspect 4.84:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-#### Kết chương — ô 12 — `ch01_end_12.png`
+#### Kết chương (cuối ải 1-10) — ô 12 — `ch01_end_12.png`
 - **Kích thước ảnh:** 960 × 387 px (1×; khuyến nghị làm 2× = 1920 × 774 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_12.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
-- **Cảnh:** Raikiba nhét chiếc đĩa vào túi, cười.
+- **Cảnh:** Raikiba nhét hai chiếc đĩa vào túi, cười.
 - **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** char_lightning_01: “Đi luôn hả? Chân tớ vẫn còn nóng.”
 - **Ảnh tham chiếu đính kèm khi tạo:** `assets/characters/char_lightning_01/rig_parts/source/refs/char_lightning_01_ref_01_toan_than.png`
 - **Lưu thành:** `assets/story/ch01/ch01_end_12.png`
@@ -560,7 +766,7 @@ Composition: final image 1840x380 px (aspect 4.84:1). The visible area is a slan
 ```text
 Anime 2D illustration in the style of a color manga panel: clean confident line art, cel shading with 2-3 tones, cinematic lighting, slightly desaturated warm palette. Characters in standard anime proportions (not chibi), faithful to the attached reference images (hair, colors, outfit, weapon). World: a fantasy land under the 'Eclipsed Sun' — a pale orange sun with a dark bite missing from one side. No text, no letters, no speech bubbles, no panel borders, no watermark.
 
-Scene: Raikiba tucks the disc into his pocket with a confident grin, ready to go.
+Scene: Raikiba tucks the two discs into his pocket with a confident grin, ready to go.
 
 Characters:
 - Raikiba — teenage boy (16-19), spiky silver-white hair with lemon-yellow streaks, teal-green eyes, cool serious look, dark navy high-collar sleeveless zip top and baggy cargo pants with yellow lightning stripes, black arm bands and fingerless gloves, light grey boots with yellow laces, a serrated black-and-yellow curved dagger in each hand
@@ -568,7 +774,7 @@ Characters:
 Composition: final image 960x387 px (aspect 2.48:1). The visible area is a slanted quadrilateral panel; keep the main subject inside it (see the numbered placeholder).
 ```
 
-#### Kết chương — ô 13 — `ch01_end_13.png`
+#### Kết chương (cuối ải 1-10) — ô 13 — `ch01_end_13.png`
 - **Kích thước ảnh:** 916 × 416 px (1×; khuyến nghị làm 2× = 1832 × 832 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_13.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
 - **Cảnh:** Enkiba nhìn lại Lò Mẹ đang cháy rồi quay đi.
@@ -590,11 +796,11 @@ Composition: final image 916x416 px (aspect 2.20:1). The visible area is a slant
 
 ### Trang 6 (bố cục E)
 
-#### Kết chương — ô 14 — `ch01_end_14.png`
+#### Kết chương (cuối ải 1-10) — ô 14 — `ch01_end_14.png`
 - **Kích thước ảnh:** 1840 × 760 px (1×; khuyến nghị làm 2× = 3680 × 1520 rồi lưu, game tự co). Tạo bằng ChatGPT ở 1536×1024 (ngang) rồi cắt / co cho đúng tỉ lệ trong Photoshop.
 - **Hình ô:** tứ giác (thang / bình hành). Placeholder: `assets/placeholders/story/placeholder_ch01_end_14.png` (vùng xám = phần hiện trong game, vùng gạch chéo bị cắt). Dùng placeholder làm lớp dưới trong Photoshop để canh chủ thể.
-- **Cảnh:** Đêm, đỉnh vách đá trên thung lũng; Lò Mẹ cháy sáng phía dưới; một bóng người cầm vòng sáng trắng đen giống Neo.
-- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** unknown: “Một ca canh bị bỏ dở. Không sao. Thủ vệ thì còn nhiều.”
+- **Cảnh:** Đêm, đỉnh vách đá trên thung lũng; Lò Mẹ cháy sáng phía dưới; một bóng người cầm vòng sáng trắng đen giống Neo (Quản lý của tay sai).
+- **Thoại trên ô này (game tự hiện, không vẽ vào ảnh):** unknown: “Tay sai thua rồi à. Không sao. Báo với 00: thủ vệ trên cao nguyên còn nhiều.”
 - **Lưu thành:** `assets/story/ch01/ch01_end_14.png`
 
 ```text

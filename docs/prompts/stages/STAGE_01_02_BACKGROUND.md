@@ -8,7 +8,7 @@
 
 | Lớp | File | Trượt | Nội dung | Nền trong suốt? |
 |---|---|---|---|---|
-| Xa | `assets/backgrounds/stages/stage_01_02/bg_stage_01_02_far.png` | 0.1 | Trời, Mặt Trời Khuyết, vách đá xa có Lò Mẹ **đang cháy** | Không (phủ kín) |
+| Xa | `assets/backgrounds/stages/stage_01_02/bg_stage_01_02_far.png` | 0.1 | Trời, Mặt Trời Khuyết, vách đá xa có Lò Mẹ **lạnh tối** | Không (phủ kín) |
 | Giữa | `.../bg_stage_01_02_mid.png` | 0.3 | Đồi tro, mái nhà làng Lò Than, ống khói, cối xay | Có (trời trong suốt) |
 | Gần | `.../bg_stage_01_02_near.png` | 0.6 | Hàng rào gỗ, đèn lồng, cây chết, đống than | Có (trên ~55% trong suốt) |
 
@@ -16,17 +16,17 @@
   phải nối liền (Photoshop: *Filter → Other → Offset* +1920 px rồi vá đường nối).
 - **18% dưới cùng bị nền đất của màn che** (mặt đất ở khoảng 83% chiều cao): đừng đặt chi tiết quan trọng ở đó.
 - Không nhân vật, không quái, không chữ. Hơi giảm bão hòa, tương phản thấp để nhân vật và quái nổi trên nền.
-- Liền mạch với Chương 1: màn 1-1 đi vào thung lũng tro xám; màn 1-2 diễn ra **sau khi Lò Mẹ cháy lại**, đi ngược dốc
-  về làng ở cửa thung lũng. Tro vẫn còn nhưng không khí ấm hơn: ánh cam từ Lò Mẹ phía sau, khói bếp trong làng.
+- Liền mạch với Chương 1 (cốt truyện owner 2026-11-15): golem ở 1-1 đã đổ nhưng **Lò Mẹ vẫn lạnh**; màn 1-2 đi ngược
+  dốc về làng ở cửa thung lũng. Tro vẫn rơi thẳng (chưa có gió); hơi ấm duy nhất là đèn và khói bếp le lói trong làng.
 
 ## Bối cảnh chung (đầu mỗi prompt)
 
 ```text
 2D side-scrolling game background layer for PROJECT ECLIPSE, an original anime-style action RPG. Soft painterly anime
 background art, flat side view (no perspective tilt), horizon at about 60% height. World under the "Eclipsed Sun": a
-pale orange sun with a dark bite missing from one side. Setting: the mouth of the Ashen Valley, just after the giant
-cliff furnace (the Mother Hearth) has been rekindled; grey ash still covers the ground but warm orange light is
-returning. Slightly desaturated, low contrast. No characters, no creatures, no text, no logo, no watermark.
+pale orange sun with a dark bite missing from one side. Setting: the mouth of the Ashen Valley; the giant cliff
+furnace (the Mother Hearth) has gone cold, grey ash falls straight down with no wind, and only the village's small
+lamps and chimney smoke give any warmth. Slightly desaturated, low contrast. No characters, no creatures, no text, no logo, no watermark.
 The image must tile seamlessly horizontally (left and right edges match). The bottom 18% will be covered by the
 ground tiles of the level, keep it plain.
 ```
@@ -35,9 +35,9 @@ ground tiles of the level, keep it plain.
 
 ```text
 [Bối cảnh chung]
-Layer: FAR, fully opaque. Hazy dusk sky in grey-orange, the Eclipsed Sun high on the left third, soft ash particles in
-the air. Far away on the right third, a tall cliff with a gigantic carved furnace gate glowing bright orange (the Mother
-Hearth burning again), a thin column of warm smoke rising. Distant grey mountain ridges along the horizon.
+Layer: FAR, fully opaque. Hazy dusk sky in grey-orange, the Eclipsed Sun high on the left third, soft ash particles
+falling straight down. Far away on the right third, a tall cliff with a gigantic carved furnace gate, dark and cold
+(the Mother Hearth gone out), only a faint dying ember glow deep inside. Distant grey mountain ridges along the horizon.
 ```
 
 ## Lớp giữa — `bg_stage_01_02_mid.png`

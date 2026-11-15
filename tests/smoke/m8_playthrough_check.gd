@@ -182,14 +182,14 @@ func _run() -> void:
 	_check(guide.intercept_back(), "hướng dẫn chặn Back")
 	guide.press_target()
 	# Qua màn lần đầu: clip truyện kết chương rồi mới về sảnh (owner 2026-11-14).
-	_check(await _wait_for_scene(gc.SCENE_STORY_CLIP, 4.0), "Về Hub: phát clip kết Chương 1")
+	_check(await _wait_for_scene(gc.SCENE_STORY_CLIP, 4.0), "Về Hub: phát clip cuối ải 1-1")
 	await _frames(2)
 	_check(not guide.is_active(), "hướng dẫn không khóa trong clip")
 	current_scene.ask_skip()
 	current_scene.show_summary()
 	current_scene.finish(true)
 	_check(await _wait_for_scene(gc.SCENE_HUB, 4.0), "clip xong → sảnh")
-	_check(save.data["tutorial"]["seen"].has("clip:ch01_end"), "clip kết đã đánh dấu xem")
+	_check(save.data["tutorial"]["seen"].has("clip:ch01_golem"), "clip cuối 1-1 đã đánh dấu xem")
 
 	# --- Hướng dẫn: Tiếp tế → Chiêu mộ → x10 miễn phí bằng vé (chắc chắn Raikiba) ---
 	await _frames(2)

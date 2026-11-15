@@ -1,0 +1,345 @@
+{
+	"_comment": "Sinh bởi tools/story/gen_story_clips.py — sửa ở đó rồi chạy lại.",
+	"id": "ch01_golem",
+	"design_size": [
+		1920,
+		1080
+	],
+	"image_dir": "res://assets/story/ch01",
+	"placeholder_dir": "res://assets/placeholders/story",
+	"summary": "STORY_CH01_GOLEM_SUMMARY",
+	"pages": [
+		{
+			"layout": "F",
+			"panels": [
+				{
+					"image": "ch01_golem_01",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							360
+						],
+						[
+							40,
+							460
+						]
+					],
+					"enter": "down",
+					"desc": "Golem đổ sụp thành từng khối đá trước cửa Lò Mẹ lạnh tối; Enkiba thở dốc, kiếm hạ xuống.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_GOLEM_01_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_golem_02",
+					"poly": [
+						[
+							40,
+							484
+						],
+						[
+							1880,
+							384
+						],
+						[
+							1880,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Raikiba và Kazeyumi hiện ra từ hạt sáng; Raikiba ngồi phịch xuống, Kazeyumi nhìn lên lò.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_GOLEM_02_1"
+						},
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_GOLEM_02_2"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "C",
+			"panels": [
+				{
+					"image": "ch01_golem_03",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1300,
+							40
+						],
+						[
+							900,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Enkiba ngước nhìn cửa lò vẫn lạnh ngắt; NEO lơ lửng bên cạnh, ánh xanh nhạt.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_GOLEM_03_1"
+						},
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_GOLEM_03_2"
+						}
+					]
+				},
+				{
+					"image": "ch01_golem_04",
+					"poly": [
+						[
+							1324,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							800
+						],
+						[
+							924,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Kazeyumi quỳ một gối, đặt tay lên đầu đá của golem.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_GOLEM_04_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "B",
+			"panels": [
+				{
+					"image": "ch01_golem_05",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							760,
+							40
+						],
+						[
+							700,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Raikiba nhặt từ đống đá một chiếc đĩa nhỏ phát sáng trắng đen.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_GOLEM_05_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_golem_06",
+					"poly": [
+						[
+							784,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							380
+						],
+						[
+							754,
+							420
+						]
+					],
+					"enter": "left",
+					"desc": "Cận chiếc đĩa; NEO lại gần, vòng sáng nhiễu loạn.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_GOLEM_06_1"
+						},
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH01_GOLEM_06_2"
+						}
+					]
+				},
+				{
+					"image": "ch01_golem_07",
+					"poly": [
+						[
+							752,
+							444
+						],
+						[
+							1880,
+							404
+						],
+						[
+							1880,
+							800
+						],
+						[
+							724,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Enkiba nghiêm mặt, siết chuôi kiếm, cửa lò lạnh phía sau.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_GOLEM_07_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "A",
+			"panels": [
+				{
+					"image": "ch01_golem_08",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							360
+						],
+						[
+							40,
+							420
+						]
+					],
+					"enter": "right",
+					"desc": "Trên đỉnh vách phía trên Lò Mẹ, một kẻ mặc giáp xám tro, mặt nạ đen trơn, đứng nhìn xuống rồi quay lưng.",
+					"lines": [
+						{
+							"speaker": "unknown",
+							"text": "STORY_CH01_GOLEM_08_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_golem_09",
+					"poly": [
+						[
+							40,
+							444
+						],
+						[
+							1000,
+							413
+						],
+						[
+							940,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Raikiba bật dậy chỉ tay lên vách.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH01_GOLEM_09_1"
+						}
+					]
+				},
+				{
+					"image": "ch01_golem_10",
+					"poly": [
+						[
+							1024,
+							412
+						],
+						[
+							1880,
+							384
+						],
+						[
+							1880,
+							800
+						],
+						[
+							964,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Enkiba nhìn theo, quyết tâm; NEO sáng đỏ cảnh báo.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH01_GOLEM_10_1"
+						},
+						{
+							"speaker": "neo",
+							"text": "STORY_CH01_GOLEM_10_2"
+						}
+					]
+				}
+			]
+		},
+		{
+			"card": {
+				"title": "STORY_CH01_GOLEM_CARD_TITLE",
+				"sub": "STORY_CH01_GOLEM_CARD_SUB"
+			}
+		}
+	]
+}
