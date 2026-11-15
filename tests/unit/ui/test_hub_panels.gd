@@ -90,7 +90,7 @@ func test_party_cannot_exceed_three() -> void:
 
 func test_stage_list_shows_progress_and_hides_test_stage() -> void:
 	var p := _add(HubBattlePanel.new()) as HubBattlePanel
-	assert_array(Array(p.stage_ids())).is_equal(["stage_01", "stage_01_02"])
+	assert_array(Array(p.stage_ids())).is_equal(["stage_01", "stage_01_02", "stage_01_03"])
 	assert_bool(p.stage_lines()[0].contains(tr("BATTLE_STAGE_NEW"))).is_true()
 	_save.data["progress"]["stages"]["stage_01"] = {"cleared": true, "best_time_sec": 200.0}
 	assert_bool(p.stage_lines()[0].contains("3:20") and p.stage_lines()[0].contains(tr("STAGE_01_NAME"))).is_true()

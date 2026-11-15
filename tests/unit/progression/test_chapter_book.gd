@@ -42,7 +42,7 @@ func test_stage_states_and_progress() -> void:
 	var s11 := ChapterBook.stage("1-1")
 	assert_str(s11["stage_id"]).is_equal("stage_01")
 	assert_str(b.state_of(s11)).is_equal(ChapterBook.STATE_OPEN)
-	assert_str(b.state_of(ChapterBook.stage("1-3"))).is_equal(ChapterBook.STATE_SOON)
+	assert_str(b.state_of(ChapterBook.stage("1-4"))).is_equal(ChapterBook.STATE_SOON)
 	assert_str(str(b.current_stage(1)["code"])).is_equal("1-1")
 	assert_int(b.chapter_progress(1)).is_equal(0)
 	d["progress"]["stages"]["stage_01"] = {"cleared": true, "objectives": ["time", "downs"]}

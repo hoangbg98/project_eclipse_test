@@ -2362,3 +2362,45 @@ msgstr "Xong rồi. Lửa trong làng sẽ không tắt nữa."
 
 msgid "BARK_CH01_2_CLEAR_NEO"
 msgstr "Cổng làng an toàn. Tiến tới cổng để hoàn tất."
+
+msgid "STAGE_01_03_NAME"
+msgstr "Hầm Than Ngầm"
+
+msgid "STAGE_01_03_DESC"
+msgstr "Tro vẫn rỉ lên từ hầm than cũ dưới làng, nơi mạch lửa ngầm chảy qua. Xuống hầm, phá ổ Cặn tro trước khi mạch lửa nguội hẳn."
+
+msgid "BARK_CH01_3_START"
+msgstr "Nhiệt dưới lòng đất đang tụt. Cặn tro trôi lên từ chính hầm này."
+
+msgid "BARK_CH01_3_WAVE1"
+msgstr "Tối om thế này mà chúng vẫn tìm ra tụi mình à?!"
+
+msgid "BARK_CH01_3_WAVE1_NEO"
+msgstr "Cặn tro phía trước. Chúng bám theo hơi ấm."
+
+msgid "BARK_CH01_3_CP1"
+msgstr "Mạch lửa ngầm chạy qua đây. Nó nguội gần hết rồi."
+
+msgid "BARK_CH01_3_CP1_NEO"
+msgstr "Mạch lửa ngầm gần như đã nguội."
+
+msgid "BARK_CH01_3_WAVE2"
+msgstr "Có gió lùa từ sâu bên trong. Cặn đang kéo theo nó."
+
+msgid "BARK_CH01_3_WAVE2_NEO"
+msgstr "Hai khối Cặn lớn. Né đòn cắn rồi phản công."
+
+msgid "BARK_CH01_3_CP2"
+msgstr "Dấu ba vòng đá… giống hệt trên lưng golem. Thủ vệ đã đào hầm này."
+
+msgid "BARK_CH01_3_CP2_NEO"
+msgstr "Dấu khắc ba vòng đá, trùng với dấu trên lưng golem."
+
+msgid "BARK_CH01_3_WAVE3"
+msgstr "Ổ Cặn ở cuối hầm. Phá nó thì tro thôi trôi lên làng."
+
+msgid "BARK_CH01_3_CLEAR"
+msgstr "Mạch lửa ấm lại rồi. Làng sẽ ổn thôi."
+
+msgid "BARK_CH01_3_CLEAR_NEO"
+msgstr "Ổ Cặn đã tan. Ra cửa hầm để hoàn tất."

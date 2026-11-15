@@ -2362,3 +2362,45 @@ msgstr "Done. The village fires won't go out again."
 
 msgid "BARK_CH01_2_CLEAR_NEO"
 msgstr "The gate is safe. Head to it to finish."
+
+msgid "STAGE_01_03_NAME"
+msgstr "Coal Tunnels"
+
+msgid "STAGE_01_03_DESC"
+msgstr "Ash still seeps up from the old coal tunnels under the village, where the buried fire vein runs. Go down and break the Dreg nest before the vein goes cold."
+
+msgid "BARK_CH01_3_START"
+msgstr "The heat underground is dropping. The ash Dregs are coming up from these tunnels."
+
+msgid "BARK_CH01_3_WAVE1"
+msgstr "It's pitch dark and they still found us?!"
+
+msgid "BARK_CH01_3_WAVE1_NEO"
+msgstr "Ash Dregs ahead. They follow warmth."
+
+msgid "BARK_CH01_3_CP1"
+msgstr "The fire vein runs through here. It's almost cold."
+
+msgid "BARK_CH01_3_CP1_NEO"
+msgstr "The buried fire vein has nearly gone cold."
+
+msgid "BARK_CH01_3_WAVE2"
+msgstr "There's a draft from deep inside. The Dregs are riding it."
+
+msgid "BARK_CH01_3_WAVE2_NEO"
+msgstr "Two big Dregs. Dodge the bite, then counter."
+
+msgid "BARK_CH01_3_CP2"
+msgstr "Three stone rings… same as the golem's back. The guardians dug these tunnels."
+
+msgid "BARK_CH01_3_CP2_NEO"
+msgstr "A three-ring stone carving, matching the mark on the golem's back."
+
+msgid "BARK_CH01_3_WAVE3"
+msgstr "The Dreg nest is at the end of the tunnel. Break it and the ash stops reaching the village."
+
+msgid "BARK_CH01_3_CLEAR"
+msgstr "The vein is warming up. The village will be fine."
+
+msgid "BARK_CH01_3_CLEAR_NEO"
+msgstr "The nest is gone. Head for the tunnel exit to finish."
