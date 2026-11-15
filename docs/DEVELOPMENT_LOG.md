@@ -1761,3 +1761,17 @@ un_tests.ps1`.
 - **Kết quả thật:** owner điền 47/47, giữ nguyên toàn bộ gợi ý. Soát bằng mắt bảng ghép 47 ảnh trên nền xanh: mặt, tóc, tay, ủng, gậy, giáp, pose sạch nền; vòng mặt trời (28) bỏ lòng trắng; quả cầu sáng (29) giữ lõi trắng; đai lưng (18) chỉ còn vải xanh. `run_tests.ps1`: GdUnit4 658 test, 0 lỗi; 5/5 test khói ĐẠT; mã thoát 0.
 - **Quyết định Claude chọn:** khung đặt tay thay vì tự tách (tờ dính liền áo/váy/tay áo); thêm `cut_boxes.py` thay vì sửa `cut_parts.py` (cái cũ cần khung trùng vùng tự tách); bộ phận ra `rig_parts/` như Aether (không chỉ ảnh tham chiếu `refs/`).
 - **Hạn chế đã biết:** tay áo (15, 17), áo thân (16) và váy (19) dính liền trên tờ nên mép mỗi mảnh còn chút phần của mảnh bên cạnh trong khung; váy (19) còn hai dải đai xanh rủ xuống (đúng như vẽ). Hiệu ứng 29/30 và quầng sáng ở pose 45–47 là alpha xấp xỉ từ nền trắng. Chưa có phiếu frame Codex cho Hikarine.
+
+## 2026-11-15 — Art: phiếu prompt Codex cho frame Hikarine (20 animation) và ảnh tham chiếu
+- **Milestone / task:** art (frame nhân vật) — owner gửi lại prompt gốc `Prompt_Chibi_Anime_SideScroll.txt`, yêu cầu viết prompt gửi Codex tạo chuyển động theo mô tả kỹ năng. Owner nhắc Kazeyumi; Kazeyumi đã có đủ 23 phiếu, cả 23 animation đã duyệt (chạy lại `gen_prompts.py char_wind_01` chỉ đổi cột trạng thái README, không đổi phiếu), nên owner chọn làm cho Hikarine.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `tools/frames/jobs/char_light_01.json` (20 animation, chữ riêng Hikarine: gậy phép, trạng thái `drawn` / `praying`).
+  - `docs/prompts/codex_frames/char_light_01/`: `00_PHAN_TICH.md` (viết tay: tỉ lệ, bảng màu, lớp bộ phận, gậy, pivot, ghi chú kỹ năng), `README.md` + 20 phiếu `NN_{anim}.md` (sinh tự động).
+  - 15 ảnh tham chiếu `assets/characters/char_light_01/rig_parts/source/refs/` (toàn thân, gậy, 7 mặt, 6 pose) cắt bằng `cut_refs.py` theo tên owner điền.
+  - `assets/characters/char_light_01/frames_manifest.json`: `working_name` Seraphine → Hikarine.
+- **Đã chạy:** `python -I -X utf8 tools/sprite_parts/cut_refs.py char_light_01 1:toan_than ... 47:pose_tung_phep`; `python -I -X utf8 tools/frames/gen_prompts.py char_light_01` (20 phiếu); `tools/run_tests.ps1`.
+- **Kết quả thật:** số frame / fps / frame trúng đòn lấy từ `data/skills/char_light_01/` (vd attack_1 5 frame 15 fps, skill_2 10 frame 18 fps, ultimate 14 frame 10 fps). Soát phiếu 17 (skill_2): đủ 5 ảnh tham chiếu, prompt ảnh tiếng Anh, bảng giai đoạn. `run_tests.ps1`: GdUnit4 658 test, 0 lỗi; 5/5 test khói ĐẠT; mã thoát 0. (lần chạy bắt đầu trước khi đổi `working_name`; trường này không code nào đọc).
+- **Quyết định Claude chọn:** không có phiếu `hold_release` (Hikarine chỉ có `hold_charge` là vòng cầu nguyện, SkillDef `hold_1`), không có phiếu `air_2` (dùng chung `air_1`); `hold_charge` không gắn SkillDef (vòng lặp 6 frame 10 fps); `skill_2` ghi `hits_ms` 200–300 ms để đánh dấu frame phóng quả cầu vì SkillDef không có hiệu lực tức thì; quả cầu trên gậy vẽ đặc, không quầng sáng; mảnh giáp xanh-vàng 36–41 không vẽ (không thấy trên ảnh toàn thân).
+- **Hạn chế đã biết:** chưa tạo frame nào (owner chạy Codex theo phiếu, bắt đầu `idle`). Nếu Hikarine phải mang mảnh giáp 36–41 thì sửa `design_en` trong job JSON rồi sinh lại phiếu.
+

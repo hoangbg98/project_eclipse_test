@@ -1,0 +1,385 @@
+{
+	"_huong_dan": "Phiếu việc tạo frame cho Codex, mỗi phiếu một animation (Hikarine, owner 2026-11-15). Số frame / fps / frame trúng đòn KHÔNG ghi tay: tools/frames/frame_jobs.py tính từ SkillDef trong data/skills/char_light_01/ ('skill'). Animation không có kỹ năng dùng target_frames + fps. weapon_state: drawn = cầm gậy tay gần, praying = hai tay chắp ôm gậy dựng trước ngực. ref_frame / ref_ratio: frame canh tỉ lệ (âm = đếm từ cuối) và chiều cao pose đó so với lúc đứng thẳng. Sửa rồi chạy: python -I tools/frames/gen_prompts.py char_light_01",
+	"character_id": "char_light_01",
+	"display_name": "Hikarine",
+	"suit_name": "",
+	"standing_height_px": 280,
+	"default_weapon_state": "drawn",
+	"design_en": "Hikarine, chibi anime light-element healer girl (about 2.5 heads tall, big head, short limbs): extremely long wavy platinum-blonde (pale cream) hair reaching below the knees, a thin golden circlet across the forehead with a small V-shaped centre piece and a tiny gem, warm light-brown eyes, soft gentle kind face; a white high-collared priestess robe with gold trim and gold vine embroidery, a small gold star emblem on the chest, very wide white bell sleeves with ornate gold hems, a pale blue cloth sash tied at the waist with a big bow on her left hip and two long tails hanging down, a long white layered skirt with a pale lavender-grey underskirt and a long white front panel decorated with gold ornaments, white knee-high boots with gold trim. Weapon: a tall slender golden staff about as tall as she is, with an ornate curled gold collar below the head; the head is a spiked golden sun ring holding a round solid pale-yellow orb.",
+	"refs_always": [
+		[
+			"assets/characters/char_light_01/rig_parts/source/refs/char_light_01_ref_01_toan_than.png",
+			"Ảnh đứng toàn thân của owner (số 1): khóa thiết kế, màu, tóc dài, vòng miện, áo, đai xanh, gậy"
+		],
+		[
+			"assets/characters/char_light_01/rig_parts/source/refs/char_light_01_ref_42_pose_dung_cam_gay.png",
+			"Pose mẫu đứng cầm gậy (số 42): chuẩn tỉ lệ chibi nhỏ và cách cầm gậy"
+		],
+		[
+			"assets/characters/char_light_01/rig_parts/source/refs/char_light_01_ref_27_gay_phep.png",
+			"Gậy phép mặt trời (số 27): giữ đúng hình vòng mặt trời, quả cầu, thân gậy vàng"
+		]
+	],
+	"text": {
+		"weapon_label_vi": "Gậy phép",
+		"weapon_word_en": "sun staff",
+		"impact_en": "the staff head pushed fully forward or upward and held for a beat at the moment the spell is released",
+		"weapon_states": {
+			"drawn": {
+				"vi": "**cầm gậy ở tay gần**: gậy luôn trong tay, đòn mạnh thì hai tay; không buông, không đổi sang tay xa",
+				"en": "the sun staff is always held in the near hand (both hands for strong spells); never dropped, never switched to the far hand only; keep the exact staff design and its length (about as tall as her body)."
+			},
+			"praying": {
+				"vi": "**cầu nguyện**: hai tay chắp trước ngực ôm thân gậy dựng đứng, đầu gậy cao quá đầu",
+				"en": "both hands clasped in prayer in front of the chest, holding the staff upright against the body with the sun head above her head."
+			}
+		},
+		"extra_common_en": [
+			"The small standing pose reference (number 42) is the ground truth for the chibi proportions and the staff size; the full-body reference is the ground truth for design and colors. Several references show large golden glows, light rings, rays or a light shield: do NOT copy them, draw the character and the staff only.",
+			"The orb in the sun ring is part of the staff: draw it as a solid pale-yellow sphere with at most a tiny soft highlight, no large halo or light rays.",
+			"Her hair is extremely long (below the knees): keep its length and volume in every frame, it trails behind and follows the motion with a slight delay.",
+			"Asymmetric details must stay on the same body side in every frame: the sash bow and its tails are on her left hip; the staff stays in the near hand."
+		],
+		"vfx_en": "light rays, glowing halos, magic circles, light particles, feathers, wings, sun orbs flying away, light beams, slash arcs, speed lines",
+		"check_parts_vi": "tóc vàng nhạt dài quá gối, vòng miện vàng, áo trắng cổ đứng viền vàng, tay áo rộng, đai xanh có nơ, váy nhiều lớp, ủng trắng, gậy mặt trời, màu",
+		"flip_check_vi": "gậy không nhảy tay, nơ đai luôn ở cùng một bên hông",
+		"vfx_vi": "tia sáng, hào quang, vòng ma pháp, hạt sáng, lông vũ, cánh sáng, quả cầu bay đi",
+		"vfx_examples_vi": "quả cầu sáng, tia sáng xuyên, mưa hạt sáng, vòng cầu nguyện, cột sáng, mặt trời nhỏ, vùng thánh, cánh thiên sứ, cut-in",
+		"scale_note_vi": "`slice_strip.py --like idle` canh chiều cao theo idle trong assets cho mọi animation sau: **làm `idle` trước**.",
+		"readme_notes": [
+			"Hikarine **luôn cầm gậy phép mặt trời** (tay gần, phép mạnh hai tay); `hold_charge` là tư thế cầu nguyện chắp tay ôm gậy. Xem `00_PHAN_TICH.md`.",
+			"`hold_charge` là vòng cầu nguyện lặp (game giữ tới 3 s); không có đòn nhả nút nên không có phiếu `hold_release`. `air_2` dùng chung hình `air_1` (cùng SkillDef).",
+			"Quả cầu sáng, tia sáng, mặt trời nhỏ, vùng thánh, cánh sáng của tuyệt kỹ đều là VFX của game: không vẽ trong frame.",
+			"Ảnh tham chiếu cắt từ tờ bộ phận theo tên owner đã điền ở trang \"Bảng tên bộ phận Hikarine\" (`rig_parts/source/refs/`, công cụ `tools/sprite_parts/cut_refs.py`)."
+		]
+	},
+	"order": [
+		"idle",
+		"run",
+		"attack_1",
+		"attack_2",
+		"attack_3",
+		"dodge",
+		"jump_up",
+		"fall",
+		"land",
+		"hurt",
+		"knockback",
+		"down",
+		"hold_charge",
+		"air_1",
+		"landing_attack",
+		"skill_1",
+		"skill_2",
+		"switch_in",
+		"switch_out",
+		"ultimate"
+	],
+	"animations": {
+		"idle": {
+			"target_frames": 6,
+			"fps": 8,
+			"grounded": true,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_02_mat_binh_thuong.png",
+					"Mặt bình thường (số 2)"
+				]
+			],
+			"motion_vi": "Đứng thẳng dịu dàng, gậy phép cầm dựng đứng ở tay gần, đáy gậy chạm đất cạnh chân (như pose 42), tay xa buông nhẹ trước váy, ngực nhấp nhô theo nhịp thở, tóc dài, tay áo rộng và hai dải đai xanh đung đưa chậm. Lặp liền: frame cuối nối frame đầu.",
+			"prompt_en": "Idle breathing loop: gentle upright stance, the sun staff held upright in the near hand with its foot resting on the ground beside her (as in the standing pose reference), the far hand relaxed in front of the skirt, soft breathing makes the chest rise and fall, the very long wavy hair, wide sleeves and the two blue sash tails sway slowly (secondary motion). The last frame flows seamlessly back into the first."
+		},
+		"run": {
+			"target_frames": 8,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 0.95,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_43_pose_buoc_di.png",
+					"Pose mẫu bước đi cầm gậy (số 43)"
+				]
+			],
+			"motion_vi": "Chạy nhẹ nhàng kiểu pháp sư: thân hơi đổ về trước, gậy cầm chéo ở tay gần (đầu gậy chếch lên trước), tay xa vén nhẹ vạt váy, bước nhỏ nhanh (chạm, nhún, lướt, bật), tóc dài, tay áo rộng và dải đai bay ngược ra sau. Lặp liền.",
+			"prompt_en": "Run cycle loop: light graceful run, torso leaning slightly forward, the staff held diagonally in the near hand with the sun head tilted forward, the far hand lightly lifting the front of the skirt, quick small steps with clear contact / down / passing / up poses, the long hair, wide sleeves and sash tails streaming backward. The last frame flows into the first."
+		},
+		"attack_1": {
+			"skill": "normal_1",
+			"target_frames": 5,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_44_pose_gio_gay.png",
+					"Pose mẫu giơ gậy nói (số 44)"
+				]
+			],
+			"motion_vi": "Quang Châm đòn 1: kéo gậy về sau một chút, rồi chạm đầu gậy mặt trời về phía trước ngang ngực (đâm nhẹ, không bước nhiều), giữ một nhịp lúc quả cầu bay ra (quả cầu là vật thể của game, không vẽ), hồi về thế đứng.",
+			"prompt_en": "Strike 1: draw the staff back slightly, then thrust the sun head of the staff forward at chest height in a light poke (barely stepping), hold the extended pose for a beat as if releasing a light orb (the orb itself is not drawn), then recover to the stance."
+		},
+		"attack_2": {
+			"skill": "normal_2",
+			"target_frames": 5,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_44_pose_gio_gay.png",
+					"Pose mẫu giơ gậy nói (số 44)"
+				]
+			],
+			"motion_vi": "Quang Châm đòn 2: nối đòn 1, xoay nhẹ cổ tay đưa đầu gậy vòng từ dưới lên rồi chĩa về trước ở tầm cao hơn đòn 1 (đối nhịp đòn 1), tay áo rộng tung nhẹ, hồi về.",
+			"prompt_en": "Strike 2: continuing from strike 1, swing the staff head in a small rising arc and point it forward slightly higher than strike 1 (a mirrored rhythm), the wide sleeve flicking with the motion, hold the extended pose for a beat, then recover."
+		},
+		"attack_3": {
+			"skill": "normal_3",
+			"target_frames": 7,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_44_pose_gio_gay.png",
+					"Pose mẫu giơ gậy nói (số 44)"
+				],
+				[
+					"rig_parts/source/refs/char_light_01_ref_07_mat_het.png",
+					"Mặt hét / niệm phép (số 7)"
+				]
+			],
+			"motion_vi": "Quang Châm đòn 3 (kết chuỗi): hai tay xoay gậy một vòng trước người, rồi chĩa thẳng đầu gậy về trước ngang tầm mắt, thân hơi ngả sau chịu lực bắn, tay áo rộng và tóc tung nhẹ, giữ pose lúc tia sáng xuyên bắn ra (tia sáng là VFX), hồi về.",
+			"prompt_en": "Strike 3 (finisher): twirl the staff once in front of her with both hands, then aim the sun head straight forward at eye level with both hands, body leaning back slightly as if bracing against the recoil of a beam, sleeves and hair flaring, hold the firing pose (the light beam is a separate effect), then recover."
+		},
+		"dodge": {
+			"skill": "dodge",
+			"target_frames": 5,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [],
+			"motion_vi": "Quang Bộ: vòng tay ôm gậy trước ngực, thân nghiêng lướt nhanh về trước sát đất (ánh sáng tan thành hạt là VFX, vẽ người bình thường), hiện ra lại với váy và tóc còn bay, phanh lại đứng vững.",
+			"prompt_en": "Light-step dodge: arms wrapped around the staff in front of the chest, body leaning into a fast low glide forward along the ground (the dissolve into light particles is a separate effect, draw her solid), then she reappears with skirt and hair still fluttering and stops in a steady stance (all frames on the ground). Sharp clean poses, no motion blur."
+		},
+		"jump_up": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": false,
+			"ref_frame": 0,
+			"ref_ratio": 0.85,
+			"refs": [],
+			"motion_vi": "Nhảy lên: khuỵu nhẹ lấy đà, bật lên, co gối bay lên, gậy giữ dựng ở tay gần, váy và tóc rủ xuống theo đà bay. Frame 1 chân chạm đất, các frame sau cao dần.",
+			"prompt_en": "Jump take-off: a light crouch for anticipation, push off the ground, rising with knees tucked, the staff held upright in the near hand, skirt and hair trailing downward with the upward motion. Frame 1 feet on the ground, then each frame higher."
+		},
+		"fall": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": false,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [],
+			"motion_vi": "Rơi: người thẳng, tóc dài, tay áo rộng và váy hất lên trên, chân duỗi xuống tìm đất, gậy giữ ngang bên người để cân bằng.",
+			"prompt_en": "Falling: body upright, the long hair, wide sleeves and skirt blown upward, legs reaching down for the ground, the staff held out to the side for balance. All frames airborne at the same height."
+		},
+		"land": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [],
+			"motion_vi": "Tiếp đất nhẹ: chạm đất, khuỵu gối đỡ lực, váy và tóc chùng xuống rồi đứng dậy về thế đứng.",
+			"prompt_en": "Soft landing: feet touch down, knees bend to absorb the impact while the skirt and hair settle, then stand back up to the idle stance."
+		},
+		"hurt": {
+			"target_frames": 4,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_35_mat_nghien_rang.png",
+					"Mặt nheo mắt nghiến răng (số 35)"
+				]
+			],
+			"motion_vi": "Bị đánh: giật người ra sau, nhắm mắt nghiến răng, ôm gậy sát người, lấy lại thế đứng, không buông gậy.",
+			"prompt_en": "Hit reaction: the body jolts backward, eyes squeezed shut and teeth gritted (gritting face reference), the staff pulled close to the body, then recover to the stance, still holding the staff."
+		},
+		"knockback": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_06_mat_ngac_nhien.png",
+					"Mặt ngạc nhiên (số 6)"
+				]
+			],
+			"motion_vi": "Bị hất lùi: bị đẩy lùi, trượt trên hai chân, mặt ngạc nhiên, gậy kéo lê, đứng vững lại.",
+			"prompt_en": "Knocked back: pushed backward, sliding on both feet with a surprised face (surprised face reference), the staff trailing low, regaining footing, still holding the staff."
+		},
+		"down": {
+			"target_frames": 6,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_33_mat_met.png",
+					"Mặt nhắm một bên / mệt (số 33)"
+				]
+			],
+			"motion_vi": "Bị hạ gục: mất thăng bằng ngã ngửa, nằm, chống gậy xuống đất gượng dậy, đứng lên về thế đứng, không buông gậy.",
+			"prompt_en": "Knocked down: lose balance and fall backward to the ground, lie down, then plant the staff on the ground and use it to push herself back up onto her feet (tired face reference), returning to the stance; the staff is never dropped."
+		},
+		"hold_charge": {
+			"target_frames": 6,
+			"fps": 10,
+			"grounded": true,
+			"loop": true,
+			"weapon_state": "praying",
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_45_pose_cau_nguyen.png",
+					"Pose mẫu cầu nguyện (số 45)"
+				],
+				[
+					"rig_parts/source/refs/char_light_01_ref_04_mat_cau_nguyen.png",
+					"Mặt nhắm mắt chắp tay cầu nguyện (số 4)"
+				]
+			],
+			"motion_vi": "Thánh Quang Cầu Nguyện (lặp, game giữ tới 3 s): đứng yên, hai tay chắp trước ngực ôm thân gậy dựng đứng, đầu gậy cao quá đầu, mắt nhắm, thân nhấp nhô rất nhẹ, tóc, tay áo và váy bay lên khẽ như có luồng sáng từ dưới chân. Vòng ma pháp và hạt sáng là VFX. Lặp liền.",
+			"prompt_en": "Prayer channel loop: standing still, both hands clasped in prayer in front of the chest holding the upright staff against her body with the sun head above her head, eyes closed (praying face reference), body rising and falling very gently, hair, sleeves and skirt lifting softly as if by a gentle updraft from below. The magic circle and light particles are separate effects. Loops seamlessly."
+		},
+		"air_1": {
+			"skill": "air_1",
+			"target_frames": 6,
+			"grounded": false,
+			"ref_frame": 0,
+			"ref_ratio": 0.85,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_44_pose_gio_gay.png",
+					"Pose mẫu giơ gậy nói (số 44)"
+				]
+			],
+			"motion_vi": "Thiên Quang Hạ Phúc (trên không, lơ lửng 300 ms): giơ gậy lên trời bằng tay gần, giữ một nhịp lúc quả cầu nở sáng, rồi chúc đầu gậy chéo xuống trước (3 tia sáng bắn xuống là VFX), váy và tóc lơ lửng, hồi về.",
+			"prompt_en": "Air skill: hovering mid-air, raise the staff high toward the sky with the near hand, hold a beat as the sun orb blooms, then tilt the staff head diagonally down-forward as if firing three light rays downward (the rays are separate effects), skirt and hair floating, then recover."
+		},
+		"landing_attack": {
+			"skill": "landing",
+			"target_frames": 6,
+			"grounded": false,
+			"ref_frame": -1,
+			"ref_ratio": 0.85,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_42_pose_dung_cam_gay.png",
+					"Pose mẫu đứng cầm gậy (số 42)"
+				]
+			],
+			"motion_vi": "Giáng Quang Trụ: đang rơi, hai tay giữ gậy dựng thẳng đứng, rơi thẳng xuống, đầu gối khuỵu khi chạm đất và đáy gậy gõ mạnh xuống đất, giữ pose, rồi đứng dậy. Frame cuối chạm đất. Cột sáng và cánh sáng là VFX.",
+			"prompt_en": "Light pillar slam: falling with both hands holding the staff perfectly upright, drop straight down, on landing bend the knees and strike the foot of the staff hard onto the ground, hold the impact pose, then stand up (last frame on the ground). The light pillar and small wings of light are separate effects."
+		},
+		"skill_1": {
+			"skill": "skill",
+			"target_frames": 8,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_44_pose_gio_gay.png",
+					"Pose mẫu giơ gậy nói (số 44)"
+				],
+				[
+					"rig_parts/source/refs/char_light_01_ref_05_mat_nham_mat.png",
+					"Mặt nhắm mắt bình thản (số 5)"
+				]
+			],
+			"motion_vi": "Thánh Ân Chữa Lành: giơ gậy lên cao bằng tay gần, ngửa mặt nhắm mắt bình thản, tay xa mở rộng ra như ban phước, giữ pose lúc ánh sáng rơi như mưa (VFX), hạ gậy về thế đứng.",
+			"prompt_en": "Healing skill: raise the staff high overhead with the near hand, face tilted up with calm closed eyes (calm closed-eyes face reference), the far arm opening outward in a blessing gesture, hold the pose while healing light rains down (separate effect), then lower the staff back to the stance."
+		},
+		"skill_2": {
+			"skill": "weapon",
+			"target_frames": 10,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"hits_ms": [
+				[
+					200,
+					100
+				]
+			],
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_47_pose_tung_phep.png",
+					"Pose mẫu giơ gậy tung phép (số 47)"
+				],
+				[
+					"rig_parts/source/refs/char_light_01_ref_07_mat_het.png",
+					"Mặt hét / niệm phép (số 7)"
+				]
+			],
+			"motion_vi": "Thái Dương Phán Xét: hai tay giơ gậy thẳng lên trời, hô lớn, đẩy mạnh lên lúc quả cầu rời đầu gậy bay cao (frame trúng đòn = lúc phóng; quả cầu thành mặt trời nhỏ và nổ là VFX), rồi chĩa gậy về phía trước như chỉ nơi rơi, hồi về thế đứng. Vòng mặt trời trên đầu gậy vẫn giữ nguyên.",
+			"prompt_en": "Sun judgment weapon skill: raise the staff straight up to the sky with both hands, shouting (shouting face reference), push it upward forcefully as if launching the orb high into the sky (marked frames = the launch; the growing sun and its explosion are separate effects), then point the staff forward toward where it will fall, then recover to the stance. The sun ring on the staff head stays as designed."
+		},
+		"switch_in": {
+			"skill": "switch_in",
+			"target_frames": 6,
+			"grounded": false,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_42_pose_dung_cam_gay.png",
+					"Pose mẫu đứng cầm gậy (số 42)"
+				],
+				[
+					"rig_parts/source/refs/char_light_01_ref_05_mat_nham_mat.png",
+					"Mặt nhắm mắt bình thản (số 5)"
+				]
+			],
+			"motion_vi": "Vào sân — Quang Giáng Hộ Vệ (mục 8.8): hạ xuống nhẹ từ trên cao, váy và tóc bay lên, gậy dựng đứng, chân chạm đất nhẹ, gõ đáy gậy xuống đất (frame trúng đòn), rồi đứng về thế đứng. Frame cuối chạm đất. Cột sáng, gợn sóng sáng, lông vũ là VFX.",
+			"prompt_en": "Entrance: float gently down from above with skirt and hair lifting, the staff held upright, touch down softly, tap the foot of the staff on the ground (marked frames), then settle into the idle stance (first frames airborne and descending, last frame on the ground). The light pillar, light ripple and feathers are separate effects."
+		},
+		"switch_out": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [],
+			"motion_vi": "Rời sân: ôm gậy vào người, quay đi, nhảy nhẹ lùi về sau (hiệu ứng biến mất là VFX, không vẽ).",
+			"prompt_en": "Exit: pull the staff close, turn away and hop lightly back out of the fight (no dissolve effect drawn)."
+		},
+		"ultimate": {
+			"skill": "ultimate",
+			"target_frames": 14,
+			"grounded": false,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_light_01_ref_47_pose_tung_phep.png",
+					"Pose mẫu giơ gậy tung phép (số 47)"
+				],
+				[
+					"rig_parts/source/refs/char_light_01_ref_07_mat_het.png",
+					"Mặt hét / niệm phép (số 7)"
+				]
+			],
+			"motion_vi": "Thiên Sứ Giáng Lâm: (khởi động 700 ms) chắp tay ôm gậy cầu nguyện, rồi dang hai tay, bay lên cao dần (vẽ cao hơn mặt đất, khoảng 200 px trong game do engine nâng; trong frame chỉ thấy chân rời đất), gậy giơ cao ở tay gần; (hiệu lực 300 ms) dang rộng hai tay, ngửa đầu, hô lớn, giữ pose; (hồi phục 400 ms) hạ tay, ôm gậy về trước ngực. 6 cánh sáng, vòng ma pháp, lông vũ, cut-in là VFX / ảnh riêng: không vẽ cánh.",
+			"prompt_en": "Ultimate: start in a short prayer holding the staff to the chest, then spread both arms and rise upward (feet leaving the ground; the game moves her up, keep her inside the canvas), the staff raised high in the near hand; at the peak open both arms wide, head tilted up, shouting (shouting face reference), hold the pose; then lower the arms and bring the staff back to the chest. Do NOT draw wings, magic circles or feathers: they are separate effects."
+		}
+	}
+}
