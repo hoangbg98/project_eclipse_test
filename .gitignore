@@ -26,3 +26,7 @@ Desktop.ini
 # Frame AI chờ owner duyệt (tools/frames/), không vào git
 /art_review/
 __pycache__/
+
+# Dữ liệu chạy và file đính kèm của Codex trên máy
+/.codex/
+/.codex-attachments/

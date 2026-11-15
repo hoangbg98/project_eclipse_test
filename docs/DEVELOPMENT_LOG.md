@@ -1463,6 +1463,16 @@ un_tests.ps1`
 - **Quyết định Codex chọn:** giữ nguyên hai frame impact liền nhau (001–002) để thể hiện nhịp giữ pose trúng đòn theo phiếu.
 - **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.
 
+## 2026-11-14 — Site quản lý asset PROJECT ECLIPSE (ngoài roadmap game)
+
+- **Milestone / task:** Công cụ Sites độc lập để quản lý, audit và theo dõi asset theo project, scene, style, phiên bản và trạng thái.
+- **Trạng thái:** TESTED (build và publish thành công; chủ sở hữu cần đăng nhập để xem nội dung riêng tư).
+- **File tạo/sửa:** `sites/asset-atlas/` (source Site độc lập); `.openai/hosting.json` của Site khai báo D1 `DB` và R2 `BUCKET`.
+- **Đã chạy:** Sites project setup; cài dependency lockfile; `npm run db:generate`; `npx tsc --noEmit`; `RAYON_NUM_THREADS=2 node <Sites>/scripts/build-site.mjs`; đồng bộ source và publish qua Sites.
+- **Kết quả thật:** TypeScript thoát mã 0; build thoát mã 0; deployment phiên bản 2 thành công tại `https://eclipse-asset-atelier.jollykelp8.chatgpt.site`.
+- **Quyết định Codex chọn:** Tách Site thành repository riêng dưới `sites/asset-atlas/` để không đưa các thay đổi đang có của game vào Site; giữ Site chỉ chủ sở hữu.
+- **Hạn chế đã biết:** Chưa có file gốc cho các nhóm mascot, loading, background, UI steampunk và chibi nên thư viện hiển thị preview minh họa có nhãn; upload file và thao tác D1/R2 chưa được thử trên Site đã đăng nhập. Chưa chạy test game vì không sửa source game.
+
 ## 2026-11-14 — Người mới: chỉ có Enkiba, thưởng ải 1-1, vé x10 đầu tiên, hướng dẫn khóa màn
 - **Milestone / task:** Tiến trình người mới + hướng dẫn (owner 2026-11-14): đội khởi đầu chỉ Enkiba; Kazeyumi nhận free khi qua ải 1-1 của chương cốt truyện 1; ải 1-1 cho vé quay x10 miễn phí đầu tiên (owner chọn: lượt x10 có sẵn, chắc chắn Raikiba); hướng dẫn từ đầu game tới chỗ dùng vé, sáng nút cần bấm, khóa mọi chỗ khác.
 - **Trạng thái:** TESTED (đã chụp 7 bước bằng `tools/screenshot_tutorial.gd`; owner chưa chơi thử trong Godot)
@@ -1506,6 +1516,15 @@ un_tests.ps1`
 - **Kết quả thật:** GdUnit4 577 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh: câu NEO lúc vào màn và câu của Kazeyumi (chân dung từ ô dự bị) ở đợt 1 hiện đúng; lần đầu băng thoại đè lớp chữ debug (chỉ bản debug) → dời xuống y = 380.
 - **Quyết định Claude chọn:** mỗi câu một lần mỗi save (`tutorial.seen` "bark:<id>"); câu của nhân vật không có trong đội do NEO nói câu thay (`neo_text`); gợi ý chiêu theo điều kiện thật: EN / hồi chiêu sẵn sàng (cùng logic nút cảm ứng), lần đầu bị trúng đòn → né hoàn hảo, sau đợt 1 → giữ phím đánh, SC kẻ địch ≥ 70% → sắp Choáng, chân dung dự bị sáng → đổi người, lần đầu phản ứng → khen; phím ghi theo InputMap ("phím U"), thiết bị cảm ứng ghi "nút Kĩ năng"; hiện 3 s + 0,04 s/ký tự; sóng Địa chấn cao 90 px nên câu "nhảy lên để tránh" đúng với hitbox.
 - **Hạn chế đã biết:** chưa có âm thanh khi băng thoại hiện; gợi ý đã đánh dấu ngay khi vào hàng chờ, nếu thoát màn trước khi hiện thì không hiện lại; vị trí băng thoại chưa thử trên máy cảm ứng thật.
+
+## 2026-11-14 — Duyệt frame Raikiba còn lại (24 animation)
+- **Milestone / task:** Owner duyệt toàn bộ 24 animation còn lại cho char_lightning_01; chạy quy trình duyệt ảnh AI.
+- **Trạng thái:** BLOCKED (đã duyệt và chép frame vào assets, nhưng chưa commit do bộ test chưa đạt mã thoát 0).
+- **File tạo/sửa:** 24 thư mục animation trong assets/characters/char_lightning_01/frames/; assets/characters/char_lightning_01/frames_manifest.json; docs/ASSET_LICENSES.md. Metadata trong art_review/char_lightning_01/ được đánh dấu đã duyệt.
+- **Đã chạy:** python -I tools/frames/check_frames.py char_lightning_01 <animation> cho 24 animation; python -I tools/frames/approve_frames.py char_lightning_01 <animation> cho 24 animation; powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1.
+- **Kết quả thật:** Tất cả 24 kiểm tra frame báo ĐẠT; skill_1 có cảnh báo chân frame 001 lệch tâm x 52 px. Approve hoàn tất mã thoát 0 cho cả 24. Bộ test: GdUnit4 575 test, 0 lỗi, 1 thất bại; 5 smoke test đều ĐẠT; lệnh trả mã thoát 1. Thất bại test_sortie_cards (tests/unit/ui/test_hub_home.gd:229): mong res://scenes/main/stage_info_screen.tscn, nhận res://scenes/main/stage_infory_screenlip.tscn, liên quan thay đổi UI/story đang có sẵn trong workspace. Vì vậy chưa commit.
+- **Quyết định Codex chọn:** Giữ nguyên các sửa đổi UI/story ngoài phạm vi và không đưa chúng vào commit frame.
+- **Hạn chế đã biết:** Cần xử lý hoặc tách biệt lỗi test_sortie_cards, chạy lại tools\run_tests.ps1 đạt mã thoát 0 rồi mới commit các file frame đã duyệt.
 
 ## 2026-11-14 — Clip dẫn truyện dạng truyện tranh (Chương 1 mở / kết), placeholder có diễn biến, prompt ChatGPT
 - **Milestone / task:** Nội dung — owner chọn clip dạng truyện tranh: ảnh tĩnh, mỗi trang 1–4 ô (vuông, thang, tam giác) hiện dần, hết trang thì xóa; nút Tự động / Bỏ qua / Lịch sử / Ẩn; clip kết phát sau màn kết quả; prompt ChatGPT + placeholder đánh số đúng kích thước để chỉnh bằng Photoshop; mỗi ô có placeholder mô tả diễn biến.
@@ -1626,6 +1645,7 @@ un_tests.ps1`
 - **Kết quả thật:** bộ sinh tự kiểm tra bố cục 6 màn (hố ngoài sân khóa, quái trong sân, đích / boss sau đợt cuối) không lỗi; GdUnit riêng 28/28 đạt; ảnh chụp: thanh máu + tên "Kẻ Đeo Mặt Nạ", thoại Enkiba lúc vào trận boss. `ART_MASTER.md`: 85 ảnh (39 ô truyện, 14 map/thẻ chương, 30 nền 1-1 → 1-10, 2 ảnh tay sai), 0 đã có, 2039 dòng. Lượt toàn bộ: GdUnit4 655/655, 5 test khói ĐẠT, mã thoát 0. Sau đó viết `docs/CH01_TODO.md` (việc cần làm + mô tả boss cuối, chỉ tài liệu).
 - **Quyết định Claude chọn:** truyện 1-5 Rừng Cây Chết (cọc ấn tín hiệu 00 gọi Cặn), 1-6 Cầu Đá Treo (hắn phá cầu thủ vệ), 1-7 Trạm Thủ Vệ Bỏ Hoang (hốc lõi thủ vệ bị tháo — lõi golem lấy từ đây), 1-8 Trại Mặt Nạ (cột kênh trắng-đen hút nhiệt; bản ghi "tắt lò đêm nhật thực" = đêm nay), 1-9 Đường Về Cửa Lò (đêm, nhật thực gần đầy), 1-10 Cửa Lò Mẹ (boss, clip `ch01_end`); không mở bí mật mới ngoài "có mạng kênh 00 cố ý dập lửa". Cấp đề nghị 12 / 14 / 16 / 18 / 20 / 22; thưởng tăng dần 1600 → 2400 vàng, 1-10 lần đầu 300 ngọc. Boss: HP 80000 / ATK 650 / DEF 420 / SC 1200, nhanh 170; pha 1 chém quét (600 ms) + lao móc 460 px (550 ms); pha 2 (≤ 50% HP) sóng tro hai phía 640 px (800 ms) + quét / lao nhanh (450 ms) — mọi báo hiệu ≥ 400 ms. Tên boss tạm "Kẻ Đeo Mặt Nạ" (chưa có tên thật). File tổng sinh tự động từ data (đánh dấu ảnh đã có), thứ tự làm 7 lô, tiêu đề tài liệu con hạ hai cấp.
 - **Hạn chế đã biết:** boss là hình tạm, chưa có animation; vẫn chỉ 2 loại quái thường; tên / thiết kế tay sai là đề xuất chờ owner; chưa cân bằng bằng chơi thử; nền 1-2 → 1-4 viết tay, 1-1 và 1-5 → 1-10 sinh tự động (cùng khuôn).
+
 ## 2026-11-15 — Truyện Chương 1 bản 2: tranh Trang 1 `ch01_open`
 - **Milestone / task:** Tạo tranh thật cho ba ô đầu clip mở theo cốt truyện mới; owner duyệt Trang 1 trước khi chép vào game.
 - **Trạng thái:** VERIFIED (owner duyệt preview; import và toàn bộ test đạt).
@@ -1634,3 +1654,35 @@ un_tests.ps1`
 - **Kết quả thật:** Import mã thoát 0, đã nhận cả 3 ảnh; có cảnh báo UID trùng giữa `sites/asset-atlas/public/favicon.svg` và `sites/asset-atlas/dist/client/favicon.svg`. GdUnit4 655/655 đạt; 5 smoke test đạt; toàn bộ lệnh test mã thoát 0.
 - **Quyết định Codex chọn:** open_01 làm neo phong cách; open_02 giữ rõ hai dao Raikiba và vạch Vùng Rỗng; open_03 đóng khung trung cảnh để mặt trời giữ ngoài ảnh, tránh thay đổi vị trí tương đối; cửa Lò Mẹ luôn tối lạnh trong clip open.
 - **Hạn chế đã biết:** Chưa owner kiểm tra trực tiếp ảnh trong Godot; tiếp tục theo đúng thứ tự open → golem → end, mỗi trang dừng chờ duyệt.
+
+
+## 2026-11-15 — Iwagane: tờ bộ phận và trang điền tên (wireframe)
+
+- **Milestone / task:** art (rig bộ phận) — owner gửi tờ bộ phận cắt lớp của Iwagane (`char_earth_01`), yêu cầu wireframe + trang kiểm tra giống Enkiba
+- **Trạng thái:** IMPLEMENTED (chờ owner điền tên)
+- **File tạo/sửa:** `assets/characters/char_earth_01/rig_parts/source/char_earth_01_parts_sheet.jpg` (ảnh gốc PNG nền trắng), `char_earth_01_parts_boxes.json` (57 khung), `.gdignore`; trang artifact "Bảng tên bộ phận Iwagane" (https://claude.ai/artifact/4JaSmN82po5JechWRdE9rV, dựng từ trang Raikiba, lưu từng ô vào db `labels`, có gợi ý loại + tên cho cả 57 ô).
+- **Đã chạy:** tách vùng bằng OpenCV (mặt nạ không trắng, đóng 3 px, bỏ vùng < 400 px) → 59 vùng; Artifact publish; ArtifactData list `labels` (rỗng, đúng với trang mới).
+- **Kết quả thật:** 57 khung sau khi sửa tay: tách giáp vai / giáp ngực (14/15), tách 2 thanh kiếm (38/39), gộp các lọn tóc rời (13) và các chữ rune phát sáng (40).
+- **Quyết định Claude chọn:** dùng OpenCV vì máy không có scipy; gợi ý tên đặt theo nhìn ảnh, owner sửa trên trang.
+- **Hạn chế đã biết:** khung pose 54/55 đè nhau; khung váy 25 đè góc ủng 36. Chưa cắt bộ phận (chờ tên owner); `tools/sprite_parts/cut_parts.py` vẫn ghi cứng `char_fire_01`.
+
+
+## 2026-11-15 — Art: phiếu prompt Codex cho Iwagane
+
+- **Milestone / task:** art (frame nhân vật) — owner yêu cầu phiếu tạo chuyển động cho Iwagane theo prompt gốc "Chibi Anime SideScroll" và kỹ năng nhân vật
+- **Trạng thái:** IMPLEMENTED (chờ owner chạy Codex từng phiếu)
+- **File tạo/sửa:** `tools/frames/jobs/char_earth_01.json` (21 animation), `docs/prompts/codex_frames/char_earth_01/` (00_PHAN_TICH, README, 21 phiếu), `tools/sprite_parts/cut_refs.py` (cắt ảnh tham chiếu nền trong suốt từ tờ bộ phận), 13 ảnh `assets/characters/char_earth_01/rig_parts/source/refs/`, `char_earth_01_parts_labels.json` (tên owner điền: giữ nguyên 57 gợi ý), `frames_manifest.json` working_name = Iwagane.
+- **Đã chạy:** ArtifactData list `labels` (57 ô); `python -I tools/sprite_parts/cut_refs.py char_earth_01 ...` (13 ảnh); `python -X utf8 -I tools/frames/gen_prompts.py char_earth_01` → 21 phiếu.
+- **Kết quả thật:** số frame tính từ SkillDef: attack 6/6/8, dodge 5, hold_release 6, air_1 5, landing 6, skill_1 7, skill_2 10, switch_in 8, ultimate 19 (8 fps).
+- **Quyết định Claude chọn:** đại kiếm luôn trong tay gần, đòn nặng hai tay; đứng thì mũi kiếm chúc đất, chạy/nhảy vác vai; `hold_charge` cắm kiếm làm khiên (trạng thái `planted`); chữ rune là hoa văn không phát sáng; pose 52 khóa tỉ lệ chibi (ảnh toàn thân cao gần 4 đầu); bím tóc và sẹo ở bên phải là điểm soát khi lật.
+- **Hạn chế đã biết:** ultimate có 3 đợt sóng (delay 300/600 ms) nhưng phiếu chỉ đánh dấu frame của đợt đầu; ảnh tham chiếu 56, 57 có vệt chém / tia vàng (phiếu dặn không vẽ). Chưa có frame nào.
+
+
+## 2026-11-15 — Iwagane: nữ, lớn tuổi nhất nhóm, dáng cao
+
+- **Milestone / task:** cốt truyện + art — owner quyết định Iwagane là **nữ, lớn tuổi nhất nhóm, dáng cao** (thay cho "nam 20+" trong STORY_PROPOSAL; khớp tờ bộ phận owner gửi)
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/STORY_PROPOSAL.md` (mục 6: giới tính / tuổi, xưng hô "chị – em" với Iwagane, kể cả Yomigari); `tools/frames/jobs/char_earth_01.json` (mô tả: phụ nữ trưởng thành cuối hai mươi, cao nhất nhóm, ~3 đầu, mặt điềm tĩnh; `standing_height_px` 280 → 300); `docs/prompts/codex_frames/char_earth_01/00_PHAN_TICH.md`; 21 phiếu sinh lại.
+- **Đã chạy:** `python -X utf8 -I tools/frames/gen_prompts.py char_earth_01`; tìm mọi chỗ nhắc Iwagane trong docs / localization / data: không có lời thoại hay đại từ nào gọi Iwagane là nam.
+- **Quyết định Claude chọn:** "lớn tuổi nhất" = lớn hơn Yomigari (20+), ghi là cuối hai mươi trong prompt ảnh; "dáng cao" = ~3 đầu, 300 px khi đứng (các nhân vật khác 280 px).
+- **Hạn chế đã biết:** pose mẫu 52–57 trong tờ bộ phận vẫn tỉ lệ ~2.5 đầu, phiếu dặn Codex cho chân dài hơn mẫu; giơ kiếm qua đầu với chiều cao 300 px có thể chạm mép trên canvas 384 (check_frames.py sẽ báo).
