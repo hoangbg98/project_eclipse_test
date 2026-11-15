@@ -248,8 +248,7 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Đã chạy:**
   - `Godot --headless --path . -s -d --remote-debug tcp://127.0.0.1:0 res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests/unit --ignoreHeadlessMode -rd reports`
   - Một test cố tình sai (`1 + 1 == 3`) trong thư mục tạm, rồi xóa.
-  - `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+  - `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
   - `--export-pack` cho cả 3 preset, nạp vào project trống và đếm file.
 - **Kết quả thật:**
   - GdUnit4: 13/13 đạt, 0 lỗi, 0 orphan, mã thoát 0.
@@ -938,8 +937,7 @@ un_tests.ps1`
 - **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
 - **Owner duyệt:** "ok rồi thêm vào dự án nhé" sau khi xem `sheet.png`, `anim.gif` và `anim_flip.gif`.
 - **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000..005.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (6 frame, 8 fps, loop); `docs/ASSET_LICENSES.md` mục 2.1; `art_review/char_fire_01/idle/meta.json` (ngày duyệt); bản idle cũ được giữ tại `art_review/char_fire_01/_replaced/idle_20261113_183648/`.
-- **Đã chạy:** `check_frames.py char_fire_01 idle` → ĐẠT; `approve_frames.py char_fire_01 idle --replace`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1` (chạy lại ngoài sandbox sau khi Godot crash ở lần chạy sandbox).
+- **Đã chạy:** `check_frames.py char_fire_01 idle` → ĐẠT; `approve_frames.py char_fire_01 idle --replace`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (chạy lại ngoài sandbox sau khi Godot crash ở lần chạy sandbox).
 - **Kết quả thật:** Đưa vào game 6 frame; GdUnit4 446/446, 5 smoke checks đều đạt, tổng mã thoát 0. Bản idle cũ được chuyển sang `_replaced/` thay vì xóa.
 - **Quyết định Codex chọn:** dùng một dải sáu pose duy nhất, giữ kiếm rút trên tay ở cả sáu frame; metadata và giấy phép ghi model là "not exposed by the imagegen tool" vì công cụ không cung cấp tên model.
 - **Hạn chế đã biết:** owner duyệt bản preview, chưa xác nhận trực tiếp trong Godot; tên model tạo ảnh không được công cụ imagegen expose.
@@ -950,8 +948,7 @@ un_tests.ps1` (chạy lại ngoài sandbox sau khi Godot crash ở lần chạy 
 - **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
 - **Owner duyệt:** "duyệt run" sau bước preview; giữ 8 frame, 12 fps, lặp.
 - **File tạo/sửa:** `assets/characters/char_fire_01/frames/run/char_fire_01_run_000..007.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (run: 8 frame, 12 fps, lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật kỳ vọng idle + run đã giao.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 run`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 run`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
 - **Kết quả thật:** `approve_frames.py` duyệt và chép 8 frame; GdUnit4 438 test, 0 lỗi / 0 thất bại; 5 smoke check đạt; tổng mã thoát 0.
 - **Quyết định Codex chọn:** cập nhật test tài nguyên để kiểm tra cả idle (6 frame) và run (8 frame) là animation đã giao, các animation còn lại tiếp tục placeholder.
 - **Hạn chế đã biết:** model imagegen không được expose; frame 003 và 007 là pose trên không có kiếm sát chân/ủng (đã nêu ở preview, owner vẫn duyệt).
@@ -962,8 +959,7 @@ un_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
 - **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
 - **Owner duyệt:** "duyệt jump_up thêm vào dự án"; giữ 3 frame, 12 fps, không lặp.
 - **File tạo/sửa:** `assets/characters/char_fire_01/frames/jump_up/char_fire_01_jump_up_000..002.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (jump_up: 3 frame, 12 fps, không lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật kỳ vọng ba animation đã giao.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 jump_up`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 jump_up`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
 - **Kết quả thật:** `approve_frames.py` duyệt và chép 3 frame; GdUnit4 446 test, 0 lỗi / 0 thất bại; 5 smoke check đạt; tổng mã thoát 0.
 - **Quyết định Codex chọn:** mở rộng kiểm tra asset đã giao từ idle + run thành idle (6 frame), run (8 frame) và jump_up (3 frame); animation còn lại tiếp tục placeholder.
 - **Hạn chế đã biết:** model imagegen không được expose; frame 001 giữ một chân chạm đất trong pha đẩy lên như phiếu mô tả (owner đã duyệt preview).
@@ -974,8 +970,7 @@ un_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
 - **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
 - **Owner duyệt:** "duyệt fall"; giữ 3 frame, 12 fps, không lặp.
 - **File tạo/sửa:** 3 frame `assets/characters/char_fire_01/frames/fall/char_fire_01_fall_000..002.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (fall: 3 frame, 12 fps, không lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật animation đã giao từ 3 lên 4 và kiểm tra fall.
-- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 fall`; `python -I tools/frames/approve_frames.py char_fire_01 fall`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1` (chạy lại ngoài sandbox).
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 fall`; `python -I tools/frames/approve_frames.py char_fire_01 fall`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (chạy lại ngoài sandbox).
 - **Kết quả thật:** checker ĐẠT, 3 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; lệnh test mã thoát 0.
 - **Quyết định Codex chọn:** giữ cấu hình trong phiếu, ghi model là "not exposed by the imagegen tool" theo metadata.
 - **Hạn chế đã biết:** owner đã duyệt preview; model imagegen không được expose.
@@ -986,8 +981,7 @@ un_tests.ps1` (chạy lại ngoài sandbox).
 - **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
 - **Owner duyệt:** "duyệt attack từ 1-4"; giữ 6 frame, 18 fps, không lặp.
 - **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/attack_1/char_fire_01_attack_1_000..005.png` và sidecar `.import`; manifest cập nhật `attack_1`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_1`.
-- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_1`; `python -I tools/frames/approve_frames.py char_fire_01 attack_1`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1` (ngoài sandbox).
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_1`; `python -I tools/frames/approve_frames.py char_fire_01 attack_1`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
 - **Kết quả thật:** checker ĐẠT, 6 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
 - **Hạn chế đã biết:** model imagegen không được expose.
@@ -998,8 +992,7 @@ un_tests.ps1` (ngoài sandbox).
 - **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
 - **Owner duyệt:** "duyệt attack từ 1-4"; giữ 6 frame, 18 fps, không lặp.
 - **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/attack_2/char_fire_01_attack_2_000..005.png` và sidecar `.import`; manifest cập nhật `attack_2`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_2`.
-- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_2`; `python -I tools/frames/approve_frames.py char_fire_01 attack_2`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1` (ngoài sandbox).
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_2`; `python -I tools/frames/approve_frames.py char_fire_01 attack_2`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
 - **Kết quả thật:** checker ĐẠT, 6 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
 - **Hạn chế đã biết:** model imagegen không được expose.
@@ -1010,8 +1003,7 @@ un_tests.ps1` (ngoài sandbox).
 - **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
 - **Owner duyệt:** "duyệt attack từ 1-4"; giữ 6 frame, 15 fps, không lặp.
 - **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/attack_3/char_fire_01_attack_3_000..005.png` và sidecar `.import`; manifest cập nhật `attack_3`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_3`.
-- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_3`; `python -I tools/frames/approve_frames.py char_fire_01 attack_3`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1` (ngoài sandbox).
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_3`; `python -I tools/frames/approve_frames.py char_fire_01 attack_3`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
 - **Kết quả thật:** checker ĐẠT, 6 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
 - **Hạn chế đã biết:** model imagegen không được expose; frame 002 được thu nhỏ nhẹ để vừa khung và giữ khoảng cách ở mũi kiếm như đã nêu trong preview.
@@ -1021,8 +1013,7 @@ un_tests.ps1` (ngoài sandbox).
 - **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
 - **Owner duyệt:** "duyệt attack từ 1-4"; giữ 7 frame, 12 fps, không lặp.
 - **File tạo/sửa:** 7 frame `assets/characters/char_fire_01/frames/attack_4/char_fire_01_attack_4_000..006.png` và sidecar `.import`; manifest cập nhật `attack_4`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_4`.
-- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_4`; `python -I tools/frames/approve_frames.py char_fire_01 attack_4`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1` (ngoài sandbox).
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_4`; `python -I tools/frames/approve_frames.py char_fire_01 attack_4`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
 - **Kết quả thật:** checker ĐẠT, 7 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
 - **Hạn chế đã biết:** model imagegen không được expose; các frame 001–003 giữ pose bổ dọc gần nhau có chủ ý để giữ nhịp tác động.
@@ -1051,8 +1042,7 @@ un_tests.ps1` (ngoài sandbox).
 - **Trạng thái:** TESTED (owner duyệt; kiểm tra frame và toàn bộ test đạt).
 - **Owner duyệt:** "Tất cả đều ổn. Chép nó vào dự án luôn nhé"; tích hợp 22 frame, 8 fps, không lặp.
 - **File tạo/sửa:** 22 frame `assets/characters/char_fire_01/frames/ultimate/char_fire_01_ultimate_000..021.png` và sidecar `.import`; manifest cập nhật `ultimate`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `ultimate`; runner bỏ cấu hình remote debugger cổng `0` không hợp lệ.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 ultimate` (thực thi bằng Python 3.12 cài sẵn vì `python` không có trong PATH); `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 ultimate` (thực thi bằng Python 3.12 cài sẵn vì `python` không có trong PATH); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** phê duyệt và chép 22 frame thành công; GdUnit4 458/458, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** dùng dải đã owner xem và duyệt; test builder xác nhận 9 animation Enkiba có frame thật.
 - **Hạn chế đã biết:** model imagegen không được expose; giữ tỉ lệ tham chiếu 0.80× idle để pose trên không nằm gọn trong canvas 384×384.
@@ -1080,8 +1070,7 @@ un_tests.ps1`.
 - **Trạng thái:** TESTED (owner duyệt; checker và toàn bộ test đạt).
 - **Owner duyệt:** "duyệt tất cả động tác từ dodge đến hết". `fall` (3 frame) và `ultimate` (22 frame) đã tích hợp trước đó; lần này tích hợp 14 animation, tổng 83 frame: `dodge` 5/15 fps, `land` 3/12, `hurt` 4/12, `knockback` 3/12, `down` 6/12, `hold_charge` 4/12, `hold_release` 9/12, `air_1` 5/18, `air_2` 5/12, `landing_attack` 6/15, `skill_1` 10/10, `skill_2` 13/18, `switch_in` 7/12, `switch_out` 3/12; giữ loop và hit frame theo phiếu.
 - **File tạo/sửa:** frame PNG và sidecar `.import` cho 14 animation trong `assets/characters/char_fire_01/frames/`; `frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` kiểm tra 23 animation đã giao cùng số frame.
-- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 {dodge,fall,land,hurt,knockback,down,hold_charge,hold_release,air_1,air_2,landing_attack,skill_1,skill_2,switch_in,switch_out}`; `python -I tools/frames/approve_frames.py char_fire_01 <animation>` cho 14 animation; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 {dodge,fall,land,hurt,knockback,down,hold_charge,hold_release,air_1,air_2,landing_attack,skill_1,skill_2,switch_in,switch_out}`; `python -I tools/frames/approve_frames.py char_fire_01 <animation>` cho 14 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** checker báo ĐẠT cho mọi animation đã kiểm tra; GdUnit4 461/461, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
 - **Quyết định Codex chọn:** tích hợp theo nguyên số frame / fps / loop của phiếu; bỏ qua thao tác chép lại `fall` và `ultimate` đã có trong dự án.
 - **Hạn chế đã biết:** `air_1` checker cảnh báo tâm chân ở frame 001 (x=113) và 002 (x=89) lệch trái so với mốc x=192; giữ nguyên theo duyệt gộp của owner.
@@ -1124,8 +1113,7 @@ un_tests.ps1`.
   - `tools/frames/jobs/char_fire_01.json`: chuyển chữ Enkiba vào `text`, bỏ `redo_reason` của idle (Codex đã làm lại, commit 438bc03); phiếu Enkiba sinh lại chỉ khác trạng thái README và phiếu idle
   - Ảnh tham chiếu cắt từ tờ bộ phận: `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`, `rig_parts/source/refs/char_wind_01_ref_*.png` (13 ảnh: toàn thân, pose 54–59, cung, mũi tên, 4 mặt)
   - `assets/characters/char_wind_01/frames_manifest.json`: `working_name` Lyra → Kazeyumi
-- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_wind_01` (21 phiếu), `... char_fire_01` (23 phiếu); `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_wind_01` (21 phiếu), `... char_fire_01` (23 phiếu); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
 - **Kết quả thật:** test TẤT CẢ ĐẠT, mã thoát 0. Số frame tính ra: attack_1/2 5 @ 18 fps, attack_3 8 @ 15, dodge 6 @ 20, hold_release 5 @ 12, air_1 6 @ 18, landing_attack 6 @ 15, skill_1 8 @ 18, skill_2 11 @ 8, switch_in 6 @ 10, ultimate 17 @ 8 (3 lần gọi).
 - **Quyết định Claude chọn:**
   - Hai trạng thái cung: `ready` (cầm hạ thấp) và `shoot` (giương bắn); không vẽ mũi tên đã bay (game sinh projectile).
@@ -1138,8 +1126,7 @@ un_tests.ps1`
 - **Milestone / task:** art pipeline — owner duyệt và tích hợp animation `idle` cho `char_wind_01`.
 - **Trạng thái:** BLOCKED (đã tích hợp 6 frame; toàn bộ test bị Godot crash trước khi chạy test logic).
 - **File tạo/sửa:** 6 frame PNG + sidecar `.import` trong `assets/characters/char_wind_01/frames/idle/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `art_review/char_wind_01/idle/meta.json` ghi duyệt.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 idle` (thực thi bằng Python 3.12 cài sẵn vì `python` không có trong PATH); `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`; chạy lại runner với `-Godot C:\Godot\4.6.3\Godot_v4.6.3-stable_win64.exe`; chạy riêng `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --script res://tests/smoke/m1_flow_check.gd` để xác định lỗi.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 idle` (thực thi bằng Python 3.12 cài sẵn vì `python` không có trong PATH); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; chạy lại runner với `-Godot C:\Godot\4.6.3\Godot_v4.6.3-stable_win64.exe`; chạy riêng `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --script res://tests/smoke/m1_flow_check.gd` để xác định lỗi.
 - **Kết quả thật:** approve chép đủ 6 frame, 8 fps, lặp; manifest và giấy phép được cập nhật. Cả hai lần chạy toàn bộ test đều thoát mã 1: GdUnit4 và 5 smoke trả `-1073741819` (Windows access violation); smoke trực tiếp bằng console crash signal 11 với `no debug info in PE/COFF executable`. Smoke trực tiếp bằng executable GUI thoát mã 0 nhưng không có output; runner toàn bộ với executable GUI vẫn gặp cùng lỗi. Chưa có toàn bộ test nào được xác nhận đạt.
 - **Quyết định Codex chọn:** giữ tích hợp đã được owner duyệt, ghi trạng thái `BLOCKED`; chưa commit vì điều kiện test mã thoát 0 chưa đạt.
 - **Hạn chế đã biết:** cần khắc phục crash môi trường Godot / test runner rồi chạy lại toàn bộ test trước khi commit.
@@ -1155,8 +1142,7 @@ un_tests.ps1`; chạy lại runner với `-Godot C:\Godot\4.6.3\Godot_v4.6.3-sta
   - `scripts/player/player_controller.gd`: số đòn trên không = số kỹ năng `air_N` (bỏ trần cứng 2), khóa đòn thường, `auto_hold_skill_for`; `scripts/player/states/combat_states.gd`: đòn giữ tự chạy khi đủ nạp, nhả nút dừng sớm, lao chéo
   - Kit: `wind_kit.gd` (tên trúng kẻ địch đang Chậm −0.3 s CD Phong Vực, tối đa −3 s), `lightning_kit.gd` (Bùng nổ Sét −1 s CD Chớp Giật Liên Hoàn tối đa −3 s, +5 UG)
   - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd` (12 test), `test_combat_data.gd` (thêm storm_blessing); khóa dịch `STATUS_STORM_BLESSING`
-- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
 - **Kết quả thật:** GdUnit4 496/496, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tổng % ATK khớp tài liệu: Kazeyumi giữ 180/300, trên không 135, đáp đất 120, Phong Vực 240, Liên Châu 360, Tuyệt kỹ 1000; Raikiba giữ 240, trên không 150, đáp đất 130, Chớp Giật 210, Song Lôi 200, Tuyệt kỹ 1090.
 - **Quyết định Claude chọn:**
   - Kazeyumi Hạ Phong Trận: rơi 500 px/s (thả dù), vùng gió đặt ở chỗ tiếp đất. Phong Vực / Bão Tiễn: buff đồng đội áp cho người dùng lúc cast (chỉ một nhân vật trên sân), không xét đứng trong vùng. Bão kéo 37.5 px mỗi nhịp (= 150 px/s). Thiên Phong Loạt Tiễn lần 1 nối sang lần 2 bằng cửa sổ 200 ms như Enkiba.
@@ -1174,8 +1160,7 @@ un_tests.ps1`
   - `scripts/combat/status_def.gd`, `status_controller.gd`, `resource_component.gd`, `combatant.gd`: loại chỉ số mới `en_regen_up`; `extra_en` âm được (Raikiba giữ TC +1 EN mỗi nhịp = 3 − 2)
   - `tools/gen_wind_lightning_skills.py` sinh lại kỹ năng + 5 trạng thái mới: `fair_wind`, `fair_wind_haste`, `wind_domain` (dấu kẻ địch trong Phong Vực → Liên Châu +25%), `wind_domain_haste`, `overload`; khóa dịch STATUS_* tương ứng
   - Test: `test_kazeyumi_raikiba_skills.gd` (17 test), `test_combat_data.gd`
-- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`; `python -X utf8 tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`; `python -X utf8 tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
 - **Kết quả thật:** GdUnit4 501/501, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tuyệt kỹ Kazeyumi đo được bay lên ~300 px sau 700 ms, bão (đặt ở mặt đất) vẫn trúng hình nộm.
 - **Quyết định Claude chọn:**
   - Buff tốc độ di chuyển của Gió Thuận / Phong Vực dùng trạng thái riêng (không dùng `wind_step`) vì áp trạng thái trùng tên gộp mức cao nhất và thời gian dài nhất, sẽ kéo dài +25% của né hoàn hảo.
@@ -1188,8 +1173,7 @@ un_tests.ps1`
 - **Milestone / task:** art (frame nhân vật) — owner duyệt các animation từ phiếu 11 đến 21 của `char_wind_01`; gồm `knockback`, `down`, `hold_charge`, `hold_release`, `air_1`, `landing_attack`, `skill_1`, `skill_2`, `switch_in`, `switch_out`, `ultimate`.
 - **Trạng thái:** BLOCKED
 - **File tạo/sửa:** frame trong `assets/characters/char_wind_01/frames/{knockback,down,hold_charge,hold_release,air_1,landing_attack,skill_1,skill_2,switch_in,switch_out,ultimate}/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 <animation>` cho cả 11 animation; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 <animation>` cho cả 11 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** Cả 11 animation được approve thành công. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
 - **Quyết định Codex chọn:** dùng phạm vi phiếu 11–21 (từ `knockback` tới `ultimate`) theo thứ tự số phiếu.
 - **Hạn chế đã biết:** cùng lỗi Godot/test runner đã ghi ở mục trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
@@ -1206,8 +1190,7 @@ un_tests.ps1`.
   - Kit: `light_kit.gd` (hồi thừa → khiên, rút CD, UG +30%, Hào Quang, rút CD vũ khí), `dark_kit.gd` (hút máu, Thu hoạch, Dạ Vương, hạ gục mục tiêu Nguyền, Phân Thân Bóng), `earth_kit.gd` (Cốt Đá, chặn / chặn hoàn hảo, nổ Cốt Đá, Thạch Thần, Phản Chấn)
   - `PlayerController.kit_event` → `PartyManager` giảm SI-CD; `SwitchInDef.REDUCE_HEAL_LOW / CURSED_KILL / PERFECT_BLOCK`
   - Test: `tests/unit/combat/test_light_dark_earth_skills.gd` (17 test); `test_combat_data.gd` (danh sách trạng thái); `test_reactions.gd` (mở Liên kết Lyra bằng LinkTracker thay cho né hoàn hảo của Hikarine, vì Hào Quang giờ hồi 3% HP cả đội)
-- **Đã chạy:** `python -X utf8 tools/gen_light_dark_earth_skills.py`; `python -X utf8 tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+- **Đã chạy:** `python -X utf8 tools/gen_light_dark_earth_skills.py`; `python -X utf8 tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
 - **Kết quả thật:** GdUnit4 518/518, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tổng % ATK khớp tài liệu (Hikarine thường 195, Thánh Ân hồi 170% ATK + 4% HP; Yomigari giữ 258, tuyệt kỹ 1150; Iwagane thường 390, đáp đất 310, tuyệt kỹ 1100).
 - **Quyết định Claude chọn:**
   - Quả cầu sáng 1200 px/s; Iwagane đòn 3 = kiếm 130% + sóng đá 50%; sóng đá Thạch Phá là một vùng 500×120 đứng yên.
@@ -1239,8 +1222,7 @@ un_tests.ps1`
   - `scripts/player/player_controller.gd`: `animation_or_fallback()` — animation biến thể chưa có hình thì mượn bản gốc (`air_2` → `air_1`, `hold_release_2` → `hold_release`).
   - `tools/frames/frame_jobs.py`: phiếu có `skill` vẫn cho `hits_ms` ghi đè frame trúng đòn.
   - `tests/unit/player/test_animation_fallback.gd` (4 test).
-- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`, `python -I tools/frames/gen_prompts.py char_wind_01`, `... char_lightning_01`, `--import`, `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`, `python -I tools/frames/gen_prompts.py char_wind_01`, `... char_lightning_01`, `--import`, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
 - **Kết quả thật:** GdUnit4 522 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
 - **Quyết định Claude chọn:** Raikiba `hold_release` là vòng chém lặp 6 frame 15 fps (game giữ tới 1,2 s, thả nút thì dừng) thay vì tính theo thời lượng kỹ năng; `skill_2` chỉ vẽ động tác ném, từ frame ném tay không; ultimate 22 frame ở 8 fps (2,7 s theo SkillDef); `landing_attack` của Kazeyumi giữ 70/80/220 ms như bản đã duyệt (SkillDef hiện 0/80/220).
 - **Hạn chế đã biết:** Raikiba chưa có animation bắt đao (`skill_2`) và nhát kết của Lôi Quang Loạn Vũ (chưa có trạng thái trong game). Ở thời điểm này 9 animation Kazeyumi (run, attack_1–3, dodge, jump_up, fall, land, hurt) còn nằm ở `art_review/` chờ owner trả lời "duyệt"; các frame / manifest / ASSET_LICENSES Codex đã sửa chưa commit, không nằm trong commit này.
@@ -1250,8 +1232,7 @@ un_tests.ps1`
 - **Milestone / task:** art (frame nhân vật) — owner duyệt animation `run` của `char_wind_01`.
 - **Trạng thái:** BLOCKED
 - **File tạo/sửa:** `assets/characters/char_wind_01/frames/run/` (8 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 run`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 run`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** Approve thành công: 8 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
 - **Hạn chế đã biết:** lỗi Godot/test runner giống lần chạy trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
 
@@ -1260,8 +1241,7 @@ un_tests.ps1`.
 - **Milestone / task:** art (frame nhân vật) — owner duyệt `jump_up`, `fall`, `land`, `attack_1`, `attack_2`, `attack_3`, `dodge` của `char_wind_01`.
 - **Trạng thái:** BLOCKED
 - **File tạo/sửa:** frame trong `assets/characters/char_wind_01/frames/{jump_up,fall,land,attack_1,attack_2,attack_3,dodge}/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 <animation>` cho cả bảy animation; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 <animation>` cho cả bảy animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** Cả bảy animation được approve thành công. Bộ test thoát mã 1; GdUnit4 và 5 smoke test crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
 - **Quyết định Codex chọn:** vì danh sách trước đó còn tám mục ngoài `run` trong khi owner yêu cầu bảy, để `hurt` chờ duyệt riêng.
 - **Hạn chế đã biết:** lỗi Godot/test runner đã tái hiện ở các lần chạy trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
@@ -1271,8 +1251,7 @@ un_tests.ps1`.
 - **Milestone / task:** art (frame nhân vật) — owner duyệt animation `hurt` của `char_wind_01`.
 - **Trạng thái:** BLOCKED
 - **File tạo/sửa:** `assets/characters/char_wind_01/frames/hurt/` (4 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 hurt`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 hurt`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** Approve thành công: 4 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
 - **Hạn chế đã biết:** lỗi Godot/test runner vẫn tái hiện; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
 
@@ -1287,8 +1266,7 @@ un_tests.ps1`.
   - `assets/characters/char_lightning_01/frames_manifest.json` + thư mục `frames/hold_end/`, `frames/weapon_catch/` (.gitkeep).
   - Phiếu: `tools/frames/jobs/char_lightning_01.json`, `docs/prompts/codex_frames/char_lightning_01/` thêm `17_hold_end`, `24_weapon_catch` (các phiếu sau dịch số), sửa `hold_release`, `skill_2`, `00_PHAN_TICH.md`.
   - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd`: đòn giữ nhả nút → `hold_finish`, hết 8 nhịp → `hold_finish`, bắt đao khi đứng yên / bỏ qua khi đang chạy.
-- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`, `python -I tools/frames/gen_prompts.py char_lightning_01`, `--import`, GdUnit4 riêng bộ Kazeyumi/Raikiba (21/21), `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`, `python -I tools/frames/gen_prompts.py char_lightning_01`, `--import`, GdUnit4 riêng bộ Kazeyumi/Raikiba (21/21), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
 - **Kết quả thật:** lần đầu 1 lỗi (`test_real_frame_counts_match_folders`: thiếu thư mục frame `hold_end`, `weapon_catch`) → tạo thư mục; lần hai GdUnit4 525 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
 - **Quyết định Claude chọn:** nhát kết dùng đúng 220 ms hồi phục của tài liệu và không cộng sát thương (tổng Lôi Quang Loạn Vũ vẫn 240%); chạy cả khi nhả nút sớm lẫn khi hết 8 nhịp. Đao về tay ở 940 ms (ném 140 + đi 400 + về 400); animation bắt bắt đầu ở 880 ms để frame 001 (đao vào tay) rơi vào ~940 ms. Bắt đao chỉ phát khi đứng yên vì đây là động tác đứng, không khóa điều khiển.
 - **Hạn chế đã biết:** đang chạy / nhảy lúc đao về thì không có hình bắt đao (đao lặng lẽ về tay); thời điểm bắt không co giãn theo tốc độ tấn công (Song Lôi Phi Nhận là kỹ năng vũ khí, không chịu tốc độ tấn công). Chưa thử bằng mắt trong Godot.
@@ -1303,8 +1281,7 @@ un_tests.ps1`
   - `tools/skill_data_lib.py` (`WIND_ARROW`, `wind_arrow()`), `tools/gen_kael_lyra_data.py`, `tools/gen_switch_in_data.py`, `tools/gen_wind_lightning_skills.py` → 11 SkillDef của `char_wind_01` (đòn thường 3, né, đòn giữ cấp 1/2, trên không 2, Liên Châu 6 tên, vào sân Thường/Liên kết): mọi vùng tên bay có hình mũi tên gió. Dữ liệu nhân vật khác không đổi.
   - `docs/ASSET_LICENSES.md` mục 2: thêm dòng file trên (chỉ commit dòng này; phần Codex đang sửa dở để nguyên).
   - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd`: mọi tên bay của Kazeyumi dùng hình mũi tên gió, đao Raikiba không; bắn đòn thường sinh mũi tên hiện hình và bay về trước.
-- **Đã chạy:** 3 script sinh dữ liệu trên, `--import`, GdUnit4 bộ Kazeyumi/Raikiba (23/23), `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+- **Đã chạy:** 3 script sinh dữ liệu trên, `--import`, GdUnit4 bộ Kazeyumi/Raikiba (23/23), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
 - **Kết quả thật:** GdUnit4 527 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. `git diff --stat data/` chỉ có 11 file `char_wind_01`, toàn dòng thêm.
 - **Quyết định Claude chọn:** tỉ lệ vẽ 0.55 (≈91 px) cho tên thường / quạt / Liên Châu / né / vào sân, 0.7 cho đòn giữ cấp 1, 0.9 cho cấp 2 (theo khung va chạm 70 / 90 / 120 px); lọc linear khi thu nhỏ; hòa màu thường (không cộng sáng) để không bị mất trên nền sáng.
 - **Hạn chế đã biết:** chưa xem bằng mắt trong Godot; quầng sáng của mũi tên bị tối đi một chút do tách từ nền trắng của ảnh JPEG. Phong Vực (tên rơi như sao băng) và Hạ Phong Trận không có vùng tên bay nên chưa có hình mũi tên.
@@ -1314,8 +1291,7 @@ un_tests.ps1`
 - **Milestone / task:** art (frame nhân vật) — owner duyệt animation `hold_release_2` của `char_wind_01`.
 - **Trạng thái:** BLOCKED
 - **File tạo/sửa:** `assets/characters/char_wind_01/frames/hold_release_2/` (5 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 hold_release_2`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 hold_release_2`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** Approve thành công: 5 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
 - **Hạn chế đã biết:** lỗi Godot/test runner vẫn tái hiện; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
 
@@ -1324,8 +1300,7 @@ un_tests.ps1`.
 - **Milestone / task:** art (frame nhân vật) — owner duyệt animation `air_2` của `char_wind_01`.
 - **Trạng thái:** TESTED
 - **File tạo/sửa:** `assets/characters/char_wind_01/frames/air_2/` (6 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
-- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 air_2`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 air_2`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** Approve thành công: 6 frame, 18 fps. Toàn bộ test thoát mã 0: GdUnit4 và cả 5 smoke test ĐẠT.
 - **Hạn chế đã biết:** frame 003 có một chân duỗi thấp hơn các pose trên không còn lại; owner đã duyệt bộ frame.
 
@@ -1341,8 +1316,7 @@ un_tests.ps1`.
   - `scripts/ui/battle_hud.gd`, `scripts/ui/hud_theme.gd`: thẻ nhân vật góc trên-trái → thanh giữa-dưới (chân dung tạm, tên, HP chia 3 đoạn + khiên, EN + số); nút Tạm dừng lên góc trên-trái. `scripts/ui/debug_overlay.gd` sửa chú thích.
   - `docs/ASSET_LICENSES.md` mục 2: thêm dòng icon (chỉ commit dòng này; phần Codex đang sửa dở để nguyên).
   - Test: `tests/unit/ui/test_skill_dock.gd` (4 test), `tests/unit/ui/test_touch_audio.gd` (lượt né đọc `badge_text`).
-- **Đã chạy:** `python -I tools/ui/gen_hud_icons.py --force` (lần đầu), `--import`, chụp HUD bằng script SceneTree trong scratchpad (Godot có cửa sổ 1920×1080, bản PC và bản cảm ứng), `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`
+- **Đã chạy:** `python -I tools/ui/gen_hud_icons.py --force` (lần đầu), `--import`, chụp HUD bằng script SceneTree trong scratchpad (Godot có cửa sổ 1920×1080, bản PC và bản cảm ứng), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
 - **Kết quả thật:** GdUnit4 531 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh chụp: cụm 6 nút góc dưới-phải không chồng nhau, số giây hồi trên nút U / I, vòng UG quanh O, huy hiệu lượt né trên L, thanh HP/EN giữa-dưới.
 - **Quyết định Claude chọn:** bỏ các nút trong ảnh tham khảo không có trong game (nút đặc biệt có thanh 90/150, nút gọi hỗ trợ); đổi nhân vật vẫn ở hai icon dự bị góc trên-phải (README 15.5) thay vì cột chân dung bên phải; UG chỉ hiện bằng vòng quanh nút tuyệt kỹ, lượt né bằng huy hiệu trên nút né; nút nhảy cũng có icon; đường kính nút đánh 200, tuyệt kỹ 176, kỹ năng / vũ khí 150, né 140, nhảy 132 (≥ 128 px); trên PC các nút không nhận chuột.
 - **Lệch tài liệu:** README 15.5 ghi thẻ nhân vật trên sân ở góc trên-trái; owner đề xuất đặt xuống dưới (2026-11-14) nên đã chuyển theo owner.
@@ -1705,8 +1679,7 @@ un_tests.ps1`
   - `tests/unit/ui/test_character_screen.gd`: thêm `test_kazeyumi_uses_splash_art_on_every_view`.
   - `tools/screenshot_character.gd`: tham số tùy chọn `-- --id=<Data ID>` để chụp nhân vật khác Enkiba (ảnh ra `character_<id>_<n>_<tên>.png`).
   - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
-- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh, tham số mặc định); `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_wind_01` (soát bằng mắt 5 màn); `tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh, tham số mặc định); `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_wind_01` (soát bằng mắt 5 màn); `tools\run_tests.ps1`.
 - **Kết quả thật:** 5 ảnh xóa nền 71–74 %, soát trên nền tối / đỏ không còn quầng trắng, áo trắng ngà và ủng còn nguyên. Lần import đầu ảnh stigma bị `valid=false` (không có .ctex); xóa ICC profile + import lại thì được. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
 - **Quyết định Claude chọn:** thứ tự ảnh theo đúng thứ tự owner gửi (1 giương cung → tổng quan, 2 bật nhảy → tăng cấp, 3 cầm cung vén tóc → vũ khí, 4 lưng → vết thánh, 5 đưa tay → kỹ năng); không sửa code màn hình (cơ chế splash theo Data ID đã có), không thu nhỏ ảnh. Ảnh tổng quan còn tự dùng ở sảnh (nếu Kazeyumi đứng đầu đội), đội hình ra trận và thẻ chiêu mộ.
 - **Hạn chế đã biết:** dây cung rất mảnh nên sau khi xóa nền hơi đứt nét / mờ ở vài đoạn; ở màn tổng quan đầu cung chạm sát dòng tên giáp; công cụ tạo ảnh gốc chưa rõ (cần owner xác nhận để khai báo AI).
@@ -1719,8 +1692,7 @@ un_tests.ps1`.
   - `tools/cut_splash.py`: tùy chọn `--keep x0,y0,x1,y1` (lặp được, tọa độ ảnh gốc) — trong hộp này không xóa lỗ kín. Lý do: răng trắng khi Raikiba cười nhe răng bị coi là lỗ nền.
   - `tests/unit/ui/test_character_screen.gd`: test splash 5 màn chạy cho cả Kazeyumi và Raikiba; hai test dùng Raikiba làm "nhân vật chưa có ảnh" đổi sang Iwagane (`char_earth_01`).
   - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
-- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh; ảnh 3 và 5 thêm `--keep` vùng miệng, dò bằng cách tô đỏ các lỗ kín bị xóa); `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_lightning_01` (soát bằng mắt 5 màn); `tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh; ảnh 3 và 5 thêm `--keep` vùng miệng, dò bằng cách tô đỏ các lỗ kín bị xóa); `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_lightning_01` (soát bằng mắt 5 màn); `tools\run_tests.ps1`.
 - **Kết quả thật:** nền bị xóa 66–73 %; soát trên nền xanh: răng còn, áo đen / ủng xám nguyên vẹn; các khe nền giữa sợi tóc bạc ở viền tóc được xóa đúng. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
 - **Quyết định Claude chọn:** thứ tự ảnh theo thứ tự owner gửi (1 bắt chéo đao → tổng quan, 2 vung đao → tăng cấp, 3 bật nhảy → vũ khí, 4 lưng → vết thánh, 5 ngồi xổm → kỹ năng); không thu nhỏ ảnh; không sửa code màn hình. Ảnh tổng quan tự thay frame idle của Raikiba ở sảnh, đội hình ra trận và thẻ chiêu mộ.
 - **Hạn chế đã biết:** quầng sáng vàng mờ quanh đao / vệt sét nhạt dần vào nền trắng nên phần ngoài cùng của quầng bị cắt (còn lõi sáng); ảnh kỹ năng rộng (ngồi dang tay) nên vòng đao bên phải chạm nhẹ nhãn kỹ năng Bị động; thẻ Raikiba trong danh sách vẫn là placeholder vì chưa có chân dung chibi; công cụ tạo ảnh gốc chưa rõ.
@@ -1732,8 +1704,7 @@ un_tests.ps1`.
   - `assets/characters/char_earth_01/splash/char_earth_01_splash_{overview,level,weapon,stigma,skill}.png` (PNG alpha, bỏ ICC profile; 649–1024 px rộng, 1320–1521 px cao).
   - `tests/unit/ui/test_character_screen.gd`: test splash 5 màn chạy thêm cho Iwagane; hai test "nhân vật chưa có ảnh" đổi sang Yomigari (`char_dark_01`).
   - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
-- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh, tham số mặc định; kiểm lỗ kín bị xóa quanh mặt — chỉ có khe nền giữa tóc và giáp vai, răng ảnh hét còn nguyên); ảnh lưng: thêm bước một lần làm trong suốt điểm xám trung tính (chênh kênh ≤ 18, sáng ≥ 110) trong 40 px đáy để bỏ bóng đổ; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_earth_01` (soát bằng mắt 5 màn); `tools
-un_tests.ps1`.
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh, tham số mặc định; kiểm lỗ kín bị xóa quanh mặt — chỉ có khe nền giữa tóc và giáp vai, răng ảnh hét còn nguyên); ảnh lưng: thêm bước một lần làm trong suốt điểm xám trung tính (chênh kênh ≤ 18, sáng ≥ 110) trong 40 px đáy để bỏ bóng đổ; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_earth_01` (soát bằng mắt 5 màn); `tools\run_tests.ps1`.
 - **Kết quả thật:** nền bị xóa 56–66 %; giáp đồng, đá kiếm, quầng vàng giữ nguyên trên nền tối. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
 - **Quyết định Claude chọn:** thứ tự ảnh theo thứ tự owner gửi (1 cầm kiếm chéo → tổng quan, 2 chống kiếm → tăng cấp, 3 chém ngang → vũ khí, 4 lưng → vết thánh, 5 vác kiếm → kỹ năng); không thu nhỏ ảnh, không sửa code màn hình. Bước xóa bóng đổ chỉ làm một lần bằng script tạm (không thêm vào `cut_splash.py`).
 - **Hạn chế đã biết:** ở màn tổng quan mũi kiếm gần dòng tên giáp; thẻ Iwagane trong danh sách vẫn là placeholder (chưa có chân dung chibi); công cụ tạo ảnh gốc chưa rõ. Lúc làm có file frame idle của Iwagane (`frames/idle/`, `frames_manifest.json`) chưa commit do agent khác tạo; không đụng vào, không gộp vào commit này.
@@ -1779,8 +1750,7 @@ un_tests.ps1`.
 - **Milestone / task:** UI Chiêu mộ — owner: banner nhân vật bỏ chữ "Iwagane" và "Thần Kiếm Nham Thạch"; chữ cột phải (thời gian, mảnh tiến cấp, bảo đảm) bị mất phần cuối, đề xuất căn lề phải.
 - **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_*.png` ở 1680×720; owner chưa xem lại trong Godot)
 - **File tạo/sửa:** `scripts/ui/recruit_screen.gd` (`_pr` không cộng neo hai lần, ảnh banner phủ tới mép phải, banner nhân vật không có chú thích, dòng thời gian thu chữ một dòng, ô bảo đảm căn phải), `data/ui/recruit_screen_layout.json` (`panel.icons.anchor = right`), `tests/unit/ui/test_recruit_screen.gd` (sửa test banner nhân vật, +1 test cột phải nằm trong màn ở 4 tỉ lệ).
-- **Đã chạy:** GdUnit `test_recruit_screen.gd` (20/20); `<godot> --path . --resolution 1680x720 -s tools/screenshot_recruit.gd`; `powershell -ExecutionPolicy Bypass -File tools
-un_tests.ps1`.
+- **Đã chạy:** GdUnit `test_recruit_screen.gd` (20/20); `<godot> --path . --resolution 1680x720 -s tools/screenshot_recruit.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
 - **Kết quả thật:** run_tests.ps1 mã thoát 0: GdUnit 659/659 đạt (0 lỗi, 0 thất bại, `reports/report_202`), 5/5 test khói đạt; test_recruit_screen.gd 20/20.
 - **Nguyên nhân chữ bị cắt:** mục cột phải có neo `right`, nhưng `_pr` cộng thêm neo `center` của panel → khi cửa sổ rộng hơn 16:9 chữ bị đẩy quá mép phải (vd 2560×1080: dòng thời gian kết thúc ở x 2850).
 - **Quyết định Claude chọn:** giữ tiêu đề banner và nhãn loại banner (owner chỉ nêu tên nhân vật và giáp); banner trang bị vẫn có chú thích món đề cử; dãy icon trang bị neo phải theo cột phải.
