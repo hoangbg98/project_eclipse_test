@@ -1857,3 +1857,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** ảnh đúng 1590×1080, màn tự nhận theo tên `{id}_banner.png` (không sửa code, không sửa dữ liệu banner); placeholder cũ giữ nguyên, không bị dùng nữa.
 - **Quyết định Claude chọn:** ghi ASSET_LICENSES như các splash art owner đưa (công cụ tạo ảnh không rõ); không ghi đè placeholder.
 - **Hạn chế đã biết:** mục banner nhân vật trên Asset Atlas chưa đánh dấu đã có ảnh thật.
+
+## 2026-11-15 — Chiêu mộ: bỏ hai dải tối hai bên ảnh banner
+- **Milestone / task:** UI Chiêu mộ — owner: "sao lại có hai ô vuông đen ở hai bên vậy, xoá đi" (sau khi có ảnh banner thật).
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_1_character_banner.png`)
+- **File tạo/sửa:** `scripts/ui/recruit_screen.gd` (`_build_banner` không dựng 2 panel `Shade`), `tools/ui/gen_recruit_wireframes.py` (bỏ 2 dải trên wireframe) → 6 ảnh `docs/design/wireframes/recruit/*.png`.
+- **Đã chạy:** `python -X utf8 tools/ui/gen_recruit_wireframes.py`; GdUnit `test_recruit_screen.gd` (20/20); `<godot> --path . -s tools/screenshot_recruit.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại, `reports/report_216`), 5/5 test khói đạt.
+- **Nguyên nhân:** 2 panel đen 35% (30% trái, 32% phải vùng banner) thêm từ đầu để đọc chữ trên ảnh placeholder; trên ảnh thật mép cứng lộ thành 2 khối vuông.
+- **Hạn chế đã biết:** chữ trên ảnh sáng dựa vào nền riêng của từng ô (pity, nút); ảnh banner rất sáng có thể cần owner chừa vùng tối.

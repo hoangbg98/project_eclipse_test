@@ -93,10 +93,7 @@ def grid(d, w, h, step, dx=0):
 
 
 def guides(d, dx, fnt):
-    # Hai dải làm tối nhẹ của màn (30% trái, 32% phải của vùng banner) và trục giữa ảnh.
-    for x0, x1, name in ((0, int(BW * 0.3), "vùng làm tối nhẹ 30%"), (int(BW * 0.68), BW, "vùng làm tối nhẹ 32%")):
-        d.rectangle([x0 + dx, 0, x1 + dx, BH], outline=(255, 80, 80, 200), width=2)
-        d.text((x0 + dx + 8, BH - 40), name, fill=(255, 120, 120, 255), font=fnt, stroke_width=2, stroke_fill=(0, 0, 0, 255))
+    # Trục giữa ảnh (màn không còn dải làm tối hai bên, owner 2026-11-15).
     d.line([dx + BW // 2, 0, dx + BW // 2, BH], fill=(255, 80, 80, 160), width=2)
 
 

@@ -489,10 +489,7 @@ func _build_banner(b: BannerDef) -> void:
 	pr.size.x = maxf(pr.size.x, layout.view_size.x - pr.position.x)   # ảnh phủ tới mép phải mọi tỉ lệ màn
 	var art := _art(pr, art_texture(b, "banner"), banner_title(b), Rect2(0, 0, 1, 1), "BannerArt")
 	art.border_color = Color(0, 0, 0, 0)
-	# Làm tối dần hai bên để chữ đọc được trên mọi ảnh.
-	for side in [Rect2(pr.position, Vector2(pr.size.x * 0.3, pr.size.y)),
-			Rect2(pr.position + Vector2(pr.size.x * 0.68, 0), Vector2(pr.size.x * 0.32, pr.size.y))]:
-		_panel(side, Color(0, 0, 0, 0.35)).name = "Shade"
+	# Không phủ dải tối hai bên (owner 2026-11-15: lộ thành 2 ô vuông đen); chữ đã có viền / nền riêng.
 	if kind != "char":   # banner nhân vật không có nhãn loại / tiêu đề (owner 2026-11-15: ảnh banner tự thể hiện)
 		var kt := _label(_pr("kind_tag"), tr(b.kind_key) if b.kind_key != "" else "", layout.font("panel.kind_tag", 26),
 				layout.color("accent_blue", Color.SKY_BLUE))
