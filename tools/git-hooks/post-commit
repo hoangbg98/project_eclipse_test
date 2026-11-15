@@ -1,0 +1,16 @@
+#!/bin/sh
+# Tự push lên GitHub sau mỗi commit (owner 2026-11-15).
+# Bật trên mỗi máy: git config core.hooksPath tools/git-hooks
+# Chỉ push khi đang ở một nhánh (bỏ qua lúc rebase / detached HEAD).
+# Chạy nền để commit không phải chờ mạng; kết quả ghi vào .git/auto-push.log.
+
+branch=$(git symbolic-ref --quiet --short HEAD) || exit 0
+git config --get remote.origin.url >/dev/null || exit 0
+git_dir=$(git rev-parse --git-dir)
+
+(
+  echo "== $(date '+%Y-%m-%d %H:%M:%S') push $branch"
+  git push -u origin "$branch" 2>&1 || echo "!! push lỗi — chạy 'git push' tay khi có mạng"
+) >>"$git_dir/auto-push.log" 2>&1 &
+
+exit 0

@@ -1921,3 +1921,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit4 669/669 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt (m8 đi hết các bước xếp đội).
 - **Quyết định Claude chọn:** lúc hướng dẫn, mọi giáp mới (thưởng ải và lượt x10) đều không tự vào đội; sau hướng dẫn giữ hành vi cũ (tự vào nếu còn chỗ). NEO chỉ thêm một giáp (đội kết thúc 2 người), câu thoại cuối nhắc có thể quay lại thêm Raikiba. Thêm bước mới bằng id riêng (`recruit_close`, `recruit_back`, `hub_party`, `sortie_party`, `party_slot`, `party_add`, `party_confirm`), giữ nguyên khóa cũ `TUTORIAL_RECRUIT_DONE*` cho save đang dở. Test khói m8 trả đội về chỉ Enkiba trước bước chiêu mộ (phần trên giả lập Yomigari để thử đổi người) và chờ khung `_process` sau mỗi lần bấm (headless chạy nhiều physics frame mỗi khung).
 - **Hạn chế đã biết:** chưa chụp ảnh các bước mới; câu thoại do Claude viết, owner có thể sửa trong `.po`. Câu thoại cuối nhắc tên Raikiba (lượt x10 đầu tiên luôn cho Raikiba).
+
+## 2026-11-15 — Quy trình: GitHub và tự push sau mỗi commit
+- **Milestone / task:** Quy trình làm việc (owner 2026-11-15): nối dự án với GitHub cho cả đội; tự push sau mỗi commit.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/git-hooks/post-commit` (mới), `AGENTS.md` mục 7, `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** cài GitHub CLI 2.104.0 (`winget install GitHub.cli`); `gh repo create hoangbg98/PROJECT_ECLIPSE --private --source . --remote origin --push`; `git config core.hooksPath tools/git-hooks`; commit này để thử hook.
+- **Kết quả thật:** repo private, `main` theo dõi `origin/main`. Kết quả tự push của commit này: xem `.git/auto-push.log`.
+- **Quyết định Claude chọn:** hook nằm trong repo (`tools/git-hooks/`) để cả đội dùng chung, nhưng mỗi máy phải bật một lần bằng `git config core.hooksPath tools/git-hooks` (git không tự bật hook từ repo). Push chạy nền để commit không chờ mạng; bỏ qua khi detached HEAD (lúc rebase). Không force push.
+- **Hạn chế đã biết:** push lỗi (mất mạng, GitHub có commit mới hơn) chỉ ghi vào `.git/auto-push.log`, không báo ra màn hình; agent kiểm tra `git status -sb` sau commit theo AGENTS.md.

@@ -110,6 +110,7 @@ Sau mỗi task, thêm mục vào cuối `docs/DEVELOPMENT_LOG.md`:
 ## 7. Làm việc chung giữa nhiều agent
 
 - Codex và Claude Code có thể cùng làm trên repo này. **Không chạy hai agent sửa cùng lúc** trên cùng thư mục; xong việc thì commit rồi mới chuyển.
-- Commit nhỏ, mỗi task một commit, thông điệp tiếng Anh dạng `M{n}-{k}: ...`. Không push, không đổi lịch sử git nếu owner chưa yêu cầu.
+- Commit nhỏ, mỗi task một commit, thông điệp tiếng Anh dạng `M{n}-{k}: ...`.
+- **Push sau mỗi commit** (owner 2026-11-15): repo GitHub private `hoangbg98/PROJECT_ECLIPSE` (remote `origin`). Hook `tools/git-hooks/post-commit` tự push chạy nền (bật một lần mỗi máy: `git config core.hooksPath tools/git-hooks`), kết quả ở `.git/auto-push.log`. Agent kiểm tra `git status -sb` sau commit; còn `ahead` thì `git push`. Push bị từ chối vì GitHub có commit mới hơn: `git pull --rebase` rồi push lại, xung đột thì hỏi owner. Không force push, không đổi lịch sử đã push nếu owner chưa yêu cầu.
 - Không sửa `addons/gdUnit4/` và `tools/pixelfx/` (code bên thứ ba); muốn đổi thì ghi lý do vào nhật ký.
 - Không commit `build/`, `reports/`, `.godot/`, `tools/pixelfx/records/`.
