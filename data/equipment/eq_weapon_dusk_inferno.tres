@@ -65,7 +65,7 @@ trigger = "while_self_stacks"
 trigger_arg = "heat"
 trigger_value = 3.0
 action = "buff"
-note = "+8% tất cả ST nữa (toàn đội) khi Enkiba có ≥ 3 Nhiệt"
+note = "+8% tất cả ST nữa (toàn đội) khi người đeo có ≥ 3 Nhiệt"
 
 [sub_resource type="Resource" id="Effect_7"]
 script = ExtResource("2")
@@ -73,7 +73,7 @@ kind = 2
 exclusive = true
 condition = "stun"
 value = 0.15
-note = "Kẻ địch đang Choáng chịu +15% tất cả ST từ Enkiba"
+note = "Kẻ địch đang Choáng chịu +15% tất cả ST từ người đeo"
 
 [sub_resource type="Resource" id="Effect_8"]
 script = ExtResource("2")

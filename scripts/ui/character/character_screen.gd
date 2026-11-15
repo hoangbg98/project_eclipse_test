@@ -856,7 +856,8 @@ func _build_weapon_detail() -> void:
 	_art(layout.rect(p + "art"), _equip_art(d), layout.text(p + "art.placeholder_label", ""), Rect2(0, 0, 1, 1), "WeaponDetailArt")
 	var who := inv.equipped_by(uid)
 	if who != "":
-		_label(layout.rect(p + "wearer"), tr("WEAPON_UI_WEARER") % char_name(who), layout.font(p + "wearer", 26), Color.WHITE)
+		_label(layout.rect(p + "wearer"), tr("WEAPON_UI_WEARER") % suit_label(who), layout.font(p + "wearer", 26),
+				Color.WHITE).name = "WeaponWearer"
 	if mt > 0:
 		_label(layout.rect(p + "tier"), tr("WEAPON_UI_TIER") % [tier, mt], layout.font(p + "tier", 34),
 				layout.color("accent", Color.ORANGE)).name = "WeaponTier"
@@ -935,16 +936,32 @@ func weapon_skill_text(uid: String) -> String:
 	parts.append("[color=#B8BCCB]%s[/color]" % tr("WEAPON_UI_ACTIVE_NOTE"))
 	parts.append("")
 	parts.append("[b]" + hl % tr("WEAPON_UI_PASSIVE") + "[/b]")
-	var lines := PackedStringArray()
+	# Owner 2026-11-15: hiệu ứng chung liệt kê trước; hiệu ứng độc quyền gom dưới "Khi <tên giáp> trang bị:", mỗi dòng
+	# một hiệu ứng (không lặp tên nhân vật).
+	var common := PackedStringArray()
+	var exclusive := PackedStringArray()
 	for e in d.effects:
 		if e == null or e.note == "":
 			continue
-		var line := "• " + e.note
 		if e.exclusive and d.owner_id != "":
-			line = "• [color=#7FD4FF][%s][/color] %s" % [tr("WEAPON_UI_EXCLUSIVE") % char_name(d.owner_id), e.note]
-		lines.append(line)
-	parts.append("\n".join(lines) if not lines.is_empty() else tr("WEAPON_UI_NO_PASSIVE"))
+			exclusive.append("• " + e.note)
+		else:
+			common.append("• " + e.note)
+	if common.is_empty() and exclusive.is_empty():
+		parts.append(tr("WEAPON_UI_NO_PASSIVE"))
+	parts.append_array(common)
+	if not exclusive.is_empty():
+		if not common.is_empty():
+			parts.append("")
+		parts.append("[b][color=#7FD4FF]%s[/color][/b]" % (tr("WEAPON_UI_WHEN_EQUIPPED") % suit_label(d.owner_id)))
+		parts.append_array(exclusive)
 	return "\n".join(parts)
+
+
+## Tên giáp (vd "Hỏa Diễm Mãnh Liệt"); chưa có tên giáp thì tên nhân vật.
+func suit_label(id: String) -> String:
+	var s := suit_name(id)
+	return s if s != "" else char_name(id)
 
 
 func enhance_with(material_id: String) -> void:

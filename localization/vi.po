@@ -2859,8 +2859,6 @@ msgstr "Kĩ năng vũ khí theo giáp đang trang bị."
 msgid "WEAPON_UI_NO_PASSIVE"
 msgstr "Vũ khí này không có kĩ năng bị động."
 
-msgid "WEAPON_UI_EXCLUSIVE"
-msgstr "Độc quyền %s"
 
 msgid "WEAPON_UI_NO_LORE"
 msgstr "Chưa có mô tả."
@@ -2970,3 +2968,6 @@ msgstr "Cảm ơn NEO!"
 
 msgid "TUTORIAL_PARTY_CONFIRM"
 msgstr "Chạm Xác nhận đội ngũ để lưu đội hình."
+
+msgid "WEAPON_UI_WHEN_EQUIPPED"
+msgstr "Khi %s trang bị:"

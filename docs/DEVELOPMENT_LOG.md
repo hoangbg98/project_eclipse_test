@@ -1940,3 +1940,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 670/670 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt.
 - **Quyết định Claude chọn:** thưởng cố định (ải không có rơi ngẫu nhiên): mỗi lượt qua ải 1-5 → 1-9 được 1, ải 1-10 được 2; lần đầu 1-5 → 1-9 mỗi ải 1, ải 1-10 được 3 (tổng lần đầu 8: đủ nâng hết 2 bậc vũ khí 4★ cần 6, vũ khí 5★ cần 12 phải cày lại). Ải 1-1 → 1-4 (có hướng dẫn người mới) giữ nguyên.
 - **Hạn chế đã biết:** số do Claude đặt, owner chỉnh trong generator rồi chạy lại.
+
+
+## 2026-11-15 — M5: ảnh 5 vũ khí 5★ còn lại, gọn mô tả bị động theo tên giáp
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15: đưa ảnh vũ khí của 5 nhân vật còn lại vào game; phần bị động của vũ khí độc quyền ghi "Khi <tên giáp> trang bị:" rồi liệt kê hiệu ứng, không lặp tên nhân vật.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/equipment/weapons/eq_weapon_{solar_verdict,unyielding_peak,last_gale,twin_thunder,crescent_pact}.png` (+ `.import`); `tools/cut_flat_bg.py` (tùy chọn `--holes N`, `--hole-t`: xóa cả lỗ nền bị vật bao kín); `tools/gen_equipment_5star.py` (8 dòng `note` thay tên nhân vật bằng "người đeo") → 6 file `data/equipment/eq_weapon_*.tres` 5★ (thêm `art`, sửa `note`); `scripts/ui/character/character_screen.gd` (`weapon_skill_text`: hiệu ứng chung trước, hiệu ứng độc quyền dưới "Khi <giáp> trang bị:"; `suit_label`; dòng "Đang trang bị" ghi tên giáp); `tools/add_locale_keys.py`, `localization/vi.po`, `en.po` (+`WEAPON_UI_WHEN_EQUIPPED`, bỏ `WEAPON_UI_EXCLUSIVE`); `tests/unit/ui/test_character_screen.gd`; `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
+- **Đã chạy:** `python -X utf8 -I tools/cut_flat_bg.py <webp> <png> --holes 400` (×5); `python -X utf8 -I tools/gen_equipment_5star.py`; `python -X utf8 -I tools/add_locale_keys.py`; `<godot> --headless --path . --import`; GdUnit màn Nhân vật + progression (97/97); `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 5 ảnh 1950×1030 RGBA, trong suốt hẳn 70.6–92.8%; kiểm bằng ảnh ghép trên nền hồng / xanh: không còn xám ở khe cung, vòng trượng, vòng lưỡi hái, khoen chuôi đao. `run_tests.ps1` mã thoát 0: GdUnit 670/670 đạt, 5/5 test khói đạt.
+- **Quyết định Claude chọn:** ghép ảnh theo loại vũ khí (trượng → Nhật Miện Phán Quyết, đại kiếm → Cốt Sơn Bất Khuất, cung → Hơi Thở Cuối Mùa Gió, song đao → Hai Tiếng Sấm, lưỡi hái → Liềm Khế Ước Trăng Khuyết).
+- **Hạn chế đã biết:** chưa có ảnh chụp màn cho 5 vũ khí mới (công cụ chụp chỉ trang bị cho Enkiba).

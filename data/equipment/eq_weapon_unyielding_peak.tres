@@ -64,7 +64,7 @@ magnitude = 0.06
 trigger = "weapon_used"
 icd = 10.0
 action = "buff"
-note = "Toàn đội giảm 6% ST nhận trong 6s sau khi Iwagane dùng Kĩ năng vũ khí (ICD 10s)"
+note = "Toàn đội giảm 6% ST nhận trong 6s sau khi người đeo dùng Kĩ năng vũ khí (ICD 10s)"
 
 [sub_resource type="Resource" id="Effect_7"]
 script = ExtResource("2")
@@ -72,7 +72,7 @@ kind = 2
 exclusive = true
 condition = "armor_break"
 value = 0.12
-note = "Kẻ địch mang Phá Giáp chịu +12% ST từ Iwagane"
+note = "Kẻ địch mang Phá Giáp chịu +12% ST từ người đeo"
 
 [sub_resource type="Resource" id="Effect_8"]
 script = ExtResource("2")
@@ -133,5 +133,6 @@ cdr = 0.0
 growth_per_level = 0.1
 enhance_gold_base = 1000
 enhance_points_base = 500
+art = "res://assets/equipment/weapons/eq_weapon_unyielding_peak.png"
 effects = Array[ExtResource("2")]([SubResource("Effect_0"), SubResource("Effect_1"), SubResource("Effect_2"), SubResource("Effect_3"), SubResource("Effect_4"), SubResource("Effect_5"), SubResource("Effect_6"), SubResource("Effect_7"), SubResource("Effect_8"), SubResource("Effect_9"), SubResource("Effect_10"), SubResource("Effect_11"), SubResource("Effect_12")])
 metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

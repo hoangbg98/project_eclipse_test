@@ -359,7 +359,10 @@ func test_weapon_detail_skill_text() -> void:
 	var t := s.weapon_skill_text(five)
 	assert_bool(t.contains(SkillText.skill_name(A, "weapon"))).is_true()
 	assert_bool(t.contains("Người đeo +8% tất cả ST")).is_true()
-	assert_bool(t.contains(tr("WEAPON_UI_EXCLUSIVE") % s.char_name(A))).is_true()
+	assert_bool(t.contains(tr("WEAPON_UI_WHEN_EQUIPPED") % s.suit_label(A))).is_true()
+	assert_bool(t.contains("Kẻ địch đang Choáng chịu +15% tất cả ST từ người đeo")).is_true()
+	assert_bool(t.contains(s.char_name(A) + " ")).is_false()                     # không lặp tên nhân vật
+	assert_int(t.find(tr("WEAPON_UI_WHEN_EQUIPPED") % s.suit_label(A))).is_greater(t.find("Người đeo +8% tất cả ST"))
 	assert_bool(s.weapon_skill_text(three).contains(tr("WEAPON_UI_NO_PASSIVE"))).is_true()
 	s.open_weapon_detail()
 	assert_bool((_node(s, "WeaponSkills") as RichTextLabel).text.contains(tr("WEAPON_UI_PASSIVE"))).is_true()
