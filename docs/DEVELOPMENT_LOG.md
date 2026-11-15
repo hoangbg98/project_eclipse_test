@@ -1875,3 +1875,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** ảnh 1950×1030 RGBA, nền (59, 59, 59) trong suốt hẳn 86.7%, trong mờ 1.1% (lửa mũi kiếm); lưỡi kiếm alpha 255. Hiện ở tab Vũ khí (ô 975×515) và thẻ vũ khí tab tổng quan (415×205). `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại, `reports/report_216`), 5/5 test khói đạt.
 - **Quyết định Claude chọn:** lần xóa nền đầu (chỉ loang theo màu) làm nửa trên lưỡi kiếm trong mờ vì màu lưỡi gần màu nền → thêm bước nới vật thể 4 px trước khi loang; thư mục ảnh trang bị `assets/equipment/weapons/`, `assets/equipment/stigmata/`, tên file = Data ID.
 - **Hạn chế đã biết:** dòng chỉ số ở tab Vũ khí đè nhẹ lên góc dưới trái ô ảnh (bố cục cũ); generator 4★ / 3★ (`gen_item_data.py`) chưa tự ghi `art`.
+
+
+## 2026-11-15 — Art: Hikarine idle frames (AI)
+- **Milestone / task:** Asset — tạo và owner duyệt animation `idle` cho Hikarine (`char_light_01`), 6 frame, 8 fps, lặp.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_light_01/frames/idle/char_light_01_idle_000.png`–`char_light_01_idle_005.png` (+ `.import`); `assets/characters/char_light_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/slice_strip.py char_light_01 idle art_review/char_light_01/idle/_strips/hikarine_idle_strip_01.png`; `python -I tools/frames/check_frames.py char_light_01 idle`; sau owner duyệt: `python -I tools/frames/approve_frames.py char_light_01 idle`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `check_frames.py` ĐẠT (6 frame, 8 fps, lặp); `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt.
+- **Quyết định Codex chọn:** tạo một dải ngang 6 pose trong một lần gọi imagegen theo phiếu; giữ dải đã duyệt và metadata trong `art_review/` để lưu vết review. Imagegen không cung cấp model ID.
+- **Hạn chế đã biết:** ảnh tạo có góc nhìn 3/4 thay vì ngang hoàn toàn; nhịp chuyển động giữa các pose nhẹ. Owner đã duyệt dải này.
