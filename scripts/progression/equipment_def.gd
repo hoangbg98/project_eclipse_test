@@ -43,9 +43,10 @@ const STIGMA_SLOTS: Array[String] = ["stigma_top", "stigma_mid", "stigma_bot"]
 @export var enhance_points_base := 100
 
 
-## Hệ số chỉ số cộng thẳng ở cấp cường hóa `level`.
-func flat_multiplier(level: int) -> float:
-	return 1.0 + growth_per_level * float(clampi(level, 0, max_level))
+## Hệ số chỉ số cộng thẳng ở cấp cường hóa `level`. `cap` âm = giới hạn `max_level`; vũ khí đã nâng bậc truyền
+## giới hạn mới (Inventory.level_cap).
+func flat_multiplier(level: int, cap := -1) -> float:
+	return 1.0 + growth_per_level * float(clampi(level, 0, cap if cap >= 0 else max_level))
 
 
 func gold_to_enhance(level: int) -> int:

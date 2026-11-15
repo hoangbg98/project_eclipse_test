@@ -12,6 +12,14 @@
 		"path": "res://assets/characters/{id}/splash/{id}_splash_{name}.png",
 		"overview": "overview", "level": "level", "weapon": "weapon", "stigma": "stigma", "skill": "skill"
 	},
+	"backgrounds": {
+		"_ghi_chu": "Ảnh nền từng màn (owner 2026-11-15; prompt ở docs/prompts/gemini/character_screen_backgrounds.md). Giá trị là tên file (chỗ {name}); thiếu file thì dùng 'default', vẫn thiếu thì nền màu 'background'. Ảnh phủ kín màn (cắt mép, giữ tỉ lệ).",
+		"path": "res://assets/ui/character/backgrounds/{name}.png",
+		"default": "bg_character_default",
+		"overview": "bg_character_select", "level": "bg_character_level", "weapon": "bg_character_weapon",
+		"weapon_detail": "bg_weapon_detail", "stigma": "bg_character_stigma", "skill": "bg_character_skill",
+		"skill_detail": "bg_skill_detail"
+	},
 	"colors": {
 		"background": "#1B1E2B",
 		"panel": "#14161FE0",
@@ -110,9 +118,30 @@
 		"stars": {"rect": [1020, 236, 300, 48], "anchor": "right", "font": 40},
 		"art": {"rect": [915, 302, 975, 515], "anchor": "right", "placeholder_label": "ẢNH VŨ KHÍ"},
 		"badge": {"rect": [930, 318, 66, 66], "anchor": "right", "font": 36},
-		"stats": {"rect": [940, 740, 900, 60], "anchor": "right", "font": 28},
-		"enhance_button": {"rect": [1360, 838, 255, 66], "anchor": "right", "font": 32, "text_key": "CHAR_ENHANCE"},
+		"detail_button": {"rect": [1360, 838, 255, 66], "anchor": "right", "font": 32, "text_key": "WEAPON_UI_DETAIL"},
 		"change_button": {"rect": [1630, 838, 255, 66], "anchor": "right", "font": 32, "text_key": "CHAR_UI_CHANGE"}
+	},
+	"weapon_detail": {
+		"left_panel": {"rect": [45, 120, 925, 610]},
+		"name": {"rect": [70, 130, 880, 62], "font": 42},
+		"type": {"rect": [70, 190, 500, 44], "font": 28},
+		"art": {"rect": [215, 236, 560, 296], "placeholder_label": "ẢNH VŨ KHÍ"},
+		"wearer": {"rect": [70, 546, 520, 56], "font": 26},
+		"tier": {"rect": [70, 606, 300, 50], "font": 34},
+		"stars": {"rect": [70, 658, 420, 56], "font": 44},
+		"change_button": {"rect": [700, 646, 250, 64], "font": 30, "text_key": "CHAR_UI_CHANGE"},
+		"lore": {"rect": [45, 748, 925, 186], "font": 28},
+		"level_panel": {"rect": [45, 952, 925, 92]},
+		"level_text": {"rect": [70, 956, 330, 84], "font": 44},
+		"level_hint": {"rect": [420, 958, 530, 40], "font": 24},
+		"level_bar": {"rect": [420, 1010, 525, 10]},
+		"stats_panel": {"rect": [1020, 120, 855, 215], "anchor": "right"},
+		"stat_rows": {"origin": [1050, 140], "cell": [400, 56], "columns": 2, "font": 30, "anchor": "right"},
+		"skill_panel": {"rect": [1020, 355, 855, 580], "anchor": "right"},
+		"skill_header": {"rect": [1030, 365, 835, 60], "font": 34, "anchor": "right"},
+		"skill_text": {"rect": [1045, 440, 810, 480], "font": 26, "anchor": "right"},
+		"enhance_button": {"rect": [1020, 955, 410, 88], "font": 36, "anchor": "right", "text_key": "CHAR_ENHANCE"},
+		"ascend_button": {"rect": [1465, 955, 410, 88], "font": 36, "anchor": "right", "text_key": "WEAPON_UI_ASCEND"}
 	},
 	"stigma_tab": {
 		"back_art": {"rect": [60, 0, 880, 1080], "placeholder_label": "ẢNH NHÂN VẬT (lưng)"},

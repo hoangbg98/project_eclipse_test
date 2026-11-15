@@ -30,7 +30,7 @@ func test_data_is_valid() -> void:
 	assert_array(_rules.validate()).is_empty()
 	assert_array(PlayerProfile.item_defs().errors).is_empty()
 	assert_array(PlayerProfile.equipment_defs().errors).is_empty()
-	assert_int(PlayerProfile.item_defs().defs.size()).is_equal(6)
+	assert_int(PlayerProfile.item_defs().defs.size()).is_equal(7)    # + nguyên liệu nâng bậc vũ khí (2026-11-15)
 	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(59)   # 16 cũ + 6 vũ khí 5★ + 18 vết thánh 5★ + 4 bộ 4★ mới × 4 + 3 vũ khí 3★ mới
 	var slots := {}
 	for id in PlayerProfile.equipment_defs().ids():
@@ -167,6 +167,43 @@ func test_enhance_costs_and_caps() -> void:
 	for i in 9:
 		assert_str(_inv.enhance(w, "mat_enhance_crystal")).is_equal("")
 	assert_int(_inv.equipment_level(w)).is_equal(10)
+	assert_str(_inv.enhance(w, "mat_enhance_crystal")).is_equal(Inventory.REASON_MAX_LEVEL)
+
+
+## Nâng bậc vũ khí (owner 2026-11-15): đủ cấp + vàng + nguyên liệu thì +1 bậc, mở thêm level_step cấp; vết thánh không có bậc.
+func test_weapon_ascension_raises_level_cap() -> void:
+	var w := _inv.add_equipment("eq_weapon_flame")                    # 4★: tối đa 2 bậc
+	var s := _inv.add_equipment("eq_stigma_top_blaze")
+	var step := _rules.weapon_ascend_level_step
+	assert_int(_inv.max_tier(w)).is_equal(_rules.weapon_max_tier(4))
+	assert_int(_inv.max_tier(w)).is_equal(2)
+	assert_int(_inv.max_tier(s)).is_equal(0)
+	assert_int(_inv.level_cap(w)).is_equal(10)
+	assert_str(_inv.check_ascend(w)).is_equal(Inventory.REASON_LEVEL_CAP)    # chưa đạt Lv.10
+	_data["inventory"]["equipment"][w]["level"] = 10
+	assert_str(_inv.ascend(w)).is_equal(Inventory.REASON_NOT_ENOUGH)
+	var cost := _inv.ascend_cost(w)
+	assert_int(int(cost["count"])).is_equal(_rules.weapon_ascend_material_count[0])
+	_inv.add_currency("gold", 100000)
+	_inv.add_material(_rules.weapon_ascend_material, 20)
+	var atk_before: float = _inv.equipped_bonus(A)["atk"]
+	_inv.equip(A, w)
+	var bonus_10: float = _inv.equipped_bonus(A)["atk"]
+	assert_str(_inv.ascend(w)).is_equal("")
+	assert_int(_inv.equipment_tier(w)).is_equal(1)
+	assert_int(_inv.level_cap(w)).is_equal(10 + step)
+	assert_int(_inv.currency("gold")).is_equal(100000 - _rules.weapon_ascend_gold[0])
+	assert_int(_inv.material_count(_rules.weapon_ascend_material)).is_equal(20 - _rules.weapon_ascend_material_count[0])
+	_inv.add_material("mat_enhance_crystal", 500)
+	assert_str(_inv.enhance(w, "mat_enhance_crystal")).is_equal("")    # vượt Lv.10
+	assert_int(_inv.equipment_level(w)).is_equal(11)
+	assert_float(_inv.equipped_bonus(A)["atk"]).is_greater(bonus_10)   # chỉ số tăng tiếp sau Lv.10
+	assert_float(atk_before).is_less(bonus_10)
+	_data["inventory"]["equipment"][w]["level"] = 10 + step
+	assert_str(_inv.ascend(w)).is_equal("")
+	_data["inventory"]["equipment"][w]["level"] = 10 + 2 * step
+	assert_str(_inv.check_ascend(w)).is_equal(Inventory.REASON_MAX_LEVEL)   # hết bậc
+	assert_bool(_inv.ascend_cost(w).is_empty()).is_true()
 	assert_str(_inv.enhance(w, "mat_enhance_crystal")).is_equal(Inventory.REASON_MAX_LEVEL)
 
 

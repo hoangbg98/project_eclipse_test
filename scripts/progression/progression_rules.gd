@@ -33,6 +33,17 @@ extends Resource
 ## Vàng để nâng từ cấp L lên L + 1 = skill_upgrade_gold_base × L.
 @export var skill_upgrade_gold_base := 500
 
+@export_group("Nâng bậc vũ khí")
+## Nâng bậc (owner 2026-11-15, cơ chế do Claude chọn): vũ khí đạt giới hạn cường hóa thì nâng bậc để mở thêm cấp.
+## Giới hạn cấp = EquipmentDef.max_level + bậc × weapon_ascend_level_step. Chỉ vũ khí; vết thánh không có bậc.
+## Bậc tối đa theo độ hiếm: phần tử i = vũ khí (i + 1)★.
+@export var weapon_ascend_max_tier: PackedInt32Array = PackedInt32Array([0, 0, 1, 2, 3])
+@export var weapon_ascend_level_step := 5
+## Nguyên liệu nâng bậc (ItemDef) và số lượng / vàng cho từng bước: phần tử i = từ bậc i lên i + 1.
+@export var weapon_ascend_material := "mat_weapon_ascend"
+@export var weapon_ascend_material_count: PackedInt32Array = PackedInt32Array([2, 4, 6])
+@export var weapon_ascend_gold: PackedInt32Array = PackedInt32Array([5000, 10000, 20000])
+
 @export_group("Chi phí")
 ## Vàng tốn cho mỗi điểm EXP nạp bằng nguyên liệu.
 @export var gold_per_exp := 0.2
@@ -66,6 +77,14 @@ func skill_upgrade_gold(level: int) -> int:
 	return skill_upgrade_gold_base * maxi(level, 1)
 
 
+## Bậc tối đa của vũ khí `rarity`★ (0 = không nâng bậc được).
+func weapon_max_tier(rarity: int) -> int:
+	var i := rarity - 1
+	if i < 0 or i >= weapon_ascend_max_tier.size():
+		return 0
+	return mini(weapon_ascend_max_tier[i], mini(weapon_ascend_material_count.size(), weapon_ascend_gold.size()))
+
+
 func stat_multiplier(growth: float, level: int) -> float:
 	return 1.0 + growth * float(clampi(level, 1, max_level) - 1)
 
@@ -79,4 +98,10 @@ func validate() -> PackedStringArray:
 	for v in [hp_growth_per_level, atk_growth_per_level, def_growth_per_level, gold_per_exp]:
 		if v < 0.0:
 			e.append("growth / chi phí không được âm")
+	if weapon_ascend_level_step < 0:
+		e.append("weapon_ascend_level_step không được âm")
+	for t in weapon_ascend_max_tier:
+		if t > mini(weapon_ascend_material_count.size(), weapon_ascend_gold.size()):
+			e.append("weapon_ascend_max_tier vượt số bước có giá (material_count / gold)")
+			break
 	return e

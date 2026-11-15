@@ -11,6 +11,9 @@ const SHOTS := [
 	["5_skill_tree", "tab", "skill"],
 	["6_skill_detail", "skill", "ultimate"],
 	["7_filter", "filter", "S"],
+	["8_weapon_detail", "weapon_detail", ""],
+	["9_weapon_enhance", "weapon_picker", "enhance"],
+	["10_weapon_ascend", "weapon_picker", "ascend"],
 ]
 
 var _frames := 0
@@ -26,6 +29,8 @@ func _prepare() -> void:
 	p.inventory.add_currency("gold", 12345)
 	p.inventory.add_material("mat_exp_small", 5)
 	p.inventory.add_material("mat_exp_medium", 2)
+	p.inventory.add_material("mat_enhance_ore", 8)
+	p.inventory.add_material("mat_weapon_ascend", 3)
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_weapon_dusk_inferno"))   # có ảnh thật (owner 2026-11-15)
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_elite"))
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_guardian"))
@@ -65,6 +70,12 @@ func _process(_delta: float) -> bool:
 				_screen.view = CharacterScreen.View.OVERVIEW
 				_screen.filter_open = true
 				_screen.toggle_filter("rank", str(s[2]))
+			"weapon_detail":
+				_screen.filter_open = false
+				_screen.open_weapon_detail()
+			"weapon_picker":
+				_screen.open_weapon_detail()
+				_screen.open_picker(str(s[2]))
 	if _frames % 12 == 10:
 		var out := "res://build/screenshots/character_%s%s.png" % [_suffix(), str(SHOTS[_index][0])]
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out.get_base_dir()))

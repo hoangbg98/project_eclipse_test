@@ -2830,3 +2830,66 @@ msgstr "Oak Staff"
 
 msgid "EQUIP_EQ_WEAPON_SCYTHE_IRON"
 msgstr "Black Iron Scythe"
+
+msgid "ITEM_MAT_WEAPON_ASCEND"
+msgstr "Ascension Crystal"
+
+msgid "WEAPON_UI_DETAIL"
+msgstr "Details"
+
+msgid "WEAPON_UI_TIER"
+msgstr "Tier %d/%d"
+
+msgid "WEAPON_UI_ASCEND"
+msgstr "Ascend"
+
+msgid "WEAPON_UI_SKILLS"
+msgstr "Weapon skills"
+
+msgid "WEAPON_UI_ACTIVE"
+msgstr "Active"
+
+msgid "WEAPON_UI_PASSIVE"
+msgstr "Passive"
+
+msgid "WEAPON_UI_ACTIVE_NOTE"
+msgstr "The weapon skill comes from the equipped battlesuit."
+
+msgid "WEAPON_UI_NO_PASSIVE"
+msgstr "This weapon has no passive skill."
+
+msgid "WEAPON_UI_EXCLUSIVE"
+msgstr "Exclusive to %s"
+
+msgid "WEAPON_UI_NO_LORE"
+msgstr "No description yet."
+
+msgid "WEAPON_UI_WEARER"
+msgstr "Equipped by: %s"
+
+msgid "WEAPON_UI_CAP_HINT"
+msgstr "Level cap reached. Ascend to unlock %d more levels."
+
+msgid "WEAPON_UI_MAXED"
+msgstr "Maxed"
+
+msgid "WEAPON_UI_NEED_LEVEL"
+msgstr "Enhance to Lv.%d first."
+
+msgid "WEAPON_UI_ASCEND_TIER"
+msgstr "Tier %d → %d"
+
+msgid "WEAPON_UI_ASCEND_CAP"
+msgstr "Level cap %d → %d"
+
+msgid "WEAPON_UI_COST"
+msgstr "Cost: %s %d/%d · %s %d"
+
+msgid "WEAPON_UI_ENHANCE_ROW"
+msgstr "%s ×%d — needs %d · %d %s"
+
+msgid "WEAPON_UI_NEXT"
+msgstr "Lv.%d → Lv.%d"
+
+msgid "WEAPON_UI_CONFIRM"
+msgstr "Confirm"

@@ -2830,3 +2830,66 @@ msgstr "Trượng gỗ sồi"
 
 msgid "EQUIP_EQ_WEAPON_SCYTHE_IRON"
 msgstr "Lưỡi hái sắt đen"
+
+msgid "ITEM_MAT_WEAPON_ASCEND"
+msgstr "Tinh thể nâng bậc"
+
+msgid "WEAPON_UI_DETAIL"
+msgstr "Chi tiết"
+
+msgid "WEAPON_UI_TIER"
+msgstr "Bậc %d/%d"
+
+msgid "WEAPON_UI_ASCEND"
+msgstr "Nâng bậc"
+
+msgid "WEAPON_UI_SKILLS"
+msgstr "Kĩ năng vũ khí"
+
+msgid "WEAPON_UI_ACTIVE"
+msgstr "Chủ động"
+
+msgid "WEAPON_UI_PASSIVE"
+msgstr "Bị động"
+
+msgid "WEAPON_UI_ACTIVE_NOTE"
+msgstr "Kĩ năng vũ khí theo giáp đang trang bị."
+
+msgid "WEAPON_UI_NO_PASSIVE"
+msgstr "Vũ khí này không có kĩ năng bị động."
+
+msgid "WEAPON_UI_EXCLUSIVE"
+msgstr "Độc quyền %s"
+
+msgid "WEAPON_UI_NO_LORE"
+msgstr "Chưa có mô tả."
+
+msgid "WEAPON_UI_WEARER"
+msgstr "Đang trang bị: %s"
+
+msgid "WEAPON_UI_CAP_HINT"
+msgstr "Đạt giới hạn cấp. Nâng bậc để mở thêm %d cấp."
+
+msgid "WEAPON_UI_MAXED"
+msgstr "Đã tối đa"
+
+msgid "WEAPON_UI_NEED_LEVEL"
+msgstr "Cần cường hóa tới Lv.%d trước."
+
+msgid "WEAPON_UI_ASCEND_TIER"
+msgstr "Bậc %d → %d"
+
+msgid "WEAPON_UI_ASCEND_CAP"
+msgstr "Giới hạn cấp %d → %d"
+
+msgid "WEAPON_UI_COST"
+msgstr "Cần: %s %d/%d · %s %d"
+
+msgid "WEAPON_UI_ENHANCE_ROW"
+msgstr "%s ×%d — cần %d · %d %s"
+
+msgid "WEAPON_UI_NEXT"
+msgstr "Lv.%d → Lv.%d"
+
+msgid "WEAPON_UI_CONFIRM"
+msgstr "Xác nhận"

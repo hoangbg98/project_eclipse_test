@@ -30,7 +30,11 @@ write("data/config/progression.tres", "progression_rules.gd", "ProgressionRules"
     ("hp_growth_per_level", 0.06), ("atk_growth_per_level", 0.06), ("def_growth_per_level", 0.05),
     ("gold_per_exp", 0.2), ("skill_max_level", 10), ("skill_upgrade_gold_base", 500),
     ("captain_max_level", 50), ("captain_exp_base", 50.0), ("promotion_fragments", "PackedInt32Array(10, 20, 25)"),
-    ("promotion_stat_bonus", 0.05)])
+    ("promotion_stat_bonus", 0.05),
+    # Nâng bậc vũ khí (owner 2026-11-15; số khởi điểm Claude đặt): bậc tối đa theo 1★..5★, +5 giới hạn cấp mỗi bậc.
+    ("weapon_ascend_max_tier", "PackedInt32Array(0, 0, 1, 2, 3)"), ("weapon_ascend_level_step", 5),
+    ("weapon_ascend_material", "mat_weapon_ascend"), ("weapon_ascend_material_count", "PackedInt32Array(2, 4, 6)"),
+    ("weapon_ascend_gold", "PackedInt32Array(5000, 10000, 20000)")])
 
 EXP, ENHANCE, MISC = 0, 1, 2
 ITEMS = [  # id, kind, value, rarity, vi, en
@@ -39,6 +43,7 @@ ITEMS = [  # id, kind, value, rarity, vi, en
     ("mat_exp_large", EXP, 2000, 3, "Sách kinh nghiệm lớn", "Large EXP Book"),
     ("mat_enhance_ore", ENHANCE, 50, 1, "Quặng cường hóa", "Enhancement Ore"),
     ("mat_enhance_crystal", ENHANCE, 250, 3, "Tinh thể cường hóa", "Enhancement Crystal"),
+    ("mat_weapon_ascend", MISC, 0, 4, "Tinh thể nâng bậc", "Ascension Crystal"),
 ]
 for iid, kind, value, rarity, vi, en in ITEMS:
     write("data/items/%s.tres" % iid, "item_def.gd", "ItemDef",

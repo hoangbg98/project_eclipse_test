@@ -291,6 +291,27 @@ KEYS = [
     ("STATUS_STONE_GOD", "Thạch Thần", "Stone God"),
     # Kazeyumi tuyệt kỹ
     ("STATUS_STORM_BLESSING", "Bão Tiễn", "Arrow Storm"),
+    # Màn chi tiết vũ khí + nâng bậc (owner 2026-11-15)
+    ("WEAPON_UI_DETAIL", "Chi tiết", "Details"),
+    ("WEAPON_UI_TIER", "Bậc %d/%d", "Tier %d/%d"),
+    ("WEAPON_UI_ASCEND", "Nâng bậc", "Ascend"),
+    ("WEAPON_UI_SKILLS", "Kĩ năng vũ khí", "Weapon skills"),
+    ("WEAPON_UI_ACTIVE", "Chủ động", "Active"),
+    ("WEAPON_UI_PASSIVE", "Bị động", "Passive"),
+    ("WEAPON_UI_ACTIVE_NOTE", "Kĩ năng vũ khí theo giáp đang trang bị.", "The weapon skill comes from the equipped battlesuit."),
+    ("WEAPON_UI_NO_PASSIVE", "Vũ khí này không có kĩ năng bị động.", "This weapon has no passive skill."),
+    ("WEAPON_UI_EXCLUSIVE", "Độc quyền %s", "Exclusive to %s"),
+    ("WEAPON_UI_NO_LORE", "Chưa có mô tả.", "No description yet."),
+    ("WEAPON_UI_WEARER", "Đang trang bị: %s", "Equipped by: %s"),
+    ("WEAPON_UI_CAP_HINT", "Đạt giới hạn cấp. Nâng bậc để mở thêm %d cấp.", "Level cap reached. Ascend to unlock %d more levels."),
+    ("WEAPON_UI_MAXED", "Đã tối đa", "Maxed"),
+    ("WEAPON_UI_NEED_LEVEL", "Cần cường hóa tới Lv.%d trước.", "Enhance to Lv.%d first."),
+    ("WEAPON_UI_ASCEND_TIER", "Bậc %d → %d", "Tier %d → %d"),
+    ("WEAPON_UI_ASCEND_CAP", "Giới hạn cấp %d → %d", "Level cap %d → %d"),
+    ("WEAPON_UI_COST", "Cần: %s %d/%d · %s %d", "Cost: %s %d/%d · %s %d"),
+    ("WEAPON_UI_ENHANCE_ROW", "%s ×%d — cần %d · %d %s", "%s ×%d — needs %d · %d %s"),
+    ("WEAPON_UI_NEXT", "Lv.%d → Lv.%d", "Lv.%d → Lv.%d"),
+    ("WEAPON_UI_CONFIRM", "Xác nhận", "Confirm"),
 ]
 
 for po, idx in (("vi.po", 1), ("en.po", 2)):

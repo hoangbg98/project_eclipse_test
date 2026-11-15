@@ -23,6 +23,7 @@ func _init(save_data: Dictionary) -> void:
 	data = save_data
 	rules = load(RULES_PATH)
 	inventory = Inventory.new(data, item_defs(), equipment_defs())
+	inventory.rules = rules
 	progression = Progression.new(data, rules, inventory)
 
 

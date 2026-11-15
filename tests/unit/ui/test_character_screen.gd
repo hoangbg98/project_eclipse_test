@@ -66,7 +66,8 @@ func test_layout_file_is_valid_and_complete() -> void:
 	assert_array(Array(l.errors)).is_empty()
 	assert_vector(l.design_size).is_equal(Vector2(1920, 1080))
 	for path in ["overview.character_art", "overview.title", "overview.weapon_card", "overview.roster", "detail.tab_bar",
-			"level_tab.exp_bar", "weapon_tab.art", "stigma_tab.set_text", "skill_detail.panel", "skill_detail.description"]:
+			"level_tab.exp_bar", "weapon_tab.art", "stigma_tab.set_text", "skill_detail.panel", "skill_detail.description",
+			"weapon_detail.art", "weapon_detail.skill_text", "weapon_detail.enhance_button", "weapon_detail.ascend_button"]:
 		assert_bool(l.rect(path).size.x > 0.0).override_failure_message(path).is_true()
 	assert_int((l.get_value("skill_tab.nodes", []) as Array).size()).is_equal(8)
 	assert_int((l.get_value("stigma_tab.cards.rects", []) as Array).size()).is_equal(3)
@@ -283,6 +284,29 @@ func test_weapon_picker_only_lists_matching_type_and_equips() -> void:
 	assert_str(s.candidates("weapon")[0]).is_equal(w2)                 # món đang mặc lên đầu
 
 
+## Tab Vũ khí không còn hiện chỉ số (owner 2026-11-15); nút Chi tiết / bấm ảnh mở màn chi tiết vũ khí.
+func test_weapon_tab_hides_stats_and_opens_detail() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	s.open_tab("weapon")
+	assert_bool((_node(s, "WeaponDetailButton") as Button).disabled).is_true()      # chưa mặc vũ khí
+	var w := inv.add_equipment("eq_weapon_flame")
+	inv.equip(A, w)
+	s.refresh()
+	assert_bool(_texts(s).contains(tr("STAT_ATK"))).is_false()
+	(_node(s, "WeaponArtButton") as Button).pressed.emit()
+	assert_int(s.view).is_equal(CharacterScreen.View.WEAPON_DETAIL)
+	assert_str((_node(s, "WeaponDetailName") as Label).text).is_equal(tr("EQUIP_EQ_WEAPON_FLAME"))
+	assert_bool(_texts(s).contains(tr("STAT_ATK"))).is_true()
+	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 0 / 10")
+	assert_str((_node(s, "WeaponTier") as Label).text).is_equal(tr("WEAPON_UI_TIER") % [0, 2])
+	s.intercept_back()
+	assert_int(s.view).is_equal(CharacterScreen.View.DETAIL)
+	assert_str(s.tab).is_equal("weapon")
+	(_node(s, "WeaponDetailButton") as Button).pressed.emit()
+	assert_int(s.view).is_equal(CharacterScreen.View.WEAPON_DETAIL)
+
+
 func test_enhance_weapon() -> void:
 	var s := _screen()
 	var inv := s.profile.inventory
@@ -290,10 +314,72 @@ func test_enhance_weapon() -> void:
 	inv.equip(A, w)
 	inv.add_currency("gold", 5000)
 	inv.add_material("mat_enhance_ore", 10)
-	s.open_tab("weapon")
+	s.open_weapon_detail()
 	(_node(s, "EnhanceButton") as Button).pressed.emit()
+	assert_str(s.picker).is_equal("enhance")
+	assert_bool((_node(s, "EnhancePreview") as Label).text.contains("→")).is_true()
+	assert_bool((_node(s, "EnhanceWith_mat_enhance_crystal") as Button).disabled).is_true()   # chưa có tinh thể
+	(_node(s, "EnhanceWith_mat_enhance_ore") as Button).pressed.emit()
 	assert_int(inv.equipment_level(w)).is_equal(1)
-	assert_bool(_texts(s).contains("+1")).is_true()
+	assert_str(s.picker).is_equal("enhance")                                        # bảng giữ mở để nâng tiếp
+	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 1 / 10")
+	assert_int(int(_disk()["inventory"]["equipment"][w]["level"])).is_equal(1)
+
+
+func test_ascend_weapon_from_detail() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var rules := s.profile.rules
+	var w := inv.add_equipment("eq_weapon_flame")
+	inv.equip(A, w)
+	s.open_weapon_detail()
+	(_node(s, "AscendButton") as Button).pressed.emit()
+	assert_str(s.picker).is_equal("ascend")
+	assert_bool((_node(s, "AscendConfirm") as Button).disabled).is_true()
+	assert_str((_node(s, "AscendReason") as Label).text).is_equal(tr("WEAPON_UI_NEED_LEVEL") % 10)
+	s.profile.data["inventory"]["equipment"][w]["level"] = 10
+	inv.add_currency("gold", 100000)
+	inv.add_material(rules.weapon_ascend_material, 10)
+	s.refresh()
+	assert_bool((_node(s, "AscendConfirm") as Button).disabled).is_false()
+	(_node(s, "AscendConfirm") as Button).pressed.emit()
+	assert_int(inv.equipment_tier(w)).is_equal(1)
+	assert_str(s.picker).is_equal("")
+	assert_str((_node(s, "WeaponLevel") as Label).text).is_equal("LV. 10 / %d" % (10 + rules.weapon_ascend_level_step))
+	assert_int(int(_disk()["inventory"]["equipment"][w]["tier"])).is_equal(1)
+
+
+## Kĩ năng chủ động = Kĩ năng vũ khí của giáp; bị động = dòng hiệu ứng của vũ khí, dòng độc quyền ghi tên giáp chủ.
+func test_weapon_detail_skill_text() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var five := inv.add_equipment("eq_weapon_dusk_inferno")
+	var three := inv.add_equipment("eq_weapon_iron")
+	inv.equip(A, five)
+	var t := s.weapon_skill_text(five)
+	assert_bool(t.contains(SkillText.skill_name(A, "weapon"))).is_true()
+	assert_bool(t.contains("Người đeo +8% tất cả ST")).is_true()
+	assert_bool(t.contains(tr("WEAPON_UI_EXCLUSIVE") % s.char_name(A))).is_true()
+	assert_bool(s.weapon_skill_text(three).contains(tr("WEAPON_UI_NO_PASSIVE"))).is_true()
+	s.open_weapon_detail()
+	assert_bool((_node(s, "WeaponSkills") as RichTextLabel).text.contains(tr("WEAPON_UI_PASSIVE"))).is_true()
+
+
+func test_background_image_per_view() -> void:
+	var s := _screen()
+	assert_str(s.background_key()).is_equal("overview")
+	s.open_tab("stigma")
+	assert_str(s.background_key()).is_equal("stigma")
+	s.open_skill("normal")
+	assert_str(s.background_key()).is_equal("skill_detail")
+	# Chưa có file ảnh nào: nền màu, không lỗi. Đổi đường dẫn sang ảnh có sẵn thì hiện ảnh.
+	s.layout.data["backgrounds"]["path"] = "res://assets/ui/recruit/{name}.png"
+	s.layout.data["backgrounds"]["default"] = "banner_char_terra_banner"
+	s.refresh()
+	assert_object(_node(s, "Background")).is_not_null()
+	s.layout.data["backgrounds"]["path"] = "res://khong_co/{name}.png"
+	s.refresh()
+	assert_object(_node(s, "Background")).is_null()
 
 
 func test_stigma_tab_three_slots_and_unequip() -> void:
@@ -423,6 +509,10 @@ func test_every_screen_builds_at_other_sizes() -> void:
 			s.open_tab(t)
 		for g in SkillText.GROUP_ORDER:
 			s.open_skill(g)
+		s.open_weapon_detail()
+		for pk in ["enhance", "ascend"]:
+			s.open_picker(pk)
+		s.picker = ""
 		s.view = CharacterScreen.View.OVERVIEW
 		s.refresh()
 	assert_object(_node(s, "BackButton")).is_not_null()

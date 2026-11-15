@@ -15,7 +15,8 @@ const COMBAT_RULES_PATH := "res://data/config/combat_rules.tres"
 ## Nút Back / Esc được hỏi trước SceneRouter (giống PauseMenu).
 const BACK_GROUP := &"back_interceptor"
 
-enum View { OVERVIEW, DETAIL, SKILL_DETAIL }
+## WEAPON_DETAIL: thông tin vũ khí đang mặc (owner 2026-11-15): chỉ số, kĩ năng chủ động / bị động, cường hóa, nâng bậc.
+enum View { OVERVIEW, DETAIL, SKILL_DETAIL, WEAPON_DETAIL }
 
 var layout: UiLayout
 var profile: PlayerProfile
@@ -26,7 +27,8 @@ var skill_group := ""
 var brief := false
 var glossary_open := false
 var detail_stats_open := false
-## Bảng chọn đang mở: "" (không), "exp", "weapon", "stigma_top", "stigma_mid", "stigma_bot".
+## Bảng chọn đang mở: "" (không), "exp", "weapon", "stigma_top", "stigma_mid", "stigma_bot", "enhance" (cường hóa
+## vũ khí), "ascend" (nâng bậc vũ khí).
 var picker := ""
 ## Bộ lọc danh sách giáp (owner 2026-11-13): mỗi nhóm rỗng = không lọc theo nhóm đó; trong nhóm là "hoặc", giữa các
 ## nhóm là "và". Chỉ giữ trong phiên.
@@ -211,6 +213,9 @@ func intercept_back() -> bool:
 	elif view == View.SKILL_DETAIL:
 		view = View.DETAIL
 		tab = "skill"
+	elif view == View.WEAPON_DETAIL:
+		view = View.DETAIL
+		tab = "weapon"
 	elif view == View.DETAIL:
 		view = View.OVERVIEW
 	else:
@@ -255,6 +260,16 @@ func refresh() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(bg)
+	var bg_tex := background_texture(background_key())
+	if bg_tex:
+		var tr_ := TextureRect.new()
+		tr_.name = "Background"
+		tr_.texture = bg_tex
+		tr_.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tr_.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		tr_.set_anchors_preset(Control.PRESET_FULL_RECT)
+		tr_.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_root.add_child(tr_)
 	match view:
 		View.OVERVIEW:
 			_build_overview()
@@ -262,6 +277,8 @@ func refresh() -> void:
 			_build_detail()
 		View.SKILL_DETAIL:
 			_build_skill_detail()
+		View.WEAPON_DETAIL:
+			_build_weapon_detail()
 	_build_common()
 	if detail_stats_open:
 		_build_detail_stats()
@@ -275,6 +292,32 @@ func refresh() -> void:
 		var n := _label(Rect2(layout.view_size.x * 0.5 - 500, 960 if view == View.OVERVIEW else 110, 1000, 50), notice, 28,
 				layout.color("accent", Color.ORANGE), HORIZONTAL_ALIGNMENT_CENTER)
 		n.name = "Notice"
+
+
+## Khóa ảnh nền của màn đang mở (mục "backgrounds" trong file bố cục).
+func background_key() -> String:
+	match view:
+		View.OVERVIEW:
+			return "overview"
+		View.SKILL_DETAIL:
+			return "skill_detail"
+		View.WEAPON_DETAIL:
+			return "weapon_detail"
+	return tab
+
+
+## Ảnh nền theo màn; thiếu thì ảnh "default"; vẫn thiếu thì null (nền màu).
+func background_texture(key: String) -> Texture2D:
+	var pattern := layout.text("backgrounds.path", "")
+	if pattern == "":
+		return null
+	for name_ in [layout.text("backgrounds." + key, ""), layout.text("backgrounds.default", "")]:
+		if name_ == "":
+			continue
+		var p := pattern.replace("{name}", name_)
+		if ResourceLoader.exists(p):
+			return load(p) as Texture2D
+	return null
 
 
 func _place(c: Control, r: Rect2) -> void:
@@ -723,49 +766,196 @@ func _build_weapon_tab() -> void:
 		_label(layout.rect(p + "level"), "Lv.%d" % profile.inventory.equipment_level(uid), layout.font(p + "level", 30), Color.WHITE,
 				HORIZONTAL_ALIGNMENT_CENTER)
 		_label(layout.rect(p + "stars"), _stars(d.rarity), layout.font(p + "stars", 40), layout.color("star", Color.GOLD))
-	_art(layout.rect(p + "art"), _equip_art(d), layout.text(p + "art.placeholder_label", ""), Rect2(0, 0, 1, 1), "WeaponArt")
+	# Chỉ số ẩn ở tab này (owner 2026-11-15): bấm ảnh hoặc nút Chi tiết để xem màn chi tiết vũ khí.
+	var art_r := layout.rect(p + "art")
+	_art(art_r, _equip_art(d), layout.text(p + "art.placeholder_label", ""), Rect2(0, 0, 1, 1), "WeaponArt")
 	if d:
 		_badge(layout.rect(p + "badge"), "+%d" % profile.inventory.equipment_level(uid), layout.font(p + "badge", 36))
-		_label(layout.rect(p + "stats"), _equip_stat_line(uid), layout.font(p + "stats", 28), Color.WHITE)
-	var eb := _button(layout.rect(p + "enhance_button"), layout.label(p + "enhance_button"), layout.font(p + "enhance_button", 32),
-			enhance.bind("weapon"), false, "EnhanceButton")
-	eb.disabled = d == null
+		var ab := _button(art_r, "", 10, open_weapon_detail, false, "WeaponArtButton")
+		ab.add_theme_stylebox_override("normal", _style(Color(0, 0, 0, 0)))
+		ab.add_theme_stylebox_override("hover", _style(Color(1, 1, 1, 0.04), Color(1, 1, 1, 0.3)))
+	var db := _button(layout.rect(p + "detail_button"), layout.label(p + "detail_button"), layout.font(p + "detail_button", 32),
+			open_weapon_detail, false, "WeaponDetailButton")
+	db.disabled = d == null
 	_button(layout.rect(p + "change_button"), "⟳  " + layout.label(p + "change_button"), layout.font(p + "change_button", 32),
 			open_picker.bind("weapon"), false, "ChangeWeaponButton")
 
 
-func _equip_stat_line(uid: String) -> String:
+## Chỉ số cộng của món ở cấp `level` (âm = cấp hiện tại): mảng [tên, giá trị].
+func equip_stats(uid: String, level := -1) -> Array:
 	var d := profile.inventory.equipment_def_of(uid)
 	if d == null:
-		return ""
-	var m := d.flat_multiplier(profile.inventory.equipment_level(uid))
-	var parts := PackedStringArray()
+		return []
+	var lv := profile.inventory.equipment_level(uid) if level < 0 else level
+	var m := d.flat_multiplier(lv, maxi(profile.inventory.level_cap(uid), lv))
+	var out: Array = []
 	if d.atk != 0.0:
-		parts.append("%s +%d" % [tr("STAT_ATK"), roundi(d.atk * m)])
+		out.append([tr("STAT_ATK"), "+%d" % roundi(d.atk * m)])
 	if d.max_hp != 0.0:
-		parts.append("%s +%d" % [tr("STAT_HP"), roundi(d.max_hp * m)])
+		out.append([tr("STAT_HP"), "+%d" % roundi(d.max_hp * m)])
 	if d.def != 0.0:
-		parts.append("%s +%d" % [tr("STAT_DEF"), roundi(d.def * m)])
+		out.append([tr("STAT_DEF"), "+%d" % roundi(d.def * m)])
 	if d.crit_rate != 0.0:
-		parts.append("%s +%d%%" % [tr("STAT_CRIT"), roundi(d.crit_rate * 100.0)])
+		out.append([tr("STAT_CRIT"), "+%d%%" % roundi(d.crit_rate * 100.0)])
 	if d.crit_damage != 0.0:
-		parts.append("%s +%d%%" % [tr("STAT_CRIT_DAMAGE"), roundi(d.crit_damage * 100.0)])
+		out.append([tr("STAT_CRIT_DAMAGE"), "+%d%%" % roundi(d.crit_damage * 100.0)])
 	if d.cdr != 0.0:
-		parts.append("%s +%d%%" % [tr("STAT_CDR"), roundi(d.cdr * 100.0)])
+		out.append([tr("STAT_CDR"), "+%d%%" % roundi(d.cdr * 100.0)])
+	return out
+
+
+func _equip_stat_line(uid: String) -> String:
+	var parts := PackedStringArray()
+	for s: Array in equip_stats(uid):
+		parts.append("%s %s" % [s[0], s[1]])
 	return " · ".join(parts)
 
 
-## Cường hóa món đang mặc ở ô `slot` bằng nguyên liệu cường hóa đầu tiên đủ dùng.
-func enhance(slot: String) -> void:
-	var uid := profile.inventory.equipped_uid(selected, slot)
-	var reason := Inventory.REASON_NOT_OWNED
-	for mat_id in PlayerProfile.item_defs().ids():
-		var d := PlayerProfile.item_defs().get_def(mat_id) as ItemDef
-		if d.kind != ItemDef.Kind.ENHANCE:
+func open_weapon_detail() -> void:
+	if profile.inventory.equipped_uid(selected, "weapon") == "":
+		return
+	view = View.WEAPON_DETAIL
+	picker = ""
+	notice = ""
+	refresh()
+
+
+## Số La Mã cho bậc (0 → "0").
+static func roman(n: int) -> String:
+	var vals := [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]]
+	var out := ""
+	for v: Array in vals:
+		while n >= int(v[0]):
+			out += str(v[1])
+			n -= int(v[0])
+	return out if out != "" else "0"
+
+
+# ---------- Chi tiết vũ khí (owner 2026-11-15) ----------
+
+func _build_weapon_detail() -> void:
+	var p := "weapon_detail."
+	var inv := profile.inventory
+	var uid := inv.equipped_uid(selected, "weapon")
+	var d := inv.equipment_def_of(uid) if uid != "" else null
+	if d == null:
+		view = View.DETAIL
+		tab = "weapon"
+		_build_detail()
+		return
+	var lv := inv.equipment_level(uid)
+	var cap := inv.level_cap(uid)
+	var mt := inv.max_tier(uid)
+	var tier := inv.equipment_tier(uid)
+	# Trái: tên, loại, ảnh, người đeo, bậc, sao.
+	_panel(layout.rect(p + "left_panel"), Color(0.06, 0.07, 0.1, 0.8))
+	_label(layout.rect(p + "name"), tr(d.name_key), layout.font(p + "name", 42), Color.WHITE).name = "WeaponDetailName"
+	var wt := d.weapon_type if d.weapon_type != "" else (char_def(selected).weapon_type if char_def(selected) else "")
+	_label(layout.rect(p + "type"), "◈ " + tr("WEAPON_TYPE_" + wt.to_upper()) if wt != "" else "", layout.font(p + "type", 28),
+			layout.color("text_dim", Color.GRAY))
+	_art(layout.rect(p + "art"), _equip_art(d), layout.text(p + "art.placeholder_label", ""), Rect2(0, 0, 1, 1), "WeaponDetailArt")
+	var who := inv.equipped_by(uid)
+	if who != "":
+		_label(layout.rect(p + "wearer"), tr("WEAPON_UI_WEARER") % char_name(who), layout.font(p + "wearer", 26), Color.WHITE)
+	if mt > 0:
+		_label(layout.rect(p + "tier"), tr("WEAPON_UI_TIER") % [tier, mt], layout.font(p + "tier", 34),
+				layout.color("accent", Color.ORANGE)).name = "WeaponTier"
+	_label(layout.rect(p + "stars"), _stars(d.rarity), layout.font(p + "stars", 44), layout.color("star", Color.GOLD))
+	_button(layout.rect(p + "change_button"), "⟳  " + layout.label(p + "change_button"), layout.font(p + "change_button", 30),
+			open_picker.bind("weapon"), false, "WeaponDetailChange")
+	# Mô tả (chuyện của vũ khí): khóa <name_key>_DESC; chưa có thì báo chưa có.
+	var lore_r := layout.rect(p + "lore")
+	_panel(lore_r, Color(0.06, 0.07, 0.1, 0.8))
+	var lk := d.name_key + "_DESC"
+	_label(lore_r.grow(-20), tr(lk) if tr(lk) != lk else tr("WEAPON_UI_NO_LORE"), layout.font(p + "lore", 28), Color.WHITE).name = "WeaponLore"
+	# Cấp.
+	var lp := layout.rect(p + "level_panel")
+	_panel(lp, Color(0.06, 0.07, 0.1, 0.8))
+	_label(layout.rect(p + "level_text"), "LV. %d / %d" % [lv, cap], layout.font(p + "level_text", 44), Color.WHITE).name = "WeaponLevel"
+	var hint := ""
+	if lv >= cap:
+		hint = tr("WEAPON_UI_CAP_HINT") % profile.rules.weapon_ascend_level_step if tier < mt else tr("WEAPON_UI_MAXED")
+	_label(layout.rect(p + "level_hint"), hint, layout.font(p + "level_hint", 24), layout.color("text_dim", Color.GRAY),
+			HORIZONTAL_ALIGNMENT_RIGHT).name = "WeaponLevelHint"
+	var bar := layout.rect(p + "level_bar")
+	_panel(bar, Color(1, 1, 1, 0.15))
+	_panel(Rect2(bar.position, Vector2(bar.size.x * (float(lv) / cap if cap > 0 else 1.0), bar.size.y)), layout.color("exp_bar", Color.CYAN))
+	# Phải: chỉ số.
+	_panel(layout.rect(p + "stats_panel"), Color(0.06, 0.07, 0.1, 0.8))
+	var so := layout.point(p + "stat_rows", "origin", Vector2(1050, 140))
+	var cv: Variant = layout.get_value(p + "stat_rows.cell", [400, 56])
+	var cell := Vector2(float(cv[0]), float(cv[1]))
+	var cols := int(layout.num(p + "stat_rows.columns", 2))
+	var stats := equip_stats(uid)
+	for i in stats.size():
+		var r := Rect2(so + Vector2((i % cols) * cell.x, (i / cols) * cell.y), cell)
+		_label(r, str(stats[i][0]), layout.font(p + "stat_rows", 30), layout.color("accent_blue", Color.SKY_BLUE))
+		_label(Rect2(r.position, r.size - Vector2(30, 0)), str(stats[i][1]), layout.font(p + "stat_rows", 30) + 6, Color.WHITE,
+				HORIZONTAL_ALIGNMENT_RIGHT).name = "WeaponStat%d" % i
+	# Phải: kĩ năng chủ động / bị động.
+	_panel(layout.rect(p + "skill_panel"), Color(0.06, 0.07, 0.1, 0.8))
+	var hr := layout.rect(p + "skill_header")
+	_panel(hr, layout.color("accent_blue", Color.SKY_BLUE).darkened(0.45))
+	_label(Rect2(hr.position + Vector2(24, 0), hr.size - Vector2(24, 0)), tr("WEAPON_UI_SKILLS"), layout.font(p + "skill_header", 34), Color.WHITE)
+	var st := RichTextLabel.new()
+	st.name = "WeaponSkills"
+	st.bbcode_enabled = true
+	st.add_theme_font_size_override("normal_font_size", layout.font(p + "skill_text", 26))
+	st.add_theme_font_size_override("bold_font_size", layout.font(p + "skill_text", 26) + 2)
+	st.text = weapon_skill_text(uid)
+	st.mouse_filter = Control.MOUSE_FILTER_PASS
+	_place(st, layout.rect(p + "skill_text"))
+	# Nút: Cường hóa, Nâng bậc.
+	var maxed := lv >= cap and tier >= mt
+	var eb := _button(layout.rect(p + "enhance_button"), tr("WEAPON_UI_MAXED") if maxed else layout.label(p + "enhance_button"),
+			layout.font(p + "enhance_button", 36), open_picker.bind("enhance"), false, "EnhanceButton")
+	eb.disabled = maxed
+	var ab := _button(layout.rect(p + "ascend_button"), layout.label(p + "ascend_button"), layout.font(p + "ascend_button", 36),
+			open_picker.bind("ascend"), lv >= cap and tier < mt, "AscendButton")
+	ab.disabled = tier >= mt
+
+
+## BBCode phần kĩ năng: chủ động = Kĩ năng vũ khí của giáp đang mặc (kĩ năng theo giáp, CHARACTER_SKILLS); bị động =
+## các dòng hiệu ứng của vũ khí (EquipEffect.note), dòng độc quyền ghi tên giáp chủ.
+func weapon_skill_text(uid: String) -> String:
+	var d := profile.inventory.equipment_def_of(uid)
+	if d == null:
+		return ""
+	var who := profile.inventory.equipped_by(uid)
+	if who == "":
+		who = selected
+	var hl := "[color=#FFB347]%s[/color]"
+	var parts := PackedStringArray()
+	parts.append("[b]" + hl % ("%s — %s" % [tr("WEAPON_UI_ACTIVE"), SkillText.skill_name(who, "weapon")]) + "[/b]")
+	var skills := skills_of(who)
+	var lv := profile.progression.skill_level(who, "weapon")
+	var subs := SkillText.skills_in_group(skills, "weapon")
+	for k in subs:
+		parts.append(SkillText.describe(skills[k], lv, _rules, true))
+	parts.append("[color=#B8BCCB]%s[/color]" % tr("WEAPON_UI_ACTIVE_NOTE"))
+	parts.append("")
+	parts.append("[b]" + hl % tr("WEAPON_UI_PASSIVE") + "[/b]")
+	var lines := PackedStringArray()
+	for e in d.effects:
+		if e == null or e.note == "":
 			continue
-		reason = profile.inventory.enhance(uid, mat_id)
-		if reason == "" or reason == Inventory.REASON_MAX_LEVEL:
-			break
+		var line := "• " + e.note
+		if e.exclusive and d.owner_id != "":
+			line = "• [color=#7FD4FF][%s][/color] %s" % [tr("WEAPON_UI_EXCLUSIVE") % char_name(d.owner_id), e.note]
+		lines.append(line)
+	parts.append("\n".join(lines) if not lines.is_empty() else tr("WEAPON_UI_NO_PASSIVE"))
+	return "\n".join(parts)
+
+
+func enhance_with(material_id: String) -> void:
+	commit(profile.inventory.enhance(profile.inventory.equipped_uid(selected, "weapon"), material_id))
+
+
+func ascend_weapon() -> void:
+	var uid := profile.inventory.equipped_uid(selected, "weapon")
+	var reason := profile.inventory.ascend(uid)
+	if reason == "":
+		picker = ""
 	commit(reason)
 
 
@@ -1022,12 +1212,20 @@ func _build_picker() -> void:
 	var r := layout.rect("picker", Rect2(460, 140, 1000, 800))
 	var fs := layout.font("picker", 30)
 	var rh := layout.num("picker.row_height", 96)
-	_panel(r, layout.color("panel_light", Color(0.16, 0.18, 0.24, 0.97)), "Picker")
-	var title := tr("CHAR_UI_LEVEL_UP") if picker == "exp" else tr("SLOT_" + picker.to_upper())
+	var dim := _panel(Rect2(Vector2.ZERO, layout.view_size), Color(0, 0, 0, 0.6), "PickerDim")   # làm tối, chặn bấm xuyên
+	dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	var pbg := layout.color("panel_light", Color(0.16, 0.18, 0.24))
+	pbg.a = 1.0
+	_panel(r, pbg, "Picker")
+	var titles := {"exp": tr("CHAR_UI_LEVEL_UP"), "enhance": tr("CHAR_ENHANCE"), "ascend": tr("WEAPON_UI_ASCEND")}
+	var title: String = titles.get(picker, tr("SLOT_" + picker.to_upper()))
 	_label(Rect2(r.position + Vector2(30, 14), Vector2(r.size.x - 260, 60)), title, 38, Color.WHITE)
 	_button(Rect2(r.position + Vector2(r.size.x - 220, 14), Vector2(200, 60)), tr("UI_BACK"), 28, intercept_back, false, "PickerClose")
 	var y := r.position.y + 90
 	var rows := 0
+	if picker == "enhance" or picker == "ascend":
+		_build_weapon_upgrade_picker(r, fs, rh)
+		return
 	if picker == "exp":
 		for mat_id in PlayerProfile.item_defs().ids():
 			var d := PlayerProfile.item_defs().get_def(mat_id) as ItemDef
@@ -1058,3 +1256,67 @@ func _build_picker() -> void:
 			rows += 1
 	if rows == 0:
 		_label(Rect2(r.position + Vector2(30, 100), Vector2(r.size.x - 60, 80)), tr("CHAR_UI_NOTHING"), fs, layout.color("text_dim", Color.GRAY))
+
+
+## Bảng cường hóa (chọn nguyên liệu, xem chỉ số cấp kế) hoặc nâng bậc (bậc, giới hạn cấp, giá, xác nhận) của vũ khí đang mặc.
+func _build_weapon_upgrade_picker(r: Rect2, fs: int, rh: float) -> void:
+	var inv := profile.inventory
+	var uid := inv.equipped_uid(selected, "weapon")
+	if inv.equipment_def_of(uid) == null:
+		_label(Rect2(r.position + Vector2(30, 100), Vector2(r.size.x - 60, 80)), tr("CHAR_UI_NOTHING"), fs, layout.color("text_dim", Color.GRAY))
+		return
+	var lv := inv.equipment_level(uid)
+	var cap := inv.level_cap(uid)
+	var x := r.position.x + 30
+	var w := r.size.x - 60
+	var y := r.position.y + 100
+	if picker == "enhance":
+		var head := tr("WEAPON_UI_NEXT") % [lv, mini(lv + 1, cap)]
+		if lv >= cap:
+			head = tr("WEAPON_UI_CAP_HINT") % profile.rules.weapon_ascend_level_step if inv.equipment_tier(uid) < inv.max_tier(uid) \
+					else tr("WEAPON_UI_MAXED")
+		_label(Rect2(x, y, w, 56), head, fs + 2, layout.color("accent", Color.ORANGE)).name = "EnhanceHead"
+		y += 64
+		if lv < cap:
+			var now := equip_stats(uid)
+			var nxt := equip_stats(uid, lv + 1)
+			var parts := PackedStringArray()
+			for i in now.size():
+				if str(now[i][1]) != str(nxt[i][1]):
+					parts.append("%s %s → %s" % [now[i][0], now[i][1], nxt[i][1]])
+			_label(Rect2(x, y, w, 50), "  ·  ".join(parts), fs - 2, Color.WHITE).name = "EnhancePreview"
+		y += 70
+		for mat_id in PlayerProfile.item_defs().ids():
+			var md := PlayerProfile.item_defs().get_def(mat_id) as ItemDef
+			if md.kind != ItemDef.Kind.ENHANCE:
+				continue
+			var d := inv.equipment_def_of(uid)
+			_label(Rect2(x, y, w - 250, rh - 10), tr("WEAPON_UI_ENHANCE_ROW") % [tr(md.name_key), inv.material_count(mat_id),
+					inv.materials_to_enhance(uid, mat_id), d.gold_to_enhance(lv), tr("CURRENCY_GOLD")], fs - 2, Color.WHITE)
+			var b := _button(Rect2(r.end.x - 250, y + 8, 220, rh - 26), tr("CHAR_UI_USE"), fs, enhance_with.bind(mat_id), false,
+					"EnhanceWith_%s" % mat_id)
+			b.disabled = inv.check_enhance(uid, mat_id) != ""
+			y += rh
+		return
+	# Nâng bậc.
+	var tier := inv.equipment_tier(uid)
+	var cost := inv.ascend_cost(uid)
+	if cost.is_empty():
+		_label(Rect2(x, y, w, 56), tr("WEAPON_UI_MAXED"), fs + 2, layout.color("accent", Color.ORANGE)).name = "AscendHead"
+		return
+	var step := profile.rules.weapon_ascend_level_step
+	_label(Rect2(x, y, w, 56), tr("WEAPON_UI_ASCEND_TIER") % [tier, tier + 1], fs + 4, layout.color("accent", Color.ORANGE)).name = "AscendHead"
+	_label(Rect2(x, y + 70, w, 50), tr("WEAPON_UI_ASCEND_CAP") % [cap, cap + step], fs, Color.WHITE)
+	var md := PlayerProfile.item_defs().get_def(str(cost["material"])) as ItemDef
+	_label(Rect2(x, y + 130, w, 50), tr("WEAPON_UI_COST") % [tr(md.name_key) if md else str(cost["material"]),
+			inv.material_count(str(cost["material"])), int(cost["count"]), tr("CURRENCY_GOLD"), int(cost["gold"])], fs, Color.WHITE).name = "AscendCost"
+	var reason := inv.check_ascend(uid)
+	var why := ""
+	if reason == Inventory.REASON_LEVEL_CAP:
+		why = tr("WEAPON_UI_NEED_LEVEL") % cap
+	elif reason != "":
+		why = tr("REASON_" + reason.to_upper())
+	_label(Rect2(x, y + 200, w, 50), why, fs - 2, layout.color("text_dim", Color.GRAY)).name = "AscendReason"
+	var b := _button(Rect2(r.position.x + r.size.x * 0.5 - 180, r.end.y - 110, 360, 80), tr("WEAPON_UI_CONFIRM"), fs + 2,
+			ascend_weapon, reason == "", "AscendConfirm")
+	b.disabled = reason != ""

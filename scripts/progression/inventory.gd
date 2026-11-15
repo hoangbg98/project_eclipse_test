@@ -19,6 +19,8 @@ const REASON_WRONG_WEAPON := "wrong_weapon"
 var data: Dictionary
 var items: DefLibrary        # ItemDef
 var equipment: DefLibrary    # EquipmentDef
+## Luật nâng bậc vũ khí (PlayerProfile gán). null = vũ khí không nâng bậc được.
+var rules: ProgressionRules
 
 
 func _init(save_data: Dictionary, item_defs: DefLibrary, equipment_defs: DefLibrary) -> void:
@@ -173,13 +175,73 @@ func remove_equipment(uid: String) -> bool:
 	return true
 
 
+# ---------- Nâng bậc vũ khí ----------
+
+## Bậc hiện tại của món (0 = chưa nâng).
+func equipment_tier(uid: String) -> int:
+	return int(data["inventory"]["equipment"][uid].get("tier", 0)) if owns(uid) else 0
+
+
+## Bậc tối đa: chỉ vũ khí, theo độ hiếm (ProgressionRules.weapon_ascend_max_tier).
+func max_tier(uid: String) -> int:
+	var def := equipment_def_of(uid)
+	if def == null or def.slot != "weapon" or rules == null:
+		return 0
+	return rules.weapon_max_tier(def.rarity)
+
+
+## Giới hạn cấp cường hóa ở bậc hiện tại.
+func level_cap(uid: String) -> int:
+	var def := equipment_def_of(uid)
+	if def == null:
+		return 0
+	var step := rules.weapon_ascend_level_step if rules else 0
+	return def.max_level + mini(equipment_tier(uid), max_tier(uid)) * step
+
+
+## Giá bước nâng bậc kế: {"material": id, "count": n, "gold": g}; rỗng nếu đã tối đa / không nâng được.
+func ascend_cost(uid: String) -> Dictionary:
+	var t := equipment_tier(uid)
+	if t >= max_tier(uid):
+		return {}
+	return {"material": rules.weapon_ascend_material, "count": rules.weapon_ascend_material_count[t],
+			"gold": rules.weapon_ascend_gold[t]}
+
+
+## Lý do không nâng bậc được ("" = được). Phải cường hóa tới giới hạn cấp của bậc hiện tại trước.
+func check_ascend(uid: String) -> String:
+	if equipment_def_of(uid) == null:
+		return REASON_NOT_OWNED
+	var cost := ascend_cost(uid)
+	if cost.is_empty():
+		return REASON_MAX_LEVEL
+	if equipment_level(uid) < level_cap(uid):
+		return REASON_LEVEL_CAP
+	if not can_spend("gold", int(cost["gold"])) or material_count(str(cost["material"])) < int(cost["count"]):
+		return REASON_NOT_ENOUGH
+	return OK_REASON
+
+
+## Nâng bậc +1: trừ vàng và nguyên liệu, mở thêm giới hạn cấp. Thất bại thì không trừ gì.
+func ascend(uid: String) -> String:
+	var reason := check_ascend(uid)
+	if reason != OK_REASON:
+		return reason
+	var cost := ascend_cost(uid)
+	spend_currency("gold", int(cost["gold"]))
+	consume_material(str(cost["material"]), int(cost["count"]))
+	data["inventory"]["equipment"][uid]["tier"] = equipment_tier(uid) + 1
+	changed.emit()
+	return OK_REASON
+
+
 ## Lý do không cường hóa được lên cấp kế bằng nguyên liệu `material_id` ("" = được).
 func check_enhance(uid: String, material_id: String) -> String:
 	var def := equipment_def_of(uid)
 	if def == null:
 		return REASON_NOT_OWNED
 	var level := equipment_level(uid)
-	if level >= def.max_level:
+	if level >= level_cap(uid):
 		return REASON_MAX_LEVEL
 	var mat := items.get_def(material_id) as ItemDef
 	if mat == null or mat.kind != ItemDef.Kind.ENHANCE:
@@ -242,7 +304,7 @@ func equipped_bonus(character_id: String) -> Dictionary:
 		var def := equipment_def_of(uid)
 		if def == null or def.slot != slot:
 			continue   # món không còn trong kho / sai ô: bỏ qua, không crash
-		var m := def.flat_multiplier(equipment_level(uid))
+		var m := def.flat_multiplier(equipment_level(uid), level_cap(uid))
 		out["atk"] += def.atk * m
 		out["max_hp"] += def.max_hp * m
 		out["def"] += def.def * m
