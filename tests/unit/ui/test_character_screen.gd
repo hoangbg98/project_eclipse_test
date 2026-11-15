@@ -443,6 +443,25 @@ func test_weapon_short_description_and_lore() -> void:
 	assert_object(_node(s, "LoreButton")).is_null()
 
 
+## Ảnh bộ Antoine Lavoisier (owner 2026-11-15): 3 vết thánh có ảnh dọc 1248 × 2280; khung ngang / vuông lấy phần vuông trên.
+func test_lavoisier_stigma_art_and_center_crop() -> void:
+	for slot in ["top", "mid", "bot"]:
+		var d := PlayerProfile.equipment_defs().get_def("eq_stigma_%s_lavoisier" % slot) as EquipmentDef
+		assert_bool(ResourceLoader.exists(d.art)).override_failure_message(slot).is_true()
+		var tex := load(d.art) as Texture2D
+		assert_vector(tex.get_size()).is_equal(Vector2(1248, 2280))
+		var c := PlaceholderArt.center_square(tex)
+		assert_float(c.size.y * 2280.0).is_equal_approx(1248.0, 0.5)
+		assert_float(c.position.y).is_equal(0.0)                                    # phần vuông phía trên (chân dung)
+	var wide := load("res://assets/equipment/weapons/eq_weapon_dusk_inferno.png") as Texture2D
+	assert_object(PlaceholderArt.center_square(wide)).is_equal(Rect2(0, 0, 1, 1))
+	var s := _screen()
+	var uid := s.profile.inventory.add_equipment("eq_stigma_top_lavoisier")
+	s.profile.inventory.equip(A, uid)
+	s.open_equipment_detail(uid, "stigma")
+	assert_object((_node(s, "WeaponDetailArt") as PlaceholderArt).texture).is_not_null()
+
+
 func test_background_image_per_view() -> void:
 	var s := _screen()
 	assert_str(s.background_key()).is_equal("overview")

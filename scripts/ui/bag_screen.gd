@@ -145,7 +145,14 @@ func _card(e: Dictionary, sz: Vector2) -> Button:
 	pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	if tex:
+	if tex and tex.get_height() > tex.get_width():
+		# Ảnh dọc (vết thánh): lấy phần vuông phía trên cho ô ảnh ngang của thẻ.
+		var at := AtlasTexture.new()
+		at.atlas = tex
+		var c := PlaceholderArt.center_square(tex)
+		at.region = Rect2(c.position * tex.get_size(), c.size * tex.get_size())
+		pic.texture = at
+	elif tex:
 		pic.texture = tex
 	elif e["icon"] == "attack":
 		pic.texture = HudIcons.icon("", "attack")

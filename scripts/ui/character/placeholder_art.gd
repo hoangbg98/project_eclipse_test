@@ -7,6 +7,14 @@ var texture: Texture2D
 var label_text := ""
 ## Vùng cắt trong ảnh (tỉ lệ 0..1), vd Rect2(0, 0, 1, 0.42) lấy phần đầu của ảnh đứng.
 var crop := Rect2(0, 0, 1, 1)
+
+
+## Vùng cắt (tỉ lệ 0..1) lấy phần vuông phía trên của ảnh dọc (ảnh vết thánh 1248 × 2280, nhân vật vừa khít khung,
+## owner 2026-11-15: đầu → thân, kiểu chân dung) để hiện trong khung ngang / vuông; ảnh ngang hoặc vuông: cả ảnh.
+static func center_square(tex: Texture2D) -> Rect2:
+	if tex == null or tex.get_height() <= tex.get_width():
+		return Rect2(0, 0, 1, 1)
+	return Rect2(0, 0, 1, float(tex.get_width()) / float(tex.get_height()))
 var fill_color := Color("#3A3F55")
 var figure_color := Color("#5B6180")
 var text_color := Color("#D8DCEB")

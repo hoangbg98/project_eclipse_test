@@ -38,8 +38,8 @@ func _prepare() -> void:
 	p.inventory.add_material("mat_weapon_ascend", 3)
 	p.inventory.add_material("mat_affix_reroll", 2)
 	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_weapon_dusk_inferno"))   # có ảnh thật (owner 2026-11-15)
-	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_blaze"))
-	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_blaze"))
+	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_top_lavoisier"))
+	p.inventory.equip("char_fire_01", p.inventory.add_equipment("eq_stigma_mid_lavoisier"))
 	p.progression.add_exp("char_fire_01", 1500)
 	p.progression.add_fragments("char_fire_01", 6)
 	for id in ["char_lightning_01", "char_wind_01", "char_earth_01"]:

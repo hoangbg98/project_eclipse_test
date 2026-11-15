@@ -505,7 +505,8 @@ func _build_overview() -> void:
 		var r := Rect2(so + Vector2(i * (ss + sg), 0), Vector2(ss, ss))
 		var uid := profile.inventory.equipped_uid(selected, slot)
 		var d := profile.inventory.equipment_def_of(uid) if uid != "" else null
-		_art(r, _equip_art(d), tr("SLOT_SHORT_" + slot.to_upper()))
+		var tex := _equip_art(d)
+		_art(r, tex, tr("SLOT_SHORT_" + slot.to_upper()), PlaceholderArt.center_square(tex))
 		var b := _button(r, "", 10, open_tab.bind("stigma"), false, "StigmaIcon%d" % i)
 		b.add_theme_stylebox_override("normal", _style(Color(0, 0, 0, 0), Color(1, 1, 1, 0.6 if d else 0.2)))
 	_build_roster()
@@ -923,8 +924,10 @@ func _build_weapon_detail() -> void:
 	else:
 		type_text = "◈ " + tr("SLOT_" + d.slot.to_upper())
 	_label(layout.rect(p + "type"), type_text, layout.font(p + "type", 28), layout.color("text_dim", Color.GRAY))
-	_art(layout.rect(p + "art"), _equip_art(d), layout.text(p + "art.placeholder_label", "") if is_weapon
-			else tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + d.slot.to_upper()), Rect2(0, 0, 1, 1), "WeaponDetailArt")
+	var art_tex := _equip_art(d)
+	_art(layout.rect(p + "art"), art_tex, layout.text(p + "art.placeholder_label", "") if is_weapon
+			else tr("CHAR_UI_STIGMA_ART") % tr("SLOT_SHORT_" + d.slot.to_upper()), PlaceholderArt.center_square(art_tex),
+			"WeaponDetailArt")
 	var who := inv.equipped_by(uid)
 	_label(layout.rect(p + "wearer"), tr("WEAPON_UI_WEARER") % suit_label(who) if who != "" else tr("BAG_NOT_IN_USE"),
 			layout.font(p + "wearer", 26), Color.WHITE).name = "WeaponWearer"
