@@ -63,6 +63,45 @@ Chỉ số cộng theo ô (như nhau ở mọi bộ): **Đầu** ATK 80, Tỉ l�
 
 Phần độc quyền của hiệu ứng bộ (chỉ chủ sở hữu): xem bảng "Mức bộ" ở mục 2.2–2.7.
 
+## Danh sách nhanh trang bị 4★ (2026-11-15)
+
+Đồ 4★ **không có chủ sở hữu và không có hiệu ứng độc quyền** (Q9): vũ khí chỉ có chỉ số cộng và khóa theo loại vũ khí; bộ vết thánh có hiệu ứng bộ 2 / 3 món, chỉ phần chung, số khoảng một nửa 5★. Mỗi loại vũ khí có 1 vũ khí 4★ và 1 bộ vết thánh 4★ cùng hệ với nhân vật dùng loại vũ khí đó. Nguồn: tất cả ra ở **Banner trang bị thường**; bậc 4★ của banner trang bị 5★ chỉ có Lõi vũ khí hỏa tinh, Đại kiếm Dung Nham, bộ Ấn Viêm Hoàng, bộ Ấn Nham Thạch và 2 vết thánh lẻ (4 bộ mới 2026-11-15 chỉ vào banner thường). Số là số tạm trong `data/equipment/`.
+
+### Vũ khí 4★ (6 món)
+
+| # | Tên | Loại | Hợp với | Data ID | Chỉ số cộng | Mô tả sơ qua |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Lõi vũ khí hỏa tinh | Kiếm | Enkiba (Hỏa) | `eq_weapon_flame` | ATK 160, Tỉ lệ chí mạng +5% | Kiếm công cân bằng, đi cùng bộ Ấn Viêm Hoàng |
+| 2 | Đại kiếm Dung Nham | Đại kiếm | Iwagane (Địa) | `eq_weapon_greatsword_magma` | ATK 170, ST chí mạng +10% | ATK cao nhất bậc 4★; món đề cử của banner trang bị thường |
+| 3 | Cung Lốc Xoáy | Cung | Kazeyumi (Phong) | `eq_weapon_bow_whirlwind` | ATK 155, Tỉ lệ chí mạng +5% | Cung chí mạng, đi cùng bộ Ấn Lốc Xoáy |
+| 4 | Song đao Lôi Đình | Song đao | Raikiba (Lôi) | `eq_weapon_blades_thunderclap` | ATK 160, ST chí mạng +10% | Song đao nhiều đòn, ST chí mạng cao, đi cùng bộ Ấn Lôi Đình |
+| 5 | Trượng Bình Minh | Trượng | Hikarine (Quang) | `eq_weapon_staff_dawnlight` | ATK 140, HP +800 | Trượng hỗ trợ: ATK thấp hơn, thêm HP, đi cùng bộ Ấn Bình Minh |
+| 6 | Lưỡi hái Dạ Ảnh | Lưỡi hái | Yomigari (Ám) | `eq_weapon_scythe_nightshade` | ATK 170, Tỉ lệ chí mạng +4% | Lưỡi hái ATK cao, đi cùng bộ Ấn Dạ Ảnh |
+
+### Bộ vết thánh 4★ (6 bộ × 3 món = 18 món)
+
+Chỉ số cộng theo hai khuôn:
+- **Khuôn công** (Viêm Hoàng, Lốc Xoáy, Lôi Đình, Dạ Ảnh): Đầu ATK 60 + Tỉ lệ chí mạng 6% · Thân ATK 40 + HP 1500 · Chân ATK 50 + Giảm hồi chiêu 6%.
+- **Khuôn thủ** (Nham Thạch, Bình Minh): Đầu ATK 30 + HP 800 · Thân HP 1600 + DEF 80 · Chân ATK 40 + DEF 60 + Giảm hồi chiêu 5%.
+
+| Bộ | Hệ (nhân vật) | Khuôn | Đầu / Thân / Chân (Data ID) | 2 món | 3 món |
+| --- | --- | --- | --- | --- | --- |
+| Ấn Viêm Hoàng | Hỏa (Enkiba) | Công | `eq_stigma_{top,mid,bot}_blaze` | +5% ST Hỏa *(chỉ hệ Hỏa)* | Kẻ địch đang Cháy chịu +4% ST Hỏa từ người đeo *(chỉ hệ Hỏa)* |
+| Ấn Nham Thạch | Địa (Iwagane) | Thủ | `eq_stigma_{top,mid,bot}_bedrock` | +5% ST Địa *(chỉ hệ Địa)* | Người đeo giảm 3% ST nhận |
+| Ấn Lốc Xoáy | Phong (Kazeyumi) | Công | `eq_stigma_{top,mid,bot}_whirlwind` | +5% ST Phong *(chỉ hệ Phong)* | Tốc độ nạp EN +5% |
+| Ấn Lôi Đình | Lôi (Raikiba) | Công | `eq_stigma_{top,mid,bot}_thunderclap` | +5% ST Lôi *(chỉ hệ Lôi)* | +4% ST lên kẻ địch mang hiệu ứng nguyên tố |
+| Ấn Bình Minh | Quang (Hikarine) | Thủ | `eq_stigma_{top,mid,bot}_dawnlight` | +5% ST Quang *(chỉ hệ Quang)* | Hiệu quả hồi máu +4% |
+| Ấn Dạ Ảnh | Ám (Yomigari) | Công | `eq_stigma_{top,mid,bot}_nightshade` | +5% ST Ám *(chỉ hệ Ám)* | +4% ST lên kẻ địch bị giảm DEF (Nguyền cũng tính) |
+
+Tên từng món theo mẫu "Ấn <tên bộ> (Đầu / Thân / Chân)", ví dụ Ấn Lôi Đình (Thân).
+
+### Vết thánh 4★ lẻ (không thuộc bộ)
+
+| Tên | Ô | Data ID | Chỉ số cộng | Mô tả sơ qua |
+| --- | --- | --- | --- | --- |
+| Ấn Hộ Vệ (Thân) | Thân | `eq_stigma_mid_guardian` | HP 1800, DEF 90 | Thân thủ thuần, HP / DEF cao nhất bậc 4★, không có hiệu ứng bộ |
+| Ấn Đồng Hồ Cát (Chân) | Chân | `eq_stigma_bot_hourglass` | HP 400, Giảm hồi chiêu 8% | Chân giảm hồi chiêu cao nhất bậc 4★, không có hiệu ứng bộ |
+
 ---
 
 ## 0. Quy ước chung

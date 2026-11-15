@@ -1820,3 +1820,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 3 bảng: 6 vũ khí 5★ (tên, loại, chủ sở hữu, Data ID, chỉ số cộng lấy từ `.tres`, mô tả sơ qua); 18 vết thánh 5★ (bộ, ô, tên, Data ID, hiệu ứng chung, độc quyền rút gọn) kèm chỉ số cộng theo ô; hiệu ứng bộ 2 / 3 món phần chung của 6 bộ.
 - **Quyết định Claude chọn:** đặt ở đầu tài liệu thiết kế trang bị 5★ (file markdown đã có) thay vì tạo file mới; mô tả rút từ mục 1 / 2 của chính tài liệu, chi tiết vẫn ở mục 1 / 2.
 - **Hạn chế đã biết:** bảng là bản tóm tắt viết tay; khi đổi số trong `data/equipment/` cần sửa lại cột chỉ số cộng.
+
+## 2026-11-15 — Tài liệu: danh sách nhanh trang bị 4★
+- **Milestone / task:** Tài liệu — owner: "làm tương tự cho trang bị 4 sao" (sau danh sách nhanh 5★).
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/EQUIPMENT_5STAR.md` (mục mới "Danh sách nhanh trang bị 4★" ngay sau danh sách 5★).
+- **Đã chạy:** đọc chỉ số của 26 món 4★ từ `data/equipment/*.tres` và hiệu ứng 6 bộ từ `data/equipment/sets/`; kiểm tra 18 Data ID vết thánh theo bộ đều có file; đối chiếu pool 4★ của `data/banners/banner_star5_earth.tres`.
+- **Kết quả thật:** 3 bảng: 6 vũ khí 4★ (loại, nhân vật hợp, Data ID, chỉ số, mô tả), 6 bộ vết thánh 4★ (hệ, khuôn chỉ số công / thủ, Data ID, hiệu ứng 2 / 3 món), 2 vết thánh 4★ lẻ (Ấn Hộ Vệ, Ấn Đồng Hồ Cát); ghi nguồn ra đồ (banner thường có tất cả; bậc 4★ của banner 5★ chỉ có đồ Kiếm / Đại kiếm, bộ Viêm Hoàng / Nham Thạch và 2 món lẻ).
+- **Quyết định Claude chọn:** gom chỉ số vết thánh theo 2 khuôn thay vì liệt kê 18 dòng; đặt chung file với danh sách 5★ để tra một chỗ.
+- **Hạn chế đã biết:** bảng tóm tắt viết tay; đổi số trong `data/equipment/` cần sửa lại bảng.
