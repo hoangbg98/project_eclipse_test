@@ -31,7 +31,7 @@ func test_data_is_valid() -> void:
 	assert_array(PlayerProfile.item_defs().errors).is_empty()
 	assert_array(PlayerProfile.equipment_defs().errors).is_empty()
 	assert_int(PlayerProfile.item_defs().defs.size()).is_equal(6)
-	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(40)   # 16 cũ + 6 vũ khí 5★ + 18 vết thánh 5★
+	assert_int(PlayerProfile.equipment_defs().defs.size()).is_equal(56)   # 16 cũ + 6 vũ khí 5★ + 18 vết thánh 5★ + 4 bộ 4★ mới × 4
 	var slots := {}
 	for id in PlayerProfile.equipment_defs().ids():
 		var d: EquipmentDef = PlayerProfile.equipment_defs().get_def(id)

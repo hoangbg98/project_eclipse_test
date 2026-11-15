@@ -27,7 +27,7 @@ func test_data_loads_without_errors() -> void:
 	assert_array(PlayerProfile.equipment_defs().errors).is_empty()
 	assert_array(EquipmentResolver.set_defs().errors).is_empty()
 	assert_array(EquipmentResolver.default_rules().validate()).is_empty()
-	assert_int(EquipmentResolver.set_defs().defs.size()).is_equal(8)   # 6 bộ 5★ + 2 bộ 4★
+	assert_int(EquipmentResolver.set_defs().defs.size()).is_equal(12)   # 6 bộ 5★ + 6 bộ 4★ (một bộ mỗi loại vũ khí)
 	for key in ["lavoisier", "davinci", "franklin", "nightingale", "poe", "darwin"]:
 		for d in _pieces(key):
 			assert_object(d).is_not_null()
@@ -48,11 +48,38 @@ func test_five_star_weapons_match_character_weapon_types() -> void:
 
 
 func test_four_star_sets_have_only_common_effects() -> void:
-	for sid in ["set_blaze", "set_bedrock"]:
+	for sid in ["set_blaze", "set_bedrock", "set_whirlwind", "set_thunderclap", "set_dawnlight", "set_nightshade"]:
 		var s := EquipmentResolver.set_defs().get_def(sid) as StigmaSetDef
 		assert_int(s.rarity).is_equal(4)
 		for e in s.bonus_2 + s.bonus_3:
 			assert_bool(e.exclusive).is_false()               # Q9: bộ 4★ chỉ có phần chung
+
+
+func test_four_star_gear_for_every_weapon_type() -> void:
+	# Owner 2026-11-15: mỗi loại vũ khí có vũ khí 4★ + bộ 3 vết thánh 4★ (Đầu / Thân / Chân) cùng hệ với nhân vật.
+	var defs := PlayerProfile.equipment_defs()
+	for row in [["sword", "eq_weapon_flame", "blaze"], ["greatsword", "eq_weapon_greatsword_magma", "bedrock"],
+			["bow", "eq_weapon_bow_whirlwind", "whirlwind"], ["dual_blades", "eq_weapon_blades_thunderclap", "thunderclap"],
+			["staff", "eq_weapon_staff_dawnlight", "dawnlight"], ["scythe", "eq_weapon_scythe_nightshade", "nightshade"]]:
+		var w := defs.get_def(row[1]) as EquipmentDef
+		assert_object(w).override_failure_message(row[1]).is_not_null()
+		assert_int(w.rarity).is_equal(4)
+		assert_str(w.weapon_type).is_equal(row[0])
+		var set_def := EquipmentResolver.set_defs().get_def("set_" + row[2]) as StigmaSetDef
+		for slot in ["top", "mid", "bot"]:
+			var st := defs.get_def("eq_stigma_%s_%s" % [slot, row[2]]) as EquipmentDef
+			assert_object(st).override_failure_message("%s %s" % [row[2], slot]).is_not_null()
+			assert_int(st.rarity).is_equal(4)
+			assert_str(st.slot).is_equal("stigma_" + slot)
+			assert_str(st.set_id).is_equal("set_" + row[2])
+		var has_char := false
+		for c in DirAccess.get_files_at("res://data/characters"):
+			if c.ends_with(".tres"):
+				var cd := load("res://data/characters/" + c) as CharacterDef
+				if cd and cd.weapon_type == row[0]:
+					has_char = true
+					assert_str(set_def.element).is_equal(cd.element)   # bộ cùng hệ với nhân vật dùng loại vũ khí đó
+		assert_bool(has_char).override_failure_message(row[0]).is_true()
 
 
 func test_pending_effects_are_documented() -> void:

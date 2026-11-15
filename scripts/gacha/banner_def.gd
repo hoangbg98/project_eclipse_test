@@ -36,6 +36,9 @@ extends Resource
 @export_file("*.png", "*.webp", "*.jpg") var thumb_art := ""
 ## Hết hạn (giây Unix UTC). 0 = không giới hạn thời gian.
 @export var end_unix := 0
+## Thứ tự trong danh sách bên trái: nhỏ lên trước, bằng nhau thì theo tên file. Banner trang bị thường = 100
+## để luôn nằm cuối (owner 2026-11-15).
+@export var list_order := 0
 
 @export_group("Lượt miễn phí hướng dẫn")
 ## Banner dùng một lần cho người mới (owner 2026-11-13): quay gói `multi_count` không tốn tiền, đúng 1 lượt ra bậc

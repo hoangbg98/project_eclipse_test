@@ -116,5 +116,6 @@ multi_guarantee_pick = PackedStringArray("S4")
 kind_key = "BANNER_KIND_STAR5"
 title_key = "BANNER_TITLE_STAR5_EARTH"
 end_unix = 0
+list_order = 0
 starter_free_multi = false
 metadata/source = "Owner 2026-11-14: mỗi món 5★ 1.5%, món đã có không ra lại tới khi đủ bộ; pity cứng 50, từ lượt 30 +10% một lần; pity về 0 mỗi kỳ (pity_group riêng); 4★ / 3★ như tiếp tế, 5★ lấy từ nguyên liệu; giá 280 / 2520."

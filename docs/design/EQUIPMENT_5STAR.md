@@ -376,7 +376,7 @@ Theo quy ước đang có trong `data/equipment/` (thư mục phẳng), thay cho
 | Yomigari | `eq_weapon_crescent_pact` | `set_poe` | `eq_stigma_{top,mid,bot}_poe` |
 | Iwagane | `eq_weapon_unyielding_peak` | `set_darwin` | `eq_stigma_{top,mid,bot}_darwin` |
 
-Bộ 4★ (Q9): `set_blaze`, `set_bedrock`. Banner 5★ đầu tiên: `data/banners/banner_star5_earth.tres` (đề cử Iwagane,
+Bộ 4★ (Q9): `set_blaze` (kiếm), `set_bedrock` (đại kiếm); owner 2026-11-15 thêm một bộ cho mỗi loại vũ khí còn lại: `set_whirlwind` (cung, Phong), `set_thunderclap` (song đao, Lôi), `set_dawnlight` (trượng, Quang), `set_nightshade` (lưỡi hái, Ám), mỗi bộ kèm vũ khí 4★ cùng loại (xem nhật ký 2026-11-15). Banner 5★ đầu tiên: `data/banners/banner_star5_earth.tres` (đề cử Iwagane,
 `pity_group = banner_star5_earth_r1`; kỳ chạy lại đổi hậu tố để pity về 0).
 
 Sinh lại dữ liệu: `python -X utf8 tools/gen_equipment_5star.py` (đồ, bộ, khóa dịch), `python -X utf8 tools/gen_banner_data.py` (banner).

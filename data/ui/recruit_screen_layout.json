@@ -195,6 +195,50 @@
 			],
 			"anchor": "right",
 			"font": 30
+		},
+		"showcase": {
+			"_ghi_chu": "Banner thường (không pity, vĩnh viễn): 3 ô vũ khí trưng bày. slots = ảnh vũ khí, bars = thanh tên (cùng thứ tự).",
+			"slots": [
+				[
+					560,
+					330,
+					380,
+					380
+				],
+				[
+					990,
+					250,
+					420,
+					420
+				],
+				[
+					1440,
+					300,
+					380,
+					380
+				]
+			],
+			"bars": [
+				[
+					600,
+					730,
+					420,
+					74
+				],
+				[
+					1030,
+					680,
+					400,
+					74
+				],
+				[
+					1500,
+					700,
+					380,
+					74
+				]
+			],
+			"font": 30
 		}
 	},
 	"bottom": {

@@ -1072,7 +1072,7 @@ msgid "BANNER_KIND_CHAR"
 msgstr "Banner nhân vật"
 
 msgid "BANNER_KIND_EQUIP"
-msgstr "Banner vũ khí & vết thánh"
+msgstr "Banner trang bị thường"
 
 msgid "BANNER_TITLE_TERRA"
 msgstr "Nham Thạch Thức Tỉnh"
@@ -2752,3 +2752,71 @@ msgstr "Sóng tro chạy hai phía, nhảy lên!"
 
 msgid "BARK_CH01_10_QUAKE_NEO"
 msgstr "Sóng tro chạy hai bên! Nhảy lên để tránh nhé."
+
+msgid "RECRUIT_UI_INFO"
+msgstr "Thông tin"
+
+msgid "RECRUIT_UI_WEAPON_SLOT"
+msgstr "Vũ khí (sắp có)"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_BOW_WHIRLWIND"
+msgstr "Cung Lốc Xoáy"
+
+msgid "EQUIP_EQ_STIGMA_TOP_WHIRLWIND"
+msgstr "Ấn Lốc Xoáy (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_WHIRLWIND"
+msgstr "Ấn Lốc Xoáy (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_WHIRLWIND"
+msgstr "Ấn Lốc Xoáy (Chân)"
+
+msgid "EQUIP_EQ_WEAPON_BLADES_THUNDERCLAP"
+msgstr "Song đao Lôi Đình"
+
+msgid "EQUIP_EQ_STIGMA_TOP_THUNDERCLAP"
+msgstr "Ấn Lôi Đình (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_THUNDERCLAP"
+msgstr "Ấn Lôi Đình (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_THUNDERCLAP"
+msgstr "Ấn Lôi Đình (Chân)"
+
+msgid "EQUIP_EQ_WEAPON_STAFF_DAWNLIGHT"
+msgstr "Trượng Bình Minh"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DAWNLIGHT"
+msgstr "Ấn Bình Minh (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DAWNLIGHT"
+msgstr "Ấn Bình Minh (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DAWNLIGHT"
+msgstr "Ấn Bình Minh (Chân)"
+
+msgid "EQUIP_EQ_WEAPON_SCYTHE_NIGHTSHADE"
+msgstr "Lưỡi hái Dạ Ảnh"
+
+msgid "EQUIP_EQ_STIGMA_TOP_NIGHTSHADE"
+msgstr "Ấn Dạ Ảnh (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_NIGHTSHADE"
+msgstr "Ấn Dạ Ảnh (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_NIGHTSHADE"
+msgstr "Ấn Dạ Ảnh (Chân)"
+
+# Trang bị 5★, bộ vết thánh
+msgid "SET_SET_WHIRLWIND"
+msgstr "Ấn Lốc Xoáy"
+
+msgid "SET_SET_THUNDERCLAP"
+msgstr "Ấn Lôi Đình"
+
+msgid "SET_SET_DAWNLIGHT"
+msgstr "Ấn Bình Minh"
+
+msgid "SET_SET_NIGHTSHADE"
+msgstr "Ấn Dạ Ảnh"

@@ -47,7 +47,10 @@ for iid, kind, value, rarity, vi, en in ITEMS:
 # Trang bị (owner, 2026-11-12): mỗi nhân vật mang 1 vũ khí + 3 vết thánh theo thứ tự Đầu / Thân / Chân.
 # Độ hiếm 3★ / 4★ (khớp tiếp tế vũ khí). `cost` là hệ số giá cường hóa giữ từ thiết kế trước (200 vàng, 100 điểm × cost).
 WEAPON_TYPE = {"eq_weapon_iron": "sword", "eq_weapon_flame": "sword", "eq_weapon_bow_gale": "bow",
-               "eq_weapon_blades_spark": "dual_blades", "eq_weapon_greatsword_magma": "greatsword"}
+               "eq_weapon_blades_spark": "dual_blades", "eq_weapon_greatsword_magma": "greatsword",
+               # Bộ 4★ cho từng loại vũ khí (owner 2026-11-15): kiếm, đại kiếm đã có; thêm cung, song đao, trượng, lưỡi hái.
+               "eq_weapon_bow_whirlwind": "bow", "eq_weapon_blades_thunderclap": "dual_blades",
+               "eq_weapon_staff_dawnlight": "staff", "eq_weapon_scythe_nightshade": "scythe"}
 EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi, en
     ("eq_weapon_iron", "weapon", 3, 1, 80.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Lõi vũ khí sắt", "Iron Weapon Core"),
     ("eq_weapon_flame", "weapon", 4, 3, 160.0, 0.0, 0.0, 0.05, 0.0, 0.0, "Lõi vũ khí hỏa tinh", "Flame Weapon Core"),
@@ -67,15 +70,35 @@ EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi,
     ("eq_stigma_top_bedrock", "stigma_top", 4, 3, 30.0, 800.0, 0.0, 0.0, 0.0, 0.0, "Ấn Nham Thạch (Đầu)", "Bedrock Sigil (Top)"),
     ("eq_stigma_mid_bedrock", "stigma_mid", 4, 3, 0.0, 1600.0, 80.0, 0.0, 0.0, 0.0, "Ấn Nham Thạch (Thân)", "Bedrock Sigil (Middle)"),
     ("eq_stigma_bot_bedrock", "stigma_bot", 4, 3, 40.0, 0.0, 60.0, 0.0, 0.0, 0.05, "Ấn Nham Thạch (Chân)", "Bedrock Sigil (Bottom)"),
+    # Bộ 4★ theo loại vũ khí (owner 2026-11-15): 1 vũ khí + 3 vết thánh. Số tạm Claude đặt (≈ bộ Viêm Hoàng / Nham Thạch).
+    # Cung (Kazeyumi, Phong)
+    ("eq_weapon_bow_whirlwind", "weapon", 4, 3, 155.0, 0.0, 0.0, 0.05, 0.0, 0.0, "Cung Lốc Xoáy", "Whirlwind Bow"),
+    ("eq_stigma_top_whirlwind", "stigma_top", 4, 3, 60.0, 0.0, 0.0, 0.06, 0.0, 0.0, "Ấn Lốc Xoáy (Đầu)", "Whirlwind Sigil (Top)"),
+    ("eq_stigma_mid_whirlwind", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Lốc Xoáy (Thân)", "Whirlwind Sigil (Middle)"),
+    ("eq_stigma_bot_whirlwind", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Lốc Xoáy (Chân)", "Whirlwind Sigil (Bottom)"),
+    # Song đao (Raikiba, Lôi)
+    ("eq_weapon_blades_thunderclap", "weapon", 4, 3, 160.0, 0.0, 0.0, 0.0, 0.10, 0.0, "Song đao Lôi Đình", "Thunderclap Blades"),
+    ("eq_stigma_top_thunderclap", "stigma_top", 4, 3, 60.0, 0.0, 0.0, 0.06, 0.0, 0.0, "Ấn Lôi Đình (Đầu)", "Thunderclap Sigil (Top)"),
+    ("eq_stigma_mid_thunderclap", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Lôi Đình (Thân)", "Thunderclap Sigil (Middle)"),
+    ("eq_stigma_bot_thunderclap", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Lôi Đình (Chân)", "Thunderclap Sigil (Bottom)"),
+    # Trượng (Hikarine, Quang — hỗ trợ: thiên HP / DEF như bộ Nham Thạch)
+    ("eq_weapon_staff_dawnlight", "weapon", 4, 3, 140.0, 800.0, 0.0, 0.0, 0.0, 0.0, "Trượng Bình Minh", "Dawnlight Staff"),
+    ("eq_stigma_top_dawnlight", "stigma_top", 4, 3, 30.0, 800.0, 0.0, 0.0, 0.0, 0.0, "Ấn Bình Minh (Đầu)", "Dawnlight Sigil (Top)"),
+    ("eq_stigma_mid_dawnlight", "stigma_mid", 4, 3, 0.0, 1600.0, 80.0, 0.0, 0.0, 0.0, "Ấn Bình Minh (Thân)", "Dawnlight Sigil (Middle)"),
+    ("eq_stigma_bot_dawnlight", "stigma_bot", 4, 3, 40.0, 0.0, 60.0, 0.0, 0.0, 0.05, "Ấn Bình Minh (Chân)", "Dawnlight Sigil (Bottom)"),
+    # Lưỡi hái (Yomigari, Ám)
+    ("eq_weapon_scythe_nightshade", "weapon", 4, 3, 170.0, 0.0, 0.0, 0.04, 0.0, 0.0, "Lưỡi hái Dạ Ảnh", "Nightshade Scythe"),
+    ("eq_stigma_top_nightshade", "stigma_top", 4, 3, 60.0, 0.0, 0.0, 0.06, 0.0, 0.0, "Ấn Dạ Ảnh (Đầu)", "Nightshade Sigil (Top)"),
+    ("eq_stigma_mid_nightshade", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Dạ Ảnh (Thân)", "Nightshade Sigil (Middle)"),
+    ("eq_stigma_bot_nightshade", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Dạ Ảnh (Chân)", "Nightshade Sigil (Bottom)"),
 ]
 # Bộ vết thánh 4★ (hiệu ứng bộ ở data/equipment/sets/, sinh bằng tools/gen_equipment_5star.py).
-SET_ID = {e: "set_" + e.rsplit("_", 1)[1] for e in
-          ("eq_stigma_top_blaze", "eq_stigma_mid_blaze", "eq_stigma_bot_blaze",
-           "eq_stigma_top_bedrock", "eq_stigma_mid_bedrock", "eq_stigma_bot_bedrock")}
+SET_ID = {"eq_stigma_%s_%s" % (slot, k): "set_" + k for slot in ("top", "mid", "bot")
+          for k in ("blaze", "bedrock", "whirlwind", "thunderclap", "dawnlight", "nightshade")}
 for eid, slot, rarity, cost, atk, hp, df, cr, cd, cdr, vi, en in EQUIP:
     write("data/equipment/%s.tres" % eid, "equipment_def.gd", "EquipmentDef",
           [("id", eid), ("name_key", "EQUIP_" + eid.upper()), ("slot", slot), ("rarity", rarity),
-           ("weapon_type", WEAPON_TYPE.get(eid, "")), ("set_id", SET_ID.get(eid, "")), ("max_level", 10),
+           ("weapon_type", WEAPON_TYPE.get(eid, ""))] + ([("set_id", SET_ID[eid])] if eid in SET_ID else []) + [("max_level", 10),
            ("atk", atk), ("max_hp", hp), ("def", df), ("crit_rate", cr), ("crit_damage", cd), ("cdr", cdr),
            ("growth_per_level", 0.1), ("enhance_gold_base", 200 * cost), ("enhance_points_base", 100 * cost)])
 

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EquipmentDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/equipment_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "eq_stigma_top_whirlwind"
+name_key = "EQUIP_EQ_STIGMA_TOP_WHIRLWIND"
+slot = "stigma_top"
+rarity = 4
+weapon_type = ""
+set_id = "set_whirlwind"
+max_level = 10
+atk = 60.0
+max_hp = 0.0
+def = 0.0
+crit_rate = 0.06
+crit_damage = 0.0
+cdr = 0.0
+growth_per_level = 0.1
+enhance_gold_base = 600
+enhance_points_base = 300
+metadata/source = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."

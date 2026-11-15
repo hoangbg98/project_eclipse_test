@@ -1072,7 +1072,7 @@ msgid "BANNER_KIND_CHAR"
 msgstr "Character banner"
 
 msgid "BANNER_KIND_EQUIP"
-msgstr "Weapon & stigma banner"
+msgstr "Standard equipment banner"
 
 msgid "BANNER_TITLE_TERRA"
 msgstr "Awakening of Stone"
@@ -2752,3 +2752,71 @@ msgstr "Ash waves both ways, jump!"
 
 msgid "BARK_CH01_10_QUAKE_NEO"
 msgstr "Ash waves both ways! Jump to avoid them."
+
+msgid "RECRUIT_UI_INFO"
+msgstr "Information"
+
+msgid "RECRUIT_UI_WEAPON_SLOT"
+msgstr "Weapon (coming soon)"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_BOW_WHIRLWIND"
+msgstr "Whirlwind Bow"
+
+msgid "EQUIP_EQ_STIGMA_TOP_WHIRLWIND"
+msgstr "Whirlwind Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_WHIRLWIND"
+msgstr "Whirlwind Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_WHIRLWIND"
+msgstr "Whirlwind Sigil (Bottom)"
+
+msgid "EQUIP_EQ_WEAPON_BLADES_THUNDERCLAP"
+msgstr "Thunderclap Blades"
+
+msgid "EQUIP_EQ_STIGMA_TOP_THUNDERCLAP"
+msgstr "Thunderclap Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_THUNDERCLAP"
+msgstr "Thunderclap Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_THUNDERCLAP"
+msgstr "Thunderclap Sigil (Bottom)"
+
+msgid "EQUIP_EQ_WEAPON_STAFF_DAWNLIGHT"
+msgstr "Dawnlight Staff"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DAWNLIGHT"
+msgstr "Dawnlight Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DAWNLIGHT"
+msgstr "Dawnlight Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DAWNLIGHT"
+msgstr "Dawnlight Sigil (Bottom)"
+
+msgid "EQUIP_EQ_WEAPON_SCYTHE_NIGHTSHADE"
+msgstr "Nightshade Scythe"
+
+msgid "EQUIP_EQ_STIGMA_TOP_NIGHTSHADE"
+msgstr "Nightshade Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_NIGHTSHADE"
+msgstr "Nightshade Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_NIGHTSHADE"
+msgstr "Nightshade Sigil (Bottom)"
+
+# Trang bị 5★, bộ vết thánh
+msgid "SET_SET_WHIRLWIND"
+msgstr "Whirlwind Sigil"
+
+msgid "SET_SET_THUNDERCLAP"
+msgstr "Thunderclap Sigil"
+
+msgid "SET_SET_DAWNLIGHT"
+msgstr "Dawnlight Sigil"
+
+msgid "SET_SET_NIGHTSHADE"
+msgstr "Nightshade Sigil"

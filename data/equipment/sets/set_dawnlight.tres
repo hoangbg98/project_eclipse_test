@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="StigmaSetDef" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/stigma_set_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/progression/equip_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="Effect_0"]
+script = ExtResource("2")
+kind = 0
+requires_element = "light"
+stat = "elem_dmg"
+value = 0.05
+note = "Người đeo +5% ST Quang"
+
+[sub_resource type="Resource" id="Effect_1"]
+script = ExtResource("2")
+kind = 0
+stat = "heal_bonus"
+value = 0.04
+note = "Hiệu quả hồi máu +4%"
+
+[resource]
+script = ExtResource("1")
+id = "set_dawnlight"
+name_key = "SET_SET_DAWNLIGHT"
+rarity = 4
+owner_id = ""
+element = "light"
+bonus_2 = Array[ExtResource("2")]([SubResource("Effect_0")])
+bonus_3 = Array[ExtResource("2")]([SubResource("Effect_1")])
+metadata/source = "EQUIPMENT_5STAR.md (owner 2026-11-14). Chỉ số cộng thẳng: số khởi điểm Claude đặt; owner chỉnh."

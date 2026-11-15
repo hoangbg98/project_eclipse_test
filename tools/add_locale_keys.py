@@ -254,7 +254,7 @@ KEYS = [
     ("RECRUIT_UI_RESULT_TITLE", "Kết quả", "Results"),
     ("RECRUIT_UI_CONFIRM", "Xác nhận", "Confirm"),
     ("BANNER_KIND_CHAR", "Banner nhân vật", "Character banner"),
-    ("BANNER_KIND_EQUIP", "Banner vũ khí & vết thánh", "Weapon & stigma banner"),
+    ("BANNER_KIND_EQUIP", "Banner trang bị thường", "Standard equipment banner"),
     ("BANNER_TITLE_TERRA", "Nham Thạch Thức Tỉnh", "Awakening of Stone"),
     ("BANNER_TITLE_EQUIP_TERRA", "Vũ Khí & Ấn Nham Thạch", "Magma Blade & Bedrock Sigils"),
     # Công cụ gửi quà thử nghiệm (owner 2026-11-14)

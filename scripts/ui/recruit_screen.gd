@@ -81,6 +81,12 @@ static func load_banners() -> Array[BannerDef]:
 			var b := load(BANNERS_DIR.path_join(f)) as BannerDef
 			if b and b.validate().is_empty() and not b.starter_free_multi:
 				out.append(b)
+	# Theo list_order (banner trang bị thường = 100, luôn cuối); bằng nhau giữ thứ tự tên file (sort_custom không ổn định).
+	var pos := {}
+	for i in out.size():
+		pos[out[i]] = i
+	out.sort_custom(func(a: BannerDef, b: BannerDef) -> bool:
+		return a.list_order < b.list_order if a.list_order != b.list_order else pos[a] < pos[b])
 	return out
 
 
@@ -487,13 +493,18 @@ func _build_banner(b: BannerDef) -> void:
 	for side in [Rect2(pr.position, Vector2(pr.size.x * 0.3, pr.size.y)),
 			Rect2(pr.position + Vector2(pr.size.x * 0.68, 0), Vector2(pr.size.x * 0.32, pr.size.y))]:
 		_panel(side, Color(0, 0, 0, 0.35)).name = "Shade"
-	var kt := _label(_pr("kind_tag"), tr(b.kind_key) if b.kind_key != "" else "", layout.font("panel.kind_tag", 26),
-			layout.color("accent_blue", Color.SKY_BLUE))
-	kt.name = "KindTag"
-	_label(_pr("title"), banner_title(b), layout.font("panel.title", 76), Color.WHITE).name = "BannerTitle"
+	if kind != "char":   # banner nhân vật không có nhãn loại / tiêu đề (owner 2026-11-15: ảnh banner tự thể hiện)
+		var kt := _label(_pr("kind_tag"), tr(b.kind_key) if b.kind_key != "" else "", layout.font("panel.kind_tag", 26),
+				layout.color("accent_blue", Color.SKY_BLUE))
+		kt.name = "KindTag"
+		_label(_pr("title"), banner_title(b), layout.font("panel.title", 76), Color.WHITE).name = "BannerTitle"
 	# Chú thích tên món đề cử (đường kẻ + tên + nhãn sao), theo ảnh gợi ý 1. Banner nhân vật không có
 	# chú thích tên nhân vật / giáp (owner 2026-11-15: ảnh banner tự thể hiện).
-	var f := featured(b) if kind == "equip" else {}
+	# Banner thường (không pity, vĩnh viễn — vd trang bị thường): 3 hàng vũ khí trưng bày thay chú thích (owner 2026-11-15).
+	var plain := pity_text(b) == "" and b.end_unix <= 0 and not is_starter(b)
+	if kind == "equip" and plain:
+		_build_showcase(b)
+	var f := featured(b) if kind == "equip" and not plain else {}
 	if not f.is_empty():
 		var cr := _pr("callout_1")
 		_callout(cr, str(f["name"]), "★".repeat(int(f["stars"])), tr("RECRUIT_UI_SURE" if is_starter(b) else "RECRUIT_UI_UP"),
@@ -509,8 +520,11 @@ func _build_banner(b: BannerDef) -> void:
 				_fit_font(pity, layout.font("panel.pity_box", 30), pb.size.x - 32.0, 18), Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
 		pl.name = "PityLine"
 		pl.autowrap_mode = TextServer.AUTOWRAP_OFF
-	if kind == "equip":
-		_build_icon_row(b)
+	# Owner 2026-11-15: banner nhân vật chỉ còn dòng pity ở cột phải (bỏ thời gian, túi quà, dòng mảnh tiến cấp);
+	# banner thường (không pity, vĩnh viễn — vd trang bị thường) bỏ cả dãy icon, thời gian, túi quà.
+	if kind == "char" or (pity == "" and b.end_unix <= 0):
+		return
+	_build_icon_row(b)
 	var tr_ := _pr("time")
 	var time_s := "%s %s" % [tr("RECRUIT_UI_TIME_LEFT"), time_text(b)]
 	var tl := _label(tr_, time_s, _fit_font(time_s, layout.font("panel.time", 28), tr_.size.x, 18), Color.WHITE,
@@ -521,11 +535,6 @@ func _build_banner(b: BannerDef) -> void:
 	var gb := _button(gift, tr("RECRUIT_UI_GIFT"), layout.font("panel.gift_card", 26), Callable(), false, "GiftButton")
 	gb.add_theme_stylebox_override("normal", _style(Color(1, 1, 1, 0.9), Color(1, 1, 1, 1), 6))
 	gb.add_theme_color_override("font_color", layout.color("text_dark", Color("#1B1E2B")))
-	if kind == "char":
-		var frag := fragment_text(b)
-		if frag != "":
-			_label(_pr("fragment_line"), frag, layout.font("panel.fragment_line", 30), Color.WHITE,
-					HORIZONTAL_ALIGNMENT_RIGHT).name = "FragmentLine"
 
 
 ## Một chú thích: chấm tròn + đường kẻ ngang + tên (to) + dòng nhỏ (sao, nhãn UP).
@@ -543,6 +552,67 @@ func _callout(r: Rect2, title: String, stars: String, tag: String, name_node: St
 	if stars != "" and stars_node != "":
 		_label(Rect2(tag_r.end.x + 10, tag_r.position.y, r.size.x - tag_r.size.x - 10, 34), stars, 26,
 				layout.color("star", Color.GOLD)).name = stars_node
+
+
+## Vũ khí trưng bày của banner thường: vũ khí đề cử trước, rồi các vũ khí khác cùng bậc cao nhất; thiếu thì "" (ô trống).
+func showcase_items(b: BannerDef, count := 3) -> Array:
+	var out: Array = []
+	var best: GachaTierDef = null
+	for t in b.tiers:
+		if t == null:
+			continue
+		var has_weapon := false
+		for p in t.pool:
+			has_weapon = has_weapon or _is_weapon(p)
+		if has_weapon and (best == null or t.rarity > best.rarity):
+			best = t
+	if best:
+		for p in Array(best.featured) + Array(best.pool):
+			if _is_weapon(p) and not out.has(p) and out.size() < count:
+				out.append(p)
+	while out.size() < count:
+		out.append("")
+	return out
+
+
+func _is_weapon(item: String) -> bool:
+	if not item.begins_with("equip:"):
+		return false
+	var d := PlayerProfile.equipment_defs().get_def(item.get_slice(":", 1)) as EquipmentDef
+	return d != null and d.slot == "weapon"
+
+
+## 3 hàng trưng bày (ảnh gợi ý owner 2026-11-15): ảnh vũ khí (placeholder) + thanh tên có huy hiệu độ hiếm và dòng "Thông tin".
+func _build_showcase(b: BannerDef) -> void:
+	var items := showcase_items(b, (layout.get_value("panel.showcase.slots", []) as Array).size())
+	var anchor := layout.text("panel.anchor", "left")
+	for i in items.size():
+		var item := str(items[i])
+		var art_r := layout.rect_in("panel.showcase.slots", i, anchor)
+		var bar_r := layout.rect_in("panel.showcase.bars", i, anchor)
+		if art_r.size.x <= 0.0 or bar_r.size.x <= 0.0:
+			continue
+		var tex: Texture2D = result_art(item)["texture"] if item != "" else _tex(RESULT_ICON % "weapon")
+		var a := _art(art_r, tex, tr("RECRUIT_UI_WEAPON_SLOT"), Rect2(0, 0, 1, 1), "ShowcaseArt_%d" % i)
+		a.fill_color = Color(0, 0, 0, 0)
+		a.border_color = Color(0, 0, 0, 0)
+		var rar := _item_rarity(item) if item != "" else 4
+		var col := _rarity_color(rar)
+		var bar := _panel(bar_r, Color(0.12, 0.16, 0.42, 0.85), "ShowcaseBar_%d" % i)
+		bar.add_theme_stylebox_override("panel", _style(Color(0.12, 0.16, 0.42, 0.85), col, 4))
+		var d := bar_r.size.y + 16.0
+		var badge := _panel(Rect2(bar_r.position + Vector2(-d * 0.35, -8), Vector2(d, d)), col, "ShowcaseBadge_%d" % i)
+		badge.add_theme_stylebox_override("panel", _style(col, Color.WHITE, int(d * 0.5)))
+		_label(badge.get_rect(), "%d★" % rar, int(d * 0.32), layout.color("text_dark", Color("#1B1E2B")), HORIZONTAL_ALIGNMENT_CENTER)
+		var name_s := reward_name(item) if item != "" else tr("RECRUIT_UI_WEAPON_SLOT")
+		var tx := bar_r.position.x + d * 0.75
+		var tw := bar_r.end.x - tx - 12.0
+		var nl := _label(Rect2(tx, bar_r.position.y + 2, tw, bar_r.size.y * 0.6), name_s,
+				_fit_font(name_s, layout.font("panel.showcase", 30), tw, 18), Color.WHITE)
+		nl.name = "ShowcaseName_%d" % i
+		nl.autowrap_mode = TextServer.AUTOWRAP_OFF
+		_label(Rect2(tx, bar_r.position.y + bar_r.size.y * 0.58, tw, bar_r.size.y * 0.4), "✦ " + tr("RECRUIT_UI_INFO"),
+				int(layout.font("panel.showcase", 30) * 0.55), Color(1, 1, 1, 0.75))
 
 
 ## Dãy icon trang bị đề cử góc phải; banner 5★: món đã có sáng + dấu ✓, chưa có phủ lớp tối mờ.

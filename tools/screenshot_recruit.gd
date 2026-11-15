@@ -5,13 +5,13 @@ extends SceneTree
 
 const SHOTS := [
 	["1_character_banner", "main", 0],
-	["2_equipment_banner", "main", 1],
+	["2_equipment_banner", "main", 2],
 	["3_details", "details", 0],
 	["4_results", "results", 0],
 	["5_history", "history", 0],
-	["6_results_mixed", "mixed", 2],
-	["7_results_revealing", "revealing", 2],
-	["8_star5_banner", "main", 2],
+	["6_results_mixed", "mixed", 1],
+	["7_results_revealing", "revealing", 1],
+	["8_star5_banner", "main", 1],
 ]
 
 ## Kết quả giả cho cảnh 6: đủ các loại thẻ (nhân vật S mới có splash, A trùng, đồ 5★ / 4★, vật phẩm, vàng).

@@ -106,6 +106,8 @@ DISPLAY = {
     "banner_equip_terra": ("BANNER_KIND_EQUIP", "BANNER_TITLE_EQUIP_TERRA"),
     "banner_star5_earth": ("BANNER_KIND_STAR5", "BANNER_TITLE_STAR5_EARTH"),
 }
+# Thứ tự danh sách màn Chiêu mộ (owner 2026-11-15): banner trang bị thường luôn ở hàng cuối.
+LIST_ORDER = {"banner_equip_terra": 100}
 
 # --- Owner 2026-11-14: banner 5★ vũ khí + vết thánh (EQUIPMENT_5STAR mục 5.6) ---
 #   Một banner chung, mỗi kỳ 1 bộ đề cử 5★ (1 vũ khí + 3 vết thánh của một nhân vật). Mỗi món 1.5%; món đã có không
@@ -136,7 +138,7 @@ def write_banner(out_dir, file_id, name_key, tiers, guarantee_tiers, guarantee_p
               "cost_multi = %d" % cost[1], 'pity_group = "%s"' % group,
               "multi_guarantee_tiers = %s" % arr(guarantee_tiers), "multi_guarantee_pick = %s" % arr(guarantee_pick),
               'kind_key = "%s"' % DISPLAY.get(file_id, ("", ""))[0], 'title_key = "%s"' % DISPLAY.get(file_id, ("", ""))[1],
-              "end_unix = 0",
+              "end_unix = 0", "list_order = %d" % LIST_ORDER.get(file_id, 0),
               "starter_free_multi = %s" % ("true" if starter else "false")]
     if starter:
         lines.append('ticket_item = "%s"' % STARTER_TICKET)
@@ -181,11 +183,20 @@ for file_id, name_key, weapons, stigmata in EQUIP_BANNERS:
     ]
     write_banner(OUT, file_id, name_key, tiers, [], [], "equip",
                  "Owner 2026-11-12/13: vũ khí 4★ 2.87%, vết thánh 4★ 14%, vũ khí 3★ 10.7%, vết thánh 3★ 14.43%, "
-                 "nguyên liệu 58%. Owner 2026-11-15: không pity, không bảo đảm 10 lượt; giá 200 / 1800.", cost=EQUIP_COST)
+                 "nguyên liệu 58%. Owner 2026-11-15: không pity, không bảo đảm 10 lượt; giá 200 / 1800; "
+                 "thêm bộ 4★ cung / song đao / trượng / lưỡi hái vào bậc 4★.", cost=EQUIP_COST)
     print("viết", file_id, "W4:", w4, "S4:", s4, "W3:", w3, "S3:", s3)
 
+# Bộ 4★ theo loại vũ khí thêm 2026-11-15: owner chỉ đưa vào banner trang bị thường, không vào bậc 4★ của banner 5★.
+STANDARD_ONLY_4STAR = ("whirlwind", "thunderclap", "dawnlight", "nightshade")
+
+
+def not_standard_only(items):
+    return [x for x in items if not any(x.endswith("_" + k) for k in STANDARD_ONLY_4STAR)]
+
+
 for file_id, name_key, group, set_items, weapons, stigmata in STAR5_BANNERS:
-    w4, s4 = equip_by(4, False), equip_by(4, True)
+    w4, s4 = not_standard_only(equip_by(4, False)), not_standard_only(equip_by(4, True))
     w3, s3 = equip_by(3, False), equip_by(3, True)
     five = equip_by(5, False) + equip_by(5, True)
     assert all(x in five for x in set_items), "món 5★ đề cử phải là đồ 5★"

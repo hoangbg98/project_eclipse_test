@@ -82,5 +82,6 @@ multi_guarantee_pick = PackedStringArray("A")
 kind_key = "BANNER_KIND_CHAR"
 title_key = "BANNER_TITLE_TERRA"
 end_unix = 0
+list_order = 0
 starter_free_multi = false
 metadata/source = "Owner 2026-11-12/13: S 1.5%, A 16.3%, B 10.874%, nguyên liệu phần còn lại; pity cứng S 100, từ lượt 80 +10%; 10 lượt chắc chắn A; giá 280 / 2520. Đề cử char_earth_01."

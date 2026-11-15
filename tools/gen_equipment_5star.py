@@ -301,6 +301,19 @@ SETS_4 = [
     ("bedrock", "earth", "Ấn Nham Thạch", "Bedrock Sigil",
      [S("elem_dmg", 0.05, "Người đeo +5% ST Địa", "earth")],
      [S("dmg_taken_down", 0.03, "Người đeo giảm 3% ST nhận")]),
+    # Owner 2026-11-15: bộ 4★ cho từng loại vũ khí (cung, song đao, trượng, lưỡi hái); số ≈ một nửa phần chung 5★.
+    ("whirlwind", "wind", "Ấn Lốc Xoáy", "Whirlwind Sigil",
+     [S("elem_dmg", 0.05, "Người đeo +5% ST Phong", "wind")],
+     [S("en_regen", 0.05, "Tốc độ nạp EN +5%")]),
+    ("thunderclap", "lightning", "Ấn Lôi Đình", "Thunderclap Sigil",
+     [S("elem_dmg", 0.05, "Người đeo +5% ST Lôi", "lightning")],
+     [V("elemental", 0.04, "+4% ST lên kẻ địch mang hiệu ứng nguyên tố")]),
+    ("dawnlight", "light", "Ấn Bình Minh", "Dawnlight Sigil",
+     [S("elem_dmg", 0.05, "Người đeo +5% ST Quang", "light")],
+     [S("heal_bonus", 0.04, "Hiệu quả hồi máu +4%")]),
+    ("nightshade", "dark", "Ấn Dạ Ảnh", "Nightshade Sigil",
+     [S("elem_dmg", 0.05, "Người đeo +5% ST Ám", "dark")],
+     [V("def_down", 0.04, "+4% ST lên kẻ địch bị giảm DEF (Nguyền cũng là giảm DEF)")]),
 ]
 
 FIELD_ORDER = ["kind", "exclusive", "requires_element", "team", "effect_id", "stat", "param", "condition",

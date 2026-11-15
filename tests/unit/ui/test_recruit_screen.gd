@@ -106,10 +106,11 @@ func test_closed_without_banners() -> void:
 
 func test_shipped_banners_listed_in_order() -> void:
 	var s := _screen()
-	assert_int(s.banners.size()).is_equal(3)                           # nhân vật + tiếp tế + 5★; lượt hướng dẫn không hiện
+	assert_int(s.banners.size()).is_equal(3)                           # nhân vật + 5★ + trang bị thường; lượt hướng dẫn không hiện
 	assert_str(s.banners[0].id).is_equal("banner_char_terra")
-	assert_str(s.banners[1].id).is_equal("banner_equip_terra")
-	assert_str(s.banners[2].id).is_equal("banner_star5_earth")
+	assert_str(s.banners[1].id).is_equal("banner_star5_earth")
+	assert_str(s.banners[2].id).is_equal("banner_equip_terra")       # trang bị thường luôn cuối (owner 2026-11-15)
+	assert_str((_node(s, "Banner_2") as Button).text).is_equal(tr("BANNER_KIND_EQUIP"))
 	assert_object(_node(s, "Banner_0")).is_not_null()
 	assert_object(_node(s, "Banner_1")).is_not_null()
 	assert_object(_node(s, "Banner_2")).is_not_null()
@@ -120,28 +121,28 @@ func test_shipped_banners_listed_in_order() -> void:
 # ---------- Màn chính (ảnh tham chiếu) ----------
 
 func test_character_banner_main_screen() -> void:
-	# Bố cục theo ảnh gợi ý 2 (owner 2026-11-15): pity S còn lại, mảnh tiến cấp, nút Chơi thử / Shop / Chi tiết / Lịch sử.
+	# Bố cục theo ảnh gợi ý 2 (owner 2026-11-15): pity S còn lại, nút Chơi thử / Shop / Chi tiết / Lịch sử.
+	# Owner 2026-11-15 (lần 2): bỏ thời gian, túi quà, dòng mảnh tiến cấp ở banner nhân vật.
 	var s := _screen()
 	assert_str(s.banner_layout(s.banners[0])).is_equal("char")
 	assert_str(_text(s, "Banner_0") if _node(s, "Banner_0") is Label else (_node(s, "Banner_0") as Button).text).is_equal(tr("BANNER_KIND_CHAR"))
-	assert_str(_text(s, "BannerTitle")).is_equal(tr("BANNER_TITLE_TERRA"))
-	for n in ["FeaturedName", "Stars", "FeaturedSub"]:                   # owner 2026-11-15: bỏ chữ Iwagane / tên giáp
+	for n in ["KindTag", "BannerTitle", "FeaturedName", "Stars", "FeaturedSub"]:   # owner 2026-11-15: bỏ nhãn, tiêu đề, Iwagane / tên giáp
 		assert_object(_node(s, n)).override_failure_message(n).is_null()
-	assert_str(_text(s, "TimeValue")).contains(tr("RECRUIT_UI_PERMANENT"))
+	for n in ["TimeValue", "GiftButton", "FragmentLine"]:
+		assert_object(_node(s, n)).override_failure_message(n).is_null()
 	assert_str(_text(s, "OrangeBox")).is_equal(tr("RECRUIT_UI_GUARANTEE_BOX") % [10, "%s / %s" % [tr("GACHA_TIER_CHAR_S"), tr("GACHA_TIER_CHAR_A")]])
 	assert_str(_text(s, "PityLine")).is_equal(tr("RECRUIT_UI_PITY_LEFT") % [100, tr("GACHA_TIER_CHAR_S")])
-	assert_str(_text(s, "FragmentLine")).is_equal(tr("RECRUIT_UI_FRAG_NOT_OWNED"))   # chưa có Iwagane
-	for n in ["TrialButton", "ShopButton", "DetailsButton", "HistoryButton", "GiftButton"]:
+	for n in ["TrialButton", "ShopButton", "DetailsButton", "HistoryButton"]:
 		assert_object(_node(s, n)).override_failure_message(n).is_not_null()
 	assert_object(_node(s, "OwnedIcon_0")).is_null()                   # banner nhân vật không có dãy icon
 	assert_str(_node(s, "Wish_1").get("text")).contains("280")
 	assert_str(_node(s, "Wish_10").get("text")).contains("2520")
-	# Đã có Iwagane: hiện số mảnh còn thiếu để lên S1.
+	# fragment_text vẫn giữ (không hiện trên màn) để bật lại khi owner cần.
+	assert_str(s.fragment_text(s.banners[0])).is_equal(tr("RECRUIT_UI_FRAG_NOT_OWNED"))   # chưa có Iwagane
 	s.profile.progression.unlock("char_earth_01")
 	s.profile.progression.add_fragments("char_earth_01", 4)
-	s.refresh()
 	var need := s.profile.progression.fragments_to_promote("char_earth_01") - 4
-	assert_str(_text(s, "FragmentLine")).is_equal(tr("RECRUIT_UI_FRAG_LEFT") % [need, "S1"])
+	assert_str(s.fragment_text(s.banners[0])).is_equal(tr("RECRUIT_UI_FRAG_LEFT") % [need, "S1"])
 
 
 func test_right_column_stays_on_screen_for_any_aspect() -> void:
@@ -184,25 +185,35 @@ func test_rates_are_not_on_main_screen_but_in_details() -> void:
 
 
 func test_equipment_banner_switch() -> void:
-	# Bố cục theo ảnh gợi ý 1 (owner 2026-11-15): chú thích món đề cử, dãy icon, không pity, giá 200 / 1800.
+	# Banner trang bị thường (owner 2026-11-15): 3 hàng vũ khí trưng bày, không pity / icon / thời gian, giá 200 / 1800.
 	var s := _screen()
-	(_node(s, "Banner_1") as Button).pressed.emit()
-	assert_int(s.selected).is_equal(1)
-	assert_str(s.banner_layout(s.banners[1])).is_equal("equip")
+	(_node(s, "Banner_2") as Button).pressed.emit()
+	assert_int(s.selected).is_equal(2)
+	assert_str(s.banner_layout(s.banners[2])).is_equal("equip")
 	var weapon := PlayerProfile.equipment_defs().get_def("eq_weapon_greatsword_magma") as EquipmentDef
-	assert_str(_text(s, "FeaturedName")).is_equal(tr(weapon.name_key))
-	assert_str(_text(s, "Stars")).is_equal("★★★★")
-	assert_str(_text(s, "FeaturedSub")).is_equal(tr("RECRUIT_UI_STIGMA_SET") % 3)
+	var shown := s.showcase_items(s.banners[2])
+	assert_int(shown.size()).is_equal(3)
+	assert_str(shown[0]).is_equal("equip:eq_weapon_greatsword_magma")    # vũ khí đề cử đứng đầu
+	assert_str(_text(s, "ShowcaseName_0")).is_equal(tr(weapon.name_key))
+	for i in 3:
+		assert_str(shown[i]).is_not_empty()                                 # đủ vũ khí 4★ (6 loại) cho 3 ô
+		assert_str(_text(s, "ShowcaseName_%d" % i)).is_equal(s.reward_name(shown[i]))
+	# Ít vũ khí hơn số ô: ô còn lại hiện "Vũ khí (sắp có)".
+	assert_array(s.showcase_items(s.banners[2], 8).slice(6)).is_equal(["", ""])
+	for i in 3:
+		assert_object(_node(s, "ShowcaseArt_%d" % i)).is_not_null()
+	for n in ["FeaturedName", "FeaturedSub"]:
+		assert_object(_node(s, n)).override_failure_message(n).is_null()
 	assert_object(_node(s, "PityLine")).is_null()                      # tiếp tế không còn pity
 	assert_object(_node(s, "OrangeBox")).is_null()                     # không còn bảo đảm 10 lượt
 	assert_object(_node(s, "FragmentLine")).is_null()
 	assert_object(_node(s, "TrialButton")).is_null()
-	assert_object(_node(s, "OwnedIcon_3")).is_not_null()               # 1 vũ khí + 3 vết thánh đề cử
-	assert_object(_node(s, "OwnedDim_0")).is_null()                    # tiếp tế không hiện đã có / chưa có
+	for n in ["OwnedIcon_0", "TimeValue", "GiftButton"]:              # banner thường: không pity, vĩnh viễn (owner 2026-11-15)
+		assert_object(_node(s, n)).override_failure_message(n).is_null()
 	assert_str(_node(s, "Wish_1").get("text")).contains("200")
 	assert_str(_node(s, "Wish_10").get("text")).contains("1800")
 	# Tên dài vẫn nằm một dòng trong khung (thu nhỏ chữ).
-	var name_label := _node(s, "FeaturedName") as Label
+	var name_label := _node(s, "ShowcaseName_0") as Label
 	assert_int(name_label.autowrap_mode).is_equal(TextServer.AUTOWRAP_OFF)
 	var w := name_label.get_theme_default_font().get_string_size(name_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, name_label.get_theme_font_size("font_size")).x
 	assert_bool(w <= name_label.size.x).is_true()
@@ -215,9 +226,9 @@ func test_star5_banner_owned_icons() -> void:
 	# Banner 5★: dãy icon cả bộ, món đã có sáng + dấu ✓, chưa có phủ lớp tối mờ (owner 2026-11-15).
 	var s := _screen()
 	s.profile.inventory.add_equipment("eq_stigma_mid_darwin")
-	(_node(s, "Banner_2") as Button).pressed.emit()
-	assert_str(s.banner_layout(s.banners[2])).is_equal("equip")
-	var items := s.icon_items(s.banners[2])
+	(_node(s, "Banner_1") as Button).pressed.emit()
+	assert_str(s.banner_layout(s.banners[1])).is_equal("equip")
+	var items := s.icon_items(s.banners[1])
 	assert_int(items.size()).is_equal(4)
 	for i in 4:
 		var owned := str(items[i]["item"]) == "equip:eq_stigma_mid_darwin"
