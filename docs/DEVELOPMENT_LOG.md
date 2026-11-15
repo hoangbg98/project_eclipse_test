@@ -1725,3 +1725,26 @@ un_tests.ps1`.
 - **Quyết định Claude chọn:** thứ tự ảnh theo thứ tự owner gửi (1 bắt chéo đao → tổng quan, 2 vung đao → tăng cấp, 3 bật nhảy → vũ khí, 4 lưng → vết thánh, 5 ngồi xổm → kỹ năng); không thu nhỏ ảnh; không sửa code màn hình. Ảnh tổng quan tự thay frame idle của Raikiba ở sảnh, đội hình ra trận và thẻ chiêu mộ.
 - **Hạn chế đã biết:** quầng sáng vàng mờ quanh đao / vệt sét nhạt dần vào nền trắng nên phần ngoài cùng của quầng bị cắt (còn lõi sáng); ảnh kỹ năng rộng (ngồi dang tay) nên vòng đao bên phải chạm nhẹ nhãn kỹ năng Bị động; thẻ Raikiba trong danh sách vẫn là placeholder vì chưa có chân dung chibi; công cụ tạo ảnh gốc chưa rõ.
 
+## 2026-11-15 — Splash art 2D của Iwagane thay placeholder ở màn Nhân vật
+- **Milestone / task:** art + M7-2 (màn Nhân vật) — owner đưa 5 splash art 2D (không chibi) của Iwagane, yêu cầu xóa nền, phóng to hợp lý, thay lần lượt vào: nhân vật, tăng cấp, vũ khí, vết thánh, kỹ năng (như Enkiba, Kazeyumi, Raikiba).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_earth_01/splash/char_earth_01_splash_{overview,level,weapon,stigma,skill}.png` (PNG alpha, bỏ ICC profile; 649–1024 px rộng, 1320–1521 px cao).
+  - `tests/unit/ui/test_character_screen.gd`: test splash 5 màn chạy thêm cho Iwagane; hai test "nhân vật chưa có ảnh" đổi sang Yomigari (`char_dark_01`).
+  - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh, tham số mặc định; kiểm lỗ kín bị xóa quanh mặt — chỉ có khe nền giữa tóc và giáp vai, răng ảnh hét còn nguyên); ảnh lưng: thêm bước một lần làm trong suốt điểm xám trung tính (chênh kênh ≤ 18, sáng ≥ 110) trong 40 px đáy để bỏ bóng đổ; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_earth_01` (soát bằng mắt 5 màn); `tools
+un_tests.ps1`.
+- **Kết quả thật:** nền bị xóa 56–66 %; giáp đồng, đá kiếm, quầng vàng giữ nguyên trên nền tối. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
+- **Quyết định Claude chọn:** thứ tự ảnh theo thứ tự owner gửi (1 cầm kiếm chéo → tổng quan, 2 chống kiếm → tăng cấp, 3 chém ngang → vũ khí, 4 lưng → vết thánh, 5 vác kiếm → kỹ năng); không thu nhỏ ảnh, không sửa code màn hình. Bước xóa bóng đổ chỉ làm một lần bằng script tạm (không thêm vào `cut_splash.py`).
+- **Hạn chế đã biết:** ở màn tổng quan mũi kiếm gần dòng tên giáp; thẻ Iwagane trong danh sách vẫn là placeholder (chưa có chân dung chibi); công cụ tạo ảnh gốc chưa rõ. Lúc làm có file frame idle của Iwagane (`frames/idle/`, `frames_manifest.json`) chưa commit do agent khác tạo; không đụng vào, không gộp vào commit này.
+
+
+
+## 2026-11-15 — Art: Iwagane idle frames (AI)
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `idle` của Iwagane (`char_earth_01`).
+- **Trạng thái:** BLOCKED (đã duyệt và chép frame; commit chờ toàn bộ test đạt mã thoát 0).
+- **File tạo/sửa:** `assets/characters/char_earth_01/frames/idle/` (6 frame); `assets/characters/char_earth_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `art_review/char_earth_01/idle/meta.json` (ngày duyệt); preview và dải nguồn trong `art_review/char_earth_01/idle/`.
+- **Đã chạy:** `C:\Users\default.LAPTOP-6QHN1193\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/approve_frames.py char_earth_01 idle` (mã thoát 0); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (mã thoát 1).
+- **Kết quả thật:** approve chép 6 frame, 8 fps và lặp; GdUnit4 báo 1 lỗi tại `tests/unit/ui/test_character_screen.gd:123` (kỳ vọng ảnh Yomigari là placeholder), các smoke test 5/5 đạt, toàn lệnh mã thoát 1. Lỗi ở test/file màn Nhân vật đã có thay đổi trong working tree trước task này; chưa xác định nguyên nhân sâu hơn.
+- **Quyết định Codex chọn:** metadata ghi `GPT Image (built-in image_gen; version not exposed)` vì công cụ không công bố phiên bản model.
+- **Hạn chế đã biết:** frame được owner duyệt dù dải có góc gần chính diện/3⁄4 như đã nêu ở preview; commit chưa tạo do toàn bộ test chưa đạt mã thoát 0.

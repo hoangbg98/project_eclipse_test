@@ -118,9 +118,9 @@ func test_overview_art_uses_portrait_or_placeholder() -> void:
 	var s := _screen()
 	var art := _node(s, "CharacterArt") as PlaceholderArt
 	assert_bool(art.is_placeholder()).is_equal(s.portrait(A) == null)
-	_save.data["characters"]["char_earth_01"] = SaveSchema.default_character()
-	s.select("char_earth_01")
-	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()   # Iwagane chưa có ảnh
+	_save.data["characters"]["char_dark_01"] = SaveSchema.default_character()
+	s.select("char_dark_01")
+	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()   # Yomigari chưa có ảnh
 
 
 # ---------- Splash art 2D (owner 2026-11-13) ----------
@@ -148,8 +148,8 @@ func test_enkiba_uses_splash_art_on_every_view() -> void:
 	assert_object(s.portrait(A)).is_not_same(load(SPLASH_DIR % "overview"))
 
 
-func test_kazeyumi_and_raikiba_use_splash_art_on_every_view() -> void:
-	for id in ["char_wind_01", "char_lightning_01"]:
+func test_kazeyumi_raikiba_iwagane_use_splash_art_on_every_view() -> void:
+	for id in ["char_wind_01", "char_lightning_01", "char_earth_01"]:
 		_check_splash_views(id)
 
 
@@ -178,8 +178,8 @@ func test_splash_falls_back_to_chibi_or_placeholder() -> void:
 	s.layout.data["art"]["weapon"] = "khong_co_file"
 	assert_object(s.splash(A, "weapon")).is_same(s.portrait(A))                      # thiếu file: dùng chibi
 	assert_object(s.splash(A, "weapon", false)).is_null()                            # ảnh lưng không thay bằng chibi
-	_save.data["characters"]["char_earth_01"] = SaveSchema.default_character()
-	s.select("char_earth_01")                                                        # nhân vật chưa có splash lẫn chibi
+	_save.data["characters"]["char_dark_01"] = SaveSchema.default_character()
+	s.select("char_dark_01")                                                         # nhân vật chưa có splash lẫn chibi
 	assert_bool((_node(s, "CharacterArt") as PlaceholderArt).is_placeholder()).is_true()
 	s.open_tab("stigma")
 	assert_bool((_node(s, "BackArt") as PlaceholderArt).is_placeholder()).is_true()
