@@ -82,6 +82,17 @@ func test_four_star_gear_for_every_weapon_type() -> void:
 		assert_bool(has_char).override_failure_message(row[0]).is_true()
 
 
+func test_three_star_weapon_for_every_weapon_type() -> void:
+	# Owner 2026-11-15: mỗi loại vũ khí có ít nhất 1 vũ khí 3★.
+	var by_type := {}
+	for d in PlayerProfile.equipment_defs().defs.values():
+		var e := d as EquipmentDef
+		if e and e.slot == "weapon" and e.rarity == 3:
+			by_type[e.weapon_type] = true
+	for t in ["sword", "greatsword", "bow", "dual_blades", "staff", "scythe"]:
+		assert_bool(by_type.has(t)).override_failure_message(t).is_true()
+
+
 func test_pending_effects_are_documented() -> void:
 	# Hiệu ứng theo sự kiện chưa cài đặt: phải có mô tả, và được đếm để không quên (xem nhật ký).
 	var pending := 0

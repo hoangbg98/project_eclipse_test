@@ -2820,3 +2820,13 @@ msgstr "Dawnlight Sigil"
 
 msgid "SET_SET_NIGHTSHADE"
 msgstr "Nightshade Sigil"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_GREATSWORD_STONE"
+msgstr "Rough Stone Greatsword"
+
+msgid "EQUIP_EQ_WEAPON_STAFF_OAK"
+msgstr "Oak Staff"
+
+msgid "EQUIP_EQ_WEAPON_SCYTHE_IRON"
+msgstr "Black Iron Scythe"

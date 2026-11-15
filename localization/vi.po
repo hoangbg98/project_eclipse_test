@@ -2820,3 +2820,13 @@ msgstr "Ấn Bình Minh"
 
 msgid "SET_SET_NIGHTSHADE"
 msgstr "Ấn Dạ Ảnh"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_GREATSWORD_STONE"
+msgstr "Đại kiếm đá thô"
+
+msgid "EQUIP_EQ_WEAPON_STAFF_OAK"
+msgstr "Trượng gỗ sồi"
+
+msgid "EQUIP_EQ_WEAPON_SCYTHE_IRON"
+msgstr "Lưỡi hái sắt đen"

@@ -50,12 +50,18 @@ WEAPON_TYPE = {"eq_weapon_iron": "sword", "eq_weapon_flame": "sword", "eq_weapon
                "eq_weapon_blades_spark": "dual_blades", "eq_weapon_greatsword_magma": "greatsword",
                # Bộ 4★ cho từng loại vũ khí (owner 2026-11-15): kiếm, đại kiếm đã có; thêm cung, song đao, trượng, lưỡi hái.
                "eq_weapon_bow_whirlwind": "bow", "eq_weapon_blades_thunderclap": "dual_blades",
-               "eq_weapon_staff_dawnlight": "staff", "eq_weapon_scythe_nightshade": "scythe"}
+               "eq_weapon_staff_dawnlight": "staff", "eq_weapon_scythe_nightshade": "scythe",
+               # Vũ khí 3★ cho 3 loại còn thiếu (owner 2026-11-15).
+               "eq_weapon_greatsword_stone": "greatsword", "eq_weapon_staff_oak": "staff", "eq_weapon_scythe_iron": "scythe"}
 EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi, en
     ("eq_weapon_iron", "weapon", 3, 1, 80.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Lõi vũ khí sắt", "Iron Weapon Core"),
     ("eq_weapon_flame", "weapon", 4, 3, 160.0, 0.0, 0.0, 0.05, 0.0, 0.0, "Lõi vũ khí hỏa tinh", "Flame Weapon Core"),
     ("eq_weapon_bow_gale", "weapon", 3, 1, 75.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Cung gió lốc", "Gale Bow"),
     ("eq_weapon_blades_spark", "weapon", 3, 1, 78.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Song đao tia lửa", "Spark Blades"),
+    # Owner 2026-11-15: mỗi loại vũ khí có vũ khí 3★ (thêm Đại kiếm, Trượng, Lưỡi hái). Số tạm cùng khoảng ATK 75–82.
+    ("eq_weapon_greatsword_stone", "weapon", 3, 1, 82.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Đại kiếm đá thô", "Rough Stone Greatsword"),
+    ("eq_weapon_staff_oak", "weapon", 3, 1, 70.0, 300.0, 0.0, 0.0, 0.0, 0.0, "Trượng gỗ sồi", "Oak Staff"),
+    ("eq_weapon_scythe_iron", "weapon", 3, 1, 80.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Lưỡi hái sắt đen", "Black Iron Scythe"),
     ("eq_stigma_top_elite", "stigma_top", 3, 2, 30.0, 0.0, 0.0, 0.04, 0.10, 0.0, "Ấn Tinh Anh (Đầu)", "Elite Sigil (Top)"),
     ("eq_stigma_mid_hide", "stigma_mid", 3, 1, 0.0, 900.0, 40.0, 0.0, 0.0, 0.0, "Ấn Da Thú (Thân)", "Hide Sigil (Middle)"),
     ("eq_stigma_mid_guardian", "stigma_mid", 4, 3, 0.0, 1800.0, 90.0, 0.0, 0.0, 0.0, "Ấn Hộ Vệ (Thân)", "Guardian Sigil (Middle)"),

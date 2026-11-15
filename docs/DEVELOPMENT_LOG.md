@@ -1838,3 +1838,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 2 bảng: 3 vũ khí 3★ (Kiếm, Cung, Song đao; chỉ ATK) và 3 vết thánh 3★ lẻ (Ấn Tinh Anh, Ấn Da Thú, Ấn Dép Cỏ). Hai banner trang bị cùng pool 3★, cùng tỉ lệ bậc (vũ khí 10.7%, vết thánh 14.43%) → mỗi món ≈ 3.567% / ≈ 4.81%.
 - **Quyết định Claude chọn:** ghi rõ chưa có vũ khí 3★ cho Đại kiếm, Trượng, Lưỡi hái (không tự thêm).
 - **Hạn chế đã biết:** bảng tóm tắt viết tay.
+
+## 2026-11-15 — Trang bị: vũ khí 3★ cho Đại kiếm, Trượng, Lưỡi hái
+- **Milestone / task:** Trang bị — owner: "Thêm đi" (thêm vũ khí 3★ cho 3 loại vũ khí còn thiếu).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/gen_item_data.py` (+3 vũ khí) → `data/equipment/eq_weapon_{greatsword_stone,staff_oak,scythe_iron}.tres`, `localization/vi.po` / `en.po`; `tools/gen_banner_data.py` chạy lại → `data/banners/banner_equip_terra.tres`, `banner_star5_earth.tres` (pool vũ khí 3★); `docs/design/EQUIPMENT_5STAR.md` (danh sách 3★); `docs/design/wireframes/.gdignore` (Godot không import ảnh wireframe); test `tests/unit/progression/test_equipment_effects.gd` (+1 test mỗi loại vũ khí có vũ khí 3★), `test_progression_inventory.gd` (59 món).
+- **Đã chạy:** `python -X utf8 -I tools/gen_item_data.py`; `python -X utf8 -I tools/gen_equipment_5star.py`; `python -X utf8 -I tools/gen_banner_data.py`; `<godot> --headless --path . --import`; GdUnit `tests/unit/progression` + `gacha` + `test_recruit_screen.gd` (121/121); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** run_tests.ps1 mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại, `reports/report_213`), 5/5 test khói đạt.
+- **Món mới (số tạm):** Đại kiếm đá thô ATK 82; Trượng gỗ sồi ATK 70 + HP 300; Lưỡi hái sắt đen ATK 80.
+- **Quyết định Claude chọn:** ATK trong khoảng 75–82 như 3 vũ khí 3★ cũ (trượng thấp hơn, bù HP như trượng 4★ / 5★); thêm vào bậc 3★ của **cả hai** banner trang bị (generator lấy mọi đồ 3★; owner chỉ tách riêng bộ 4★ mới). Tỉ lệ bậc giữ nguyên, nên mỗi vũ khí 3★ còn ≈ 1.783% (trước 3.567%).
+- **Hạn chế đã biết:** chưa có ảnh riêng (icon placeholder).
