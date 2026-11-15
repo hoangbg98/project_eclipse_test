@@ -66,8 +66,12 @@ func test_map_nodes_and_stage_press() -> void:
 	assert_int(m.chest_buttons.size()).is_equal(1)
 	assert_object(m.find_child("PartTitle_ch01_p1", true, false)).is_not_null()
 	# Ải chưa có màn: thông báo Sắp ra mắt, không đổi scene.
+	m.press_stage("1-3")
+	assert_str(m.notice).is_equal(tr("MAP_STAGE_SOON") % "1-3")
+	assert_str(m.last_target).is_equal("")
+	# 1-2 có màn nhưng 1-1 chưa qua: khóa.
 	m.press_stage("1-2")
-	assert_str(m.notice).is_equal(tr("MAP_STAGE_SOON") % "1-2")
+	assert_str(m.notice).is_equal(tr("MAP_STAGE_LOCKED") % "1-2")
 	assert_str(m.last_target).is_equal("")
 	# 1-1 lần đầu: clip mở chương rồi Thông tin màn.
 	m.stage_nodes["1-1"].pressed.emit()

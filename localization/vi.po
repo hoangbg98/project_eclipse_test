@@ -2323,3 +2323,42 @@ msgstr "Chơi thử"
 
 msgid "RECRUIT_TAB_STARTER"
 msgstr "Chiêu mộ đầu tiên"
+
+msgid "STAGE_01_02_NAME"
+msgstr "Làng Lò Than"
+
+msgid "STAGE_01_02_DESC"
+msgstr "Lò Mẹ đã cháy lại, nhưng Cặn tro còn sót vẫn trôi theo đường dốc xuống làng. Dọn sạch lối và giữ cổng làng Lò Than."
+
+msgid "ENEMY_SLIME_02"
+msgstr "Slime tro lớn"
+
+msgid "BARK_CH01_2_START"
+msgstr "Vùng Thực đang lùi. Cặn tro sót lại trôi xuống phía làng."
+
+msgid "BARK_CH01_2_WAVE1"
+msgstr "Không để con nào tới được làng!"
+
+msgid "BARK_CH01_2_WAVE1_NEO"
+msgstr "Cặn tro chặn đường. Dọn sạch rồi đi tiếp."
+
+msgid "BARK_CH01_2_WAVE2"
+msgstr "Con to kia là Cặn kết khối. Cắn chậm mà nặng, né rồi đánh trả."
+
+msgid "BARK_CH01_2_WAVE2_NEO"
+msgstr "Cặn tro kết khối. Đòn chậm nhưng nặng, né rồi phản công."
+
+msgid "BARK_CH01_2_CP2"
+msgstr "Thấy mái làng rồi! Có khói bếp, vẫn còn người ở đó."
+
+msgid "BARK_CH01_2_CP2_NEO"
+msgstr "Làng Lò Than ở phía trước."
+
+msgid "BARK_CH01_2_WAVE3"
+msgstr "Đàn cuối ở ngay cổng làng. Dồn hết sức!"
+
+msgid "BARK_CH01_2_CLEAR"
+msgstr "Xong rồi. Lửa trong làng sẽ không tắt nữa."
+
+msgid "BARK_CH01_2_CLEAR_NEO"
+msgstr "Cổng làng an toàn. Tiến tới cổng để hoàn tất."

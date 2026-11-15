@@ -38,3 +38,39 @@ func _ready() -> void:
 		p.add_child(poly)
 		add_child(p)
 		layers.append(p)
+
+
+## Thay nền tạm bằng ảnh thật theo data màn: [{image: "res://...png", scroll: 0.1}, ...] từ xa tới gần.
+## Mỗi ảnh co về cao VIEW_HEIGHT, đáy ảnh ở base_y + BOTTOM_PAD (phần dưới bị nền đất che), lặp ngang liền mạch.
+## Không ảnh nào có thật thì giữ nền tạm. Trả về số lớp ảnh đã dùng.
+const VIEW_HEIGHT := 1080.0
+const BOTTOM_PAD := 120.0
+
+func use_images(specs: Array) -> int:
+	var found: Array[Array] = []
+	for spec: Variant in specs:
+		if spec is Dictionary and ResourceLoader.exists(str(spec.get("image", ""))):
+			var tex := load(str(spec["image"])) as Texture2D
+			if tex and tex.get_height() > 0:
+				found.append([tex, float(spec.get("scroll", 0.3))])
+	if found.is_empty():
+		return 0
+	for p in layers:
+		p.queue_free()
+	layers.clear()
+	for f in found:
+		var tex: Texture2D = f[0]
+		var k := VIEW_HEIGHT / tex.get_height()
+		var p := Parallax2D.new()
+		p.scroll_scale = Vector2(float(f[1]), 1.0)
+		p.repeat_size = Vector2(tex.get_width() * k, 0.0)
+		p.repeat_times = 4
+		var sp := Sprite2D.new()
+		sp.texture = tex
+		sp.centered = false
+		sp.scale = Vector2(k, k)
+		sp.position = Vector2(0.0, base_y + BOTTOM_PAD - VIEW_HEIGHT)
+		p.add_child(sp)
+		add_child(p)
+		layers.append(p)
+	return found.size()

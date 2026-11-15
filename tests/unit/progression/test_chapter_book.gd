@@ -42,7 +42,7 @@ func test_stage_states_and_progress() -> void:
 	var s11 := ChapterBook.stage("1-1")
 	assert_str(s11["stage_id"]).is_equal("stage_01")
 	assert_str(b.state_of(s11)).is_equal(ChapterBook.STATE_OPEN)
-	assert_str(b.state_of(ChapterBook.stage("1-2"))).is_equal(ChapterBook.STATE_SOON)
+	assert_str(b.state_of(ChapterBook.stage("1-3"))).is_equal(ChapterBook.STATE_SOON)
 	assert_str(str(b.current_stage(1)["code"])).is_equal("1-1")
 	assert_int(b.chapter_progress(1)).is_equal(0)
 	d["progress"]["stages"]["stage_01"] = {"cleared": true, "objectives": ["time", "downs"]}
@@ -55,13 +55,11 @@ func test_stage_states_and_progress() -> void:
 func test_locked_when_previous_not_cleared() -> void:
 	var d := _data()
 	var b := ChapterBook.new(d)
-	# Giả lập ải 1-2 đã có màn chơi (đổi tạm dữ liệu tĩnh, trả lại cuối test).
 	var real := ChapterBook.stage("1-2")
-	real["stage_id"] = "stage_01_02"
+	assert_str(real["stage_id"]).is_equal("stage_01_02")
 	assert_str(b.state_of(real)).is_equal(ChapterBook.STATE_LOCKED)
 	d["progress"]["stages"]["stage_01"] = {"cleared": true}
 	assert_str(b.state_of(real)).is_equal(ChapterBook.STATE_OPEN)
-	real["stage_id"] = ""
 
 
 func test_part_chest_needs_all_medals_and_claims_once() -> void:
@@ -75,6 +73,9 @@ func test_part_chest_needs_all_medals_and_claims_once() -> void:
 	assert_str(b.claim_part("ch01_p1", prof)).is_equal(ChapterBook.CLAIM_NOT_READY)
 	assert_str(b.claim_part("khong_co", prof)).is_equal(ChapterBook.CLAIM_UNKNOWN)
 	# Giả lập đủ huy chương: mọi ải của phần dùng chung màn đã đạt 3 mục tiêu.
+	var real_ids: Array = []
+	for s: Dictionary in p["stages"]:
+		real_ids.append(s["stage_id"])
 	for s: Dictionary in p["stages"]:
 		s["stage_id"] = "stage_01"
 	assert_int(b.part_percent(p)).is_equal(100)
@@ -85,4 +86,4 @@ func test_part_chest_needs_all_medals_and_claims_once() -> void:
 	assert_str(b.claim_part("ch01_p1", prof)).is_equal(ChapterBook.CLAIM_DONE)
 	assert_array(SaveSchema.sanitize(d)["progress"]["parts_claimed"]).is_equal(["ch01_p1"])
 	for i in (p["stages"] as Array).size():                          # trả lại dữ liệu tĩnh cho test khác
-		p["stages"][i]["stage_id"] = "stage_01" if i == 0 else ""
+		p["stages"][i]["stage_id"] = real_ids[i]

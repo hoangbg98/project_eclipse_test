@@ -2323,3 +2323,42 @@ msgstr "Trial"
 
 msgid "RECRUIT_TAB_STARTER"
 msgstr "First recruit"
+
+msgid "STAGE_01_02_NAME"
+msgstr "Coalhearth Village"
+
+msgid "STAGE_01_02_DESC"
+msgstr "The Mother Hearth burns again, but leftover ash Dregs are drifting down the slope toward the village. Clear the road and hold Coalhearth's gate."
+
+msgid "ENEMY_SLIME_02"
+msgstr "Big Ash Slime"
+
+msgid "BARK_CH01_2_START"
+msgstr "The Hollow Zone is receding. Leftover ash Dregs are drifting toward the village."
+
+msgid "BARK_CH01_2_WAVE1"
+msgstr "Not one of them reaches the village!"
+
+msgid "BARK_CH01_2_WAVE1_NEO"
+msgstr "Ash Dregs ahead. Clear them and move on."
+
+msgid "BARK_CH01_2_WAVE2"
+msgstr "That big one is clumped Dregs. Slow but heavy bites, dodge, then hit back."
+
+msgid "BARK_CH01_2_WAVE2_NEO"
+msgstr "Clumped Dregs. Slow but heavy, dodge and counter."
+
+msgid "BARK_CH01_2_CP2"
+msgstr "I can see the roofs! Chimney smoke, people are still there."
+
+msgid "BARK_CH01_2_CP2_NEO"
+msgstr "Coalhearth Village is just ahead."
+
+msgid "BARK_CH01_2_WAVE3"
+msgstr "The last pack is right at the gate. Give it everything!"
+
+msgid "BARK_CH01_2_CLEAR"
+msgstr "Done. The village fires won't go out again."
+
+msgid "BARK_CH01_2_CLEAR_NEO"
+msgstr "The gate is safe. Head to it to finish."

@@ -68,7 +68,7 @@
 						},
 						{
 							"code": "1-2",
-							"stage_id": "",
+							"stage_id": "stage_01_02",
 							"pos": [
 								640,
 								420

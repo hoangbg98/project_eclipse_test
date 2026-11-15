@@ -4,6 +4,8 @@ extends Node2D
 ## + hoàn thành / thất bại + phần thưởng. Nội dung màn nằm trong data/stages/{id}.json (StageMap.data):
 ##   waves: [{trigger_col, lock_cols: [trái, phải], enemies: [{id, col}]}]   đợt quái, khóa sân tới khi hạ hết
 ##   boss:  {id, trigger_col, lock_cols, col}                                 đấu trường boss (khóa camera)
+##   goal_col: màn không boss — hạ hết đợt rồi tới cột này thì qua màn
+##   backdrop: [{image, scroll}] ảnh nền nhiều lớp (ParallaxBackdrop.use_images); thiếu ảnh thì giữ nền tạm
 ##   rewards / first_clear_rewards: định dạng PlayerProfile.grant()
 ##   objectives: mục tiêu chiến đấu (BattleObjectives); mỗi mục tiêu đạt khi qua màn thưởng thêm vàng
 ## Rơi hố → về checkpoint gần nhất đã qua. Cả đội gục → thất bại. Hạ boss → hoàn thành, trao thưởng, lưu.
@@ -20,6 +22,7 @@ enum Phase { EXPLORE, WAVE, BOSS, CLEARED, FAILED }
 const STAGE_DATA := "res://data/stages/%s.json"
 const ENEMY_SCENES := {
 	"enemy_slime_01": preload("res://scenes/enemies/enemy_slime.tscn"),
+	"enemy_slime_02": preload("res://scenes/enemies/enemy_slime.tscn"),
 	"boss_golem_01": preload("res://scenes/enemies/boss_golem.tscn"),
 }
 const WALL_THICKNESS := 64.0
@@ -74,6 +77,9 @@ func _ready() -> void:
 	tiles = map.build_layer()
 	add_child(tiles)
 	move_child(tiles, 0)
+	var backdrop := get_node_or_null("Parallax") as ParallaxBackdrop
+	if backdrop:
+		backdrop.use_images(map.data.get("backdrop", []))
 	respawn_point = map.spawn_position()
 	for c in map.checkpoint_cells:
 		_checkpoints_left.append(map.cell_feet(c))
@@ -190,6 +196,9 @@ func _check_triggers() -> void:
 	elif boss == null and not boss_data().is_empty():
 		if px >= map.col_x(int(boss_data().get("trigger_col", 0))):
 			_start_boss()
+	elif boss_data().is_empty() and map.data.has("goal_col"):
+		if px >= map.col_x(int(map.data["goal_col"])):
+			_finish_cleared()
 
 
 # ---------- Đợt quái ----------
