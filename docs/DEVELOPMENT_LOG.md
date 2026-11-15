@@ -1829,3 +1829,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 3 bảng: 6 vũ khí 4★ (loại, nhân vật hợp, Data ID, chỉ số, mô tả), 6 bộ vết thánh 4★ (hệ, khuôn chỉ số công / thủ, Data ID, hiệu ứng 2 / 3 món), 2 vết thánh 4★ lẻ (Ấn Hộ Vệ, Ấn Đồng Hồ Cát); ghi nguồn ra đồ (banner thường có tất cả; bậc 4★ của banner 5★ chỉ có đồ Kiếm / Đại kiếm, bộ Viêm Hoàng / Nham Thạch và 2 món lẻ).
 - **Quyết định Claude chọn:** gom chỉ số vết thánh theo 2 khuôn thay vì liệt kê 18 dòng; đặt chung file với danh sách 5★ để tra một chỗ.
 - **Hạn chế đã biết:** bảng tóm tắt viết tay; đổi số trong `data/equipment/` cần sửa lại bảng.
+
+## 2026-11-15 — Tài liệu: danh sách nhanh trang bị 3★
+- **Milestone / task:** Tài liệu — owner: "làm tương tự cho trang bị 3 sao".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/EQUIPMENT_5STAR.md` (mục mới "Danh sách nhanh trang bị 3★" sau danh sách 4★).
+- **Đã chạy:** đọc 6 món 3★ từ `data/equipment/*.tres`; đối chiếu pool và `base_rate` bậc 3★ của `banner_equip_terra.tres` và `banner_star5_earth.tres`.
+- **Kết quả thật:** 2 bảng: 3 vũ khí 3★ (Kiếm, Cung, Song đao; chỉ ATK) và 3 vết thánh 3★ lẻ (Ấn Tinh Anh, Ấn Da Thú, Ấn Dép Cỏ). Hai banner trang bị cùng pool 3★, cùng tỉ lệ bậc (vũ khí 10.7%, vết thánh 14.43%) → mỗi món ≈ 3.567% / ≈ 4.81%.
+- **Quyết định Claude chọn:** ghi rõ chưa có vũ khí 3★ cho Đại kiếm, Trượng, Lưỡi hái (không tự thêm).
+- **Hạn chế đã biết:** bảng tóm tắt viết tay.

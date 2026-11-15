@@ -102,6 +102,28 @@ Tên từng món theo mẫu "Ấn <tên bộ> (Đầu / Thân / Chân)", ví d�
 | Ấn Hộ Vệ (Thân) | Thân | `eq_stigma_mid_guardian` | HP 1800, DEF 90 | Thân thủ thuần, HP / DEF cao nhất bậc 4★, không có hiệu ứng bộ |
 | Ấn Đồng Hồ Cát (Chân) | Chân | `eq_stigma_bot_hourglass` | HP 400, Giảm hồi chiêu 8% | Chân giảm hồi chiêu cao nhất bậc 4★, không có hiệu ứng bộ |
 
+## Danh sách nhanh trang bị 3★ (2026-11-15)
+
+Đồ 3★ là đồ khởi đầu / nguyên liệu: **chỉ có chỉ số cộng**, không chủ sở hữu, không hiệu ứng, không thuộc bộ nào. Vũ khí vẫn khóa theo loại vũ khí. Nguồn: bậc 3★ của cả **Banner trang bị thường** và **Banner trang bị 5★** (cùng pool, cùng tỉ lệ bậc): vũ khí 3★ 10.7% chia đều 3 món (≈ 3.567% mỗi món), vết thánh 3★ 14.43% chia đều 3 món (≈ 4.81% mỗi món). Số là số tạm trong `data/equipment/`.
+
+### Vũ khí 3★ (3 món)
+
+| # | Tên | Loại | Hợp với | Data ID | Chỉ số cộng | Mô tả sơ qua |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Lõi vũ khí sắt | Kiếm | Enkiba (Hỏa) | `eq_weapon_iron` | ATK 80 | Kiếm cơ bản, chỉ có ATK |
+| 2 | Cung gió lốc | Cung | Kazeyumi (Phong) | `eq_weapon_bow_gale` | ATK 75 | Cung cơ bản, chỉ có ATK |
+| 3 | Song đao tia lửa | Song đao | Raikiba (Lôi) | `eq_weapon_blades_spark` | ATK 78 | Song đao cơ bản, chỉ có ATK |
+
+**Chưa có vũ khí 3★** cho Đại kiếm (Iwagane), Trượng (Hikarine) và Lưỡi hái (Yomigari): ba nhân vật này chỉ đeo được vũ khí 4★ / 5★ của loại mình.
+
+### Vết thánh 3★ (3 món, không thuộc bộ)
+
+| Tên | Ô | Data ID | Chỉ số cộng | Mô tả sơ qua |
+| --- | --- | --- | --- | --- |
+| Ấn Tinh Anh (Đầu) | Đầu | `eq_stigma_top_elite` | ATK 30, Tỉ lệ chí mạng +4%, ST chí mạng +10% | Đầu công: thiên chí mạng |
+| Ấn Da Thú (Thân) | Thân | `eq_stigma_mid_hide` | HP 900, DEF 40 | Thân thủ cơ bản |
+| Ấn Dép Cỏ (Chân) | Chân | `eq_stigma_bot_sandal` | HP 500, DEF 30 | Chân thủ cơ bản |
+
 ---
 
 ## 0. Quy ước chung
