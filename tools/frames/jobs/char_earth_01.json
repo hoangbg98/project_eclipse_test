@@ -1,0 +1,388 @@
+{
+	"_huong_dan": "Phiếu việc tạo frame cho Codex, mỗi phiếu một animation (Iwagane, owner 2026-11-15). Số frame / fps / frame trúng đòn KHÔNG ghi tay: tools/frames/frame_jobs.py tính từ SkillDef trong data/skills/char_earth_01/ ('skill'). Animation không có kỹ năng dùng target_frames + fps. weapon_state: drawn = cầm đại kiếm, planted = kiếm cắm đất làm khiên. ref_frame / ref_ratio: frame canh tỉ lệ (âm = đếm từ cuối) và chiều cao pose đó so với lúc đứng thẳng. Sửa rồi chạy: python -I tools/frames/gen_prompts.py char_earth_01",
+	"character_id": "char_earth_01",
+	"display_name": "Iwagane",
+	"suit_name": "Thần Kiếm Nham Thạch",
+	"standing_height_px": 280,
+	"default_weapon_state": "drawn",
+	"design_en": "Iwagane, chibi anime earth greatsword tank, a sturdy muscular young woman (about 2.5 heads tall, big head, short strong limbs): messy shaggy dark-brown hair with a thick braid hanging over her right shoulder and a small leather tie at its end, amber-gold eyes, tanned skin, a small red X-shaped scar on her right cheek and thin scratch scars, serious determined face; heavy bronze plate armor: big rounded bronze pauldrons with mossy olive-green panels engraved with square spiral patterns, sculpted bronze breastplate over a dark olive high-collar tunic, bronze vambraces and gauntlets, wide bronze belt with a square buckle and a small leather pouch, layered bronze tassets over an olive-green skirt, a long dark-brown cloth tabard hanging at the front with tan zigzag borders, carved rune symbols and a mountain motif at the bottom, bronze knee and shin guards with olive-green diamond panels, brown leather boots with steel toe caps. Weapon: one huge greatsword almost as tall as she is: a rough grey-brown stone blade with thin yellow carved runes along its centre line, a bronze crossguard with carved patterns, a brown leather-wrapped grip and a diamond-shaped bronze pommel holding a small yellow gem.",
+	"refs_always": [
+		[
+			"assets/characters/char_earth_01/rig_parts/source/refs/char_earth_01_ref_01_toan_than.png",
+			"Ảnh đứng toàn thân của owner (số 1): khóa thiết kế, màu, tỉ lệ chibi, bím tóc, sẹo, đại kiếm"
+		],
+		[
+			"assets/characters/char_earth_01/rig_parts/source/refs/char_earth_01_ref_52_pose_dung_cam_kiem.png",
+			"Pose mẫu đứng cầm kiếm (số 52): chuẩn tỉ lệ chibi nhỏ và cách cầm kiếm"
+		],
+		[
+			"assets/characters/char_earth_01/rig_parts/source/refs/char_earth_01_ref_38_kiem_da_rune.png",
+			"Kiếm đá rune (số 38): giữ đúng hình lưỡi đá, chữ rune, chuôi, chắn kiếm, đá vàng ở đuôi chuôi"
+		]
+	],
+	"text": {
+		"weapon_label_vi": "Đại kiếm",
+		"weapon_word_en": "stone greatsword",
+		"impact_en": "the heavy greatsword fully swung through the target, body weight committed behind the blow",
+		"weapon_states": {
+			"drawn": {
+				"vi": "**cầm đại kiếm**: tay gần (phải) nắm chuôi, đòn nặng thì cả hai tay; kiếm luôn trong tay, không đổi sang tay xa, không cất",
+				"en": "the greatsword is always held: gripped in the near (right) hand, with both hands on the grip during heavy swings; never dropped, never sheathed, never switched to the far hand only; keep the exact sword design and its huge size (blade about as long as her body)."
+			},
+			"planted": {
+				"vi": "**kiếm cắm đất**: mũi kiếm cắm xuống đất trước người, lưỡi dựng đứng như tấm khiên, hai tay giữ chuôi",
+				"en": "the greatsword is planted point-down into the ground in front of her, the wide blade standing upright like a shield, both hands gripping the hilt at chest height."
+			}
+		},
+		"extra_common_en": [
+			"The small standing pose reference (number 52) is the ground truth for the chibi proportions; the full-body reference is the ground truth for design and colors. Some references show yellow electric glow, sword trails or flying rocks: do NOT copy them, draw the character and the greatsword only.",
+			"The carved runes on the stone blade are part of the sword design (keep them as thin yellow lines), but the blade does not emit light or glow.",
+			"Asymmetric details must stay on the same body side in every frame: the braid hangs on her right side, the X scar is on her right cheek."
+		],
+		"vfx_en": "rock shards, flying dust, cracks in the ground, stone waves, glowing aura, amber light, slash arcs, speed lines",
+		"check_parts_vi": "tóc nâu bù xù, bím tóc, sẹo chữ X ở má, giáp vai đồng có mảng xanh rêu, giáp ngực, vải tabard rune, váy giáp, ủng, đại kiếm đá rune, màu",
+		"flip_check_vi": "kiếm không nhảy tay, bím tóc và sẹo luôn ở cùng một bên người",
+		"vfx_vi": "đá vụn, bụi, vết nứt, sóng đá, hào quang hổ phách, vệt chém",
+		"vfx_examples_vi": "sóng đá, gai đá, vết nứt đất, bụi đất, giáp đá, tảng đá rơi, sóng chấn, cut-in",
+		"scale_note_vi": "`slice_strip.py --like idle` canh chiều cao theo idle trong assets cho mọi animation sau: **làm `idle` trước**.",
+		"readme_notes": [
+			"Iwagane **luôn cầm đại kiếm** (tay gần, đòn nặng hai tay); `hold_charge` cắm kiếm xuống đất làm khiên. Kiếm rất to và nặng: động tác chậm, có đà, dồn trọng lượng. Xem `00_PHAN_TICH.md`.",
+			"`hold_charge` là vòng chắn lặp (game giữ tới 2,5 s); nhả nút thì chạy `hold_release` (xoay kiếm chém ngang). Sóng đá, gai đá, giáp đá, nứt đất là VFX của game.",
+			"Ảnh tham chiếu cắt từ tờ bộ phận theo tên owner đã điền ở trang \"Bảng tên bộ phận Iwagane\" (`rig_parts/source/refs/`, công cụ `tools/sprite_parts/cut_refs.py`)."
+		]
+	},
+	"order": [
+		"idle",
+		"run",
+		"attack_1",
+		"attack_2",
+		"attack_3",
+		"dodge",
+		"jump_up",
+		"fall",
+		"land",
+		"hurt",
+		"knockback",
+		"down",
+		"hold_charge",
+		"hold_release",
+		"air_1",
+		"landing_attack",
+		"skill_1",
+		"skill_2",
+		"switch_in",
+		"switch_out",
+		"ultimate"
+	],
+	"animations": {
+		"idle": {
+			"target_frames": 6,
+			"fps": 8,
+			"grounded": true,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_02_mat_binh_thuong.png",
+					"Mặt bình thường (số 2)"
+				]
+			],
+			"motion_vi": "Đứng vững chân rộng, đại kiếm cầm tay gần, mũi kiếm chúc xuống sát đất bên cạnh (như pose 52), ngực nhấp nhô theo nhịp thở nặng, vai giáp nhún nhẹ, bím tóc và vạt tabard đung đưa nhẹ. Lặp liền: frame cuối nối frame đầu.",
+			"prompt_en": "Idle breathing loop: solid wide stance, the greatsword held in the near hand with its point resting just above the ground beside her (as in the standing pose reference), slow heavy breathing makes the chest and armored shoulders rise and fall, the braid and the front tabard sway slightly (secondary motion). The last frame flows seamlessly back into the first."
+		},
+		"run": {
+			"target_frames": 8,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 0.95,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_53_pose_di_bo.png",
+					"Pose mẫu đi bộ (số 53)"
+				]
+			],
+			"motion_vi": "Chạy nặng nề kiểu chiến binh giáp: thân hơi đổ về trước, đại kiếm vác ngang vai hoặc kéo chéo sau lưng, bước chắc dậm mạnh (chạm, nhún, lướt, bật), bước ngắn hơn người khác, bím tóc và tabard tung theo nhịp. Lặp liền.",
+			"prompt_en": "Run cycle loop: heavy armored charge, torso leaning slightly forward, the greatsword carried resting on the near shoulder with the blade pointing back, powerful stomping strides with clear contact / down / passing / up poses (shorter, weightier steps than a light fighter), braid and tabard bouncing with each step. The last frame flows into the first."
+		},
+		"attack_1": {
+			"skill": "normal_1",
+			"target_frames": 6,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_54_pose_thu_kiem.png",
+					"Pose mẫu thủ kiếm (số 54)"
+				]
+			],
+			"motion_vi": "Đại Địa Trảm đòn 1: kéo kiếm ra sau lấy đà, bước tới 30 px, chém ngang thật nặng bằng hai tay ở tầm ngực, kiếm vung qua hết người, hồi về thủ thế.",
+			"prompt_en": "Strike 1: pull the greatsword back for wind-up, step forward, then a heavy horizontal two-handed slash at chest height that sweeps all the way through, recover to the guard stance."
+		},
+		"attack_2": {
+			"skill": "normal_2",
+			"target_frames": 6,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_54_pose_thu_kiem.png",
+					"Pose mẫu thủ kiếm (số 54)"
+				]
+			],
+			"motion_vi": "Đại Địa Trảm đòn 2: nối tiếp đòn 1, xoay hông vung ngược kiếm chém chéo từ dưới lên (đối chiều đòn 1), bước tới, thân vặn theo lực kiếm, hồi về.",
+			"prompt_en": "Strike 2: continuing from strike 1, twist the hips and swing the greatsword back the opposite way in a rising diagonal slash from low to high, step forward, torso twisting with the weight of the blade, recover."
+		},
+		"attack_3": {
+			"skill": "normal_3",
+			"target_frames": 8,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_06_mat_het.png",
+					"Mặt hét (số 6)"
+				]
+			],
+			"motion_vi": "Đại Địa Trảm đòn 3 (kết chuỗi): hai tay nâng đại kiếm qua đầu, hét lớn, bổ thẳng xuống đất trước mặt, mũi kiếm chạm đất, khuỵu gối giữ pose một nhịp rồi rút kiếm đứng dậy. Đất nứt và sóng đá là VFX.",
+			"prompt_en": "Strike 3 (finisher): raise the greatsword high overhead with both hands, shouting (shouting face reference), then a crushing vertical chop straight down in front so the blade hits the ground, knees bent, hold the impact pose briefly, then pull the sword up and return to the guard stance."
+		},
+		"dodge": {
+			"skill": "dodge",
+			"target_frames": 5,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_55_pose_lao_toi.png",
+					"Pose mẫu lao tới (số 55)"
+				]
+			],
+			"motion_vi": "Lăn Giáp: hạ vai, lao vai về trước như xe ủi (ngắn, 180 px), đại kiếm vác trên lưng, rồi phanh lại đứng vững. Bụi đất là VFX.",
+			"prompt_en": "Armored shoulder charge dodge: drop the near shoulder and bull-rush forward low like a battering ram with the greatsword carried across the back, then dig the feet in and stop in a firm stance (all frames on the ground). Sharp clean poses, no motion blur."
+		},
+		"jump_up": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": false,
+			"ref_frame": 0,
+			"ref_ratio": 0.8,
+			"refs": [],
+			"motion_vi": "Nhảy lên: khuỵu sâu lấy đà, bật mạnh, co gối bay lên, đại kiếm vác vai. Frame 1 chân chạm đất, các frame sau cao dần.",
+			"prompt_en": "Jump take-off: deep crouch for anticipation, powerful push off the ground, rising with knees tucked, the greatsword held on the near shoulder. Frame 1 feet on the ground, then each frame higher."
+		},
+		"fall": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": false,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [],
+			"motion_vi": "Rơi: người thẳng, bím tóc và tabard hất lên trên, chân duỗi xuống tìm đất, đại kiếm giữ ngang để cân bằng.",
+			"prompt_en": "Falling: body upright and heavy, braid and tabard blown upward, legs reaching down for the ground, the greatsword held out to the side for balance. All frames airborne at the same height."
+		},
+		"land": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [],
+			"motion_vi": "Tiếp đất nặng: chạm đất, khuỵu sâu đỡ lực, đứng dậy về thủ thế.",
+			"prompt_en": "Heavy landing: feet slam down, knees bend deeply to absorb the weight, then stand back up to the idle stance."
+		},
+		"hurt": {
+			"target_frames": 4,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_04_mat_nham_mat.png",
+					"Mặt nhắm mắt (số 4)"
+				]
+			],
+			"motion_vi": "Bị đánh: chỉ giật nhẹ ra sau (tank, đứng vững), nhắm mắt nghiến răng, lấy lại thế, không buông kiếm.",
+			"prompt_en": "Hit reaction: a small sturdy flinch backward (she is a tank and barely moves), eyes shut and teeth gritted (closed-eyes face reference), recover to stance, still holding the greatsword."
+		},
+		"knockback": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_05_mat_ngac_nhien.png",
+					"Mặt ngạc nhiên (số 5)"
+				]
+			],
+			"motion_vi": "Bị hất lùi: trượt lùi trên hai chân, kiếm kéo lê, đứng vững lại.",
+			"prompt_en": "Knocked back: pushed backward, sliding on both feet with the sword dragging low (surprised face reference), regaining footing, still holding the greatsword."
+		},
+		"down": {
+			"target_frames": 6,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": -1,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_04_mat_nham_mat.png",
+					"Mặt nhắm mắt (số 4)"
+				]
+			],
+			"motion_vi": "Bị hạ gục: ngã ngửa xuống đất, nằm, chống kiếm xuống đất để gượng đứng dậy, không buông kiếm.",
+			"prompt_en": "Knocked down: fall backward to the ground, lie down, then plant the greatsword into the ground and push herself back up onto her feet using it as support; the sword is never dropped."
+		},
+		"hold_charge": {
+			"target_frames": 4,
+			"fps": 12,
+			"grounded": true,
+			"loop": true,
+			"weapon_state": "planted",
+			"ref_frame": 0,
+			"ref_ratio": 0.9,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_54_pose_thu_kiem.png",
+					"Pose mẫu thủ kiếm (số 54)"
+				],
+				[
+					"rig_parts/source/refs/char_earth_01_ref_02_mat_binh_thuong.png",
+					"Mặt bình thường (số 2)"
+				]
+			],
+			"motion_vi": "Thủ Thế Đại Địa (lặp, game giữ tới 2,5 s): cắm mũi đại kiếm xuống đất trước người, lưỡi dựng đứng như tấm khiên, hai tay giữ chuôi, hạ trọng tâm, thân rung nhẹ chống lực, mặt nghiêm. Frame đầu là lúc vừa cắm kiếm. Bụi đá là VFX. Lặp liền.",
+			"prompt_en": "Guard stance loop: the greatsword planted point-down into the ground in front of her, the wide blade standing upright like a shield, both hands on the hilt, low braced stance leaning into the blade, body trembling slightly as if absorbing impacts, stern face. Loops seamlessly."
+		},
+		"hold_release": {
+			"skill": "hold_slash",
+			"target_frames": 6,
+			"grounded": true,
+			"weapon_state": "drawn",
+			"ref_frame": 0,
+			"ref_ratio": 0.9,
+			"weapon_vi": "frame đầu **kiếm cắm đất** (nối từ `hold_charge`), rồi rút lên **cầm hai tay** chém",
+			"weapon_en": "pose 1 the greatsword is still planted in the ground (continuing the guard stance), then it is ripped out and swung with both hands.",
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_56_pose_chem_xoay.png",
+					"Pose mẫu chém xoáy (số 56)"
+				]
+			],
+			"motion_vi": "Thủ Thế Đại Địa — nhả nút: từ thế kiếm cắm đất, giật kiếm lên, xoay người chém ngang một vòng rộng bằng hai tay, kiếm vung hết đà, hồi về thủ thế.",
+			"prompt_en": "Guard release slash: from the planted-sword guard, rip the greatsword out of the ground and spin the body into one wide horizontal two-handed slash that follows all the way through, then recover to the idle stance."
+		},
+		"air_1": {
+			"skill": "air_1",
+			"target_frames": 6,
+			"grounded": false,
+			"ref_frame": 0,
+			"ref_ratio": 0.85,
+			"refs": [],
+			"motion_vi": "Thiên Trụy Trảm (trên không, 1 đòn): nâng đại kiếm hai tay qua vai, chém chéo xuống rất mạnh phía trước, người nghiêng theo lực kiếm. Vệt kiếm màu đồng là VFX.",
+			"prompt_en": "Air strike: mid-air, raise the greatsword over the near shoulder with both hands, then a very powerful diagonal downward slash forward, the body pitching forward with the weight of the blade."
+		},
+		"landing_attack": {
+			"skill": "landing",
+			"target_frames": 6,
+			"grounded": false,
+			"ref_frame": -1,
+			"ref_ratio": 0.8,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_06_mat_het.png",
+					"Mặt hét (số 6)"
+				]
+			],
+			"motion_vi": "Địa Chấn Trụy: đang rơi, hai tay dựng ngược đại kiếm mũi chúc xuống, rơi thẳng, đâm kiếm thẳng xuống đất khi chạm đất, khuỵu gối giữ pose, rồi rút kiếm đứng dậy. Frame cuối chạm đất. Nứt hình sao và hai sóng đá là VFX.",
+			"prompt_en": "Plunging slam: falling with both hands holding the greatsword reversed, point straight down, drop vertically and drive the blade straight down into the ground on landing, deep crouch holding the impact, then pull the sword out and stand (last frame on the ground)."
+		},
+		"skill_1": {
+			"skill": "skill",
+			"target_frames": 8,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_57_pose_tu_luc_rune.png",
+					"Pose mẫu tụ lực rune (số 57)"
+				],
+				[
+					"rig_parts/source/refs/char_earth_01_ref_07_mat_cuoi_nhech.png",
+					"Mặt cười nhếch tự tin (số 7)"
+				]
+			],
+			"motion_vi": "Khiên Đá Hộ Thể: nâng đại kiếm lên cao, dậm mạnh xuống đất (mũi kiếm cắm xuống bên cạnh), đứng thẳng khiêu khích, cười nhếch tự tin. Đá mọc bao quanh thành giáp và vòng khiêu khích là VFX.",
+			"prompt_en": "Stone guard skill: lift the greatsword high, then stomp and slam its point down into the ground beside her, then stand tall in a defiant taunting pose with a confident smirk (smirk face reference), sword still planted beside her."
+		},
+		"skill_2": {
+			"skill": "weapon",
+			"target_frames": 10,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_57_pose_tu_luc_rune.png",
+					"Pose mẫu tụ lực rune (số 57)"
+				],
+				[
+					"rig_parts/source/refs/char_earth_01_ref_06_mat_het.png",
+					"Mặt hét (số 6)"
+				]
+			],
+			"motion_vi": "Thạch Phá Thiên Kích: hai tay nâng đại kiếm cao qua đầu (gồng lâu, 300 ms), hét lớn, bổ xuống dữ dội cắm kiếm vào đất phía trước, giữ thế đè kiếm suốt pha hiệu lực (500 ms) như đang dồn lực vào lòng đất, rồi rút kiếm đứng dậy. Dãy gai đá chạy về trước là VFX.",
+			"prompt_en": "Earth-splitter weapon skill: raise the greatsword high overhead with both hands in a long tense wind-up, shouting (shouting face reference), then a violent downward chop that drives the blade into the ground in front, hold the pose pressing the sword down as if pushing power into the earth, then pull the sword out and stand up."
+		},
+		"switch_in": {
+			"skill": "switch_in",
+			"target_frames": 8,
+			"grounded": false,
+			"ref_frame": -1,
+			"ref_ratio": 0.8,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_06_mat_het.png",
+					"Mặt hét (số 6)"
+				]
+			],
+			"motion_vi": "Vào sân — Đại Địa Giáng Thế (mục 8.10): lao xuống từ trên cao, đại kiếm hai tay chĩa mũi xuống, đâm cắm vào đất khi chạm đất, khuỵu gối, rồi đứng dậy rút kiếm về thủ thế. Frame cuối chạm đất. Nứt đất và sóng đá là VFX.",
+			"prompt_en": "Entrance: drop in from above with both hands holding the greatsword point-down, stab it into the ground on impact in a deep crouch, then stand up, pull the sword free and settle into the idle stance (first frames airborne and descending, last frame on the ground)."
+		},
+		"switch_out": {
+			"target_frames": 3,
+			"fps": 12,
+			"grounded": true,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [],
+			"motion_vi": "Rời sân: vác kiếm lên vai, quay người, nhảy lùi về sau (hiệu ứng biến mất là VFX, không vẽ).",
+			"prompt_en": "Exit: swing the greatsword onto the shoulder, turn away and hop back out of the fight (no dissolve effect drawn)."
+		},
+		"ultimate": {
+			"skill": "ultimate",
+			"target_frames": 18,
+			"grounded": false,
+			"ref_frame": 0,
+			"ref_ratio": 1.0,
+			"refs": [
+				[
+					"rig_parts/source/refs/char_earth_01_ref_57_pose_tu_luc_rune.png",
+					"Pose mẫu tụ lực rune (số 57)"
+				],
+				[
+					"rig_parts/source/refs/char_earth_01_ref_06_mat_het.png",
+					"Mặt hét (số 6)"
+				]
+			],
+			"motion_vi": "Sơn Băng Địa Liệt: (khởi động 650 ms) gồng người, kiếm giơ chéo trước mặt, dậm chân bật vọt lên cao, đại kiếm giơ thẳng trên đầu; rơi xuống, hai tay bổ kiếm cắm thẳng xuống đất; (hiệu lực 1 200 ms) giữ thế khuỵu gối đè kiếm trong lòng đất qua ba đợt sóng chấn, người rung theo mỗi đợt; (hồi phục 500 ms) rút kiếm đứng dậy về thủ thế. Kiếm hóa khổng lồ bằng đá, tảng đá vỡ, sóng chấn, cut-in là VFX / ảnh riêng: kiếm trong frame giữ kích thước thường.",
+			"prompt_en": "Ultimate: tense power-up stance with the greatsword raised in front of the face, a stomp and a huge leap straight up with the sword held high overhead in both hands, then falling and slamming the blade straight down into the ground, then a long braced crouch pressing the sword into the earth while the body jolts three times with the shockwaves, then pull the sword out and return to the idle stance. Keep the sword its normal size (the giant stone sword is a separate effect)."
+		}
+	}
+}

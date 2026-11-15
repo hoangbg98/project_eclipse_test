@@ -1,0 +1,747 @@
+{
+ "character_id": "char_earth_01",
+ "source": "trang 'Bảng tên bộ phận Iwagane' (db labels), owner điền 2026-11-15",
+ "labels": [
+  {
+   "id": 1,
+   "category": "pose",
+   "side": "",
+   "name": "Ảnh đứng tổng thể (tham chiếu)",
+   "note": "",
+   "box": {
+    "x": 15,
+    "y": 21,
+    "w": 335,
+    "h": 662
+   }
+  },
+  {
+   "id": 2,
+   "category": "face",
+   "side": "",
+   "name": "Mặt bình thường",
+   "note": "",
+   "box": {
+    "x": 358,
+    "y": 20,
+    "w": 100,
+    "h": 104
+   }
+  },
+  {
+   "id": 3,
+   "category": "face",
+   "side": "",
+   "name": "Mặt cười híp mắt",
+   "note": "",
+   "box": {
+    "x": 467,
+    "y": 20,
+    "w": 100,
+    "h": 105
+   }
+  },
+  {
+   "id": 4,
+   "category": "face",
+   "side": "",
+   "name": "Mặt nhắm mắt",
+   "note": "",
+   "box": {
+    "x": 577,
+    "y": 20,
+    "w": 100,
+    "h": 104
+   }
+  },
+  {
+   "id": 5,
+   "category": "face",
+   "side": "",
+   "name": "Mặt ngạc nhiên",
+   "note": "",
+   "box": {
+    "x": 687,
+    "y": 20,
+    "w": 100,
+    "h": 105
+   }
+  },
+  {
+   "id": 6,
+   "category": "face",
+   "side": "",
+   "name": "Mặt hét / tức giận",
+   "note": "",
+   "box": {
+    "x": 796,
+    "y": 20,
+    "w": 100,
+    "h": 107
+   }
+  },
+  {
+   "id": 7,
+   "category": "face",
+   "side": "",
+   "name": "Mặt cười nhếch tự tin",
+   "note": "",
+   "box": {
+    "x": 906,
+    "y": 20,
+    "w": 100,
+    "h": 105
+   }
+  },
+  {
+   "id": 8,
+   "category": "hair",
+   "side": "",
+   "name": "Tóc trước (mái)",
+   "note": "",
+   "box": {
+    "x": 351,
+    "y": 139,
+    "w": 137,
+    "h": 130
+   }
+  },
+  {
+   "id": 9,
+   "category": "hair",
+   "side": "",
+   "name": "Bím tóc",
+   "note": "",
+   "box": {
+    "x": 486,
+    "y": 142,
+    "w": 69,
+    "h": 152
+   }
+  },
+  {
+   "id": 10,
+   "category": "hair",
+   "side": "",
+   "name": "Tóc sau (khối dày)",
+   "note": "",
+   "box": {
+    "x": 559,
+    "y": 138,
+    "w": 123,
+    "h": 128
+   }
+  },
+  {
+   "id": 11,
+   "category": "hair",
+   "side": "",
+   "name": "Tóc sau (biến thể)",
+   "note": "",
+   "box": {
+    "x": 685,
+    "y": 141,
+    "w": 122,
+    "h": 127
+   }
+  },
+  {
+   "id": 12,
+   "category": "hair",
+   "side": "",
+   "name": "Tóc sau (lớp trong)",
+   "note": "",
+   "box": {
+    "x": 810,
+    "y": 148,
+    "w": 118,
+    "h": 109
+   }
+  },
+  {
+   "id": 13,
+   "category": "hair_strand",
+   "side": "",
+   "name": "Các lọn tóc rời",
+   "note": "",
+   "box": {
+    "x": 925,
+    "y": 148,
+    "w": 83,
+    "h": 110
+   }
+  },
+  {
+   "id": 14,
+   "category": "armor",
+   "side": "",
+   "name": "Giáp vai",
+   "note": "",
+   "box": {
+    "x": 367,
+    "y": 291,
+    "w": 79,
+    "h": 113
+   }
+  },
+  {
+   "id": 15,
+   "category": "torso",
+   "side": "",
+   "name": "Giáp ngực + cổ áo",
+   "note": "",
+   "box": {
+    "x": 447,
+    "y": 291,
+    "w": 111,
+    "h": 113
+   }
+  },
+  {
+   "id": 16,
+   "category": "torso",
+   "side": "",
+   "name": "Áo trong (mặt trước)",
+   "note": "",
+   "box": {
+    "x": 564,
+    "y": 292,
+    "w": 66,
+    "h": 120
+   }
+  },
+  {
+   "id": 17,
+   "category": "torso",
+   "side": "",
+   "name": "Áo trong (mặt sau + vai)",
+   "note": "",
+   "box": {
+    "x": 635,
+    "y": 293,
+    "w": 70,
+    "h": 118
+   }
+  },
+  {
+   "id": 18,
+   "category": "arm",
+   "side": "",
+   "name": "Cánh tay + găng",
+   "note": "",
+   "box": {
+    "x": 712,
+    "y": 295,
+    "w": 50,
+    "h": 151
+   }
+  },
+  {
+   "id": 19,
+   "category": "arm",
+   "side": "",
+   "name": "Cánh tay + găng",
+   "note": "",
+   "box": {
+    "x": 759,
+    "y": 293,
+    "w": 50,
+    "h": 168
+   }
+  },
+  {
+   "id": 20,
+   "category": "arm",
+   "side": "",
+   "name": "Cánh tay nắm đấm",
+   "note": "",
+   "box": {
+    "x": 813,
+    "y": 294,
+    "w": 47,
+    "h": 151
+   }
+  },
+  {
+   "id": 21,
+   "category": "arm",
+   "side": "",
+   "name": "Cánh tay nắm đấm",
+   "note": "",
+   "box": {
+    "x": 867,
+    "y": 296,
+    "w": 48,
+    "h": 147
+   }
+  },
+  {
+   "id": 22,
+   "category": "arm",
+   "side": "",
+   "name": "Ống tay (đoạn)",
+   "note": "",
+   "box": {
+    "x": 925,
+    "y": 302,
+    "w": 37,
+    "h": 59
+   }
+  },
+  {
+   "id": 23,
+   "category": "arm",
+   "side": "",
+   "name": "Ống tay (đoạn)",
+   "note": "",
+   "box": {
+    "x": 976,
+    "y": 300,
+    "w": 32,
+    "h": 60
+   }
+  },
+  {
+   "id": 24,
+   "category": "armor",
+   "side": "",
+   "name": "Giáp cẳng tay + bàn tay",
+   "note": "",
+   "box": {
+    "x": 370,
+    "y": 400,
+    "w": 57,
+    "h": 123
+   }
+  },
+  {
+   "id": 25,
+   "category": "leg",
+   "side": "",
+   "name": "Váy giáp + thắt lưng + vải rune",
+   "note": "",
+   "box": {
+    "x": 434,
+    "y": 418,
+    "w": 147,
+    "h": 228
+   }
+  },
+  {
+   "id": 26,
+   "category": "hand",
+   "side": "",
+   "name": "Bàn tay găng",
+   "note": "",
+   "box": {
+    "x": 921,
+    "y": 398,
+    "w": 39,
+    "h": 54
+   }
+  },
+  {
+   "id": 27,
+   "category": "hand",
+   "side": "",
+   "name": "Bàn tay găng",
+   "note": "",
+   "box": {
+    "x": 971,
+    "y": 399,
+    "w": 38,
+    "h": 55
+   }
+  },
+  {
+   "id": 28,
+   "category": "armor",
+   "side": "",
+   "name": "Giáp cẳng tay + bàn tay (bản 2)",
+   "note": "",
+   "box": {
+    "x": 583,
+    "y": 425,
+    "w": 58,
+    "h": 108
+   }
+  },
+  {
+   "id": 29,
+   "category": "armor",
+   "side": "",
+   "name": "Giáp cẳng tay (mặt trong)",
+   "note": "",
+   "box": {
+    "x": 654,
+    "y": 431,
+    "w": 47,
+    "h": 102
+   }
+  },
+  {
+   "id": 30,
+   "category": "hand",
+   "side": "",
+   "name": "Nắm đấm găng",
+   "note": "",
+   "box": {
+    "x": 717,
+    "y": 464,
+    "w": 34,
+    "h": 57
+   }
+  },
+  {
+   "id": 31,
+   "category": "hand",
+   "side": "",
+   "name": "Nắm đấm găng",
+   "note": "",
+   "box": {
+    "x": 758,
+    "y": 466,
+    "w": 38,
+    "h": 60
+   }
+  },
+  {
+   "id": 32,
+   "category": "boot",
+   "side": "",
+   "name": "Ủng",
+   "note": "",
+   "box": {
+    "x": 805,
+    "y": 460,
+    "w": 52,
+    "h": 73
+   }
+  },
+  {
+   "id": 33,
+   "category": "boot",
+   "side": "",
+   "name": "Ủng",
+   "note": "",
+   "box": {
+    "x": 872,
+    "y": 461,
+    "w": 53,
+    "h": 72
+   }
+  },
+  {
+   "id": 34,
+   "category": "hand",
+   "side": "",
+   "name": "Bàn tay nắm (góc khác)",
+   "note": "",
+   "box": {
+    "x": 922,
+    "y": 464,
+    "w": 42,
+    "h": 47
+   }
+  },
+  {
+   "id": 35,
+   "category": "hand",
+   "side": "",
+   "name": "Bàn tay nắm (góc khác)",
+   "note": "",
+   "box": {
+    "x": 972,
+    "y": 465,
+    "w": 40,
+    "h": 44
+   }
+  },
+  {
+   "id": 36,
+   "category": "boot",
+   "side": "",
+   "name": "Giáp ống chân + ủng (nhìn trước)",
+   "note": "",
+   "box": {
+    "x": 560,
+    "y": 579,
+    "w": 48,
+    "h": 98
+   }
+  },
+  {
+   "id": 37,
+   "category": "boot",
+   "side": "",
+   "name": "Giáp ống chân + ủng (nhìn nghiêng)",
+   "note": "",
+   "box": {
+    "x": 615,
+    "y": 561,
+    "w": 68,
+    "h": 110
+   }
+  },
+  {
+   "id": 38,
+   "category": "weapon",
+   "side": "",
+   "name": "Kiếm đá rune (nguyên thanh)",
+   "note": "",
+   "box": {
+    "x": 688,
+    "y": 544,
+    "w": 324,
+    "h": 62
+   }
+  },
+  {
+   "id": 39,
+   "category": "weapon",
+   "side": "",
+   "name": "Chuôi kiếm (lưỡi bị cắt)",
+   "note": "",
+   "box": {
+    "x": 688,
+    "y": 607,
+    "w": 138,
+    "h": 85
+   }
+  },
+  {
+   "id": 40,
+   "category": "fx",
+   "side": "",
+   "name": "Chữ rune phát sáng",
+   "note": "",
+   "box": {
+    "x": 827,
+    "y": 628,
+    "w": 173,
+    "h": 44
+   }
+  },
+  {
+   "id": 41,
+   "category": "face",
+   "side": "",
+   "name": "Mặt nghiêm (bản 2)",
+   "note": "",
+   "box": {
+    "x": 20,
+    "y": 696,
+    "w": 91,
+    "h": 93
+   }
+  },
+  {
+   "id": 42,
+   "category": "face",
+   "side": "",
+   "name": "Mặt cười (bản 2)",
+   "note": "",
+   "box": {
+    "x": 131,
+    "y": 696,
+    "w": 91,
+    "h": 94
+   }
+  },
+  {
+   "id": 43,
+   "category": "face",
+   "side": "",
+   "name": "Mặt nhắm mắt (bản 2)",
+   "note": "",
+   "box": {
+    "x": 242,
+    "y": 696,
+    "w": 91,
+    "h": 93
+   }
+  },
+  {
+   "id": 44,
+   "category": "face",
+   "side": "",
+   "name": "Mặt ngạc nhiên (bản 2)",
+   "note": "",
+   "box": {
+    "x": 349,
+    "y": 696,
+    "w": 90,
+    "h": 93
+   }
+  },
+  {
+   "id": 45,
+   "category": "face",
+   "side": "",
+   "name": "Mặt cười nhếch (bản 2)",
+   "note": "",
+   "box": {
+    "x": 455,
+    "y": 696,
+    "w": 90,
+    "h": 94
+   }
+  },
+  {
+   "id": 46,
+   "category": "armor",
+   "side": "",
+   "name": "Mảnh giáp khớp vai / khuỷu",
+   "note": "",
+   "box": {
+    "x": 564,
+    "y": 697,
+    "w": 97,
+    "h": 92
+   }
+  },
+  {
+   "id": 47,
+   "category": "armor",
+   "side": "",
+   "name": "Mảnh giáp nhỏ",
+   "note": "",
+   "box": {
+    "x": 677,
+    "y": 698,
+    "w": 48,
+    "h": 76
+   }
+  },
+  {
+   "id": 48,
+   "category": "armor",
+   "side": "",
+   "name": "Mảnh giáp cong",
+   "note": "",
+   "box": {
+    "x": 741,
+    "y": 702,
+    "w": 46,
+    "h": 81
+   }
+  },
+  {
+   "id": 49,
+   "category": "armor",
+   "side": "",
+   "name": "Mảnh vải / da",
+   "note": "",
+   "box": {
+    "x": 803,
+    "y": 710,
+    "w": 39,
+    "h": 71
+   }
+  },
+  {
+   "id": 50,
+   "category": "armor",
+   "side": "",
+   "name": "Mảnh vải / da nhỏ",
+   "note": "",
+   "box": {
+    "x": 850,
+    "y": 712,
+    "w": 33,
+    "h": 49
+   }
+  },
+  {
+   "id": 51,
+   "category": "belt",
+   "side": "",
+   "name": "Đai da cong",
+   "note": "",
+   "box": {
+    "x": 897,
+    "y": 714,
+    "w": 112,
+    "h": 48
+   }
+  },
+  {
+   "id": 52,
+   "category": "pose",
+   "side": "",
+   "name": "Pose đứng cầm kiếm",
+   "note": "",
+   "box": {
+    "x": 11,
+    "y": 793,
+    "w": 141,
+    "h": 221
+   }
+  },
+  {
+   "id": 53,
+   "category": "pose",
+   "side": "",
+   "name": "Pose đi bộ",
+   "note": "",
+   "box": {
+    "x": 172,
+    "y": 801,
+    "w": 112,
+    "h": 213
+   }
+  },
+  {
+   "id": 54,
+   "category": "pose",
+   "side": "",
+   "name": "Pose thủ kiếm",
+   "note": "",
+   "box": {
+    "x": 305,
+    "y": 815,
+    "w": 158,
+    "h": 198
+   }
+  },
+  {
+   "id": 55,
+   "category": "pose",
+   "side": "",
+   "name": "Pose lao tới",
+   "note": "",
+   "box": {
+    "x": 435,
+    "y": 822,
+    "w": 188,
+    "h": 191
+   }
+  },
+  {
+   "id": 56,
+   "category": "pose",
+   "side": "",
+   "name": "Pose chém xoáy",
+   "note": "",
+   "box": {
+    "x": 629,
+    "y": 804,
+    "w": 200,
+    "h": 209
+   }
+  },
+  {
+   "id": 57,
+   "category": "pose",
+   "side": "",
+   "name": "Pose tụ lực rune (tuyệt kỹ)",
+   "note": "",
+   "box": {
+    "x": 834,
+    "y": 809,
+    "w": 181,
+    "h": 204
+   }
+  }
+ ]
+}
