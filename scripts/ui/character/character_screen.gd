@@ -28,6 +28,8 @@ var skill_group := ""
 var brief := false
 var glossary_open := false
 var detail_stats_open := false
+## Bảng giai thoại của món đang xem (khóa <name_key>_LORE, owner 2026-11-15).
+var lore_open := false
 ## Bảng chọn đang mở: "" (không), "exp", "weapon", "stigma_top", "stigma_mid", "stigma_bot", "enhance" (cường hóa
 ## món `detail_uid`), "ascend" (nâng bậc), "reroll" (tẩy phụ tố vết thánh).
 var picker := ""
@@ -223,8 +225,9 @@ func open_skill(group: String) -> void:
 
 ## Lùi một bước trong màn; trả về true nếu đã xử lý (false = đang ở tổng quan, để SceneRouter về Hub).
 func intercept_back() -> bool:
-	if picker != "" or glossary_open or detail_stats_open or filter_open:
+	if picker != "" or glossary_open or detail_stats_open or filter_open or lore_open:
 		picker = ""
+		lore_open = false
 		glossary_open = false
 		detail_stats_open = false
 		filter_open = false
@@ -304,6 +307,8 @@ func refresh() -> void:
 		_build_detail_stats()
 	if glossary_open:
 		_build_glossary()
+	if lore_open and view == View.WEAPON_DETAIL:
+		_build_lore()
 	if picker != "":
 		_build_picker()
 	if filter_open and view == View.OVERVIEW:
@@ -849,6 +854,32 @@ func open_equipment_detail(uid: String, return_tab := "weapon") -> void:
 	refresh()
 
 
+func open_lore() -> void:
+	lore_open = true
+	refresh()
+
+
+## Bảng giai thoại: tên món + đoạn chuyện dài (cuộn được).
+func _build_lore() -> void:
+	var d := profile.inventory.equipment_def_of(detail_uid)
+	if d == null:
+		return
+	var r := layout.rect("lore_panel", Rect2(layout.view_size.x * 0.5 - 600, 120, 1200, 840))
+	var dim := _panel(Rect2(Vector2.ZERO, layout.view_size), Color(0, 0, 0, 0.6), "LoreDim")
+	dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	var bg := layout.color("panel_light", Color(0.16, 0.18, 0.24))
+	bg.a = 1.0
+	_panel(r, bg, "LorePanel")
+	_label(Rect2(r.position + Vector2(30, 14), Vector2(r.size.x - 280, 60)), tr(d.name_key), 38, layout.color("accent", Color.ORANGE))
+	_button(Rect2(r.position + Vector2(r.size.x - 220, 14), Vector2(200, 60)), tr("UI_BACK"), 28, intercept_back, false, "LoreClose")
+	var t := RichTextLabel.new()
+	t.name = "LoreText"
+	t.add_theme_font_size_override("normal_font_size", layout.font("lore_panel", 28))
+	t.text = tr(d.name_key + "_LORE")
+	t.mouse_filter = Control.MOUSE_FILTER_PASS
+	_place(t, Rect2(r.position + Vector2(30, 90), r.size - Vector2(60, 110)))
+
+
 func open_detail_tab(t: String) -> void:
 	detail_tab = t
 	refresh()
@@ -904,11 +935,18 @@ func _build_weapon_detail() -> void:
 	if detail_return != "" and who == selected:
 		_button(layout.rect(p + "change_button"), "⟳  " + layout.label(p + "change_button"), layout.font(p + "change_button", 30),
 				open_picker.bind(d.slot), false, "WeaponDetailChange")
-	# Mô tả: khóa <name_key>_DESC; chưa có thì báo chưa có.
+	# Mô tả ngắn (khóa <name_key>_DESC, owner 2026-11-15: ~25–30 chữ, không bị cắt); có giai thoại (<name_key>_LORE)
+	# thì thêm nút "Giai thoại" ở góc ô.
 	var lore_r := layout.rect(p + "lore")
 	_panel(lore_r, Color(0.06, 0.07, 0.1, 0.8))
-	var lk := d.name_key + "_DESC"
-	_label(lore_r.grow(-20), tr(lk) if tr(lk) != lk else tr("WEAPON_UI_NO_LORE"), layout.font(p + "lore", 28), Color.WHITE).name = "WeaponLore"
+	var dk := d.name_key + "_DESC"
+	var has_lore := tr(d.name_key + "_LORE") != d.name_key + "_LORE"
+	var desc_r := lore_r.grow(-20)
+	if has_lore:
+		var lb := layout.rect(p + "lore_button")
+		_button(lb, "📜 " + layout.label(p + "lore_button"), layout.font(p + "lore_button", 24), open_lore, false, "LoreButton")
+		desc_r.size.y -= lb.size.y + 6
+	_label(desc_r, tr(dk) if tr(dk) != dk else tr("WEAPON_UI_NO_LORE"), layout.font(p + "lore", 28), Color.WHITE).name = "WeaponLore"
 	# Cấp: LV hiện tại / giới hạn của bậc; gợi ý nâng bậc hoặc vướng cấp người chơi.
 	var lp := layout.rect(p + "level_panel")
 	_panel(lp, Color(0.06, 0.07, 0.1, 0.8))
@@ -1439,10 +1477,14 @@ func _build_reroll_picker(r: Rect2, fs: int) -> void:
 	var y := r.position.y + 100
 	var pending := inv.pending_affixes(uid)
 	_label(Rect2(x, y, half, 50), tr("STIGMA_UI_AFFIX_NOW"), fs, layout.color("accent_blue", Color.SKY_BLUE))
-	_label(Rect2(x, y + 56, half, 220), "\n".join(_plain(affix_lines(inv.affixes_of(uid)))), fs - 2, Color.WHITE).name = "AffixNow"
+	var now_l := _label(Rect2(x, y + 56, half, 220), "\n".join(_plain(affix_lines(inv.affixes_of(uid)))), fs - 2, Color.WHITE)
+	now_l.name = "AffixNow"
+	now_l.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	if not pending.is_empty():
 		_label(Rect2(x + half + 30, y, half, 50), tr("STIGMA_UI_AFFIX_NEW"), fs, layout.color("accent", Color.ORANGE))
-		_label(Rect2(x + half + 30, y + 56, half, 220), "\n".join(_plain(affix_lines(pending))), fs - 2, Color.WHITE).name = "AffixNew"
+		var new_l := _label(Rect2(x + half + 30, y + 56, half, 220), "\n".join(_plain(affix_lines(pending))), fs - 2, Color.WHITE)
+		new_l.name = "AffixNew"
+		new_l.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 		_button(Rect2(r.position.x + r.size.x * 0.5 - 380, r.end.y - 110, 360, 80), tr("STIGMA_UI_KEEP_OLD"), fs + 2,
 				confirm_reroll.bind(false), false, "KeepOld")
 		_button(Rect2(r.position.x + r.size.x * 0.5 + 20, r.end.y - 110, 360, 80), tr("STIGMA_UI_KEEP_NEW"), fs + 2,

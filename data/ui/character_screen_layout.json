@@ -131,6 +131,7 @@
 		"stars": {"rect": [70, 658, 420, 56], "font": 44},
 		"change_button": {"rect": [700, 646, 250, 64], "font": 30, "text_key": "CHAR_UI_CHANGE"},
 		"lore": {"rect": [45, 748, 925, 186], "font": 28},
+		"lore_button": {"rect": [760, 878, 196, 46], "font": 24, "text_key": "WEAPON_UI_LORE"},
 		"level_panel": {"rect": [45, 952, 925, 92]},
 		"level_text": {"rect": [70, 956, 330, 84], "font": 44},
 		"level_hint": {"rect": [420, 958, 530, 40], "font": 24},
@@ -185,6 +186,7 @@
 		"nav_prev_name": {"rect": [30, 975, 215, 44], "font": 30},
 		"nav_next_name": {"rect": [845, 975, 215, 44], "font": 30}
 	},
+	"lore_panel": {"rect": [360, 120, 1200, 840], "anchor": "center", "font": 28},
 	"picker": {
 		"rect": [460, 140, 1000, 800], "anchor": "center", "font": 30, "row_height": 96
 	},

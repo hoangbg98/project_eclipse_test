@@ -18,6 +18,7 @@ const SHOTS := [
 	["12_stigma_affix", "stigma_detail", "affix"],
 	["13_stigma_set", "stigma_detail", "set"],
 	["14_stigma_reroll", "stigma_reroll", ""],
+	["15_weapon_lore", "weapon_lore", ""],
 ]
 
 var _frames := 0
@@ -85,6 +86,10 @@ func _process(_delta: float) -> bool:
 				_screen.picker = ""
 				_screen.open_equipment_detail(_screen.profile.inventory.equipped_uid("char_fire_01", "stigma_top"), "stigma")
 				_screen.open_detail_tab(str(s[2]))
+			"weapon_lore":
+				_screen.picker = ""
+				_screen.open_weapon_detail()
+				_screen.open_lore()
 			"stigma_reroll":
 				_screen.open_detail_tab("affix")
 				_screen.open_picker("reroll")

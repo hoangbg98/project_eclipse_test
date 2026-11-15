@@ -312,6 +312,7 @@ KEYS = [
     ("WEAPON_UI_NEXT", "Lv.%d → Lv.%d", "Lv.%d → Lv.%d"),
     ("WEAPON_UI_CONFIRM", "Xác nhận", "Confirm"),
     ("WEAPON_UI_WHEN_EQUIPPED", "Khi %s trang bị:", "When equipped by %s:"),
+    ("WEAPON_UI_LORE", "Giai thoại", "Story"),
     # Chi tiết vết thánh: 3 tab, phụ tố, tẩy phụ tố, bậc cường hóa (owner 2026-11-15)
     ("STIGMA_UI_TAB_SKILL", "Skill vết thánh", "Stigma skill"),
     ("STIGMA_UI_TAB_AFFIX", "Skill phụ tố", "Affixes"),

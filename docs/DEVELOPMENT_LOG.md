@@ -1972,3 +1972,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
   - Save cũ: vết thánh chưa có phụ tố được gieo một lần khi tạo PlayerProfile; món đang ở cấp > giới hạn mới vẫn giữ cấp (không trừ).
   - Bảng thông tin mở từ Túi đồ: Trở về là rời màn (về Túi đồ), không có nút Đổi.
 - **Hạn chế đã biết:** Skill set chỉ hiện dòng `note` của hiệu ứng bộ (tiếng Việt, cả ở bản tiếng Anh). Ô lời đồn dưới tên vũ khí chưa có. Ảnh vết thánh chưa có (placeholder). Số phụ tố / giá là khởi điểm, owner chỉnh trong `tools/gen_item_data.py`.
+
+
+## 2026-11-15 — M5: mô tả ngắn và giai thoại 6 vũ khí 5★
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15 gửi mô tả ngắn (~25–30 chữ, đặt trong ô mô tả, README 15.6: không bị cắt) và chuyện của vũ khí (giai thoại dài, cho tab chi tiết / codex) của 6 vũ khí 5★.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `localization/vi.po`, `en.po` (12 khóa `EQUIP_EQ_WEAPON_<ID>_DESC` / `_LORE` cho dusk_inferno, last_gale, twin_thunder, solar_verdict, crescent_pact, unyielding_peak; `WEAPON_UI_LORE`); `tools/add_locale_keys.py`; `scripts/ui/character/character_screen.gd` (ô mô tả đọc `_DESC`; nút "Giai thoại" khi có `_LORE`; bảng giai thoại `_build_lore` cuộn được, Trở về đóng bảng; chữ phụ tố trong bảng tẩy canh trên); `data/ui/character_screen_layout.json` (`weapon_detail.lore_button`, `lore_panel`); `tests/unit/ui/test_character_screen.gd` (`test_weapon_short_description_and_lore`); `tools/screenshot_character.gd` (ảnh 15).
+- **Đã chạy:** script Python thêm 12 khóa vào 2 file .po; `python -X utf8 -I tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 677/677 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Ảnh `build/screenshots/character_8_weapon_detail.png`: mô tả ngắn Hoàng Hôn Thiêu Rụi hiện đủ 2 dòng trong ô 925×186, nút Giai thoại ở góc; `character_15_weapon_lore.png`: bảng giai thoại 2 đoạn.
+- **Quyết định Claude chọn:** khóa dịch theo quy ước dự án `UPPER_SNAKE` (`EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC` / `_LORE`) thay cho dạng `eq_weapon_dusk_inferno.short` owner gợi ý; vẫn theo Data ID nên đổi tên vũ khí không phải sửa code. Bản tiếng Anh do Claude dịch. Giai thoại mở bằng nút trong ô mô tả (bảng phủ), chưa có màn codex riêng. Tên riêng trong chuyện (Hạ Chiểu, thung lũng Hoàng Hôn, Lục Đồng, sông Lục, núi Bất Khuất) giữ nguyên theo owner.
+- **Hạn chế đã biết:** dòng "lời đồn" (câu trích dân sông Lục, tư tế cuối, chủ nhân đầu tiên) chưa tách riêng dưới tên vũ khí, hiện nằm trong giai thoại. Vũ khí 3★ / 4★ chưa có mô tả.

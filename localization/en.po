@@ -3059,3 +3059,43 @@ msgstr "This item has no affixes."
 
 msgid "REASON_PENDING"
 msgstr "Choose to keep the new or old affixes first."
+
+# Mô tả ngắn và giai thoại vũ khí 5★ (owner 2026-11-15)
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC"
+msgstr "A blade forged from the last light of day. It burns brighter as the sky darkens, and answers only to one with fire in their heart."
+
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO_LORE"
+msgstr "In the Dusk Valley, where day never lasts beyond a single afternoon hour, lived an old smith named Ha Chieu. He wanted to forge a sword that could hold the moment the sun touches the horizon, for that was when he had once stood beside someone he lost. He waited thirty harvests to gather thirty sunsets, then poured them into the forge.\n\nIts guard is a half-sunken sun, its rays fanned out like flames. People say the sword has never shone under the noon sun; it only blazes as darkness is about to fall. For the one who wields it, the fiercer the fire in their heart, the redder the blade, and no one has ever found its limit."
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE_DESC"
+msgstr "A bow that needs no arrows. Whoever draws the string calls the last wind of autumn, and that wind becomes the arrow."
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE_LORE"
+msgstr "There was a migrating bird that flew on without rest, afraid that if it landed, autumn would end. A bowyer in Luc Dong found one of its feathers fallen on the road and made it into the two limbs of a bow. On the tips he carved the yellow leaves he had gathered on the day of the last wind.\n\nThe string is thin and green, like a slender breeze. The bow comes with no arrows, for the elders said the archer need only hold still for one breath. When that breath is released, the last wind of the season flies off wherever the heart has aimed. Later the people of the Luc River came to say: “The last wind of autumn does not come and go. It only waits for a hand that knows how to let go.”"
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER_DESC"
+msgstr "Two blades born when a lightning strike split one bar of iron. The first thunderclap is a warning; the second is the end."
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER_LORE"
+msgstr "One stormy night, an untempered blade was struck by lightning right on the anvil. It split lengthwise into two identical curved blades, each bearing along its spine a jagged streak like a lingering bolt. The smith dared not grind or mend them. He only wrapped the hilts in dark blue cloth, tied them with gold cord, and hung them from the rafters.\n\nVillagers say that whenever a storm comes, the two blades ring out twice, the first softly, the second far louder. Those who wield them learn that rhythm: one strike to plant the lightning mark, the second to land the blow. On days their owner walks through a storm, the blades crossed on their back crackle, as if the thunder is still waiting for its second strike."
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT_DESC"
+msgstr "The halo of the Sun Temple. It judges with light, so any darkness that refuses to show itself is laid bare."
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT_LORE"
+msgstr "Long ago there was a temple to the Sun, where the priests passed sentence not with shackles or decrees. They stood beneath the dome and raised a golden halo. Any liar had only to stand in that light, and their guilt would appear as a mark that could not be hidden. That was the Verdict.\n\nLater the temple fell, leaving only the halo and an ivory staff wound with golden rings. People say it is unlike any other sceptre, for its light has never brought pain to the innocent. Whenever the light overflows and those in need of healing are already whole, the excess does not fade but flows down into a thin shield. The temple's last priest once said: “Judgement without protection is only another fire.”"
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT_DESC"
+msgstr "A crescent blade missing one corner; the missing piece is the price of a promise. Each pact fulfilled makes the scythe lighter."
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT_LORE"
+msgstr "The tale goes that one full-moon night, a hired reaper asked the moon to lend him a sickle so he could finish reaping a field his enemies had burned. The moon agreed, but demanded a pact and took a piece of itself as a deposit. That is why the blade has a small notch on its inner edge, and no smith has ever been able to return that piece of moon.\n\nA scroll of the pact, written in violet ink, is wound around the shaft and held by a black chain, some links of which hang loose, tied to nothing. The reaper promised to reap until the work was done. He never said he would stop. So every enemy that falls makes the scythe a little lighter, as if one line of the pact has been struck out. Whoever grips it hears the chain softly trembling, and knows the pact is still unfinished."
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK_DESC"
+msgstr "A slab of a sword carved from the mountain that would not fall. It does not win with a single cut, but by never going down."
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK_LORE"
+msgstr "Mount Unyielding has been struck by lightning, battered by storms and eroded by floods until it cracked, yet it still stands. People dug deep into its core and found the bones of an ancient beast, turned to stone before humankind existed. They carved the rock right beside those bones, with no forge and no heated hammer, and brought forth a cracked stone blade glittering with veins of amber.\n\nIts guard is two arches of bone like a ribcage, enclosing the wielder's hand. The cracks on the blade are not damage but marks of every time the mountain held firm, and the more blows it takes, the brighter they glow. Its first owner said words still carved at the foot of the mountain: “Stone does not win because it is hard. Stone wins because it is still there when everything else is gone.”"
+
+msgid "WEAPON_UI_LORE"
+msgstr "Story"

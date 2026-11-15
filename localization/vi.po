@@ -3059,3 +3059,43 @@ msgstr "Món này không có phụ tố."
 
 msgid "REASON_PENDING"
 msgstr "Hãy chọn giữ phụ tố mới hoặc cũ trước."
+
+# Mô tả ngắn và giai thoại vũ khí 5★ (owner 2026-11-15)
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC"
+msgstr "Thanh kiếm rèn từ ánh nắng cuối ngày. Nó càng rực khi trời càng tối, và chỉ nghe lời kẻ có lửa trong lòng."
+
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO_LORE"
+msgstr "Ở thung lũng Hoàng Hôn, nơi ngày chưa bao giờ kéo dài quá một khắc chiều, có một thợ rèn già tên Hạ Chiểu. Ông muốn rèn một thanh kiếm giữ lại được khoảnh khắc mặt trời chạm đường chân trời, vì đó là lúc ông từng đứng bên người đã mất. Ông chờ ba mươi mùa lúa để gom đủ ba mươi lần chiều tà, rồi đổ chúng vào lò.\n\nChắn kiếm của nó là vầng mặt trời đang lặn dở, tia nắng xòe ra như những ngọn lửa. Người ta bảo thanh kiếm chưa từng sáng dưới nắng trưa, chỉ rực lên khi bóng tối sắp phủ xuống. Với người cầm nó, ngọn lửa trong lòng càng bùng cháy thì lưỡi kiếm càng đỏ, và chẳng ai tìm ra được giới hạn của nó."
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE_DESC"
+msgstr "Cây cung không cần tên. Kẻ giương dây sẽ gọi được cơn gió cuối cùng của mùa thu, và gió ấy tự hóa thành mũi tên."
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE_LORE"
+msgstr "Có một chú chim di cư bay mãi không nghỉ, vì sợ rằng nếu đáp xuống thì mùa thu sẽ kết thúc. Một thợ làm cung ở Lục Đồng nhặt được chiếc lông của nó rơi trên đường, rồi lấy lông ấy làm hai cánh cung. Ông khắc lên hai đầu mút những chiếc lá vàng đã gom được trong ngày gió cuối.\n\nDây của cây cung mảnh và xanh như làn gió mỏng. Cung không đi kèm mũi tên nào, vì người xưa dặn rằng kẻ giương cung chỉ cần giữ im một nhịp thở. Khi nhịp thở ấy buông ra, cơn gió cuối mùa sẽ tự bay đi theo hướng mà tâm ý đã hướng tới. Sau này mới có câu nói của dân sông Lục: “Gió cuối mùa không đến rồi đi. Nó chỉ chờ một bàn tay biết buông.”"
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER_DESC"
+msgstr "Hai lưỡi đao sinh ra từ một nhát sét xé đôi thanh sắt. Tiếng sấm thứ nhất là lời cảnh báo, tiếng thứ hai là nhát kết thúc."
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER_LORE"
+msgstr "Một đêm bão, một thanh đao chưa tôi bị sét đánh trúng ngay trên đe. Nó nứt đôi theo chiều dọc: hai lưỡi cong giống hệt nhau, và mỗi lưỡi mang trên sống một vệt răng cưa như tia chớp còn lưu lại. Người thợ không dám mài hay sửa. Ông chỉ bọc cán bằng vải xanh sẫm, buộc dây vàng, rồi treo chúng lên xà nhà.\n\nDân làng kể rằng mỗi lần giông tới, hai thanh đao kêu lên thành hai tiếng, tiếng đầu khẽ rồi tiếng sau lớn hơn hẳn. Người cầm đao quen với nhịp đó: một nhát gieo dấu sét, nhát thứ hai thì đánh tới. Ngày nào chủ nhân bước đi trong bão, hai lưỡi đao bắt chéo trên lưng sẽ kêu lách tách, như thể sấm vẫn đang chờ nhát thứ hai của mình."
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT_DESC"
+msgstr "Vòng hào quang của ngôi đền Mặt Trời. Nó xét xử bằng ánh sáng, nên bóng tối nào không chịu lộ diện cũng bị chiếu rõ."
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT_LORE"
+msgstr "Ngày xưa có một ngôi đền thờ Mặt Trời, nơi các tư tế không kết án bằng gông cùm hay lời phán. Họ đứng dưới vòm đền và giương cao một vòng hào quang vàng. Ai nói dối thì chỉ cần đứng trong ánh sáng ấy, tội của họ sẽ hiện ra thành một dấu vết không giấu được. Đó là Phán quyết.\n\nVề sau ngôi đền sụp đổ, chỉ còn vầng hào quang và cây trượng ngà quấn vòng vàng. Người ta kể rằng nó khác mọi quyền trượng khác, vì ánh sáng nó phát ra chưa bao giờ đem đến đau đớn cho kẻ vô tội. Mỗi khi vầng sáng quá đầy mà người cần chữa đã lành, phần thừa không tan đi mà chảy xuống thành một tấm khiên mỏng. Tư tế cuối cùng của đền từng nói: “Phán xét mà không che chở thì chỉ là một ngọn lửa khác.”"
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT_DESC"
+msgstr "Lưỡi liềm trăng khuyết một góc, vết khuyết chính là giá của lời hứa. Mỗi khế ước đóng lại, lưỡi hái càng nhẹ tay."
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT_LORE"
+msgstr "Chuyện kể rằng một đêm trăng tròn, có kẻ gặt thuê xin trăng cho mượn một lưỡi liềm để gặt cho xong cánh đồng mà kẻ thù đã đốt. Trăng đồng ý, nhưng đòi một khế ước và lấy đi một mẩu của chính mình làm tiền đặt cọc. Vì vậy lưỡi liềm có một vết khuyết nhỏ ở mép trong, và chẳng thợ nào trả lại được phần trăng đó.\n\nCuộn khế ước viết bằng mực tím quấn quanh cán, được giữ bằng sợi xích đen, trong đó có những đoạn còn dư chưa buộc vào đâu cả. Người gặt thuê hứa sẽ gặt đến khi nào xong. Ông chưa bao giờ nói là mình sẽ dừng. Bởi thế, mỗi kẻ địch gục xuống đều làm lưỡi hái nhẹ hơn một chút, như thể một dòng trong khế ước đã được gạch đi. Ai nắm lấy nó cũng nghe thấy tiếng xích khẽ rung, và biết khế ước ấy vẫn còn dang dở."
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK_DESC"
+msgstr "Bản kiếm đẽo từ chính ngọn núi không chịu đổ. Nó không thắng bằng một nhát chém, mà thắng bằng việc không ngã."
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK_LORE"
+msgstr "Núi Bất Khuất từng bị sét đánh, bị bão quật, bị nước lũ xói mòn đến nứt toác, mà vẫn đứng đó. Người ta đào sâu vào lõi núi và tìm thấy xương của một con thú cổ đại đã hóa đá từ thuở chưa có người. Họ đẽo luôn phần đá ngay bên cạnh những khúc xương ấy, không dùng lò rèn hay búa nung, và cho ra đời bản kiếm đá nứt toác lấp lánh vệt hổ phách.\n\nChắn kiếm là hai vòm xương như lồng ngực, bao bọc lấy tay người cầm. Những vết nứt trên lưỡi không phải vết hỏng mà là dấu của từng lần núi đứng vững, và càng chịu nhiều đòn thì chúng càng sáng. Chủ nhân đầu tiên của nó nói một câu mà đến giờ vẫn được khắc dưới chân núi: “Đá không thắng vì cứng. Đá thắng vì nó vẫn ở đó khi mọi thứ khác đã đi.”"
+
+msgid "WEAPON_UI_LORE"
+msgstr "Giai thoại"

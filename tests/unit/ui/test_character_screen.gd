@@ -418,6 +418,31 @@ func test_open_detail_from_bag() -> void:
 	assert_bool(s.intercept_back()).is_false()
 
 
+## Mô tả ngắn trong ô mô tả; giai thoại mở bằng nút "Giai thoại" (owner 2026-11-15). Vũ khí chưa có chữ: không có nút.
+func test_weapon_short_description_and_lore() -> void:
+	var s := _screen()
+	var inv := s.profile.inventory
+	var five := inv.add_equipment("eq_weapon_dusk_inferno")
+	inv.equip(A, five)
+	s.open_weapon_detail()
+	assert_str((_node(s, "WeaponLore") as Label).text).is_equal(tr("EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC"))
+	assert_str(tr("EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC")).is_not_equal("EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC")
+	(_node(s, "LoreButton") as Button).pressed.emit()
+	assert_str((_node(s, "LoreText") as RichTextLabel).text).is_equal(tr("EQUIP_EQ_WEAPON_DUSK_INFERNO_LORE"))
+	assert_bool(s.intercept_back()).is_true()                                      # đóng bảng, vẫn ở chi tiết
+	assert_object(_node(s, "LoreText")).is_null()
+	assert_int(s.view).is_equal(CharacterScreen.View.WEAPON_DETAIL)
+	for id in ["dusk_inferno", "last_gale", "twin_thunder", "solar_verdict", "crescent_pact", "unyielding_peak"]:
+		for suffix in ["_DESC", "_LORE"]:
+			var k := "EQUIP_EQ_WEAPON_%s%s" % [id.to_upper(), suffix]
+			assert_str(tr(k)).override_failure_message(k).is_not_equal(k)
+	var three := inv.add_equipment("eq_weapon_iron")
+	inv.equip(A, three)
+	s.open_weapon_detail()
+	assert_str((_node(s, "WeaponLore") as Label).text).is_equal(tr("WEAPON_UI_NO_LORE"))
+	assert_object(_node(s, "LoreButton")).is_null()
+
+
 func test_background_image_per_view() -> void:
 	var s := _screen()
 	assert_str(s.background_key()).is_equal("overview")
