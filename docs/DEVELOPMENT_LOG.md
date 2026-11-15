@@ -1755,3 +1755,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Nguyên nhân chữ bị cắt:** mục cột phải có neo `right`, nhưng `_pr` cộng thêm neo `center` của panel → khi cửa sổ rộng hơn 16:9 chữ bị đẩy quá mép phải (vd 2560×1080: dòng thời gian kết thúc ở x 2850).
 - **Quyết định Claude chọn:** giữ tiêu đề banner và nhãn loại banner (owner chỉ nêu tên nhân vật và giáp); banner trang bị vẫn có chú thích món đề cử; dãy icon trang bị neo phải theo cột phải.
 - **Hạn chế đã biết:** chữ in sẵn trong ảnh placeholder vẫn đè vùng tiền tệ (mất khi có ảnh thật).
+
+
+## 2026-11-15 — Art: Iwagane frames run through ultimate (AI)
+- **Milestone / task:** art (frame nhân vật) — owner duyệt toàn bộ animation từ `run` đến `ultimate` của Iwagane (`char_earth_01`).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_earth_01/frames/` (123 frame cho 19 animation: run, attack_1, attack_2, attack_3, dodge, jump_up, fall, land, hurt, knockback, down, hold_charge, hold_release, air_1, landing_attack, skill_1, skill_2, switch_in, switch_out, ultimate); `frames_manifest.json`; `docs/ASSET_LICENSES.md` (model, prompt rút gọn, ảnh tham chiếu, ngày cho từng animation).
+- **Đã chạy:** các lệnh `python -I tools/frames/approve_frames.py char_earth_01 <animation>` cho 19 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** duyệt thành công 19 animation; lần chạy xác nhận `run_tests.ps1` mã thoát 0, GdUnit4 659/659 (0 lỗi, 0 thất bại), 5/5 smoke test ĐẠT. Lần test trước có một lỗi đơn lẻ tại `test_raikiba_weapon_blocks_normal_800ms`; lần xác nhận đã qua.
+- **Quyết định Codex chọn:** gộp các animation được owner duyệt trong cùng yêu cầu thành một commit; giữ các thay đổi có sẵn ngoài phạm vi art ngoài commit.
+- **Hạn chế đã biết:** chưa kiểm tra lại animation trong Godot sau khi tích hợp.
