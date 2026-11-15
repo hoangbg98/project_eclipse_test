@@ -3,7 +3,7 @@
 
   python -X utf8 -I tools/compose_stigma_art.py <biểu tượng.png> <ra.png> <ảnh vào.png> [--size 1248x2280]
          [--emblem-scale 0.96] [--glow #FF2A1A] [--glow-radius 46] [--glow-strength 1.6] [--emblem-tint 0.25]
-         [--fit] [--margin 24] [--overflow 1.0] [--no-emblem]
+         [--fit] [--margin 24] [--overflow 1.0] [--shift-x 0] [--no-emblem]
 Lớp riêng cho full art ở bảng thông tin vết thánh: bỏ <ảnh vào> → chỉ biểu tượng + hào quang (vd --size 1400x1400
 --emblem-scale 0.8); --no-emblem → chỉ nhân vật.
 
@@ -46,6 +46,8 @@ def main():
                     help="cắt ảnh vào theo vùng có hình rồi phóng cho vừa khít khung (trừ --margin); biểu tượng có thể bị xén")
     ap.add_argument("--margin", type=int, default=24, help="lề quanh hình khi --fit (px)")
     ap.add_argument("--no-emblem", action="store_true", help="chỉ ảnh vào (lớp nhân vật cho full art), không biểu tượng")
+    ap.add_argument("--shift-x", type=int, default=0,
+                    help="dời ảnh vào sang phải bấy nhiêu px (âm = sang trái) sau khi căn giữa; dùng khi đạo cụ một bên làm lệch nhân vật")
     ap.add_argument("--overflow", type=float, default=1.0,
                     help="--fit: cho hình rộng hơn khung tối đa bấy nhiêu lần (xén hai bên), vd 1.35 cho ảnh có cánh dang ngang")
     a = ap.parse_args()
@@ -92,7 +94,12 @@ def _draw_src(canvas, a, w, h):
         src = src.resize((max(1, int(src.width * k)), max(1, int(src.height * k))), Image.LANCZOS)
     else:
         src = src.resize((w, int(src.height * w / src.width)), Image.LANCZOS)
-    canvas.alpha_composite(src, ((w - src.width) // 2, (h - src.height) // 2))
+    # alpha_composite cần vị trí trong khung: xén phần ra ngoài mép trước (khi dời --shift-x hoặc ảnh rộng hơn khung).
+    x, y = (w - src.width) // 2 + a.shift_x, (h - src.height) // 2
+    left, top = max(0, -x), max(0, -y)
+    right, bottom = min(src.width, w - x), min(src.height, h - y)
+    if right > left and bottom > top:
+        canvas.alpha_composite(src.crop((left, top, right, bottom)), (x + left, y + top))
 
 
 if __name__ == "__main__":

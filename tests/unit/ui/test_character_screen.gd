@@ -463,7 +463,9 @@ func s_layers_count(d: EquipmentDef) -> int:
 ## Ảnh bộ Antoine Lavoisier (owner 2026-11-15): 3 vết thánh có ảnh dọc 1248 × 2280; khung ngang / vuông lấy phần vuông trên.
 func test_lavoisier_stigma_art_and_center_crop() -> void:
 	for id in ["eq_stigma_top_lavoisier", "eq_stigma_mid_lavoisier", "eq_stigma_bot_lavoisier",
-			"eq_stigma_top_davinci", "eq_stigma_mid_davinci", "eq_stigma_bot_davinci"]:      # da Vinci: owner 2026-11-16
+			"eq_stigma_top_davinci", "eq_stigma_mid_davinci", "eq_stigma_bot_davinci",      # da Vinci: owner 2026-11-16
+			"eq_stigma_top_franklin", "eq_stigma_mid_franklin", "eq_stigma_bot_franklin",   # Franklin: owner 2026-11-16
+			"eq_stigma_top_nightingale", "eq_stigma_mid_nightingale", "eq_stigma_bot_nightingale"]:
 		var slot: String = id
 		var d := PlayerProfile.equipment_defs().get_def(id) as EquipmentDef
 		assert_int(s_layers_count(d)).override_failure_message(id).is_equal(2)
