@@ -337,16 +337,28 @@ single("placeholder-tiles-64", "Tile nền 64 (tạm)", "assets/placeholders/pla
        tags=["tile", "placeholder"], brief="Lưới tile 64×64.")
 # Bố cục Chiêu mộ mới (owner 2026-11-15): ảnh banner phủ phần phải màn 1590×1080; danh sách bên trái là thẻ chữ
 # (ảnh thumb không còn hiện, giữ mục cũ trên site).
+# Kích thước + vùng chữ / nút che theo bố cục Chiêu mộ mới nhất (2026-11-15, tọa độ trên ảnh 1590×1080).
+BANNER_TEXT = {
+    "char": [
+        "Kích thước 1590×1080 px: ảnh phủ x 330 → 1920 của màn 1920×1080, co giữ tỉ lệ và đặt giữa (màn rộng hơn 16:9 lộ nền tối hai bên, nên đặt nhân vật / vũ khí chính ở giữa). Vùng bị chữ / nút che, tọa độ trên ảnh (gốc góc trên-trái): thanh trên (tiền tệ) x 820–1430, y 0–100; dòng pity x 1000–1560, y 104–166; nút tròn Chơi thử / Cửa hàng / Chi tiết / Lịch sử x 70–400, y 640–1000; ô bảo đảm 10 lượt x 1200–1550, y 780–888; nút Chiêu mộ ×1 / ×10 x 820–1550, y 900–1036. Banner nhân vật không còn tiêu đề, tên nhân vật, thời gian, túi quà (owner 2026-11-15): giữa ảnh và góc trái trên trống cho splash art. Bản v2 đã tải lên đang 1521×1034 (cùng tỉ lệ, sẽ phóng ~4.5%); xuất đúng 1590×1080 để nét nhất.",
+        "Ảnh banner nhân vật 1590×1080 phủ phần phải màn Chiêu mộ. Màn chỉ đè dòng pity góc phải trên, nút tròn bên trái dưới, ô bảo đảm và 2 nút Chiêu mộ góc phải dưới; phần còn lại là ảnh."
+    ],
+    "equip": [
+        "Kích thước 1590×1080 px: ảnh phủ x 330 → 1920 của màn 1920×1080, co giữ tỉ lệ và đặt giữa (màn rộng hơn 16:9 lộ nền tối hai bên, nên đặt nhân vật / vũ khí chính ở giữa). Vùng bị chữ / nút che, tọa độ trên ảnh (gốc góc trên-trái): thanh trên (tiền tệ) x 820–1430, y 0–100; nhãn + tiêu đề x 230–1130, y 110–270; hàng 3 vũ khí trưng bày (ảnh vũ khí + thanh tên do màn vẽ) x 230–1550, y 250–805; nút tròn Chi tiết / Lịch sử x 70–400, y 824–1000; nút Chiêu mộ ×1 / ×10 x 820–1550, y 900–1036. Banner trang bị thường (vĩnh viễn, không pity): không có cột thông tin bên phải; ảnh banner chỉ làm nền, không vẽ vũ khí vì màn tự đặt 3 ảnh vũ khí lên.",
+        "Ảnh nền banner trang bị thường 1590×1080. Màn vẽ tiêu đề trái trên, 3 vũ khí trưng bày ở giữa, nút tròn trái dưới và 2 nút Chiêu mộ phải dưới; ảnh nên là nền thoáng, không có vũ khí riêng."
+    ],
+    "star5": [
+        "Kích thước 1590×1080 px: ảnh phủ x 330 → 1920 của màn 1920×1080, co giữ tỉ lệ và đặt giữa (màn rộng hơn 16:9 lộ nền tối hai bên, nên đặt nhân vật / vũ khí chính ở giữa). Vùng bị chữ / nút che, tọa độ trên ảnh (gốc góc trên-trái): thanh trên (tiền tệ) x 820–1430, y 0–100; nhãn + tiêu đề x 230–1130, y 110–270; dòng pity x 1000–1560, y 104–166; dãy 4 icon đã có / chưa có x 1110–1550, y 180–284; thời gian x 960–1560, y 296–340; nút Túi quà x 1200–1560, y 348–468; chú thích vũ khí đề cử x 250–720, y 500–600; chú thích bộ vết thánh x 910–1380, y 620–720; ô bảo đảm 10 lượt x 1200–1550, y 780–888; nút tròn Chi tiết / Lịch sử x 70–400, y 824–1000; nút Chiêu mộ ×1 / ×10 x 820–1550, y 900–1036.",
+        "Ảnh banner trang bị 5★ 1590×1080 phủ phần phải màn Chiêu mộ. Nhiều chữ nhất trong 3 banner: tiêu đề + 2 chú thích bên trái, cột pity / icon / thời gian / túi quà bên phải; vũ khí chính đặt giữa ảnh."
+    ]
+}
 for grp, bid in (("char", "banner_char_terra"), ("equip", "banner_equip_terra"), ("star5", "banner_star5_earth")):
     p = f"assets/ui/recruit/placeholder_{bid}_banner.png"
     aid = slug(f"recruit-{grp}-terra-banner") if grp != "star5" else "recruit-star5-earth-banner"
     single(aid, f"Chiêu mộ · {bid} · banner", p, "Banner",
            "Chiêu mộ", "Placeholder xám", "todo", spec(1590, 1080, transparent=False, naming=f"{bid}_banner.png"),
            placeholder=True, pnote="Hình người xám kèm tên banner; thêm file đúng tên là màn tự nhận, không sửa code.",
-           requests=["Owner cung cấp ảnh banner 1590×1080 (bố cục 2026-11-15: tiêu đề + chú thích bên trái, cột thông tin "
-                     "bên phải, nút vàng góc phải dưới; nhân vật / vũ khí ở giữa)"],
-           tags=["gacha", "banner"],
-           brief="Ảnh banner phủ phần phải màn Chiêu mộ (x 330 → 1920). Hai mép trái / phải được làm tối nhẹ để đọc chữ.")
+           requests=[BANNER_TEXT[grp][0]], tags=["gacha", "banner"], brief=BANNER_TEXT[grp][1])
 for grp in ("char", "equip"):
     p = f"assets/ui/recruit/placeholder_banner_{grp}_terra_thumb.png"
     single(slug(f"recruit-{grp}-terra-thumb"), f"Chiêu mộ · banner_{grp}_terra · thumb", p, "Banner",
