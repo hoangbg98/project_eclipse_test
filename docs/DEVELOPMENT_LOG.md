@@ -2127,3 +2127,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** Đã tạo một ảnh vuông PNG gồm cặp Song Âm trên nền xanh phẳng; chưa tách nền, chưa tạo animation.
 - **Quyết định Codex chọn:** Đặt Dơi Nốt ở làn trên, Sên Nhịp ở làn dưới; dây khuông năm vạch dọc và chuông vàng dùng chung, màu phát sáng vàng #FFD84D cho cả cặp.
 - **Hạn chế đã biết:** Chờ owner duyệt ảnh gốc. Chưa tạo fly/run/die hay `rh_twin_chain.png`.
+
+
+## 2026-11-16 — M10-2: animation Song Âm
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_twin; owner đã duyệt ảnh gốc và xác nhận Song Âm.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** assets/rhythm/rh_twin/fly/ (6 PNG); assets/rhythm/rh_twin/run/ (6 PNG); assets/rhythm/rh_twin/die/bat/ (5 PNG); assets/rhythm/rh_twin/die/slime/ (5 PNG); assets/rhythm/rh_twin_chain.png; tools/rhythm/process_enemy_sheets.ps1; docs/ASSET_LICENSES.md mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen tạo sprite sheet fly/run/die và tile dây; powershell -ExecutionPolicy Bypass -File tools\rhythm\process_enemy_sheets.ps1 (cắt 4 sheet 3×2, inset 4 px cho hai sheet die, chroma key #00B140, xuất PNG); powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1.
+- **Kết quả thật:** 6 frame fly 12 fps lặp, 6 frame run 12 fps lặp, 5 frame die cho từng sinh vật ở 20 fps; tất cả frame 256×256. Dây khuông xuất 64×256. Đã xem trực tiếp mẫu fly/run/die và dây; bộ xử lý báo 0 pixel xanh lá đục trong frame. run_tests.ps1 kết thúc với TẤT CẢ ĐẠT, mã thoát 0; GdUnit4 732/732 đạt và 5/5 smoke test đạt. Kiểm tra bổ sung: đủ 23 dòng giấy phép AI, 22 frame 256×256 đúng số lượng và góc trong suốt, tile 64×256.
+- **Quyết định Codex chọn:** Tách die thành hai thư mục con bat/ và slime/ để giữ đủ hai sinh vật cùng tan biến riêng; inset 4 px loại đường phân ô đen của sheet; tái dùng processor chung để cắt hai sheet và tile dây.
+- **Hạn chế đã biết:** Chưa nối các frame vào rhythm_stage.gd; task chỉ cung cấp asset theo brief.
