@@ -70,6 +70,21 @@ chỉ chắc chắn ra món chưa có. Pity mềm từ lượt 30: tổng tỉ l
 banner chạy lại. Các bậc 4★ / 3★ giữ như tiếp tế, phần 5★ lấy từ nguyên liệu (58% − tỉ lệ 5★). Giá 280 / 2520 Ngọc.
 Món trùng không quy đổi. **Đã làm** 2026-11-15: `data/banners/banner_star5_earth.tres` (đề cử Iwagane), sinh bằng `tools/gen_banner_data.py`.
 
+### A3. Bảng giá nạp (owner 2026-11-16) và chỗ còn hỏi
+
+Ảnh bảng giá: `docs/reference/topup_price_table.png`. **Đã đưa vào dữ liệu** `data/shop/topup_packs.json`: 5 gói Ngọc
+330 / 660 / 1320 / 3300 / 6600 = 70k / 140k / 280k / 700k / 1.400k (tỉ lệ đều ~4,714 Ngọc mỗi 1.000đ, không ưu đãi theo gói).
+`server\grant.ps1 -Pack` dùng bảng này. Ảnh có vài chữ bị lỗi (do tạo bằng AI) nên **cần owner xác nhận**:
+
+1. **Nhóm thứ hai (biểu tượng đồng xu, ghi "B-Chips")**: 330 / 990 / 1320 / 1980 / 3300 / 6600 = 70k / 210k / 280k / 420k / 700k / 1.400k.
+   Đây là loại tiền gì trong game (game hiện chỉ có Ngọc và Vàng) và dùng để mua gì? Tên "B-Chips" trùng tên tiền tệ của game khác
+   (Honkai Impact 3rd) nên nếu giữ cần đặt tên riêng (ASSET_LICENSES mục 5).
+2. **Thưởng nạp**: dòng "x2 lần đầu hoặc khuyến mãi tặng kèm" có nghĩa là gì: nạp mỗi gói lần đầu được gấp đôi (mỗi tài khoản, mỗi gói)?
+   Có khuyến mãi theo thời gian không?
+3. **Thẻ tháng**: ghi chú "mua cộng dồn tối đa 180 ngày" nhưng bảng không có giá thẻ tháng và game chưa có thẻ tháng. Có làm không, giá và quà mỗi ngày?
+4. Câu "Bảo hành 100%, cam kết không bị khóa tài khoản" là lời hứa với người chơi: owner tự quyết có đăng hay không.
+5. Thông tin nhận tiền (ngân hàng, số tài khoản, tên chủ tài khoản) để làm màn Nạp trong game (mã QR chuyển khoản).
+
 ## B. Hình nhân vật (frame-by-frame)
 
 **Quy cách chung** (mọi frame của một nhân vật giống nhau):

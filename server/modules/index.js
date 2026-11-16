@@ -174,6 +174,7 @@ function rpcAdminGrant(ctx, logger, nk, payload) {
   var record = {
     code: code, user_id: userId, changes: req.changes, ref: ref,
     note: String(req.note || ""), operator: String(req.operator).trim(),
+    pack: String(req.pack || "").substring(0, 40), paid: Number(req.paid) || 0,
     time: Math.floor(Date.now() / 1000)
   };
   // Giữ chỗ ref trước khi cộng ví: ref đã dùng thì storageWrite với version "*" báo lỗi.

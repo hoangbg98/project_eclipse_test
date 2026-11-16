@@ -1,0 +1,11 @@
+{
+  "_comment": "Bảng giá nạp qua mã người chơi (owner gửi 2026-11-16, docs/reference/topup_price_table.png). Giá có thể đổi theo thời gian: sửa file này, không sửa trong script. server\\grant.ps1 -Pack <id> đọc file này (số Ngọc + số tiền phải thu). Mọi gói cùng một tỉ lệ ~4,714 Ngọc / 1.000đ (không có ưu đãi theo gói).",
+  "price_currency": "VND",
+  "packs": [
+    { "id": "gems_330",  "currency": "gems", "amount": 330,  "price": 70000 },
+    { "id": "gems_660",  "currency": "gems", "amount": 660,  "price": 140000 },
+    { "id": "gems_1320", "currency": "gems", "amount": 1320, "price": 280000 },
+    { "id": "gems_3300", "currency": "gems", "amount": 3300, "price": 700000 },
+    { "id": "gems_6600", "currency": "gems", "amount": 6600, "price": 1400000 }
+  ]
+}

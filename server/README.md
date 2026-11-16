@@ -100,10 +100,19 @@ powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120
 powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120 -Gems 600 -Ref FT26321ABC -Operator ten_qtv -Note "goi 50k"
 ```
 
+   Theo **bảng giá** (`data/shop/topup_packs.json`, nguồn ảnh `docs/reference/topup_price_table.png`): `-Pack` + `-Paid` (số tiền
+   đã nhận trong sao kê). Tool tự lấy số Ngọc theo gói và **từ chối nếu số tiền không khớp giá gói** (`-Force` để bỏ qua khi đã thỏa thuận):
+
+```
+powershell -ExecutionPolicy Bypass -File server\grant.ps1 -List
+powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120 -Pack gems_660 -Paid 140000 -Ref FT26321ABC -Operator ten_qtv
+```
+
 - Mỗi `-Ref` chỉ phát được **một lần**: phát nhầm lần hai máy chủ báo lỗi.
 - Số âm = thu hồi (chuyển khoản lỗi). Mỗi lần phát lưu bản ghi (collection `admin_grant`) và sổ ví (wallet ledger),
   xem trong trang quản trị.
-- Số lượng mỗi gói (bao nhiêu ngọc cho bao nhiêu tiền) là quyết định của owner, chưa có trong dữ liệu.
+- Bảng giá hiện có 5 gói Ngọc (330 / 660 / 1320 / 3300 / 6600 = 70k / 140k / 280k / 700k / 1.400k, cùng một tỉ lệ). Bản ghi phát quà lưu thêm
+  `pack` và `paid`. Chưa có thưởng nạp lần đầu, nhóm tiền tệ thứ hai, thẻ tháng (xem `docs/OWNER_ASSET_CHECKLIST.md` mục A3).
 
 ## Giới hạn giai đoạn 1
 
