@@ -3492,3 +3492,144 @@ msgstr "Bỏ qua hướng dẫn"
 
 msgid "RHYTHM_INTRO_HOLD"
 msgstr "Mới: Rắn Ngân — ấn giữ phím từ đầu tới hết thân rắn, thả sớm là gãy. Quái trống to — ấn liên tục thật nhanh tới khi nó vỡ."
+
+msgid "HUB_TAB_CHAT"
+msgstr "Chat"
+
+msgid "HUB_ICON_CHAT"
+msgstr "Chat"
+
+msgid "CHAT_TAB_WORLD"
+msgstr "Thế giới"
+
+msgid "CHAT_TAB_FRIENDS"
+msgstr "Bạn bè"
+
+msgid "CHAT_DM_LIST"
+msgstr "Nhắn riêng"
+
+msgid "CHAT_DM_TITLE"
+msgstr "Nhắn riêng: %s"
+
+msgid "CHAT_CONNECTING"
+msgstr "Đang kết nối chat..."
+
+msgid "CHAT_EMPTY"
+msgstr "Chưa có tin nhắn. Hãy nói xin chào!"
+
+msgid "CHAT_NEED_LOGIN"
+msgstr "Cần đăng nhập để dùng chat."
+
+msgid "CHAT_INPUT_HINT"
+msgstr "Nhập tin nhắn (tối đa 200 ký tự)"
+
+msgid "CHAT_SEND"
+msgstr "Gửi"
+
+msgid "CHAT_ACT_DM"
+msgstr "Nhắn riêng"
+
+msgid "CHAT_ACT_FRIEND"
+msgstr "Kết bạn"
+
+msgid "CHAT_ACT_BLOCK"
+msgstr "Chặn"
+
+msgid "CHAT_ACT_REPORT"
+msgstr "Báo cáo"
+
+msgid "CHAT_REPORT_REASON"
+msgstr "Lý do:"
+
+msgid "CHAT_REASON_SPAM"
+msgstr "Spam"
+
+msgid "CHAT_REASON_ABUSE"
+msgstr "Lăng mạ"
+
+msgid "CHAT_REASON_INAPPROPRIATE"
+msgstr "Không phù hợp"
+
+msgid "CHAT_REASON_CHEAT"
+msgstr "Gian lận"
+
+msgid "CHAT_REASON_OTHER"
+msgstr "Khác"
+
+msgid "CHAT_REPORTED"
+msgstr "Đã gửi báo cáo cho QTV."
+
+msgid "CHAT_ADD_BY_CODE"
+msgstr "Thêm bạn bằng mã người chơi"
+
+msgid "CHAT_CODE_HINT"
+msgstr "Mã 8 số của bạn bè"
+
+msgid "CHAT_ADD_FRIEND"
+msgstr "Kết bạn"
+
+msgid "CHAT_FRIEND_SENT"
+msgstr "Đã gửi lời mời kết bạn."
+
+msgid "CHAT_FRIENDS_INVITES"
+msgstr "Lời mời kết bạn"
+
+msgid "CHAT_FRIENDS_LIST"
+msgstr "Bạn bè"
+
+msgid "CHAT_FRIENDS_SENT"
+msgstr "Đã gửi lời mời"
+
+msgid "CHAT_FRIENDS_BLOCKED"
+msgstr "Đã chặn"
+
+msgid "CHAT_FRIENDS_EMPTY"
+msgstr "Chưa có bạn bè. Thêm bằng mã người chơi hoặc bấm tên ở phòng Thế giới."
+
+msgid "CHAT_FRIEND_ACCEPT"
+msgstr "Chấp nhận"
+
+msgid "CHAT_FRIEND_DECLINE"
+msgstr "Từ chối"
+
+msgid "CHAT_FRIEND_REMOVE"
+msgstr "Xóa bạn"
+
+msgid "CHAT_FRIEND_CANCEL"
+msgstr "Hủy mời"
+
+msgid "CHAT_FRIEND_UNBLOCK"
+msgstr "Bỏ chặn"
+
+msgid "CHAT_NOTICE_FRIEND_INVITE"
+msgstr "Bạn có lời mời kết bạn mới."
+
+msgid "CHAT_ERR_EMPTY"
+msgstr "Hãy nhập nội dung."
+
+msgid "CHAT_ERR_TOO_LONG"
+msgstr "Tin nhắn tối đa 200 ký tự."
+
+msgid "CHAT_ERR_RATE"
+msgstr "Bạn gửi quá nhanh, chờ một chút."
+
+msgid "CHAT_ERR_MUTED"
+msgstr "Bạn đang bị cấm chat."
+
+msgid "CHAT_ERR_MUTED_UNTIL"
+msgstr "Bạn đang bị cấm chat đến %s."
+
+msgid "CHAT_ERR_BLOCKED"
+msgstr "Không gửi được: người này đã chặn bạn."
+
+msgid "CHAT_ERR_NOT_FOUND"
+msgstr "Không tìm thấy người chơi với mã này."
+
+msgid "CHAT_ERR_SELF"
+msgstr "Đó là mã của chính bạn."
+
+msgid "CHAT_ERR_OFFLINE"
+msgstr "Chưa kết nối chat."
+
+msgid "CHAT_ERR_SEND"
+msgstr "Không gửi được, thử lại sau."

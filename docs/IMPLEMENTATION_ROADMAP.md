@@ -103,7 +103,7 @@ giai đoạn thử chạy trên máy owner qua đường hầm trycloudflare.com
 | M9-1b | Màn Đăng nhập sau Boot: tạo tài khoản (tên + email + mật khẩu), đăng nhập bằng tên / email, ghi nhớ phiên, chơi ngoại tuyến | |
 | M9-2 | Gộp ví máy chủ với save: ngọc / vé do máy chủ giữ, gacha quay trên máy chủ | Cần owner chốt gói nạp |
 | M9-3 | Cloud save: mỗi tài khoản một thế giới trên máy chủ, gửi sau mỗi lần lưu, chống ghi đè giữa hai thiết bị, mang save ngoại tuyến lên | Làm trước M9-2 (owner 2026-11-16) |
-| M9-6 | Chat trong game (kênh chung, nhắn riêng, bạn bè, chặn / báo cáo, lọc từ) | Định hướng owner: mỗi người một thế giới, nối nhau qua chat, không co-op |
+| M9-6 | Chat trong game: phòng Thế giới, nhắn riêng, bạn bè, chặn / báo cáo, lọc từ, cấm chat (QTV) | Định hướng owner: mỗi người một thế giới, nối nhau qua chat, không co-op. Đã làm (TESTED) |
 | M9-7 | Quên mật khẩu / xác minh email | Cần dịch vụ gửi mail |
 | M9-4 | Hộp thư quà trong game, lịch sử nạp cho người chơi | |
 | M9-5 | Chuyển lên VPS (docker-compose), tên miền + Cloudflare Tunnel cố định, backup tự động | Trước khi nhận tiền thật |

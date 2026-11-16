@@ -1,7 +1,7 @@
 # Máy chủ PROJECT ECLIPSE (Nakama) — hướng dẫn vận hành
 
-Giai đoạn 1 (M9-1): tài khoản (tên + email + mật khẩu, màn Đăng nhập khi mở game), mã người chơi 8 số, ví trên máy chủ (`gems`, `gold`),
-tool phát quà cho QTV (nạp bằng chuyển khoản QR thủ công). Ví máy chủ **chưa** gộp với save trên máy.
+Giai đoạn 1 (M9-1, M9-3, M9-6): tài khoản (tên + email + mật khẩu, màn Đăng nhập khi mở game), mã người chơi 8 số, ví trên máy chủ (`gems`, `gold`),
+tool phát quà cho QTV (nạp bằng chuyển khoản QR thủ công), cloud save, chat. Ví máy chủ **chưa** gộp với save trên máy.
 
 ## Thành phần
 
@@ -14,7 +14,9 @@ tool phát quà cho QTV (nạp bằng chuyển khoản QR thủ công). Ví máy
 | `music/` | Chế độ nhịp điệu: `songs.json` (danh sách bài), nhạc, `charts/`, `catalog.json` (sinh bằng `python -X utf8 -I tools/rhythm/build_catalog.py`), `fixed/` (bản nốt cố định ải boss). Xem `docs/design/RHYTHM_MODE.md`. |
 | `stop_local.ps1` | Tắt đường hầm, Nakama, PostgreSQL. Dữ liệu giữ nguyên. |
 | `grant.ps1` | Tool QTV: tra cứu người chơi theo mã, phát / thu hồi tiền. |
-| `modules/index.js` | Module máy chủ (RPC `eclipse_profile`, `admin_find`, `admin_grant`, `save_get`, `save_put`). Sửa xong phải khởi động lại Nakama. |
+| `moderate.ps1` | Tool QTV kiểm duyệt chat: xem báo cáo, đánh dấu đã xử lý, cấm / gỡ cấm chat. |
+| `tests/chat_smoke.mjs` | Kiểm tra module chat trên máy chủ thật bằng Node (không cần Godot): `node server/tests/chat_smoke.mjs`. |
+| `modules/index.js` | Module máy chủ (RPC `eclipse_profile`, `admin_find`, `admin_grant`, `save_get`, `save_put`, `chat_find`, `chat_report`, `admin_chat_*`; hook chat). Sửa xong phải khởi động lại Nakama. |
 | `nakama/config.yml` | Cấu hình chung, không chứa khóa. |
 | `docker-compose.yml`, `.env.example` | Dùng khi chuyển lên VPS Linux. |
 
@@ -61,6 +63,32 @@ C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --scrip
 - Save vẫn do game tạo ra nên người chơi sửa được trước khi gửi (chưa chống gian lận). Ngọc / gacha chuyển lên máy
   chủ ở M9-2.
 
+## Chat (M9-6): phòng Thế giới + nhắn riêng, không co-op
+
+Định hướng: mỗi người một thế giới riêng, nối nhau chỉ qua chat. Game mở bảng Chat bằng biểu tượng bong bóng ở sảnh
+(chấm đỏ = có tin nhắn riêng / lời mời kết bạn chưa đọc). Chat chạy trên websocket của Nakama (đi qua cổng vào 7360 và
+đường hầm trycloudflare, đã thử `wss`).
+
+- **Phòng Thế giới** (một phòng chung, lưu lịch sử, game tải 50 tin gần nhất) và **nhắn riêng** giữa hai người. Game **không**
+  tạo được phòng khác (máy chủ chặn). Người nhận nhắn riêng được báo bằng thông báo của Nakama (cả khi đang offline).
+- **Bạn bè**: thêm theo mã người chơi 8 số hoặc bấm tên ở phòng Thế giới; mời / chấp nhận / từ chối / xóa. **Chặn**: người bị
+  chặn không nhắn riêng được (máy chủ từ chối) và tin của họ ẩn khỏi phòng chung ở máy người chặn.
+- **Chống lạm dụng** (ở máy chủ, `modules/index.js`): tối đa 200 ký tự, giãn cách 0,8 giây giữa hai tin, lọc từ cấm
+  (che bằng `*`; danh sách `BAD_WORDS_ACCENT` / `BAD_WORDS_FOLDED` ở đầu mục Chat, sửa rồi khởi động lại Nakama), cấm chat theo thời gian.
+- **Báo cáo**: người chơi bấm tên → Báo cáo → chọn lý do. QTV xem và xử lý:
+
+```
+powershell -ExecutionPolicy Bypass -File server\moderate.ps1 -Reports
+powershell -ExecutionPolicy Bypass -File server\moderate.ps1 -Resolve <id báo cáo> -Operator ten_qtv
+powershell -ExecutionPolicy Bypass -File server\moderate.ps1 -Mute <mã người chơi 8 số> -Minutes 60 -Reason "spam" -Operator ten_qtv
+powershell -ExecutionPolicy Bypass -File server\moderate.ps1 -Mute <mã> -Minutes 0 -Operator ten_qtv     (gỡ cấm)
+```
+
+  Báo cáo ghi tên người báo cáo, người bị báo cáo, lý do và nội dung tin. Muốn biết mã người chơi của người bị báo cáo: trang quản
+  trị Nakama (Accounts, tìm theo tên; mã nằm trong metadata `code`). Cấm vĩnh viễn tài khoản: dùng "Ban" trong trang quản trị.
+- Thử máy chủ chat không cần mở game: `node server/tests/chat_smoke.mjs`. Thử cả game + máy chủ:
+  `<godot> --headless --path . --script res://tools/chat_e2e.gd -- --server=<địa chỉ>`.
+
 ## Quy trình nạp QR thủ công (QTV)
 
 1. Người chơi chuyển khoản, nội dung ghi **mã người chơi** (vd `ECL 32354120`).
@@ -82,5 +110,8 @@ powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120 -Gems 6
 - Đường hầm trycloudflare: chỉ để thử, địa chỉ đổi mỗi lần, không cam kết ổn định.
 - Máy chủ sống theo máy tính của owner: tắt máy / ngủ / Windows Update khởi động lại = người chơi mất kết nối.
 - Chưa backup tự động. Sao lưu tay: `server\.runtime\pgsql\bin\pg_dump.exe -h 127.0.0.1 -p 5433 -U nakama nakama > backup.sql`.
+- Chat: phòng Thế giới lưu lịch sử mãi (chưa tự xóa tin cũ); chưa có kênh nhóm / bang; tin nhắn riêng chưa có xác nhận "đã xem".
+- Mã người chơi nằm trong metadata công khai của tài khoản Nakama (ai biết id người dùng đều đọc được qua API). Mã chỉ để nhận
+  quà nạp / kết bạn nên chấp nhận được ở bản thử; trước khi phát hành nên chuyển sang storage riêng tư.
 - Chưa có quên mật khẩu / xác minh email (cần dịch vụ gửi mail). QTV đặt lại mật khẩu trong trang quản trị nếu cần.
 - Đừng chạy `start_local.ps1` qua ống `| ...` (PowerShell chờ Nakama tắt mới trả về).

@@ -49,6 +49,8 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
   (`scripts/online/`, client REST tự viết, không plugin). Mạng đi qua `OnlineService.transport` để test thay bằng
   máy chủ giả (`tests/unit/support/fake_nakama.gd`). Cloud save (M9-3): đăng nhập xong `OnlineService.open_cloud_world()`
   chuyển `SaveService` sang bản đệm của tài khoản (`SaveService.use_store`); code gameplay vẫn chỉ gọi `SaveService.save_game()`.
+  Chat (M9-6): `OnlineService.chat` (`ChatService`, websocket + REST; test dùng `FakeNakama` + `FakeSocket`), bảng `ChatPanel`
+  mở từ biểu tượng Chat ở sảnh (Hub `ChatTab`); lọc từ / giãn cách / cấm chat / chặn nằm ở máy chủ, game chỉ hiển thị.
   Không commit `server/.runtime/` (khóa bí mật, DB) hay `server/.env`.
 - Chế độ nhịp điệu (M10, `docs/design/RHYTHM_MODE.md`): logic `scripts/rhythm/` (`RhythmJudge`, `RhythmChart`, `RhythmProgress`,
   `RhythmLibrary`), màn `scripts/ui/rhythm/`. Nhạc + bản nốt ở máy chủ (`server/music/`, dựng bằng

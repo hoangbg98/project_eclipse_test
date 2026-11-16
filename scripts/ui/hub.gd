@@ -2,6 +2,7 @@ extends Control
 ## Sảnh chính (README 15; owner 2026-11-14 bản 2): không còn thanh tab. Nội dung chính là HubHomePanel (nền, splash,
 ## thẻ người chơi, ô ghép mở các màn). Ba bảng nổi đè lên sảnh, đóng bằng nút ✕ hoặc Back / Esc:
 ## - "BattleTab": chọn đội + danh sách màn (HubBattlePanel) và hai nút vào màn (Màn 1, Màn thử nghiệm trong hub.tscn);
+## - "ChatTab": Chat (ChatPanel, M9-6), mở bằng biểu tượng bong bóng góc phải;
 ##   mở từ thẻ Đội hình ở màn Xuất kích (GameConfig.hub_start_tab);
 ## - "SettingsTab": Cài đặt + Credits (+ nút quà thử nghiệm bản debug), mở bằng nút bánh răng góc phải;
 ## - "BackgroundTab": đổi nền sảnh (HubBackgroundPanel), mở bằng nút khung tranh góc phải.
@@ -12,6 +13,7 @@ const TABS := {
 	"BattleTab": "HUB_TAB_BATTLE",
 	"SettingsTab": "HUB_TAB_SETTINGS",
 	"BackgroundTab": "HUB_TAB_BACKGROUND",
+	"ChatTab": "HUB_TAB_CHAT",
 }
 const BACK_GROUP := &"back_interceptor"
 const POPUP_RECT := Rect2(140, 70, 1640, 940)
@@ -140,6 +142,8 @@ func _make_panel(tab_name: String) -> Control:
 			var b := HubBattlePanel.new()
 			b.changed.connect(_build_home_deferred)
 			return b
+		"ChatTab":
+			return ChatPanel.new()
 		"BackgroundTab":
 			var bgp := HubBackgroundPanel.new()
 			bgp.changed.connect(_build_home_deferred)

@@ -33,6 +33,7 @@ func _device(name_: String) -> Node:
 	s.cloud_root = ROOT.path_join(name_ + "_cloud")
 	s.save_service = saves
 	s.push_delay = 0.0
+	s.chat_auto_start = false
 	s.transport = fake.handle
 	add_child(s)
 	return s

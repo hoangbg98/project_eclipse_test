@@ -7,6 +7,12 @@ $rt = Join-Path $PSScriptRoot ".runtime"
 $cf = Join-Path $rt "cloudflared.exe"
 $log = Join-Path $rt "logs\tunnel.log"
 New-Item -ItemType Directory -Force (Join-Path $rt "logs") | Out-Null
+# Đường hầm cũ còn chạy thì tắt trước (tránh hai đường hầm và file log bị khóa).
+$old = Join-Path $rt "tunnel.pid"
+if (Test-Path $old) {
+    $o = Get-Process -Id ([int](Get-Content $old)) -ErrorAction SilentlyContinue
+    if ($o -and $o.ProcessName -eq "cloudflared") { Stop-Process -Id $o.Id -Confirm:$false; Start-Sleep -Seconds 1 }
+}
 if (Test-Path $log) { Remove-Item -Force $log }
 
 $p = Start-Process -FilePath $cf -WindowStyle Hidden -PassThru `

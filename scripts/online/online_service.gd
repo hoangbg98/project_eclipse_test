@@ -31,11 +31,21 @@ var transport: Callable
 var _mode := ""
 
 
+## Chat (M9-6): tạo sẵn khi vào cây; tự kết nối sau khi mở thế giới của tài khoản (`open_cloud_world`).
+var chat: ChatService
+## false: không tự kết nối chat (test).
+var chat_auto_start := true
+
+
 func _ready() -> void:
 	if config == null:
 		config = OnlineConfig.load_from()
 	if not transport.is_valid():
 		transport = _http_send
+	chat = ChatService.new()
+	chat.name = "Chat"
+	chat.online = self
+	add_child(chat)
 
 
 func is_online() -> bool:
@@ -111,6 +121,8 @@ func resume() -> bool:
 
 ## Đăng xuất: xóa phiên trong bộ nhớ và phiên đã ghi nhớ.
 func logout() -> void:
+	if chat:
+		chat.stop()
 	_detach_cloud()
 	token = ""
 	refresh_token = ""
@@ -255,6 +267,8 @@ func open_cloud_world(import_offline: Variant = null) -> String:
 	else:
 		cloud_error = ""
 		_cloud_set(Cloud.SYNCED)
+	if chat_auto_start and chat:
+		chat.start()
 	return "ok"
 
 
@@ -360,6 +374,32 @@ func _call_rpc(rpc_id: String, payload: Dictionary, retry := true) -> Dictionary
 	if not r["ok"]:
 		r["error"] = "ONLINE_ERR_UNREACHABLE" if code == 0 else r["error"]
 	return r
+
+
+## Token còn dùng được: sắp hết hạn (dưới 2 phút) thì làm mới trước. Rỗng nếu chưa đăng nhập.
+func fresh_token() -> String:
+	if token.is_empty():
+		return ""
+	var exp := NakamaApi.token_expiry(token)
+	if exp > 0 and exp - int(Time.get_unix_time_from_system()) < 120:
+		await _renew_token()
+	return token
+
+
+## Gọi một API REST có token. `make.call(server_url, token)` dựng request; gặp 401 thì làm mới phiên và gọi lại một lần.
+## Trả về {code, body}.
+func call_api(make: Callable) -> Dictionary:
+	if token.is_empty():
+		return {"code": 401, "body": ""}
+	var res: Dictionary = await transport.call(make.call(config.server_url, await fresh_token()))
+	if int(res.get("code", 0)) == 401 and await _renew_token():
+		res = await transport.call(make.call(config.server_url, token))
+	return res
+
+
+## Gọi RPC của module máy chủ: {ok, code, data, error}.
+func call_rpc(rpc_id: String, payload: Dictionary) -> Dictionary:
+	return await _call_rpc(rpc_id, payload)
 
 
 ## Chỉ làm mới token (không đổi trạng thái / hồ sơ).

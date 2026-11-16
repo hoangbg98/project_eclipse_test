@@ -3492,3 +3492,144 @@ msgstr "Skip tutorial"
 
 msgid "RHYTHM_INTRO_HOLD"
 msgstr "New: Silver Serpent — hold the key from head to the end of its body; letting go early breaks it. Big drum — mash the key until it bursts."
+
+msgid "HUB_TAB_CHAT"
+msgstr "Chat"
+
+msgid "HUB_ICON_CHAT"
+msgstr "Chat"
+
+msgid "CHAT_TAB_WORLD"
+msgstr "World"
+
+msgid "CHAT_TAB_FRIENDS"
+msgstr "Friends"
+
+msgid "CHAT_DM_LIST"
+msgstr "Direct messages"
+
+msgid "CHAT_DM_TITLE"
+msgstr "Direct message: %s"
+
+msgid "CHAT_CONNECTING"
+msgstr "Connecting to chat..."
+
+msgid "CHAT_EMPTY"
+msgstr "No messages yet. Say hello!"
+
+msgid "CHAT_NEED_LOGIN"
+msgstr "Log in to use chat."
+
+msgid "CHAT_INPUT_HINT"
+msgstr "Type a message (max 200 characters)"
+
+msgid "CHAT_SEND"
+msgstr "Send"
+
+msgid "CHAT_ACT_DM"
+msgstr "Message"
+
+msgid "CHAT_ACT_FRIEND"
+msgstr "Add friend"
+
+msgid "CHAT_ACT_BLOCK"
+msgstr "Block"
+
+msgid "CHAT_ACT_REPORT"
+msgstr "Report"
+
+msgid "CHAT_REPORT_REASON"
+msgstr "Reason:"
+
+msgid "CHAT_REASON_SPAM"
+msgstr "Spam"
+
+msgid "CHAT_REASON_ABUSE"
+msgstr "Abuse"
+
+msgid "CHAT_REASON_INAPPROPRIATE"
+msgstr "Inappropriate"
+
+msgid "CHAT_REASON_CHEAT"
+msgstr "Cheating"
+
+msgid "CHAT_REASON_OTHER"
+msgstr "Other"
+
+msgid "CHAT_REPORTED"
+msgstr "Report sent to the admins."
+
+msgid "CHAT_ADD_BY_CODE"
+msgstr "Add a friend by player code"
+
+msgid "CHAT_CODE_HINT"
+msgstr "Friend's 8-digit code"
+
+msgid "CHAT_ADD_FRIEND"
+msgstr "Add"
+
+msgid "CHAT_FRIEND_SENT"
+msgstr "Friend request sent."
+
+msgid "CHAT_FRIENDS_INVITES"
+msgstr "Friend requests"
+
+msgid "CHAT_FRIENDS_LIST"
+msgstr "Friends"
+
+msgid "CHAT_FRIENDS_SENT"
+msgstr "Requests sent"
+
+msgid "CHAT_FRIENDS_BLOCKED"
+msgstr "Blocked"
+
+msgid "CHAT_FRIENDS_EMPTY"
+msgstr "No friends yet. Add by player code or tap a name in the World room."
+
+msgid "CHAT_FRIEND_ACCEPT"
+msgstr "Accept"
+
+msgid "CHAT_FRIEND_DECLINE"
+msgstr "Decline"
+
+msgid "CHAT_FRIEND_REMOVE"
+msgstr "Remove"
+
+msgid "CHAT_FRIEND_CANCEL"
+msgstr "Cancel"
+
+msgid "CHAT_FRIEND_UNBLOCK"
+msgstr "Unblock"
+
+msgid "CHAT_NOTICE_FRIEND_INVITE"
+msgstr "You have a new friend request."
+
+msgid "CHAT_ERR_EMPTY"
+msgstr "Type something first."
+
+msgid "CHAT_ERR_TOO_LONG"
+msgstr "Messages are limited to 200 characters."
+
+msgid "CHAT_ERR_RATE"
+msgstr "You are sending too fast, wait a moment."
+
+msgid "CHAT_ERR_MUTED"
+msgstr "You are muted."
+
+msgid "CHAT_ERR_MUTED_UNTIL"
+msgstr "You are muted until %s."
+
+msgid "CHAT_ERR_BLOCKED"
+msgstr "Not sent: this player has blocked you."
+
+msgid "CHAT_ERR_NOT_FOUND"
+msgstr "No player found with this code."
+
+msgid "CHAT_ERR_SELF"
+msgstr "That is your own code."
+
+msgid "CHAT_ERR_OFFLINE"
+msgstr "Chat is not connected."
+
+msgid "CHAT_ERR_SEND"
+msgstr "Could not send, try again later."

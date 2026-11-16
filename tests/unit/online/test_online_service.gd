@@ -43,6 +43,7 @@ func _make_service(key := FakeNakama.SERVER_KEY) -> Node:
 	s.cloud_root = CLOUD_ROOT
 	s.save_service = saves
 	s.push_delay = 0.0
+	s.chat_auto_start = false
 	s.transport = fake.handle
 	add_child(s)
 	return s

@@ -19,13 +19,15 @@ const TILE_TARGETS := {
 	"supply": "SCENE_SUPPLY", "companion": "SCENE_COMPANION",
 }
 ## Nút biểu tượng góc phải → bảng nổi của Hub.
-const ICON_TABS := {"background": "BackgroundTab", "settings": "SettingsTab"}
+const ICON_TABS := {"background": "BackgroundTab", "settings": "SettingsTab", "chat": "ChatTab"}
 
 var layout: UiLayout
 ## Ô ghép theo khóa — để test.
 var tiles: Dictionary = {}
 var icon_buttons: Dictionary = {}
 var player_card: Button
+## Chấm đỏ trên biểu tượng Chat khi có tin nhắn riêng / lời mời chưa đọc (M9-6).
+var chat_badge: Panel
 ## Scene vừa yêu cầu mở (để test).
 var last_target := ""
 ## false: không đổi scene thật (test).
@@ -54,6 +56,7 @@ func build() -> void:
 	icon_buttons.clear()
 	for key: String in ICON_TABS:
 		_build_icon_button(key)
+	_build_chat_badge()
 	tiles.clear()
 	for key: String in TILE_TARGETS:
 		_build_tile(key)
@@ -217,6 +220,36 @@ func _build_pills() -> void:
 		l.size = Vector2(r.size.x - r.size.y * 0.8 - 32, r.size.y)
 		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		p.add_child(l)
+
+
+func _build_chat_badge() -> void:
+	var button: Button = icon_buttons.get("chat")
+	var online := UiKit.autoload("OnlineService")
+	if button == null or online == null or online.chat == null:
+		return
+	var d := 26.0
+	chat_badge = Panel.new()
+	chat_badge.name = "ChatBadge"
+	chat_badge.add_theme_stylebox_override("panel", _style(Color("#FF4A4A"), Color.WHITE, int(d / 2)))
+	chat_badge.size = Vector2(d, d)
+	chat_badge.position = Vector2(button.size.x - d - 2.0, 2.0)
+	chat_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	button.add_child(chat_badge)
+	# Nối bằng hàm của đối tượng này (tự ngắt khi bảng bị xóa).
+	online.chat.unread_changed.connect(update_chat_badge)
+	online.chat.friends_changed.connect(update_chat_badge)
+	update_chat_badge()
+
+
+func update_chat_badge() -> void:
+	var online := UiKit.autoload("OnlineService")
+	if chat_badge == null or online == null or online.chat == null:
+		return
+	var invites := 0
+	for f: Dictionary in online.chat.friends:
+		if f["state"] == NakamaApi.FRIEND_INVITE_RECEIVED:
+			invites += 1
+	chat_badge.visible = online.chat.total_unread() > 0 or invites > 0
 
 
 func _build_icon_button(key: String) -> void:

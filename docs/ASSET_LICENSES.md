@@ -337,6 +337,14 @@ tạo ảnh với tài khoản owner. Phải khai báo nội dung AI khi phát h
 
 | `assets/rhythm/_preview/rh_twin_original_preview.png` — Song Âm, ảnh gốc chờ duyệt | Codex imagegen / Built-in imagegen (model ID không được công cụ cung cấp) | Cặp Dơi Nốt + Sên Nhịp chibi đứng hai làn, thân tím than, viền/vệt sáng vàng #FFD84D, chuông chung và dây khuông nhạc vàng dọc. | `assets/rhythm/_preview/rh_bat_original_preview.png`, `assets/rhythm/_preview/rh_slime_original_preview.png` (thiết kế dự án đã duyệt) | Codex | 2026-11-16 |
 
+### 2.2 Icon tự vẽ bằng mã
+
+Sinh bằng Pillow (hình học đơn giản, không dùng ảnh hay phông bên thứ ba), vào bản phát hành.
+
+| File | Nội dung | Công cụ | Ngày |
+|---|---|---|---|
+| `assets/ui/hub/icons/chat.png` (256×256) | Biểu tượng Chat ở sảnh: bong bóng thoại trắng, ba chấm, viền bóng tối (cùng phong cách biểu tượng bánh răng) | `tools/gen_chat_icon.py` | 2026-11-16 |
+
 ## 3. Placeholder (không bao giờ ship)
 
 Tạo bởi Claude (hình khối màu, âm sinh tự động). Tên luôn bắt đầu bằng

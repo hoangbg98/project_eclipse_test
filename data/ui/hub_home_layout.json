@@ -32,7 +32,8 @@
 	},
 	"icon_buttons": {
 		"background": {"rect": [1700, 18, 84, 84], "anchor": "right", "icon": "background"},
-		"settings": {"rect": [1800, 18, 84, 84], "anchor": "right", "icon": "settings"}
+		"settings": {"rect": [1800, 18, 84, 84], "anchor": "right", "icon": "settings"},
+		"chat": {"rect": [1600, 18, 84, 84], "anchor": "right", "icon": "chat"}
 	},
 	"tiles": {
 		"font": 40,
