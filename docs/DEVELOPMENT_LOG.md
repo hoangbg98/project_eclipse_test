@@ -2179,6 +2179,16 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Hạn chế đã biết:** Chưa nối Rắn Ngân vào `rhythm_stage.gd`; phần kéo giãn/hút thân khi giữ nốt cần tích hợp riêng vào màn chơi.
 
 
+## 2026-11-16 — M10-2 (bước 1): ảnh gốc Trống Đá chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_drum; tạo concept đứng yên để owner duyệt trước animation.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/rhythm/_preview/rh_drum_original_preview.png`; `tools/rhythm/prepare_drum_preview.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in image_gen; model ID không được công cụ cung cấp), không dùng ảnh tham chiếu; `powershell -ExecutionPolicy Bypass -File tools\rhythm\prepare_drum_preview.ps1 -SourceImage <ảnh imagegen>`.
+- **Kết quả thật:** Lưu concept PNG 512×512, nền #00B140 đã chuẩn hóa; quái vỏ trống đá tím than nhìn trái, bụng mặt trống sáng để trống, mắt/viền vàng, hai tay cầm dùi và chân gần đáy khung. Chưa tạo animation.
+- **Quyết định Codex chọn:** Dùng vàng #FFD84D làm màu nhấn duy nhất vì brief chưa gán làn riêng cho Trống Đá; để trống mặt trống cho game tự vẽ số lượt còn lại; chọn tư thế hai dùi hạ thấp ở trạng thái nghỉ.
+- **Hạn chế đã biết:** Chờ owner duyệt concept. Khi duyệt mới tạo idle 4 frame, hit 3 frame, 3 mức crack tĩnh, burst 6 frame và escape 6 frame theo brief.
+
+
 ## 2026-11-16 — M10-2 Tốc độ quái tăng dần theo ải, hitbox không đè nhau, thời điểm ấn chính xác
 - **Milestone / task:** M10-2 — owner 2026-11-16: tốc độ quái thay đổi theo ải, tăng dần tới ải cuối để tăng thử thách; quái được dày, chồng lên nhau nhưng hitbox không đè nhau; độ khó kiểu game nhịp điệu, phản hồi phím nhanh để người chơi thấy Perfect là đạt được nếu nhanh tay nhanh mắt.
 - **Trạng thái:** TESTED
