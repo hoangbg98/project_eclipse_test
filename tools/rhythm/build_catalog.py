@@ -48,6 +48,8 @@ PROFILES = {
 # (owner 2026-11-16). Khớp RhythmRules.min_note_gap() = 2 × ring_radius / note_speed (2 × 72 / 800 = 0.18), cộng dư
 # một chút; game cũng tự bỏ nốt vi phạm (RhythmChart.enforce_spacing). Nốt khác làn được xen sát hơn ("gap").
 LANE_GAP = 0.19
+# Không nốt nào (kể cả nốt giữ / ấn liên tục) trước giây này: người chơi kịp nhìn sau khi nhạc bắt đầu.
+FIRST_NOTE = 1.5
 DEFAULT_CHARTS = ["easy", "normal", "hard"]
 
 
@@ -202,7 +204,7 @@ def make_chart(path, song, chart_key):
     duration = len(x) / sr
     step = beat / prof["grid"]
     grid = np.arange(off, duration - 1.0, step)
-    grid = grid[grid >= 1.5]
+    grid = grid[grid >= FIRST_NOTE]
     low = np.array([peak_near(times, flux["low"], t) for t in grid])
     upp = np.array([max(peak_near(times, flux["mid"], t), peak_near(times, flux["high"], t)) for t in grid])
     strength = np.maximum(low, upp)
@@ -214,7 +216,7 @@ def make_chart(path, song, chart_key):
     blocked = []
     if prof["mash"]:
         for a, b in find_mash(times, flux, grid, bpm):
-            if b - a >= beat * 2:
+            if b - a >= beat * 2 and a >= FIRST_NOTE:
                 dur = round(b - a - beat * 0.25, 3)
                 hits = max(4, int(dur * {"easy": 4, "normal": 5, "hard": 7, "boss": 7}[chart_key]))
                 events.append((a, "mash", "up", dur, hits))
@@ -223,6 +225,8 @@ def make_chart(path, song, chart_key):
         for a, dur in find_holds(times, pitch, bpm):
             # Canh đầu nốt giữ vào lưới.
             a = off + round((a - off) / step) * step
+            if a < FIRST_NOTE:
+                continue
             if any(b0 <= a <= b1 or b0 <= a + dur <= b1 for b0, b1 in blocked):
                 continue
             lane = "up"

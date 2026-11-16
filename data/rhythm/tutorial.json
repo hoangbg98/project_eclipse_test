@@ -1,0 +1,11 @@
+{
+	"_comment": "Hướng dẫn trong ải N-1 lần đầu chơi (M10, RhythmStage). Mỗi bước tung `count` quái ở làn `lane`, cách nhau `gap` giây; đánh trúng (Perfect / Great / Good / Normal) đủ `need` con thì sang bước sau, chưa đủ thì làm lại bước đó. Không mất HP. `speed`: tốc độ quái khi luyện (px/giây).",
+	"speed": 500,
+	"steps": [
+		{"text_key": "RHYTHM_TUT_UP", "lane": "up", "count": 3, "need": 2, "gap": 1.3},
+		{"text_key": "RHYTHM_TUT_DOWN", "lane": "down", "count": 3, "need": 2, "gap": 1.3},
+		{"text_key": "RHYTHM_TUT_MIX", "lane": "mix", "count": 4, "need": 3, "gap": 1.1},
+		{"text_key": "RHYTHM_TUT_BOTH", "lane": "both", "count": 3, "need": 2, "gap": 1.5}
+	],
+	"done_sec": 2.0
+}

@@ -3459,3 +3459,36 @@ msgstr "NORMAL"
 
 msgid "RHYTHM_SPEED"
 msgstr "Speed ×%.1f"
+
+msgid "RHYTHM_TUT_TITLE"
+msgstr "Tutorial %d/%d"
+
+msgid "RHYTHM_TUT_UP"
+msgstr "Note Bats fly in the UPPER lane. Press D / F / ↑ (or tap the left half) when the yellow hitbox fits the upper white ring."
+
+msgid "RHYTHM_TUT_DOWN"
+msgstr "Beat Slugs run in the LOWER lane. Press J / K / ↓ (or tap the right half) when the yellow hitbox fits the lower ring."
+
+msgid "RHYTHM_TUT_MIX"
+msgstr "Now upper and lower mixed. Watch the yellow hitbox and press the right lane. Pressing before it touches the ring is harmless."
+
+msgid "RHYTHM_TUT_BOTH"
+msgstr "Twin Tones are linked by a golden staff: press BOTH keys together. Pressing only one is WRONG (costs HP in the real song)."
+
+msgid "RHYTHM_TUT_GRADES"
+msgstr "The closer the fit, the more points: PERFECT > GREAT > GOOD > NORMAL. Only touching the outer rim is a MISS."
+
+msgid "RHYTHM_TUT_PROGRESS"
+msgstr "Hits %d/%d"
+
+msgid "RHYTHM_TUT_RETRY"
+msgstr "Not quite, try again!"
+
+msgid "RHYTHM_TUT_DONE"
+msgstr "Well done! The song starts now..."
+
+msgid "RHYTHM_TUT_SKIP"
+msgstr "Skip tutorial"
+
+msgid "RHYTHM_INTRO_HOLD"
+msgstr "New: Silver Serpent — hold the key from head to the end of its body; letting go early breaks it. Big drum — mash the key until it bursts."

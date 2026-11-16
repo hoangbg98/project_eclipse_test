@@ -20,6 +20,9 @@ func after_test() -> void:
 	GameConfig.rhythm_record_key = ""
 	GameConfig.rhythm_boss = false
 	GameConfig.rhythm_note_speed = 0.0
+	GameConfig.rhythm_tutorial = false
+	GameConfig.rhythm_intro_key = ""
+	GameConfig.rhythm_kinds = []
 
 
 func _chart() -> RhythmChart:
@@ -73,6 +76,80 @@ func test_stage_speed_scales_ring_and_spacing() -> void:
 	assert_float(s.rules.ring_radius).is_equal_approx(base.ring_radius * 1200.0 / base.note_speed, 0.001)
 	assert_int(s.spacing_dropped).is_equal(1)
 	assert_int(s.chart.notes.size()).is_equal(2)
+
+
+## Hướng dẫn ải N-1: luyện từng bước (không mất HP), xong thì vào bài thật và chơi hết bài.
+func test_tutorial_steps_then_real_song() -> void:
+	var p := PlayerProfile.new(SaveSchema.default_data())
+	var s := STAGE_SCENE.instantiate() as RhythmStage
+	s.setup(_chart(), null, "rhythm_mat_01", "Test")
+	s.tutorial = true
+	s.manual_clock = true
+	s.save_enabled = false
+	s.profile = p
+	add_child(auto_free(s))
+	assert_str(s.phase).is_equal("tutorial")
+	assert_object(s.find_child("TutorialPanel", true, false)).is_not_null()
+	assert_str(s.chart.song_id).is_equal("tutorial")
+	# Không ấn gì: bước 1 làm lại, HP không mất.
+	s.advance(12.0)
+	assert_str(s.phase).is_equal("tutorial")
+	assert_int(s.judge.hp).is_equal(s.judge.rules.max_hp)
+	assert_str((s.find_child("Tut_title", true, false) as Label).text).is_equal(tr("RHYTHM_TUT_TITLE") % [1, 4])
+	# Tự chơi: qua hết các bước rồi vào bài thật.
+	s.autoplay = true
+	s.advance(60.0)
+	assert_str(s.phase).is_equal("play")
+	assert_object(s.find_child("TutorialPanel", true, false)).is_null()
+	s.advance(15.0)
+	assert_bool(s.result.is_empty()).is_false()
+	assert_bool(s.result["cleared"]).is_true()
+	assert_int(int(s.result["counts"][RhythmJudge.PERFECT])).is_equal(_chart().judgment_units())
+
+
+func test_tutorial_skip_and_intro_and_kinds() -> void:
+	var s := STAGE_SCENE.instantiate() as RhythmStage
+	s.setup(_chart(), null, "", "Test")
+	s.tutorial = true
+	s.intro_key = "RHYTHM_INTRO_HOLD"
+	s.kinds = ["tap"]
+	s.manual_clock = true
+	s.save_enabled = false
+	s.profile = PlayerProfile.new(SaveSchema.default_data())
+	add_child(auto_free(s))
+	s.skip_tutorial()
+	assert_str(s.phase).is_equal("play")
+	assert_float(s.now).is_equal(-(s.rules.lead_in_sec + RhythmStage.INTRO_EXTRA_SEC))   # đếm ngược dài hơn để đọc
+	assert_bool((s.find_child("Intro", true, false) as Label).text != "").is_true()
+	for n in s.chart.notes:
+		assert_str(str(n["kind"])).is_equal(RhythmChart.KIND_TAP)   # ải chỉ có nốt ấn
+	s.advance(0.1)
+	assert_bool((s.find_child("Intro", true, false) as Label).visible).is_true()
+	s.advance(6.0)
+	assert_bool((s.find_child("Intro", true, false) as Label).visible).is_false()
+
+
+## Nốt giữ dùng hình Rắn Ngân: đầu, thân, đuôi; trúng đầu thì cắn và đứng ở vòng chấm tới hết thân.
+func test_hold_note_uses_serpent() -> void:
+	var s := STAGE_SCENE.instantiate() as RhythmStage
+	var c := RhythmChart.from_dict({"format": 1, "notes": [{"t": 1.0, "lane": "both", "kind": "hold", "dur": 1.0}]})
+	s.setup(c, null, "", "T")
+	s.manual_clock = true
+	s.save_enabled = false
+	s.autoplay = true
+	s.profile = PlayerProfile.new(SaveSchema.default_data())
+	add_child(auto_free(s))
+	s.advance(2.5)   # lead-in 2 s => giây 0.5
+	assert_object(s.find_child("RhythmSerpent_0_1", true, false)).is_not_null()
+	assert_object(s.find_child("RhythmSerpent_0_2", true, false)).is_not_null()
+	assert_object(s.find_child("RhythmSerpentBody_0_1", true, false)).is_not_null()
+	assert_object(s.find_child("RhythmSerpentTail_0_2", true, false)).is_not_null()
+	s.advance(0.7)   # đã trúng đầu
+	var head := s.find_child("RhythmSerpent_0_1", true, false) as AnimatedSprite2D
+	assert_str(str(head.animation)).is_equal("bite")
+	assert_float(head.position.x).is_equal_approx(380.0, 1.0)
+	s.advance(1.2)
+	assert_int(int(s.judge.counts[RhythmJudge.PERFECT])).is_equal(2)
 
 
 func test_idle_run_fails_or_misses_everything() -> void:
@@ -199,6 +276,8 @@ func test_material_screen_starts_cached_stage() -> void:
 	assert_str(GameConfig.rhythm_chart_key).is_equal("easy")
 	assert_str(GameConfig.rhythm_record_key).is_equal("rhythm_mat_01")
 	assert_float(GameConfig.rhythm_note_speed).is_equal(RhythmProgress.new(p).note_speed("rhythm_mat_01"))
+	assert_bool(GameConfig.rhythm_tutorial).is_true()   # lần đầu chơi N-1 có hướng dẫn
+	assert_array(GameConfig.rhythm_kinds).is_equal(["tap"])
 
 
 func test_endless_list_rows_tabs_and_favorites() -> void:

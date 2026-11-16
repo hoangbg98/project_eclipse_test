@@ -241,6 +241,17 @@ func test_for_speed_keeps_timing_windows() -> void:
 	assert_float(rules.note_speed).is_equal(800.0)   # bản gốc không bị đổi
 
 
+func test_limit_kinds_turns_hold_and_mash_into_taps() -> void:
+	var c := RhythmChart.from_dict({"format": 1, "notes": [{"t": 1.0, "lane": "up", "kind": "hold", "dur": 1.0},
+			{"t": 3.0, "lane": "down", "kind": "mash", "dur": 1.0}, {"t": 5.0, "lane": "both"}]})
+	assert_int(c.limit_kinds([])).is_equal(0)
+	assert_int(c.limit_kinds(["tap"])).is_equal(2)
+	for n in c.notes:
+		assert_str(str(n["kind"])).is_equal(RhythmChart.KIND_TAP)
+		assert_float(float(n["dur"])).is_equal(0.0)
+	assert_int(c.judgment_units()).is_equal(3)
+
+
 ## Hitbox cùng làn không đè nhau: nốt cùng làn đến quá sát (kể cả sau nốt giữ) bị bỏ; khác làn thì được xen sát.
 func test_enforce_spacing_same_lane_only() -> void:
 	var c := RhythmChart.from_dict({"format": 1, "notes": [

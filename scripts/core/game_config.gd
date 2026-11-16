@@ -57,6 +57,10 @@ var rhythm_record_key := ""
 var rhythm_boss := false
 ## Tốc độ quái của lượt (px / giây, 0 = chuẩn), xem RhythmProgress.note_speed.
 var rhythm_note_speed := 0.0
+## Hướng dẫn trong ải (lần đầu chơi N-1), dòng giới thiệu lúc đếm ngược, loại nốt cho phép (rỗng = tất cả).
+var rhythm_tutorial := false
+var rhythm_intro_key := ""
+var rhythm_kinds: Array = []
 
 ## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
 const TRANSITION_TIME := 0.2

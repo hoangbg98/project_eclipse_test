@@ -6,7 +6,7 @@
 	"enemy": {
 		"_comment": "ring_ratio: cỡ quái = đường kính vòng chấm x hệ số này. body: tâm thân quái trong khung 256x256 (hitbox vàng đặt ở đây).",
 		"ring_ratio": 2.1,
-		"body": {"rh_bat": [106, 146], "rh_slime": [122, 160], "rh_twin_fly": [112, 160], "rh_twin_run": [118, 160]}
+		"body": {"rh_bat": [106, 146], "rh_slime": [122, 160], "rh_twin_fly": [112, 160], "rh_twin_run": [118, 160], "rh_serpent": [120, 170]}
 	},
 	"colors": {
 		"background": "#141029",

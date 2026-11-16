@@ -13,6 +13,8 @@ signal finished(result: Dictionary)
 const RULES_PATH := "res://data/rhythm/rhythm_rules.tres"
 const LAYOUT_PATH := "res://data/ui/rhythm_layout.json"
 const BACK_GROUP := &"back_interceptor"
+const TUTORIAL_PATH := "res://data/rhythm/tutorial.json"
+const INTRO_EXTRA_SEC := 3.0
 
 var rules: RhythmRules
 var chart: RhythmChart
@@ -36,6 +38,14 @@ var load_error := ""
 var note_speed := 0.0
 ## Số nốt bị bỏ để hitbox cùng làn không đè nhau ở tốc độ này.
 var spacing_dropped := 0
+## Hướng dẫn trong ải trước khi vào bài (ải N-1 lần đầu, data/rhythm/tutorial.json).
+var tutorial := false
+## Dòng giới thiệu hiện lúc đếm ngược (vd cơ chế mới của ải); có thì đếm ngược dài thêm INTRO_EXTRA_SEC.
+var intro_key := ""
+## Chỉ giữ các loại nốt này (RhythmChart.limit_kinds); rỗng = tất cả.
+var kinds: Array = []
+## "tutorial" khi đang luyện, "play" khi chơi bài thật.
+var phase := "play"
 
 var player: AudioStreamPlayer
 var now := -2.0
@@ -62,6 +72,17 @@ var _result_layer: Control
 var _labels: Dictionary = {}
 const HIT_RESULTS: Array[String] = ["perfect", "great", "good", "normal"]
 var _enemy_frames_cache: Dictionary = {}
+var _boss_sprite: AnimatedSprite2D
+var _lead := 2.0
+var _real_chart: RhythmChart
+var _tut: Dictionary = {}
+var _tut_rules: RhythmRules
+var _tut_step := 0
+var _tut_msg := ""
+var _tut_next_at := -1.0
+var _tut_done_at := -1.0
+var _tut_panel: Control
+var _tut_labels: Dictionary = {}
 var _enemy_visuals: Dictionary = {} # note index -> {sprites, chain, dying_until}
 ## Khung ảnh quái (px). Cỡ hiển thị = đường kính vòng chấm × enemy.ring_ratio (owner 2026-11-16: to hơn gấp đôi vòng).
 const ENEMY_FRAME := 256.0
@@ -81,7 +102,9 @@ func _ready() -> void:
 	if chart == null:
 		_load_from_config()
 	rules = base_rules.for_speed(note_speed)
+	_lead = rules.lead_in_sec + (INTRO_EXTRA_SEC if intro_key != "" else 0.0)
 	if chart:
+		chart.limit_kinds(kinds)
 		spacing_dropped = chart.enforce_spacing(rules.min_note_gap())
 	_build()
 
@@ -113,6 +136,9 @@ func _load_from_config() -> void:
 	record_key = str(gc.rhythm_record_key)
 	boss = bool(gc.rhythm_boss)
 	note_speed = float(gc.rhythm_note_speed)
+	tutorial = bool(gc.rhythm_tutorial)
+	intro_key = str(gc.rhythm_intro_key)
+	kinds = gc.rhythm_kinds.duplicate()
 	song_title = str(lib.song(str(gc.rhythm_song_id)).get("title", gc.rhythm_song_id))
 	if not lib.is_cached(str(gc.rhythm_song_id), str(gc.rhythm_chart_key)):
 		load_error = "not_cached"
@@ -134,11 +160,8 @@ func _profile() -> PlayerProfile:
 # ---------- Dựng ----------
 
 func _build() -> void:
-	judge = RhythmJudge.new(rules, chart if chart else RhythmChart.new())
-	judge.judged.connect(_on_judged)
-	judge.mash_hit.connect(_on_mash_hit)
-	judge.empty_press.connect(func(_lane: int) -> void: pass)
-	now = -rules.lead_in_sec
+	_start_judge(chart if chart else RhythmChart.new(), rules)
+	now = -_lead
 	var bg := ColorRect.new()
 	bg.name = "Background"
 	bg.color = _col("background", Color("#141029"))
@@ -151,6 +174,8 @@ func _build() -> void:
 	_field.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_field.draw.connect(_draw_field)
 	add_child(_field)
+	if boss:
+		_build_boss_visual()
 	_hit_layer = Control.new()
 	_hit_layer.name = "Hitboxes"
 	_hit_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -185,8 +210,169 @@ func _build() -> void:
 	pause_btn.size = Vector2(128, 116)
 	pause_btn.pressed.connect(set_paused.bind(true))
 	add_child(pause_btn)
+	if intro_key != "":
+		_labels["intro"] = _label("Intro", Vector2(360, 560), 34, Color("#FFE14D"), 1200)
+		_labels["intro"].horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_labels["intro"].autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_labels["intro"].size = Vector2(1200, 140)
+		_labels["intro"].text = tr(intro_key)
 	if load_error != "" or not chart.is_valid():
 		_show_error()
+	elif tutorial:
+		_begin_tutorial()
+
+
+func _start_judge(c: RhythmChart, r: RhythmRules) -> void:
+	judge = RhythmJudge.new(r, c)
+	judge.judged.connect(_on_judged)
+	judge.mash_hit.connect(_on_mash_hit)
+
+
+# ---------- Hướng dẫn (ải N-1 lần đầu) ----------
+
+func _begin_tutorial() -> void:
+	var d: Variant = JSON.parse_string(FileAccess.get_file_as_string(TUTORIAL_PATH)) if FileAccess.file_exists(TUTORIAL_PATH) else null
+	if not (d is Dictionary) or not (d.get("steps") is Array) or d["steps"].is_empty():
+		return
+	_tut = d
+	_tut_rules = (load(RULES_PATH) as RhythmRules).for_speed(float(d.get("speed", 0.0)))
+	_tut_rules.miss_damage = 0
+	_tut_rules.wrong_damage = 0
+	_tut_rules.hold_break_damage = 0
+	_real_chart = chart
+	phase = "tutorial"
+	_tut_step = 0
+	now = 0.0
+	_build_tutorial_ui()
+	_tut_load_step()
+
+
+func _build_tutorial_ui() -> void:
+	_tut_panel = Panel.new()
+	_tut_panel.name = "TutorialPanel"
+	_tut_panel.position = Vector2(440, 14)
+	_tut_panel.size = Vector2(1040, 250)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color("#2A1B4A", 0.9)
+	sb.border_color = Color("#FFD84D")
+	sb.set_border_width_all(3)
+	sb.set_corner_radius_all(18)
+	_tut_panel.add_theme_stylebox_override("panel", sb)
+	_tut_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_tut_panel)
+	var rows := [["title", 6, 38, 28, Color("#FFD84D")], ["text", 44, 96, 27, Color.WHITE],
+			["grades", 140, 64, 22, Color(1, 1, 1, 0.7)], ["progress", 206, 36, 26, Color("#7DFFB0")]]
+	for r in rows:
+		var l := Label.new()
+		l.name = "Tut_" + str(r[0])
+		l.position = Vector2(24, float(r[1]))
+		l.size = Vector2(992, float(r[2]))
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		l.add_theme_font_size_override("font_size", int(r[3]))
+		l.add_theme_color_override("font_color", r[4])
+		_tut_panel.add_child(l)
+		_tut_labels[r[0]] = l
+	_tut_labels["grades"].text = tr("RHYTHM_TUT_GRADES")
+	var skip := Button.new()
+	skip.name = "SkipTutorialButton"
+	skip.text = tr("RHYTHM_TUT_SKIP")
+	skip.focus_mode = Control.FOCUS_NONE
+	skip.position = Vector2(1500, 140)
+	skip.size = Vector2(360, 96)
+	skip.add_theme_font_size_override("font_size", 30)
+	skip.pressed.connect(skip_tutorial)
+	add_child(skip)
+	_tut_labels["skip"] = skip
+
+
+func _tut_load_step() -> void:
+	var st: Dictionary = _tut["steps"][_tut_step]
+	var travel := (get_viewport_rect().size.x - _num("field.judge_x", 380)) / _tut_rules.note_speed
+	var notes: Array = []
+	for k in int(st.get("count", 3)):
+		var lane := str(st.get("lane", "up"))
+		if lane == "mix":
+			lane = "up" if k % 2 == 0 else "down"
+		notes.append({"t": now + travel + 0.4 + k * float(st.get("gap", 1.2)), "lane": lane})
+	_clear_enemy_visuals()
+	chart = RhythmChart.from_dict({"format": 1, "song_id": "tutorial", "bpm": 100, "notes": notes})
+	_auto_done.clear()
+	_start_judge(chart, _tut_rules)
+	_tut_next_at = -1.0
+	_refresh_tutorial_ui()
+
+
+func _tut_hits() -> int:
+	var c: Dictionary = judge.counts
+	return int(c[RhythmJudge.PERFECT]) + int(c[RhythmJudge.GREAT]) + int(c[RhythmJudge.GOOD]) + int(c[RhythmJudge.NORMAL])
+
+
+func _refresh_tutorial_ui() -> void:
+	if _tut_panel == null or _tut.is_empty():
+		return
+	var steps: Array = _tut["steps"]
+	var st: Dictionary = steps[mini(_tut_step, steps.size() - 1)]
+	_tut_labels["title"].text = tr("RHYTHM_TUT_TITLE") % [mini(_tut_step + 1, steps.size()), steps.size()]
+	_tut_labels["text"].text = tr("RHYTHM_TUT_DONE") if _tut_done_at >= 0.0 else tr(str(st.get("text_key", "")))
+	var prog := tr("RHYTHM_TUT_PROGRESS") % [_tut_hits(), int(st.get("need", 1))]
+	_tut_labels["progress"].text = prog + ("   " + _tut_msg if _tut_msg != "" else "")
+
+
+func _tick_tutorial(delta: float) -> void:
+	now += delta
+	if autoplay:
+		_autoplay()
+	judge.update(now)
+	_prepare_enemy_visuals()
+	_update_enemy_visuals()
+	_update_character()
+	if _tut_done_at >= 0.0:
+		if now >= _tut_done_at:
+			skip_tutorial()
+			return
+	elif judge.is_finished():
+		if _tut_next_at < 0.0:
+			_tut_next_at = now + 0.7   # cho hiệu ứng trúng chạy xong
+		elif now >= _tut_next_at:
+			var st: Dictionary = _tut["steps"][_tut_step]
+			if _tut_hits() >= int(st.get("need", 1)):
+				_tut_msg = ""
+				_tut_step += 1
+				if _tut_step >= _tut["steps"].size():
+					_tut_done_at = now + float(_tut.get("done_sec", 2.0))
+				else:
+					_tut_load_step()
+			else:
+				_tut_msg = tr("RHYTHM_TUT_RETRY")
+				_tut_load_step()
+	_refresh_tutorial_ui()
+
+
+## Kết thúc / bỏ qua hướng dẫn: vào bài thật (đếm ngược từ đầu).
+func skip_tutorial() -> void:
+	if phase != "tutorial":
+		return
+	phase = "play"
+	_clear_enemy_visuals()
+	_popups.clear()
+	_bursts.clear()
+	_auto_done.clear()
+	chart = _real_chart
+	_start_judge(chart, rules)
+	_elapsed = 0.0
+	now = -_lead
+	for node in [_tut_panel, _tut_labels.get("skip")]:
+		if node and is_instance_valid(node):
+			remove_child(node)
+			node.queue_free()
+	_tut_panel = null
+	_tut_labels.clear()
+
+
+func _clear_enemy_visuals() -> void:
+	for k in _enemy_visuals.keys():
+		_free_enemy_visual(int(k))
 
 
 func _label(name_: String, pos: Vector2, font_size: int, col: Color, width := 900.0,
@@ -262,6 +448,13 @@ func advance(dt: float, step := 1.0 / 60.0) -> void:
 func _tick(delta: float) -> void:
 	if paused or not result.is_empty() or judge == null or load_error != "":
 		return
+	if phase == "tutorial":
+		_tick_tutorial(delta)
+		_refresh_hud()
+		_field.queue_redraw()
+		_hit_layer.queue_redraw()
+		_hud.queue_redraw()
+		return
 	_elapsed += delta
 	var t := _song_time()
 	now = maxf(now, t)
@@ -286,7 +479,7 @@ func _tick(delta: float) -> void:
 
 
 func _song_time() -> float:
-	var lead := rules.lead_in_sec
+	var lead := _lead
 	if manual_clock or player.stream == null:
 		return _elapsed - lead
 	if not _audio_started:
@@ -439,7 +632,24 @@ func _holding_lane() -> int:
 
 func _on_judged(index: int, res: String, unit: String) -> void:
 	var lane := int(chart.notes[index]["lane"]) if index < chart.notes.size() else RhythmChart.LANE_DOWN
-	if _enemy_visuals.has(index):
+	if _enemy_visuals.has(index) and bool(_enemy_visuals[index].get("drum", false)):
+		var visual: Dictionary = _enemy_visuals[index]
+		var drum_sprites: Array = visual["sprites"]
+		var actor := drum_sprites[0] as AnimatedSprite2D
+		var animation := "burst" if res in HIT_RESULTS else "escape"
+		actor.play(animation)
+		visual["dying_until"] = now + (0.3 if animation == "burst" else 0.5)
+		(visual["crack"] as Sprite2D).hide()
+		(visual["count_label"] as Label).hide()
+		_enemy_visuals[index] = visual
+	elif _enemy_visuals.has(index) and bool(_enemy_visuals[index].get("hold", false)):
+		# Rắn Ngân: trúng đầu thì cắn (đứng ở vòng chấm tới hết thân); xong phần cuối hoặc trượt thì biến mất.
+		if unit == "head" and res in HIT_RESULTS:
+			for actor in _enemy_visuals[index]["sprites"]:
+				actor.play("bite")
+		else:
+			_free_enemy_visual(index)
+	elif _enemy_visuals.has(index):
 		if res in HIT_RESULTS:
 			var visual: Dictionary = _enemy_visuals[index]
 			visual["dying_until"] = now + 0.26
@@ -456,6 +666,8 @@ func _on_judged(index: int, res: String, unit: String) -> void:
 	_popups.append({"text": tr(key), "color": col, "lane": lane, "born": now})
 	if _popups.size() > 6:
 		_popups.pop_front()
+	if res in HIT_RESULTS and unit != "tail" and boss:
+		_boss_play("hurt", true)
 	if res in [RhythmJudge.PERFECT, RhythmJudge.GREAT, RhythmJudge.GOOD] and unit != "tail":
 		for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
 			if lane & l:
@@ -465,7 +677,12 @@ func _on_judged(index: int, res: String, unit: String) -> void:
 		_play_anim("hurt", "idle")
 
 
-func _on_mash_hit(_index: int, _count: int) -> void:
+func _on_mash_hit(index: int, _count: int) -> void:
+	if _enemy_visuals.has(index) and bool(_enemy_visuals[index].get("drum", false)):
+		var visual: Dictionary = _enemy_visuals[index]
+		var drum_sprites: Array = visual["sprites"]
+		(drum_sprites[0] as AnimatedSprite2D).play("hit")
+		_refresh_drum_cracks(index)
 	_bursts.append({"pos": Vector2(_num("field.judge_x", 380) + 60, (_lane_y(1) + _lane_y(2)) * 0.5), "color": Color("#FFE14D"), "born": now})
 	if _bursts.size() > 24:
 		_bursts.pop_front()
@@ -473,9 +690,14 @@ func _on_mash_hit(_index: int, _count: int) -> void:
 
 func _refresh_hud() -> void:
 	_labels["score"].text = "%d" % judge.score
-	_labels["combo"].text = "%d" % judge.combo if judge.combo >= 3 else ""
-	_labels["combo_cap"].text = tr("RHYTHM_COMBO") if judge.combo >= 3 else ""
-	if now < 0.0:
+	var show_combo := judge.combo >= 3 and phase == "play"
+	_labels["combo"].text = "%d" % judge.combo if show_combo else ""
+	_labels["combo_cap"].text = tr("RHYTHM_COMBO") if show_combo else ""
+	if _labels.has("intro"):
+		_labels["intro"].visible = phase == "play" and now < 0.0
+	if phase == "tutorial":
+		_labels["count"].text = ""
+	elif now < 0.0:
 		_labels["count"].text = "%d" % ceili(-now)
 	elif now < 0.6:
 		_labels["count"].text = tr("RHYTHM_GO")
@@ -503,8 +725,6 @@ func _draw_field() -> void:
 	# Nền: dải trời + mặt đường.
 	f.draw_rect(Rect2(0, dn_y + 84, w, h - dn_y - 84), _col("ground", Color("#1F5E63")))
 	f.draw_rect(Rect2(0, dn_y + 80, w, 6), _col("ground_edge", Color("#7FF4E0")))
-	if boss:
-		_draw_boss(f, Vector2(w - 260, (up_y + dn_y) * 0.5))
 	# Đường làn + vòng chấm.
 	for y in [up_y, dn_y]:
 		f.draw_line(Vector2(jx, y), Vector2(w, y), Color(1, 1, 1, 0.08), 3.0)
@@ -561,7 +781,7 @@ func _draw_note(f: Control, i: int, n: Dictionary, x: float, speed: float) -> vo
 			var x0 := jx if active else x
 			var x1 := jx + (float(n["t"]) + float(n["dur"]) - now) * speed
 			for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
-				if lane & l:
+				if lane & l and not _enemy_visuals.has(i):
 					var y := _lane_y(l)
 					f.draw_rect(Rect2(x0, y - 22, maxf(x1 - x0, 0.0), 44), Color(col, 0.45 if not active else 0.75))
 					f.draw_rect(Rect2(x0, y - 22, maxf(x1 - x0, 0.0), 44), Color(1, 1, 1, 0.6), false, 3.0)
@@ -571,15 +791,16 @@ func _draw_note(f: Control, i: int, n: Dictionary, x: float, speed: float) -> vo
 					elif active and not _enemy_visuals.has(i):
 						f.draw_circle(Vector2(x0, y), 34, Color(1, 1, 1, 0.9))
 		RhythmChart.KIND_MASH:
-			var cx := maxf(x, jx + 80.0) if active else x
-			var y := (_lane_y(1) + _lane_y(2)) * 0.5 if lane == RhythmChart.LANE_BOTH else _lane_y(lane)
-			var shake := Vector2(sin(now * 60.0) * 6.0, 0) if active else Vector2.ZERO
-			f.draw_circle(Vector2(cx, y) + shake, 110, Color(col, 0.9))
-			f.draw_circle(Vector2(cx, y) + shake, 92, Color("#2A1B4A"))
-			f.draw_arc(Vector2(cx, y) + shake, 110, 0, TAU, 48, Color.WHITE, 5.0)
-			var left := maxi(int(n["hits"]) - int(st["count"]), 0)
-			var font := get_theme_default_font()
-			f.draw_string(font, Vector2(cx - 90, y + 22) + shake, "%d" % left if active else "!!", HORIZONTAL_ALIGNMENT_CENTER, 180, 64, col)
+			if not _enemy_visuals.has(i):
+				var cx := maxf(x, jx + 80.0) if active else x
+				var y := (_lane_y(1) + _lane_y(2)) * 0.5 if lane == RhythmChart.LANE_BOTH else _lane_y(lane)
+				var shake := Vector2(sin(now * 60.0) * 6.0, 0) if active else Vector2.ZERO
+				f.draw_circle(Vector2(cx, y) + shake, 110, Color(col, 0.9))
+				f.draw_circle(Vector2(cx, y) + shake, 92, Color("#2A1B4A"))
+				f.draw_arc(Vector2(cx, y) + shake, 110, 0, TAU, 48, Color.WHITE, 5.0)
+				var left := maxi(int(n["hits"]) - int(st["count"]), 0)
+				var font := get_theme_default_font()
+				f.draw_string(font, Vector2(cx - 90, y + 22) + shake, "%d" % left if active else "!!", HORIZONTAL_ALIGNMENT_CENTER, 180, 64, col)
 
 
 ## Kẻ địch (nốt): thân tròn + mắt; làn trên có cánh (bay), làn dưới có chân.
@@ -599,6 +820,11 @@ func _draw_enemy(f: Control, p: Vector2, r: float, col: Color, flying: bool) -> 
 func _ensure_enemy_visual(note_index: int, lane: int) -> bool:
 	if _enemy_visuals.has(note_index):
 		return true
+	var kind := str(chart.notes[note_index]["kind"])
+	if kind == RhythmChart.KIND_HOLD:
+		return _ensure_serpent(note_index, lane)
+	if kind == RhythmChart.KIND_MASH:
+		return _ensure_drum(note_index, lane)
 	var sprites: Array[AnimatedSprite2D] = []
 	var ids: Array[String] = []
 	var anims: Array[String] = []
@@ -626,6 +852,8 @@ func _ensure_enemy_visual(note_index: int, lane: int) -> bool:
 		_field.add_child(actor)
 		actor.play("move")
 		sprites.append(actor)
+	if boss:
+		_boss_play("throw")
 	var chain: TextureRect
 	if lane == RhythmChart.LANE_BOTH:
 		var chain_texture := load("res://assets/rhythm/rh_twin_chain.png") as Texture2D
@@ -685,6 +913,12 @@ func _position_enemy_visual(note_index: int, note_time: float) -> void:
 	if not _enemy_visuals.has(note_index):
 		return
 	var visual: Dictionary = _enemy_visuals[note_index]
+	if bool(visual.get("drum", false)):
+		_position_drum(note_index, visual, note_time)
+		return
+	if bool(visual.get("hold", false)):
+		_position_serpent(note_index, visual, note_time)
+		return
 	var lane := int(visual["lane"])
 	var x := _num("field.judge_x", 380) + (note_time - now) * _speed()
 	var sprites: Array = visual["sprites"]
@@ -708,7 +942,7 @@ func _prepare_enemy_visuals() -> void:
 	var speed := _speed()
 	for note_index in range(judge.cursor, chart.notes.size()):
 		var note: Dictionary = chart.notes[note_index]
-		if note["kind"] not in [RhythmChart.KIND_TAP, RhythmChart.KIND_HOLD]:
+		if note["kind"] not in [RhythmChart.KIND_TAP, RhythmChart.KIND_HOLD, RhythmChart.KIND_MASH]:
 			continue
 		var note_x := judge_x + (float(note["t"]) - now) * speed
 		if note_x > width + 200.0:
@@ -729,7 +963,7 @@ func _update_enemy_visuals() -> void:
 		if note_index >= 0 and note_index < chart.notes.size():
 			var note: Dictionary = chart.notes[note_index]
 			var note_time := float(note["t"])
-			if note["kind"] == RhythmChart.KIND_HOLD and int(judge.states[note_index]["state"]) == 1:
+			if note["kind"] in [RhythmChart.KIND_HOLD, RhythmChart.KIND_MASH] and int(judge.states[note_index]["state"]) == 1:
 				note_time = now
 			_position_enemy_visual(note_index, note_time)
 
@@ -792,20 +1026,286 @@ func _free_enemy_visual(note_index: int) -> void:
 	var chain := visual["chain"] as TextureRect
 	if chain and is_instance_valid(chain):
 		chain.queue_free()
+	for extra in visual.get("bodies", []) + visual.get("tails", []):
+		if is_instance_valid(extra):
+			extra.queue_free()
+	for key in ["crack", "count_label"]:
+		var extra_node := visual.get(key) as Node
+		if extra_node and is_instance_valid(extra_node):
+			extra_node.queue_free()
 	_enemy_visuals.erase(note_index)
 
 
-func _draw_boss(f: Control, c: Vector2) -> void:
-	var pulse := 1.0 + 0.04 * sin(now * TAU * chart.bpm / 60.0)
-	f.draw_circle(c, 210 * pulse, Color("#FFB347", 0.25))
-	f.draw_circle(c, 180 * pulse, Color("#1A0F2E"))
-	f.draw_arc(c, 180 * pulse, 0, TAU, 64, Color("#FFB347"), 8.0)
-	f.draw_circle(c + Vector2(-60, -30), 26, Color("#FF4D6D"))
-	f.draw_circle(c + Vector2(40, -30), 26, Color("#FF4D6D"))
-	f.draw_arc(c + Vector2(-10, 110), 70, PI + 0.5, TAU - 0.5, 24, Color("#FF4D6D"), 8.0)
-	for k in 5:
-		var tx := c.x - 60 + k * 25
-		f.draw_colored_polygon(PackedVector2Array([Vector2(tx, c.y + 48), Vector2(tx + 20, c.y + 48), Vector2(tx + 10, c.y + 70)]), Color.WHITE)
+## Rắn Ngân (nốt giữ): đầu (idle / bite), thân khuông nhạc lặp ngang dài theo thời gian giữ, đuôi dấu lặng.
+## Ảnh màu trung tính, tô theo màu làn. Mỗi làn của nốt (cả hai = 2 con) một bộ.
+func _ensure_serpent(note_index: int, lane: int) -> bool:
+	var frames := _serpent_frames()
+	var body_tex := load("res://assets/rhythm/rh_serpent_body.png") as Texture2D
+	var tail_tex := load("res://assets/rhythm/rh_serpent_tail.png") as Texture2D
+	if frames == null or body_tex == null or tail_tex == null:
+		return false
+	var heads: Array[AnimatedSprite2D] = []
+	var bodies: Array = []
+	var tails: Array = []
+	for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
+		if not (lane & l):
+			continue
+		var tint := Color.WHITE.lerp(_note_color(l), 0.55)
+		var body := TextureRect.new()
+		body.name = "RhythmSerpentBody_%d_%d" % [note_index, l]
+		body.texture = body_tex
+		body.stretch_mode = TextureRect.STRETCH_TILE
+		body.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		body.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		body.modulate = tint
+		_field.add_child(body)
+		_field.move_child(body, 0)
+		bodies.append(body)
+		var tail := TextureRect.new()
+		tail.name = "RhythmSerpentTail_%d_%d" % [note_index, l]
+		tail.texture = tail_tex
+		tail.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tail.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tail.modulate = tint
+		_field.add_child(tail)
+		tails.append(tail)
+		var head := AnimatedSprite2D.new()
+		head.name = "RhythmSerpent_%d_%d" % [note_index, l]
+		head.sprite_frames = frames
+		head.scale = Vector2.ONE * _enemy_scale()
+		head.offset = _body_offset("rh_serpent", "")
+		head.modulate = tint
+		_field.add_child(head)
+		head.play("move")
+		heads.append(head)
+	var chain: TextureRect
+	if lane == RhythmChart.LANE_BOTH:
+		var chain_texture := load("res://assets/rhythm/rh_twin_chain.png") as Texture2D
+		if chain_texture:
+			chain = TextureRect.new()
+			chain.name = "RhythmSerpentChain_%d" % note_index
+			chain.texture = chain_texture
+			chain.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			chain.stretch_mode = TextureRect.STRETCH_SCALE
+			chain.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			_field.add_child(chain)
+			_field.move_child(chain, 0)
+	if boss:
+		_boss_play("throw")
+	_enemy_visuals[note_index] = {"sprites": heads, "chain": chain, "dying_until": -1.0, "lane": lane, "hold": true,
+			"bodies": bodies, "tails": tails}
+	_position_enemy_visual(note_index, float(chart.notes[note_index]["t"]))
+	return true
+
+
+func _serpent_frames() -> SpriteFrames:
+	if _enemy_frames_cache.has("rh_serpent"):
+		return _enemy_frames_cache["rh_serpent"] as SpriteFrames
+	var frames := SpriteFrames.new()
+	frames.remove_animation("default")
+	for spec in [["move", "idle", 8.0], ["bite", "bite", 12.0]]:
+		frames.add_animation(spec[0])
+		frames.set_animation_speed(spec[0], spec[2])
+		frames.set_animation_loop(spec[0], true)
+		for i in 4:
+			var tex := load("res://assets/rhythm/rh_serpent/%s/rh_serpent_%s_%03d.png" % [spec[1], spec[1], i]) as Texture2D
+			if tex == null:
+				return null
+			frames.add_frame(spec[0], tex)
+	_enemy_frames_cache["rh_serpent"] = frames
+	return frames
+
+
+func _position_serpent(note_index: int, visual: Dictionary, head_time: float) -> void:
+	var n: Dictionary = chart.notes[note_index]
+	var jx := _num("field.judge_x", 380)
+	var head_x := jx + (head_time - now) * _speed()
+	var tail_x := jx + (float(n["t"]) + float(n["dur"]) - now) * _speed()
+	var bh := rules.ring_radius * 2.0 * 0.7
+	var sb := bh / 96.0
+	var tw := rules.ring_radius * 1.6
+	var k := 0
+	for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
+		if not (int(visual["lane"]) & l):
+			continue
+		var y := _lane_y(l)
+		var heads: Array = visual["sprites"]
+		heads[k].position = Vector2(head_x, y)
+		var body: TextureRect = visual["bodies"][k]
+		body.scale = Vector2(sb, sb)
+		body.position = Vector2(head_x, y - bh * 0.5)
+		body.size = Vector2(maxf(tail_x - head_x, 0.0) / sb, 96.0)
+		var tail: TextureRect = visual["tails"][k]
+		tail.position = Vector2(tail_x - tw * 0.3, y - tw * 0.5)
+		tail.size = Vector2(tw, tw)
+		k += 1
+	var chain := visual["chain"] as TextureRect
+	if chain:
+		var y_top := _lane_y(RhythmChart.LANE_UP) + rules.ring_radius
+		var y_bottom := _lane_y(RhythmChart.LANE_DOWN) - rules.ring_radius
+		chain.position = Vector2(head_x - 20.0, y_top)
+		chain.size = Vector2(40.0, maxf(y_bottom - y_top, 1.0))
+
+
+func _build_boss_visual() -> void:
+	var frames := _boss_frames()
+	if frames == null:
+		return
+	_boss_sprite = AnimatedSprite2D.new()
+	_boss_sprite.name = "RhythmEclipseBoss"
+	_boss_sprite.sprite_frames = frames
+	_boss_sprite.centered = true
+	_boss_sprite.scale = Vector2.ONE * (480.0 / 768.0)
+	_boss_sprite.position = Vector2(get_viewport_rect().size.x - 260.0, (_lane_y(RhythmChart.LANE_UP) + _lane_y(RhythmChart.LANE_DOWN)) * 0.5)
+	_boss_sprite.animation_finished.connect(_on_boss_animation_finished)
+	_field.add_child(_boss_sprite)
+	_field.move_child(_boss_sprite, 0)
+	_boss_sprite.play("idle")
+
+
+func _boss_frames() -> SpriteFrames:
+	if _enemy_frames_cache.has("rh_boss_eclipse"):
+		return _enemy_frames_cache["rh_boss_eclipse"] as SpriteFrames
+	var frames := SpriteFrames.new()
+	frames.remove_animation("default")
+	var specs := [["idle", 8, 10.0, true], ["throw", 6, 12.0, false], ["hurt", 3, 12.0, false], ["defeat", 10, 20.0, false]]
+	for spec in specs:
+		var anim: String = spec[0]
+		frames.add_animation(anim)
+		frames.set_animation_speed(anim, float(spec[2]))
+		frames.set_animation_loop(anim, bool(spec[3]))
+		for i in int(spec[1]):
+			var texture := load("res://assets/rhythm/rh_boss_eclipse/%s/rh_boss_eclipse_%s_%03d.png" % [anim, anim, i]) as Texture2D
+			if texture == null:
+				return null
+			frames.add_frame(anim, texture)
+	_enemy_frames_cache["rh_boss_eclipse"] = frames
+	return frames
+
+
+func _boss_play(anim: String, force := false) -> void:
+	if _boss_sprite == null or not is_instance_valid(_boss_sprite) or _boss_sprite.animation == "defeat":
+		return
+	if not force and _boss_sprite.animation in ["throw", "hurt"] and _boss_sprite.is_playing():
+		return
+	_boss_sprite.play(anim)
+
+
+func _on_boss_animation_finished() -> void:
+	if is_instance_valid(_boss_sprite) and _boss_sprite.animation != "defeat":
+		_boss_sprite.play("idle")
+
+
+func _drum_frames() -> SpriteFrames:
+	if _enemy_frames_cache.has("rh_drum"):
+		return _enemy_frames_cache["rh_drum"] as SpriteFrames
+	var frames := SpriteFrames.new()
+	frames.remove_animation("default")
+	var specs := [["idle", 4, 8.0, true], ["hit", 3, 24.0, false], ["burst", 6, 20.0, false], ["escape", 6, 12.0, false]]
+	for spec in specs:
+		var anim: String = spec[0]
+		frames.add_animation(anim)
+		frames.set_animation_speed(anim, float(spec[2]))
+		frames.set_animation_loop(anim, bool(spec[3]))
+		for i in int(spec[1]):
+			var texture := load("res://assets/rhythm/rh_drum/%s/rh_drum_%s_%03d.png" % [anim, anim, i]) as Texture2D
+			if texture == null:
+				return null
+			frames.add_frame(anim, texture)
+	_enemy_frames_cache["rh_drum"] = frames
+	return frames
+
+
+func _ensure_drum(note_index: int, lane: int) -> bool:
+	var frames := _drum_frames()
+	var crack_frames: Array[Texture2D] = []
+	for i in 3:
+		var crack_texture := load("res://assets/rhythm/rh_drum/crack/rh_drum_crack_%03d.png" % i) as Texture2D
+		if crack_texture == null:
+			return false
+		crack_frames.append(crack_texture)
+	if frames == null:
+		return false
+	var actor := AnimatedSprite2D.new()
+	actor.name = "RhythmDrum_%d" % note_index
+	actor.sprite_frames = frames
+	actor.centered = true
+	actor.scale = Vector2.ONE * 0.51
+	actor.z_index = 1
+	actor.animation_finished.connect(_on_drum_animation_finished.bind(note_index))
+	_field.add_child(actor)
+	actor.play("idle")
+	var crack := Sprite2D.new()
+	crack.name = "RhythmDrumCrack_%d" % note_index
+	crack.centered = true
+	crack.scale = actor.scale
+	crack.texture = crack_frames[0]
+	crack.z_index = 2
+	crack.hide()
+	_field.add_child(crack)
+	var counter := Label.new()
+	counter.name = "RhythmDrumCounter_%d" % note_index
+	counter.size = Vector2(100, 54)
+	counter.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	counter.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	counter.add_theme_font_size_override("font_size", 42)
+	counter.add_theme_color_override("font_color", Color("#2A1B4A"))
+	counter.add_theme_color_override("font_outline_color", Color.WHITE)
+	counter.add_theme_constant_override("outline_size", 5)
+	counter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	counter.z_index = 3
+	_field.add_child(counter)
+	_enemy_visuals[note_index] = {"sprites": [actor], "chain": null, "dying_until": -1.0, "lane": lane,
+			"drum": true, "crack": crack, "crack_frames": crack_frames, "count_label": counter}
+	_position_enemy_visual(note_index, float(chart.notes[note_index]["t"]))
+	_refresh_drum_cracks(note_index)
+	if boss:
+		_boss_play("throw")
+	return true
+
+
+func _refresh_drum_cracks(note_index: int) -> void:
+	if not _enemy_visuals.has(note_index):
+		return
+	var visual: Dictionary = _enemy_visuals[note_index]
+	var note: Dictionary = chart.notes[note_index]
+	var total_hits := maxi(int(note.get("hits", 1)), 1)
+	var count := int(judge.states[note_index]["count"])
+	var left := maxi(total_hits - count, 0)
+	var label := visual["count_label"] as Label
+	label.text = str(left)
+	label.visible = true
+	var crack := visual["crack"] as Sprite2D
+	if count > 0:
+		var stage := clampi(ceili(float(count) * 3.0 / float(total_hits)) - 1, 0, 2)
+		var crack_frames: Array = visual["crack_frames"]
+		crack.texture = crack_frames[stage]
+		crack.show()
+
+
+func _position_drum(note_index: int, visual: Dictionary, note_time: float) -> void:
+	var note: Dictionary = chart.notes[note_index]
+	var jx := _num("field.judge_x", 380)
+	var x := jx + maxf(note_time - now, 0.0) * _speed()
+	var lane := int(visual["lane"])
+	var y := (_lane_y(RhythmChart.LANE_UP) + _lane_y(RhythmChart.LANE_DOWN)) * 0.5 if lane == RhythmChart.LANE_BOTH else _lane_y(lane)
+	var pos := Vector2(x, y - 99.0)
+	var actor: AnimatedSprite2D = visual["sprites"][0]
+	actor.position = pos
+	(visual["crack"] as Sprite2D).position = pos
+	(visual["count_label"] as Label).position = pos + Vector2(-50, -27)
+
+
+func _on_drum_animation_finished(note_index: int) -> void:
+	if not _enemy_visuals.has(note_index):
+		return
+	var visual: Dictionary = _enemy_visuals[note_index]
+	if float(visual["dying_until"]) >= 0.0:
+		return
+	var actor: AnimatedSprite2D = visual["sprites"][0]
+	if actor.animation == "hit":
+		actor.play("idle")
 
 
 func _draw_hud() -> void:
@@ -854,6 +1354,8 @@ func _finish() -> void:
 	if player and player.playing:
 		player.stop()
 	var cleared := not judge.is_failed
+	if boss and cleared:
+		_boss_play("defeat", true)
 	result = {
 		"cleared": cleared, "score": judge.score, "rank": judge.rank() if cleared else "D",
 		"max_combo": judge.max_combo, "accuracy": judge.accuracy(), "counts": judge.counts.duplicate(),

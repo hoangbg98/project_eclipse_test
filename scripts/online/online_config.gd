@@ -5,6 +5,9 @@ extends RefCounted
 
 const DATA_PATH := "res://data/config/online_config.json"
 const USER_PATH := "user://online.cfg"
+## Địa chỉ mặc định cũ (trước M10: game gọi thẳng Nakama). Máy đã lưu địa chỉ này được chuyển sang mặc định mới
+## (cổng vào server/gateway.mjs có thêm /music/ cho chế độ nhịp điệu), nếu không tải bài nhịp điệu sẽ lỗi 404.
+const LEGACY_URLS: Array[String] = ["http://127.0.0.1:7350", "http://localhost:7350"]
 
 var default_server_url := "http://127.0.0.1:7360"
 var server_key := ""
@@ -36,7 +39,7 @@ static func load_from(data_path := DATA_PATH, user_cfg_path := USER_PATH) -> Onl
 	var cfg := ConfigFile.new()
 	if cfg.load(user_cfg_path) == OK:
 		var saved := NakamaApi.normalize_url(str(cfg.get_value("server", "url", "")))
-		if not saved.is_empty():
+		if not saved.is_empty() and not saved in LEGACY_URLS:
 			c.server_url = saved
 	return c
 

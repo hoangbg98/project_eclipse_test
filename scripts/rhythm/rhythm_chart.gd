@@ -98,6 +98,21 @@ func enforce_spacing(min_gap: float) -> int:
 	return removed
 
 
+## Chỉ giữ các loại nốt trong `kinds` (vd ["tap"] cho ải đầu): nốt giữ / ấn liên tục khác loại đổi thành nốt ấn
+## 1 lần ở cùng thời điểm, cùng làn. Mảng rỗng = giữ nguyên. Trả về số nốt bị đổi.
+func limit_kinds(kinds: Array) -> int:
+	if kinds.is_empty():
+		return 0
+	var changed := 0
+	for n in notes:
+		if not str(n["kind"]) in kinds:
+			n["kind"] = KIND_TAP
+			n["dur"] = 0.0
+			n["hits"] = 0
+			changed += 1
+	return changed
+
+
 static func lane_name(lane: int) -> String:
 	for k in LANE_NAMES:
 		if LANE_NAMES[k] == lane:

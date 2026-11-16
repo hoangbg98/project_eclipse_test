@@ -3459,3 +3459,36 @@ msgstr "NORMAL"
 
 msgid "RHYTHM_SPEED"
 msgstr "Tốc độ ×%.1f"
+
+msgid "RHYTHM_TUT_TITLE"
+msgstr "Hướng dẫn %d/%d"
+
+msgid "RHYTHM_TUT_UP"
+msgstr "Dơi Nốt bay ở LÀN TRÊN. Ấn D / F / ↑ (hoặc chạm nửa trái màn) đúng lúc hitbox vàng vào khít vòng trắng phía trên."
+
+msgid "RHYTHM_TUT_DOWN"
+msgstr "Sên Nhịp chạy ở LÀN DƯỚI. Ấn J / K / ↓ (hoặc chạm nửa phải màn) khi hitbox vàng khít vòng phía dưới."
+
+msgid "RHYTHM_TUT_MIX"
+msgstr "Giờ xen kẽ trên và dưới. Nhìn hitbox vàng, ấn đúng làn. Ấn khi hitbox chưa chạm vòng thì không sao."
+
+msgid "RHYTHM_TUT_BOTH"
+msgstr "Song Âm có dây khuông vàng nối hai làn: ấn CẢ HAI phím cùng lúc. Chỉ ấn một phím là SAI (khi chơi thật sẽ mất HP)."
+
+msgid "RHYTHM_TUT_GRADES"
+msgstr "Càng khít càng nhiều điểm: PERFECT > GREAT > GOOD > NORMAL. Chỉ chạm viền ngoài là MISS."
+
+msgid "RHYTHM_TUT_PROGRESS"
+msgstr "Đánh trúng %d/%d"
+
+msgid "RHYTHM_TUT_RETRY"
+msgstr "Chưa đủ, thử lại nhé!"
+
+msgid "RHYTHM_TUT_DONE"
+msgstr "Tốt lắm! Bài hát bắt đầu ngay đây..."
+
+msgid "RHYTHM_TUT_SKIP"
+msgstr "Bỏ qua hướng dẫn"
+
+msgid "RHYTHM_INTRO_HOLD"
+msgstr "Mới: Rắn Ngân — ấn giữ phím từ đầu tới hết thân rắn, thả sớm là gãy. Quái trống to — ấn liên tục thật nhanh tới khi nó vỡ."

@@ -1,9 +1,11 @@
 {
-	"_comment": "Ải nguyên liệu nhịp điệu (M10, docs/design/RHYTHM_MODE.md). 5 ải con mở lần lượt; ải 5 là boss với bản nốt cố định (chart 'boss' trong catalog máy chủ). Qua cả 5 mở chế độ Vô tận (chọn bài). Thưởng chỉ khi qua (HP > 0); rank_multiplier nhân số nguyên liệu / vàng. note_speed: tốc độ quái (px/giây), tăng dần tới ải boss (owner 2026-11-16); vòng chấm phóng theo tốc độ nên cửa sổ ms giữ nguyên.",
+	"_comment": "Ải nguyên liệu nhịp điệu (M10, docs/design/RHYTHM_MODE.md). 5 ải con mở lần lượt; ải 5 là boss với bản nốt cố định (chart 'boss' trong catalog máy chủ). Qua cả 5 mở chế độ Vô tận (chọn bài). Thưởng chỉ khi qua (HP > 0); rank_multiplier nhân số nguyên liệu / vàng. note_speed: tốc độ quái (px/giây), tăng dần tới ải boss (owner 2026-11-16); vòng chấm phóng theo tốc độ nên cửa sổ ms giữ nguyên. kinds: chỉ giữ các loại nốt này (loại khác đổi thành nốt ấn 1 lần). tutorial: hướng dẫn trong ải lần đầu chơi (data/rhythm/tutorial.json). intro_key: dòng giới thiệu lúc đếm ngược lần đầu chơi.",
 	"stages": [
 		{
 			"id": "rhythm_mat_01",
-			"note_speed": 650,
+			"note_speed": 550,
+			"kinds": ["tap"],
+			"tutorial": true,
 			"code": "N-1",
 			"name_key": "RHYTHM_STAGE_01_NAME",
 			"song": "song_ember_steps",
@@ -15,6 +17,7 @@
 		{
 			"id": "rhythm_mat_02",
 			"note_speed": 750,
+			"intro_key": "RHYTHM_INTRO_HOLD",
 			"code": "N-2",
 			"name_key": "RHYTHM_STAGE_02_NAME",
 			"song": "song_gale_runner",

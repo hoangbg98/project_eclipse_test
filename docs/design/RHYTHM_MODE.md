@@ -15,6 +15,12 @@ chưa có) → `RhythmStage` → kết quả (thưởng) → Chơi lại / Thoá
 Vô tận: `RhythmSongListScreen` — tab Dễ / Thường / Khó / Yêu thích, mỗi dòng: số thứ tự, tên bài, tác giả, vương
 miện theo hạng tốt nhất (S = 3, A = 2, B = 1), mức độ khó, kỷ lục, tim yêu thích, nút Chơi.
 
+**Người mới** (owner 2026-11-16): ải N-1 chậm nhất (550 px/s), chỉ có nốt ấn 1 lần, và lần đầu chơi có **hướng dẫn
+ngay trong ải** (`data/rhythm/tutorial.json`): 4 bước luyện làn trên → làn dưới → xen kẽ → cả hai, quái chậm, không mất
+HP, trúng đủ thì sang bước sau, chưa đủ thì làm lại; có nút "Bỏ qua hướng dẫn"; xong thì đếm ngược vào bài. Rắn Ngân
+(nốt giữ) và quái trống (ấn liên tục) bắt đầu từ N-2, lần đầu chơi N-2 có dòng giới thiệu lúc đếm ngược (dài thêm 3 s).
+Không nốt nào xuất hiện trước giây 1.5 của bài.
+
 ## 2. Điều khiển
 
 | | Bàn phím | Tay cầm | Cảm ứng |
@@ -51,11 +57,11 @@ Action `rhythm_up` / `rhythm_down` trong `InputRouter`. Nhiều phím cùng làn
 
   | Ải | N-1 | N-2 | N-3 | N-4 | N-5 boss | Vô tận Dễ / Thường / Khó |
   |---|---|---|---|---|---|---|
-  | Tốc độ (px/s) | 650 (×0.8) | 750 | 850 | 950 | 1050 (×1.3) | 700 / 850 / 1000 |
+  | Tốc độ (px/s) | 550 (×0.7) | 750 | 850 | 950 | 1050 (×1.3) | 700 / 850 / 1000 |
   | Bản nốt (độ khó) | easy (2) | normal (5) | hard (8) | hard (10) | boss (11) | theo độ khó chọn |
 
   Vòng chấm, viền và hitbox phóng theo tốc độ (`RhythmRules.for_speed`) nên cửa sổ ms của 5 mức **giữ nguyên** ở mọi ải:
-  nhanh hơn = ít thời gian nhìn (quái từ mép màn tới vòng: ~2.4 s ở N-1, ~1.5 s ở N-5) và nốt dày hơn, nhưng Perfect
+  nhanh hơn = ít thời gian nhìn (quái từ mép màn tới vòng: ~2.8 s ở N-1, ~1.5 s ở N-5) và nốt dày hơn, nhưng Perfect
   luôn ±21 ms — nhanh tay nhanh mắt là đạt được. Quái to theo vòng (đường kính vòng × `enemy.ring_ratio` 2.1).
 - **Hitbox không đè nhau**: hai nốt cùng làn cách nhau ≥ 2 × bán kính / tốc độ (180 ms) tính từ lúc nốt trước kết thúc;
   game tự bỏ nốt vi phạm (`RhythmChart.enforce_spacing`), tool sinh nốt cũng giữ `LANE_GAP` = 0.19 s. Ảnh quái được

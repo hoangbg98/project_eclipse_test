@@ -48,6 +48,16 @@ func _make_service(key := FakeNakama.SERVER_KEY) -> Node:
 	return s
 
 
+func test_legacy_direct_nakama_url_moves_to_gateway() -> void:
+	var cfg := ConfigFile.new()
+	cfg.set_value("server", "url", "http://127.0.0.1:7350")
+	cfg.save(USER_CFG)
+	var c := OnlineConfig.load_from(OnlineConfig.DATA_PATH, USER_CFG)
+	assert_str(c.server_url).is_equal(c.default_server_url)
+	assert_str(c.server_url).is_equal("http://127.0.0.1:7360")
+	DirAccess.remove_absolute(USER_CFG)
+
+
 func test_config_reads_data_and_saves_user_url() -> void:
 	var c := OnlineConfig.load_from(OnlineConfig.DATA_PATH, USER_CFG)
 	assert_str(c.server_url).is_equal("http://127.0.0.1:7360")

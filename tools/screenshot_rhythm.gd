@@ -38,6 +38,21 @@ func _process(_delta: float) -> bool:
 		3:
 			if _frames < 3:
 				return false
+			_screen.advance(3.6)   # hướng dẫn bước 1: Dơi Nốt đang bay tới
+			_step = 30
+			_frames = 0
+		30:
+			if _frames < 2:
+				return false
+			_shot("1t_tutorial")
+			_screen.advance(13.0)   # sang bước "cả hai"
+			_step = 31
+			_frames = 0
+		31:
+			if _frames < 2:
+				return false
+			_shot("1u_tutorial_both")
+			_screen.skip_tutorial()
 			_screen.advance(22.05)   # 0.3 s trước nốt 20.346: hitbox còn nhấp nháy
 			_step = 4
 			_frames = 0
@@ -65,6 +80,45 @@ func _process(_delta: float) -> bool:
 			_step = 6
 			_frames = 0
 		6:
+			if _screen.catalog_state == "loading" or _frames < 5:
+				return false
+			_run(_screen.start_stage.bind("rhythm_mat_02"), 60)
+		60:
+			print("mở N-2: ", _screen.last_target, " | ", _screen.notice, " | đã qua N-1: ", RhythmProgress.new(_profile).is_cleared("rhythm_mat_01"))
+			_screen.queue_free()
+			_screen = _stage()
+			_screen.autoplay = true
+			_step = 61
+			_frames = 0
+		61:
+			if _frames < 3:
+				return false
+			_screen.advance(1.2)   # đếm ngược có dòng giới thiệu Rắn Ngân
+			_step = 62
+			_frames = 0
+		62:
+			if _frames < 2:
+				return false
+			_shot("6_intro")
+			_screen.advance(5.0 - 1.2 + 38.4)   # 0.6 s trước Rắn Ngân đầu tiên (giây 39.04)
+			_step = 63
+			_frames = 0
+		63:
+			if _frames < 2:
+				return false
+			_shot("7_serpent")
+			_screen.advance(0.85)   # đang giữ: đầu rắn cắn ở vòng chấm
+			_step = 64
+			_frames = 0
+		64:
+			if _frames < 2:
+				return false
+			_shot("7b_serpent_hold")
+			_screen.queue_free()
+			_screen = _open("res://scenes/main/rhythm_material_screen.tscn")
+			_step = 65
+			_frames = 0
+		65:
 			if _screen.catalog_state == "loading" or _frames < 5:
 				return false
 			var prog := RhythmProgress.new(_profile)

@@ -158,4 +158,9 @@ func start_play(song_id: String, chart_key: String, record_key: String, boss_ :=
 		gc.rhythm_record_key = record_key
 		gc.rhythm_boss = boss_
 		gc.rhythm_note_speed = _progress().note_speed(record_key)
+		var st := _progress().stage(record_key)
+		var first := not _progress().is_cleared(record_key)
+		gc.rhythm_tutorial = first and bool(st.get("tutorial", false))
+		gc.rhythm_intro_key = str(st.get("intro_key", "")) if first else ""
+		gc.rhythm_kinds = st.get("kinds", [])
 	open_scene("SCENE_RHYTHM_STAGE")

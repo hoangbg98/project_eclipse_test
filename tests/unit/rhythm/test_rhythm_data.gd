@@ -188,3 +188,9 @@ func test_stage_speeds_increase_to_boss() -> void:
 	assert_float(prog.note_speed(RhythmProgress.endless_key("x", "hard"))).is_greater(
 			prog.note_speed(RhythmProgress.endless_key("x", "easy")))
 	assert_float(prog.note_speed("khong_co")).is_equal(0.0)
+	# Ải đầu: chỉ nốt ấn, có hướng dẫn; ải 2 giới thiệu Rắn Ngân.
+	assert_array(prog.stage("rhythm_mat_01").get("kinds", [])).is_equal(["tap"])
+	assert_bool(bool(prog.stage("rhythm_mat_01").get("tutorial", false))).is_true()
+	assert_str(str(prog.stage("rhythm_mat_02").get("intro_key", ""))).is_not_empty()
+	var tut: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/rhythm/tutorial.json"))
+	assert_bool(tut is Dictionary and tut["steps"].size() >= 3).is_true()
