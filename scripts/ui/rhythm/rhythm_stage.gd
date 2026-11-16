@@ -54,6 +54,9 @@ var _end_at := -1.0
 var _pause_layer: Control
 var _result_layer: Control
 var _labels: Dictionary = {}
+var _enemy_frames_cache: Dictionary = {}
+var _enemy_visuals: Dictionary = {} # note index -> {sprites, chain, dying_until}
+const ENEMY_SPRITE_SCALE := 0.43 # 256 px frame -> ~110 px on screen
 
 
 func _ready() -> void:
@@ -244,6 +247,8 @@ func _tick(delta: float) -> void:
 	if autoplay:
 		_autoplay()
 	judge.update(now)
+	_prepare_enemy_visuals()
+	_update_enemy_visuals()
 	_update_character()
 	if judge.is_failed:
 		_finish()
@@ -402,6 +407,18 @@ func _holding_lane() -> int:
 
 func _on_judged(index: int, res: String, unit: String) -> void:
 	var lane := int(chart.notes[index]["lane"]) if index < chart.notes.size() else RhythmChart.LANE_DOWN
+	if _enemy_visuals.has(index):
+		if res in [RhythmJudge.PERFECT, RhythmJudge.GREAT]:
+			var visual: Dictionary = _enemy_visuals[index]
+			visual["dying_until"] = now + 0.26
+			for actor in visual["sprites"]:
+				actor.play("die")
+			var chain := visual["chain"] as TextureRect
+			if chain:
+				chain.hide()
+			_enemy_visuals[index] = visual
+		else:
+			_free_enemy_visual(index)
 	var col: Color = {RhythmJudge.PERFECT: _col("perfect", Color("#FF6FD8")), RhythmJudge.GREAT: _col("great", Color("#6FD3FF")),
 			RhythmJudge.MISS: _col("miss", Color("#B0B0C0")), RhythmJudge.WRONG: _col("wrong", Color("#FF5050"))}[res]
 	var key: String = {RhythmJudge.PERFECT: "RHYTHM_PERFECT", RhythmJudge.GREAT: "RHYTHM_GREAT",
@@ -506,11 +523,10 @@ func _draw_note(f: Control, i: int, n: Dictionary, x: float, speed: float) -> vo
 	var jx := _num("field.judge_x", 380)
 	match n["kind"]:
 		RhythmChart.KIND_TAP:
-			if lane == RhythmChart.LANE_BOTH:
-				f.draw_line(Vector2(x, _lane_y(1)), Vector2(x, _lane_y(2)), Color(col, 0.6), 10.0)
-			for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
-				if lane & l:
-					_draw_enemy(f, Vector2(x, _lane_y(l)), 46.0, col, l == RhythmChart.LANE_UP)
+			if not _enemy_visuals.has(i):
+				for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
+					if lane & l:
+						_draw_enemy(f, Vector2(x, _lane_y(l)), 46.0, col, l == RhythmChart.LANE_UP)
 		RhythmChart.KIND_HOLD:
 			var x0 := jx if active else x
 			var x1 := jx + (float(n["t"]) + float(n["dur"]) - now) * speed
@@ -520,9 +536,9 @@ func _draw_note(f: Control, i: int, n: Dictionary, x: float, speed: float) -> vo
 					f.draw_rect(Rect2(x0, y - 22, maxf(x1 - x0, 0.0), 44), Color(col, 0.45 if not active else 0.75))
 					f.draw_rect(Rect2(x0, y - 22, maxf(x1 - x0, 0.0), 44), Color(1, 1, 1, 0.6), false, 3.0)
 					f.draw_circle(Vector2(x1, y), 26, col)
-					if not active:
+					if not _enemy_visuals.has(i) and not active:
 						_draw_enemy(f, Vector2(x0, y), 44.0, col, l == RhythmChart.LANE_UP)
-					else:
+					elif active and not _enemy_visuals.has(i):
 						f.draw_circle(Vector2(x0, y), 34, Color(1, 1, 1, 0.9))
 		RhythmChart.KIND_MASH:
 			var cx := maxf(x, jx + 80.0) if active else x
@@ -548,6 +564,156 @@ func _draw_enemy(f: Control, p: Vector2, r: float, col: Color, flying: bool) -> 
 	else:
 		f.draw_rect(Rect2(p + Vector2(-r * 0.5, r * 0.8), Vector2(r * 0.3, r * 0.4)), col)
 		f.draw_rect(Rect2(p + Vector2(r * 0.2, r * 0.8), Vector2(r * 0.3, r * 0.4)), col)
+
+
+func _ensure_enemy_visual(note_index: int, lane: int) -> bool:
+	if _enemy_visuals.has(note_index):
+		return true
+	var sprites: Array[AnimatedSprite2D] = []
+	var ids: Array[String] = []
+	var anims: Array[String] = []
+	if lane == RhythmChart.LANE_BOTH:
+		ids = ["rh_twin", "rh_twin"]
+		anims = ["fly", "run"]
+	elif lane == RhythmChart.LANE_UP:
+		ids = ["rh_bat"]
+		anims = ["fly"]
+	else:
+		ids = ["rh_slime"]
+		anims = ["run"]
+	for k in ids.size():
+		var sprite_frames := _enemy_sprite_frames(ids[k], anims[k])
+		if sprite_frames == null:
+			for existing in sprites:
+				existing.queue_free()
+			return false
+		var actor := AnimatedSprite2D.new()
+		actor.name = "RhythmEnemy_%d_%d" % [note_index, k]
+		actor.sprite_frames = sprite_frames
+		actor.centered = true
+		actor.scale = Vector2.ONE * ENEMY_SPRITE_SCALE
+		_field.add_child(actor)
+		actor.play("move")
+		sprites.append(actor)
+	var chain: TextureRect
+	if lane == RhythmChart.LANE_BOTH:
+		var chain_texture := load("res://assets/rhythm/rh_twin_chain.png") as Texture2D
+		if chain_texture:
+			chain = TextureRect.new()
+			chain.name = "RhythmTwinChain_%d" % note_index
+			chain.texture = chain_texture
+			chain.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			chain.stretch_mode = TextureRect.STRETCH_SCALE
+			chain.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			_field.add_child(chain)
+			_field.move_child(chain, 0)
+	_enemy_visuals[note_index] = {"sprites": sprites, "chain": chain, "dying_until": -1.0, "lane": lane}
+	_position_enemy_visual(note_index, float(chart.notes[note_index]["t"]))
+	return true
+
+
+func _enemy_sprite_frames(enemy_id: String, move_anim: String) -> SpriteFrames:
+	var cache_key := enemy_id + ":" + move_anim
+	if _enemy_frames_cache.has(cache_key):
+		return _enemy_frames_cache[cache_key] as SpriteFrames
+	var frames := SpriteFrames.new()
+	frames.remove_animation("default")
+	frames.add_animation("move")
+	frames.set_animation_speed("move", 12.0)
+	frames.set_animation_loop("move", true)
+	var move_dir := "res://assets/rhythm/%s/%s" % [enemy_id, move_anim]
+	var move_count := 6
+	if enemy_id == "rh_twin":
+		move_dir = "res://assets/rhythm/rh_twin/%s" % move_anim
+	for frame_index in move_count:
+		var path := "%s/%s_%s_%03d.png" % [move_dir, enemy_id, move_anim, frame_index]
+		var texture := load(path) as Texture2D
+		if texture == null:
+			return null
+		frames.add_frame("move", texture)
+	frames.add_animation("die")
+	frames.set_animation_speed("die", 20.0)
+	frames.set_animation_loop("die", false)
+	var die_dirs: Array[String] = []
+	if enemy_id == "rh_twin":
+		die_dirs = ["res://assets/rhythm/rh_twin/die/bat", "res://assets/rhythm/rh_twin/die/slime"]
+	else:
+		die_dirs = ["res://assets/rhythm/%s/die" % enemy_id]
+	var die_dir := die_dirs[1] if enemy_id == "rh_twin" and move_anim == "run" else die_dirs[0]
+	var die_id := enemy_id if enemy_id != "rh_twin" else "rh_twin"
+	for frame_index in 5:
+		var texture := load("%s/%s_die_%03d.png" % [die_dir, die_id, frame_index]) as Texture2D
+		if texture == null:
+			return null
+		frames.add_frame("die", texture)
+	_enemy_frames_cache[cache_key] = frames
+	return frames
+
+
+func _position_enemy_visual(note_index: int, note_time: float) -> void:
+	if not _enemy_visuals.has(note_index):
+		return
+	var visual: Dictionary = _enemy_visuals[note_index]
+	var lane := int(visual["lane"])
+	var x := _num("field.judge_x", 380) + (note_time - now) * _speed()
+	var sprites: Array = visual["sprites"]
+	if lane == RhythmChart.LANE_BOTH:
+		if sprites.size() >= 2:
+			sprites[0].position = Vector2(x, _lane_y(RhythmChart.LANE_UP))
+			sprites[1].position = Vector2(x, _lane_y(RhythmChart.LANE_DOWN))
+		var chain := visual["chain"] as TextureRect
+		if chain:
+			var y_top := _lane_y(RhythmChart.LANE_UP) + 54.0
+			var y_bottom := _lane_y(RhythmChart.LANE_DOWN) - 54.0
+			chain.position = Vector2(x - 20.0, y_top)
+			chain.size = Vector2(40.0, maxf(y_bottom - y_top, 1.0))
+	else:
+		sprites[0].position = Vector2(x, _lane_y(lane))
+
+
+func _prepare_enemy_visuals() -> void:
+	var width := get_viewport_rect().size.x
+	var judge_x := _num("field.judge_x", 380)
+	var speed := _speed()
+	for note_index in range(judge.cursor, chart.notes.size()):
+		var note: Dictionary = chart.notes[note_index]
+		if note["kind"] not in [RhythmChart.KIND_TAP, RhythmChart.KIND_HOLD]:
+			continue
+		var note_x := judge_x + (float(note["t"]) - now) * speed
+		if note_x > width + 200.0:
+			continue
+		if note_x < -200.0 and int(judge.states[note_index]["state"]) != 1:
+			continue
+		_ensure_enemy_visual(note_index, int(note["lane"]))
+
+
+func _update_enemy_visuals() -> void:
+	for key in _enemy_visuals.keys():
+		var note_index := int(key)
+		var visual: Dictionary = _enemy_visuals[key]
+		if float(visual["dying_until"]) >= 0.0:
+			if now >= float(visual["dying_until"]):
+				_free_enemy_visual(note_index)
+			continue
+		if note_index >= 0 and note_index < chart.notes.size():
+			var note: Dictionary = chart.notes[note_index]
+			var note_time := float(note["t"])
+			if note["kind"] == RhythmChart.KIND_HOLD and int(judge.states[note_index]["state"]) == 1:
+				note_time = now
+			_position_enemy_visual(note_index, note_time)
+
+
+func _free_enemy_visual(note_index: int) -> void:
+	if not _enemy_visuals.has(note_index):
+		return
+	var visual: Dictionary = _enemy_visuals[note_index]
+	for actor in visual["sprites"]:
+		if is_instance_valid(actor):
+			actor.queue_free()
+	var chain := visual["chain"] as TextureRect
+	if chain and is_instance_valid(chain):
+		chain.queue_free()
+	_enemy_visuals.erase(note_index)
 
 
 func _draw_boss(f: Control, c: Vector2) -> void:

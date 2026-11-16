@@ -2137,3 +2137,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 6 frame fly 12 fps lặp, 6 frame run 12 fps lặp, 5 frame die cho từng sinh vật ở 20 fps; tất cả frame 256×256. Dây khuông xuất 64×256. Đã xem trực tiếp mẫu fly/run/die và dây; bộ xử lý báo 0 pixel xanh lá đục trong frame. run_tests.ps1 kết thúc với TẤT CẢ ĐẠT, mã thoát 0; GdUnit4 732/732 đạt và 5/5 smoke test đạt. Kiểm tra bổ sung: đủ 23 dòng giấy phép AI, 22 frame 256×256 đúng số lượng và góc trong suốt, tile 64×256.
 - **Quyết định Codex chọn:** Tách die thành hai thư mục con bat/ và slime/ để giữ đủ hai sinh vật cùng tan biến riêng; inset 4 px loại đường phân ô đen của sheet; tái dùng processor chung để cắt hai sheet và tile dây.
 - **Hạn chế đã biết:** Chưa nối các frame vào rhythm_stage.gd; task chỉ cung cấp asset theo brief.
+
+
+## 2026-11-16 — M10-2: Nối sprite quái vào RhythmStage
+- **Milestone / task:** M10-2 — tích hợp asset đã được owner duyệt cho Dơi Nốt, Sên Nhịp và Song Âm vào màn chơi nhịp điệu.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** scripts/ui/rhythm/rhythm_stage.gd; nhật ký này. Asset đã có sẵn tại assets/rhythm/rh_bat/, assets/rhythm/rh_slime/ và assets/rhythm/rh_twin/ cùng rh_twin_chain.png.
+- **Đã chạy:** powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1.
+- **Kết quả thật:** TẤT CẢ ĐẠT, mã thoát 0; GdUnit4 732/732, smoke test 5/5. Test rhythm_screens.gd đạt trong lượt GdUnit4.
+- **Quyết định Codex chọn:** Nốt tap làn trên dùng fly của Dơi Nốt; làn dưới dùng run của Sên Nhịp; nốt cả hai tạo cặp Song Âm và dây khuông; khi chấm trúng phát die ở 20 fps. Khởi tạo sprite ở vòng tick trước render để tránh thêm node trong callback vẽ. Giữ hình tạm cho hold/mash vì chưa có bộ asset tương ứng.
+- **Hạn chế đã biết:** Để vào lượt chơi, dùng Xuất kích → Ải nguyên liệu; bài cần có trong catalog/cache hoặc truy cập máy chủ nhạc theo cấu hình.
