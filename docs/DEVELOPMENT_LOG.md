@@ -2217,3 +2217,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** Lưu concept PNG 768×768, nền #00B140 đã chuẩn hóa; đĩa nhật thực đen/tím, quầng cam #FFB347, mắt đỏ #FF4D6D, miệng răng cưa và hai tay trăng khuyết lơ lửng, pose chỉ huy nhìn trái. Chưa tạo animation.
 - **Quyết định Codex chọn:** Dùng hai trăng khuyết rời làm tay chỉ huy, một tay cao một tay thấp; giữ quầng cam thành vài tia lửa lớn để silhouette đọc rõ ở kích thước nhỏ.
 - **Hạn chế đã biết:** Chờ owner duyệt concept. Khi duyệt mới tạo idle 8 frame/10 fps, throw 6 frame, hurt 3 frame và defeat 10 frame theo brief.
+
+## 2026-11-16 — M10-2: animation boss Nhật Thực
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_boss_eclipse; tạo animation sau khi owner duyệt concept.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_boss_eclipse/idle/` (8 PNG); `throw/` (6 PNG); `hurt/` (3 PNG); `defeat/` (10 PNG); `tools/rhythm/process_boss_sheets.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen tạo 4 sprite sheet dựa trên concept đã duyệt; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_boss_sheets.ps1` với các sheet idle, throw, hurt, defeat; kiểm tra từng PNG trong processor bằng C# LockBits; đối chiếu SHA-256 idle 000/007.
+- **Kết quả thật:** Xuất đủ 27 PNG 768×768 theo brief. Processor xác nhận 0 pixel xanh chroma còn hiển thị ở cả 27 frame. Idle frame 000 và 007 có cùng SHA-256 `23BA7EB18EBCFA16B03A002DAB12D579EEFEA7E3BB2B92FA03E17D40656190F9`, khép vòng chính xác. Đã xem trực tiếp idle, throw, hurt và defeat. Không chạy test game vì task chỉ tạo asset.
+- **Quyết định Codex chọn:** Throw 12 fps, hurt 12 fps, defeat 20 fps vì brief chỉ quy định fps cho idle (10); idle 8 frame dùng pose đầu lặp lại ở frame cuối. Giữ frame canvas 768×768 phù hợp boss.
+- **Hạn chế đã biết:** Chưa nối boss vào `rhythm_stage.gd`; cần tích hợp animation khi làm bước gameplay tương ứng.
