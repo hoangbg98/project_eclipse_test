@@ -2281,3 +2281,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** Godot import mã thoát 0, quét và nhập cả hai ảnh; có cảnh báo không ghi được cấu hình người dùng và 2 resource còn được dùng khi thoát editor. Toàn bộ test mã thoát 0: GdUnit 788/788, 5/5 smoke đạt. Lần chạy builder đầu trước khi cài Python không thành công; sau khi cài Python 3.14.10, chạy lại thành công: ART_MASTER báo 85 ảnh, 5 đã có, 2039 dòng.
 - **Quyết định Codex chọn:** Bảng thiết kế giữ nền xám trung tính theo prompt; chân dung dùng nền tím than và vành nhật thực, vẫn giữ khóa thời gian Chương 1: chiều muộn, Lò Mẹ lạnh tối, không gió, tro rơi thẳng, Mặt Trời Khuyết như thường.
 - **Hạn chế đã biết:** Chưa mở trong Godot để owner kiểm tra trực tiếp. Godot báo thiếu quyền ghi thư mục cấu hình editor của user nhưng import hoàn tất mã thoát 0.
+
+
+## 2026-11-17 — ART Chương 1, lô 2a: Nền màn 1-1
+- **Milestone / task:** ART_MASTER lô 2, phần màn 1-1; owner duyệt preview bằng từ khóa "duyệt nền 1-1".
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01/bg_stage_01_far.png`, `bg_stage_01_mid.png`, `bg_stage_01_near.png` (+ `.import`); `tools/stages/fit_backdrop.py`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/prompts/ART_MASTER.md`; `docs/DEVELOPMENT_LOG.md`. Bản gốc/preview trong `art_review/stages/stage_01/` (không commit).
+- **Đã chạy:** `C:\Users\default.LAPTOP-6QHN1193\AppData\Local\Programs\Python\Python312\python.exe -X utf8 tools/stages/fit_backdrop.py art_review/stages/stage_01 bg_stage_01`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `python -X utf8 -I tools/prompts/build_art_master.py`.
+- **Kết quả thật:** Ba lớp 3840×2160; far alpha (255,255), mid/near alpha (0,255), sai lệch mép lặp = 0; preview stack 7680×2160. Godot quét/nhập cả 3 ảnh, mã thoát 0. Full test mã thoát 0: GdUnit 788/788, 5/5 smoke đạt. ART_MASTER báo 85 ảnh, 8 đã có, 2039 dòng.
+- **Quyết định Codex chọn:** Dùng tranh `ch01_open_01` làm tham chiếu cùng cảnh; theo owner, dùng lớp liền trước trong cùng lô làm tham chiếu khi tạo các lớp kế. Mặt trời che bình thường, Lò Mẹ tắt, chiều, không gió.
+- **Hạn chế đã biết:** Godot báo không ghi được cấu hình editor vào `AppData\Roaming\Godot`, nhưng lệnh import hoàn tất mã thoát 0. Chưa chạy game trong editor; owner đã duyệt bằng preview.

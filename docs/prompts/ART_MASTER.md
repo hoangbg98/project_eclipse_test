@@ -1,6 +1,6 @@
 # Tổng hợp prompt tạo ảnh game — PROJECT ECLIPSE
 
-> Sinh bởi `tools/prompts/build_art_master.py` lúc 2026-11-16 — **không sửa tay**: sửa tài liệu gốc (đường dẫn ghi ở
+> Sinh bởi `tools/prompts/build_art_master.py` lúc 2026-11-17 — **không sửa tay**: sửa tài liệu gốc (đường dẫn ghi ở
 > đầu mỗi phần) rồi chạy lại công cụ. Một file duy nhất để đưa cho Codex / ChatGPT tạo toàn bộ ảnh Chương 1.
 > Ảnh AI được dùng trong bản phát hành (owner 2026-11-12) nhưng **mỗi file phải ghi vào `docs/ASSET_LICENSES.md`
 > mục 2.1** trước khi commit; khai báo nội dung AI trên store.
@@ -10,7 +10,7 @@
 1. Cách dùng + prompt chính gửi Codex
 2. Kinh thánh phong cách (style bible) và khóa nhân vật
 3. Dòng thời gian liền mạch Chương 1 (trạng thái từng màn)
-4. Danh sách ảnh cần làm (85 ảnh, 5 đã có)
+4. Danh sách ảnh cần làm (85 ảnh, 8 đã có)
 5. Phần A — Thiết kế nhân vật mới (Kẻ Đeo Mặt Nạ)
 6. Phần B — Truyện tranh Chương 1 (ô truyện)
 7. Phần C — Tranh map chương và thẻ chương
@@ -171,9 +171,9 @@ Cốt truyện (owner 2026-11-15): golem ở 1-1 chỉ là thủ vệ bị sai t
 
 | Màn | Lớp | File | Trạng thái |
 |---|---|---|---|
-| 1-1 | bg_stage_01_far.png | assets/backgrounds/stages/stage_01/bg_stage_01_far.png | ⬜ chưa có |
-| 1-1 | bg_stage_01_mid.png | assets/backgrounds/stages/stage_01/bg_stage_01_mid.png | ⬜ chưa có |
-| 1-1 | bg_stage_01_near.png | assets/backgrounds/stages/stage_01/bg_stage_01_near.png | ⬜ chưa có |
+| 1-1 | bg_stage_01_far.png | assets/backgrounds/stages/stage_01/bg_stage_01_far.png | ✅ đã có |
+| 1-1 | bg_stage_01_mid.png | assets/backgrounds/stages/stage_01/bg_stage_01_mid.png | ✅ đã có |
+| 1-1 | bg_stage_01_near.png | assets/backgrounds/stages/stage_01/bg_stage_01_near.png | ✅ đã có |
 | 1-2 | bg_stage_01_02_far.png | assets/backgrounds/stages/stage_01_02/bg_stage_01_02_far.png | ⬜ chưa có |
 | 1-2 | bg_stage_01_02_mid.png | assets/backgrounds/stages/stage_01_02/bg_stage_01_02_mid.png | ⬜ chưa có |
 | 1-2 | bg_stage_01_02_near.png | assets/backgrounds/stages/stage_01_02/bg_stage_01_02_near.png | ⬜ chưa có |
