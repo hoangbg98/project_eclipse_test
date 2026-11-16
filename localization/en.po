@@ -1273,7 +1273,7 @@ msgid "SUPPLY_TOPUP_TITLE"
 msgstr "Top-up"
 
 msgid "SUPPLY_TOPUP_DESC"
-msgstr "Buy gems (online release only)."
+msgstr "Buy Gems, Corona and the monthly card."
 
 msgid "SUPPLY_TOPUP_GO"
 msgstr "Top up"
@@ -3633,3 +3633,93 @@ msgstr "Chat is not connected."
 
 msgid "CHAT_ERR_SEND"
 msgstr "Could not send, try again later."
+
+msgid "CURRENCY_CORONA"
+msgstr "Corona"
+
+msgid "TOPUP_NEED_LOGIN"
+msgstr "Log in to top up (a server connection is required)."
+
+msgid "TOPUP_ERR_LOAD"
+msgstr "Could not load the price list: %s"
+
+msgid "TOPUP_ERR_CARD_TODAY"
+msgstr "You already claimed today's monthly card reward."
+
+msgid "TOPUP_ERR_CARD_NONE"
+msgstr "You do not have a monthly card."
+
+msgid "TOPUP_CARD_CLAIMED"
+msgstr "Received %d Gems from the monthly card."
+
+msgid "TOPUP_RECEIVED"
+msgstr "Received %d Gems."
+
+msgid "TOPUP_REVOKED"
+msgstr "An admin revoked %d Gems."
+
+msgid "TOPUP_CARD_NAME"
+msgstr "Monthly card"
+
+msgid "TOPUP_FIRST_BONUS"
+msgstr "First top-up: +%d"
+
+msgid "TOPUP_GEMS_PACKS"
+msgstr "Gem packs"
+
+msgid "TOPUP_CORONA_PACKS"
+msgstr "Corona packs (unlock exclusive items)"
+
+msgid "TOPUP_CARD_TITLE"
+msgstr "Monthly card"
+
+msgid "TOPUP_CARD_RULES"
+msgstr "Each card lasts %d days: %d Gems a day, plus %d extra Gems every %d claims."
+
+msgid "TOPUP_CARD_LEFT"
+msgstr "%d claims left · %d claimed so far"
+
+msgid "TOPUP_CARD_NONE"
+msgstr "You have no monthly card."
+
+msgid "TOPUP_CARD_CLAIM"
+msgstr "Claim today (+%d Gems)"
+
+msgid "TOPUP_CARD_DONE_TODAY"
+msgstr "Claimed today"
+
+msgid "TOPUP_CARD_CLAIM_NONE"
+msgstr "No card"
+
+msgid "TOPUP_LOG_TITLE"
+msgstr "Recent top-ups"
+
+msgid "TOPUP_LOG_EMPTY"
+msgstr "No top-ups yet."
+
+msgid "TOPUP_PICK_PACK"
+msgstr "Pick a pack to top up."
+
+msgid "TOPUP_BANK"
+msgstr "Bank"
+
+msgid "TOPUP_ACCOUNT"
+msgstr "Account no."
+
+msgid "TOPUP_OWNER"
+msgstr "Account holder"
+
+msgid "TOPUP_AMOUNT"
+msgstr "Amount"
+
+msgid "TOPUP_MEMO"
+msgstr "Transfer note"
+
+msgid "TOPUP_COPY"
+msgstr "Copy"
+
+msgid "TOPUP_COPIED"
+msgstr "Copied."
+
+msgid "TOPUP_HOW"
+msgstr "Scan the QR with your banking app (or transfer by hand with the EXACT note and amount). An admin confirms and credits your pack, usually within minutes; this screen updates by itself."

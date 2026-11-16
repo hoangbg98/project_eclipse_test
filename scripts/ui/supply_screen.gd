@@ -3,7 +3,7 @@ extends HubScreen
 ## Tiếp tế (nút lục giác Tiếp tế, owner 2026-11-14, theo ảnh tham chiếu): 3 thẻ
 ## - Shop: bán vũ khí, vết thánh, tài nguyên — chưa có (thông báo Sắp ra mắt);
 ## - Tiếp tế: chiêu mộ (gacha) → màn RecruitScreen;
-## - Nạp: chỉ có nếu game phát hành online (docs/design/HUB_FEATURES.md mục Nạp) — bản offline hiện thông báo.
+## - Nạp: màn TopupScreen (M9-2): bảng giá, QR chuyển khoản, thẻ tháng; cần đăng nhập máy chủ (màn tự báo nếu chưa).
 ## Dải dưới: Rèn trang bị (chưa có), Sắp ra mắt.
 
 ## Thẻ: [khóa, icon, màu vạch trên, khóa tiêu đề, khóa mô tả, khóa nút].
@@ -12,9 +12,6 @@ const CARDS := [
 	["gacha", "gacha", "card_line_gacha", "SUPPLY_GACHA_TITLE", "SUPPLY_GACHA_DESC", "SUPPLY_GACHA_GO"],
 	["topup", "topup", "card_line_topup", "SUPPLY_TOPUP_TITLE", "SUPPLY_TOPUP_DESC", "SUPPLY_TOPUP_GO"],
 ]
-## Bản phát hành online mới mở Nạp (cấu hình phát hành, không phải luật gameplay).
-const ONLINE_BUILD := false
-
 var action_buttons: Dictionary = {}
 
 
@@ -40,10 +37,7 @@ func _build_body() -> void:
 		var b := _yellow_button(Rect2(r.position + Vector2(24, r.size.y - 112), Vector2(r.size.x - 48, 88)), tr(str(c[5])), btf,
 				activate.bind(str(c[0])), "Go_" + str(c[0]))
 		action_buttons[str(c[0])] = b
-		if str(c[0]) == "topup" and not ONLINE_BUILD:
-			_label(Rect2(r.position + Vector2(r.size.x - 220, r.size.y - 150), Vector2(200, 36)), tr("SUPPLY_ONLINE_ONLY"), 22,
-					layout.color("soon", Color.ORANGE), HORIZONTAL_ALIGNMENT_RIGHT)
-		elif str(c[0]) == "shop":
+		if str(c[0]) == "shop":
 			_label(Rect2(r.position + Vector2(r.size.x - 220, r.size.y - 150), Vector2(200, 36)), tr("HUB_BADGE_SOON"), 24,
 					layout.color("soon", Color.ORANGE), HORIZONTAL_ALIGNMENT_RIGHT)
 	var bot := layout.rect("supply.bottom", Rect2(0, 790, 1920, 120))
@@ -60,6 +54,6 @@ func activate(key: String) -> void:
 		"gacha":
 			open_scene("SCENE_RECRUIT")
 		"topup":
-			say(tr("SUPPLY_TOPUP_OFFLINE") if not ONLINE_BUILD else tr("UI_COMING_SOON"))
+			open_scene("SCENE_TOPUP")
 		_:
 			say(tr("UI_COMING_SOON"))

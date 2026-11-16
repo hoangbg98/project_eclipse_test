@@ -9,6 +9,8 @@ extends Node
 
 signal state_changed(state: State)
 signal profile_changed(profile: Dictionary)
+## Ngọc đã nạp vừa được cộng vào save (số Ngọc đổi; âm = thu hồi). Màn Nạp dùng để báo "Đã nhận ...".
+signal purchased_applied(gems: int)
 
 enum State { OFFLINE, CONNECTING, ONLINE, ERROR }
 
@@ -176,7 +178,34 @@ func refresh_profile(retry := true) -> bool:
 	last_error = ""
 	_set_state(State.ONLINE)
 	profile_changed.emit(profile)
+	apply_purchased()
 	return true
+
+
+## Cộng Ngọc đã nạp (ví máy chủ) vào save của tài khoản đang mở (chỉ khi đã mở thế giới cloud). Trả về số Ngọc đổi.
+func apply_purchased() -> int:
+	var saves := _saves()
+	# Thế giới mới chưa có save (chưa bấm Game mới): chờ có save rồi mới cộng (xem _on_saved).
+	if saves == null or _cloud_dir.is_empty() or profile.is_empty() or not saves.has_save():
+		return 0
+	var delta := PurchasedCurrency.apply(saves.data, wallet_amount("gems"))
+	if delta != 0:
+		saves.save_game()   # cùng lúc ghi Ngọc và số đã cộng; rồi _on_saved gửi lên cloud
+		purchased_applied.emit(delta)
+	return delta
+
+
+## Bảng giá, gói còn thưởng nạp lần đầu, thẻ tháng, lịch sử nạp, thông tin nhận tiền: {ok, data, error}.
+func topup_info() -> Dictionary:
+	return await _call_rpc("topup_info", {})
+
+
+## Nhận quà thẻ tháng hôm nay: {ok, data: {gems, daily, bonus, card}, error}. Thành công thì làm mới ví + cộng vào save.
+func card_claim() -> Dictionary:
+	var r := await _call_rpc("card_claim", {})
+	if r["ok"]:
+		await refresh_profile()
+	return r
 
 
 func wallet_amount(currency: String) -> int:
@@ -267,6 +296,7 @@ func open_cloud_world(import_offline: Variant = null) -> String:
 	else:
 		cloud_error = ""
 		_cloud_set(Cloud.SYNCED)
+	apply_purchased()
 	if chat_auto_start and chat:
 		chat.start()
 	return "ok"
@@ -302,6 +332,11 @@ func push_now() -> bool:
 		_push_again = false
 		return await push_now()
 	return ok
+
+
+## SaveService đang dùng (test gán bản riêng).
+func current_saves() -> Node:
+	return _saves()
 
 
 func _saves() -> Node:
@@ -347,6 +382,7 @@ func _detach_cloud() -> void:
 func _on_saved() -> void:
 	if _cloud_dir.is_empty() or cloud_state == Cloud.CONFLICT:
 		return
+	apply_purchased()   # save đầu tiên của thế giới mới → nhận luôn Ngọc đã nạp
 	CloudSave.write_meta(_cloud_dir, CloudSave.read_meta(_cloud_dir)["version"], true)
 	if push_delay <= 0.0:
 		push_now.call_deferred()

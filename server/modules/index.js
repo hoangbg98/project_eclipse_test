@@ -7,6 +7,7 @@
 //  - eclipse_profile (người chơi gọi): mã, tên, ví (wallet).
 //  - save_get / save_put (người chơi gọi): cloud save, mỗi tài khoản một thế giới (M9-3).
 //  - Chat (M9-6): phòng thế giới + nhắn riêng, lọc từ, cấm chat, báo cáo, tra cứu theo mã (xem mục Chat bên dưới).
+//  - Nạp tiền (M9-2): bảng giá, thưởng nạp lần đầu, thẻ tháng (xem mục Nạp tiền bên dưới).
 //  - admin_find / admin_grant (chỉ gọi bằng http_key từ tool của QTV): tra cứu theo mã, phát tiền vào ví.
 //    Mỗi lần phát cần mã giao dịch ngân hàng (ref) duy nhất: cùng ref lần hai bị từ chối (chống phát trùng).
 //
@@ -15,7 +16,7 @@
 var CODE_COLLECTION = "player_code";      // key = mã 8 số, owner = hệ thống, value {user_id}
 var GRANT_COLLECTION = "admin_grant";     // key = ref, owner = hệ thống, value = bản ghi phát quà
 var SYSTEM_USER = "00000000-0000-0000-0000-000000000000";
-var ALLOWED_CURRENCIES = ["gems", "gold"];
+var ALLOWED_CURRENCIES = ["gems", "gold", "corona"];
 var MAX_GRANT = 10000000;                  // chặn gõ nhầm thừa số 0
 var CODE_LENGTH = 8;
 
@@ -272,6 +273,297 @@ function rpcSavePut(ctx, logger, nk, payload) {
     }]);
   }
   return JSON.stringify({ version: acks[0].version });
+}
+
+// ---------- Nạp tiền (M9-2) ----------
+// Bảng giá (shop_catalog/main) do QTV đẩy lên từ data/shop/topup_packs.json (admin_set_packs): gói tiền tệ, thẻ tháng, thông tin
+// nhận tiền. Người chơi chuyển khoản theo mã người chơi; QTV phát bằng admin_topup (kiểm số tiền đúng giá gói, thưởng nạp lần đầu
+// tính ở máy chủ). Ví máy chủ (wallet) chỉ TĂNG khi nạp / nhận thẻ; game cộng phần chênh vào save (PurchasedCurrency).
+//  - Thưởng nạp lần đầu: mỗi tài khoản, mỗi gói (first_bonus), mỗi "kỳ" (epoch); QTV tăng kỳ bằng admin_topup_reset để mở lại.
+//  - Thẻ tháng: mỗi gói +30 lượt nhận; mỗi ngày (giờ Việt Nam) nhận 1 lượt; cứ `milestone_every` lượt nhận được thêm quà; tối đa max_days lượt.
+
+var CATALOG_COLLECTION = "shop_catalog";
+var TOPUP_CONFIG_COLLECTION = "topup_config";   // key "main": {epoch}
+var TOPUP_STATE_COLLECTION = "topup_state";     // key = user_id: {bought:{pack:epoch}, log:[...], card:{...}}
+var TOPUP_LOG_KEEP = 20;
+var WALLET_CURRENCIES = ["gems", "corona"];
+
+function readCatalog(nk) {
+  var row = readOne(nk, CATALOG_COLLECTION, "main");
+  return row ? row.value : null;
+}
+
+function findPack(catalog, id) {
+  var packs = (catalog && catalog.packs) || [];
+  for (var i = 0; i < packs.length; i++) {
+    if (packs[i].id === id) {
+      return packs[i];
+    }
+  }
+  return null;
+}
+
+function topupEpoch(nk) {
+  var row = readOne(nk, TOPUP_CONFIG_COLLECTION, "main");
+  return row ? row.value.epoch : 1;
+}
+
+// Trạng thái nạp của một người chơi + version (để ghi có điều kiện).
+function readTopupState(nk, userId) {
+  var row = readOne(nk, TOPUP_STATE_COLLECTION, userId);
+  var v = row ? row.value : {};
+  return {
+    version: row ? row.version : "*",
+    value: { bought: v.bought || {}, log: v.log || [], card: v.card || { claims_left: 0, claims_total: 0, last_claim_day: "" } }
+  };
+}
+
+function writeTopupState(nk, userId, st) {
+  nk.storageWrite([{ collection: TOPUP_STATE_COLLECTION, key: userId, userId: SYSTEM_USER, value: st.value,
+    version: st.version, permissionRead: 0, permissionWrite: 0 }]);
+}
+
+// Ngày theo giờ Việt Nam (mặc định UTC+7) dạng yyyy-mm-dd, dùng để giới hạn nhận thẻ 1 lần / ngày.
+function dayKey(catalog) {
+  var off = (catalog && catalog.card && catalog.card.reset_utc_offset_hours) || 7;
+  return new Date(Date.now() + off * 3600000).toISOString().substring(0, 10);
+}
+
+function validateCatalog(c) {
+  if (!c || !Array.isArray(c.packs) || c.packs.length === 0) {
+    throw new Error("bảng giá thiếu packs");
+  }
+  var seen = {};
+  for (var i = 0; i < c.packs.length; i++) {
+    var k = c.packs[i];
+    if (!/^[a-z0-9_]{2,32}$/.test(String(k.id || "")) || seen[k.id]) {
+      throw new Error("id gói không hợp lệ hoặc trùng: " + k.id);
+    }
+    seen[k.id] = true;
+    if (k.price !== null && !(typeof k.price === "number" && k.price > 0 && Math.floor(k.price) === k.price)) {
+      throw new Error("giá gói " + k.id + " phải là số nguyên dương hoặc null (chưa bán)");
+    }
+    if (k.kind === "currency") {
+      if (WALLET_CURRENCIES.indexOf(k.currency) < 0 || !(k.amount > 0) || Math.floor(k.amount) !== k.amount) {
+        throw new Error("gói " + k.id + ": loại tiền hoặc số lượng không hợp lệ");
+      }
+    } else if (k.kind !== "card") {
+      throw new Error("gói " + k.id + ": kind phải là currency hoặc card");
+    }
+  }
+  var cd = c.card;
+  if (cd && !(cd.days > 0 && cd.daily > 0 && cd.max_days >= cd.days && cd.milestone_every > 0 && cd.milestone_bonus >= 0)) {
+    throw new Error("cấu hình thẻ tháng không hợp lệ");
+  }
+}
+
+function rpcAdminSetPacks(ctx, logger, nk, payload) {
+  requireAdmin(ctx);
+  var req = JSON.parse(payload || "{}");
+  validateCatalog(req.catalog);
+  req.catalog.updated = Date.now();
+  writeSystem(nk, CATALOG_COLLECTION, "main", req.catalog);
+  return JSON.stringify({ packs: req.catalog.packs.length, updated: req.catalog.updated });
+}
+
+function rpcAdminTopupReset(ctx, logger, nk, payload) {
+  requireAdmin(ctx);
+  var req = JSON.parse(payload || "{}");
+  if (!req.operator || String(req.operator).trim() === "") {
+    throw new Error("thiếu tên QTV (operator)");
+  }
+  var epoch = topupEpoch(nk) + 1;
+  writeSystem(nk, TOPUP_CONFIG_COLLECTION, "main", { epoch: epoch, reset_by: String(req.operator).trim(), reset_at: Date.now(), note: String(req.note || "") });
+  logger.info("QTV %s mở lại thưởng nạp lần đầu: kỳ %d", req.operator, epoch);
+  return JSON.stringify({ epoch: epoch });
+}
+
+// QTV: phát gói đã mua. Kiểm số tiền, ref không trùng, thưởng lần đầu, hạn thẻ tháng.
+function rpcAdminTopup(ctx, logger, nk, payload) {
+  requireAdmin(ctx);
+  var req = JSON.parse(payload || "{}");
+  var catalog = readCatalog(nk);
+  if (!catalog) {
+    throw new Error("máy chủ chưa có bảng giá (đẩy bảng giá: grant.ps1 tự đồng bộ khi dùng -Pack)");
+  }
+  var code = cleanCode(req.code);
+  var ref = String(req.ref || "").trim();
+  if (code.length !== CODE_LENGTH) {
+    throw new Error("mã người chơi phải có " + CODE_LENGTH + " chữ số");
+  }
+  if (ref.length < 4 || ref.length > 64 || !/^[A-Za-z0-9._-]+$/.test(ref)) {
+    throw new Error("ref (mã giao dịch ngân hàng) 4–64 ký tự: chữ, số, . _ -");
+  }
+  if (!req.operator || String(req.operator).trim() === "") {
+    throw new Error("thiếu tên QTV (operator)");
+  }
+  var pack = findPack(catalog, String(req.pack || ""));
+  if (!pack) {
+    throw new Error("không có gói " + req.pack + " trong bảng giá");
+  }
+  if (pack.price === null) {
+    throw new Error("gói " + pack.id + " chưa có giá (chưa mở bán)");
+  }
+  if (Number(req.paid) !== pack.price && !req.force) {
+    throw new Error("so_tien_khong_khop: nhận " + Number(req.paid) + ", gói " + pack.id + " giá " + pack.price);
+  }
+  var userId = userIdByCode(nk, code);
+  if (!userId) {
+    throw new Error("không có người chơi mã " + code);
+  }
+  var epoch = topupEpoch(nk);
+  var st = readTopupState(nk, userId);
+  var changes = {};
+  var base = 0;
+  var bonus = 0;
+  var cardDays = 0;
+  if (pack.kind === "currency") {
+    base = pack.amount;
+    var last = st.value.bought[pack.id];
+    bonus = pack.first_bonus && !(last >= epoch) ? pack.amount : 0;
+    changes[pack.currency] = base + bonus;
+    st.value.bought[pack.id] = epoch;
+  } else {
+    cardDays = catalog.card.days;
+    if (st.value.card.claims_left + cardDays > catalog.card.max_days) {
+      throw new Error("thẻ tháng tối đa " + catalog.card.max_days + " ngày (đang còn " + st.value.card.claims_left + ")");
+    }
+    st.value.card.claims_left += cardDays;
+  }
+  var record = {
+    code: code, user_id: userId, changes: changes, ref: ref, note: String(req.note || ""), operator: String(req.operator).trim(),
+    pack: pack.id, paid: Number(req.paid) || 0, base: base, bonus: bonus, card_days: cardDays, forced: !!req.force,
+    time: Math.floor(Date.now() / 1000)
+  };
+  try {
+    nk.storageWrite([{ collection: GRANT_COLLECTION, key: ref, userId: SYSTEM_USER, value: record, version: "*", permissionRead: 0, permissionWrite: 0 }]);
+  } catch (e) {
+    throw new Error("ref " + ref + " đã được dùng (đã phát quà cho giao dịch này)");
+  }
+  st.value.log.unshift({ t: record.time, pack: pack.id, base: base, bonus: bonus, card_days: cardDays, paid: record.paid, ref: ref });
+  st.value.log = st.value.log.slice(0, TOPUP_LOG_KEEP);
+  try {
+    writeTopupState(nk, userId, st);
+    if (Object.keys(changes).length > 0) {
+      nk.walletUpdate(userId, changes, { reason: "topup", pack: pack.id, ref: ref, operator: record.operator, bonus: bonus }, true);
+    }
+  } catch (e) {
+    nk.storageDelete([{ collection: GRANT_COLLECTION, key: ref, userId: SYSTEM_USER }]);
+    throw new Error("không phát được (thử lại): " + e.message);
+  }
+  logger.info("QTV %s phát gói %s cho %s (ref %s, nhận %d, thưởng %d)", record.operator, pack.id, code, ref, record.paid, bonus);
+  var out = profileOf(nk, userId, code);
+  out.granted = { pack: pack.id, base: base, bonus: bonus, card_days: cardDays };
+  return JSON.stringify(out);
+}
+
+// QTV: xem trạng thái nạp của một người chơi (thưởng lần đầu đã dùng, thẻ tháng, lịch sử).
+function rpcAdminTopupState(ctx, logger, nk, payload) {
+  requireAdmin(ctx);
+  var req = JSON.parse(payload || "{}");
+  var code = cleanCode(req.code);
+  var userId = userIdByCode(nk, code);
+  if (!userId) {
+    throw new Error("không có người chơi mã " + code);
+  }
+  var st = readTopupState(nk, userId).value;
+  return JSON.stringify({ code: code, epoch: topupEpoch(nk), bought: st.bought, card: st.card, log: st.log });
+}
+
+// QTV: sửa thẻ tháng khi có sự cố (vd bù ngày). Chỉ các trường được truyền mới đổi.
+function rpcAdminCardSet(ctx, logger, nk, payload) {
+  requireAdmin(ctx);
+  var req = JSON.parse(payload || "{}");
+  var catalog = readCatalog(nk);
+  var userId = userIdByCode(nk, cleanCode(req.code));
+  if (!userId || !catalog) {
+    throw new Error("không có người chơi hoặc bảng giá");
+  }
+  if (!req.operator || String(req.operator).trim() === "") {
+    throw new Error("thiếu tên QTV (operator)");
+  }
+  var st = readTopupState(nk, userId);
+  var card = st.value.card;
+  if (req.claims_left !== undefined) {
+    if (!(req.claims_left >= 0 && req.claims_left <= catalog.card.max_days)) {
+      throw new Error("claims_left 0.." + catalog.card.max_days);
+    }
+    card.claims_left = req.claims_left;
+  }
+  if (req.claims_total !== undefined) {
+    card.claims_total = Math.max(0, Math.floor(req.claims_total));
+  }
+  if (req.last_claim_day !== undefined) {
+    card.last_claim_day = String(req.last_claim_day);
+  }
+  writeTopupState(nk, userId, st);
+  logger.info("QTV %s sửa thẻ tháng của %s: %s", req.operator, req.code, JSON.stringify(card));
+  return JSON.stringify({ card: card });
+}
+
+function cardView(catalog, st) {
+  var c = st.card;
+  var cd = (catalog && catalog.card) || { daily: 0, milestone_every: 1, milestone_bonus: 0 };
+  var nextTotal = c.claims_total + 1;
+  return {
+    claims_left: c.claims_left, claims_total: c.claims_total,
+    can_claim: c.claims_left > 0 && c.last_claim_day !== dayKey(catalog),
+    next_gems: cd.daily + (nextTotal % cd.milestone_every === 0 ? cd.milestone_bonus : 0),
+    until_milestone: cd.milestone_every - (c.claims_total % cd.milestone_every)
+  };
+}
+
+// Người chơi: bảng giá hiện hành, gói nào còn thưởng lần đầu, thẻ tháng, lịch sử nạp gần đây, thông tin nhận tiền.
+function rpcTopupInfo(ctx, logger, nk, payload) {
+  if (!ctx.userId) {
+    throw new Error("cần đăng nhập");
+  }
+  var catalog = readCatalog(nk);
+  var st = readTopupState(nk, ctx.userId).value;
+  var epoch = topupEpoch(nk);
+  var eligible = {};
+  var packs = (catalog && catalog.packs) || [];
+  for (var i = 0; i < packs.length; i++) {
+    if (packs[i].first_bonus) {
+      eligible[packs[i].id] = !(st.bought[packs[i].id] >= epoch);
+    }
+  }
+  return JSON.stringify({
+    catalog: catalog, eligible: eligible, card: cardView(catalog, st), log: st.log.slice(0, 10),
+    code: ensureCode(nk, logger, ctx.userId)
+  });
+}
+
+// Người chơi: nhận quà thẻ tháng hôm nay.
+function rpcCardClaim(ctx, logger, nk, payload) {
+  if (!ctx.userId) {
+    throw new Error("cần đăng nhập");
+  }
+  var catalog = readCatalog(nk);
+  if (!catalog || !catalog.card) {
+    throw new Error("card_none");
+  }
+  var st = readTopupState(nk, ctx.userId);
+  var card = st.value.card;
+  if (card.claims_left <= 0) {
+    throw new Error("card_none");
+  }
+  var today = dayKey(catalog);
+  if (card.last_claim_day === today) {
+    throw new Error("card_claimed_today");
+  }
+  card.claims_left -= 1;
+  card.claims_total += 1;
+  card.last_claim_day = today;
+  var bonus = card.claims_total % catalog.card.milestone_every === 0 ? catalog.card.milestone_bonus : 0;
+  var gems = catalog.card.daily + bonus;
+  try {
+    writeTopupState(nk, ctx.userId, st);   // ghi có điều kiện: hai lần bấm cùng lúc chỉ một lần thành công
+  } catch (e) {
+    throw new Error("card_claimed_today");
+  }
+  nk.walletUpdate(ctx.userId, { gems: gems }, { reason: "card_claim", day: today, claims_total: card.claims_total, bonus: bonus }, true);
+  return JSON.stringify({ gems: gems, daily: catalog.card.daily, bonus: bonus, card: cardView(catalog, st.value) });
 }
 
 // ---------- Chat (M9-6) ----------
@@ -576,6 +868,13 @@ function InitModule(ctx, logger, nk, initializer) {
   initializer.registerRpc("eclipse_profile", rpcProfile);
   initializer.registerRpc("admin_find", rpcAdminFind);
   initializer.registerRpc("admin_grant", rpcAdminGrant);
+  initializer.registerRpc("admin_set_packs", rpcAdminSetPacks);
+  initializer.registerRpc("admin_topup", rpcAdminTopup);
+  initializer.registerRpc("admin_topup_reset", rpcAdminTopupReset);
+  initializer.registerRpc("admin_topup_state", rpcAdminTopupState);
+  initializer.registerRpc("admin_card_set", rpcAdminCardSet);
+  initializer.registerRpc("topup_info", rpcTopupInfo);
+  initializer.registerRpc("card_claim", rpcCardClaim);
   initializer.registerRtBefore("ChannelJoin", beforeChannelJoin);
   initializer.registerRtBefore("ChannelMessageSend", beforeChannelMessageSend);
   initializer.registerRpc("chat_find", rpcChatFind);

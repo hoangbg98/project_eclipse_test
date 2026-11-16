@@ -1,11 +1,33 @@
 {
-  "_comment": "Bảng giá nạp qua mã người chơi (owner gửi 2026-11-16, docs/reference/topup_price_table.png). Giá có thể đổi theo thời gian: sửa file này, không sửa trong script. server\\grant.ps1 -Pack <id> đọc file này (số Ngọc + số tiền phải thu). Mọi gói cùng một tỉ lệ ~4,714 Ngọc / 1.000đ (không có ưu đãi theo gói).",
+  "_comment": "Bảng giá nạp (owner 2026-11-16, ảnh docs/reference/topup_price_table.png). NGUỒN CHÍNH của bảng giá: server\\grant.ps1 tự đẩy file này lên máy chủ khi dùng -Pack; game hiển thị bảng giá lấy từ máy chủ (đổi giá chỉ cần sửa file này, không cần build lại). price = đồng (VND), null = chưa mở bán. first_bonus: nạp lần đầu (mỗi tài khoản, mỗi gói, mỗi kỳ) được thêm đúng số lượng gói; QTV mở lại thưởng bằng grant.ps1 -ResetFirstBonus. Tiền tệ 'corona' (tên hiển thị tạm: Nhật Hoa) chỉ có qua nạp, dùng mở khóa vật phẩm độc quyền.",
   "price_currency": "VND",
+  "payment": {
+    "bank_name": "TPBank",
+    "bank_bin": "970423",
+    "account_number": "15324121998",
+    "account_name": "TRẦN VIỆT HOÀNG",
+    "memo_prefix": "ECL"
+  },
+  "card": {
+    "days": 30,
+    "daily": 30,
+    "milestone_every": 15,
+    "milestone_bonus": 500,
+    "max_days": 180,
+    "reset_utc_offset_hours": 7
+  },
   "packs": [
-    { "id": "gems_330",  "currency": "gems", "amount": 330,  "price": 70000 },
-    { "id": "gems_660",  "currency": "gems", "amount": 660,  "price": 140000 },
-    { "id": "gems_1320", "currency": "gems", "amount": 1320, "price": 280000 },
-    { "id": "gems_3300", "currency": "gems", "amount": 3300, "price": 700000 },
-    { "id": "gems_6600", "currency": "gems", "amount": 6600, "price": 1400000 }
+    { "id": "gems_330",  "kind": "currency", "currency": "gems", "amount": 330,  "price": 70000,   "first_bonus": true },
+    { "id": "gems_660",  "kind": "currency", "currency": "gems", "amount": 660,  "price": 140000,  "first_bonus": true },
+    { "id": "gems_1320", "kind": "currency", "currency": "gems", "amount": 1320, "price": 280000,  "first_bonus": true },
+    { "id": "gems_3300", "kind": "currency", "currency": "gems", "amount": 3300, "price": 700000,  "first_bonus": true },
+    { "id": "gems_6600", "kind": "currency", "currency": "gems", "amount": 6600, "price": 1400000, "first_bonus": true },
+    { "id": "corona_330",  "kind": "currency", "currency": "corona", "amount": 330,  "price": 70000,   "first_bonus": false },
+    { "id": "corona_990",  "kind": "currency", "currency": "corona", "amount": 990,  "price": 210000,  "first_bonus": false },
+    { "id": "corona_1320", "kind": "currency", "currency": "corona", "amount": 1320, "price": 280000,  "first_bonus": false },
+    { "id": "corona_1980", "kind": "currency", "currency": "corona", "amount": 1980, "price": 420000,  "first_bonus": false },
+    { "id": "corona_3300", "kind": "currency", "currency": "corona", "amount": 3300, "price": 700000,  "first_bonus": false },
+    { "id": "corona_6600", "kind": "currency", "currency": "corona", "amount": 6600, "price": 1400000, "first_bonus": false },
+    { "id": "card_30", "kind": "card", "price": null }
   ]
 }

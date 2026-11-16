@@ -213,14 +213,14 @@ func test_bag_lists_each_category() -> void:
 
 # ---------- Tiếp tế, Xuất kích ----------
 
-func test_supply_routes_gacha_and_blocks_topup_offline() -> void:
+func test_supply_routes_gacha_and_topup() -> void:
 	var s := _screen(load(GameConfig.SCENE_SUPPLY)) as SupplyScreen
 	assert_array(s.action_buttons.keys()).contains_exactly_in_any_order(["shop", "gacha", "topup"])
 	assert_str(tr("SUPPLY_GACHA_TITLE")).is_equal(tr("HUB_TAB_RECRUIT"))                # ô thứ 2 tên Chiêu mộ
 	s.activate("gacha")
 	assert_str(s.last_target).is_equal(GameConfig.SCENE_RECRUIT)
 	s.activate("topup")
-	assert_str(s.notice).is_equal(tr("SUPPLY_TOPUP_OFFLINE"))
+	assert_str(s.last_target).is_equal(GameConfig.SCENE_TOPUP)
 	s.activate("shop")
 	assert_str(s.notice).is_equal(tr("UI_COMING_SOON"))
 

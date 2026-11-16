@@ -1273,7 +1273,7 @@ msgid "SUPPLY_TOPUP_TITLE"
 msgstr "Nạp"
 
 msgid "SUPPLY_TOPUP_DESC"
-msgstr "Mua ngọc (chỉ có ở bản phát hành online)."
+msgstr "Mua Ngọc, Nhật Hoa, thẻ tháng."
 
 msgid "SUPPLY_TOPUP_GO"
 msgstr "Đi nạp"
@@ -3633,3 +3633,93 @@ msgstr "Chưa kết nối chat."
 
 msgid "CHAT_ERR_SEND"
 msgstr "Không gửi được, thử lại sau."
+
+msgid "CURRENCY_CORONA"
+msgstr "Nhật Hoa"
+
+msgid "TOPUP_NEED_LOGIN"
+msgstr "Đăng nhập để nạp (cần kết nối máy chủ)."
+
+msgid "TOPUP_ERR_LOAD"
+msgstr "Không tải được bảng giá: %s"
+
+msgid "TOPUP_ERR_CARD_TODAY"
+msgstr "Hôm nay bạn đã nhận quà thẻ tháng rồi."
+
+msgid "TOPUP_ERR_CARD_NONE"
+msgstr "Bạn chưa có thẻ tháng."
+
+msgid "TOPUP_CARD_CLAIMED"
+msgstr "Đã nhận %d Ngọc từ thẻ tháng."
+
+msgid "TOPUP_RECEIVED"
+msgstr "Đã nhận %d Ngọc vào kho."
+
+msgid "TOPUP_REVOKED"
+msgstr "QTV đã thu hồi %d Ngọc."
+
+msgid "TOPUP_CARD_NAME"
+msgstr "Thẻ tháng"
+
+msgid "TOPUP_FIRST_BONUS"
+msgstr "Nạp lần đầu: +%d"
+
+msgid "TOPUP_GEMS_PACKS"
+msgstr "Gói Ngọc"
+
+msgid "TOPUP_CORONA_PACKS"
+msgstr "Gói Nhật Hoa (mở khóa vật phẩm độc quyền)"
+
+msgid "TOPUP_CARD_TITLE"
+msgstr "Thẻ tháng"
+
+msgid "TOPUP_CARD_RULES"
+msgstr "Mỗi thẻ %d ngày: mỗi ngày nhận %d Ngọc, cứ mỗi %d lần nhận được thêm %d Ngọc."
+
+msgid "TOPUP_CARD_LEFT"
+msgstr "Còn %d lần nhận · đã nhận %d lần"
+
+msgid "TOPUP_CARD_NONE"
+msgstr "Bạn chưa có thẻ tháng."
+
+msgid "TOPUP_CARD_CLAIM"
+msgstr "Nhận hôm nay (+%d Ngọc)"
+
+msgid "TOPUP_CARD_DONE_TODAY"
+msgstr "Hôm nay đã nhận"
+
+msgid "TOPUP_CARD_CLAIM_NONE"
+msgstr "Chưa có thẻ"
+
+msgid "TOPUP_LOG_TITLE"
+msgstr "Nạp gần đây"
+
+msgid "TOPUP_LOG_EMPTY"
+msgstr "Chưa có lần nạp nào."
+
+msgid "TOPUP_PICK_PACK"
+msgstr "Chọn một gói để nạp."
+
+msgid "TOPUP_BANK"
+msgstr "Ngân hàng"
+
+msgid "TOPUP_ACCOUNT"
+msgstr "Số tài khoản"
+
+msgid "TOPUP_OWNER"
+msgstr "Chủ tài khoản"
+
+msgid "TOPUP_AMOUNT"
+msgstr "Số tiền"
+
+msgid "TOPUP_MEMO"
+msgstr "Nội dung"
+
+msgid "TOPUP_COPY"
+msgstr "Chép"
+
+msgid "TOPUP_COPIED"
+msgstr "Đã chép."
+
+msgid "TOPUP_HOW"
+msgstr "Quét mã QR bằng app ngân hàng (hoặc chuyển khoản tay, ghi ĐÚNG nội dung và số tiền). QTV xác nhận rồi cộng quà, thường trong vài phút; màn này tự cập nhật."

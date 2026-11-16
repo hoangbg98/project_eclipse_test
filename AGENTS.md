@@ -51,6 +51,8 @@ Test phải đạt (mã thoát 0) trước khi báo xong. Không báo "đạt" n
   chuyển `SaveService` sang bản đệm của tài khoản (`SaveService.use_store`); code gameplay vẫn chỉ gọi `SaveService.save_game()`.
   Chat (M9-6): `OnlineService.chat` (`ChatService`, websocket + REST; test dùng `FakeNakama` + `FakeSocket`), bảng `ChatPanel`
   mở từ biểu tượng Chat ở sảnh (Hub `ChatTab`); lọc từ / giãn cách / cấm chat / chặn nằm ở máy chủ, game chỉ hiển thị.
+  Nạp tiền (M9-2): bảng giá + thông tin nhận tiền ở `data/shop/topup_packs.json`, máy chủ giữ bản chính (game lấy qua `OnlineService.topup_info()`);
+  màn `TopupScreen`, mã QR `QrCode` + `VietQr`; Ngọc đã nạp vào save qua `PurchasedCurrency` (ví máy chủ chỉ tăng, save nhớ `online.applied.gems`).
   Không commit `server/.runtime/` (khóa bí mật, DB) hay `server/.env`.
 - Chế độ nhịp điệu (M10, `docs/design/RHYTHM_MODE.md`): logic `scripts/rhythm/` (`RhythmJudge`, `RhythmChart`, `RhythmProgress`,
   `RhythmLibrary`), màn `scripts/ui/rhythm/`. Nhạc + bản nốt ở máy chủ (`server/music/`, dựng bằng

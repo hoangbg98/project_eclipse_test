@@ -13,8 +13,9 @@ tool phát quà cho QTV (nạp bằng chuyển khoản QR thủ công), cloud sa
 | `gateway.mjs` | Cổng vào (Node.js, cổng 7360): `/music/` phát nhạc + bản nốt của chế độ nhịp điệu (M10), mọi đường dẫn khác chuyển tới Nakama. Game mặc định gọi `http://127.0.0.1:7360`. |
 | `music/` | Chế độ nhịp điệu: `songs.json` (danh sách bài), nhạc, `charts/`, `catalog.json` (sinh bằng `python -X utf8 -I tools/rhythm/build_catalog.py`), `fixed/` (bản nốt cố định ải boss). Xem `docs/design/RHYTHM_MODE.md`. |
 | `stop_local.ps1` | Tắt đường hầm, Nakama, PostgreSQL. Dữ liệu giữ nguyên. |
-| `grant.ps1` | Tool QTV: tra cứu người chơi theo mã, phát / thu hồi tiền. |
+| `grant.ps1` | Tool QTV: tra cứu người chơi theo mã, nạp theo gói (`-Pack`), phát / thu hồi tay, mở lại thưởng nạp lần đầu, sửa thẻ tháng. |
 | `moderate.ps1` | Tool QTV kiểm duyệt chat: xem báo cáo, đánh dấu đã xử lý, cấm / gỡ cấm chat. |
+| `tests/topup_smoke.mjs` | Kiểm tra module nạp tiền trên máy chủ thật bằng Node: `node server/tests/topup_smoke.mjs` (**tăng kỳ thưởng nạp lần đầu toàn máy chủ**, người chơi thật được thưởng lần đầu thêm một lần). |
 | `tests/chat_smoke.mjs` | Kiểm tra module chat trên máy chủ thật bằng Node (không cần Godot): `node server/tests/chat_smoke.mjs`. |
 | `modules/index.js` | Module máy chủ (RPC `eclipse_profile`, `admin_find`, `admin_grant`, `save_get`, `save_put`, `chat_find`, `chat_report`, `admin_chat_*`; hook chat). Sửa xong phải khởi động lại Nakama. |
 | `nakama/config.yml` | Cấu hình chung, không chứa khóa. |
@@ -89,30 +90,37 @@ powershell -ExecutionPolicy Bypass -File server\moderate.ps1 -Mute <mã> -Minute
 - Thử máy chủ chat không cần mở game: `node server/tests/chat_smoke.mjs`. Thử cả game + máy chủ:
   `<godot> --headless --path . --script res://tools/chat_e2e.gd -- --server=<địa chỉ>`.
 
-## Quy trình nạp QR thủ công (QTV)
+## Nạp tiền (M9-2): chuyển khoản QR thủ công, QTV phát gói
 
-1. Người chơi chuyển khoản, nội dung ghi **mã người chơi** (vd `ECL 32354120`).
-2. QTV xem sao kê, lấy **mã giao dịch** của ngân hàng.
-3. Tra cứu rồi phát:
+**Người chơi:** Hub → Tiếp tế → thẻ **Nạp** (cần đăng nhập). Màn hiện bảng giá (lấy từ máy chủ), gói nào còn thưởng nạp lần đầu, thẻ tháng,
+và phần thanh toán: **mã QR VietQR** (game tự vẽ, không gọi dịch vụ ngoài) + ngân hàng / số tài khoản / số tiền / nội dung chuyển khoản
+`ECL <mã người chơi>` (có nút Chép). Chuyển khoản xong, màn tự kiểm tra mỗi 20 giây; QTV phát xong là Ngọc tự vào kho và báo "Đã nhận".
 
-```
-powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120
-powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120 -Gems 600 -Ref FT26321ABC -Operator ten_qtv -Note "goi 50k"
-```
-
-   Theo **bảng giá** (`data/shop/topup_packs.json`, nguồn ảnh `docs/reference/topup_price_table.png`): `-Pack` + `-Paid` (số tiền
-   đã nhận trong sao kê). Tool tự lấy số Ngọc theo gói và **từ chối nếu số tiền không khớp giá gói** (`-Force` để bỏ qua khi đã thỏa thuận):
+**QTV:** xem sao kê (số tiền, mã giao dịch, nội dung có mã người chơi), rồi:
 
 ```
 powershell -ExecutionPolicy Bypass -File server\grant.ps1 -List
+powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120 -State
 powershell -ExecutionPolicy Bypass -File server\grant.ps1 -Code 32354120 -Pack gems_660 -Paid 140000 -Ref FT26321ABC -Operator ten_qtv
 ```
 
-- Mỗi `-Ref` chỉ phát được **một lần**: phát nhầm lần hai máy chủ báo lỗi.
-- Số âm = thu hồi (chuyển khoản lỗi). Mỗi lần phát lưu bản ghi (collection `admin_grant`) và sổ ví (wallet ledger),
-  xem trong trang quản trị.
-- Bảng giá hiện có 5 gói Ngọc (330 / 660 / 1320 / 3300 / 6600 = 70k / 140k / 280k / 700k / 1.400k, cùng một tỉ lệ). Bản ghi phát quà lưu thêm
-  `pack` và `paid`. Chưa có thưởng nạp lần đầu, nhóm tiền tệ thứ hai, thẻ tháng (xem `docs/OWNER_ASSET_CHECKLIST.md` mục A3).
+- **Bảng giá** = `data/shop/topup_packs.json` (nguồn ảnh `docs/reference/topup_price_table.png`). Sửa file rồi chạy `grant.ps1` với `-Pack` là máy chủ
+  có giá mới (script tự đẩy lên); game lấy bảng giá từ máy chủ nên **đổi giá không cần build lại**. `price: null` = chưa mở bán (thẻ tháng đang vậy).
+- `-Paid` phải **đúng giá gói**, sai thì máy chủ từ chối (`-Force` khi đã thỏa thuận). Mỗi `-Ref` (mã giao dịch ngân hàng) chỉ dùng **một lần**.
+- **Thưởng nạp lần đầu**: gói Ngọc nạp lần đầu (mỗi tài khoản, mỗi gói) được thêm đúng số Ngọc của gói (330 → 660). Máy chủ tự tính.
+  Muốn mở lại cho mọi người (kỳ mới, không có lịch cố định): `grant.ps1 -ResetFirstBonus -Operator ten_qtv`.
+  Gói Nhật Hoa (`corona_*`) chưa có thưởng lần đầu (`first_bonus: false` trong dữ liệu).
+- **Thẻ tháng** (`-Pack card_30`, chưa có giá): mỗi thẻ +30 lượt nhận, mỗi ngày (giờ VN, 0h) nhận 1 lượt +30 Ngọc, cứ mỗi 15 lượt nhận thêm 500
+  (một thẻ 30 lượt = 30×30 + 2×500 = 1900 Ngọc). Lượt không nhận không mất. Mua cộng dồn tối đa 180 lượt. Sửa khi có sự cố:
+  `grant.ps1 -Code <mã> -CardLeft 20 -CardTotal 10 -CardDay 2026-11-15 -Operator ten_qtv`.
+- **Ngọc**: ví máy chủ (`wallet.gems`) chỉ tăng khi nạp / nhận thẻ; game cộng phần chênh vào save (`online.applied.gems`) nên không cộng hai lần
+  và an toàn khi tắt game giữa chừng. QTV thu hồi bằng số âm (`-Gems -100`), game trừ lại (không xuống dưới 0).
+- **Nhật Hoa** (`corona`, tên hiển thị tạm, chỉ có qua nạp): nằm ở ví máy chủ, chưa có chỗ tiêu (vật phẩm độc quyền chưa thiết kế).
+- Thông tin nhận tiền (`payment` trong bảng giá): ngân hàng, mã BIN (TPBank 970423), số tài khoản, tên chủ tài khoản, tiền tố nội dung. Đổi ở file dữ liệu.
+- Mỗi lần phát lưu bản ghi (collection `admin_grant`: gói, số tiền, thưởng, QTV), nhật ký ví (ledger) và lịch sử nạp của người chơi (`grant.ps1 -State`).
+
+**Chưa quét thử bằng app ngân hàng thật:** mã QR do game tự mã hóa; đã kiểm bằng bảng chuẩn + đọc ngược, nhưng chưa quét bằng điện thoại.
+Trước khi mở nạp thật hãy quét thử một lần (`build/screenshots/topup_qr.png` sinh bởi `tools/screenshot_topup.gd`) và chuyển thử số nhỏ.
 
 ## Giới hạn giai đoạn 1
 

@@ -33,6 +33,15 @@ var chat_error_next := ""
 ## Số tin / thông báo / kết bạn / REST đã xử lý (để test đếm).
 var counters := {"note_deleted": 0}
 var reports: Array = []
+
+# ---- Nạp tiền (M9-2): bảng giá + thẻ tháng giả, phản chiếu logic của server/modules/index.js ----
+## Bảng giá (test nạp từ data/shop/topup_packs.json); rỗng = máy chủ chưa có bảng giá.
+var catalog: Dictionary = {}
+var topup_epoch := 1
+## user_id → {bought: {gói: kỳ}, log: [], card: {claims_left, claims_total, last_day}}.
+var topup_state := {}
+## Ngày hiện tại của máy chủ giả (yyyy-mm-dd) để thử "một ngày một lần".
+var today := "2026-11-16"
 var _msg_counter := 0
 var _note_counter := 0
 
@@ -42,7 +51,7 @@ func _init() -> void:
 
 
 func add_account(user: String, email: String, password: String, code: String) -> void:
-	accounts[user] = {"email": email, "password": password, "code": code, "user_id": "uid-" + user}
+	accounts[user] = {"email": email, "password": password, "code": code, "user_id": "uid-" + user, "wallet": {"gems": 600}}
 
 
 func handle(req: Dictionary) -> Dictionary:
@@ -127,7 +136,11 @@ func _rpc(id: String, acc: Dictionary, payload: Dictionary) -> Dictionary:
 			for u in accounts:
 				if accounts[u] == acc:
 					user = u
-			return _ok({"user_id": acc["user_id"], "code": acc["code"], "username": user, "wallet": {"gems": 600}})
+			return _ok({"user_id": acc["user_id"], "code": acc["code"], "username": user, "wallet": acc["wallet"].duplicate()})
+		"topup_info":
+			return _ok(topup_info_for(acc))
+		"card_claim":
+			return card_claim_for(acc)
 		"chat_find":
 			var code := str(payload.get("code", ""))
 			for u in accounts:
@@ -373,3 +386,71 @@ func inject_message(from_user: String, channel_id: String, text: String) -> void
 			fake_sock = s
 	assert(fake_sock != null, "người gửi cần có socket")
 	fake_sock.send_text(NakamaApi.socket_send("x%d" % _msg_counter, channel_id, text))
+
+
+# ---------- Nạp tiền giả ----------
+
+func _state_of(uid: String) -> Dictionary:
+	if not topup_state.has(uid):
+		topup_state[uid] = {"bought": {}, "log": [], "card": {"claims_left": 0, "claims_total": 0, "last_day": ""}}
+	return topup_state[uid]
+
+
+func _card_view(st: Dictionary) -> Dictionary:
+	var c: Dictionary = st["card"]
+	var cd: Dictionary = catalog.get("card", {"daily": 0, "milestone_every": 1, "milestone_bonus": 0})
+	var nxt: int = int(c["claims_total"]) + 1
+	return {"claims_left": c["claims_left"], "claims_total": c["claims_total"],
+			"can_claim": int(c["claims_left"]) > 0 and c["last_day"] != today,
+			"next_gems": int(cd["daily"]) + (int(cd["milestone_bonus"]) if nxt % int(cd["milestone_every"]) == 0 else 0),
+			"until_milestone": int(cd["milestone_every"]) - int(c["claims_total"]) % int(cd["milestone_every"])}
+
+
+func topup_info_for(acc: Dictionary) -> Dictionary:
+	var st := _state_of(acc["user_id"])
+	var eligible := {}
+	for p: Dictionary in catalog.get("packs", []):
+		if p.get("first_bonus", false):
+			eligible[p["id"]] = int(st["bought"].get(p["id"], 0)) < topup_epoch
+	return {"catalog": catalog if not catalog.is_empty() else null, "eligible": eligible, "card": _card_view(st),
+			"log": (st["log"] as Array).slice(0, 10), "code": acc["code"]}
+
+
+func card_claim_for(acc: Dictionary) -> Dictionary:
+	var st := _state_of(acc["user_id"])
+	var c: Dictionary = st["card"]
+	if catalog.is_empty() or int(c["claims_left"]) <= 0:
+		return _err(500, "Error: card_none at rpcCardClaim (index.js:1:1(1))")
+	if c["last_day"] == today:
+		return _err(500, "Error: card_claimed_today at rpcCardClaim (index.js:1:1(1))")
+	c["claims_left"] = int(c["claims_left"]) - 1
+	c["claims_total"] = int(c["claims_total"]) + 1
+	c["last_day"] = today
+	var cd: Dictionary = catalog["card"]
+	var bonus: int = int(cd["milestone_bonus"]) if int(c["claims_total"]) % int(cd["milestone_every"]) == 0 else 0
+	acc["wallet"]["gems"] = int(acc["wallet"].get("gems", 0)) + int(cd["daily"]) + bonus
+	return _ok({"gems": int(cd["daily"]) + bonus, "daily": cd["daily"], "bonus": bonus, "card": _card_view(st)})
+
+
+## Test: QTV phát gói (như admin_topup). Trả về {base, bonus, card_days}.
+func give_pack(user: String, pack_id: String) -> Dictionary:
+	var acc: Dictionary = accounts[user]
+	var st := _state_of(acc["user_id"])
+	var pack := {}
+	for p: Dictionary in catalog.get("packs", []):
+		if p["id"] == pack_id:
+			pack = p
+	assert(not pack.is_empty(), "không có gói " + pack_id)
+	var out := {"base": 0, "bonus": 0, "card_days": 0}
+	if pack["kind"] == "card":
+		st["card"]["claims_left"] = int(st["card"]["claims_left"]) + int(catalog["card"]["days"])
+		out["card_days"] = int(catalog["card"]["days"])
+	else:
+		var bonus: int = int(pack["amount"]) if pack.get("first_bonus", false) and int(st["bought"].get(pack_id, 0)) < topup_epoch else 0
+		acc["wallet"][pack["currency"]] = int(acc["wallet"].get(pack["currency"], 0)) + int(pack["amount"]) + bonus
+		st["bought"][pack_id] = topup_epoch
+		out["base"] = int(pack["amount"])
+		out["bonus"] = bonus
+	(st["log"] as Array).push_front({"t": 1794800000, "pack": pack_id, "base": out["base"], "bonus": out["bonus"],
+			"card_days": out["card_days"], "paid": pack.get("price", 0), "ref": "T%d" % (st["log"] as Array).size()})
+	return out
