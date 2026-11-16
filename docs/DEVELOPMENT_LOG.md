@@ -2147,3 +2147,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** TẤT CẢ ĐẠT, mã thoát 0; GdUnit4 732/732, smoke test 5/5. Test rhythm_screens.gd đạt trong lượt GdUnit4.
 - **Quyết định Codex chọn:** Nốt tap làn trên dùng fly của Dơi Nốt; làn dưới dùng run của Sên Nhịp; nốt cả hai tạo cặp Song Âm và dây khuông; khi chấm trúng phát die ở 20 fps. Khởi tạo sprite ở vòng tick trước render để tránh thêm node trong callback vẽ. Giữ hình tạm cho hold/mash vì chưa có bộ asset tương ứng.
 - **Hạn chế đã biết:** Để vào lượt chơi, dùng Xuất kích → Ải nguyên liệu; bài cần có trong catalog/cache hoặc truy cập máy chủ nhạc theo cấu hình.
+
+
+## 2026-11-16 — M10-2 (bước 1): ảnh gốc Rắn Ngân chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_serpent; tạo ảnh gốc duyệt thiết kế hold-note trước khi làm animation.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** assets/rhythm/_preview/rh_serpent_original_preview.png; docs/ASSET_LICENSES.md mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp), không dùng ảnh tham chiếu; chép bản cuối từ generated_images vào dự án.
+- **Kết quả thật:** Đã lưu một ảnh concept ngang nền xanh chroma (chưa chuẩn hóa/đo kiểm đồng màu từng pixel), thể hiện đầu nhìn trái, thân khuông nhạc kéo dài và đuôi dấu lặng. Chưa tách nền, chưa tạo animation.
+- **Quyết định Codex chọn:** Dùng màu trắng ngà/tím lavender trung tính theo brief để giữ khả năng tô màu theo làn; làm thân kéo dài nằm ngang để thể hiện cơ chế hold. Đã tinh chỉnh bản gốc để năm vạch khuông rõ và đuôi có dấu nghỉ riêng.
+- **Hạn chế đã biết:** Chờ owner duyệt ảnh gốc. Chưa tạo idle/bite, chưa xuất body tile lặp ngang hoặc tail PNG; nền preview chưa được kiểm pixel-perfect.
