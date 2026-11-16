@@ -2117,3 +2117,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 6 frame run 12 fps lặp và 5 frame die 20 fps, toàn bộ 256×256. Đúng số frame; 4 góc mỗi ảnh trong suốt và không còn pixel xanh lá đục. `run_tests.ps1` kết thúc với `TẤT CẢ ĐẠT`, mã thoát 0; GdUnit 732/732 đạt, 5/5 smoke test đạt.
 - **Quyết định Codex chọn:** Run nảy theo chu kỳ sáu tư thế, thêm vệt hồng ngắn phía sau; die vỡ thành nốt sáng. Dùng lưới 3×2 và lấy màu nền theo từng ô, vì sheet sinh lệch nhẹ khỏi mã xanh #00B140.
 - **Hạn chế đã biết:** Chưa nối animation vào `rhythm_stage.gd`; task này chỉ cung cấp asset theo brief.
+
+
+## 2026-11-16 — M10-2 (bước 1): ảnh gốc Song Âm chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, `rh_twin`; chỉ tạo ảnh gốc theo yêu cầu owner.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/rhythm/_preview/rh_twin_original_preview.png`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp), dùng ảnh gốc đã duyệt của Dơi Nốt và Sên Nhịp làm tham chiếu; chép ảnh vào thư mục preview.
+- **Kết quả thật:** Đã tạo một ảnh vuông PNG gồm cặp Song Âm trên nền xanh phẳng; chưa tách nền, chưa tạo animation.
+- **Quyết định Codex chọn:** Đặt Dơi Nốt ở làn trên, Sên Nhịp ở làn dưới; dây khuông năm vạch dọc và chuông vàng dùng chung, màu phát sáng vàng #FFD84D cho cả cặp.
+- **Hạn chế đã biết:** Chờ owner duyệt ảnh gốc. Chưa tạo fly/run/die hay `rh_twin_chain.png`.

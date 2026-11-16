@@ -250,6 +250,8 @@ tạo ảnh với tài khoản owner. Phải khai báo nội dung AI khi phát h
 | `assets/rhythm/rh_slime/die/rh_slime_die_003.png` | Codex imagegen / Built-in imagegen (model ID không được công cụ cung cấp) | Sên Nhịp theo thiết kế đã duyệt; tan thành các nốt nhạc sáng; sheet sprite lưới 3×2, cắt frame 256×256, tách nền xanh #00B140. | `assets/rhythm/_preview/rh_slime_original_preview.png` (ảnh gốc đã duyệt) | Codex | 2026-11-16 |
 | `assets/rhythm/rh_slime/die/rh_slime_die_004.png` | Codex imagegen / Built-in imagegen (model ID không được công cụ cung cấp) | Sên Nhịp theo thiết kế đã duyệt; tan thành các nốt nhạc sáng; sheet sprite lưới 3×2, cắt frame 256×256, tách nền xanh #00B140. | `assets/rhythm/_preview/rh_slime_original_preview.png` (ảnh gốc đã duyệt) | Codex | 2026-11-16 |
 
+| `assets/rhythm/_preview/rh_twin_original_preview.png` — Song Âm, ảnh gốc chờ duyệt | Codex imagegen / Built-in imagegen (model ID không được công cụ cung cấp) | Cặp Dơi Nốt + Sên Nhịp chibi đứng hai làn, thân tím than, viền/vệt sáng vàng #FFD84D, chuông chung và dây khuông nhạc vàng dọc. | `assets/rhythm/_preview/rh_bat_original_preview.png`, `assets/rhythm/_preview/rh_slime_original_preview.png` (thiết kế dự án đã duyệt) | Codex | 2026-11-16 |
+
 ## 3. Placeholder (không bao giờ ship)
 
 Tạo bởi Claude (hình khối màu, âm sinh tự động). Tên luôn bắt đầu bằng
