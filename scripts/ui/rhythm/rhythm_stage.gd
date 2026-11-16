@@ -39,6 +39,8 @@ var now := -2.0
 var _elapsed := 0.0
 var _audio_started := false
 var _field: Control
+## Lớp vẽ hitbox vàng (trên ảnh quái, dưới nhân vật).
+var _hit_layer: Control
 var _hud: Control
 var _sprite: AnimatedSprite2D
 var _sprite_base := Vector2.ZERO
@@ -54,9 +56,11 @@ var _end_at := -1.0
 var _pause_layer: Control
 var _result_layer: Control
 var _labels: Dictionary = {}
+const HIT_RESULTS: Array[String] = ["perfect", "great", "good", "normal"]
 var _enemy_frames_cache: Dictionary = {}
 var _enemy_visuals: Dictionary = {} # note index -> {sprites, chain, dying_until}
-const ENEMY_SPRITE_SCALE := 0.43 # 256 px frame -> ~110 px on screen
+## Khung ảnh quái (px). Cỡ hiển thị = đường kính vòng chấm × enemy.ring_ratio (owner 2026-11-16: to hơn gấp đôi vòng).
+const ENEMY_FRAME := 256.0
 
 
 func _ready() -> void:
@@ -136,6 +140,12 @@ func _build() -> void:
 	_field.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_field.draw.connect(_draw_field)
 	add_child(_field)
+	_hit_layer = Control.new()
+	_hit_layer.name = "Hitboxes"
+	_hit_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_hit_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hit_layer.draw.connect(_draw_hitboxes)
+	add_child(_hit_layer)
 	_build_character()
 	_hud = Control.new()
 	_hud.name = "Hud"
@@ -195,7 +205,7 @@ func _build_character() -> void:
 	_sprite.sprite_frames = built.sprite_frames
 	_sprite.offset = built.sprite_offset
 	_sprite.scale = Vector2.ONE * _num("character.scale", 0.85)
-	_sprite_base = Vector2(_num("field.judge_x", 380) - 80, _num("field.down_y", 760) + 60)
+	_sprite_base = Vector2(_num("field.judge_x", 380) + _num("character.offset_x", -200), _num("field.down_y", 760) + 60)
 	_sprite.position = _sprite_base
 	add_child(_sprite)
 	_play_anim("run", "idle")
@@ -260,6 +270,7 @@ func _tick(delta: float) -> void:
 		_finish()
 	_refresh_hud()
 	_field.queue_redraw()
+	_hit_layer.queue_redraw()
 	_hud.queue_redraw()
 
 
@@ -408,7 +419,7 @@ func _holding_lane() -> int:
 func _on_judged(index: int, res: String, unit: String) -> void:
 	var lane := int(chart.notes[index]["lane"]) if index < chart.notes.size() else RhythmChart.LANE_DOWN
 	if _enemy_visuals.has(index):
-		if res in [RhythmJudge.PERFECT, RhythmJudge.GREAT]:
+		if res in HIT_RESULTS:
 			var visual: Dictionary = _enemy_visuals[index]
 			visual["dying_until"] = now + 0.26
 			for actor in visual["sprites"]:
@@ -419,14 +430,12 @@ func _on_judged(index: int, res: String, unit: String) -> void:
 			_enemy_visuals[index] = visual
 		else:
 			_free_enemy_visual(index)
-	var col: Color = {RhythmJudge.PERFECT: _col("perfect", Color("#FF6FD8")), RhythmJudge.GREAT: _col("great", Color("#6FD3FF")),
-			RhythmJudge.MISS: _col("miss", Color("#B0B0C0")), RhythmJudge.WRONG: _col("wrong", Color("#FF5050"))}[res]
-	var key: String = {RhythmJudge.PERFECT: "RHYTHM_PERFECT", RhythmJudge.GREAT: "RHYTHM_GREAT",
-			RhythmJudge.MISS: "RHYTHM_MISS", RhythmJudge.WRONG: "RHYTHM_WRONG"}[res]
+	var col := _col(res, Color.WHITE)
+	var key := "RHYTHM_" + res.to_upper()
 	_popups.append({"text": tr(key), "color": col, "lane": lane, "born": now})
 	if _popups.size() > 6:
 		_popups.pop_front()
-	if res in [RhythmJudge.PERFECT, RhythmJudge.GREAT] and unit != "tail":
+	if res in [RhythmJudge.PERFECT, RhythmJudge.GREAT, RhythmJudge.GOOD] and unit != "tail":
 		for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
 			if lane & l:
 				_bursts.append({"pos": Vector2(_num("field.judge_x", 380), _lane_y(l)), "color": col, "born": now})
@@ -460,8 +469,7 @@ func _lane_y(lane: int) -> float:
 
 
 func _speed() -> float:
-	var w := get_viewport_rect().size.x
-	return (w + 120.0 - _num("field.judge_x", 380)) / rules.approach_sec
+	return rules.note_speed
 
 
 func _draw_field() -> void:
@@ -472,15 +480,16 @@ func _draw_field() -> void:
 	var up_y := _lane_y(RhythmChart.LANE_UP)
 	var dn_y := _lane_y(RhythmChart.LANE_DOWN)
 	# Nền: dải trời + mặt đường.
-	f.draw_rect(Rect2(0, dn_y + 70, w, h - dn_y - 70), _col("ground", Color("#1F5E63")))
-	f.draw_rect(Rect2(0, dn_y + 66, w, 6), _col("ground_edge", Color("#7FF4E0")))
+	f.draw_rect(Rect2(0, dn_y + 84, w, h - dn_y - 84), _col("ground", Color("#1F5E63")))
+	f.draw_rect(Rect2(0, dn_y + 80, w, 6), _col("ground_edge", Color("#7FF4E0")))
 	if boss:
 		_draw_boss(f, Vector2(w - 260, (up_y + dn_y) * 0.5))
 	# Đường làn + vòng chấm.
 	for y in [up_y, dn_y]:
 		f.draw_line(Vector2(jx, y), Vector2(w, y), Color(1, 1, 1, 0.08), 3.0)
-		f.draw_arc(Vector2(jx, y), 58, 0, TAU, 48, Color(1, 1, 1, 0.55), 4.0)
-		f.draw_arc(Vector2(jx, y), 40, 0, TAU, 36, Color(1, 1, 1, 0.2), 2.0)
+		# Vòng chấm: lòng vòng bán kính R (hitbox vào khít = Perfect), viền ngoài dày ring_rim (chỉ chạm viền = Miss).
+		f.draw_circle(Vector2(jx, y), rules.ring_radius, Color(1, 1, 1, 0.06))
+		f.draw_arc(Vector2(jx, y), rules.ring_radius * 0.5, 0, TAU, 40, Color(1, 1, 1, 0.18), 2.0)
 	if in_fever_visual():
 		f.draw_rect(Rect2(0, 0, w, h), Color(1.0, 0.3, 0.8, 0.07))
 	var speed := _speed()
@@ -526,7 +535,7 @@ func _draw_note(f: Control, i: int, n: Dictionary, x: float, speed: float) -> vo
 			if not _enemy_visuals.has(i):
 				for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
 					if lane & l:
-						_draw_enemy(f, Vector2(x, _lane_y(l)), 46.0, col, l == RhythmChart.LANE_UP)
+						_draw_enemy(f, Vector2(x, _lane_y(l)), rules.ring_radius * 1.1, col, l == RhythmChart.LANE_UP)
 		RhythmChart.KIND_HOLD:
 			var x0 := jx if active else x
 			var x1 := jx + (float(n["t"]) + float(n["dur"]) - now) * speed
@@ -537,7 +546,7 @@ func _draw_note(f: Control, i: int, n: Dictionary, x: float, speed: float) -> vo
 					f.draw_rect(Rect2(x0, y - 22, maxf(x1 - x0, 0.0), 44), Color(1, 1, 1, 0.6), false, 3.0)
 					f.draw_circle(Vector2(x1, y), 26, col)
 					if not _enemy_visuals.has(i) and not active:
-						_draw_enemy(f, Vector2(x0, y), 44.0, col, l == RhythmChart.LANE_UP)
+						_draw_enemy(f, Vector2(x0, y), rules.ring_radius * 1.1, col, l == RhythmChart.LANE_UP)
 					elif active and not _enemy_visuals.has(i):
 						f.draw_circle(Vector2(x0, y), 34, Color(1, 1, 1, 0.9))
 		RhythmChart.KIND_MASH:
@@ -591,7 +600,8 @@ func _ensure_enemy_visual(note_index: int, lane: int) -> bool:
 		actor.name = "RhythmEnemy_%d_%d" % [note_index, k]
 		actor.sprite_frames = sprite_frames
 		actor.centered = true
-		actor.scale = Vector2.ONE * ENEMY_SPRITE_SCALE
+		actor.scale = Vector2.ONE * _enemy_scale()
+		actor.offset = _body_offset(ids[k], anims[k])
 		_field.add_child(actor)
 		actor.play("move")
 		sprites.append(actor)
@@ -663,8 +673,8 @@ func _position_enemy_visual(note_index: int, note_time: float) -> void:
 			sprites[1].position = Vector2(x, _lane_y(RhythmChart.LANE_DOWN))
 		var chain := visual["chain"] as TextureRect
 		if chain:
-			var y_top := _lane_y(RhythmChart.LANE_UP) + 54.0
-			var y_bottom := _lane_y(RhythmChart.LANE_DOWN) - 54.0
+			var y_top := _lane_y(RhythmChart.LANE_UP) + rules.ring_radius
+			var y_bottom := _lane_y(RhythmChart.LANE_DOWN) - rules.ring_radius
 			chain.position = Vector2(x - 20.0, y_top)
 			chain.size = Vector2(40.0, maxf(y_bottom - y_top, 1.0))
 	else:
@@ -701,6 +711,54 @@ func _update_enemy_visuals() -> void:
 			if note["kind"] == RhythmChart.KIND_HOLD and int(judge.states[note_index]["state"]) == 1:
 				note_time = now
 			_position_enemy_visual(note_index, note_time)
+
+
+func _enemy_scale() -> float:
+	return rules.ring_radius * 2.0 * _num("enemy.ring_ratio", 2.2) / ENEMY_FRAME
+
+
+## Dời ảnh để tâm thân quái (data/ui/rhythm_layout.json enemy.body, px trong khung 256) nằm đúng tâm hitbox.
+func _body_offset(enemy_id: String, anim: String) -> Vector2:
+	var key := enemy_id + "_" + anim if enemy_id == "rh_twin" else enemy_id
+	var b: Variant = layout.get_value("enemy.body." + key) if layout else null
+	if b is Array and b.size() == 2:
+		return Vector2(ENEMY_FRAME * 0.5 - float(b[0]), ENEMY_FRAME * 0.5 - float(b[1]))
+	return Vector2.ZERO
+
+
+## Hitbox vàng giữa thân quái: nhấp nháy to / nhỏ theo nhịp khi còn xa; từ lúc chạm vòng chấm thì đúng bằng vòng
+## (vào giữa vòng là khít). Độ chồng lúc ấn quyết định Perfect / Great / Good / Normal / Miss (RhythmRules.grade).
+func _draw_hitboxes() -> void:
+	if judge == null or chart == null:
+		return
+	var h := _hit_layer
+	var w := get_viewport_rect().size.x
+	var jx := _num("field.judge_x", 380)
+	var r := rules.ring_radius
+	var beat := chart.bpm / 60.0
+	var yellow := _col("hitbox", Color("#FFD84D"))
+	# Viền vòng chấm vẽ ở lớp này để không bị thân quái che.
+	for y in [_lane_y(RhythmChart.LANE_UP), _lane_y(RhythmChart.LANE_DOWN)]:
+		h.draw_arc(Vector2(jx, y), r + rules.ring_rim * 0.5, 0, TAU, 64, Color(1, 1, 1, 0.75), rules.ring_rim)
+	for i in range(judge.cursor, chart.notes.size()):
+		var n: Dictionary = chart.notes[i]
+		if n["kind"] == RhythmChart.KIND_MASH:
+			continue
+		if int(judge.states[i]["state"]) != 0:
+			continue
+		var x := jx + (float(n["t"]) - now) * rules.note_speed
+		if x > w + 200.0:
+			break
+		var d := absf(x - jx)
+		var k := clampf((d - 2.0 * r) / (2.0 * r), 0.0, 1.0)
+		var pulse := 1.0 + 0.25 * k * sin(now * TAU * beat * 2.0)
+		var blink := 1.0 - 0.5 * k * absf(sin(now * TAU * beat))
+		for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
+			if int(n["lane"]) & l:
+				var c := Vector2(x, _lane_y(l))
+				h.draw_circle(c, r * pulse, Color(yellow, 0.3 * blink))
+				h.draw_arc(c, r * pulse, 0, TAU, 64, Color(yellow, blink), 6.0)
+				h.draw_circle(c, 6.0, Color(yellow, blink))
 
 
 func _free_enemy_visual(note_index: int) -> void:
@@ -864,7 +922,8 @@ func _show_result() -> void:
 		tr("RHYTHM_RESULT_SCORE") % int(result["score"]),
 		tr("RHYTHM_RESULT_COMBO") % int(result["max_combo"]),
 		tr("RHYTHM_RESULT_ACCURACY") % (float(result["accuracy"]) * 100.0),
-		tr("RHYTHM_RESULT_COUNTS") % [int(c[RhythmJudge.PERFECT]), int(c[RhythmJudge.GREAT]), int(c[RhythmJudge.MISS]), int(c[RhythmJudge.WRONG])],
+		tr("RHYTHM_RESULT_COUNTS") % [int(c[RhythmJudge.PERFECT]), int(c[RhythmJudge.GREAT]), int(c[RhythmJudge.GOOD]),
+				int(c[RhythmJudge.NORMAL]), int(c[RhythmJudge.MISS]), int(c[RhythmJudge.WRONG])],
 	])
 	var prog: Dictionary = result.get("progress", {})
 	if bool(prog.get("new_best", false)):

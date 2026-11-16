@@ -6,12 +6,14 @@ extends RefCounted
 ## Luật:
 ## - Mỗi nốt đòi đúng MỘT trong 3 lựa chọn: trên, dưới hoặc cả hai (ấn hai phím cách nhau ≤ chord_window).
 ##   Lần ấn đầu tiên trong cửa sổ quyết định; chọn nhầm = "wrong", mất HP, mất combo.
-## - Ấn khi chưa có nốt nào trong cửa sổ: không sao (vung đòn trống).
+## - Chấm theo độ khớp hitbox vàng giữa thân quái với vòng chấm (owner 2026-11-16, RhythmRules.grade): khít = Perfect,
+##   chồng ≥ 3/4 = Great, ≥ 1/2 = Good, đã qua viền vào trong vòng = Normal, chỉ chạm viền ngoài = Miss.
+## - Ấn khi hitbox chưa chạm vòng: không sao (vung đòn trống).
 ## - Để nốt trôi qua = "miss", mất HP.
 ## - Giữ (hold): chấm đầu thanh như nốt thường, rồi phải giữ đủ (các) phím tới cuối thanh; thả sớm = gãy.
 ## - Ấn liên tục (mash): ấn đúng làn càng nhiều càng tốt tới hết thời gian; chấm theo tỉ lệ số lần / yêu cầu.
 
-signal judged(index: int, result: String, unit: String)   # result: perfect | great | miss | wrong; unit: head | tail | note
+signal judged(index: int, result: String, unit: String)   # result: perfect | great | good | normal | miss | wrong; unit: head | tail | note
 signal mash_hit(index: int, count: int)
 signal empty_press(lane: int)
 signal hp_changed(hp: int)
@@ -20,6 +22,8 @@ signal failed
 
 const PERFECT := "perfect"
 const GREAT := "great"
+const GOOD := "good"
+const NORMAL := "normal"
 const MISS := "miss"
 const WRONG := "wrong"
 
@@ -37,7 +41,7 @@ var hp := 0
 var score := 0
 var combo := 0
 var max_combo := 0
-var counts := {PERFECT: 0, GREAT: 0, MISS: 0, WRONG: 0}
+var counts := {PERFECT: 0, GREAT: 0, GOOD: 0, NORMAL: 0, MISS: 0, WRONG: 0}
 var fever := 0.0
 var fever_until := -1.0
 var is_failed := false
@@ -65,7 +69,10 @@ func in_fever() -> bool:
 
 ## Đơn vị đã chấm (trừ phần chưa tới).
 func judged_units() -> int:
-	return int(counts[PERFECT]) + int(counts[GREAT]) + int(counts[MISS]) + int(counts[WRONG])
+	var n := 0
+	for k in counts:
+		n += int(counts[k])
+	return n
 
 
 ## Độ chính xác trên toàn bài (đơn vị chưa chấm tính là trượt).
@@ -73,7 +80,8 @@ func accuracy() -> float:
 	var total := chart.judgment_units()
 	if total <= 0:
 		return 0.0
-	return (float(counts[PERFECT]) + float(counts[GREAT]) * 0.5) / float(total)
+	return (float(counts[PERFECT]) + float(counts[GREAT]) * 0.75 + float(counts[GOOD]) * 0.5
+			+ float(counts[NORMAL]) * 0.25) / float(total)
 
 
 func rank() -> String:
@@ -116,7 +124,7 @@ func press(lane: int, t: float) -> void:
 		if int(_pending["mask"]) == RhythmChart.LANE_BOTH:
 			_resolve_pending()
 		return
-	if t < float(note["t"]) - rules.great_window:
+	if t < float(note["t"]) - rules.reach_sec():
 		empty_press.emit(lane)
 		return
 	if note["kind"] == RhythmChart.KIND_MASH:
@@ -164,7 +172,7 @@ func update(t: float) -> void:
 			break
 		if not _pending.is_empty():
 			break
-		var deadline := end if note["kind"] == RhythmChart.KIND_MASH else float(note["t"]) + rules.great_window
+		var deadline := end if note["kind"] == RhythmChart.KIND_MASH else float(note["t"]) + rules.reach_sec()
 		if t > deadline:
 			_finish(cursor, MISS, "note" if note["kind"] != RhythmChart.KIND_HOLD else "head")
 			if note["kind"] == RhythmChart.KIND_HOLD and not is_failed:
@@ -188,8 +196,13 @@ func _resolve_pending() -> void:
 		if note["kind"] == RhythmChart.KIND_HOLD and not is_failed:
 			_count(WRONG, idx, "tail", false)
 		return
-	var off := absf(time - float(note["t"]))
-	var res := PERFECT if off <= rules.perfect_window else GREAT
+	var res := rules.grade(time - float(note["t"]))
+	if res == "" or res == MISS:
+		# Chỉ chạm viền ngoài: trượt (nốt giữ trượt luôn phần cuối).
+		_finish(idx, MISS, "note" if note["kind"] != RhythmChart.KIND_HOLD else "head")
+		if note["kind"] == RhythmChart.KIND_HOLD and not is_failed:
+			_count(MISS, idx, "tail", false)
+		return
 	if note["kind"] == RhythmChart.KIND_HOLD:
 		_start(idx, res, time)
 		_count(res, idx, "head", true)
@@ -232,11 +245,13 @@ func _count(res: String, idx: int, unit: String, apply: bool, miss_damage := -1)
 	counts[res] = int(counts[res]) + 1
 	if apply:
 		match res:
-			PERFECT, GREAT:
+			PERFECT, GREAT, GOOD, NORMAL:
 				combo += 1
 				max_combo = maxi(max_combo, combo)
-				_add_score(rules.score_perfect if res == PERFECT else rules.score_great, true)
-				_gain_fever(rules.fever_gain_perfect if res == PERFECT else rules.fever_gain_great)
+				_add_score({PERFECT: rules.score_perfect, GREAT: rules.score_great, GOOD: rules.score_good,
+						NORMAL: rules.score_normal}[res], true)
+				_gain_fever({PERFECT: rules.fever_gain_perfect, GREAT: rules.fever_gain_great,
+						GOOD: rules.fever_gain_good, NORMAL: 0.0}[res])
 			MISS:
 				combo = 0
 				_damage(rules.miss_damage if miss_damage < 0 else miss_damage)

@@ -3446,7 +3446,13 @@ msgid "RHYTHM_RESULT_ACCURACY"
 msgstr "Accuracy: %.1f%%"
 
 msgid "RHYTHM_RESULT_COUNTS"
-msgstr "Perfect %d · Great %d · Miss %d · Wrong %d"
+msgstr "Perfect %d · Great %d · Good %d · Normal %d · Miss %d · Wrong %d"
 
 msgid "RHYTHM_LOAD_ERROR"
 msgstr "Could not open this song (not downloaded or damaged). Go back and download it again."
+
+msgid "RHYTHM_GOOD"
+msgstr "GOOD"
+
+msgid "RHYTHM_NORMAL"
+msgstr "NORMAL"

@@ -3398,13 +3398,13 @@ msgid "RHYTHM_GO"
 msgstr "BẮT ĐẦU!"
 
 msgid "RHYTHM_PERFECT"
-msgstr "HOÀN HẢO"
+msgstr "PERFECT"
 
 msgid "RHYTHM_GREAT"
-msgstr "TỐT"
+msgstr "GREAT"
 
 msgid "RHYTHM_MISS"
-msgstr "TRƯỢT"
+msgstr "MISS"
 
 msgid "RHYTHM_WRONG"
 msgstr "SAI"
@@ -3446,7 +3446,13 @@ msgid "RHYTHM_RESULT_ACCURACY"
 msgstr "Chính xác: %.1f%%"
 
 msgid "RHYTHM_RESULT_COUNTS"
-msgstr "Hoàn hảo %d · Tốt %d · Trượt %d · Sai %d"
+msgstr "Perfect %d · Great %d · Good %d · Normal %d · Miss %d · Sai %d"
 
 msgid "RHYTHM_LOAD_ERROR"
 msgstr "Không mở được bài này (chưa tải hoặc file hỏng). Quay lại và tải lại bài."
+
+msgid "RHYTHM_GOOD"
+msgstr "GOOD"
+
+msgid "RHYTHM_NORMAL"
+msgstr "NORMAL"

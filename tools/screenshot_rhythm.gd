@@ -38,14 +38,14 @@ func _process(_delta: float) -> bool:
 		3:
 			if _frames < 3:
 				return false
-			_screen.advance(21.6)
+			_screen.advance(22.05)   # 0.3 s trước nốt 20.346: hitbox còn nhấp nháy
 			_step = 4
 			_frames = 0
 		4:
 			if _frames < 2:
 				return false
 			_shot("1_stage")
-			_screen.advance(0.78)   # vừa đánh trúng nốt 20.35: thấy hoạt ảnh tan biến
+			_screen.advance(0.285)   # 15 ms trước nhịp: hitbox gần khít vòng chấm
 			_step = 40
 			_frames = 0
 		40:

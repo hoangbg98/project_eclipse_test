@@ -2,7 +2,12 @@
 	"_comment": "Bố cục màn chơi nhịp điệu (RhythmStage, M10). Tọa độ theo khung 1920x1080.",
 	"design_size": [1920, 1080],
 	"field": {"judge_x": 380, "up_y": 430, "down_y": 760},
-	"character": {"scale": 0.85},
+	"character": {"scale": 0.85, "offset_x": -200},
+	"enemy": {
+		"_comment": "ring_ratio: cỡ quái = đường kính vòng chấm x hệ số này. body: tâm thân quái trong khung 256x256 (hitbox vàng đặt ở đây).",
+		"ring_ratio": 2.2,
+		"body": {"rh_bat": [106, 146], "rh_slime": [122, 160], "rh_twin_fly": [112, 160], "rh_twin_run": [118, 160]}
+	},
 	"colors": {
 		"background": "#141029",
 		"ground": "#1F5E63",
@@ -10,8 +15,11 @@
 		"lane_up": "#5FD7FF",
 		"lane_down": "#FF5FA8",
 		"lane_both": "#FFD84D",
+		"hitbox": "#FFD84D",
 		"perfect": "#FF6FD8",
 		"great": "#6FD3FF",
+		"good": "#7DFFB0",
+		"normal": "#E8E8F0",
 		"miss": "#B0B0C0",
 		"wrong": "#FF5050"
 	}

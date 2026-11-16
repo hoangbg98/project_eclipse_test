@@ -433,9 +433,11 @@ KEYS = [
     ("RHYTHM_COMBO", "COMBO", "COMBO"),
     ("RHYTHM_FEVER", "FEVER", "FEVER"),
     ("RHYTHM_GO", "BẮT ĐẦU!", "GO!"),
-    ("RHYTHM_PERFECT", "HOÀN HẢO", "PERFECT"),
-    ("RHYTHM_GREAT", "TỐT", "GREAT"),
-    ("RHYTHM_MISS", "TRƯỢT", "MISS"),
+    ("RHYTHM_PERFECT", "PERFECT", "PERFECT"),
+    ("RHYTHM_GREAT", "GREAT", "GREAT"),
+    ("RHYTHM_GOOD", "GOOD", "GOOD"),
+    ("RHYTHM_NORMAL", "NORMAL", "NORMAL"),
+    ("RHYTHM_MISS", "MISS", "MISS"),
     ("RHYTHM_WRONG", "SAI", "WRONG"),
     ("RHYTHM_HINT_UP", "Đánh trên: D / F / ↑ (chạm nửa trái)", "Upper: D / F / ↑ (tap left half)"),
     ("RHYTHM_HINT_DOWN", "Đánh dưới: J / K / ↓ (chạm nửa phải)", "Lower: J / K / ↓ (tap right half)"),
@@ -449,7 +451,7 @@ KEYS = [
     ("RHYTHM_RESULT_SCORE", "Điểm: %d", "Score: %d"),
     ("RHYTHM_RESULT_COMBO", "Combo cao nhất: %d", "Max combo: %d"),
     ("RHYTHM_RESULT_ACCURACY", "Chính xác: %.1f%%", "Accuracy: %.1f%%"),
-    ("RHYTHM_RESULT_COUNTS", "Hoàn hảo %d · Tốt %d · Trượt %d · Sai %d", "Perfect %d · Great %d · Miss %d · Wrong %d"),
+    ("RHYTHM_RESULT_COUNTS", "Perfect %d · Great %d · Good %d · Normal %d · Miss %d · Sai %d", "Perfect %d · Great %d · Good %d · Normal %d · Miss %d · Wrong %d"),
     ("RHYTHM_LOAD_ERROR", "Không mở được bài này (chưa tải hoặc file hỏng). Quay lại và tải lại bài.", "Could not open this song (not downloaded or damaged). Go back and download it again."),
 ]
 

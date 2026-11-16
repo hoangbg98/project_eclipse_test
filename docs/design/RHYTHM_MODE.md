@@ -30,15 +30,30 @@ Action `rhythm_up` / `rhythm_down` trong `InputRouter`. Nhiều phím cùng làn
 - Mỗi nốt đòi **đúng một trong 3 lựa chọn**: trên, dưới, hoặc cả hai (hai phím cách nhau ≤ `chord_window` = 60 ms).
   Lần ấn đầu trong cửa sổ quyết định; **chọn nhầm = SAI**: mất `wrong_damage` HP, mất combo.
   Nốt một làn cũng chờ `chord_window` để biết người chơi có ấn thêm làn kia không.
-- Ấn khi chưa có nốt trong cửa sổ: không sao. Để nốt trôi qua: **TRƯỢT**, mất `miss_damage` HP.
-- Cửa sổ: |lệch| ≤ 50 ms Hoàn hảo, ≤ 120 ms Tốt.
+- **Chấm theo độ khớp hitbox** (owner 2026-11-16): quái to hơn gấp đôi vòng chấm (`enemy.ring_ratio` = 2.2 trong
+  `data/ui/rhythm_layout.json`), giữa thân có **hitbox vàng** cùng bán kính với vòng chấm (`ring_radius` = 72 px).
+  Khi còn xa, hitbox nhấp nháy to / nhỏ theo nhịp; từ lúc chạm vòng thì đúng bằng vòng, vào giữa vòng là khít.
+  Lúc ấn, tỉ lệ diện tích hitbox nằm trong vòng quyết định:
+
+  | Mức | Điều kiện | Lệch (với `note_speed` 800 px/s) | Điểm |
+  |---|---|---|---|
+  | Perfect | khít (chồng ≥ `perfect_overlap` = 85 %) | ≤ ~21 ms | 200 |
+  | Great | chồng ≥ 3/4 | ≤ ~36 ms | 150 |
+  | Good | chồng ≥ 1/2 | ≤ ~73 ms | 100 |
+  | Normal | đã qua viền vào trong vòng | < 180 ms | 50 |
+  | Miss | chỉ chạm viền ngoài (dày `ring_rim` = 10 px) | 180–192 ms | mất HP, mất combo |
+
+  Xa hơn nữa (hitbox chưa chạm vòng): ấn không sao. Lệch đổi ra ms theo `note_speed`: quái chạy chậm thì cửa sổ rộng hơn.
+  Perfect, Great, Good, Normal đều giữ combo; Normal không cộng Fever. Độ chính xác = (Perfect + Great × 0.75 +
+  Good × 0.5 + Normal × 0.25) / tổng.
+- Để nốt trôi qua: **Miss**, mất `miss_damage` HP.
 - **Ấn 1 lần** (tap). **Giữ** (hold): chấm đầu thanh như tap, rồi giữ (các) phím tới cuối thanh; thả sớm hơn
   `hold_release_tolerance` = gãy (Trượt, mất `hold_break_damage`). Nốt giữ tính 2 đơn vị chấm.
 - **Ấn liên tục** (mash): trong thời gian nốt, mỗi lần ấn đúng làn +điểm; cuối nốt chấm theo số lần / yêu cầu
-  (≥ 100 % Hoàn hảo, ≥ 50 % Tốt, thấp hơn Trượt). Mash "cả hai" nhận phím làn nào cũng được.
-- Combo cộng điểm (`combo_bonus_step`, trần `combo_bonus_cap`). **Fever**: thanh đầy (Hoàn hảo +2, Tốt +1 / 100) →
+  (≥ 100 % Perfect, ≥ 50 % Great, thấp hơn Miss). Mash "cả hai" nhận phím làn nào cũng được.
+- Combo cộng điểm (`combo_bonus_step`, trần `combo_bonus_cap`). **Fever**: thanh đầy (Perfect +2, Great +1.5, Good +1 / 100) →
   8 s điểm ×1.5.
-- HP về 0 = thất bại (không thưởng). Độ chính xác = (Hoàn hảo + Tốt / 2) / tổng đơn vị; hạng S ≥ 95 %, A ≥ 90 %,
+- HP về 0 = thất bại (không thưởng). Hạng theo độ chính xác: S ≥ 95 %, A ≥ 90 %,
   B ≥ 80 %, C ≥ 70 %, còn lại D.
 
 ## 4. Dữ liệu
