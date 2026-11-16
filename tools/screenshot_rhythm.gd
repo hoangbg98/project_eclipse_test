@@ -38,13 +38,20 @@ func _process(_delta: float) -> bool:
 		3:
 			if _frames < 3:
 				return false
-			_screen.advance(20.0)
+			_screen.advance(21.6)
 			_step = 4
 			_frames = 0
 		4:
 			if _frames < 2:
 				return false
 			_shot("1_stage")
+			_screen.advance(0.78)   # vừa đánh trúng nốt 20.35: thấy hoạt ảnh tan biến
+			_step = 40
+			_frames = 0
+		40:
+			if _frames < 2:
+				return false
+			_shot("1b_stage")
 			_screen.advance(200.0)
 			_step = 5
 			_frames = 0
@@ -74,7 +81,7 @@ func _process(_delta: float) -> bool:
 		8:
 			if _frames < 3:
 				return false
-			_screen.advance(32.0)
+			_screen.advance(34.1)
 			_step = 9
 			_frames = 0
 		9:
