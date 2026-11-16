@@ -2167,3 +2167,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 734/734 đạt (0 lỗi), 5/5 test khói đạt. Cửa sổ thực tế (bán kính 72 px, 800 px/s): Perfect ≤ 21.3 ms, Great ≤ 35.6 ms, Good ≤ 72.7 ms, Normal < 180 ms, Miss 180–192.5 ms. Ảnh `build/screenshots/rhythm_1_stage.png` (hitbox nhấp nháy, quái ~317 px), `rhythm_1b_stage.png` (hitbox gần khít vòng dưới), `rhythm_4_boss.png`.
 - **Quyết định Claude chọn:** "khít" = hitbox nằm trong vòng ≥ 85 % diện tích; hitbox cùng bán kính vòng (72 px, vòng to hơn 58 px cũ); quái = đường kính vòng × 2.2; tốc độ quái 800 px/s (cũ ~1040) để cửa sổ rộng hơn; nhịp nháy chỉ khi hitbox chưa chạm vòng (khi đã chạm thì đúng cỡ vòng, để hình khớp với điểm chấm); Normal vẫn giữ combo, không cộng Fever; điểm 200 / 150 / 100 / 50; độ chính xác Perfect 1, Great 0.75, Good 0.5, Normal 0.25. Tâm thân từng quái đo tay trên ảnh 256 px.
 - **Hạn chế đã biết:** Perfect ±21 ms khá khó (owner chỉnh `perfect_overlap`, `note_speed` hoặc `ring_radius` trong `rhythm_rules.tres` nếu muốn dễ hơn). Quái to nên đoạn nốt dày (bản Khó, boss) chồng lên nhau. Nốt giữ / ấn liên tục / boss vẫn hình tạm. Chưa thử cảm giác bằng tay.
+
+
+## 2026-11-16 — M10-2: animation Rắn Ngân
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_serpent; tiếp tục sau khi owner duyệt concept Rắn Ngân.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_serpent/idle/` (4 PNG); `assets/rhythm/rh_serpent/bite/` (4 PNG); `assets/rhythm/rh_serpent_body.png`; `assets/rhythm/rh_serpent_tail.png`; `tools/rhythm/process_serpent_assets.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen tạo sheet idle, bite, thân và đuôi theo concept đã duyệt; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_serpent_assets.ps1` với bốn sheet nguồn; kiểm tra PNG bằng System.Drawing.
+- **Kết quả thật:** Xuất 4 frame idle và 4 frame bite, mỗi frame 256×256; thân 128×96; đuôi 96×96. Kiểm tra thấy 0 pixel xanh chroma còn hiển thị trên 10 file; hai mép thân khớp ở 96/96 hàng; số frame và kích thước đúng brief. Đã xem trực tiếp frame idle, bite, thân và đuôi. Chưa chạy test game vì task chỉ tạo asset.
+- **Quyết định Codex chọn:** Màu trung tính trắng/lavender để game tô theo làn; chọn 12 fps cho idle/bite vì brief không định fps; vòng bite dùng trung tính/mở miệng/mở miệng/khép về frame đầu; xử lý blend 8 cột mép thân để tile liền mạch. Giữ một pose đầu thống nhất trong idle và chỉ nhấp nhô 2 px để tránh sai khác khuôn mặt giữa các ô imagegen.
+- **Hạn chế đã biết:** Chưa nối Rắn Ngân vào `rhythm_stage.gd`; phần kéo giãn/hút thân khi giữ nốt cần tích hợp riêng vào màn chơi.
