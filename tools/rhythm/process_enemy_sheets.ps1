@@ -1,6 +1,11 @@
 param(
-    [Parameter(Mandatory=$true)][string]$FlySheet,
-    [Parameter(Mandatory=$true)][string]$DieSheet
+    [Parameter(Mandatory=$true)][string]$EnemyId,
+    [Parameter(Mandatory=$true)][string]$FirstSheet,
+    [Parameter(Mandatory=$true)][string]$FirstAnim,
+    [Parameter(Mandatory=$true)][int]$FirstCount,
+    [Parameter(Mandatory=$true)][string]$SecondSheet,
+    [Parameter(Mandatory=$true)][string]$SecondAnim,
+    [Parameter(Mandatory=$true)][int]$SecondCount
 )
 
 Add-Type -AssemblyName System.Drawing
@@ -11,9 +16,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-public static class BatSheetProcessor {
+public static class EnemySheetProcessor {
     static byte Clamp(double v) { return (byte)Math.Max(0, Math.Min(255, Math.Round(v))); }
-    public static void Process(string path, string anim, int count, string folder) {
+    public static void Process(string path, string enemyId, string anim, int count, string folder) {
         using (var input = new Bitmap(path))
         using (var normalized = new Bitmap(input.Width, input.Height, PixelFormat.Format32bppArgb)) {
             using (var g = Graphics.FromImage(normalized)) g.DrawImage(input, 0, 0, input.Width, input.Height);
@@ -57,7 +62,7 @@ public static class BatSheetProcessor {
                             g.PixelOffsetMode=PixelOffsetMode.HighQuality; g.CompositingMode=CompositingMode.SourceCopy;
                             g.DrawImage(cell,new Rectangle(0,0,256,256),new Rectangle(0,0,cw,ch),GraphicsUnit.Pixel);
                         }
-                        string file=System.IO.Path.Combine(folder,String.Format("rh_bat_{0}_{1:D3}.png",anim,i));
+                        string file=System.IO.Path.Combine(folder,String.Format("{0}_{1}_{2:D3}.png",enemyId,anim,i));
                         int green=0; var od=output.LockBits(new Rectangle(0,0,256,256),ImageLockMode.ReadWrite,PixelFormat.Format32bppArgb);
                         byte[] op=new byte[od.Stride*od.Height]; Marshal.Copy(od.Scan0,op,0,op.Length); output.UnlockBits(od);
                         for(int y0=0;y0<256;y0++) for(int x=0;x<256;x++) {
@@ -77,9 +82,9 @@ public static class BatSheetProcessor {
 }
 '@
 
-$flyDir = Join-Path $PWD 'assets/rhythm/rh_bat/fly'
-$dieDir = Join-Path $PWD 'assets/rhythm/rh_bat/die'
-[System.IO.Directory]::CreateDirectory($flyDir) | Out-Null
-[System.IO.Directory]::CreateDirectory($dieDir) | Out-Null
-[BatSheetProcessor]::Process($FlySheet, 'fly', 6, $flyDir)
-[BatSheetProcessor]::Process($DieSheet, 'die', 5, $dieDir)
+$firstDir = Join-Path $PWD ("assets/rhythm/{0}/{1}" -f $EnemyId,$FirstAnim)
+$secondDir = Join-Path $PWD ("assets/rhythm/{0}/{1}" -f $EnemyId,$SecondAnim)
+[System.IO.Directory]::CreateDirectory($firstDir) | Out-Null
+[System.IO.Directory]::CreateDirectory($secondDir) | Out-Null
+[EnemySheetProcessor]::Process($FirstSheet, $EnemyId, $FirstAnim, $FirstCount, $firstDir)
+[EnemySheetProcessor]::Process($SecondSheet, $EnemyId, $SecondAnim, $SecondCount, $secondDir)

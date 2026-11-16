@@ -2107,3 +2107,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** Đã tạo một ảnh vuông PNG Sên Nhịp nền xanh phẳng; chưa tách nền, chưa tạo animation.
 - **Quyết định Codex chọn:** Không dùng ảnh tham chiếu; giữ nguyên ảnh nền xanh ở `_preview` để owner duyệt trước khi làm animation.
 - **Hạn chế đã biết:** Chờ owner duyệt ảnh gốc. Chưa tạo run/die, chưa tách nền, chưa kiểm tra khung sprite.
+
+
+## 2026-11-16 — M10-2 (bước 2): animation Sên Nhịp
+- **Milestone / task:** M10-2 — ưu tiên 1, `rh_slime`; owner đã duyệt ảnh gốc trước khi tạo animation.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_slime/run/` (6 PNG); `assets/rhythm/rh_slime/die/` (5 PNG); `tools/rhythm/process_enemy_sheets.ps1` (đổi từ công cụ xử lý riêng Dơi Nốt thành công cụ dùng chung); `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp) tạo sheet run 3×2 và die 3×2; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_enemy_sheets.ps1 -EnemyId rh_slime -FirstAnim run -FirstCount 6 -SecondAnim die -SecondCount 5 ...`; kiểm khung / số frame / alpha; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 6 frame run 12 fps lặp và 5 frame die 20 fps, toàn bộ 256×256. Đúng số frame; 4 góc mỗi ảnh trong suốt và không còn pixel xanh lá đục. `run_tests.ps1` kết thúc với `TẤT CẢ ĐẠT`, mã thoát 0; GdUnit 732/732 đạt, 5/5 smoke test đạt.
+- **Quyết định Codex chọn:** Run nảy theo chu kỳ sáu tư thế, thêm vệt hồng ngắn phía sau; die vỡ thành nốt sáng. Dùng lưới 3×2 và lấy màu nền theo từng ô, vì sheet sinh lệch nhẹ khỏi mã xanh #00B140.
+- **Hạn chế đã biết:** Chưa nối animation vào `rhythm_stage.gd`; task này chỉ cung cấp asset theo brief.
