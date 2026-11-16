@@ -2087,3 +2087,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 6 loại quái (Dơi Nốt, Sên Nhịp, Song Âm, Rắn Ngân, Trống Đá, boss Nhật Thực), 19 mục ảnh (10 ưu tiên 1, 9 ưu tiên 2), âm thanh kèm theo, mẫu prompt.
 - **Quyết định Claude chọn:** quái vẽ quay trái (lao từ phải sang); màu phát sáng theo làn giữ như hình tạm (xanh lơ / hồng / vàng); tên file `assets/rhythm/{id}_{anim}_{NNN}.png`; boss ném nốt, không bị đánh trực tiếp.
 - **Hạn chế đã biết:** chưa có code dùng ảnh (thay hình tạm khi owner duyệt ảnh).
+
+
+## 2026-11-16 — M10-2 (bước 2): animation Dơi Nốt
+- **Milestone / task:** M10-2 — ưu tiên 1, `rh_bat`; owner đã duyệt ảnh gốc trước khi tạo animation.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_bat/fly/` (6 PNG); `assets/rhythm/rh_bat/die/` (5 PNG); `tools/rhythm/process_bat_sheets.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp) tạo một sheet fly 3×2 và một sheet die 3×2; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_bat_sheets.ps1 ...`; kiểm kích thước / số file / alpha; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 6 frame fly 12 fps lặp và 5 frame die 20 fps được cắt thành PNG 256×256. Mỗi thư mục đúng số file; mọi frame có 4 góc trong suốt, kiểm tra không còn pixel xanh lá đục; `run_tests.ps1` mã thoát 0: GdUnit 732/732 đạt, 5/5 test khói đạt.
+- **Quyết định Codex chọn:** Cắt lưới 3×2 đều; tách nền theo sắc xanh thực tế từng ô và xóa phần xanh lá còn sót ở rìa vì ảnh sinh lệch nhẹ màu nền so với #00B140.
+- **Hạn chế đã biết:** Chưa nối các frame vào `rhythm_stage.gd`; task này chỉ cung cấp ảnh theo brief.
