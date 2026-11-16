@@ -1,6 +1,6 @@
 # Tổng hợp prompt tạo ảnh game — PROJECT ECLIPSE
 
-> Sinh bởi `tools/prompts/build_art_master.py` lúc 2026-11-15 — **không sửa tay**: sửa tài liệu gốc (đường dẫn ghi ở
+> Sinh bởi `tools/prompts/build_art_master.py` lúc 2026-11-16 — **không sửa tay**: sửa tài liệu gốc (đường dẫn ghi ở
 > đầu mỗi phần) rồi chạy lại công cụ. Một file duy nhất để đưa cho Codex / ChatGPT tạo toàn bộ ảnh Chương 1.
 > Ảnh AI được dùng trong bản phát hành (owner 2026-11-12) nhưng **mỗi file phải ghi vào `docs/ASSET_LICENSES.md`
 > mục 2.1** trước khi commit; khai báo nội dung AI trên store.
@@ -10,7 +10,7 @@
 1. Cách dùng + prompt chính gửi Codex
 2. Kinh thánh phong cách (style bible) và khóa nhân vật
 3. Dòng thời gian liền mạch Chương 1 (trạng thái từng màn)
-4. Danh sách ảnh cần làm (85 ảnh, 0 đã có)
+4. Danh sách ảnh cần làm (85 ảnh, 5 đã có)
 5. Phần A — Thiết kế nhân vật mới (Kẻ Đeo Mặt Nạ)
 6. Phần B — Truyện tranh Chương 1 (ô truyện)
 7. Phần C — Tranh map chương và thẻ chương
@@ -101,8 +101,8 @@ Cốt truyện (owner 2026-11-15): golem ở 1-1 chỉ là thủ vệ bị sai t
 
 | Ảnh | File | Kích thước | Trạng thái |
 |---|---|---|---|
-| Bảng thiết kế | assets/characters/boss_henchman_01/design/boss_henchman_01_sheet.png | 1536×1024 | ⬜ chưa có |
-| Chân dung | assets/characters/boss_henchman_01/portrait/boss_henchman_01_portrait.png | 1024×1024 | ⬜ chưa có |
+| Bảng thiết kế | assets/characters/boss_henchman_01/design/boss_henchman_01_sheet.png | 1536×1024 | ✅ đã có |
+| Chân dung | assets/characters/boss_henchman_01/portrait/boss_henchman_01_portrait.png | 1024×1024 | ✅ đã có |
 
 ### Phần B — ô truyện (39 ô)
 
@@ -132,9 +132,9 @@ Cốt truyện (owner 2026-11-15): golem ở 1-1 chỉ là thủ vệ bị sai t
 | ch01_golem_08 | assets/story/ch01/ch01_golem_08.png | 1840×380 (2×: 3680×760) | Trên đỉnh vách phía trên Lò Mẹ, một kẻ mặc giáp xám tro, mặt nạ đen trơn, đứng nhìn xuống rồi quay lưng. | ⬜ chưa có |
 | ch01_golem_09 | assets/story/ch01/ch01_golem_09.png | 960×387 (2×: 1920×774) | Raikiba bật dậy chỉ tay lên vách. | ⬜ chưa có |
 | ch01_golem_10 | assets/story/ch01/ch01_golem_10.png | 916×416 (2×: 1832×832) | Enkiba nhìn theo, quyết tâm; NEO sáng đỏ cảnh báo. | ⬜ chưa có |
-| ch01_open_01 | assets/story/ch01/ch01_open_01.png | 1840×380 (2×: 3680×760) | Toàn cảnh cửa thung lũng xám tro, đường dốc xuống, tro rơi thẳng đứng; Mặt Trời Khuyết trên trời; cuối thung lũng là vách đá có cửa lò khổng lồ tối om. | ⬜ chưa có |
-| ch01_open_02 | assets/story/ch01/ch01_open_02.png | 960×387 (2×: 1920×774) | Raikiba phanh trượt ngay trước vạch mờ tím, chồm người nhìn vào, ngạc nhiên. | ⬜ chưa có |
-| ch01_open_03 | assets/story/ch01/ch01_open_03.png | 916×416 (2×: 1832×832) | Kazeyumi giơ một tay dò gió, nét mặt nghiêm; tro rơi thẳng quanh cô. | ⬜ chưa có |
+| ch01_open_01 | assets/story/ch01/ch01_open_01.png | 1840×380 (2×: 3680×760) | Toàn cảnh cửa thung lũng xám tro, đường dốc xuống, tro rơi thẳng đứng; Mặt Trời Khuyết trên trời; cuối thung lũng là vách đá có cửa lò khổng lồ tối om. | ✅ đã có |
+| ch01_open_02 | assets/story/ch01/ch01_open_02.png | 960×387 (2×: 1920×774) | Raikiba phanh trượt ngay trước vạch mờ tím, chồm người nhìn vào, ngạc nhiên. | ✅ đã có |
+| ch01_open_03 | assets/story/ch01/ch01_open_03.png | 916×416 (2×: 1832×832) | Kazeyumi giơ một tay dò gió, nét mặt nghiêm; tro rơi thẳng quanh cô. | ✅ đã có |
 | ch01_open_04 | assets/story/ch01/ch01_open_04.png | 720×760 (2×: 1440×1520) | Enkiba đứng cạnh biển gỗ cháy xém chỉ về làng; đốm than cuối cùng trên biển vừa tắt. | ⬜ chưa có |
 | ch01_open_05 | assets/story/ch01/ch01_open_05.png | 1126×380 (2×: 2252×760) | Raikiba quay sang Enkiba, nhướng mày. | ⬜ chưa có |
 | ch01_open_06 | assets/story/ch01/ch01_open_06.png | 1156×396 (2×: 2312×792) | Cận mặt Enkiba nhìn xa, lo lắng, ánh tro phản chiếu trong mắt. | ⬜ chưa có |

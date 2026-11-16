@@ -337,6 +337,9 @@ tạo ảnh với tài khoản owner. Phải khai báo nội dung AI khi phát h
 
 | `assets/rhythm/_preview/rh_twin_original_preview.png` — Song Âm, ảnh gốc chờ duyệt | Codex imagegen / Built-in imagegen (model ID không được công cụ cung cấp) | Cặp Dơi Nốt + Sên Nhịp chibi đứng hai làn, thân tím than, viền/vệt sáng vàng #FFD84D, chuông chung và dây khuông nhạc vàng dọc. | `assets/rhythm/_preview/rh_bat_original_preview.png`, `assets/rhythm/_preview/rh_slime_original_preview.png` (thiết kế dự án đã duyệt) | Codex | 2026-11-16 |
 
+| `assets/characters/boss_henchman_01/design/boss_henchman_01_sheet.png` — bảng thiết kế Kẻ Đeo Mặt Nạ | Codex image_gen tích hợp (model ID không được cung cấp); co/crop giữ nguyên 1536×1024 | Bảng turnaround anime 2D: trước / nghiêng / sau, cận mặt nạ + huy hiệu, lưỡi móc; giáp xám tro, khe cam xỉn, áo choàng than. | Không dùng ảnh tham chiếu | Codex | 2026-11-16 |
+| `assets/characters/boss_henchman_01/portrait/boss_henchman_01_portrait.png` — chân dung Kẻ Đeo Mặt Nạ | Codex image_gen tích hợp (model ID không được cung cấp); co/crop về 1024×1024 | Chân dung anime 2D ba phần tư, giữ thiết kế giáp, mặt nạ và huy hiệu đã chốt; nền đêm tím than, vành Mặt Trời Khuyết. | `assets/characters/boss_henchman_01/design/boss_henchman_01_sheet.png` (bảng thiết kế cùng lô) | Codex | 2026-11-16 |
+
 ### 2.2 Icon tự vẽ bằng mã
 
 Sinh bằng Pillow (hình học đơn giản, không dùng ảnh hay phông bên thứ ba), vào bản phát hành.
