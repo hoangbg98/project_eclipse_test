@@ -236,6 +236,8 @@ tạo ảnh với tài khoản owner. Phải khai báo nội dung AI khi phát h
 | `assets/rhythm/rh_bat/die/rh_bat_die_003.png` | Codex imagegen / Built-in imagegen (model ID không được công cụ cung cấp) | Dơi Nốt theo thiết kế đã duyệt; tan thành các nốt nhạc sáng; sprite sheet lưới 3×2, cắt frame 256×256, tách nền xanh #00B140. | `assets/rhythm/_preview/rh_bat_original_preview.png` (ảnh gốc đã duyệt) | Codex | 2026-11-16 |
 | `assets/rhythm/rh_bat/die/rh_bat_die_004.png` | Codex imagegen / Built-in imagegen (model ID không được công cụ cung cấp) | Dơi Nốt theo thiết kế đã duyệt; tan thành các nốt nhạc sáng; sprite sheet lưới 3×2, cắt frame 256×256, tách nền xanh #00B140. | `assets/rhythm/_preview/rh_bat_original_preview.png` (ảnh gốc đã duyệt) | Codex | 2026-11-16 |
 
+| `assets/rhythm/_preview/rh_slime_original_preview.png` — Sên Nhịp, ảnh gốc chờ duyệt | Codex imagegen / Built-in imagegen (model ID không được công cụ cung cấp) | Quái sên chibi thân tím than, mắt và viền hồng phát sáng, nốt đen như sừng, tư thế trung tính nhìn trái, nền phẳng #00B140. | Không dùng | Codex | 2026-11-16 |
+
 ## 3. Placeholder (không bao giờ ship)
 
 Tạo bởi Claude (hình khối màu, âm sinh tự động). Tên luôn bắt đầu bằng

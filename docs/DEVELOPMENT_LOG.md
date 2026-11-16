@@ -2097,3 +2097,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** 6 frame fly 12 fps lặp và 5 frame die 20 fps được cắt thành PNG 256×256. Mỗi thư mục đúng số file; mọi frame có 4 góc trong suốt, kiểm tra không còn pixel xanh lá đục; `run_tests.ps1` mã thoát 0: GdUnit 732/732 đạt, 5/5 test khói đạt.
 - **Quyết định Codex chọn:** Cắt lưới 3×2 đều; tách nền theo sắc xanh thực tế từng ô và xóa phần xanh lá còn sót ở rìa vì ảnh sinh lệch nhẹ màu nền so với #00B140.
 - **Hạn chế đã biết:** Chưa nối các frame vào `rhythm_stage.gd`; task này chỉ cung cấp ảnh theo brief.
+
+
+## 2026-11-16 — M10-2 (bước 1): ảnh gốc Sên Nhịp chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, `rh_slime`; chỉ tạo ảnh gốc theo yêu cầu owner.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/rhythm/_preview/rh_slime_original_preview.png`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp); chép ảnh vào thư mục preview.
+- **Kết quả thật:** Đã tạo một ảnh vuông PNG Sên Nhịp nền xanh phẳng; chưa tách nền, chưa tạo animation.
+- **Quyết định Codex chọn:** Không dùng ảnh tham chiếu; giữ nguyên ảnh nền xanh ở `_preview` để owner duyệt trước khi làm animation.
+- **Hạn chế đã biết:** Chờ owner duyệt ảnh gốc. Chưa tạo run/die, chưa tách nền, chưa kiểm tra khung sprite.
