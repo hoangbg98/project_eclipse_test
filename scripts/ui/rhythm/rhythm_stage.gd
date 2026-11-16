@@ -1136,6 +1136,8 @@ func _position_serpent(note_index: int, visual: Dictionary, head_time: float) ->
 		body.scale = Vector2(sb, sb)
 		body.position = Vector2(head_x, y - bh * 0.5)
 		body.size = Vector2(maxf(tail_x - head_x, 0.0) / sb, 96.0)
+		var holding := int(judge.states[note_index]["state"]) == 1
+		body.modulate = Color.WHITE.lerp(_note_color(l), 0.9 if holding else 0.55)
 		var tail: TextureRect = visual["tails"][k]
 		tail.position = Vector2(tail_x - tw * 0.3, y - tw * 0.5)
 		tail.size = Vector2(tw, tw)
@@ -1186,6 +1188,8 @@ func _boss_frames() -> SpriteFrames:
 
 func _boss_play(anim: String, force := false) -> void:
 	if _boss_sprite == null or not is_instance_valid(_boss_sprite) or _boss_sprite.animation == "defeat":
+		return
+	if anim == "hurt" and _boss_sprite.animation == "hurt" and _boss_sprite.is_playing():
 		return
 	if not force and _boss_sprite.animation in ["throw", "hurt"] and _boss_sprite.is_playing():
 		return

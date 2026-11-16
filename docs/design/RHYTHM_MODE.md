@@ -114,5 +114,6 @@ Action `rhythm_up` / `rhythm_down` trong `InputRouter`. Nhiều phím cùng làn
 
 ## 7. Còn thiếu / sau này
 
-Hình nhân vật / quái / nền riêng cho chế độ này (đang vẽ bằng code), âm hiệu ứng khi đánh, chỉnh độ trễ (offset) trong
-Cài đặt, trình soạn nốt, giới hạn số lượt / ngày (nếu owner muốn), tốc độ nốt tùy chọn.
+Quái ưu tiên 1 đã có frame riêng và được `RhythmStage` nối: Dơi Nốt, Sên Nhịp, Song Âm, Rắn Ngân, Trống Đá và boss
+Nhật Thực. Còn thiếu: nền riêng, âm hiệu ứng khi đánh, chỉnh độ trễ (offset) trong Cài đặt, trình soạn nốt, giới hạn
+số lượt / ngày (nếu owner muốn), tốc độ nốt tùy chọn.

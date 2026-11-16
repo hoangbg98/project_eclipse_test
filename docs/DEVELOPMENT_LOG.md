@@ -2227,6 +2227,16 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Quyết định Codex chọn:** Throw 12 fps, hurt 12 fps, defeat 20 fps vì brief chỉ quy định fps cho idle (10); idle 8 frame dùng pose đầu lặp lại ở frame cuối. Giữ frame canvas 768×768 phù hợp boss.
 - **Hạn chế đã biết:** Chưa nối boss vào `rhythm_stage.gd`; cần tích hợp animation khi làm bước gameplay tương ứng.
 
+
+## 2026-11-16 — M10-2: nối frame quái nhịp điệu vào RhythmStage
+- **Milestone / task:** M10-2 — thay hình tạm của Rắn Ngân, Trống Đá và boss Nhật Thực bằng frame đã duyệt; dùng chung pipeline hình ảnh với Dơi Nốt, Sên Nhịp và Song Âm.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/rhythm/rhythm_stage.gd`; `docs/design/RHYTHM_MODE.md`; nhật ký này. Dùng các frame có sẵn trong `assets/rhythm/rh_serpent/`, `rh_drum/` và `rh_boss_eclipse/`.
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Import tài nguyên hoàn tất. Toàn bộ GdUnit4 đạt 743/743, 0 lỗi; 5/5 test khói đạt; runner trả mã thoát 0. Tài nguyên Rắn Ngân dựng đầu/thân/đuôi và hai đầu nối dây vàng ở nốt cả hai làn; Trống Đá dựng idle/hit, cập nhật nứt và bộ đếm lượt, rồi burst/escape theo kết quả mash; boss dựng idle/throw/hurt/defeat.
+- **Quyết định Codex chọn:** Trống Đá hiển thị ở cỡ 0.51 (512 px thành khoảng 261 px), chân đặt sát cao độ làn; chọn ba mức nứt theo tỉ lệ số lần đánh trên tổng yêu cầu. Boss hiển thị ở cỡ 480 px; throw/hurt chạy 12 fps, defeat 20 fps theo thiết lập animation trước đó.
+- **Hạn chế đã biết:** Chưa xác minh thủ công bằng cách chơi qua toàn bộ N-2 và N-5 trong cửa sổ game.
+
 ## 2026-11-16 — M10-2 Hướng dẫn trong ải N-1, ải 1 chậm hơn, Rắn Ngân từ ải 2, hình Rắn Ngân, nốt giữ không ra quá sớm
 - **Milestone / task:** M10-2 — owner 2026-11-16: "sửa như ý bạn" (Rắn Ngân bắt đầu từ N-2, dùng hình Rắn Ngân, nốt giữ không ra trước khi người chơi kịp nhìn), ải 1 chậm hơn, có hướng dẫn trong ải đầu hoặc ải hướng dẫn riêng (Claude chọn).
 - **Trạng thái:** TESTED
