@@ -75,6 +75,29 @@ func last_note_end() -> float:
 	return float(last["t"]) + float(last["dur"])
 
 
+## Bỏ nốt đến quá sát nốt trước có chung làn (tính từ lúc nốt trước kết thúc, kể cả phần giữ / ấn liên tục) để
+## hitbox không đè nhau. Ảnh quái vẫn có thể chồng lên nhau. Trả về số nốt bị bỏ (cộng vào `dropped`).
+func enforce_spacing(min_gap: float) -> int:
+	var kept: Array[Dictionary] = []
+	var last_end := {RhythmChart.LANE_UP: -INF, RhythmChart.LANE_DOWN: -INF}
+	var removed := 0
+	for n in notes:
+		var ok := true
+		for l in [LANE_UP, LANE_DOWN]:
+			if int(n["lane"]) & l and float(n["t"]) - float(last_end[l]) < min_gap - 0.0005:
+				ok = false
+		if not ok:
+			removed += 1
+			continue
+		kept.append(n)
+		for l in [LANE_UP, LANE_DOWN]:
+			if int(n["lane"]) & l:
+				last_end[l] = float(n["t"]) + float(n["dur"])
+	notes = kept
+	dropped += removed
+	return removed
+
+
 static func lane_name(lane: int) -> String:
 	for k in LANE_NAMES:
 		if LANE_NAMES[k] == lane:

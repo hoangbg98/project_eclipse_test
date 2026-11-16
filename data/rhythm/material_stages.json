@@ -1,8 +1,9 @@
 {
-	"_comment": "Ải nguyên liệu nhịp điệu (M10, docs/design/RHYTHM_MODE.md). 5 ải con mở lần lượt; ải 5 là boss với bản nốt cố định (chart 'boss' trong catalog máy chủ). Qua cả 5 mở chế độ Vô tận (chọn bài). Thưởng chỉ khi qua (HP > 0); rank_multiplier nhân số nguyên liệu / vàng.",
+	"_comment": "Ải nguyên liệu nhịp điệu (M10, docs/design/RHYTHM_MODE.md). 5 ải con mở lần lượt; ải 5 là boss với bản nốt cố định (chart 'boss' trong catalog máy chủ). Qua cả 5 mở chế độ Vô tận (chọn bài). Thưởng chỉ khi qua (HP > 0); rank_multiplier nhân số nguyên liệu / vàng. note_speed: tốc độ quái (px/giây), tăng dần tới ải boss (owner 2026-11-16); vòng chấm phóng theo tốc độ nên cửa sổ ms giữ nguyên.",
 	"stages": [
 		{
 			"id": "rhythm_mat_01",
+			"note_speed": 650,
 			"code": "N-1",
 			"name_key": "RHYTHM_STAGE_01_NAME",
 			"song": "song_ember_steps",
@@ -13,6 +14,7 @@
 		},
 		{
 			"id": "rhythm_mat_02",
+			"note_speed": 750,
 			"code": "N-2",
 			"name_key": "RHYTHM_STAGE_02_NAME",
 			"song": "song_gale_runner",
@@ -23,16 +25,18 @@
 		},
 		{
 			"id": "rhythm_mat_03",
+			"note_speed": 850,
 			"code": "N-3",
 			"name_key": "RHYTHM_STAGE_03_NAME",
 			"song": "song_thunder_lane",
-			"chart": "normal",
+			"chart": "hard",
 			"boss": false,
 			"rewards": {"gold": 2100, "captain_exp": 460, "materials": {"mat_exp_medium": 5, "mat_enhance_ore": 3}},
 			"first_clear_rewards": {"gems": 60, "materials": {"mat_exp_large": 1}}
 		},
 		{
 			"id": "rhythm_mat_04",
+			"note_speed": 950,
 			"code": "N-4",
 			"name_key": "RHYTHM_STAGE_04_NAME",
 			"song": "song_lumen_waltz",
@@ -43,6 +47,7 @@
 		},
 		{
 			"id": "rhythm_mat_05",
+			"note_speed": 1050,
 			"code": "N-5",
 			"name_key": "RHYTHM_STAGE_05_NAME",
 			"song": "song_eclipse_boss",
@@ -55,6 +60,7 @@
 	"endless": {
 		"unlock_after": "rhythm_mat_05",
 		"difficulties": ["easy", "normal", "hard"],
+		"note_speed": {"easy": 700, "normal": 850, "hard": 1000},
 		"rewards": {
 			"easy": {"gold": 1200, "captain_exp": 250, "materials": {"mat_exp_small": 6, "mat_exp_medium": 1}},
 			"normal": {"gold": 1800, "captain_exp": 400, "materials": {"mat_exp_small": 6, "mat_exp_medium": 3}},

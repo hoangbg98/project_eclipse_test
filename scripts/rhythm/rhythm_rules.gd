@@ -7,7 +7,9 @@ extends Resource
 @export var ring_radius := 72.0
 ## Độ dày viền ngoài vòng chấm (px): hitbox chỉ chạm phần viền này = Miss.
 @export var ring_rim := 10.0
-## Tốc độ quái chạy về vòng chấm (px / giây, khung 1920x1080). Đổi khoảng cách thành thời gian lệch.
+## Tốc độ chuẩn của quái (px / giây, khung 1920x1080) mà `ring_radius` / `ring_rim` ở trên áp dụng. Mỗi ải đặt tốc độ
+## riêng (data/rhythm/material_stages.json); `for_speed()` phóng vòng chấm theo tốc độ để cửa sổ thời gian (ms) của
+## Perfect / Great / Good / Normal / Miss giữ nguyên: nhanh hơn = ít thời gian nhìn, nốt dày hơn, chứ không khó căn hơn.
 @export var note_speed := 800.0
 ## Tỉ lệ diện tích hitbox nằm trong vòng: ≥ perfect = Perfect (khít), ≥ great = Great, ≥ good = Good,
 ## > 0 (đã qua viền vào trong vòng) = Normal, chỉ chạm viền ngoài = Miss.
@@ -64,6 +66,23 @@ extends Resource
 @export var lead_in_sec := 2.0
 ## Sau nốt cuối bấy nhiêu giây thì kết thúc nếu nhạc còn dài.
 @export var tail_sec := 2.5
+
+
+## Bản sao luật ở tốc độ `speed` (px / giây): vòng chấm, viền, hitbox phóng theo tỉ lệ tốc độ / tốc độ chuẩn.
+## speed ≤ 0: giữ nguyên.
+func for_speed(speed: float) -> RhythmRules:
+	var r := duplicate() as RhythmRules
+	if speed > 0.0 and note_speed > 0.0:
+		var k := speed / note_speed
+		r.note_speed = speed
+		r.ring_radius = ring_radius * k
+		r.ring_rim = ring_rim * k
+	return r
+
+
+## Khoảng cách thời gian tối thiểu giữa hai nốt cùng làn để hitbox không đè nhau (hai hitbox cách nhau ≥ 2 bán kính).
+func min_note_gap() -> float:
+	return 2.0 * ring_radius / maxf(note_speed, 1.0)
 
 
 ## Tỉ lệ diện tích chồng nhau của hai hình tròn cùng bán kính r, tâm cách nhau d (0..1).

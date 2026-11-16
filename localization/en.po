@@ -3456,3 +3456,6 @@ msgstr "GOOD"
 
 msgid "RHYTHM_NORMAL"
 msgstr "NORMAL"
+
+msgid "RHYTHM_SPEED"
+msgstr "Speed ×%.1f"

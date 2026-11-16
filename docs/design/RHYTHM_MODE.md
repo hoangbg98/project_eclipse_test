@@ -47,6 +47,21 @@ Action `rhythm_up` / `rhythm_down` trong `InputRouter`. Nhiều phím cùng làn
   Perfect, Great, Good, Normal đều giữ combo; Normal không cộng Fever. Độ chính xác = (Perfect + Great × 0.75 +
   Good × 0.5 + Normal × 0.25) / tổng.
 - Để nốt trôi qua: **Miss**, mất `miss_damage` HP.
+- **Tốc độ tăng dần theo ải** (owner 2026-11-16, `note_speed` trong `data/rhythm/material_stages.json`):
+
+  | Ải | N-1 | N-2 | N-3 | N-4 | N-5 boss | Vô tận Dễ / Thường / Khó |
+  |---|---|---|---|---|---|---|
+  | Tốc độ (px/s) | 650 (×0.8) | 750 | 850 | 950 | 1050 (×1.3) | 700 / 850 / 1000 |
+  | Bản nốt (độ khó) | easy (2) | normal (5) | hard (8) | hard (10) | boss (11) | theo độ khó chọn |
+
+  Vòng chấm, viền và hitbox phóng theo tốc độ (`RhythmRules.for_speed`) nên cửa sổ ms của 5 mức **giữ nguyên** ở mọi ải:
+  nhanh hơn = ít thời gian nhìn (quái từ mép màn tới vòng: ~2.4 s ở N-1, ~1.5 s ở N-5) và nốt dày hơn, nhưng Perfect
+  luôn ±21 ms — nhanh tay nhanh mắt là đạt được. Quái to theo vòng (đường kính vòng × `enemy.ring_ratio` 2.1).
+- **Hitbox không đè nhau**: hai nốt cùng làn cách nhau ≥ 2 × bán kính / tốc độ (180 ms) tính từ lúc nốt trước kết thúc;
+  game tự bỏ nốt vi phạm (`RhythmChart.enforce_spacing`), tool sinh nốt cũng giữ `LANE_GAP` = 0.19 s. Ảnh quái được
+  phép chồng lên nhau; nốt khác làn xen sát tới ~80–100 ms ở bản Khó / boss.
+- **Thời điểm ấn chính xác**: mỗi lần nhận phím, game đọc lại đồng hồ nhạc ngay lúc đó (không dùng giá trị của frame
+  trước, vốn lệch tới ~16 ms ở 60 fps).
 - **Ấn 1 lần** (tap). **Giữ** (hold): chấm đầu thanh như tap, rồi giữ (các) phím tới cuối thanh; thả sớm hơn
   `hold_release_tolerance` = gãy (Trượt, mất `hold_break_damage`). Nốt giữ tính 2 đơn vị chấm.
 - **Ấn liên tục** (mash): trong thời gian nốt, mỗi lần ấn đúng làn +điểm; cuối nốt chấm theo số lần / yêu cầu

@@ -414,6 +414,7 @@ KEYS = [
     ("RHYTHM_LOCKED_HINT", "Qua ải trước để mở ải này.", "Clear the previous stage to unlock this one."),
     ("RHYTHM_CLEARED", "Đã qua", "Cleared"),
     ("RHYTHM_LEVEL", "Độ khó %d", "Level %d"),
+    ("RHYTHM_SPEED", "Tốc độ ×%.1f", "Speed ×%.1f"),
     ("RHYTHM_ENDLESS_TITLE", "Vô tận", "Endless"),
     ("RHYTHM_ENDLESS_SUB", "Chọn bài và độ khó, chơi bao nhiêu tùy thích.", "Pick any song and difficulty, play as much as you like."),
     ("RHYTHM_ENDLESS_LOCKED", "Qua ải N-5 (boss) để mở chế độ Vô tận.", "Clear stage N-5 (boss) to unlock Endless."),

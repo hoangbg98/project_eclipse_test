@@ -19,6 +19,7 @@ func after_test() -> void:
 	GameConfig.rhythm_chart_key = ""
 	GameConfig.rhythm_record_key = ""
 	GameConfig.rhythm_boss = false
+	GameConfig.rhythm_note_speed = 0.0
 
 
 func _chart() -> RhythmChart:
@@ -56,6 +57,22 @@ func test_autoplay_clears_with_s_and_rewards() -> void:
 	assert_int(p.inventory.currency("gold")).is_greater(0)
 	assert_object(s.find_child("ResultLayer", true, false)).is_not_null()
 	assert_str((s.find_child("Rank", true, false) as Label).text).is_equal("S")
+
+
+## Tốc độ của lượt: vòng chấm phóng theo, hitbox cùng làn không đè nhau.
+func test_stage_speed_scales_ring_and_spacing() -> void:
+	var s := STAGE_SCENE.instantiate() as RhythmStage
+	var c := RhythmChart.from_dict({"format": 1, "notes": [{"t": 1.0, "lane": "up"}, {"t": 1.05, "lane": "up"}, {"t": 1.1, "lane": "down"}]})
+	s.setup(c, null, "", "T", false, 1200.0)
+	s.manual_clock = true
+	s.save_enabled = false
+	s.profile = PlayerProfile.new(SaveSchema.default_data())
+	add_child(auto_free(s))
+	var base := load("res://data/rhythm/rhythm_rules.tres") as RhythmRules
+	assert_float(s.rules.note_speed).is_equal(1200.0)
+	assert_float(s.rules.ring_radius).is_equal_approx(base.ring_radius * 1200.0 / base.note_speed, 0.001)
+	assert_int(s.spacing_dropped).is_equal(1)
+	assert_int(s.chart.notes.size()).is_equal(2)
 
 
 func test_idle_run_fails_or_misses_everything() -> void:
@@ -181,6 +198,7 @@ func test_material_screen_starts_cached_stage() -> void:
 	assert_str(GameConfig.rhythm_song_id).is_equal("song_ember_steps")
 	assert_str(GameConfig.rhythm_chart_key).is_equal("easy")
 	assert_str(GameConfig.rhythm_record_key).is_equal("rhythm_mat_01")
+	assert_float(GameConfig.rhythm_note_speed).is_equal(RhythmProgress.new(p).note_speed("rhythm_mat_01"))
 
 
 func test_endless_list_rows_tabs_and_favorites() -> void:

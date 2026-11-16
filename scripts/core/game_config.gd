@@ -55,6 +55,8 @@ var rhythm_song_id := ""
 var rhythm_chart_key := ""
 var rhythm_record_key := ""
 var rhythm_boss := false
+## Tốc độ quái của lượt (px / giây, 0 = chuẩn), xem RhythmProgress.note_speed.
+var rhythm_note_speed := 0.0
 
 ## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
 const TRANSITION_TIME := 0.2

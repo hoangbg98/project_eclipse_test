@@ -176,3 +176,15 @@ func test_save_keeps_rhythm_data() -> void:
 	var old := SaveSchema.default_data()
 	old.erase("rhythm")   # save cũ chưa có mục này
 	assert_dict(SaveSchema.sanitize(old)["rhythm"]["records"]).is_empty()
+
+
+func test_stage_speeds_increase_to_boss() -> void:
+	var prog := RhythmProgress.new(PlayerProfile.new(SaveSchema.default_data()))
+	var prev := 0.0
+	for s in prog.stages():
+		var sp := prog.note_speed(str(s["id"]))
+		assert_float(sp).is_greater(prev)
+		prev = sp
+	assert_float(prog.note_speed(RhythmProgress.endless_key("x", "hard"))).is_greater(
+			prog.note_speed(RhythmProgress.endless_key("x", "easy")))
+	assert_float(prog.note_speed("khong_co")).is_equal(0.0)

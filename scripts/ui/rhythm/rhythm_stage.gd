@@ -32,6 +32,10 @@ var profile: PlayerProfile
 var result: Dictionary = {}
 var paused := false
 var load_error := ""
+## Tốc độ quái của lượt (px / giây, 0 = tốc độ chuẩn của luật). Vòng chấm phóng theo (RhythmRules.for_speed).
+var note_speed := 0.0
+## Số nốt bị bỏ để hitbox cùng làn không đè nhau ở tốc độ này.
+var spacing_dropped := 0
 
 var player: AudioStreamPlayer
 var now := -2.0
@@ -67,7 +71,8 @@ func _ready() -> void:
 	add_to_group(BACK_GROUP)
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	rules = load(RULES_PATH) as RhythmRules
+	var base_rules := load(RULES_PATH) as RhythmRules
+	rules = base_rules
 	layout = UiLayout.load_from(LAYOUT_PATH)
 	player = AudioStreamPlayer.new()
 	player.name = "Music"
@@ -75,12 +80,17 @@ func _ready() -> void:
 	add_child(player)
 	if chart == null:
 		_load_from_config()
+	rules = base_rules.for_speed(note_speed)
+	if chart:
+		spacing_dropped = chart.enforce_spacing(rules.min_note_gap())
 	_build()
 
 
 ## Chuẩn bị lượt chơi trực tiếp (test hoặc màn khác truyền vào). Gọi trước khi thêm vào cây.
-func setup(chart_: RhythmChart, stream: AudioStream, record_key_: String, title := "", boss_ := false) -> void:
+func setup(chart_: RhythmChart, stream: AudioStream, record_key_: String, title := "", boss_ := false,
+		speed := 0.0) -> void:
 	chart = chart_
+	note_speed = speed
 	record_key = record_key_
 	song_title = title
 	boss = boss_
@@ -102,6 +112,7 @@ func _load_from_config() -> void:
 		lib.catalog = RhythmLibrary._parse_catalog(FileAccess.get_file_as_string(cached))
 	record_key = str(gc.rhythm_record_key)
 	boss = bool(gc.rhythm_boss)
+	note_speed = float(gc.rhythm_note_speed)
 	song_title = str(lib.song(str(gc.rhythm_song_id)).get("title", gc.rhythm_song_id))
 	if not lib.is_cached(str(gc.rhythm_song_id), str(gc.rhythm_chart_key)):
 		load_error = "not_cached"
@@ -358,6 +369,7 @@ func _input(event: InputEvent) -> void:
 ## Một phím của làn được ấn (nhiều phím cùng làn: nhả hết mới tính là nhả).
 func press_lane(lane: int) -> void:
 	_lane_keys[lane] = int(_lane_keys[lane]) + 1
+	now = _input_time()
 	judge.press(lane, now)
 	if lane == RhythmChart.LANE_UP:
 		_air_until = now + 0.28
@@ -372,7 +384,16 @@ func press_lane(lane: int) -> void:
 func release_lane(lane: int) -> void:
 	_lane_keys[lane] = maxi(int(_lane_keys[lane]) - 1, 0)
 	if int(_lane_keys[lane]) == 0:
+		now = _input_time()
 		judge.release(lane, now)
+
+
+## Thời điểm trong bài ngay lúc phím được nhận (đọc lại đồng hồ nhạc thay vì dùng giá trị của frame trước, lệch tới
+## ~16 ms ở 60 fps), để Perfect phụ thuộc tay người chơi chứ không phụ thuộc nhịp frame.
+func _input_time() -> float:
+	if manual_clock or paused or not _audio_started or player == null or not player.playing:
+		return now
+	return maxf(now, _song_time())
 
 
 func intercept_back() -> bool:

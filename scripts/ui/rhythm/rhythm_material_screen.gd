@@ -78,6 +78,9 @@ func _stage_card(r: Rect2, s: Dictionary, prog: RhythmProgress) -> void:
 	var chart := library.chart_info(str(s.get("song", "")), str(s.get("chart", ""))) if library else {}
 	_label(Rect2(p + Vector2(20, 168), Vector2(r.size.x - 40, 76)), "♪ " + str(song.get("title", "—")), 24, Color("#9FE3FF"))
 	var lvl := tr("RHYTHM_LEVEL") % int(chart.get("level", 0)) if not chart.is_empty() else ""
+	var sp := prog.note_speed(id)
+	if sp > 0.0:
+		lvl += ("  ·  " if lvl != "" else "") + tr("RHYTHM_SPEED") % (sp / RhythmProgress.BASE_SPEED)
 	_label(Rect2(p + Vector2(20, 246), Vector2(r.size.x - 40, 40)), lvl, 24, Color(1, 1, 1, 0.8))
 	_label(Rect2(p + Vector2(20, 290), Vector2(r.size.x - 40, 150)), _reward_preview(prog.base_rewards(id)), 22,
 			Color(1, 1, 1, 0.7))
@@ -154,4 +157,5 @@ func start_play(song_id: String, chart_key: String, record_key: String, boss_ :=
 		gc.rhythm_chart_key = chart_key
 		gc.rhythm_record_key = record_key
 		gc.rhythm_boss = boss_
+		gc.rhythm_note_speed = _progress().note_speed(record_key)
 	open_scene("SCENE_RHYTHM_STAGE")

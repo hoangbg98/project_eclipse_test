@@ -6,6 +6,8 @@ extends RefCounted
 ## Khóa kỷ lục: id ải (vd "rhythm_mat_01") hoặc "endless:<song_id>:<độ khó>".
 
 const STAGES_PATH := "res://data/rhythm/material_stages.json"
+## Tốc độ hiển thị "×1.0" (px / giây), chỉ để hiện trên thẻ.
+const BASE_SPEED := 800.0
 
 var profile: PlayerProfile
 var defs: Dictionary
@@ -95,6 +97,13 @@ func base_rewards(key: String) -> Dictionary:
 		var diff := key.get_slice(":", 2)
 		return defs.get("endless", {}).get("rewards", {}).get(diff, {})
 	return stage(key).get("rewards", {})
+
+
+## Tốc độ quái (px / giây) của một lượt: ải theo `note_speed` của ải, Vô tận theo độ khó; 0 = tốc độ chuẩn của luật.
+func note_speed(key: String) -> float:
+	if key.begins_with("endless:"):
+		return float(defs.get("endless", {}).get("note_speed", {}).get(key.get_slice(":", 2), 0.0))
+	return float(stage(key).get("note_speed", 0.0))
 
 
 ## Nhân số lượng theo hạng (làm tròn xuống, tối thiểu giữ 1 nếu gốc > 0).

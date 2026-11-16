@@ -41,9 +41,13 @@ HOP = 256
 PROFILES = {
     "easy": {"grid": 2, "keep": 0.30, "gap": 0.42, "both": 0.06, "hold": True, "mash": True, "min_level": 1},
     "normal": {"grid": 2, "keep": 0.55, "gap": 0.26, "both": 0.12, "hold": True, "mash": True, "min_level": 4},
-    "hard": {"grid": 4, "keep": 0.62, "gap": 0.15, "both": 0.18, "hold": True, "mash": True, "min_level": 7},
-    "boss": {"grid": 4, "keep": 0.55, "gap": 0.17, "both": 0.22, "hold": True, "mash": True, "min_level": 8},
+    "hard": {"grid": 4, "keep": 0.72, "gap": 0.10, "both": 0.18, "hold": True, "mash": True, "min_level": 7},
+    "boss": {"grid": 4, "keep": 1.0, "gap": 0.08, "both": 0.3, "hold": True, "mash": True, "min_level": 11},
 }
+# Hai nốt CÙNG làn phải cách nhau ít nhất chừng này (giây, tính từ lúc nốt trước kết thúc) để hitbox không đè nhau
+# (owner 2026-11-16). Khớp RhythmRules.min_note_gap() = 2 × ring_radius / note_speed (2 × 72 / 800 = 0.18), cộng dư
+# một chút; game cũng tự bỏ nốt vi phạm (RhythmChart.enforce_spacing). Nốt khác làn được xen sát hơn ("gap").
+LANE_GAP = 0.19
 DEFAULT_CHARTS = ["easy", "normal", "hard"]
 
 
@@ -253,9 +257,13 @@ def make_chart(path, song, chart_key):
     events.sort(key=lambda e: (e[0], 0 if e[1] != "tap" else 1))
     notes = []
     end = -1e9
+    lane_end = {"up": -1e9, "down": -1e9}
     for t, kind, lane, dur, hits in events:
         gap = prof["gap"] if kind == "tap" else max(prof["gap"], 0.3)
         if t < end + gap:
+            continue
+        lanes = ("up", "down") if lane == "both" else (lane,)
+        if any(t < lane_end[l] + LANE_GAP for l in lanes):
             continue
         n = {"t": round(t, 3), "lane": lane, "kind": kind}
         if kind != "tap":
@@ -264,6 +272,8 @@ def make_chart(path, song, chart_key):
             n["hits"] = hits
         notes.append(n)
         end = t + (n.get("dur", 0.0))
+        for l in lanes:
+            lane_end[l] = end
     # Mức độ khó hiển thị: theo mật độ (nốt / giây trong phần có nốt).
     span = max(1.0, (notes[-1]["t"] - notes[0]["t"]) if notes else 1.0)
     density = len(notes) / span

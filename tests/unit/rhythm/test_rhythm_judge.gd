@@ -226,3 +226,41 @@ func test_fever_and_combo_bonus() -> void:
 	_tap(j, DOWN, float(notes[need]["t"]))
 	j.update(float(notes[need]["t"]) + 0.1)
 	assert_int(j.score - before).is_greater(rules.score_perfect)
+
+
+## Tốc độ theo ải (owner 2026-11-16): nhanh hơn thì vòng chấm phóng theo, cửa sổ ms giữ nguyên (Perfect vẫn trong tầm).
+func test_for_speed_keeps_timing_windows() -> void:
+	var fast := rules.for_speed(rules.note_speed * 1.5)
+	assert_float(fast.note_speed).is_equal(rules.note_speed * 1.5)
+	assert_float(fast.ring_radius).is_equal_approx(rules.ring_radius * 1.5, 0.001)
+	for f in [rules.perfect_overlap, rules.great_overlap, rules.good_overlap]:
+		assert_float(fast.offset_for_overlap(f)).is_equal_approx(rules.offset_for_overlap(f), 0.0001)
+	assert_float(fast.reach_sec()).is_equal_approx(rules.reach_sec(), 0.0001)
+	assert_float(fast.min_note_gap()).is_equal_approx(rules.min_note_gap(), 0.0001)
+	assert_float(rules.for_speed(0.0).note_speed).is_equal(rules.note_speed)   # 0 = giữ nguyên
+	assert_float(rules.note_speed).is_equal(800.0)   # bản gốc không bị đổi
+
+
+## Hitbox cùng làn không đè nhau: nốt cùng làn đến quá sát (kể cả sau nốt giữ) bị bỏ; khác làn thì được xen sát.
+func test_enforce_spacing_same_lane_only() -> void:
+	var c := RhythmChart.from_dict({"format": 1, "notes": [
+		{"t": 1.0, "lane": "up"},
+		{"t": 1.1, "lane": "down"},                          # khác làn: giữ
+		{"t": 1.15, "lane": "up"},                           # cùng làn, cách 0.15 < gap: bỏ
+		{"t": 1.3, "lane": "both"},                          # cách nốt trên 0.3, nốt dưới 0.2: giữ
+		{"t": 2.0, "lane": "down", "kind": "hold", "dur": 1.0},
+		{"t": 3.1, "lane": "down"},                          # 0.1 sau khi nốt giữ kết thúc: bỏ
+		{"t": 3.15, "lane": "up"},                           # làn trên trống: giữ
+	]})
+	var removed := c.enforce_spacing(0.18)
+	assert_int(removed).is_equal(2)
+	var ts: Array = []
+	for n in c.notes:
+		ts.append(float(n["t"]))
+	assert_array(ts).is_equal([1.0, 1.1, 1.3, 2.0, 3.15])
+	var prev := {RhythmChart.LANE_UP: -INF, RhythmChart.LANE_DOWN: -INF}
+	for n in c.notes:
+		for l in [RhythmChart.LANE_UP, RhythmChart.LANE_DOWN]:
+			if int(n["lane"]) & l:
+				assert_float(float(n["t"]) - float(prev[l])).is_greater_equal(0.18 - 0.001)
+				prev[l] = float(n["t"]) + float(n["dur"])
