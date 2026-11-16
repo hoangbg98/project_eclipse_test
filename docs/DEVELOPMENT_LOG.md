@@ -2189,6 +2189,16 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Hạn chế đã biết:** Chờ owner duyệt concept. Khi duyệt mới tạo idle 4 frame, hit 3 frame, 3 mức crack tĩnh, burst 6 frame và escape 6 frame theo brief.
 
 
+## 2026-11-16 — M10-2: animation Trống Đá
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_drum; tạo animation sau khi owner duyệt concept.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_drum/idle/` (4 PNG); `hit/` (3 PNG); `crack/` (3 PNG); `burst/` (6 PNG); `escape/` (6 PNG); `tools/rhythm/process_drum_sheets.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen tạo 5 sheet theo concept đã duyệt; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_drum_sheets.ps1` với các sheet idle, hit, crack, burst, escape; kiểm tra ảnh trong processor bằng C# LockBits.
+- **Kết quả thật:** Xuất đủ 22 PNG 512×512 theo số lượng brief. Processor xác nhận 0 pixel xanh chroma còn hiển thị trong từng frame; idle 000 và 003 giống hệt nhau để khép vòng lặp. Đã xem trực tiếp các frame hit, ba mức crack, burst và escape. Không chạy test game vì task chỉ tạo asset.
+- **Quyết định Codex chọn:** FPS idle 8, burst 20, escape 12 vì brief không định fps cho các animation này; hit giữ 24 fps như brief; mức crack đặt ở vỏ/rìa mặt trống để giữ vùng giữa sạch cho số đếm; idle chớp mắt nhẹ và frame cuối lặp chính xác frame đầu.
+- **Hạn chế đã biết:** Chưa nối Trống Đá vào `rhythm_stage.gd`; hit counter vẫn do game vẽ và cần tích hợp riêng.
+
+
 ## 2026-11-16 — M10-2 Tốc độ quái tăng dần theo ải, hitbox không đè nhau, thời điểm ấn chính xác
 - **Milestone / task:** M10-2 — owner 2026-11-16: tốc độ quái thay đổi theo ải, tăng dần tới ải cuối để tăng thử thách; quái được dày, chồng lên nhau nhưng hitbox không đè nhau; độ khó kiểu game nhịp điệu, phản hồi phím nhanh để người chơi thấy Perfect là đạt được nếu nhanh tay nhanh mắt.
 - **Trạng thái:** TESTED
