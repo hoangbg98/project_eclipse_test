@@ -2207,3 +2207,13 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 738/738 đạt (0 lỗi), 5/5 test khói đạt. Bản nốt 5 ải: N-1 easy 100 nốt mức 2, N-2 normal 181 nốt mức 5, N-3 hard 299 nốt mức 8, N-4 hard 349 nốt mức 10, N-5 boss 291 nốt mức 11 (khoảng cách nhỏ nhất giữa hai nốt khác làn ~80–100 ms, cùng làn ≥ 190 ms). Ảnh `rhythm_0_material.png` (thẻ ải hiện Tốc độ ×0.8 … ×1.3), `rhythm_4_boss.png` (quái chồng nhau, hitbox tách rời).
 - **Quyết định Claude chọn:** tốc độ 650 / 750 / 850 / 950 / 1050 px/s (Vô tận 700 / 850 / 1000); vòng chấm + hitbox phóng theo tốc độ để cửa sổ ms của 5 mức giữ nguyên ở mọi ải (nếu giữ vòng cố định, Perfect ở ải boss chỉ còn ±16 ms, gần như không đạt được) — độ khó tăng nhờ ít thời gian nhìn và nốt dày hơn; cỡ quái = đường kính vòng × 2.1 (ải boss quái ~400 px); đồng hồ đọc lại lúc nhận phím thay vì theo frame.
 - **Hạn chế đã biết:** chưa có chỉnh độ trễ âm thanh / bàn phím (calibration) trong Cài đặt; độ khó hiển thị của boss có mức sàn 11 (mật độ thật ~ mức 10 nhưng nhanh nhất). Chưa thử bằng tay.
+
+
+## 2026-11-16 — M10-2 (bước 1): concept boss Nhật Thực chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_boss_eclipse; tạo ảnh gốc boss N-5 để owner duyệt trước animation.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/rhythm/_preview/rh_boss_eclipse_original_preview.png`; `tools/rhythm/prepare_boss_preview.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in image_gen; model ID không được công cụ cung cấp), không dùng ảnh tham chiếu bên ngoài; `powershell -ExecutionPolicy Bypass -File tools\rhythm\prepare_boss_preview.ps1 -SourceImage <ảnh imagegen>`.
+- **Kết quả thật:** Lưu concept PNG 768×768, nền #00B140 đã chuẩn hóa; đĩa nhật thực đen/tím, quầng cam #FFB347, mắt đỏ #FF4D6D, miệng răng cưa và hai tay trăng khuyết lơ lửng, pose chỉ huy nhìn trái. Chưa tạo animation.
+- **Quyết định Codex chọn:** Dùng hai trăng khuyết rời làm tay chỉ huy, một tay cao một tay thấp; giữ quầng cam thành vài tia lửa lớn để silhouette đọc rõ ở kích thước nhỏ.
+- **Hạn chế đã biết:** Chờ owner duyệt concept. Khi duyệt mới tạo idle 8 frame/10 fps, throw 6 frame, hurt 3 frame và defeat 10 frame theo brief.
