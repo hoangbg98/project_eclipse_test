@@ -2291,3 +2291,12 @@ Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILL
 - **Kết quả thật:** Ba lớp 3840×2160; far alpha (255,255), mid/near alpha (0,255), sai lệch mép lặp = 0; preview stack 7680×2160. Godot quét/nhập cả 3 ảnh, mã thoát 0. Full test mã thoát 0: GdUnit 788/788, 5/5 smoke đạt. ART_MASTER báo 85 ảnh, 8 đã có, 2039 dòng.
 - **Quyết định Codex chọn:** Dùng tranh `ch01_open_01` làm tham chiếu cùng cảnh; theo owner, dùng lớp liền trước trong cùng lô làm tham chiếu khi tạo các lớp kế. Mặt trời che bình thường, Lò Mẹ tắt, chiều, không gió.
 - **Hạn chế đã biết:** Godot báo không ghi được cấu hình editor vào `AppData\Roaming\Godot`, nhưng lệnh import hoàn tất mã thoát 0. Chưa chạy game trong editor; owner đã duyệt bằng preview.
+
+## 2026-11-17 — ART: Hikarine idle frames (AI)
+- **Milestone / task:** Tạo và owner duyệt animation `idle` cho Hikarine (`char_light_01`), 6 frame.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/characters/char_light_01/frames/idle/` (6 PNG + `.import`); `assets/characters/char_light_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Bộ frame cũ được giữ trong `art_review/char_light_01/_replaced/` (không commit); dải và preview review ở `art_review/` (không commit).
+- **Đã chạy:** `C:\Users\default.LAPTOP-6QHN1193\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/approve_frames.py char_light_01 idle --replace`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `C:\Users\default.LAPTOP-6QHN1193\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/check_frames.py char_light_01 idle --approved`.
+- **Kết quả thật:** `check_frames.py --approved` ĐẠT: 6 frame, 8 fps, lặp. Toàn bộ test mã thoát 0: GdUnit4 788/788; smoke 5/5. Owner duyệt preview bằng “duyệt idle”. Godot có in cảnh báo 2 resources còn được dùng khi thoát test, không làm đổi mã thoát.
+- **Quyết định Codex chọn:** Sinh một dải 6 pose trong một lần gọi; lưu model là `Built-in imagegen (model ID not exposed)`. Vì idle cũ đã có asset, `--replace` chuyển bộ cũ vào lưu trữ trước khi đưa bộ mới vào game.
+- **Hạn chế đã biết:** Chưa kiểm tra animation trong cửa sổ Godot; đã kiểm tra preview và toàn bộ test tự động.
